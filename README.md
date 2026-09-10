@@ -1,7 +1,7 @@
 # motocomparo-pipeline
 
 A data pipeline that ingests motorcycle-gear product feeds from 5 merchants, normalizes
-and de-duplicates roughly a million merchant SKUs into a clean product catalog, and
+and de-duplicates ~600k merchant SKUs into a clean product catalog (~60k products), and
 publishes it to a storefront.
 
 **Status:** early build (v2 rewrite). See [docs/roadmap.md](docs/roadmap.md).

@@ -27,8 +27,12 @@ brand, same top-level category, same model year, no edition-token mismatch — a
 above a high confidence threshold. Below it, they stay quarantined. They never create
 a product.
 
-Cost of being conservative here is near zero: across ~840k rows those two merchants
-contribute under 900 live offers today.
+Cost of being conservative here is near zero. Their actual feeds are small — ~16k and
+~17k rows. But because v1 keyed rows on the drifting GTIN, its catalog table
+accumulated **~430k and ~440k rows** for those two merchants (every refresh's new
+barcodes piled on top of the old, never cleaned) — for a grand total of under 900 live
+offers. v2 keys those two on their (stable) normalized deeplink, so a refresh updates
+the row instead of orphaning it.
 
 ### 2. One feed gives no colour and no size (Motoblouz)
 

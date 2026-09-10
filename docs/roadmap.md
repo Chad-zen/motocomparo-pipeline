@@ -25,4 +25,5 @@ offers), then add phase 5 as a fast-follow.
 - [x] `.env` filled with real feed URLs — all 5 return HTTP 200
 - [x] PostgreSQL 18 running locally, `mcpipe` database created, schema applied (13 tables)
 - [x] `mcpipe feeds` → 5/5 configured
-- [ ] `mcpipe fetch` implemented (phase 1)
+- [x] `mcpipe fetch` — all 5 feeds download (motoblouz 376 MB in 94 s, streamed, no timeout)
+- [ ] `mcpipe load` — CSV → Postgres staging
