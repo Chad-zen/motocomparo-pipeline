@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Environment / secrets
+.env
+.env.local
+*.key
+*.pem
+
+# Downloaded feeds (large, and contain affiliate tokens in URLs — never commit)
+feeds/
+*.csv
+*.csv.gz
+!feeds_samples/*.csv
+
+# Local data / dumps
+*.sqlite
+*.dump
+*.sql.gz
+data/
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
