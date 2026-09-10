@@ -135,9 +135,30 @@ def load(
 
 
 @app.command()
-def normalize() -> None:
-    """Staging -> raw_offer (one row per merchant SKU). [not implemented]"""
-    raise typer.Exit(_todo("normalize"))
+def normalize(
+    only: str = typer.Option(None, help="normalize just this one feed"),
+) -> None:
+    """Map staged feed rows into typed `raw_offer` records (upsert + freshness)."""
+    from .normalize import normalize_feed
+
+    feeds = configured_feeds()
+    if only:
+        feeds = [f for f in feeds if f.code == only]
+        if not feeds:
+            console.print(f"[red]no configured feed named {only!r}[/]")
+            raise typer.Exit(1)
+
+    for f in feeds:
+        console.print(f"[bold]{f.code}[/] ...", end=" ")
+        try:
+            res = normalize_feed(f)
+        except Exception as exc:  # noqa: BLE001
+            console.print(f"[red]FAILED[/] {exc}")
+            continue
+        console.print(
+            f"[green]ok[/] {res.upserted:,} offers, {res.retired:,} retired"
+            f" in {res.seconds:.0f}s"
+        )
 
 
 @app.command()

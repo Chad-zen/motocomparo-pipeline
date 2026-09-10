@@ -5,7 +5,7 @@ Phased so each step is independently useful and reversible. Effort = focused day
 | phase | goal | effort | done? |
 |---|---|---|---|
 | **0** | Repo + schema + local Postgres running; feed URLs collected | 2–3 d | **done** |
-| **1** | `fetch → load → normalize` working on all 5 real feeds | 4–6 d | next |
+| **1** | `fetch → load → normalize` working on all 5 real feeds | 4–6 d | **done** |
 | **2** | `match` (GTIN + item_group + base-SKU stages) + `enrich` | 5–8 d | |
 | **3** | `freshness` + price history; `publish` in **shadow** mode | 4–6 d | |
 | **4** | Diff shadow output vs the live catalog until it's explained | 3–5 d | |
@@ -27,4 +27,15 @@ offers), then add phase 5 as a fast-follow.
 - [x] `mcpipe feeds` → 5/5 configured
 - [x] `mcpipe fetch` — all 5 feeds download (motoblouz 376 MB in 94 s, streamed, no timeout)
 - [x] `mcpipe load` — 616k feed rows → `stg_feed_row` (JSONB) via COPY, ~100 s
-- [ ] `mcpipe normalize` — staging → `raw_offer`
+- [x] `mcpipe normalize` — 616k staged rows → 616k `raw_offer` records, ~2 min.
+      Stable key per merchant: feed `id` (Speedway, La Bécanerie), `internal
+      reference` (Motoblouz), `md5(merchant product URL)` for the id-recycling
+      pair (Maxxess, Moto-Axxe). `raw_gtin` stored only for trusted merchants.
+      Freshness via `last_seen` / `is_live`.
+
+### Notes for phase 2
+
+- Speedway's feed leaves `color` / `size` / `item_group_id` / `gender`
+  completely empty — those must be derived from the title.
+- Motoblouz (Netaffiliation) has no colour column at all — this is the
+  "colour cascade" problem.

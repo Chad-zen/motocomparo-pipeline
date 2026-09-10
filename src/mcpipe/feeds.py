@@ -44,6 +44,7 @@ class FeedSpec:
 
 
 _EFFINITY_COLUMNS = {
+    "merchant_ref":   ["id"],
     "gtin":           ["gtin"],
     "title":          ["title"],
     "brand":          ["brand"],
