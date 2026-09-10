@@ -21,7 +21,7 @@ offers), then add phase 5 as a fast-follow.
 
 - [x] repo skeleton, package layout, CLI stub
 - [x] core schema (`sql/001_schema.sql`)
-- [x] feed definitions (`src/mcpipe/feeds.py`)
-- [ ] `.env` filled with real feed URLs
+- [x] feed definitions (`src/mcpipe/feeds.py`), column maps verified against the 5 live headers
+- [x] `.env` filled with real feed URLs — all 5 return HTTP 200
 - [ ] local PostgreSQL running, schema applied
 - [ ] `mcpipe fetch` implemented

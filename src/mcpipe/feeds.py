@@ -14,6 +14,11 @@ Two feed platforms:
 GTIN trust: Speedway / La Bécanerie / Motoblouz emit real, stable barcodes — safe to
 join on. Maxxess / Moto-Axxe emit synthetic sequential ids that change every refresh —
 `gtin_trust="synthetic"`, never used as a key (see docs/architecture.md).
+
+Header quirks verified against the live feeds (2026-09-10):
+  * every header field is wrapped in double quotes — the parser strips them;
+  * column matching is case-insensitive (Motoblouz's part-number column is `HAN`);
+  * Effinity feeds carry 73 columns, Netaffiliation 20 — we read only the ones below.
 """
 
 from __future__ import annotations
@@ -51,22 +56,27 @@ _EFFINITY_COLUMNS = {
     "category_l2":    ["category_level2"],
     "category_l3":    ["category_level3"],
     "link":           ["link"],
-    "image":          ["image_link", "image"],
+    "image":          ["image_link"],
     "price":          ["price"],
+    "currency":       ["currency"],
     "availability":   ["availability"],
+    "stock":          ["stock"],
 }
 
 _NETAFFILIATION_COLUMNS = {
-    "gtin":         ["universal reference", "reference"],
-    "title":        ["name"],
-    "brand":        ["brand", "manufacturer"],
-    "mpn":          ["han"],
-    "category":     ["category"],
-    "description":  ["description"],
-    "link":         ["product url", "url"],
-    "image":        ["image url", "image"],
-    "price":        ["price"],
-    "availability": ["availability", "in stock"],
+    "gtin":           ["universal reference"],
+    "title":          ["name"],
+    "brand":          ["brand"],
+    "mpn":            ["HAN"],
+    "merchant_ref":   ["internal reference"],
+    "category":       ["category"],
+    "description":    ["description"],
+    "link":           ["product url"],
+    "image":          ["image url"],
+    "price":          ["price"],
+    "crossed_price":  ["crossed price"],
+    "availability":   ["availability"],
+    "stock":          ["stock"],
 }
 
 
