@@ -106,9 +106,32 @@ def fetch(
 
 
 @app.command()
-def load() -> None:
-    """CSV -> Postgres staging tables. [not implemented]"""
-    raise typer.Exit(_todo("load"))
+def load(
+    only: str = typer.Option(None, help="load just this one feed"),
+) -> None:
+    """Load the downloaded feed CSVs into the `stg_feed_row` staging table."""
+    from .load import load_feed
+
+    feeds = configured_feeds()
+    if only:
+        feeds = [f for f in feeds if f.code == only]
+        if not feeds:
+            console.print(f"[red]no configured feed named {only!r}[/]")
+            raise typer.Exit(1)
+
+    dest = _feeds_dir()
+    total = 0
+    for f in feeds:
+        console.print(f"[bold]{f.code}[/] ...", end=" ")
+        try:
+            res = load_feed(f, dest / f"{f.code}.csv")
+        except Exception as exc:  # noqa: BLE001
+            console.print(f"[red]FAILED[/] {exc}")
+            continue
+        total += res.rows
+        console.print(f"[green]ok[/] {res.rows:,} rows in {res.seconds:.0f}s")
+
+    console.print(f"\n{total:,} rows staged.")
 
 
 @app.command()

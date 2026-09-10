@@ -30,6 +30,7 @@ from dataclasses import dataclass, field
 @dataclass(frozen=True)
 class FeedSpec:
     code: str                       # 'speedway', 'labecanerie', ...
+    merchant_id: int                # stable id, also the PK in the `merchant` table
     platform: str                   # 'effinity' | 'netaffiliation'
     delimiter: str
     gtin_trust: str                 # 'trusted' | 'synthetic'
@@ -82,23 +83,23 @@ _NETAFFILIATION_COLUMNS = {
 
 FEEDS: dict[str, FeedSpec] = {
     "speedway": FeedSpec(
-        code="speedway", platform="effinity", delimiter=";",
+        code="speedway", merchant_id=1, platform="effinity", delimiter=";",
         gtin_trust="trusted", reliability_rank=1, columns=_EFFINITY_COLUMNS,
     ),
     "labecanerie": FeedSpec(
-        code="labecanerie", platform="effinity", delimiter=";",
+        code="labecanerie", merchant_id=2, platform="effinity", delimiter=";",
         gtin_trust="trusted", reliability_rank=1, columns=_EFFINITY_COLUMNS,
     ),
     "motoblouz": FeedSpec(
-        code="motoblouz", platform="netaffiliation", delimiter="|",
+        code="motoblouz", merchant_id=3, platform="netaffiliation", delimiter="|",
         gtin_trust="trusted", reliability_rank=2, columns=_NETAFFILIATION_COLUMNS,
     ),
     "maxxess": FeedSpec(
-        code="maxxess", platform="effinity", delimiter=";",
+        code="maxxess", merchant_id=4, platform="effinity", delimiter=";",
         gtin_trust="synthetic", reliability_rank=3, columns=_EFFINITY_COLUMNS,
     ),
     "motoaxxe": FeedSpec(
-        code="motoaxxe", platform="effinity", delimiter=";",
+        code="motoaxxe", merchant_id=5, platform="effinity", delimiter=";",
         gtin_trust="synthetic", reliability_rank=3, columns=_EFFINITY_COLUMNS,
     ),
 }

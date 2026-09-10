@@ -26,4 +26,5 @@ offers), then add phase 5 as a fast-follow.
 - [x] PostgreSQL 18 running locally, `mcpipe` database created, schema applied (13 tables)
 - [x] `mcpipe feeds` → 5/5 configured
 - [x] `mcpipe fetch` — all 5 feeds download (motoblouz 376 MB in 94 s, streamed, no timeout)
-- [ ] `mcpipe load` — CSV → Postgres staging
+- [x] `mcpipe load` — 616k feed rows → `stg_feed_row` (JSONB) via COPY, ~100 s
+- [ ] `mcpipe normalize` — staging → `raw_offer`
