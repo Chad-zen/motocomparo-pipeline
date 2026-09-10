@@ -2,7 +2,7 @@
 # Alternative to a native install. Run:  docker compose up -d
 services:
   db:
-    image: postgres:16
+    image: postgres:18
     environment:
       POSTGRES_USER: mcpipe
       POSTGRES_PASSWORD: mcpipe

@@ -66,7 +66,7 @@ merchant feeds (5 × CSV)
 ```
 
 - **Language:** Python 3.12+
-- **Store:** PostgreSQL 16 (system of record; the WordPress MySQL only receives the
+- **Store:** PostgreSQL 18 (system of record; the WordPress MySQL only receives the
   final published tables)
 - **Schedule:** systemd timers on a small VPS (dev: run by hand)
 - **Transforms:** plain SQL files, run in order
@@ -93,7 +93,7 @@ feeds_samples/     small anonymized feed samples for tests (no secrets)
 
 ## Running it locally
 
-Prerequisites: Python 3.12+, and PostgreSQL 16 (native install or Docker).
+Prerequisites: Python 3.12+, and PostgreSQL 18 (native install or Docker).
 
 ```bash
 cp .env.example .env          # then edit .env

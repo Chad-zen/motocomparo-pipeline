@@ -4,8 +4,8 @@ Phased so each step is independently useful and reversible. Effort = focused day
 
 | phase | goal | effort | done? |
 |---|---|---|---|
-| **0** | Repo + schema + local Postgres running; feed URLs collected | 2–3 d | in progress |
-| **1** | `fetch → load → normalize` working on all 5 real feeds | 4–6 d | |
+| **0** | Repo + schema + local Postgres running; feed URLs collected | 2–3 d | **done** |
+| **1** | `fetch → load → normalize` working on all 5 real feeds | 4–6 d | next |
 | **2** | `match` (GTIN + item_group + base-SKU stages) + `enrich` | 5–8 d | |
 | **3** | `freshness` + price history; `publish` in **shadow** mode | 4–6 d | |
 | **4** | Diff shadow output vs the live catalog until it's explained | 3–5 d | |
@@ -23,5 +23,6 @@ offers), then add phase 5 as a fast-follow.
 - [x] core schema (`sql/001_schema.sql`)
 - [x] feed definitions (`src/mcpipe/feeds.py`), column maps verified against the 5 live headers
 - [x] `.env` filled with real feed URLs — all 5 return HTTP 200
-- [ ] local PostgreSQL running, schema applied
-- [ ] `mcpipe fetch` implemented
+- [x] PostgreSQL 18 running locally, `mcpipe` database created, schema applied (13 tables)
+- [x] `mcpipe feeds` → 5/5 configured
+- [ ] `mcpipe fetch` implemented (phase 1)

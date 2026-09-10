@@ -18,10 +18,13 @@ Most stages are not implemented yet — this is the skeleton. See docs/roadmap.m
 from __future__ import annotations
 
 import typer
+from dotenv import load_dotenv
 from rich.console import Console
 
 from . import __version__
 from .feeds import FEEDS, configured_feeds
+
+load_dotenv()  # read .env into the environment before anything looks at it
 
 app = typer.Typer(add_completion=False, help="motocomparo data pipeline")
 console = Console()

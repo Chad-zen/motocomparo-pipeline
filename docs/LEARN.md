@@ -43,7 +43,7 @@ Each commit is a checkpoint you can return to. The history *is* the story of the
 
 ## Setup checklist (do this once, together, next session)
 
-1. Install PostgreSQL 16 (native Windows installer) **or** Docker Desktop.
+1. Install PostgreSQL 18 (native Windows installer) **or** Docker Desktop.
 2. `python -m venv .venv` then `.venv\Scripts\activate`
 3. `pip install -e ".[dev]"`
 4. `copy .env.example .env` and fill in the feed URLs (from the v1 WordPress config)
