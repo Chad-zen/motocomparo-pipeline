@@ -25,6 +25,7 @@ import time
 from dataclasses import dataclass
 from urllib.parse import parse_qs, unquote, urlparse
 
+from . import textnorm as tn
 from .db import connect
 from .feeds import FeedSpec
 
@@ -33,9 +34,12 @@ _OFFER_COLS = (
     "merchant_id",
     "merchant_sku",
     "raw_gtin",
+    "gtin",
     "raw_title",
     "raw_brand",
     "raw_color",
+    "raw_gender",
+    "raw_age_group",
     "raw_size",
     "raw_mpn",
     "raw_item_group",
@@ -44,12 +48,22 @@ _OFFER_COLS = (
     "image_url",
 )
 
+# a re-run that would retire more than this fraction of a merchant's live offers
+# is treated as a broken feed (e.g. a truncated download) and aborted
+_RETIRE_ABORT_FRACTION = 0.20
+_RETIRE_ABORT_FLOOR = 500  # don't trip the breaker on tiny merchants
+
+
+class RetirementGuardError(RuntimeError):
+    """Raised when a run would retire an implausible share of a merchant's offers."""
+
 
 @dataclass
 class NormalizeResult:
     feed: str
     upserted: int
     retired: int
+    gtin_rejected: int
     seconds: float
 
 
@@ -107,9 +121,12 @@ CREATE TEMP TABLE _norm (
     merchant_id    smallint,
     merchant_sku   text,
     raw_gtin       text,
+    gtin           text,
     raw_title      text,
     raw_brand      text,
     raw_color      text,
+    raw_gender     text,
+    raw_age_group  text,
     raw_size       text,
     raw_mpn        text,
     raw_item_group text,
@@ -126,9 +143,12 @@ FROM _norm
 ORDER BY merchant_sku
 ON CONFLICT (merchant_id, merchant_sku) DO UPDATE SET
     raw_gtin       = EXCLUDED.raw_gtin,
+    gtin           = EXCLUDED.gtin,
     raw_title      = EXCLUDED.raw_title,
     raw_brand      = EXCLUDED.raw_brand,
     raw_color      = EXCLUDED.raw_color,
+    raw_gender     = EXCLUDED.raw_gender,
+    raw_age_group  = EXCLUDED.raw_age_group,
     raw_size       = EXCLUDED.raw_size,
     raw_mpn        = EXCLUDED.raw_mpn,
     raw_item_group = EXCLUDED.raw_item_group,
@@ -140,9 +160,10 @@ ON CONFLICT (merchant_id, merchant_sku) DO UPDATE SET
 """
 
 
-def normalize_feed(feed: FeedSpec) -> NormalizeResult:
+def normalize_feed(feed: FeedSpec, *, force: bool = False) -> NormalizeResult:
     t0 = time.time()
     cols = feed.columns
+    trusted = feed.gtin_trust == "trusted"
     write = connect()
     read = connect()
     try:
@@ -152,6 +173,7 @@ def normalize_feed(feed: FeedSpec) -> NormalizeResult:
             cur.execute(_CREATE_TEMP)
 
         n = 0
+        gtin_rejected = 0
         with read.cursor(name="stg") as src:
             src.itersize = 5_000
             src.execute(
@@ -167,15 +189,21 @@ def normalize_feed(feed: FeedSpec) -> NormalizeResult:
                     sku = _merchant_sku(feed, row, deeplink)
                     if not sku:
                         continue
-                    gtin = _ci_get(row, cols.get("gtin", []))
+                    raw_gtin = _ci_get(row, cols.get("gtin", [])) if trusted else None
+                    gtin = tn.valid_gtin(raw_gtin)
+                    if raw_gtin and not gtin:
+                        gtin_rejected += 1
                     cp.write_row(
                         (
                             feed.merchant_id,
                             sku,
-                            gtin if feed.gtin_trust == "trusted" else None,
+                            raw_gtin,
+                            gtin,
                             title,
                             _ci_get(row, cols.get("brand", [])),
                             _ci_get(row, cols.get("color", [])),
+                            _ci_get(row, cols.get("gender", [])),
+                            _ci_get(row, cols.get("age_group", [])),
                             _ci_get(row, cols.get("size", [])),
                             _ci_get(row, cols.get("mpn", [])),
                             _ci_get(row, cols.get("item_group_id", [])),
@@ -188,6 +216,26 @@ def normalize_feed(feed: FeedSpec) -> NormalizeResult:
 
         with write.cursor() as cur:
             cur.execute(_UPSERT, (run_start,))
+
+            # circuit breaker: a run that would retire an implausible share of a
+            # merchant's live offers is almost always a broken/truncated feed
+            cur.execute(
+                "SELECT count(*) FILTER (WHERE last_seen < %s), count(*) "
+                "FROM raw_offer WHERE merchant_id = %s AND is_live",
+                (run_start, feed.merchant_id),
+            )
+            would_retire, live_total = cur.fetchone()
+            if (
+                not force
+                and live_total >= _RETIRE_ABORT_FLOOR
+                and would_retire > _RETIRE_ABORT_FRACTION * live_total
+            ):
+                raise RetirementGuardError(
+                    f"{feed.code}: run would retire {would_retire:,}/{live_total:,} live "
+                    f"offers ({would_retire / live_total:.0%}) — feed looks broken. "
+                    f"Re-run with --force to override."
+                )
+
             cur.execute(
                 "UPDATE raw_offer SET is_live = false "
                 "WHERE merchant_id = %s AND last_seen < %s",
@@ -195,7 +243,7 @@ def normalize_feed(feed: FeedSpec) -> NormalizeResult:
             )
             retired = cur.rowcount
         write.commit()
-        return NormalizeResult(feed.code, n, retired, time.time() - t0)
+        return NormalizeResult(feed.code, n, retired, gtin_rejected, time.time() - t0)
     except Exception:
         write.rollback()
         raise

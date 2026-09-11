@@ -2,15 +2,20 @@
 
 ## Shape
 
-A standalone Python service with its own PostgreSQL database. It fetches 5 merchant
+A standalone Python service with its own PostgreSQL database. It fetches 6 merchant
 feeds, normalizes and matches them into a product catalog, and publishes that catalog
 into the WordPress site's database. WordPress stays as the storefront (product pages,
 search, SEO); only the data engine is replaced.
 
 ```
-feeds → fetch → load → normalize → match → enrich → freshness → publish
-                       (Postgres, the system of record)          (WordPress MySQL)
+feeds → fetch → load → normalize → signature → match → enrich → freshness → publish
+                       (Postgres, the system of record)                     (WordPress MySQL)
 ```
+
+Merchants: Speedway, La Bécanerie (Effinity), Motoblouz (Netaffiliation),
+Maxxess, Moto-Axxe (Effinity, synthetic GTINs), FC-Moto (Webgains). Adding a
+merchant is an entry in `src/mcpipe/feeds.py` — a `FeedSpec` with its platform,
+delimiter, column map and gtin_trust; nothing else changes.
 
 ## The three hard problems
 

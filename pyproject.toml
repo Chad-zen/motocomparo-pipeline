@@ -36,9 +36,11 @@ build-backend = "hatchling.build"
 [tool.ruff]
 line-length = 100
 target-version = "py312"
+extend-exclude = [".scratch"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "SIM"]
+ignore = ["SIM905"]  # word-list dictionaries read better as "a b c".split()
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

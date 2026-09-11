@@ -71,6 +71,7 @@ def load_feed(feed: FeedSpec, csv_path: Path) -> LoadResult:
             cur.execute("DELETE FROM stg_feed_row WHERE merchant_id = %s", (feed.merchant_id,))
 
         n = 0
+        misaligned = 0
         copy_sql = "COPY stg_feed_row (feed_run_id, merchant_id, row) FROM STDIN"
         with (
             conn.cursor() as cur,
@@ -80,18 +81,22 @@ def load_feed(feed: FeedSpec, csv_path: Path) -> LoadResult:
             cp.set_types(["bigint", "smallint", "jsonb"])
             reader = csv.reader(fh, delimiter=feed.delimiter, quotechar='"')
             header = [h.strip() for h in next(reader)]
+            width = len(header)
             for rec in reader:
                 if not rec:
                     continue
+                if len(rec) != width:
+                    misaligned += 1  # quoting break — columns won't line up
                 obj = dict(zip(header, rec, strict=False))
                 cp.write_row((run_id, feed.merchant_id, Jsonb(obj)))
                 n += 1
 
+        note = f"{misaligned} rows with wrong column count" if misaligned else None
         with conn.cursor() as cur:
             cur.execute(
-                "UPDATE feed_run SET status = 'ok', finished_at = now(), row_count = %s"
-                " WHERE id = %s",
-                (n, run_id),
+                "UPDATE feed_run SET status = 'ok', finished_at = now(), row_count = %s,"
+                " note = %s WHERE id = %s",
+                (n, note, run_id),
             )
         conn.commit()
         return LoadResult(feed.code, n, time.time() - t0, run_id)

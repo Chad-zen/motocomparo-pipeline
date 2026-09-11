@@ -55,10 +55,16 @@ def fetch_feed(
     ):
         return FetchResult(feed.code, final, final.stat().st_size, 0.0, from_cache=True)
 
+    headers = {}
+    if feed.auth_token:
+        headers["Authorization"] = f"Bearer {feed.auth_token}"
+
     t0 = time.time()
     written = 0
     part.unlink(missing_ok=True)
-    with httpx.stream("GET", feed.url, timeout=_TIMEOUT, follow_redirects=True) as r:
+    with httpx.stream(
+        "GET", feed.url, timeout=_TIMEOUT, follow_redirects=True, headers=headers
+    ) as r:
         r.raise_for_status()
         with part.open("wb") as fh:
             for chunk in r.iter_bytes(chunk_size=1 << 20):  # 1 MiB
@@ -66,6 +72,18 @@ def fetch_feed(
                 written += len(chunk)
                 if on_progress is not None:
                     on_progress(feed.code, written)
+
+        # a stream that stops short of the advertised length is a truncated
+        # download, not a complete feed. `num_bytes_downloaded` is the count
+        # over the wire, comparable to Content-Length (both pre-decompression).
+        # Absent on chunked / gzipped-without-length responses — skip then.
+        declared = r.headers.get("content-length")
+        if declared and r.num_bytes_downloaded < int(declared):
+            part.unlink(missing_ok=True)
+            raise RuntimeError(
+                f"{feed.code}: truncated download — got {r.num_bytes_downloaded:,} "
+                f"of {int(declared):,} bytes"
+            )
 
     if written < _MIN_BYTES:
         part.unlink(missing_ok=True)

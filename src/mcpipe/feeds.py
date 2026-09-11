@@ -4,12 +4,15 @@ map onto our internal fields.
 This is deliberately data, not code. Adding or fixing a merchant should be an edit
 here, never a change to the parser.
 
-Two feed platforms:
+Three feed platforms:
 
   * Effinity      — ';'-delimited CSV, rich columns (colour, size, mpn, item_group_id).
                     Merchants: Speedway, La Bécanerie, Maxxess, Moto-Axxe.
   * Netaffiliation — '|'-delimited CSV, sparse (no colour, no size, no item_group_id).
                     Merchant: Motoblouz.
+  * Webgains      — ','-delimited CSV, Google Shopping schema, the best-filled feed
+                    (colour 90%, size 94%, mpn 99%, item_group_id 94%). Needs a
+                    bearer token. Merchant: FC-Moto.
 
 GTIN trust: Speedway / La Bécanerie / Motoblouz emit real, stable barcodes — safe to
 join on. Maxxess / Moto-Axxe emit synthetic sequential ids that change every refresh —
@@ -37,10 +40,16 @@ class FeedSpec:
     reliability_rank: int           # 1 = most trusted, used to break attribute ties
     # internal field  ->  list of acceptable column names in the feed header
     columns: dict[str, list[str]] = field(default_factory=dict)
+    # env var holding a bearer token, when the feed endpoint requires one
+    auth_token_env: str | None = None
 
     @property
     def url(self) -> str | None:
         return os.environ.get(f"FEED_{self.code.upper()}_URL") or None
+
+    @property
+    def auth_token(self) -> str | None:
+        return os.environ.get(self.auth_token_env) if self.auth_token_env else None
 
 
 _EFFINITY_COLUMNS = {
@@ -50,6 +59,7 @@ _EFFINITY_COLUMNS = {
     "brand":          ["brand"],
     "color":          ["color"],
     "gender":         ["gender"],
+    "age_group":      ["age_group"],
     "size":           ["size"],
     "mpn":            ["mpn"],
     "item_group_id":  ["item_group_id"],
@@ -81,6 +91,28 @@ _NETAFFILIATION_COLUMNS = {
     "stock":          ["stock"],
 }
 
+# Webgains ships a Google-Shopping-style schema (44 columns). `price` is the
+# reference price — `sale_price` is a promo and is deliberately NOT mapped.
+# merchant_ref falls back mpn -> gtin -> id (the `id` hash's stability is unproven).
+_WEBGAINS_COLUMNS = {
+    "gtin":           ["gtin"],
+    "title":          ["title"],
+    "brand":          ["brand"],
+    "color":          ["color"],
+    "gender":         ["gender"],
+    "age_group":      ["age_group"],
+    "size":           ["size"],
+    "mpn":            ["mpn"],
+    "item_group_id":  ["item_group_id"],
+    "merchant_ref":   ["mpn", "gtin", "id"],
+    "description":    ["description"],
+    "category":       ["product_type", "google_product_category_text"],
+    "link":           ["link"],
+    "image":          ["image_link"],
+    "price":          ["price"],
+    "availability":   ["availability"],
+}
+
 
 FEEDS: dict[str, FeedSpec] = {
     "speedway": FeedSpec(
@@ -102,6 +134,11 @@ FEEDS: dict[str, FeedSpec] = {
     "motoaxxe": FeedSpec(
         code="motoaxxe", merchant_id=5, platform="effinity", delimiter=";",
         gtin_trust="synthetic", reliability_rank=3, columns=_EFFINITY_COLUMNS,
+    ),
+    "fcmoto": FeedSpec(
+        code="fcmoto", merchant_id=6, platform="webgains", delimiter=",",
+        gtin_trust="trusted", reliability_rank=2, columns=_WEBGAINS_COLUMNS,
+        auth_token_env="FEED_FCMOTO_TOKEN",
     ),
 }
 

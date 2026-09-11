@@ -137,6 +137,9 @@ def load(
 @app.command()
 def normalize(
     only: str = typer.Option(None, help="normalize just this one feed"),
+    force: bool = typer.Option(
+        False, "--force", help="override the retirement circuit-breaker"
+    ),
 ) -> None:
     """Map staged feed rows into typed `raw_offer` records (upsert + freshness)."""
     from .normalize import normalize_feed
@@ -151,14 +154,35 @@ def normalize(
     for f in feeds:
         console.print(f"[bold]{f.code}[/] ...", end=" ")
         try:
-            res = normalize_feed(f)
+            res = normalize_feed(f, force=force)
         except Exception as exc:  # noqa: BLE001
             console.print(f"[red]FAILED[/] {exc}")
             continue
+        extra = f", {res.gtin_rejected:,} bad GTINs dropped" if res.gtin_rejected else ""
         console.print(
-            f"[green]ok[/] {res.upserted:,} offers, {res.retired:,} retired"
+            f"[green]ok[/] {res.upserted:,} offers, {res.retired:,} retired{extra}"
             f" in {res.seconds:.0f}s"
         )
+
+
+@app.command()
+def signature(
+    only: str = typer.Option(None, help="signature for just this one feed"),
+) -> None:
+    """Compute one normalized `offer_signature` per raw offer (no matching yet)."""
+    from .feeds import FEEDS
+    from .signature import compute_signatures
+
+    mid = None
+    if only:
+        if only not in FEEDS:
+            console.print(f"[red]no feed named {only!r}[/]")
+            raise typer.Exit(1)
+        mid = FEEDS[only].merchant_id
+
+    console.print("computing signatures ...", end=" ")
+    res = compute_signatures(mid)
+    console.print(f"[green]ok[/] {res.rows:,} signatures in {res.seconds:.0f}s")
 
 
 @app.command()

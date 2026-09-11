@@ -31,3 +31,6 @@ data/
 .idea/
 .DS_Store
 Thumbs.db
+
+# local scratch / one-off analysis
+.scratch/
