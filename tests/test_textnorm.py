@@ -115,9 +115,56 @@ def test_size_code_mpn_fallback_needs_a_boundary():
     assert tn.size_code("", None, None, "168075199XL") == ("XL", "mpn")
 
 
+def test_size_code_5xl_6xl():
+    assert tn.size_code("5XL", None, None, None) == ("5XL", "feed")
+    assert tn.size_code("XXXXXXL", None, None, None) == ("6XL", "feed")
+
+
+def test_size_code_compound_value_is_kept_not_discarded():
+    """A raw size the parser can't fully canonicalize (a range, a combined
+    size, an out-of-table number) must still come back as something
+    non-empty and DISTINCT from a different such value — `match.py` treats
+    an empty size_code as "one size" and merges every offer that has one
+    into a single variant, so silently discarding a real (if messy) size
+    used to merge genuinely different sizes together (found live: waist
+    28/30/32/34, boot sizes 6-13, "S (55/56)", "S/M" were all collapsing
+    into the same 'TU' variant)."""
+    waist, _ = tn.size_code("28/30/32/34", None, None, None)
+    boot, _ = tn.size_code("9", None, None, None)
+    combo, _ = tn.size_code("S/M", None, None, None)
+    assert waist and boot and combo
+    assert len({waist, boot, combo}) == 3  # all distinct, none silently empty
+
+
+def test_size_code_pure_punctuation_still_returns_empty():
+    assert tn.size_code("---", None, None, None) == ("", "")
+
+
 def test_size_never_leaks_into_model():
     tokens, _, _ = tn.model("Gants Furygan Jet noir- M", "furygan", "noir", "M")
     assert "m" not in tokens
+
+
+def test_model_tokens_deduplicated():
+    """A merchant title that repeats itself (real feed example: "Pantalon
+    REV'IT Stratum Gore-Tex Standard Noir Gris - Pantalon moto REV'IT")
+    must not duplicate every token — that leaked into model_display/slug as
+    "It It Pantalon Pantalon Rev Rev Standard"."""
+    tokens, _, _ = tn.model(
+        "Pantalon REV'IT Stratum Gore-Tex Standard Noir Gris - Pantalon moto REV'IT",
+        "revit", "noir gris", None,
+    )
+    assert len(tokens) == len(set(tokens))
+
+
+def test_leg_length_never_leaks_into_model():
+    """Leg-length fit words are a sizing choice, not model identity — left
+    in, "Held Arese ST GTX Standard" and "...Long" hash as different
+    products instead of two lengths of the same real item."""
+    standard, _, _ = tn.model("Pantalon Held Arese ST GTX Standard noir", "held", "noir", None)
+    long_, _, _ = tn.model("Pantalon Held Arese ST GTX Long noir", "held", "noir", None)
+    king, _, _ = tn.model("Pantalon Held Arese ST GTX King Size noir", "held", "noir", None)
+    assert standard == long_ == king
 
 
 def test_pack_detection():

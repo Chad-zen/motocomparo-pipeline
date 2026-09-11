@@ -97,7 +97,13 @@ _COLOUR_FINISH: dict[str, str] = {
 }
 
 # words dropped from the model name: generic, category, gender, certification,
-# year, marketing, colour and size tokens
+# year, marketing, colour and size tokens. `standard`/`long`/`court`/`king
+# size`/`regular` are leg-length fit variants (boots, pants) — a real fitting
+# choice like size, not a different product; left in, they became distinct
+# `model_tokens` and produced 4 separate products for one real item (Held
+# Arese ST GTX: standard/long/king size/court all sharing one item_group_id
+# at every merchant), the same false-split class the size/colour stripping
+# just above already exists to prevent.
 _STOP: frozenset[str] = frozenset(
     """
     casque helmet casco moto motard motorcycle scooter pour de du le la les the with avec et a
@@ -113,8 +119,9 @@ _STOP: frozenset[str] = frozenset(
     gold
     argent silver titane titanium titan carbone carbon mat matte brillant gloss fluo perle kaki
     clair fonce multicolore
-    xs s m l xl xxl xxxl 2xl 3xl 4xl tu tailleunique
+    xs s m l xl xxl xxxl 2xl 3xl 4xl 5xl 6xl tu tailleunique
     h2o d3o d30 waterproof gore tex membrane protection homologation
+    standard long court king size regular normal
     """.split()
 )
 
@@ -141,9 +148,9 @@ _BASE_SKU_TAIL_RE = re.compile(
     rf"(?<=\d)({_LETTER_SIZES})$|[-_ ]({_LETTER_SIZES}|TU|3[4-9]|4[0-9]|5[0-9]|6[0-5])$", re.I
 )
 
-_SIZE_LETTER_RE = re.compile(r"^(XXS|XS|S|M|L|XL|2XL|3XL|4XL|TU)$")
+_SIZE_LETTER_RE = re.compile(r"^(XXS|XS|S|M|L|XL|2XL|3XL|4XL|5XL|6XL|TU)$")
 _SIZE_ALPHA_MAP = {
-    "XXL": "2XL", "XXXL": "3XL", "XXXXL": "4XL",
+    "XXL": "2XL", "XXXL": "3XL", "XXXXL": "4XL", "XXXXXL": "5XL", "XXXXXXL": "6XL",
     "TAILLEUNIQUE": "TU", "ONESIZE": "TU", "UNI": "TU",
 }
 
@@ -291,7 +298,17 @@ def size_code(raw_size: str | None, title: str | None, link: str | None,
         return c + "CM", src
     if re.fullmatch(r"3[5-9]|4[0-9]|5[0-2]", c):
         return "EU" + c, src
-    return "", ""
+    # a compound/range value we don't otherwise recognize (feed sends "28/30/
+    # 32/34", "S/M", "S (55/56)", "US-28", a boot size outside the two known
+    # 2-digit ranges, ...) — every one of these still IS a real, distinct
+    # size. Discarding it to "" used to make `match.py` collapse it into the
+    # shared 'TU' ("one size") bucket alongside every other unparsed size —
+    # merging genuinely different sizes as if they were the same variant.
+    # Keeping the cleaned original, even unprettified, is always safer:
+    # worst case it is an ugly size label; the old behaviour was a silent
+    # false merge, the exact class of bug this project treats as
+    # unacceptable everywhere else.
+    return (c[:24], src) if c else ("", "")
 
 
 def model(title: str | None, brand_code: str, colour_raw: str | None,
@@ -313,7 +330,11 @@ def model(title: str | None, brand_code: str, colour_raw: str | None,
         if len(w) > 1:
             t = re.sub(rf"\b{re.escape(w)}\b", " ", t)
 
-    kept = [w for w in t.split() if w and w not in _STOP]
+    # dedupe (order-preserving) — a merchant title that repeats its own name
+    # (seen live: "Pantalon REV'IT Stratum ... - Pantalon moto REV'IT") would
+    # otherwise duplicate every one of its words in `model_tokens`, leaking
+    # into `model_display`/`slug` as "It It Pantalon Pantalon Rev Rev ..."
+    kept = list(dict.fromkeys(w for w in t.split() if w and w not in _STOP))
     # anchor: an alnum ref built from the KEPT tokens (so "gt air 2" -> "gtair2"
     # but "euro 3" never appears — "euro" is a stopword). Only trust it as an
     # identity anchor when there is at least one other distinctive token.

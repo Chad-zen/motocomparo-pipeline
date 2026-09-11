@@ -186,9 +186,88 @@ def signature(
 
 
 @app.command()
-def match() -> None:
-    """Cluster raw offers into products. [not implemented]"""
-    raise typer.Exit(_todo("match"))
+def categorize() -> None:
+    """Seed the category taxonomy and classify every merchant category path."""
+    from .category import categorize as run_categorize
+
+    console.print("categorizing ...", end=" ")
+    res = run_categorize()
+    console.print(
+        f"[green]ok[/] {res.categories_seeded} categories, "
+        f"{res.paths_mapped:,} new paths mapped in {res.seconds:.0f}s"
+    )
+
+
+@app.command()
+def match(
+    reset: bool = typer.Option(
+        False, "--reset", help="undo a previous match run first (dev/re-run only)"
+    ),
+) -> None:
+    """Cluster raw offers into products (GTIN + item_group_id, v1 scope)."""
+    from .category import categorize as run_categorize
+    from .match import reset_match_state, run_match
+
+    if reset:
+        console.print("resetting previous match state ...", end=" ")
+        reset_match_state()
+        console.print("[green]ok[/]")
+
+    console.print("categorizing ...", end=" ")
+    cres = run_categorize()
+    console.print(f"[green]ok[/] {cres.paths_mapped:,} paths mapped")
+
+    console.print("matching ...", end=" ")
+    res = run_match()
+    console.print(
+        f"[green]ok[/] {res.products_created:,} products, {res.variants_created:,} variants — "
+        f"{res.offers_linked_gtin:,} offers via GTIN, {res.offers_linked_item_group:,} via "
+        f"item_group, {res.gtin_conflicts} GTIN conflicts sent to review in {res.seconds:.0f}s"
+    )
+
+    # Advisory only: never let a verify-side bug or a real violation turn a
+    # successful match run into a failure the user can't unblock. `mcpipe
+    # verify` is the command that actually exits non-zero.
+    try:
+        from .verify import check_match_invariants
+
+        violations = check_match_invariants()
+        if violations:
+            console.print(
+                f"[yellow]verify: {len(violations)} invariant violation(s) found "
+                f"— run `mcpipe verify` for details[/]"
+            )
+        else:
+            console.print("verify: [green]0 invariant violations[/]")
+    except Exception as exc:  # noqa: BLE001 — reporting only, must not fail the run
+        console.print(f"[yellow]verify: skipped ({exc})[/]")
+
+
+@app.command()
+def verify() -> None:
+    """Re-check that no `product` mixes category/colour/genre/pack/year/brand
+    across its linked offers — a standing regression net for `match`, run
+    independently of any specific run."""
+    from .verify import check_match_invariants
+
+    console.print("verifying match invariants ...", end=" ")
+    violations = check_match_invariants()
+    if not violations:
+        console.print("[green]ok[/] 0 violations")
+        return
+
+    console.print(f"[red]{len(violations)} violation(s)[/]")
+    by_field: dict[str, int] = {}
+    for v in violations:
+        by_field[v.field] = by_field.get(v.field, 0) + 1
+    for field, n in sorted(by_field.items(), key=lambda kv: -kv[1]):
+        console.print(f"  {field}: {n}")
+    for v in violations[:10]:
+        console.print(
+            f"  product {v.product_id} / {v.field}: {v.distinct_values} "
+            f"(offers {v.example_offer_ids[:5]})"
+        )
+    raise typer.Exit(1)
 
 
 @app.command()
