@@ -15,7 +15,10 @@
 CREATE TABLE IF NOT EXISTS offer_category_override (
     raw_offer_id bigint PRIMARY KEY REFERENCES raw_offer(id) ON DELETE CASCADE,
     category_id  smallint NOT NULL REFERENCES category(id),
-    source       text NOT NULL,          -- 'title_reclass'
+    -- which rule decided, so a suspect correction can be traced back:
+    -- 'title_reclass' | 'helmet_borrowed' | 'helmet_title'
+    -- | 'helmet_accessory' | 'not_a_moto_helmet'
+    source       text NOT NULL,
     confidence   numeric(3, 2) NOT NULL DEFAULT 0,
     created_at   timestamptz NOT NULL DEFAULT now()
 );

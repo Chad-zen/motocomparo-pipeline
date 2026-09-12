@@ -56,10 +56,15 @@ merchant feeds (5 × CSV)
         │  normalize  one row per merchant SKU, parse price, fold text
         ▼
    raw_offer
+        │  signature  brand, colour, size, model tokens, genre/age, year
+        │  categorize map each merchant category path to the taxonomy
+        │  enrich     per-offer category fixes for coarse feed buckets
+        ▼            (title, and the subtype a GTIN neighbour already knows)
+   offer_signature + offer_category_override
         │  match      GTIN → item_group_id → base-SKU+attrs → fuzzy
         ▼            (ambiguous cases → review queue, never guessed)
    product / variant / offer_variant_link
-        │  enrich     colour, size, category (feed → title → cross-merchant vote)
+        │  verify     re-derive that no product mixes category/colour/genre/…
         │  freshness  expire unseen offers, recompute min price, append price_history
         ▼
    publish           build wp_pc_*_next in the WP database, atomic RENAME swap

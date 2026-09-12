@@ -183,9 +183,12 @@ WHERE m.code = %s AND o.raw_category = ANY(%s)
 """
 
 # candidates + what their GTIN neighbours at OTHER merchants call themselves.
-# Neighbour categories are read the same way `match` will read them
-# (override first, then the feed's map), so enrich and match never see two
-# different values for the same offer.
+# Neighbour categories are read the same way `match` will read them (override
+# first, then the feed's map), so enrich and match never see two different
+# values for the same offer. The override table is emptied at the START of the
+# run, so this can only ever see rows written earlier in this same run — never
+# leftovers from the previous one, which would make the output depend on what
+# happened to be in the table beforehand.
 _SELECT_HELMETS = """
 WITH cand AS (
     SELECT o.id, o.gtin, o.raw_title, o.merchant_sku,
@@ -212,30 +215,41 @@ FROM cand c
 LEFT JOIN neighbours n ON n.id = c.id
 """
 
-# the feed's own Google taxonomy text, one row per merchant SKU
+# the feed's own Google taxonomy text, one row per merchant SKU. The ORDER BY
+# is what makes `DISTINCT ON` deterministic: today every SKU in the bucket has
+# exactly one staging row, but a re-`load` could leave two and an arbitrary
+# pick would make the run's output depend on physical row order.
 _SELECT_GOOGLE_CATEGORIES = """
 SELECT DISTINCT ON (row->>'mpn')
        row->>'mpn' AS sku, row->>'google_product_category_text' AS google_cat
 FROM stg_feed_row
 WHERE merchant_id = %s AND row->>'product_type' = ANY(%s)
+ORDER BY row->>'mpn', id DESC
 """
 
 
 def enrich_categories() -> EnrichResult:
     """Rebuild `offer_category_override` from the closed bucket lists.
 
-    Idempotent: every rule is recomputed and the table is replaced in one go,
-    so re-running is safe and always reflects the current rules. Must run
-    BEFORE `match`, which reads the overrides when it recomputes identities.
+    Idempotent: the table is emptied up front and every rule recomputed from
+    the feed, inside one transaction — so a re-run always reflects the current
+    rules and never the previous run's leftovers, and a failure rolls the whole
+    thing back. Must run BEFORE `match`, which reads the overrides when it
+    recomputes identities. Each row records WHICH rule wrote it (`source`).
     """
     t0 = time.time()
     conn = connect()
     scanned = 0
-    overrides: list[tuple[int, int]] = []
-    by_rule: dict[str, int] = {"title_reclass": 0, "helmet_borrowed": 0,
-                               "helmet_title": 0, "not_a_helmet": 0}
+    overrides: list[tuple[int, int, str]] = []
+    by_rule: dict[str, int] = {}
     try:
         with conn.cursor() as cur:
+            # Emptied FIRST, not at the end: the helmet pass below reads this
+            # table back (a neighbour's effective category), and reading rows
+            # the same run is about to delete would silently mix in whatever
+            # the previous run left behind.
+            cur.execute("TRUNCATE offer_category_override")
+
             # --- rule 1: coarse apparel buckets, read from the title ---
             for merchant_code, buckets in _COARSE_BUCKETS.items():
                 cur.execute(_SELECT_COARSE, (_UNKNOWN_ID, merchant_code, list(buckets)))
@@ -243,8 +257,7 @@ def enrich_categories() -> EnrichResult:
                     scanned += 1
                     new_id = decide_override(title, mapped)
                     if new_id is not None:
-                        overrides.append((offer_id, new_id))
-                        by_rule["title_reclass"] += 1
+                        overrides.append((offer_id, new_id, "title_reclass"))
 
             # --- rule 2: helmet buckets, borrow-then-title cascade ---
             for merchant_code, buckets in _HELMET_BUCKETS.items():
@@ -268,21 +281,26 @@ def enrich_categories() -> EnrichResult:
                     new_id = decide_helmet_category(title, cats or [], google_cat)
                     if new_id is None or new_id == mapped:
                         continue
-                    overrides.append((offer_id, new_id))
+                    # which step of the cascade decided, in its own order —
+                    # stored per row so a suspect correction can be traced back
+                    # to the rule that produced it
                     if new_id == _UNKNOWN_ID:
-                        by_rule["not_a_helmet"] += 1
+                        rule = (
+                            "not_a_moto_helmet"
+                            if google_cat and _NOT_A_MOTO_HELMET.search(google_cat)
+                            else "helmet_accessory"
+                        )
                     elif {c for c in (cats or []) if c in _HELMET_SUBTYPE_IDS}:
-                        by_rule["helmet_borrowed"] += 1
+                        rule = "helmet_borrowed"
                     else:
-                        by_rule["helmet_title"] += 1
+                        rule = "helmet_title"
+                    overrides.append((offer_id, new_id, rule))
 
-            # --- replace the whole derived table in one go ---
-            cur.execute("TRUNCATE offer_category_override")
             if overrides:
                 cur.executemany(
                     "INSERT INTO offer_category_override "
                     "(raw_offer_id, category_id, source, confidence) "
-                    "VALUES (%s, %s, 'enrich', 0.80)",
+                    "VALUES (%s, %s, %s, 0.80)",
                     overrides,
                 )
         conn.commit()
@@ -293,6 +311,7 @@ def enrich_categories() -> EnrichResult:
         conn.close()
 
     by_target: dict[int, int] = {}
-    for _oid, cid in overrides:
+    for _oid, cid, rule in overrides:
         by_target[cid] = by_target.get(cid, 0) + 1
+        by_rule[rule] = by_rule.get(rule, 0) + 1
     return EnrichResult(scanned, len(overrides), by_target, by_rule, time.time() - t0)

@@ -290,6 +290,9 @@ def enrich() -> None:
     )
     for cid, n in sorted(res.by_target.items(), key=lambda kv: -kv[1]):
         console.print(f"  -> {labels.get(cid, cid)}: {n:,}")
+    console.print("[dim]by rule: " + ", ".join(
+        f"{rule} {n:,}" for rule, n in sorted(res.by_rule.items(), key=lambda kv: -kv[1])
+    ) + "[/]")
     console.print("[dim]now run `mcpipe match --reset` to apply.[/]")
 
 

@@ -8,8 +8,8 @@ into the WordPress site's database. WordPress stays as the storefront (product p
 search, SEO); only the data engine is replaced.
 
 ```
-feeds → fetch → load → normalize → signature → match → enrich → freshness → publish
-                       (Postgres, the system of record)                     (WordPress MySQL)
+feeds → fetch → load → normalize → signature → categorize → enrich → match → verify → freshness → publish
+                       (Postgres, the system of record)                                          (WordPress MySQL)
 ```
 
 Merchants: Speedway, La Bécanerie (Effinity), Motoblouz (Netaffiliation),
