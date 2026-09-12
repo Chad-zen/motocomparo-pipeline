@@ -114,7 +114,7 @@ def decide_override(title: str | None, mapped_category_id: int) -> int | None:
     """Rule 1: corrected category for one coarse-bucket offer, or None to leave
     it alone. Overrides only on a confident title read that changes something."""
     new_id = classify(None, title)
-    if new_id == _UNKNOWN_ID or new_id == mapped_category_id:
+    if new_id in (_UNKNOWN_ID, mapped_category_id):
         return None
     return new_id
 

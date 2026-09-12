@@ -89,7 +89,27 @@ _COLOUR_BASE: dict[str, str] = {
     "multicolore": "MULTI", "multicolor": "MULTI", "multi": "MULTI",
 }
 
-# finish modifier -> code (a matte helmet is NOT a glossy helmet: kept separate)
+# Last-resort colour words — see the `if not bases` branch of colour().
+# French feminine forms the exact-token map above misses ("Bulle MRA Racing
+# noire"). They resolve to codes that ALREADY exist, which is the whole reason
+# they are safe.
+#
+# Deliberately NOT here: `bordeaux`, `camo`/`camouflage`, `turquoise`. They
+# needed codes of their own (collapsing bordeaux into RD would merge a bordeaux
+# jacket with a red one — a false merge), but a brand-new code is a word no
+# other merchant uses, so it reads as a DISAGREEMENT on a barcode every other
+# merchant already agrees on. Measured live: adding the three broke 74 working
+# merges out of 78 lost — the same Segura Lady Garrisson is "rouge" at FC-Moto
+# and "bordeaux" everywhere else; the same 100% Brisker gloves are "camo" at one
+# and "camo/noir" at another. Colour naming is not standardised between
+# merchants, so a colour word only pays off when the vocabulary is shared.
+_COLOUR_FALLBACK: dict[str, str] = {
+    "noire": "BK", "blanche": "WH", "verte": "GN", "grise": "GY",
+    "bleue": "BL", "violette": "PU", "doree": "GD", "argentee": "SI",
+}
+
+# finish modifier -> code (a matte helmet is NOT a glossy helmet: kept separate
+# — confirmed by the site owner: a buyer treats matte and gloss as two products)
 _COLOUR_FINISH: dict[str, str] = {
     "mat": "MAT", "mate": "MAT", "matte": "MAT", "matt": "MAT", "opaco": "MAT",
     "brillant": "GLO", "gloss": "GLO", "glossy": "GLO", "lucido": "GLO", "shiny": "GLO",
@@ -203,6 +223,24 @@ def colour(raw: str | None) -> tuple[str, str, str]:
             code = _COLOUR_FINISH[t]
             if code not in finishes:
                 finishes.append(code)
+    if not bases:
+        # Last resort only, never alongside a known colour. Running these words
+        # in the pass above would ADD a colour to offers that already resolve to
+        # one — "noir/blanche" would turn BK into BK-WH while its barcode twin
+        # stays BK, and the conflict gate compares whole strings, so the pair
+        # would be quarantined although both agree. Measured: ~36 barcode groups
+        # lost that way, for no gain. The same rule is why tint words (fumé,
+        # iridium, transparent) are absent here: "écran fumé gris" is grey, and
+        # the trade says a clear visor is *transparent*, never *clair* — which
+        # is why `clair` sits in _STOP (82% of its uses are a shade of another
+        # colour: "bleu clair"). See docs/product-decisions.md.
+        for t in toks:
+            if t in _COLOUR_FALLBACK:
+                code = _COLOUR_FALLBACK[t]
+                if code not in bases:
+                    bases.append(code)
+                if not first:
+                    first = code
     if not bases:
         return "", "", ""
     canon = "-".join(sorted(bases))

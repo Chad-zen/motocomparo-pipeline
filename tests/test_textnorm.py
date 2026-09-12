@@ -193,3 +193,32 @@ def test_base_sku_is_deferred_but_conservative():
     assert tn.base_sku("A08-12D1-A02-07") == "A08-12D1-A02-07"  # -07 not a plausible size
     assert tn.base_sku("BRACKET-44") == "BRACKET"     # -44 is in EU size range (a known limit)
     assert tn.base_sku(None) == ""
+
+
+# --- last-resort colour words (see textnorm._COLOUR_FALLBACK) --------------
+
+
+def test_feminine_colour_is_read_when_nothing_else_matches():
+    # "noir" was known, "noire" was not — 936 equipment offers lost their colour
+    assert tn.colour("Bulle MRA Racing noire Honda CBR")[1] == "BK"
+    assert tn.colour("Saute vent Puig Sport Noire")[1] == "BK"
+
+
+def test_colour_words_no_other_merchant_uses_are_left_out():
+    # bordeaux / camo needed codes of their own (bordeaux is not red), but a new
+    # code is a word nobody else uses: live, the three of them broke 74 working
+    # merges — "rouge" at one merchant, "bordeaux" at the next, same barcode
+    assert tn.colour("Blouson Femme Bering Lady Scoop Bordeaux")[0] == ""
+    assert tn.colour("Blouson textile Macna Redox urban camo")[0] == ""
+
+
+def test_fallback_never_fires_when_a_real_colour_is_present():
+    # the whole point: an offer already resolving to BK must stay BK, so its
+    # barcode twin (also BK) is not quarantined over a string mismatch
+    assert tn.colour("Blouson noir et blanche")[0] == "BK"
+    assert tn.colour("Ecran fume gris")[1] == "GY"
+
+
+def test_clair_is_never_a_colour():
+    # trade vocabulary says "transparent"; "clair" is a shade of another colour
+    assert tn.colour("Bulle Bullster Double courbure Fume clair")[0] == ""
