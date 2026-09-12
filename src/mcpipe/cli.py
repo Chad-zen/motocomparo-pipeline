@@ -298,8 +298,21 @@ def enrich() -> None:
 
 @app.command()
 def freshness() -> None:
-    """Expire unseen offers, recompute min prices, append price history. [not implemented]"""
-    raise typer.Exit(_todo("freshness"))
+    """Expire stale offers, append today's prices, recompute each product's
+    headline price. Run after `match`; safe to re-run."""
+    from .freshness import FRESHNESS_WINDOW, run_freshness
+
+    console.print(f"applying freshness (window: {FRESHNESS_WINDOW}) ...", end=" ")
+    res = run_freshness()
+    console.print(f"[green]ok[/] in {res.seconds:.0f}s")
+    console.print(f"  offers fresh: {res.offers_fresh:,}   expired: {res.offers_expired:,}")
+    console.print(f"  price history rows written: {res.history_rows:,}")
+    console.print(
+        f"  headline prices set: {res.prices_set:,}   cleared: {res.prices_cleared:,}"
+    )
+    console.print(
+        f"  products marked stale: {res.products_stale:,}   revived: {res.products_revived:,}"
+    )
 
 
 @app.command()

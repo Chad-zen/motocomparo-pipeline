@@ -1,5 +1,7 @@
 """Checks on the text-normalization primitives used to build offer signatures."""
 
+from decimal import Decimal
+
 from mcpipe import textnorm as tn
 
 
@@ -222,3 +224,50 @@ def test_fallback_never_fires_when_a_real_colour_is_present():
 def test_clair_is_never_a_colour():
     # trade vocabulary says "transparent"; "clair" is a shade of another colour
     assert tn.colour("Bulle Bullster Double courbure Fume clair")[0] == ""
+
+
+# --- price and availability ------------------------------------------------
+
+
+def test_price_formats_across_the_six_feeds():
+    assert tn.price("64.99 EUR") == (Decimal("64.99"), "EUR")   # FC-Moto
+    assert tn.price("79.00") == (Decimal("79.00"), None)        # Effinity
+    assert tn.price("132.00") == (Decimal("132.00"), None)      # Motoblouz
+    assert tn.price("156,53") == (Decimal("156.53"), None)      # comma decimal
+
+
+def test_price_handles_thousands_separators():
+    assert tn.price("1 299,00")[0] == Decimal("1299.00")
+    assert tn.price("1.299,00")[0] == Decimal("1299.00")
+    assert tn.price("1,299.00")[0] == Decimal("1299.00")
+
+
+def test_no_price_rather_than_a_wrong_one():
+    # an offer with no price is simply not comparable; a wrong price is the one
+    # thing a price-comparison site must never show
+    assert tn.price(None) == (None, None)
+    assert tn.price("") == (None, None)
+    assert tn.price("sur demande") == (None, None)
+    assert tn.price("0.00") == (None, None)
+    assert tn.price("-5.00") == (None, None)
+
+
+def test_availability_vocabulary_of_each_merchant():
+    for word in ("in stock", "in_stock", "en stock", "1"):
+        assert tn.in_stock(word) is True
+    for word in ("out of stock", "0"):
+        assert tn.in_stock(word) is False
+
+
+def test_flux_tendu_counts_as_available():
+    # Motoblouz's just-in-time wording — 86% of its catalogue. The owner's rule:
+    # it is available (docs/product-decisions.md)
+    assert tn.in_stock("flux tendu") is True
+
+
+def test_unknown_availability_is_not_out_of_stock():
+    # None must stay distinct from False, so "the merchant said nothing" is
+    # never displayed to a visitor as "out of stock"
+    assert tn.in_stock(None) is None
+    assert tn.in_stock("") is None
+    assert tn.in_stock("nous consulter") is None

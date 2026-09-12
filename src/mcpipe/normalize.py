@@ -46,6 +46,11 @@ _OFFER_COLS = (
     "raw_category",
     "deeplink",
     "image_url",
+    "raw_price",
+    "price",
+    "currency",
+    "raw_availability",
+    "in_stock",
 )
 
 # a re-run that would retire more than this fraction of a merchant's live offers
@@ -132,7 +137,12 @@ CREATE TEMP TABLE _norm (
     raw_item_group text,
     raw_category   text,
     deeplink       text,
-    image_url      text
+    image_url      text,
+    raw_price        text,
+    price            numeric(10, 2),
+    currency         text,
+    raw_availability text,
+    in_stock         boolean
 ) ON COMMIT DROP
 """
 
@@ -155,6 +165,13 @@ ON CONFLICT (merchant_id, merchant_sku) DO UPDATE SET
     raw_category   = EXCLUDED.raw_category,
     deeplink       = EXCLUDED.deeplink,
     image_url      = EXCLUDED.image_url,
+    -- price and availability are the fields that actually change between runs;
+    -- everything above is identity and rarely moves
+    raw_price        = EXCLUDED.raw_price,
+    price            = EXCLUDED.price,
+    currency         = EXCLUDED.currency,
+    raw_availability = EXCLUDED.raw_availability,
+    in_stock         = EXCLUDED.in_stock,
     last_seen      = EXCLUDED.last_seen,
     is_live        = true
 """
@@ -193,6 +210,9 @@ def normalize_feed(feed: FeedSpec, *, force: bool = False) -> NormalizeResult:
                     gtin = tn.valid_gtin(raw_gtin)
                     if raw_gtin and not gtin:
                         gtin_rejected += 1
+                    raw_price = _ci_get(row, cols.get("price", []))
+                    amount, currency = tn.price(raw_price)
+                    raw_availability = _ci_get(row, cols.get("availability", []))
                     cp.write_row(
                         (
                             feed.merchant_id,
@@ -210,6 +230,11 @@ def normalize_feed(feed: FeedSpec, *, force: bool = False) -> NormalizeResult:
                             _category(feed, row),
                             deeplink,
                             _ci_get(row, cols.get("image", [])),
+                            raw_price,
+                            amount,
+                            currency,
+                            raw_availability,
+                            tn.in_stock(raw_availability),
                         )
                     )
                     n += 1

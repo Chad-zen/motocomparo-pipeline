@@ -85,3 +85,64 @@ Where quality effort goes, in order:
 3. **Gloves**
 4. **Boots**
 5. Parts — last.
+
+## Competitor study (2026-09-12) — what a product page is
+
+Checked against two merchants and one comparison site, because the two do not
+model the catalogue the same way and only one of them is our business.
+
+**Dafy-Moto and Motoblouz — merchants — put one page per MODEL.** Colour and
+size are both selectors; the URL does not change when you switch colour
+(Motoblouz's RPHA 12 keeps the same page and the same reference HJ1093 across
+grey, titanium, blue/black, metallic blue). Comfortable for a shop that owns its
+own stock.
+
+**idealo — a comparison site — puts one page per COLOURWAY**, which is what v2
+does. Their page is titled "HJC RPHA 12 Solid black"; the colour is part of the
+product name and appears again as an attribute ("Couleur: Noir").
+
+The difference is not taste, it is the job. A merchant sells its own stock, so
+grouping colourways is convenient. A comparison site puts several merchants side
+by side on *the same article* — if colour were only a selector, the page would
+be comparing one merchant's grey against another's blue and the price would mean
+nothing. Measured on our own data: the RPHA 12 titanium semi-matte is 328,27 € at
+Speedway, 390,90 € at Motoblouz, 459,90 € at FC-Moto. That comparison is only
+honest because colour defines the page.
+
+**→ Keep colour in the product identity. Do not follow the merchants here.**
+
+### What idealo's page contains, and how it maps to what we have
+
+| idealo | us |
+|---|---|
+| Colour in the product name + as an attribute | `product.colour_code`, already there |
+| Size as a filter, one offer row per size | `variant` + `offer_variant_link`, already there |
+| Price history graph (3 months / 6 months / 1 year) | `price_history`, first 763,550 rows written 2026-09-12 |
+| A **Prix / Prix total** toggle (before / including shipping) | not built — needs a per-merchant shipping table, the feeds do not carry it |
+| Offer name carries the size ("…Noir Metal **M**") | we have `size_code` per offer |
+| "Ce produit peut contenir des offres en différentes tailles" — an honest caveat | worth reusing verbatim |
+| Price alert (email) | out of scope, needs accounts |
+
+Three things worth copying: the size inside each offer's name, that honest
+caveat sentence, and offering the shipping toggle rather than imposing one view
+(the owner's preference stays "before shipping" as the default).
+
+### Scope for the first shadow publish (decided 2026-09-12)
+
+Publish with what the pipeline already holds; look at the result; enrich after.
+The point of shadow mode is to decide on the evidence, not in advance.
+
+- **Shipping is deferred.** No feed carries it, so it needs a hand-maintained
+  per-merchant table (free-shipping threshold, weight or basket bands) that
+  someone has to keep current. Worth doing, not worth delaying the first look.
+  Until then the site shows the product price only, which is the owner's
+  preferred default anyway.
+- **Offer display name: ours, with the merchant's title kept underneath.**
+  idealo shows the raw merchant title — honest but redundant ("Casque HJC RPHA
+  12 Uni Métal Noir - Casque Intégral HJC Noir Metal M"). We have the parts to
+  write a clean one ("HJC RPHA 12 — Titane mat — Taille M") and the raw title
+  stays visible in smaller type, so nothing is hidden from the buyer.
+- **Product attributes: only what we actually have** — type, colour, sizes,
+  gender. Materials and weight are not in any feed; extracting them from
+  descriptions is its own project and is not a prerequisite to looking at the
+  catalogue.

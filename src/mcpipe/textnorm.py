@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import re
 import unicodedata
+from decimal import Decimal, InvalidOperation
 
 # --------------------------------------------------------------------------
 # dictionaries
@@ -399,3 +400,83 @@ def base_sku(mpn: str | None) -> str:
     m = mpn.strip()
     stripped = _BASE_SKU_TAIL_RE.sub("", m)
     return stripped if stripped and stripped != m else m
+
+
+# --- price and availability -------------------------------------------------
+
+# Feeds state the price four ways: '64.99 EUR' (FC-Moto), '79.00' (Effinity),
+# '132.00' (Motoblouz) and the occasional comma decimal. Thousands separators
+# appear on big-ticket items ('1 299,00'). The currency, when stated, is a
+# trailing ISO code.
+_PRICE_RE = re.compile(
+    r"^\s*(?P<amount>[0-9][0-9\s., ']*)\s*(?P<cur>[A-Z]{3}|€|EUR)?\s*$", re.I
+)
+
+# what each merchant's availability column says. 'flux tendu' is Motoblouz's
+# just-in-time wording — 86% of its catalogue, and the owner's rule is that it
+# counts as available (docs/product-decisions.md). Speedway states 1/0.
+_IN_STOCK_WORDS = {
+    "in stock", "in_stock", "instock", "en stock", "enstock",
+    "flux tendu", "fluxtendu", "available", "disponible", "1", "true", "yes",
+}
+_OUT_OF_STOCK_WORDS = {
+    "out of stock", "out_of_stock", "outofstock", "rupture", "epuise",
+    "indisponible", "unavailable", "0", "false", "no",
+}
+
+
+def price(raw: str | None) -> tuple[Decimal | None, str | None]:
+    """(amount, currency) from a feed's price field, or (None, None).
+
+    Returns None rather than guessing when the field is absent, zero or
+    unparseable: an offer with no price is simply not comparable, whereas a
+    wrong price is the one thing a price-comparison site must never show.
+    """
+    if not raw:
+        return None, None
+    m = _PRICE_RE.match(raw)
+    if not m:
+        return None, None
+
+    amount = m.group("amount")
+    # strip thousands separators (space, NBSP, apostrophe), then settle the
+    # decimal mark: whichever of '.' or ',' comes last is the decimal one.
+    amount = re.sub(r"[\s ']", "", amount)
+    if "," in amount and "." in amount:
+        if amount.rfind(",") > amount.rfind("."):
+            amount = amount.replace(".", "").replace(",", ".")
+        else:
+            amount = amount.replace(",", "")
+    elif "," in amount:
+        amount = amount.replace(",", ".")
+
+    try:
+        value = Decimal(amount).quantize(Decimal("0.01"))
+    except (InvalidOperation, ValueError):
+        return None, None
+    if value <= 0:
+        return None, None
+
+    cur = m.group("cur")
+    if cur:
+        cur = "EUR" if cur in {"€", "EUR", "eur"} else cur.upper()
+    return value, cur
+
+
+def in_stock(raw: str | None) -> bool | None:
+    """True / False / None from a feed's availability field.
+
+    None means the merchant said nothing usable — deliberately distinct from
+    False, so "we don't know" is never displayed as "out of stock".
+    """
+    if raw is None:
+        return None
+    token = re.sub(r"[\s _-]+", " ", raw.strip().lower())
+    token = unicodedata.normalize("NFKD", token).encode("ascii", "ignore").decode()
+    if not token:
+        return None
+    if token in _IN_STOCK_WORDS:
+        return True
+    if token in _OUT_OF_STOCK_WORDS:
+        return False
+    return None
