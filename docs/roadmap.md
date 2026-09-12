@@ -6,7 +6,7 @@ Phased so each step is independently useful and reversible. Effort = focused day
 |---|---|---|---|
 | **0** | Repo + schema + local Postgres running; feed URLs collected | 2–3 d | **done** |
 | **1** | `fetch → load → normalize` working on all 5 real feeds | 4–6 d | **done** |
-| **2** | `signature` → `match` (GTIN + item_group + base-SKU) → `enrich` | 5–8 d | in progress |
+| **2** | `signature` → `match` (GTIN + item_group + base-SKU) → `enrich` | 5–8 d | **done** |
 | **3** | `freshness` + price history; `publish` in **shadow** mode | 4–6 d | |
 | **4** | Diff shadow output vs the live catalog until it's explained | 3–5 d | |
 | **5** | Fuzzy stage for Maxxess / Moto-Axxe *(optional — can ship without)* | 3–5 d | |
@@ -76,7 +76,7 @@ offers), then add phase 5 as a fast-follow.
       year / category / **brand**.
       Result: **540,823 offers linked** (437,611 via GTIN, 103,212 via
       item_group) into **236,766 products** / 359,108 `variant` rows;
-      **38,374 GTIN groups quarantined** in review;
+      **38,374 GTIN groups quarantined** in review (17,291 after `enrich`, see below);
       **~124,000 stay `unresolved`** (no GTIN + no item_group, or
       Maxxess/Moto-Axxe — waiting on `base_sku`/fuzzy). **Verified two ways:
       `mcpipe verify` (see below) reports 0 invariant violations across the
@@ -95,7 +95,75 @@ offers), then add phase 5 as a fast-follow.
       touches the live DB). Built because 3 bugs in a row were each found by
       a one-off manual audit — a slow, non-repeatable process with no
       guarantee the next edit wouldn't reintroduce one already fixed.
-- [ ] `mcpipe enrich` — colour cascade for offers still missing one
+- [x] `mcpipe enrich` — per-offer category corrections for coarse feed buckets,
+      plus the colour reader's missing vocabulary. **Phase 2 closes here**:
+      everything left in `enrich` turned out to be a *display* problem, not a
+      matching one, and belongs to phase 3 where the output can actually be
+      looked at (see "Deliberately left to phase 3" below).
+
+      What shipped, each measured against a before/after snapshot of all
+      79,199 multi-merchant GTINs:
+      - **FC-Moto `tops`** — real motorcycle jackets filed as `apparel_casual`.
+        Re-read from the title: 28,278 corrections, review queue 30,800 →
+        21,630, **0 merges lost**.
+      - **FC-Moto `helmets`** — every helmet type forced to `helmet.integral`.
+        A cascade: the feed's own `google_product_category_text` pulls out what
+        is not a motorcycle helmet at all (bicycle, ski, goggles → `unknown`,
+        the sentinel the conflict gate ignores); spare parts (visors, liners)
+        never take a subtype; then the subtype is **borrowed from a GTIN
+        neighbour**, and only failing that read from the title. Borrowing
+        outranks the title because a title can name two types at once and
+        FC-Moto calls the adventure family "enduro/cross" where everyone else
+        says integral — trusting it would contradict ~851 neighbours that agree.
+        8,881 corrections, queue 21,630 → 17,287, **0 merges lost**.
+      - **Colour** — the reader matched tokens exactly, so it knew "noir" but
+        not "noire". Feminine forms added as a *fallback*, consulted only when
+        the primary pass found nothing: publishable products 109,150 → 110,983,
+        **4 merges lost**. `bordeaux`/`camo`/`turquoise` were tried and
+        reverted — see `textnorm._COLOUR_FALLBACK` for why a brand-new colour
+        code reads as a disagreement (74 of 78 lost merges).
+
+      Measured and NOT done, because the gain was zero:
+      - Cross-merchant colour propagation (`colour_source = 'xmerchant_gtin'`,
+        step 1 of the cascade in architecture.md). `match` already achieves it:
+        whenever a colourless offer has a coloured GTIN neighbour they are
+        already on the same product, so **0** additional product becomes
+        publishable. The conflict gate ignores NULL colours, so filling them
+        changes nothing on the GTIN path either.
+      - FC-Moto `pants` — 28,914 offers, already classified correctly, **0** to
+        change.
+
+### Deliberately left to phase 3 (display, not matching)
+
+`unknown` (25) is excluded from the conflict gate by design, so a wrongly
+classified offer in one of these buckets **still merges correctly today**.
+Fixing them changes what a visitor browsing a category sees, which cannot be
+judged before `publish` runs in shadow mode:
+
+- Motoblouz `Habillage & protection moto` (38,854) is bodywork — mudguards,
+  screens, engine guards — filed under rider `protection`. 91% have no GTIN
+  neighbour, so there is no comparison to win either.
+- Motoblouz `Intercoms et accessoires` (5,659) is mostly helmet spare parts.
+- La Bécanerie `Kit plastique` (2,066).
+- The `unknown` bulk (~50,000 offers at Motoblouz + La Bécanerie) is **not
+  misclassified**: carburation, clutch, filters, lighting, batteries, wheels,
+  cooling have no category in the 25-code taxonomy at all. Extending it is a
+  product decision, and parts rank last commercially (docs/product-decisions.md).
+- Motocross jerseys and rain gear (~9,300) do land in `unknown`, but 7,236 of
+  them are already linked and only 107 are quarantined — again display only.
+
+### Known, measured, not fixed
+
+- **Model year in the GTIN conflict gate.** Two offers sharing one barcode but
+  stating different years are quarantined. The owner's rule is explicit: same
+  manufacturer code ⇒ same product, the year is noise (docs/product-decisions.md).
+  Worth **199 queue groups**, and separately 37 groups / 349 products are
+  duplicates differing only by year. Small because only **2.5%** of products
+  carry a year at all. A surgical fix (drop `model_year` from the gate, keep it
+  in `identity_hash` so the Leatt 2023-vs-2026 case below stays split).
+- Three unchecked `cur.fetchone()` results in `normalize.py` and `load.py`
+  (flagged by mypy): a crash with a confusing message if a query ever returns
+  no row. Phase-1 code, not urgent.
 
 ### What went wrong building `match` (kept honest for the retro)
 
@@ -237,7 +305,8 @@ mega-merges and still catches real apparel. Either way the action should be
 
 ### Notes for phase 2 (remaining)
 
-- 71% of the 36,685 GTIN review-queue groups (≈25,996) disagree on category
+- (pre-`enrich` figure, kept for the record) 71% of the then 36,685 GTIN
+  review-queue groups (≈25,996) disagreed on category
   *alone* — everything else (colour/genre/pack/year) agrees. The dominant
   cause: FC-Moto's own feed puts a lot of real jackets/gear under a generic
   `tops`/`pants`-style bucket that the keyword classifier can't split
