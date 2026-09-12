@@ -103,7 +103,15 @@ diffing), `live`.
 
 The ~286 size-variant consolidations already applied in WordPress, and their 301
 redirects, stay owned by WordPress. This pipeline only *proposes* clusters; the
-existing canonical choices win, so cutover adds zero redirects.
+existing canonical choices win.
+
+**Correction (2026-09-13): cutover does NOT add zero redirects.** That was true only
+of those 286 hand-made consolidations. Measured since: 79,199 multi-merchant barcodes
+(the basis of the v1 pages) map onto 24,529 v2 products - roughly 3.2 old pages per
+new one - and 17,253 of those barcodes have no v2 product at all. Of the ~23,000 pages
+Google has indexed, ~18,000 must merge and ~5,000 have no destination. A cutover
+without a redirect plan is ~23,000 404s. See docs/infrastructure.md and the SEO
+sequence in the reprise notes: freeze the v1 inventory *before* anything else.
 
 ## Observability
 
