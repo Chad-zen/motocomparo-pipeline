@@ -99,7 +99,7 @@ class MatchResult:
 # fuzzy stage, and it's cheap (server-side, one pass).
 _COMPUTE_OFFER_IDENTITY = """
 UPDATE offer_signature s SET
-    category_id = coalesce(cm.category_id, 25),
+    category_id = coalesce(ovr.category_id, cm.category_id, 25),
     identity_hash = md5(
         coalesce(s.brand_code, '') || '|' ||
         coalesce(s.primary_colour, '') || '|' ||
@@ -110,6 +110,9 @@ UPDATE offer_signature s SET
     )
 FROM raw_offer o
 LEFT JOIN category_map cm ON cm.merchant_id = o.merchant_id AND cm.raw_path = o.raw_category
+-- per-offer category correction from `enrich` (title reclass of coarse feed
+-- buckets), read ahead of the feed's own category — see enrich.py
+LEFT JOIN offer_category_override ovr ON ovr.raw_offer_id = o.id
 WHERE o.id = s.raw_offer_id
 """
 

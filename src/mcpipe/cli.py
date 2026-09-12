@@ -272,8 +272,25 @@ def verify() -> None:
 
 @app.command()
 def enrich() -> None:
-    """Derive colour / size / category. [not implemented]"""
-    raise typer.Exit(_todo("enrich"))
+    """Correct coarse feed categories from the title (FC-Moto `tops` → jacket…).
+
+    Rebuilds `offer_category_override`; run BEFORE `match` so the corrected
+    categories flow into clustering. Colour/size cascades come later.
+    """
+    from .enrich import enrich_categories
+
+    console.print("enriching categories from titles ...", end=" ")
+    res = enrich_categories()
+    from .category import CATEGORIES
+
+    labels = {cid: code for cid, _p, code, _l in CATEGORIES}
+    console.print(
+        f"[green]ok[/] {res.overrides_written:,} overrides from "
+        f"{res.candidates_scanned:,} candidates in {res.seconds:.0f}s"
+    )
+    for cid, n in sorted(res.by_target.items(), key=lambda kv: -kv[1]):
+        console.print(f"  -> {labels.get(cid, cid)}: {n:,}")
+    console.print("[dim]now run `mcpipe match --reset` to apply.[/]")
 
 
 @app.command()
