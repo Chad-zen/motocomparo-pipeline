@@ -92,10 +92,17 @@ _NETAFFILIATION_COLUMNS = {
 }
 
 # Webgains ships a Google-Shopping-style schema (44 columns). `price` is the
-# reference price — `sale_price` is a promo and is deliberately NOT mapped.
+# reference price and `sale_price` the promotional one; `normalize` prefers the
+# promo when it is lower and in force, because that is what the buyer pays.
+# Mapping it was reversed on 2026-09-13: leaving it out quoted the REV'IT
+# Stealth 2 at 389.99 when FC-Moto was selling it at 311.99, making the cheapest
+# merchant on the page look like the dearest. 45,015 of FC-Moto's offers carry a
+# sale price and not one carries an effective-date window.
 # merchant_ref falls back mpn -> gtin -> id (the `id` hash's stability is unproven).
 _WEBGAINS_COLUMNS = {
     "gtin":           ["gtin"],
+    "sale_price":       ["sale_price"],
+    "sale_price_window": ["sale_price_effective_date"],
     "title":          ["title"],
     "brand":          ["brand"],
     "color":          ["color"],
