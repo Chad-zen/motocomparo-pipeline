@@ -1,5 +1,12 @@
 # Architecture
 
+> ⚠️ **CONTESTED — read `docs/REPRENDRE-ICI.md` before acting on this file.**
+>
+> On 2026-09-13 a v2 storefront was written that reads PostgreSQL directly
+> (`src/mcsite/`), which removes the need for the publish path described below.
+> Two architectures are live in this repository and they contradict each other.
+> **The choice has not been made.** Do not build either side until it is.
+
 ## Shape
 
 A standalone Python service with its own PostgreSQL database. It fetches 6 merchant

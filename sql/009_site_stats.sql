@@ -14,12 +14,26 @@ SELECT o.product_id,
        max(o.price)                                                 AS dearest,
        (array_agg(o.image_url ORDER BY o.merchant_id)
             FILTER (WHERE o.image_url IS NOT NULL AND o.image_url <> ''))[1] AS image_url,
-       -- A real merchant title, kept so the site can show a readable name.
+       -- The title shown on the site, taken verbatim from one merchant.
+       --
        -- `product.model_display` is the identity token bag: sorted, stripped and
        -- order-free on purpose, which is what makes matching work and what makes
-       -- it unreadable ("3 Blouson Hyperspeed It Rev"). The most reliable
-       -- merchant's shortest title is the least padded one in practice.
-       (array_agg(o.raw_title ORDER BY m.reliability_rank, length(o.raw_title))
+       -- it unreadable ("3 Blouson Hyperspeed It Rev"). It is a fingerprint, not
+       -- a name, and it must never reach a page.
+       --
+       -- The order below is the owner's, and it is editorial rather than
+       -- technical: Motoblouz first, then Speedway, La Bécanerie, FC-Moto. The
+       -- two synthetic-GTIN merchants come last — their catalogues are the least
+       -- carefully written and they are only a fallback.
+       (array_agg(o.raw_title ORDER BY
+            CASE m.code
+                WHEN 'motoblouz'   THEN 1
+                WHEN 'speedway'    THEN 2
+                WHEN 'labecanerie' THEN 3
+                WHEN 'fcmoto'      THEN 4
+                WHEN 'maxxess'     THEN 5
+                ELSE 6
+            END)
             FILTER (WHERE o.raw_title IS NOT NULL AND o.raw_title <> ''))[1] AS best_title
 FROM raw_offer o
 JOIN merchant m ON m.id = o.merchant_id
