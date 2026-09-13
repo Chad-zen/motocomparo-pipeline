@@ -281,3 +281,56 @@ h1, h2 { line-height: 1.2; }
   color: var(--muted); background: #fafbfc;
 }
 .offres__autres a:hover { border-color: var(--amber); color: var(--ink); }
+
+/* ------------------------------------------------------- lecture au mobile */
+
+/* A five-column table cannot be read on a 375px screen: the price and the buy
+   button, the two things the page exists for, fall off the right edge. Below
+   620px each offer becomes a block instead — merchant and size on one line,
+   price and button on the next, both always visible. */
+
+@media (max-width: 620px) {
+  .offres thead { display: none; }
+
+  .offres, .offres tbody, .offres tr, .offres td { display: block; width: 100%; }
+
+  .offres tr {
+    border-bottom: 1px solid var(--line);
+    padding: 12px 14px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 4px 10px;
+    align-items: center;
+  }
+  .offres tr:last-child { border-bottom: 0; }
+
+  .offres td { border: 0; padding: 0; }
+
+  /* merchant (with its raw title) takes the left column and both rows */
+  .offres td:nth-child(1) { grid-column: 1; grid-row: 1 / span 2; }
+  /* size, then availability, stacked on the right of the first row */
+  .offres td:nth-child(2) { grid-column: 2; grid-row: 1; text-align: right; }
+  .offres td:nth-child(3) { grid-column: 2; grid-row: 2; text-align: right; }
+  /* price and button on a full-width line underneath */
+  .offres td:nth-child(4) {
+    grid-column: 1 / -1; grid-row: 3; text-align: left; padding-top: 8px;
+  }
+  .offres td:nth-child(5) { grid-column: 2; grid-row: 3; padding-top: 8px; }
+
+  .offres td:nth-child(2)::before { content: "taille "; color: var(--muted); font-weight: 400; }
+  .offres__titre { margin-top: 3px; }
+
+  .bouton { padding: 10px 16px; }        /* a finger, not a mouse pointer */
+  .taille--btn { padding: 10px 14px; }
+
+  .fiche { padding: 16px; gap: 18px; }
+  .fiche__tete h1 { font-size: 22px; }
+  .attributs { grid-template-columns: 110px 1fr; }
+}
+
+/* The mobile block layout above sets `display: grid` on every row, which
+   outranks the browser's own `[hidden] { display: none }`. Without this the
+   size filter silently stops working on a phone — the rows are marked hidden
+   and shown anyway. Declared last, and !important, because any future layout
+   rule on `.offres tr` would break it again the same way. */
+.offres tr[hidden] { display: none !important; }

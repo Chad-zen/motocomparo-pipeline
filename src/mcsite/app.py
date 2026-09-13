@@ -56,14 +56,41 @@ templates.env.globals["titre_produit"] = labels.product_title
 
 
 def _nom(row: Any) -> str:
-    """The readable product name, rebuilt from a real merchant title."""
-    return labels.display_name(
-        row.get("best_title"), row["brand_code"], row.get("colour_code"),
-        row["model_display"],
-    )
+    """The product name: one merchant's own title, verbatim.
+
+    The owner's decision (2026-09-13): show what the merchants wrote, not a name
+    rebuilt from it. Which merchant is her order too — Motoblouz, then Speedway,
+    La Bécanerie, FC-Moto — and it is applied in `product_stats.best_title`.
+
+    Nothing is stripped here. An earlier version removed the brand, the colour
+    and the category noun; it read better on some pages and mangled others
+    ("Cuir Swallow T7"), and a title the merchant wrote is at least a title a
+    human wrote. `model_display` remains the fallback for a product with no
+    usable title at all — it is a fingerprint, so it should show as rarely as
+    possible.
+    """
+    titre = (row.get("best_title") or "").strip()
+    return titre or row["model_display"]
 
 
 templates.env.globals["nom"] = _nom
+
+
+def _version_css() -> int:
+    """Timestamp of the stylesheet, appended to its URL.
+
+    Without it a browser keeps the copy it already has, and a phone is the
+    one place where clearing that cache by hand is genuinely awkward. The
+    number changes only when the file does, so it is cached normally the
+    rest of the time.
+    """
+    try:
+        return int((HERE / "static" / "style.css").stat().st_mtime)
+    except OSError:
+        return 0
+
+
+templates.env.globals["version_css"] = _version_css
 
 
 def _ctx(request: Request, **extra: Any) -> dict[str, Any]:

@@ -399,16 +399,69 @@ WHERE s.raw_offer_id = o.id
   AND p.identity_hash = iu.identity_hash
 """
 
-# `offer_size_override` first: a size borrowed from another merchant on the same
-# barcode beats the shared 'TU' bucket, which means "could not be read", not
-# "one size". See sql/010 and enrich.borrow_sizes.
-_SIZE_OF_OFFER = "coalesce(ovr.size_code, nullif(s.size_code, ''), 'TU')"
+# What a merchant actually said comes first; a size borrowed from another
+# merchant on the same barcode only fills a blank. The reverse order — which
+# this line had until 2026-09-13 — meant a borrowed value would keep masking a
+# real one for ever, silently, the day the merchant started sending it.
+# `TU` is the last resort and means "could not be read", not "one size".
+_DECLARED_SIZE = "coalesce(nullif(s.size_code, ''), ovr.size_code, 'TU')"
+
+# One size, one variant. Merchants write the same size several ways: FC-Moto
+# ships "M5758" and "XS (55/56)" — a letter plus a head circumference in
+# centimetres — where everyone else writes "M"; some glove feeds write "T8" for
+# what others call "8". These are notations, not different sizes, and leaving
+# them apart put "M · M5758 · L · L59" on one page and broke the size filter.
+#
+# Deliberately narrow: only a letter size followed by digits, and only a bare
+# "T" + digits. A composite the feed sent as one value ("S/M", "US-28") is left
+# alone — collapsing it to its first letter would merge two real sizes, which
+# costs far more than an ugly label. Letter-to-number equivalence (glove 8 = M,
+# jacket EU50 = M) is a per-category referential and is NOT done here.
+#
+# Measured before applying: 16,429 variants rewritten, 5,767 folding onto a
+# size the product already had.
+_CANONICAL_SIZE = rf"""regexp_replace(
+    regexp_replace(
+        upper({_DECLARED_SIZE}),
+        '^(XXS|XXL|[2-6]XL|XS|XL|S|M|L)[ ]?[0-9][0-9/ ]*$', '\1'),
+    '^T([0-9]{{1,2}})$', '\1')"""
+
+# Categories where a size is a real attribute of the article: helmets, garments,
+# protections, casual wear — plus `accessories` (24) and `unknown` (25), kept on
+# this side because both hold genuine apparel, and dropping a real size costs
+# more than keeping a doubtful one.
+_SIZED_CATEGORIES = "(1,2,3,4,5,6,7,8,9,10,11,23,24,25)"
+
+# Everywhere else a size can only have been guessed out of a title or a
+# reference, and the guess is wrong often enough to be worth nothing. Measured
+# 2026-09-13: saddles carry a size on 81% of their offers and **not one** was
+# declared by a feed; engine parts 7,560 sizes for zero declared; suspension
+# 2,292 for 6. The mechanism is visible in the data — a Castrol 10W-50 filed as
+# "size EU50", with two bottle sizes (16 EUR and 60 EUR) on one page.
+#
+# So, outside those categories, a size counts only if the merchant declared it:
+# `size_source = 'feed'` is that proof, while 'title', 'url' and 'mpn' are
+# inferences. The product's category is used rather than the signature's,
+# because `enrich` may have corrected it since.
+#
+# This can neither merge nor split a product — size is not part of
+# `identity_hash` — it only changes which variant an offer hangs from. It also
+# sharpens the open mega-merge check (docs/roadmap.md), whose discriminator is
+# barcodes per *distinct size*: a fitment part wearing invented sizes hides from
+# it today.
+_SIZE_OF_OFFER = f"""CASE
+    WHEN p.category_id NOT IN {_SIZED_CATEGORIES}
+         AND coalesce(s.size_source, '') <> 'feed'
+    THEN 'TU'
+    ELSE {_CANONICAL_SIZE}
+END"""
 
 _CREATE_VARIANTS = f"""
 INSERT INTO variant (product_id, size_code)
 SELECT DISTINCT o.product_id, {_SIZE_OF_OFFER}
 FROM raw_offer o
 JOIN offer_signature s ON s.raw_offer_id = o.id
+JOIN product p ON p.id = o.product_id
 LEFT JOIN offer_size_override ovr ON ovr.raw_offer_id = o.id
 WHERE o.product_id IS NOT NULL
 ON CONFLICT (product_id, size_code) DO NOTHING
@@ -419,6 +472,7 @@ INSERT INTO offer_variant_link (raw_offer_id, variant_id)
 SELECT o.id, v.id
 FROM raw_offer o
 JOIN offer_signature s ON s.raw_offer_id = o.id
+JOIN product p ON p.id = o.product_id
 LEFT JOIN offer_size_override ovr ON ovr.raw_offer_id = o.id
 JOIN variant v ON v.product_id = o.product_id
                AND v.size_code = {_SIZE_OF_OFFER}

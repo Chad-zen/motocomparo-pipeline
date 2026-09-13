@@ -141,7 +141,10 @@ _COLOUR_WORDS = tn.colour_vocabulary()
 _SIZE_WORDS = frozenset(s.lower() for s in _SIZE_ORDER) | {"tu", "unique"}
 
 
-_SIZE_TAIL = re.compile(r"(?:3[4-9]|4[0-9]|5[0-2])|[LWlw]\d{2}")
+# A size left at the end of a name: "… WP 38", "… Skinny L30", "Swallow T7"
+# (glove sizes ship as T5..T13 at some merchants). Never a displacement:
+# "Honda 600 V Transalp" keeps its 600 because only the LAST token is cut.
+_SIZE_TAIL = re.compile(r"(?:3[4-9]|4[0-9]|5[0-2])|[LWlw]\d{2}|[Tt]\d{1,2}")
 
 
 def _norm_token(tok: str) -> str:
