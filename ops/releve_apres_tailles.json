@@ -1,0 +1,15 @@
+{
+  "produits": 244748,
+  "comparables_2m": 24590,
+  "avec_prix": 213214,
+  "eclat_fiches_1_taille": 12774,
+  "eclat_familles_coupees": 9540,
+  "fusion_ratio_gte_5": 4850,
+  "fusion_ratio_gte_20": 846,
+  "fusion_pire_nb_gtin": 1314,
+  "fusion_doublons_marchand_taille": 9093,
+  "fusion_ecart_prix_x10": 75,
+  "coherence_violations": 0,
+  "tailles_variantes": 416449,
+  "tailles_bucket_TU": 305838
+}

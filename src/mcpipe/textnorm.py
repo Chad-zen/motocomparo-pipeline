@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import re
 import unicodedata
+from datetime import date
 from decimal import Decimal, InvalidOperation
 
 # --------------------------------------------------------------------------
@@ -151,7 +152,20 @@ _SIZE_TITLE_RE = re.compile(r"-\s*([a-z0-9]{1,4})\s*$", re.I)
 _SIZE_URL_RE = re.compile(r"taille[-/ ]([a-z0-9]{1,4})", re.I)
 # an mpn size suffix must be set off by a delimiter or preceded by a digit
 # (168075199XS) — a bare "...L" at the end of an unbroken token is not a size
-_SIZE_MPN_RE = re.compile(r"(?:[-_ /]|(?<=\d))(xxs|xs|s|m|l|xl|xxl|xxxl|2xl|3xl|4xl|tu)$", re.I)
+# A manufacturer reference often ends in the size. Letter sizes were handled
+# from the start; `T6`..`T13` were not, and they are how French merchants write
+# a glove size. Live example, the Helstons Swallow: FC-Moto and La Bécanerie both
+# ship `20190067-NO-T6`, read it, and show size 6 — Motoblouz ships the very same
+# reference and showed "size not stated", because nothing looked for `-T6`.
+#
+# Only the `T` form is added. A bare number at the end of a reference is NOT
+# taken as a size: it is just as often a colour code or a version, and 29,593
+# offers carry one. Reading those needs a per-category range (gloves 6-11, boots
+# 36-48, nothing elsewhere) and is a separate, measured piece of work — inventing
+# sizes is the mistake this pipeline spent 2026-09-13 undoing.
+_SIZE_MPN_RE = re.compile(
+    r"(?:[-_ /]|(?<=\d))(xxs|xs|s|m|l|xl|xxl|xxxl|2xl|3xl|4xl|tu|t\d{1,2})$", re.I
+)
 _YEAR_RE = re.compile(r"\b(20(?:1[89]|2[0-9]))\b")
 # a genuine multi-item pack, not "kit chaine" / "kit piston" (single products).
 # runs on norm_txt output, so "+" is already gone — hence the gift+device pair.
@@ -494,3 +508,36 @@ def colour_vocabulary() -> frozenset[str]:
     words |= {w + "s" for w in list(words)}
     words |= {"transparent", "transparente", "fume", "fumee", "iridium", "irise"}
     return frozenset(words)
+
+
+def sale_is_live(window: str | None, today: date | None = None) -> bool:
+    """Is a promotional price in force right now?
+
+    Google Shopping's `sale_price_effective_date` is two ISO timestamps joined by
+    a slash: a promo can be announced days ahead, and publishing it early would
+    quote a price the merchant is not charging yet.
+
+    An empty or unreadable window means "no window given", which every feed here
+    uses to mean "the promo is on" — FC-Moto leaves it blank on all 45,015 of
+    its sale prices. Unreadable is deliberately treated the same way rather than
+    as a refusal: the promo price is already gated on being lower than the
+    reference price, so the failure mode is quoting a real discount, not an
+    invented one.
+    """
+    if not window or "/" not in window:
+        return True
+    debut, _, fin = window.partition("/")
+    jour = today or date.today()
+    for borne, avant in ((debut, True), (fin, False)):
+        texte = borne.strip()[:10]
+        if not texte:
+            continue
+        try:
+            limite = date.fromisoformat(texte)
+        except ValueError:
+            continue
+        if avant and jour < limite:
+            return False
+        if not avant and jour > limite:
+            return False
+    return True

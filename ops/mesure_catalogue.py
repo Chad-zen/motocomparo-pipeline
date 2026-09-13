@@ -48,6 +48,12 @@ MESURES: list[tuple[str, str, str]] = [
     # --- ÉCLATEMENT : le catalogue se fragmente ------------------------------
     # A page offering one size is usually the rest of a size run sitting on
     # another page. Counted among comparable products, where it is visible.
+    #
+    # `TU` is excluded, and that exclusion is the whole measurement: a part
+    # with no size legitimately has one entry. Without it this counted every
+    # exhaust and saddle as fragmentation and read 12,774 where the real
+    # figure is 1,541 — and it called a correction a regression, because
+    # dropping invented sizes moves parts into exactly that bucket.
     ("eclat_fiches_1_taille", "eclatement", f"""
         SELECT count(*) FROM (
             SELECT p.id FROM product p
@@ -57,7 +63,7 @@ MESURES: list[tuple[str, str, str]] = [
             JOIN variant v ON v.id = l.variant_id
             WHERE s.merchant_count >= 2
             GROUP BY p.id
-            HAVING count(DISTINCT v.size_code) = 1
+            HAVING count(DISTINCT v.size_code) = 1 AND min(v.size_code) <> 'TU'
         ) t"""),
     # Same manufacturer reference, same brand/colour/category, several pages.
     ("eclat_familles_coupees", "eclatement", f"""

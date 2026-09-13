@@ -212,6 +212,30 @@ def normalize_feed(feed: FeedSpec, *, force: bool = False) -> NormalizeResult:
                         gtin_rejected += 1
                     raw_price = _ci_get(row, cols.get("price", []))
                     amount, currency = tn.price(raw_price)
+                    # A promotional price is what the buyer actually pays, so it
+                    # is the only price a comparison site may show. FC-Moto sends
+                    # both: `price` 389.99 and `sale_price` 311.99 on the same
+                    # REV'IT Stealth 2 — publishing the first made the cheapest
+                    # merchant on that page look like the dearest.
+                    #
+                    # Two guards, because a wrong price is the one thing this
+                    # site must never print. The promo is taken only when it
+                    # parses, when it is strictly lower, and — for a feed that
+                    # sends one — when today falls inside the advertised window.
+                    # (FC-Moto leaves `sale_price_effective_date` empty on all
+                    # 45,015 of its promos, so "no window" means "on now".)
+                    raw_sale = _ci_get(row, cols.get("sale_price", []))
+                    if raw_sale:
+                        sale_amount, sale_currency = tn.price(raw_sale)
+                        window = _ci_get(row, cols.get("sale_price_window", []))
+                        if (
+                            sale_amount is not None
+                            and amount is not None
+                            and sale_amount < amount
+                            and tn.sale_is_live(window)
+                        ):
+                            raw_price = raw_sale
+                            amount, currency = sale_amount, sale_currency or currency
                     raw_availability = _ci_get(row, cols.get("availability", []))
                     cp.write_row(
                         (
