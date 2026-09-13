@@ -399,21 +399,29 @@ WHERE s.raw_offer_id = o.id
   AND p.identity_hash = iu.identity_hash
 """
 
-_CREATE_VARIANTS = """
+# `offer_size_override` first: a size borrowed from another merchant on the same
+# barcode beats the shared 'TU' bucket, which means "could not be read", not
+# "one size". See sql/010 and enrich.borrow_sizes.
+_SIZE_OF_OFFER = "coalesce(ovr.size_code, nullif(s.size_code, ''), 'TU')"
+
+_CREATE_VARIANTS = f"""
 INSERT INTO variant (product_id, size_code)
-SELECT DISTINCT o.product_id, coalesce(nullif(s.size_code, ''), 'TU')
-FROM raw_offer o JOIN offer_signature s ON s.raw_offer_id = o.id
+SELECT DISTINCT o.product_id, {_SIZE_OF_OFFER}
+FROM raw_offer o
+JOIN offer_signature s ON s.raw_offer_id = o.id
+LEFT JOIN offer_size_override ovr ON ovr.raw_offer_id = o.id
 WHERE o.product_id IS NOT NULL
 ON CONFLICT (product_id, size_code) DO NOTHING
 """
 
-_LINK_VARIANTS = """
+_LINK_VARIANTS = f"""
 INSERT INTO offer_variant_link (raw_offer_id, variant_id)
 SELECT o.id, v.id
 FROM raw_offer o
 JOIN offer_signature s ON s.raw_offer_id = o.id
+LEFT JOIN offer_size_override ovr ON ovr.raw_offer_id = o.id
 JOIN variant v ON v.product_id = o.product_id
-               AND v.size_code = coalesce(nullif(s.size_code, ''), 'TU')
+               AND v.size_code = {_SIZE_OF_OFFER}
 WHERE o.product_id IS NOT NULL
 ON CONFLICT (raw_offer_id, variant_id) DO NOTHING
 """

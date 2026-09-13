@@ -1,0 +1,23 @@
+<div class="grille">
+  {% for it in (featured if featured is defined else items) %}
+  <a class="carte" href="/p/{{ it.slug }}">
+    <div class="carte__img">
+      {% if it.image_url %}<img src="{{ it.image_url }}" alt="" loading="lazy">
+      {% else %}<span class="carte__sansimg">pas de visuel</span>{% endif %}
+    </div>
+    <div class="carte__corps">
+      <span class="carte__marque">{{ it.brand_code | upper }}</span>
+      <span class="carte__nom">{{ nom(it) }}</span>
+      {% if it.colour_code and it.colour_code != 'unknown' %}
+        <span class="carte__couleur">{{ it.colour_code | couleur }}</span>
+      {% endif %}
+      <div class="carte__bas">
+        <span class="carte__prix">{{ it.cheapest | prix }}</span>
+        <span class="puce">{{ it.merchant_count }} marchands</span>
+      </div>
+    </div>
+  </a>
+  {% else %}
+  <p class="vide">Rien à afficher ici pour l'instant.</p>
+  {% endfor %}
+</div>

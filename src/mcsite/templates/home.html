@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}MotoComparo — comparateur d'équipement moto{% endblock %}
+
+{% block contenu %}
+<section class="accroche">
+  <h1>Le même article, chez plusieurs marchands.</h1>
+  <p class="accroche__chiffres">
+    <strong>{{ "{:,}".format(totals.comparable or 0).replace(",", " ") }}</strong> fiches comparables ·
+    <strong>{{ "{:,}".format(totals.offers or 0).replace(",", " ") }}</strong> offres suivies ·
+    6 marchands
+  </p>
+</section>
+
+<h2 class="titre-section">Les mieux comparées</h2>
+<p class="sous-titre">Les fiches où le plus de marchands se répondent.</p>
+{% include "_grille.html" %}
+
+<h2 class="titre-section">Par catégorie</h2>
+<div class="cats">
+  {% for c in nav %}
+  <a class="cat" href="/c/{{ c.code }}">
+    <span class="cat__nom">{{ c.label_fr }}</span>
+    <span class="cat__n">{{ c.n }} fiches</span>
+    {% if c.from_price %}<span class="cat__prix">dès {{ c.from_price | prix }}</span>{% endif %}
+  </a>
+  {% endfor %}
+</div>
+{% endblock %}
