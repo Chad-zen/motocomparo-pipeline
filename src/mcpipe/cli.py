@@ -272,7 +272,7 @@ def verify() -> None:
 
 @app.command()
 def enrich() -> None:
-    """Correct coarse feed categories from the title (FC-Moto `tops` → jacket…).
+    """Correct coarse feed categories from the title (FC-Moto `tops` -> jacket, ...).
 
     Rebuilds `offer_category_override`; run BEFORE `match` so the corrected
     categories flow into clustering. Colour/size cascades come later.
@@ -293,6 +293,16 @@ def enrich() -> None:
     console.print("[dim]by rule: " + ", ".join(
         f"{rule} {n:,}" for rule, n in sorted(res.by_rule.items(), key=lambda kv: -kv[1])
     ) + "[/]")
+
+    # Same idea one field over: read what a neighbour already knows. A merchant
+    # that does not send a size is not hiding it — another merchant selling the
+    # very same barcode has written it down. Must run before `match`, which
+    # builds the variants.
+    from .enrich import borrow_sizes
+
+    console.print("borrowing missing sizes from the same barcode ...", end=" ")
+    borrowed = borrow_sizes()
+    console.print(f"[green]ok[/] {borrowed:,} offers given a size")
     console.print("[dim]now run `mcpipe match --reset` to apply.[/]")
 
 

@@ -315,3 +315,98 @@ def enrich_categories() -> EnrichResult:
         by_target[cid] = by_target.get(cid, 0) + 1
         by_rule[rule] = by_rule.get(rule, 0) + 1
     return EnrichResult(scanned, len(overrides), by_target, by_rule, time.time() - t0)
+
+
+# --------------------------------------------------------------- borrowed size
+
+# The letter part of a size, and nothing else. 'XS5354' -> 'XS', 'L59' -> 'L',
+# 'M 57/58' -> 'M'. A composite the feed sent as one value ('S/M', '28/30') must
+# NOT reduce to its first letter, so the tail after the letters may only be
+# empty, or start with a digit (possibly behind one space or parenthesis).
+_SIZE_LETTERS = r"^(XXS|XXL|2XL|3XL|4XL|5XL|6XL|XL|XS|S|M|L)([ (]?[0-9].*)?$"
+
+# A barcode that a single merchant puts on several of its own live offers is not
+# telling sizes apart at that merchant — the classic "parent EAN" copied across a
+# whole size run. Both donor and receiver are vetoed on it: a lone donor holding
+# a parent EAN would otherwise agree with itself and hand out a wrong size, and a
+# wrong size is worse than none. A dash is honest; an "M" that is really an XL is
+# a false claim about a price.
+_BORROW_SIZE = f"""
+WITH parent_ean AS (
+    SELECT merchant_id, gtin
+    FROM raw_offer
+    WHERE is_live AND gtin IS NOT NULL
+    GROUP BY merchant_id, gtin
+    HAVING count(*) > 1
+),
+donors AS (
+    SELECT o.gtin,
+           -- same spelling the rest of the pipeline uses: textnorm folds XXL
+           -- into 2XL, so a borrowed 'XXL' would create a second variant for a
+           -- size the product already has
+           CASE upper(substring(upper(s.size_code) from '{_SIZE_LETTERS}'))
+               WHEN 'XXS' THEN 'XXS'
+               WHEN 'XXL' THEN '2XL'
+               WHEN 'XXXL' THEN '3XL'
+               WHEN 'XXXXL' THEN '4XL'
+               ELSE upper(substring(upper(s.size_code) from '{_SIZE_LETTERS}'))
+           END AS taille,
+           m.code AS merchant
+    FROM raw_offer o
+    JOIN merchant m ON m.id = o.merchant_id AND m.gtin_trust = 'trusted'
+    JOIN offer_signature s ON s.raw_offer_id = o.id
+    LEFT JOIN parent_ean pe ON pe.merchant_id = o.merchant_id AND pe.gtin = o.gtin
+    WHERE o.is_live AND o.gtin IS NOT NULL AND pe.gtin IS NULL
+      -- never borrow a guess: a size read out of a title or a URL is already an
+      -- inference, and an inference passed on twice stops being evidence
+      AND s.size_source IN ('feed', 'mpn')
+      AND s.size_code IS NOT NULL AND s.size_code <> '' AND s.size_code <> 'TU'
+      AND upper(s.size_code) ~ '{_SIZE_LETTERS}'
+),
+agreed AS (
+    SELECT gtin,
+           min(taille) AS taille,
+           count(DISTINCT merchant) AS n,
+           string_agg(DISTINCT merchant, ',' ORDER BY merchant) AS qui
+    FROM donors
+    WHERE taille IS NOT NULL AND taille <> ''
+    GROUP BY gtin
+    HAVING count(DISTINCT taille) = 1
+)
+INSERT INTO offer_size_override (raw_offer_id, size_code, source, donor_count, donor_codes)
+SELECT o.id, a.taille, 'xmerchant_gtin', a.n, a.qui
+FROM raw_offer o
+JOIN merchant m ON m.id = o.merchant_id AND m.gtin_trust = 'trusted'
+JOIN offer_signature s ON s.raw_offer_id = o.id
+JOIN agreed a ON a.gtin = o.gtin
+LEFT JOIN parent_ean pe ON pe.merchant_id = o.merchant_id AND pe.gtin = o.gtin
+WHERE o.is_live AND o.gtin IS NOT NULL AND pe.gtin IS NULL
+  AND (s.size_code IS NULL OR s.size_code = '' OR s.size_code = 'TU')
+ON CONFLICT (raw_offer_id) DO UPDATE SET
+    size_code    = EXCLUDED.size_code,
+    donor_count  = EXCLUDED.donor_count,
+    donor_codes  = EXCLUDED.donor_codes,
+    confirmed_at = now()
+"""
+
+
+def borrow_sizes() -> int:
+    """Fill in a missing size from a merchant selling the same barcode.
+
+    Returns the number of offers that now carry a borrowed size. Abstains
+    wherever the evidence is not unanimous — two donors disagreeing, or a
+    merchant reusing one barcode across a size run — because the project's rule
+    is that a wrong value costs far more than a missing one.
+    """
+    conn = connect()
+    try:
+        with conn.cursor() as cur:
+            cur.execute(_BORROW_SIZE)
+            written = cur.rowcount
+        conn.commit()
+        return written
+    except Exception:
+        conn.rollback()
+        raise
+    finally:
+        conn.close()

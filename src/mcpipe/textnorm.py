@@ -480,3 +480,17 @@ def in_stock(raw: str | None) -> bool | None:
     if token in _OUT_OF_STOCK_WORDS:
         return False
     return None
+
+
+def colour_vocabulary() -> frozenset[str]:
+    """Every word this module recognises as a colour, tint or finish.
+
+    Exposed so the storefront strips exactly the words the pipeline treats as
+    colour, instead of keeping a second list that would drift out of step.
+    Feminine forms are included: a title says "noire", a feed says "noir".
+    """
+    words = set(_COLOUR_BASE) | set(_COLOUR_FALLBACK) | set(_COLOUR_FINISH)
+    words |= {w + "e" for w in words if not w.endswith("e")}
+    words |= {w + "s" for w in list(words)}
+    words |= {"transparent", "transparente", "fume", "fumee", "iridium", "irise"}
+    return frozenset(words)

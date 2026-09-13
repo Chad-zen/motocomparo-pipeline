@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}MotoComparo{% endblock %}</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<header class="bandeau">
+  <div class="conteneur bandeau__inner">
+    <a class="logo" href="/"><span class="logo__mark">MC</span> MotoComparo</a>
+    <form class="recherche" action="/recherche" method="get" role="search">
+      <input name="q" type="search" placeholder="Rechercher casques, blousons, gants&hellip;"
+             value="{{ request.query_params.get('q', '') }}" aria-label="Rechercher">
+      <button type="submit">Chercher</button>
+    </form>
+  </div>
+</header>
+
+<nav class="nav" aria-label="Catégories">
+  <div class="conteneur nav__inner">
+    {% for c in nav[:9] %}
+      <a href="/c/{{ c.code }}">{{ c.label_fr }} <span class="nav__n">{{ c.n }}</span></a>
+    {% endfor %}
+  </div>
+</nav>
+
+<main class="conteneur">
+{% block contenu %}{% endblock %}
+</main>
+
+<footer class="pied">
+  <div class="conteneur">
+    <p>Les prix sont relevés chaque jour chez les marchands. Un prix de plus de
+       24&nbsp;heures n'est pas affiché.</p>
+    <p class="pied__note">Prix hors frais de port.</p>
+  </div>
+</footer>
+
+</body>
+</html>

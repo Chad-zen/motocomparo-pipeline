@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}{{ titre }} — MotoComparo{% endblock %}
+
+{% block contenu %}
+<nav class="fil"><a href="/">Accueil</a> › <span>{{ titre }}</span></nav>
+<h1 class="titre-page">{{ titre }}</h1>
+<p class="sous-titre">{{ "{:,}".format(total).replace(",", " ") }} fiches comparables</p>
+
+{% include "_grille.html" %}
+
+{% if pages > 1 %}
+<nav class="pagination">
+  {% if page > 1 %}<a href="{{ base }}?page={{ page - 1 }}">‹ Précédent</a>{% endif %}
+  <span>page {{ page }} sur {{ pages }}</span>
+  {% if page < pages %}<a href="{{ base }}?page={{ page + 1 }}">Suivant ›</a>{% endif %}
+</nav>
+{% endif %}
+{% endblock %}
