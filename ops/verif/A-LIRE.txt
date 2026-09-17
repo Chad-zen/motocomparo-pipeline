@@ -1,0 +1,92 @@
+﻿VÉRIFICATION DES FLUX MAXXESS ET MOTO-AXXE — 14/09/2026
+
+Fichiers fournis :
+  maxxess.csv / motoaxxe.csv       les flux BRUTS, tels que reçus (73 colonnes)
+  maxxess-extrait.csv / …          les 15 colonnes qui décident, à ouvrir dans Excel
+
+CE QU'IL FAUT REGARDER, dans l'extrait :
+
+1. La colonne `size`. Filtre-la : elle est VIDE sur les 16 111 et 17 077 lignes.
+   Même chose pour `size_system`, `size_type` et `item_group_id`.
+
+2. La colonne `link`. Chaque ligne a SA propre page produit :
+   16 111 lignes -> 16 111 pages distinctes. Aucune page n'apparaît deux fois.
+   Donc une ligne = un coloris, jamais une taille.
+
+3. La colonne `price`. Un seul prix par ligne, donc un seul prix pour
+   toutes les tailles du coloris. C'est le point que tu voulais vérifier :
+   le flux ne contient AUCUN prix par taille, il n'y a rien à en tirer.
+
+4. La colonne `mpn` (référence fabricant). Elle, elle est remplie à 100 %,
+   et c'est la piste utile : 2 415 de ces références existent aussi chez
+   Motoblouz, La Bécanerie ou FC-Moto.
+
+5. La colonne `gtin` commence par 200… — c'est une plage de codes-barres
+   INTERNE au magasin, pas un code fabricant. D'où l'impossibilité de
+   rapprocher par code-barres.
+
+EXEMPLE — maxxess, deux lignes réelles :
+    id               1309011
+    mpn              1309011
+    gtin             3000857128473
+    brand            SHOEI
+    title            Casque J-CRUISE 2 UNI SHOEI
+    color            Noir mat
+    size             (vide)
+    size_system      (vide)
+    size_type        (vide)
+    item_group_id    (vide)
+    price            419.00
+    availability     in stock
+    category         Casque moto
+    category_level2  Casque jet
+    link             https://track.effiliation.com/servlet/effi.redir?id_compteur=23239313&url=https%3A%2F%2F
+
+    id               108002152
+    mpn              108002152
+    gtin             3000857128756
+    brand            LS2
+    title            Casque FF800 STORM RACER LS2
+    color            Titane/Orange fluo
+    size             (vide)
+    size_system      (vide)
+    size_type        (vide)
+    item_group_id    (vide)
+    price            169.15
+    availability     in stock
+    category         Casque moto
+    category_level2  Casque intégral
+    link             https://track.effiliation.com/servlet/effi.redir?id_compteur=23239313&url=https%3A%2F%2F
+
+EXEMPLE — motoaxxe, deux lignes réelles :
+    id               ECH-Z519
+    mpn              ECH-Z519
+    gtin             3000977317283
+    brand            ZARCO
+    title            ZARCO Echarpe Zarco
+    color            (vide)
+    size             (vide)
+    size_system      (vide)
+    size_type        (vide)
+    item_group_id    (vide)
+    price            24.86
+    availability     in stock
+    category         Equipement du motard
+    category_level2  Sportswear et objets
+    link             https://track.effiliation.com/servlet/effi.redir?id_compteur=23239312&url=https%3A%2F%2F
+
+    id               103277231
+    mpn              103277231
+    gtin             3000977317573
+    brand            LS2
+    title            LS2 Casque FF327 CHALLENGER CARBON GRID
+    color            Bleu carbone/Rouge
+    size             (vide)
+    size_system      (vide)
+    size_type        (vide)
+    item_group_id    (vide)
+    price            354.00
+    availability     in stock
+    category         Equipement du motard
+    category_level2  Casque moto
+    link             https://track.effiliation.com/servlet/effi.redir?id_compteur=23239312&url=https%3A%2F%2F
