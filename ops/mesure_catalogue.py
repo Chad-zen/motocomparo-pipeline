@@ -33,6 +33,18 @@ from dotenv import load_dotenv  # noqa: E402
 load_dotenv(RACINE / ".env")
 
 from mcpipe.db import connect  # noqa: E402
+from mcpipe.verify import check_match_invariants  # noqa: E402
+
+
+def _violations_verify() -> int:
+    """Le nombre d'incohérences que `mcpipe verify` relèverait, à l'instant.
+
+    On appelle SA fonction, pas une requête qui lui ressemble : c'est la seule
+    façon qu'un invariant ajouté à `verify` apparaisse aussi ici. Le tableau de
+    bord et le vérificateur ont divergé une fois — 0 affiché contre 177 réels —
+    parce qu'ils portaient deux définitions de la même chose.
+    """
+    return len(check_match_invariants())
 
 # An offer worth counting: the pipeline linked it and the feed still lists it.
 VIVANTE = "o.linked_status = 'linked' AND o.is_live AND o.product_id IS NOT NULL"
@@ -110,6 +122,14 @@ MESURES: list[tuple[str, str, str]] = [
     # Two offers of one merchant on one product carrying the same size: a
     # merchant does not sell the same size of the same article twice, so either
     # the merge is wrong or a borrowed size is.
+    #
+    # One exception, and it is legitimate: trousers come in leg cuts. FC-Moto
+    # lists the Held Tridale in "Short L" AND "Long L" — one waist size, two
+    # cuts, two real articles. `textnorm.size_code` maps both to `L` because a
+    # cut is not a size, so they land here looking like a duplicate. Counted
+    # separately below (`tailles_coupes_jambe`) instead of being dropped
+    # silently: it is a real display problem — the page shows "L" twice — just
+    # not a merge problem, which is what this figure is for.
     ("fusion_doublons_marchand_taille", "sur_fusion", f"""
         SELECT count(*) FROM (
             SELECT o.product_id, o.merchant_id, v.size_code
@@ -117,6 +137,20 @@ MESURES: list[tuple[str, str, str]] = [
             JOIN offer_variant_link l ON l.raw_offer_id = o.id
             JOIN variant v ON v.id = l.variant_id
             WHERE {VIVANTE} AND v.size_code <> 'TU'
+              AND coalesce(o.raw_size, '') !~* '^(short|long|court|tall)'
+              AND coalesce(o.raw_size, '') !~* '(court|long)$'
+            GROUP BY 1, 2, 3 HAVING count(*) > 1
+        ) t"""),
+    # Informational, not a defect: the same size in two leg cuts on one page.
+    ("tailles_coupes_jambe", "tailles", f"""
+        SELECT count(*) FROM (
+            SELECT o.product_id, o.merchant_id, v.size_code
+            FROM raw_offer o
+            JOIN offer_variant_link l ON l.raw_offer_id = o.id
+            JOIN variant v ON v.id = l.variant_id
+            WHERE {VIVANTE} AND v.size_code <> 'TU'
+              AND (o.raw_size ~* '^(short|long|court|tall)'
+                   OR o.raw_size ~* '(court|long)$')
             GROUP BY 1, 2, 3 HAVING count(*) > 1
         ) t"""),
     # A tenfold gap inside one product is rarely a bargain; it is usually two
@@ -135,7 +169,7 @@ MESURES: list[tuple[str, str, str]] = [
     # therefore never a disagreement. Without that exclusion this reported
     # 5,360 violations against verify's 0: the instrument was miscalibrated,
     # not the catalogue.
-    ("coherence_violations", "coherence", """
+    ("coherence_rayon", "coherence", """
         SELECT count(*) FROM (
             SELECT o.product_id FROM raw_offer o
             JOIN offer_signature s ON s.raw_offer_id = o.id
@@ -144,6 +178,16 @@ MESURES: list[tuple[str, str, str]] = [
             GROUP BY o.product_id
             HAVING count(DISTINCT s.category_id) > 1
         ) t"""),
+    # Renommé le 14/09/2026. Il s'appelait `coherence_violations`, ce qui
+    # laissait croire qu'il mesurait la même chose que `mcpipe verify`. Il
+    # affichait 0 pendant que `verify` comptait 177 : il ne regarde QUE le
+    # rayon, là où `verify` contrôle aussi la couleur et le genre.
+    #
+    # Un indicateur qui annonce zéro quand il y a 177 défauts est pire que pas
+    # d'indicateur : il donne la tranquillité sans la mériter. Le compteur qui
+    # suit lit donc la définition de `verify` ELLE-MÊME — pas une copie qui
+    # rediverge au premier ajout d'invariant.
+    ("coherence_verify", "coherence", _violations_verify),
 
     # --- TAILLES -------------------------------------------------------------
     ("tailles_variantes", "tailles", "SELECT count(*) FROM variant"),
@@ -160,9 +204,12 @@ def releve() -> dict[str, int]:
         with conn.cursor() as cur:
             for nom, _groupe, sql in MESURES:
                 t0 = time.time()
-                cur.execute(sql)
-                row = cur.fetchone()
-                valeurs[nom] = int(row[0]) if row and row[0] is not None else 0
+                if callable(sql):
+                    valeurs[nom] = sql()
+                else:
+                    cur.execute(sql)
+                    row = cur.fetchone()
+                    valeurs[nom] = int(row[0]) if row and row[0] is not None else 0
                 print(f"  {nom:34} {valeurs[nom]:>10,}   ({time.time() - t0:.1f}s)")
     finally:
         conn.close()
