@@ -2,7 +2,10 @@
 
 from decimal import Decimal
 
+import pytest
+
 from mcpipe import textnorm as tn
+from mcpipe.textnorm import size_code
 
 
 def test_norm_txt_folds_accents_and_roman_numerals():
@@ -271,3 +274,89 @@ def test_unknown_availability_is_not_out_of_stock():
     assert tn.in_stock(None) is None
     assert tn.in_stock("") is None
     assert tn.in_stock("nous consulter") is None
+
+
+# --- une taille lue dans un titre doit ressembler à une taille ----------------
+#
+# `_SIZE_TITLE_RE` prend ce qui suit le dernier tiret d'un titre. Le plus souvent
+# c'est bien une taille ; parfois c'est la matière ou un mot d'argumentaire.
+# Mesuré le 2026-09-14 : 57 135 offres tiraient leur taille du titre, et sur les
+# rayons habillement les valeurs les plus fréquentes étaient PURE, MONO, TECH,
+# AIR, DRY, TEX, CITY, GT, RAID, YUMA. Le cas signalé par la propriétaire : un
+# blouson Helstons affichait une « taille MESH » à côté des S/M/L/XL que cinq
+# autres marchands déclaraient proprement.
+#
+# La règle retenue est une liste blanche, pas une liste noire : depuis cette
+# source, on n'accepte que ce qui a la forme d'une taille. Interdire les
+# matières une par une n'aurait jamais de fin.
+
+@pytest.mark.parametrize("titre", [
+    "HELSTONS Blouson STONER EVO AIR GIRL Tissu-MESH",
+    "Blouson Ixon Pulsion-PURE",
+    "Veste Rev It Neptune-TECH",
+    "Blouson Furygan-AIR",
+    "Pantalon Ixon-DRY",
+])
+def test_un_mot_libre_du_titre_n_est_pas_une_taille(titre):
+    assert size_code(None, titre, None, None) == ("", "")
+
+
+@pytest.mark.parametrize("titre,attendu", [
+    ("Blouson Helstons Stoner - XL", "XL"),
+    ("Gants Alpinestars SP X 3 - M", "M"),
+    ("Blouson femme - TU", "TU"),
+    ("Casque Shark Skwal - 59", "59CM"),      # tour de tête
+    ("Bottes Falco Pyro - 44", "EU44"),       # pointure
+])
+def test_une_vraie_taille_du_titre_est_gardee(titre, attendu):
+    assert size_code(None, titre, None, None) == (attendu, "title")
+
+
+@pytest.mark.parametrize("titre,attendu", [
+    ("Chaine DID VX3 Or - 520", "520"),    # pas de chaîne
+    ("Couronne JT acier - 45", "EU45"),    # nombre de dents (lu comme pointure)
+])
+def test_une_valeur_numerique_du_titre_est_gardee(titre, attendu):
+    """Les pièces sont un chantier à part (décision de la propriétaire, 14/09).
+
+    520, 525 et 530 sont des pas de chaîne, 14 à 20 des nombres de dents : de
+    vraies caractéristiques. Les supprimer confondrait deux chaînes différentes.
+    Le filtre ne vise que les MOTS, pas les nombres.
+    """
+    assert size_code(None, titre, None, None)[0] == attendu
+
+
+def test_les_autres_sources_gardent_leur_liberte():
+    """Le flux est déclaré par le marchand, l'URL et la référence occupent une
+    position structurée. Seul le titre est de la prose : lui seul est filtré."""
+    assert size_code("S/M", None, None, None) == ("SM", "feed")
+    assert size_code(None, None, "https://x/produit-taille-xl", None)[1] == "url"
+
+
+# --- le tiret doit être détaché ----------------------------------------------
+#
+# Un vrai suffixe de taille est séparé du nom ; une génération de modèle y est
+# collée. Signalé par la propriétaire le 14/09/2026 : une protection cervicale
+# Alpinestars affichait « taille 2 », lue dans « BNS TECH-2 », à côté des XS/M
+# et L/XL que six autres marchands déclarent proprement.
+#
+# Mesuré : sur 50 666 tailles lues dans un titre, 39 216 venaient d'un tiret
+# collé — des générations — contre 11 103 d'un tiret détaché, qui sont de
+# vraies caractéristiques (pas de chaîne, nombre de rayons, épaisseur de joint).
+
+@pytest.mark.parametrize("titre", [
+    "ALPINESTARS Neck Brace BNS TECH-2",        # génération, pas une taille
+    "Casque Shoei GT-Air 2",
+    "HELSTONS Blouson STONER EVO AIR Tissu-MESH",
+])
+def test_un_tiret_colle_est_une_generation_pas_une_taille(titre):
+    assert size_code(None, titre, None, None) == ("", "")
+
+
+@pytest.mark.parametrize("titre,attendu", [
+    ("Blouson Helstons Stoner - XL", "XL"),
+    ("Casque Shark Skwal - 59", "59CM"),
+    ("Couronne JT. acier standard 2022 - 525", "525"),
+])
+def test_un_tiret_detache_porte_une_vraie_valeur(titre, attendu):
+    assert size_code(None, titre, None, None)[0] == attendu
