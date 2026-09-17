@@ -8,6 +8,7 @@ translates, so no template ever hard-codes a label.
 from __future__ import annotations
 
 import re
+import unicodedata
 
 from mcpipe import textnorm as tn
 
@@ -56,10 +57,94 @@ def size_key(code: str) -> tuple[int, str]:
 
 
 def price(value: object) -> str:
-    """49.9 -> '49,90 €'. French sites use a comma; a dot reads as an error."""
+    """49.9 -> '49,90 €'. French sites use a comma; a dot reads as an error.
+
+    Les deux espaces sont INSÉCABLES, et ce n'est pas de la typographie : avec
+    des espaces ordinaires, le navigateur a le droit de couper avant le « € ».
+    Il le faisait — sur une carte étroite, « dès 126,99 » restait sur la ligne
+    et le « € » tombait seul en dessous. Mesuré : le bloc prix passait de 19,5 à
+    39 px de haut, sur 46 cartes de la page d'accueil.
+
+    Corrigé ici plutôt que classe par classe : un prix écrit à un endroit qu'on
+    a oublié de styler reste protégé.
+    """
     if value is None:
         return ""
-    return f"{float(value):,.2f}".replace(",", " ").replace(".", ",") + " €"
+    return (f"{float(value):,.2f}"
+            .replace(",", " ")      # milliers : espace fine insécable
+            .replace(".", ",")
+            + " €")                 # avant l'euro : espace insécable
+
+
+# Une taille COLLÉE EN FIN de titre marchand : « Housse moto Ixon BLANKY - M »,
+# « Housse Moto Ixon Blanky (Taille M) ». Le titre annonce alors UNE taille sur
+# une fiche qui en compare quatre — il ment au visiteur avant même qu'il lise le
+# tableau. Signalé par la propriétaire le 14/09/2026.
+#
+# Volontairement étroit. La règle d'affichage du projet est « le titre du
+# marchand, tel quel » (décision du 13/09) : une version antérieure qui retirait
+# la marque, la couleur et le nom de rayon lisait mieux sur certaines pages et
+# en abîmait d'autres — « Cuir Swallow T7 ». On n'enlève donc QUE ce qui suit un
+# tiret ou une parenthèse en toute fin, et seulement si c'est une taille
+# reconnue. « Cuir Swallow T7 » n'a pas de séparateur : il n'est pas touché.
+_TAILLE_FINALE = re.compile(
+    r"\s*[-–—(]\s*(?:taille\s*)?"
+    r"(?:3XS|2XS|XXS|XS|S|M|L|XL|XXL|[2-6]XL|TU)\s*\)?\s*$",
+    re.IGNORECASE,
+)
+
+
+def sans_taille_finale(titre: str) -> str:
+    """Retire une taille terminale d'un titre marchand. Ne touche à rien d'autre.
+
+    Rend le titre inchangé si l'amputation laissait moins de trois caractères :
+    un titre vide est pire qu'un titre qui annonce une taille.
+    """
+    coupe = _TAILLE_FINALE.sub("", titre).strip(" -–—(")
+    return coupe if len(coupe) >= 3 else titre
+
+
+_SEPARATEURS = (" - ", " – ", " — ", " | ")
+
+
+def sans_queue_de_rayon(titre: str, brand_code: str) -> str:
+    """Retire la queue « nom de rayon + marque » que certains marchands collent.
+
+        Casque Cross Alpinestars SM3 Falcon Rouge - Casque Cross ALPINESTARS
+        Bottes TCX Infinity 3 Gore-Tex Noir - Bottes et chaussures TCX
+
+    La condition est la RÉPÉTITION DE LA MARQUE dans la queue, et c'est elle qui
+    rend la règle sûre. Couper à tous les tirets perdrait de vraies
+    informations — « Casque Scorpion EXO-RACE AIR - SOLID », où SOLID est le
+    coloris — et c'est précisément l'erreur qui avait fait rejeter le
+    reconstructeur de noms le 13/09. Une queue qui réécrit la marque, elle,
+    n'apprend jamais rien : le nom de la marque est déjà affiché à côté.
+
+    Mesuré sur les 28 716 fiches comparables le 14/09/2026 : 1 538 titres
+    concernés (5 %), et 24 coupes tirées au hasard relues une par une — 24
+    queues de rayon, aucune perte.
+
+    Deux garde-fous : on ne coupe qu'au DERNIER séparateur, et jamais si le
+    titre restant tombe sous huit caractères.
+    """
+    marque = _sans_signes(brand_code)
+    if len(marque) < 3:
+        return titre
+    for sep in _SEPARATEURS:
+        i = titre.rfind(sep)
+        if i > 0 and marque in _sans_signes(titre[i + len(sep):]):
+            court = titre[:i].strip()
+            if len(court) >= 8:
+                return court
+    return titre
+
+
+def _sans_signes(s: str) -> str:
+    """Minuscules, sans accents, sans espaces ni tirets — pour comparer
+    « SW-Motech », « sw motech » et « swmotech » comme un seul mot."""
+    plat = unicodedata.normalize("NFD", (s or "").lower())
+    return "".join(c for c in plat
+                   if unicodedata.category(c) != "Mn" and c.isalnum())
 
 
 def product_title(brand: str, model: str, colour_code: str | None) -> str:
@@ -212,3 +297,105 @@ def display_name(
         out.append(w if (w[:1].isupper() and not w.isupper()) or any(c.isdigit() for c in w)
                    else w.capitalize() if w.islower() or w.isupper() and len(w) > 4 else w)
     return " ".join(out)
+
+
+# The owner's merchant order, the same one `product_stats` uses to pick a title
+# (sql/009). Editorial, not technical: it decides which wording a visitor reads
+# first when several are equally true.
+MARCHANDS_ORDRE = {
+    "motoblouz": 1, "speedway": 2, "labecanerie": 3,
+    "fcmoto": 4, "maxxess": 5,
+}
+
+
+def equivalences_tailles(rows: list[dict]) -> dict[str, str]:
+    """Size labels the barcode proves are the same size, merged into one.
+
+    Four merchants sell the same Helstons Swallow gloves on the same four
+    barcodes, and name the sizes `6 7 8 9`, `T6 T7 T8 T9` and `XS S M L`. The
+    page offered eight filter buttons for four real sizes: clicking `6` hid
+    Speedway, clicking `XS` hid everyone else, and the comparison — the only
+    thing the site is for — stopped working.
+
+    The barcode is the authority (the owner's rule: sizes are never decided by
+    guessing, only by what another merchant says about the same barcode). Two
+    labels on one barcode are therefore one size, shown as `XS / 6`.
+
+    Returns {label: merged label}; a label nothing merges with maps to itself.
+
+    Two guards:
+
+    - **Parent barcodes.** A merchant carrying several sizes under one barcode
+      is using a code that covers a range, so that barcode proves nothing about
+      sizes and is skipped entirely. Without this, one parent code would fuse
+      `S`, `M` and `L` into a single button — the exact opposite of the fix.
+    - **Two labels at most**, in merchant order, per the owner's rule: beyond
+      two the button stops being readable and the extra wordings add nothing.
+    """
+    par_gtin: dict[str, dict[str, set[str]]] = {}
+    priorite: dict[str, int] = {}
+
+    for o in rows:
+        etiquette = size_display(o.get("size_code"))
+        if not etiquette:
+            continue
+        rang = MARCHANDS_ORDRE.get(o.get("merchant", ""), 9)
+        priorite[etiquette] = min(priorite.get(etiquette, 99), rang)
+        if gtin := o.get("gtin"):
+            par_gtin.setdefault(gtin, {}).setdefault(o["merchant"], set()).add(etiquette)
+
+    parent: dict[str, str] = {e: e for e in priorite}
+
+    def racine(x: str) -> str:
+        while parent[x] != x:
+            parent[x] = parent[parent[x]]
+            x = parent[x]
+        return x
+
+    for par_marchand in par_gtin.values():
+        if any(len(v) > 1 for v in par_marchand.values()):
+            continue  # code-barres parent : ne prouve rien
+        etiquettes = sorted({e for v in par_marchand.values() for e in v})
+        for autre in etiquettes[1:]:
+            a, b = racine(etiquettes[0]), racine(autre)
+            if a != b:
+                parent[b] = a
+
+    classes: dict[str, set[str]] = {}
+    for e in parent:
+        classes.setdefault(racine(e), set()).add(e)
+
+    fusion: dict[str, str] = {}
+    for membres in classes.values():
+        ordonne = sorted(membres, key=lambda e: (priorite[e], size_key(e)))
+        etiquette = " / ".join(ordonne[:2])
+        fusion.update(dict.fromkeys(membres, etiquette))
+    return fusion
+
+
+# --- le niveau d'une remise -------------------------------------------------
+#
+# Demandé par la propriétaire le 17/09/2026 : montrer d'un coup d'œil qu'une
+# affaire est bonne. Trois paliers, ses valeurs :
+#
+#   0 – 20 %   sobre    l'écart existe, il n'est pas remarquable
+#   20 – 35 %  orange   l'écart mérite d'être vu
+#   plus de 35 % rouge  l'écart est le vrai sujet de la page
+#
+# Ces bornes sont écrites ICI et nulle part ailleurs. La page les rend une
+# première fois côté serveur, puis le script les recalcule à chaque choix de
+# taille : deux copies de la même règle finiraient par diverger, et c'est la
+# couleur — donc la promesse faite au visiteur — qui se tromperait.
+SEUILS_REMISE = (20, 35)
+
+
+def niveau_remise(pourcentage: float | None) -> str:
+    """« sobre », « orange » ou « rouge » selon l'ampleur de l'écart."""
+    if pourcentage is None:
+        return ""
+    bas, haut = SEUILS_REMISE
+    if pourcentage > haut:
+        return "rouge"
+    if pourcentage >= bas:
+        return "orange"
+    return "sobre"
