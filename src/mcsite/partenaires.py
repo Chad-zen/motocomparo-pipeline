@@ -90,11 +90,39 @@ PARTENAIRES: list[dict[str, str]] = [
         # revenus d'un format iraient au compteur de l'autre.
         "clic": "https://pkw.motoblouz.com/?P41221589E6F1B3",
         "regie": "https://pkw.motoblouz.com/?a=P41221589E6F1B3",
-        # Motoblouz sert son visuel depuis son propre domaine de tracking : ici
-        # les deux adresses coïncident, il n'y a pas de tiers supplémentaire.
-        "image": "https://pkw.motoblouz.com/?a=P41221589E6F1B3",
         "clic_large": "https://pkw.motoblouz.com/?P41221589E6F1B6",
-        "large": "https://pkw.motoblouz.com/?a=P41221589E6F1B6",
+        # PAS D'IMAGE, ET C'EST UNE CORRECTION D'UNE ERREUR QUI ÉTAIT ÉCRITE ICI.
+        #
+        # Le commentaire d'origine disait : « Motoblouz sert son visuel depuis
+        # son propre domaine de tracking : ici les deux adresses coïncident, il
+        # n'y a pas de tiers supplémentaire ». C'était juste sur la forme et
+        # faux sur le fond. La question n'est pas de savoir s'il y a un tiers,
+        # c'est de savoir si un cookie de mesure est déposé sans clic. Mesuré
+        # le 17/09/2026 :
+        #
+        #   curl -D - https://pkw.motoblouz.com/?a=P41221589E6F1B3
+        #   → 302 vers pkw.motoblouz.com/0/4641/img_11_3_467.gif
+        #   → Set-Cookie: kwknc, kwknc_ssc, kwkncses, kwkncses_ssc
+        #                 (60 jours, domain=motoblouz.com)
+        #   → X-TRK-KWANKO: no consent mode activated
+        #
+        # La redirection mène à un GIF servi par le MÊME domaine de suivi : il
+        # n'existe pas d'adresse marchande vers laquelle se rabattre. Or la page
+        # « À propos » promet qu'aucun cookie n'est déposé et qu'aucun outil de
+        # mesure n'est employé, avec trois réserves écrites — dont aucune ne
+        # couvre un pixel de régie déclenché à l'affichage, chez un visiteur qui
+        # n'a rien cliqué et n'a rien accepté.
+        #
+        # Motoblouz sort donc de la ROTATION D'IMAGES, et seulement d'elle. Son
+        # lien de clic reste (il ne part qu'au clic, exactement comme les
+        # boutons « Voir l'offre » déjà déclarés) et ses fiches produits sont
+        # inchangées. Ce qui est perdu : l'affichage de sa bannière. Ce qui ne
+        # l'est pas : le revenu, qui se fait au clic et à la vente.
+        #
+        # Pour la faire revenir, il faut un visuel hébergé par le marchand —
+        # à demander à Kwanko. `EMPREINTE_REGIE=1` la rétablit aussi, mais
+        # accepte alors le pixel : c'est une décision de la propriétaire, pas
+        # un réglage technique.
     },
 ]
 
@@ -124,5 +152,9 @@ def bandeaux(format: str = "carre") -> list[dict[str, Any]]:
                       else (p["large"] if large else p["image"])),
             "large": large,
         }
+        # Un partenaire sans visuel utilisable est ÉCARTÉ, pas affiché vide.
+        # `EMPREINTE_REGIE` le ramène, puisque dans ce mode c'est justement le
+        # pixel de la régie qui est servi et assumé.
         for p in PARTENAIRES
+        if EMPREINTE_REGIE or p.get("large" if large else "image")
     ]

@@ -3054,6 +3054,72 @@ select:focus-visible, textarea:focus-visible, summary:focus-visible,
 /* 728x90 : entre deux étagères, une bande ponctue la page là où un pavé de
    250 px la couperait en deux. Le cadre suit l'image et non l'inverse — sur un
    téléphone elle descend à 320 px de large et sa hauteur suit. */
-.pub--large { max-width: 728px; }
-.pub--large .pub__cadre { min-height: 0; }
+/* La bannière large prend TOUTE la largeur du contenu, comme les étagères
+   au-dessus et au-dessous d'elle : posée à 728 px au milieu d'une page qui en
+   fait 1 140, elle ressemblait à une vignette oubliée entre deux rangées.
+   Demandé par la propriétaire.
+
+   ⚠️ Le visuel fourni par les régies fait 728 x 90 : étiré à 1 140 px il est
+   agrandi de moitié et perd en netteté. Le vrai remède est un visuel plus
+   large (970 x 90 existe chez les deux régies) ; en attendant, c'est la
+   largeur qui prime, parce qu'une bannière qui n'a pas la largeur de la page
+   se lit comme une erreur de gabarit.
+
+   `aspect-ratio` réserve la place AVANT que l'image arrive : sans elle, la
+   page sautait de 141 px sous le doigt au moment du chargement. Elle est
+   posée sur le cadre, pas sur l'image, pour qu'un visuel d'un autre format ne
+   soit pas déformé. */
+.pub--large { max-width: 100%; }
+.pub--large .pub__cadre { min-height: 0; aspect-ratio: 728 / 90; }
 .pub--large .pub__cadre img { border-radius: 10px; }
+
+/* --- La bande de raccourcis, sous l'affiche --------------------------------
+   Douze rayons atteignables sans avoir à faire défiler la page ni ouvrir le
+   tiroir. Demandée par la propriétaire d'après une maquette.
+
+   Elle défile HORIZONTALEMENT dans son propre cadre, comme les étagères : une
+   bande qui passe à la ligne ferait trois rangées de cases sur mobile et
+   repousserait vers le bas tout le reste de la page — c'est-à-dire ce que la
+   visite venait chercher. */
+.bande { margin: 18px 0 26px; }
+.bande__oeil {
+  margin: 0 0 10px;
+  font-size: 12px; font-weight: 800; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--muted);
+}
+.bande__piste {
+  list-style: none; margin: 0; padding: 0 0 8px;
+  display: grid; grid-auto-flow: column; grid-auto-columns: 96px;
+  gap: 10px; overflow-x: auto;
+  scroll-snap-type: x proximity;
+}
+.bande__piste > * { scroll-snap-align: start; }
+.bande__case {
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  height: 100%; padding: 12px 6px;
+  background: var(--card); border: 1px solid #e3e8f1; border-radius: 12px;
+  color: var(--nuit); text-decoration: none; text-align: center;
+  transition: border-color .15s, transform .15s;
+}
+.bande__case:hover, .bande__case:focus-visible {
+  border-color: var(--or); transform: translateY(-2px);
+}
+/* Le picto hérite de `color`, donc il suit le survol et ne peut jamais se
+   retrouver invisible sur son fond. */
+.bande__picto { width: 28px; height: 28px; flex: none; }
+.bande__nom {
+  font-size: 11.5px; font-weight: 700; line-height: 1.25;
+  /* Deux lignes au plus : « Carénage & carrosserie » en ferait quatre et
+     déformerait toute la rangée, puisque les cases partagent leur hauteur. */
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.bande__case--tout { border-style: dashed; color: var(--muted); }
+
+@media (max-width: 760px) {
+  /* Des cases un peu plus étroites : sur un écran de 375 px, la quatrième doit
+     dépasser du bord. Une rangée qui s'arrête pile au bord ne dit pas qu'elle
+     défile, et personne ne va la chercher. */
+  .bande__piste { grid-auto-columns: 84px; gap: 8px; }
+  .bande { margin: 14px 0 20px; }
+}

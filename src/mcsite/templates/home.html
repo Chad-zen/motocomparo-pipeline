@@ -66,6 +66,13 @@
 
 {% block contenu %}
 {% from "_grille.html" import actions %}
+{% import "_categories.html" as cat %}
+
+{# --- Les raccourcis de rayon ----------------------------------------------
+   Posés juste sous l'affiche, emplacement choisi par la propriétaire d'après
+   une maquette. `nav` porte déjà l'arbre des catégories, classé par nombre de
+   fiches : la bande ne coûte donc aucune requête de plus. #}
+{{ cat.bande(nav, 12) }}
 
 {# --- Là où comparer rapporte le plus --------------------------------------
    L'équivalent honnête de la rangée « bons plans ». Le pourcentage n'est pas

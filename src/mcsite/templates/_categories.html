@@ -1,0 +1,81 @@
+{# La bande de raccourcis posée sous l'affiche, demandée par la propriétaire
+   d'après une maquette.
+
+   POURQUOI DES PICTOS ICI, ALORS QUE LES PAVÉS DE RAYON EMPLOIENT DES PHOTOS.
+   Ce n'est pas une contradiction, c'est une différence de taille. Un pavé de
+   rayon fait 200 px et une vraie photo de casque y dit « casque » mieux que
+   n'importe quel dessin — c'est la décision prise pour les pavés et pour le
+   tiroir, et elle tient. Ici la case fait 76 px : à cette taille une photo de
+   produit sur fond blanc devient une tache grise, et douze taches grises
+   alignées ne se distinguent plus les unes des autres. Le trait, lui, reste
+   lisible à 28 px.
+
+   Les pictos sont dessinés à la main plutôt que chargés d'une bibliothèque :
+   douze traits valent moins qu'une dépendance extérieure sur une page qui ne
+   charge aujourd'hui aucun script tiers.
+
+   `stroke="currentColor"` partout : la couleur vient de la CSS, donc du survol
+   et du thème, et aucun picto ne peut se retrouver invisible sur son fond. #}
+
+{% macro picto(code) %}
+{% set traits = {
+  'helmet':       'M4 14a8 8 0 0 1 16 0v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zM5 13h7a4 4 0 0 0 4-4',
+  'jacket':       'M8 3 4 6v15h16V6l-4-3M8 3l4 4 4-4M12 7v14M7 10v4',
+  'gloves':       'M6 21V10a2 2 0 0 1 4 0V4a1.5 1.5 0 0 1 3 0v5m0 0V5a1.5 1.5 0 0 1 3 0v6m0 0a1.5 1.5 0 0 1 3 0v4a6 6 0 0 1-6 6H6',
+  'pants':        'M6 3h12l-1 18h-4l-1-9-1 9H7z',
+  'boots':        'M6 3h5v10l7 3a3 3 0 0 1 2 3v2H6zM11 16H6',
+  'luggage':      'M3 8h18v12H3zM8 8V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v3M3 13h18',
+  'exhaust':      'M3 12h7M10 8h8a3 3 0 0 1 3 3v2a3 3 0 0 1-3 3h-8zM14 8v8',
+  'protection':   'M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6zM9 12l2 2 4-4',
+  'bodywork':     'M3 17l4-9h10l4 9M7 8l1-3h6l1 3M6 17h12',
+  'electronics':  'M9 3v4M15 3v4M7 7h10v6a5 5 0 0 1-10 0zM12 18v3',
+  'transmission': 'M12 4a8 8 0 1 0 0 16 8 8 0 0 0 0-16zM12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6zM12 2v3M12 19v3M2 12h3M19 12h3',
+  'brakes':       'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM8 6.5l1 1M16 6.5l-1 1M8 17.5l1-1M16 17.5l-1-1',
+  'goggles':      'M3 10a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v3a3 3 0 0 1-3 3h-3l-3-3-3 3H6a3 3 0 0 1-3-3zM3 10 1 8M21 10l2-2',
+  'suit':         'M8 3 5 6v15h14V6l-3-3M8 3l4 3 4-3M12 6v15',
+  'jersey':       'M8 3 4 6l2 3 2-1v10h8V8l2 1 2-3-4-3-4 2z',
+  'tyres':        'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zM12 3v4M12 17v4M3 12h4M17 12h4',
+  'engine':       'M4 9h3l2-2h5l2 2h4v8h-3l-2 2H9l-2-2H4zM8 4h6M11 4v3',
+  'suspension':   'M12 2v4M12 18v4M9 6h6l-6 3 6 3-6 3 6 3H9',
+  'maintenance':  'M15 4a4 4 0 0 0-5 5L4 15v5h5l6-6a4 4 0 0 0 5-5l-3 3-2-2z',
+  'accessories':  'M12 3l2.5 6H21l-5 4 2 7-6-4-6 4 2-7-5-4h6.5z',
+  'apparel_casual': 'M8 3 4 6v5h3v10h10V11h3V6l-4-3M8 3a4 4 0 0 0 8 0'
+} %}
+<svg class="bande__picto" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+     stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"
+     aria-hidden="true" focusable="false">
+  {# Le losange est le repli : un rayon sans picto reste cliquable et gardé, il
+     ne disparaît pas de la bande et ne laisse pas non plus un trou. #}
+  <path d="{{ traits.get(code, 'M12 3l9 9-9 9-9-9z') }}"></path>
+</svg>
+{% endmacro %}
+
+{% macro bande(rayons, combien=12) %}
+{% if rayons %}
+<nav class="bande" aria-label="Catégories populaires">
+  <p class="bande__oeil">Catégories populaires</p>
+  <ul class="bande__piste">
+    {% for r in rayons[:combien] %}
+    <li>
+      <a class="bande__case" href="/c/{{ r.code }}">
+        {{ picto(r.code) }}
+        {# `label_fr` tel qu'il est en base, jamais réécrit à la main : la
+           maquette proposait « Helmes » et « Mancliqes ». #}
+        <span class="bande__nom">{{ r.label_fr }}</span>
+      </a>
+    </li>
+    {% endfor %}
+    <li>
+      <a class="bande__case bande__case--tout" href="/produits">
+        <svg class="bande__picto" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+             stroke-linejoin="round" aria-hidden="true" focusable="false">
+          <path d="M4 6h16M4 12h16M4 18h10"></path>
+        </svg>
+        <span class="bande__nom">Tout voir</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+{% endif %}
+{% endmacro %}
