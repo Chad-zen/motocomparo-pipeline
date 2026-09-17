@@ -26,23 +26,60 @@ from dataclasses import dataclass
 
 from .db import connect
 
-# (field name, SQL expression, optional SQL filter excluding "no signal" rows)
-# — same exclusions `match.py`'s GTIN conflict gate uses, so this checks the
-# same thing the gate is supposed to guarantee, not a stricter version of it.
+
+# Same exclusions `match.py`'s GTIN conflict gate uses, so this checks the same
+# thing the gate is supposed to guarantee, not a stricter version of it.
 #
 # genre_age is split into gender ('F'/'H'/'U' — 'U' excluded, genuinely no
 # signal) and child_age ('A'/'E' — NOT excluded: 'A' is a *default*, not
 # proof, in textnorm.genre_age, so an A/E mix is always worth flagging; this
 # was the exact shape of a real bug — see match.py's `conflicts` CTE).
 # category_id excludes 25 (`unknown`, the classifier's catch-all).
-_INVARIANTS: list[tuple[str, str, str | None]] = [
-    ("category_id", "s.category_id", "s.category_id != 25"),
-    ("primary_colour", "s.primary_colour", "s.primary_colour IS NOT NULL"),
-    ("genre", "left(s.genre_age, 1)", "left(s.genre_age, 1) != 'U'"),
-    ("child_age", "right(s.genre_age, 1)", None),
-    ("is_pack", "s.is_pack", None),
-    ("model_year", "s.model_year", "s.model_year IS NOT NULL"),
-    ("brand_code", "s.brand_code", "s.brand_code IS NOT NULL"),
+@dataclass(frozen=True)
+class Invariant:
+    """One "must not vary within a product" rule.
+
+    `filter_clause` drops rows carrying no signal (a NULL, a sentinel) so they
+    cannot look like a disagreement. `tolerance` is the opposite: an SQL
+    predicate over the aggregated `distinct_values` that says a variation is
+    acceptable after all. Only colour needs one today — see `_COULEURS_COMPATIBLES`.
+    """
+
+    field: str
+    expr: str
+    filter_clause: str | None = None
+    tolerance: str | None = None
+
+
+# Colour is the one field where two different strings are not automatically a
+# contradiction, so it carries a tolerance. The expression below is `match.py`'s
+# inclusion rule, written the same way on purpose: this module exists to check
+# that the result still obeys the gate, and a checker enforcing a STRICTER rule
+# than the gate reports failures that are not failures. It fired 2,726 times the
+# night the inclusion rule shipped, every one of them an inclusion
+# (['BK','BK|MAT'], ['BK-SI','SI']) and not one a real contradiction.
+#
+# Every pair must be compatible, not merely one "most complete" value: with
+# `BK`, `BK|MAT` and `BK|GLO` on one product, a maximal-element test would let
+# `BK` bridge matte to gloss, which the owner's rules treat as two products.
+_COULEURS_COMPATIBLES = """
+    (SELECT bool_and(
+            string_to_array(replace(a, '|', '-'), '-')
+         @> string_to_array(replace(b, '|', '-'), '-')
+         OR string_to_array(replace(b, '|', '-'), '-')
+         @> string_to_array(replace(a, '|', '-'), '-'))
+     FROM unnest(v.distinct_values) a, unnest(v.distinct_values) b)
+"""
+
+_INVARIANTS: list[Invariant] = [
+    Invariant("category_id", "s.category_id", "s.category_id != 25"),
+    Invariant("primary_colour", "s.primary_colour", "s.primary_colour IS NOT NULL",
+              tolerance=_COULEURS_COMPATIBLES),
+    Invariant("genre", "left(s.genre_age, 1)", "left(s.genre_age, 1) != 'U'"),
+    Invariant("child_age", "right(s.genre_age, 1)"),
+    Invariant("is_pack", "s.is_pack"),
+    Invariant("model_year", "s.model_year", "s.model_year IS NOT NULL"),
+    Invariant("brand_code", "s.brand_code", "s.brand_code IS NOT NULL"),
 ]
 
 
@@ -54,18 +91,26 @@ class Violation:
     example_offer_ids: list[int]
 
 
-def _query(expr: str, filter_clause: str | None) -> str:
-    filt = f" FILTER (WHERE {filter_clause})" if filter_clause else ""
+def _query(inv: Invariant) -> str:
+    filt = f" FILTER (WHERE {inv.filter_clause})" if inv.filter_clause else ""
+    # the tolerance needs the aggregate, so it is applied one level out rather
+    # than in HAVING, where `distinct_values` does not exist yet
+    garde = f"WHERE NOT coalesce({inv.tolerance}, false)" if inv.tolerance else ""
     return f"""
-        SELECT o.product_id,
-               array_agg(DISTINCT {expr}){filt} AS distinct_values,
-               array_agg(o.id ORDER BY o.id) AS example_offer_ids
-        FROM raw_offer o
-        JOIN offer_signature s ON s.raw_offer_id = o.id
-        WHERE o.product_id IS NOT NULL
-          AND (%(product_ids)s::bigint[] IS NULL OR o.product_id = ANY(%(product_ids)s))
-        GROUP BY o.product_id
-        HAVING count(DISTINCT {expr}){filt} > 1
+        SELECT v.product_id, v.distinct_values, v.example_offer_ids
+        FROM (
+            SELECT o.product_id,
+                   array_agg(DISTINCT {inv.expr}){filt} AS distinct_values,
+                   array_agg(o.id ORDER BY o.id) AS example_offer_ids
+            FROM raw_offer o
+            JOIN offer_signature s ON s.raw_offer_id = o.id
+            WHERE o.product_id IS NOT NULL
+              AND (%(product_ids)s::bigint[] IS NULL
+                   OR o.product_id = ANY(%(product_ids)s))
+            GROUP BY o.product_id
+            HAVING count(DISTINCT {inv.expr}){filt} > 1
+        ) v
+        {garde}
     """
 
 
@@ -88,11 +133,12 @@ def check_match_invariants(
     try:
         violations = []
         with conn.cursor() as cur:
-            for field, expr, filter_clause in _INVARIANTS:
-                cur.execute(_query(expr, filter_clause), {"product_ids": product_ids})
+            for inv in _INVARIANTS:
+                cur.execute(_query(inv), {"product_ids": product_ids})
                 for product_id, distinct_values, example_offer_ids in cur.fetchall():
                     violations.append(
-                        Violation(product_id, field, distinct_values, example_offer_ids)
+                        Violation(product_id, inv.field, distinct_values,
+                                  example_offer_ids)
                     )
         return violations
     finally:

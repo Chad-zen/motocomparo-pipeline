@@ -34,3 +34,13 @@ Thumbs.db
 
 # local scratch / one-off analysis
 .scratch/
+
+# Journaux et relevés de mesure : utiles sur la machine, pas dans le dépôt.
+ops/*.log
+ops/*.json
+
+# Les journaux du serveur de développement (`run_site.py`). Ils grossissent à
+# chaque lancement, changent à chaque requête, et ne disent rien à personne
+# d'autre qu'à la machine qui les a écrits.
+site.log
+site.err

@@ -45,6 +45,21 @@ CATEGORIES: list[tuple[int, int | None, str, str]] = [
     (23, None, "apparel_casual", "Vêtements casual / lifestyle"),
     (24, None, "accessories", "Accessoires"),
     (25, None, "unknown", "Non classé"),
+    # Ajoutés le 14/09/2026, après avoir mesuré ce qui tombait dans « non
+    # classé » : 10 400 offres d'ÉQUIPEMENT que la taxonomie n'avait tout
+    # simplement pas de case pour recevoir. La v1 avait les deux rayons.
+    (26, None, "goggles", "Masques & lunettes"),
+    (27, None, "jersey", "Maillots cross"),
+    # Ajoutés le 14/09/2026. Le rayon 11 « Protections » était un fourre-tout de
+    # 44 350 offres qui mélangeait ce qui protège le PILOTE (dorsales, gilets,
+    # cervicales) et ce qui protège la MOTO (pare-carters, sabots moteur,
+    # protège-réservoir). Conséquence visible : sur la fiche d'une protection
+    # cervicale Alpinestars, l'étagère « dans la même gamme de prix » proposait
+    # un pare-carter SW-Motech et une protection moteur R&G — même prix, même
+    # rayon, aucun rapport. Aucun filtre ne pouvait les séparer tant qu'ils
+    # portaient le même numéro.
+    (28, 11, "protection.pilote", "Protections du pilote"),
+    (29, 11, "protection.moto", "Protections de la moto"),
 ]
 
 _UNKNOWN_ID = 25
@@ -57,6 +72,15 @@ _RULES: list[tuple[re.Pattern, int]] = [
     (re.compile(r"\bcasque\b.*(modulable|flip|modular)"), 4),
     (re.compile(r"\bcasque\b.*cross|cross.*\bcasque\b"), 5),
     (re.compile(r"\bcasque\b|\bhelmet\b"), 1),
+    # Avant les vêtements : « maillot cross » n'est ni un blouson ni un
+    # tee-shirt, et « masque » n'était attrapé par aucune règle. 7 293 et
+    # 2 156 offres respectivement, toutes en « non classé » jusqu'ici.
+    (re.compile(r"\bmaillots?\b.*\b(cross|motocross|mx)\b"
+                r"|\b(cross|motocross|mx)\b.*\bmaillots?\b"), 27),
+    (re.compile(r"\bmasques?\b|\bgoggles?\b|\blunettes?\b"), 26),
+    # Les frontières de mot ne sont pas décoratives : `caps?` sans elles
+    # attrape « capot » et « capacité ».
+    (re.compile(r"\bcasquettes?\b|\bcaps\b|\bbonnets?\b"), 23),
     (re.compile(r"\bblouson\b|\bveste\b|\bjacket\b(?!.*helmet)"), 6),
     (re.compile(r"\bpantalon\b|\bjean\b|\bpants\b"), 7),
     (re.compile(r"\bgants?\b|\bgloves?\b"), 8),
@@ -100,9 +124,20 @@ def classify(raw_category: str | None, title: str | None = None) -> int:
     return _UNKNOWN_ID
 
 
-def categorize() -> CategorizeResult:
+def categorize(remap_unknown: bool = False) -> CategorizeResult:
     """Seed `category`, then map every merchant `raw_category` path seen in
-    `raw_offer` into `category_map` (cached, so `match` is a plain join)."""
+    `raw_offer` into `category_map` (cached, so `match` is a plain join).
+
+    `remap_unknown` re-runs the rules over the paths currently mapped to the
+    catch-all. C'est le complément indispensable d'une règle ajoutée : sans lui,
+    un chemin déjà rangé en « non classé » y reste pour toujours, puisque la
+    requête ci-dessous ne regarde que les chemins JAMAIS vus. Deux rayons ont
+    ainsi été créés (masques, maillots cross) sans qu'une seule offre les
+    rejoigne — le genre de correctif qui a l'air appliqué et ne l'est pas.
+
+    Il ne touche QUE les chemins actuellement à 25 : un chemin déjà rangé
+    ailleurs n'est jamais réévalué, donc cette option ne peut rien déclasser.
+    """
     t0 = time.time()
     conn = connect()
     try:
@@ -131,6 +166,16 @@ def categorize() -> CategorizeResult:
                 """
             )
             pairs = cur.fetchall()
+
+            if remap_unknown:
+                cur.execute(
+                    """
+                    SELECT DISTINCT cm.merchant_id, cm.raw_path
+                    FROM category_map cm WHERE cm.category_id = %s
+                    """,
+                    (_UNKNOWN_ID,),
+                )
+                pairs += cur.fetchall()
             for merchant_id, raw_category in pairs:
                 cat_id = classify(raw_category)
                 cur.execute(

@@ -18,6 +18,7 @@ Most stages are not implemented yet — this is the skeleton. See docs/roadmap.m
 from __future__ import annotations
 
 import os
+import sys
 from pathlib import Path
 
 import typer
@@ -80,6 +81,7 @@ def fetch(
     dest = _feeds_dir()
     max_age = None if fresh else 3 * 3600
     total_bytes = 0
+    economise = 0
 
     for f in feeds:
         console.print(f"[bold]{f.code}[/] ...", end=" ")
@@ -96,13 +98,23 @@ def fetch(
             console.print(f"[red]FAILED[/] {exc}")
             continue
 
-        total_bytes += res.bytes
-        if res.from_cache:
+        # Ce qui est compté, c'est ce qui a VRAIMENT transité. Un flux revalidé
+        # en 304 pèse zéro : le confondre avec un téléchargement ferait croire
+        # qu'on tire 925 Mo à chaque passage, et le total ne servirait plus à
+        # rien — c'est justement ce total qu'on cherche à faire baisser.
+        if res.unchanged:
+            economise += res.bytes
+            console.print(f"[dim]inchangé[/] — 304, {_mb(res.bytes)} évités")
+        elif res.from_cache:
             console.print(f"[dim]cached[/] ({_mb(res.bytes)})")
         else:
+            total_bytes += res.bytes
             console.print(f"[green]ok[/] {_mb(res.bytes)} in {res.seconds:.0f}s")
 
-    console.print(f"\n{_mb(total_bytes)} in {dest}/")
+    console.print(f"\n{_mb(total_bytes)} téléchargés dans {dest}/")
+    if economise:
+        console.print(f"[dim]{_mb(economise)} évités : les marchands ont confirmé"
+                      f" que leur fichier n'avait pas changé.[/]")
 
 
 @app.command()
@@ -186,12 +198,21 @@ def signature(
 
 
 @app.command()
-def categorize() -> None:
-    """Seed the category taxonomy and classify every merchant category path."""
+def categorize(
+    remap: bool = typer.Option(
+        False, "--remap",
+        help="re-run the rules over the paths currently filed as 'unknown'",
+    ),
+) -> None:
+    """Seed the category taxonomy and classify every merchant category path.
+
+    `--remap` est à lancer après avoir ajouté une règle : sans lui, un chemin
+    déjà rangé en « non classé » y reste, et la règle neuve ne sert à rien.
+    """
     from .category import categorize as run_categorize
 
     console.print("categorizing ...", end=" ")
-    res = run_categorize()
+    res = run_categorize(remap_unknown=remap)
     console.print(
         f"[green]ok[/] {res.categories_seeded} categories, "
         f"{res.paths_mapped:,} new paths mapped in {res.seconds:.0f}s"
@@ -202,6 +223,11 @@ def categorize() -> None:
 def match(
     reset: bool = typer.Option(
         False, "--reset", help="undo a previous match run first (dev/re-run only)"
+    ),
+    sans_mpn: bool = typer.Option(
+        False, "--sans-mpn",
+        help="laisser de côté la passe préfixe Maxxess/Moto-Axxe "
+             "(à rejouer ensuite par ops/appliquer_mpn.py)",
     ),
 ) -> None:
     """Cluster raw offers into products (GTIN + item_group_id, v1 scope)."""
@@ -217,12 +243,51 @@ def match(
     cres = run_categorize()
     console.print(f"[green]ok[/] {cres.paths_mapped:,} paths mapped")
 
+    # Pré-vol : PostgreSQL analyse chaque requête sans l'exécuter. Une faute de
+    # syntaxe dans la DERNIÈRE instruction d'un `match` coûte trois quarts
+    # d'heure, puisque la transaction annule tout — c'est arrivé le 14/09/2026,
+    # sur une jointure que PostgreSQL refuse dans un UPDATE. Deux secondes ici
+    # valent mieux que quarante minutes plus loin.
+    console.print("vérification des requêtes ...", end=" ")
+    import subprocess
+
+    pre = subprocess.run(
+        [sys.executable, str(Path(__file__).resolve().parents[2] / "ops" / "valide_sql.py")],
+        capture_output=True, text=True,
+    )
+    if pre.returncode != 0:
+        console.print("[red]refusé[/]")
+        console.print(pre.stdout[-2000:])
+        raise typer.Exit(1)
+    console.print("[green]ok[/]")
+
     console.print("matching ...", end=" ")
-    res = run_match()
+    if sans_mpn:
+        console.print("[yellow]passe préfixe Maxxess/Moto-Axxe laissée de côté[/] "
+                      "— à rejouer ensuite : python ops/appliquer_mpn.py")
+    res = run_match(avec_mpn=not sans_mpn)
     console.print(
         f"[green]ok[/] {res.products_created:,} products, {res.variants_created:,} variants — "
         f"{res.offers_linked_gtin:,} offers via GTIN, {res.offers_linked_item_group:,} via "
         f"item_group, {res.gtin_conflicts} GTIN conflicts sent to review in {res.seconds:.0f}s"
+    )
+    console.print(
+        f"  replis d'identité — genre : {res.replis_genre:,} unité(s), "
+        f"modèle : {res.replis_modele:,} unité(s)"
+    )
+    if res.replis_genre_2:
+        console.print(
+            f"  [yellow]attention : le repli du genre n'est pas stable "
+            f"({res.replis_genre_2:,} unité(s) au second passage)[/]"
+        )
+    console.print(
+        f"  Maxxess + Moto-Axxe rattachés par identité exacte : "
+        f"{res.offers_linked_identite:,} offre(s) par identité exacte, "
+        f"{res.offers_linked_mpn:,} par référence fabricant"
+    )
+    console.print(
+        f"  pièces séparées d'une fiche fourre-tout : "
+        f"{res.pieces_decoupees:,} unité(s)"
     )
 
     # Advisory only: never let a verify-side bug or a real violation turn a
@@ -241,6 +306,26 @@ def match(
             console.print("verify: [green]0 invariant violations[/]")
     except Exception as exc:  # noqa: BLE001 — reporting only, must not fail the run
         console.print(f"[yellow]verify: skipped ({exc})[/]")
+
+
+@app.command("relier-tailles")
+def relier_tailles() -> None:
+    """Recalculer les tailles rattachées aux fiches, sans refaire l'appariement.
+
+    À lancer après un `enrich` qui a changé des tailles — un emprunt par
+    code-barres, une règle corrigée — quand les fiches, elles, n'ont pas bougé.
+    Quelques secondes au lieu des cinquante minutes d'un `match --reset`, et ce
+    sont les mêmes instructions.
+    """
+    from .match import relink_sizes
+
+    console.print("recalcul des tailles rattachées ...", end=" ")
+    r = relink_sizes()
+    console.print(
+        f"[green]ok[/] {r['delies']:,} lien(s) périmé(s) retiré(s), "
+        f"{r['variantes_creees']:,} variante(s) créée(s), "
+        f"{r['liens_crees']:,} lien(s) posé(s)"
+    )
 
 
 @app.command()
@@ -298,6 +383,26 @@ def enrich() -> None:
     # that does not send a size is not hiding it — another merchant selling the
     # very same barcode has written it down. Must run before `match`, which
     # builds the variants.
+    # Le fourre-tout « Protections » découpé : ce qui protège le pilote, ce qui
+    # protège la moto, et ce qui n'était pas une protection du tout.
+    from .enrich import split_protections
+
+    console.print("découpe du rayon « Protections » ...", end=" ")
+    par_rayon = split_protections()
+    noms = {28: "pilote", 29: "moto", 18: "carénage", 24: "accessoires"}
+    console.print(f"[green]ok[/] {sum(par_rayon.values()):,} offre(s) rangée(s)")
+    for cid, n in sorted(par_rayon.items(), key=lambda kv: -kv[1]):
+        console.print(f"  -> {noms.get(cid, cid)}: {n:,}")
+
+    # Accorder les marchands d'un même code-barres : sans cette passe, trois
+    # façons d'écrire « protection cervicale » donnent trois rayons, et le
+    # pipeline détache la fiche. Voir enrich.py.
+    from .enrich import accorder_protections_par_gtin
+
+    console.print("accord des marchands sur un même code-barres ...", end=" ")
+    rallies = accorder_protections_par_gtin()
+    console.print(f"[green]ok[/] {rallies:,} offre(s) ralliée(s)")
+
     from .enrich import borrow_sizes
 
     console.print("borrowing missing sizes from the same barcode ...", end=" ")
@@ -323,6 +428,34 @@ def freshness() -> None:
     console.print(
         f"  products marked stale: {res.products_stale:,}   revived: {res.products_revived:,}"
     )
+
+
+@app.command()
+def promo() -> None:
+    """Read the merchants' own promo pages and refresh `code_promo`.
+
+    Independent of the catalogue stages: it touches no offer and no product, so
+    it can run while the site is up, and on its own schedule (the v1 ran it once
+    a day). Codes that vanished from the merchant's page are withdrawn, not
+    deleted; codes typed by hand in the admin screen are never touched.
+    """
+    from .promo import scan
+
+    console.print("reading the merchants' promo pages ...\n")
+    reports = scan()
+    total = 0
+    for r in reports:
+        console.print(f"[bold]{r.merchant}[/]")
+        for line in r.pages:
+            console.print(f"    [dim]{line}[/]")
+        for line in r.kept:
+            console.print(f"    [green]{line}[/]")
+            total += 1
+        for line in r.ignored:
+            console.print(f"    [yellow]{line}[/]")
+        if not r.kept:
+            console.print("    [dim]aucun code détecté[/]")
+    console.print(f"\n[green]ok[/] {total} code(s) en cours")
 
 
 @app.command()
