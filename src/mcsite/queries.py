@@ -1076,8 +1076,24 @@ def listing_filtre(
         "prix":       "s.cheapest",
         "prix_desc":  "s.cheapest DESC",
         "marchands":  "s.merchant_count DESC, s.cheapest",
+        # `vu_le` est la date de la première offre vue, portée par
+        # `product_stats` (migration 020) — jamais `product.created_at`, qui
+        # vaut le jour de reconstruction de la table pour tout le catalogue.
+        #
+        # Ce tri ne parle que de la TÊTE de la liste : 310 770 fiches sur
+        # 311 698 portent la date du versement initial et sont donc à égalité.
+        # Le nombre de marchands les départage, ce qui revient à dire « après
+        # les nouveautés, les mieux comparées ». L'écart se creusera de
+        # lui-même à chaque collecte.
+        "nouveautes": "s.vu_le DESC NULLS LAST, s.merchant_count DESC",
     }
-    ordre = ordres.get(f.tri, ordres["pertinence"])
+    # `p.slug` clôt TOUS les tris, et ce n'est pas une précaution de style : sans
+    # départage, deux fiches à clé égale sortent dans un ordre libre, que
+    # PostgreSQL n'a aucune raison de tenir d'une requête à l'autre. Avec
+    # LIMIT/OFFSET, cela veut dire une fiche vue deux fois page 3 et jamais
+    # page 4. Le tri « Nouveautés » rend le défaut criant — 310 770 ex æquo —
+    # mais il concernait déjà les quatre autres.
+    ordre = ordres.get(f.tri, ordres["pertinence"]) + ", p.slug"
 
     items = _rows(conn, f"""
         SELECT p.slug, p.brand_code, p.model_display, p.colour_code,

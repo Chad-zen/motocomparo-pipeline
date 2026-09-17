@@ -254,7 +254,8 @@
 
          `<details>` plutôt qu'un menu déroulant natif : il se met aux couleurs
          du site, se ferme avec Échap, et fonctionne sans une ligne de script. #}
-      {% set libelles = {'pertinence': 'Pertinence', 'prix': 'Prix croissant',
+      {% set libelles = {'pertinence': 'Pertinence', 'nouveautes': 'Nouveautés',
+                         'prix': 'Prix croissant',
                          'prix_desc': 'Prix décroissant', 'marchands': 'Plus de marchands'} %}
       {% set choisi = (f.tri if f else 'pertinence') %}
       <details class="tri">

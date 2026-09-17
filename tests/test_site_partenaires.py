@@ -9,11 +9,46 @@ from __future__ import annotations
 from mcsite import partenaires
 
 
-def test_chaque_banniere_a_un_lien_de_suivi_et_une_image():
+# Les domaines de suivi des deux régies. Une image servie depuis l'un d'eux
+# n'est pas une image : c'est un pixel de mesure.
+REGIES = ("track.effiliation.com", "pkw.motoblouz.com", "webgains", "ikhnaie")
+
+
+def test_chaque_partenaire_a_un_lien_de_suivi():
     for p in partenaires.PARTENAIRES:
         assert p["clic"].startswith("https://"), p["code"]
-        assert p["image"].startswith("https://"), p["code"]
         assert p["nom"], p["code"]
+
+
+def test_aucune_image_affichee_ne_vient_d_une_regie():
+    """LA règle, et elle a déjà été enfreinte une fois.
+
+    Le 17/09/2026, la bannière Motoblouz pointait vers `pkw.motoblouz.com` —
+    le domaine de suivi de Kwanko. Mesuré : quatre cookies posés pour 60 jours,
+    à l'AFFICHAGE, chez un visiteur qui n'avait rien cliqué, avec
+    « no consent mode activated » écrit dans la réponse par Kwanko lui-même.
+    La page « À propos » promet exactement le contraire.
+
+    Le commentaire du code disait « il n'y a pas de tiers supplémentaire » : vrai
+    sur la forme, faux sur le fond. La question n'est pas de savoir s'il y a un
+    tiers, c'est de savoir si un cookie part sans clic.
+
+    Ce test ne lit pas les commentaires, il lit les adresses."""
+    for p in partenaires.PARTENAIRES:
+        for cle in ("image", "large"):
+            url = p.get(cle)
+            if not url:
+                continue        # un partenaire sans visuel est écarté, pas affiché
+            for regie in REGIES:
+                assert regie not in url, f"{p['code']}.{cle} passe par {regie}"
+
+
+def test_un_partenaire_sans_visuel_ne_sort_pas_de_la_rotation_a_vide():
+    """Écarté, pas affiché vide : un emplacement publicitaire qui ne charge rien
+    laisse un trou dans la page, et la mention « Publicité » au-dessus du trou."""
+    for format in ("carre", "large"):
+        for b in partenaires.bandeaux(format):
+            assert b["image"], b["code"]
 
 
 def test_les_identifiants_de_suivi_sont_tous_differents():
