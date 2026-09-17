@@ -55,6 +55,26 @@
 <a class="affiche" href="/produits"
    aria-label="Comparez l'équipement moto et trouvez le meilleur prix">
   <picture>
+    {# L'AFFICHE A DEUX FORMES, parce que son emplacement en a deux.
+
+       Mesuré le 17/09/2026 sur un écran 1920x1080 : l'emplacement fait
+       1905 x 560 (ratio 3,4) et l'image portrait fait 1086 x 1448 (ratio 0,75).
+       Posée entière au centre, elle n'occupait que 420 px sur 1905 — 22 % de la
+       largeur — et les 78 % restants étaient son propre agrandissement flouté.
+
+       Le `media` est déclaré AVANT le type : le navigateur prend la première
+       source dont la condition est vraie, et l'ordre est donc la règle, pas une
+       préférence. Le `<source>` n'est émis que si le fichier existe : un
+       `<source>` retenu mais introuvable n'affiche pas l'image de repli, il
+       n'affiche rien — l'affiche disparaîtrait, sur desktop seulement. #}
+    {% if statique_existe('affiche-paysage.webp') %}
+    <source media="(min-width: 900px)" type="image/webp"
+            srcset="/static/affiche-paysage.webp?v={{ version_css() }}">
+    {% endif %}
+    {% if statique_existe('affiche-paysage.jpg') %}
+    <source media="(min-width: 900px)" type="image/jpeg"
+            srcset="/static/affiche-paysage.jpg?v={{ version_css() }}">
+    {% endif %}
     <source srcset="/static/affiche-portrait.webp?v={{ version_css() }}" type="image/webp">
     <img src="/static/affiche-portrait.jpg?v={{ version_css() }}"
          alt="Comparez l'équipement moto et trouvez le meilleur prix"
@@ -67,6 +87,7 @@
 {% block contenu %}
 {% from "_grille.html" import actions %}
 {% import "_categories.html" as cat %}
+{% import "_pub.html" as pub %}
 
 {# --- Les raccourcis de rayon ----------------------------------------------
    Posés juste sous l'affiche, emplacement choisi par la propriétaire d'après
@@ -106,10 +127,11 @@
           <span class="carte__prix">dès {{ it.cheapest | prix }}</span>
           <span class="carte__barre">{{ it.dearest | prix }}</span>
         </div>
-        <span class="carte__gain">
-          <span class="prix-insecable">{{ (it.dearest - it.cheapest) | prix }}</span>
-          d'écart sur cette fiche
-        </span>
+        {# La mention « X € d'écart sur cette fiche » a été retirée le
+           17/09/2026 : « le client n'est pas con non plus ». Le prix barré à
+           côté du prix dit déjà l'écart, et le pourcentage en pastille le dit
+           une deuxième fois. Trois façons d'annoncer la même chose sur une
+           carte de 208 px, c'est deux de trop. #}
       </div>
     </a>
     {% endfor %}
@@ -137,7 +159,13 @@
     {% for it in nouveautes %}
     <a class="carte carte--rayon" href="/p/{{ it.slug }}">
       {{ actions(it) }}
+      {# Sur les TROIS premières seulement : une pastille posée sur les douze
+         cartes d'une rangée qui s'appelle déjà « Nouveautés » ne distingue plus
+         rien — elle répète son propre titre douze fois. Sur les trois de tête,
+         elle redevient un repère. Demande de la propriétaire, 17/09/2026. #}
+      {% if loop.index <= 3 %}
       <span class="pastille pastille--neuf">Nouveau</span>
+      {% endif %}
       <div class="carte__img">
         {% if it.image_url %}<img src="{{ it.image_url }}" alt="" loading="lazy">
         {% else %}<span class="carte__sansimg">pas de visuel</span>{% endif %}
@@ -149,8 +177,6 @@
           <span class="carte__prix">dès {{ it.cheapest | prix }}</span>
           <span class="puce">{{ it.merchant_count }} marchand{{ 's' if it.merchant_count > 1 }}</span>
         </div>
-        <span class="carte__gain">vu pour la première fois le
-          {{ it.vue_le.strftime('%d/%m') }}</span>
       </div>
     </a>
     {% endfor %}
@@ -190,10 +216,8 @@
           <span class="carte__prix">{{ it.maintenant | prix }}</span>
           <span class="carte__barre">{{ it.avant | prix }}</span>
         </div>
-        <span class="carte__gain">
-          <span class="prix-insecable">{{ (it.avant - it.maintenant) | prix }}</span>
-          de moins qu'au dernier relevé
-        </span>
+        {# Même retrait que sur la rangée des écarts : le prix barré et la
+           pastille disent déjà la baisse, deux fois. #}
       </div>
     </a>
     {% endfor %}
@@ -201,46 +225,24 @@
 </section>
 {% endif %}
 
-{# --- Les rayons -----------------------------------------------------------
-   La page d'accueil de la v1 est une pile de rayons et non une grille unique :
-   c'est ce qui lui donne son allure de boutique. Un rayon défile
-   horizontalement dans son propre cadre, jamais la page. #}
-{% import "_pub.html" as pub %}
-{% for r in rayons %}
-<section class="rayon">
-  <div class="rayon__tete">
-    <div>
-      <span class="rayon__oeil">Les mieux comparés</span>
-      <h2>{{ r.label_fr }}</h2>
-    </div>
-    <a class="rayon__plus" href="/c/{{ r.code }}">Voir tout →</a>
-  </div>
-  <div class="rayon__piste">
-    {% for it in r["items"] %}
-    <a class="carte carte--rayon" href="/p/{{ it.slug }}">
-      {{ actions(it) }}
-      <div class="carte__img">
-        {% if it.image_url %}<img src="{{ it.image_url }}" alt="" loading="lazy">
-        {% else %}<span class="carte__sansimg">pas de visuel</span>{% endif %}
-      </div>
-      <div class="carte__corps">
-        <span class="carte__marque">{{ it.brand_code | upper }}</span>
-        <span class="carte__nom">{{ nom(it) }}</span>
-        <div class="carte__bas">
-          <span class="carte__prix">dès {{ it.cheapest | prix }}</span>
-          <span class="puce">{{ it.merchant_count }} marchands</span>
-        </div>
-      </div>
-    </a>
-    {% endfor %}
-  </div>
-</section>
-{# La bannière est posée APRÈS les échappements, donc avant les pantalons —
-   emplacement choisi par la propriétaire. Au format large : entre deux
-   étagères, une bande de 90 px ponctue la page là où un pavé de 250 px la
-   couperait en deux. #}
-{% if r.code == 'exhaust' %}{{ pub.emplacement(bandeaux_larges) }}{% endif %}
-{% endfor %}
+{# --- Les rayons, en images ------------------------------------------------
+   ICI SE TROUVAIENT NEUF ÉTAGÈRES DE PRODUITS, une par rayon. Avec les trois
+   éditoriales au-dessus, l'accueil alignait DOUZE carrousels identiques :
+   même carte, même rythme, mêmes boutons, douze fois. La propriétaire l'a dit
+   le 17/09/2026 — « trop répétitive, il manque des images » — et le compte lui
+   donnait raison.
+
+   Les neuf sont remplacées par une mosaïque. Elle dit la même chose — voici les
+   rayons, voici leur taille, voici à partir de quel prix — en une fois et en
+   grand, et elle casse enfin le rythme entre les étagères qui restent.
+
+   La bannière a dû déménager. Son repère d'origine, choisi par la propriétaire
+   — « entre Échappements et Pantalons » — était une position DANS ces neuf
+   rangées, et ces rangées n'existent plus. Elle garde son rôle : ponctuer la
+   page à mi-course, entre deux blocs de nature différente. #}
+{{ cat.mosaique(nav, 9) }}
+
+{{ pub.emplacement(bandeaux_larges) }}
 
 {# --- Vous avez consulté récemment -----------------------------------------
    Le cadre reste vide — et donc invisible — tant que le visiteur n'a rien

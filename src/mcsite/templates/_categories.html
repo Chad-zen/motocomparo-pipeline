@@ -79,3 +79,49 @@
 </nav>
 {% endif %}
 {% endmacro %}
+
+{# --- La mosaïque des rayons ------------------------------------------------
+   Elle REMPLACE neuf étagères de produits. L'accueil en comptait douze à la
+   suite — trois éditoriales, neuf par rayon — toutes bâties sur la même carte,
+   au même rythme, avec les mêmes boutons. Signalé par la propriétaire le
+   17/09/2026 : « trop répétitive, il manque des images ».
+
+   Neuf carrousels ne disaient qu'une chose : « il y a des produits ». La
+   mosaïque dit la même chose en une fois, en grand, et rend au passage la place
+   que prenaient neuf rangées.
+
+   L'image est une VRAIE PHOTO de produit, choisie par `categories()` : le
+   catalogue en porte 400 000 et aucune icône dessinée ne dit « casque » aussi
+   bien qu'un casque. C'est l'inverse du choix fait pour la bande de raccourcis
+   plus haut, et pour la même raison : là, la case fait 76 px et la photo
+   devient une tache ; ici elle en fait 300. #}
+{% macro mosaique(rayons, combien=9) %}
+{% if rayons %}
+<section class="rayons-mosaique">
+  <div class="rayon__tete">
+    <div>
+      <span class="rayon__oeil">Tout le catalogue</span>
+      <h2>Par rayon</h2>
+    </div>
+    <a class="rayon__plus" href="/produits">Voir tout →</a>
+  </div>
+  <div class="mosaique">
+    {% for r in rayons[:combien] %}
+    <a class="mosaique__tuile" href="/c/{{ r.code }}">
+      {% if r.image_url %}
+      <img src="{{ r.image_url }}" alt="" loading="lazy" class="mosaique__img">
+      {% endif %}
+      <div class="mosaique__voile"></div>
+      <div class="mosaique__texte">
+        <span class="mosaique__nom">{{ r.label_fr }}</span>
+        <span class="mosaique__info">
+          {{ "{:,}".format(r.n).replace(",", " ") }} produits{% if r.from_price %}
+          · dès {{ r.from_price | prix }}{% endif %}
+        </span>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+{% endmacro %}

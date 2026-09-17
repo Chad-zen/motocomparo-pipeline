@@ -138,9 +138,21 @@ h1, h2 { line-height: 1.2; }
   padding: 11px 13px 13px; display: flex; flex-direction: column;
   gap: 3px; flex: 1;
 }
-.carte__marque { font-size: 11px; letter-spacing: .7px; color: var(--muted); }
+/* La hiérarchie d'une carte, reglée par la propriétaire le 17/09/2026 :
+   la MARQUE en gras et en capitales, le TITRE en graisse normale, le PRIX de la
+   même taille et de la même graisse que la marque.
+
+   C'est l'inverse de l'habitude — on met d'ordinaire le prix en grand — et
+   c'est mieux vu : sur un comparateur, une carte sert à reconnaître l'article,
+   pas à l'acheter. Le prix se lit ensuite, sur la fiche, où il est comparé.
+   Deux ancres fortes (marque, prix) et un titre discret entre les deux se
+   parcourent plus vite qu'un seul gros chiffre. */
+.carte__marque {
+  font-size: 15px; font-weight: 800; letter-spacing: .02em;
+  text-transform: uppercase; color: var(--nuit);
+}
 .carte__nom {
-  font-weight: 600; font-size: 14px;
+  font-weight: 400; font-size: 14px; color: var(--encre, #1c2333);
   /* Trois lignes au plus. La hauteur d'une carte est dictée par le titre le
      plus long de la rangée, et un titre à quatre lignes (« Kit Chaine Origine
      Honda… ») imposait 21 px de vide à TOUTES les autres — le vide que la
@@ -163,9 +175,18 @@ h1, h2 { line-height: 1.2; }
    de lui voler la place. */
 .carte__bas {
   margin-top: auto; padding-top: 9px; display: flex; flex-wrap: wrap;
-  align-items: baseline; justify-content: space-between; gap: 4px 8px;
+  /* `justify-content: space-between` poussait le prix barré à l'autre bout de
+     la carte : deux prix aux deux extrémités d'une ligne ne se lisent plus
+     comme un prix et son ancien prix, mais comme deux prix sans rapport. Ils
+     sont maintenant COLLÉS, séparés par une seule espace — demande de la
+     propriétaire, 17/09/2026.
+
+     La pastille « N marchands », elle, doit rester à droite : d'où le `auto`
+     sur sa marge plutôt qu'un `space-between` qui écarterait tout. */
+  align-items: baseline; justify-content: flex-start; gap: 4px 7px;
 }
-.carte__prix { font-size: 17px; font-weight: 700; white-space: nowrap; }
+.carte__bas > .puce { margin-left: auto; }
+.carte__prix { font-size: 15px; font-weight: 800; white-space: nowrap; }
 
 /* Même règle pour un prix noyé dans une phrase (« 12,00 € d'écart… ») : on ne
    peut pas figer toute la phrase, seulement le montant. */
@@ -3122,4 +3143,65 @@ select:focus-visible, textarea:focus-visible, summary:focus-visible,
      défile, et personne ne va la chercher. */
   .bande__piste { grid-auto-columns: 84px; gap: 8px; }
   .bande { margin: 14px 0 20px; }
+}
+
+/* --- La mosaïque des rayons -----------------------------------------------
+   Elle remplace neuf étagères de produits. Voir la note du gabarit
+   `_categories.html` : douze carrousels identiques à la suite, c'est une seule
+   rangée répétée douze fois.
+
+   La PREMIÈRE tuile est deux fois plus grande. Sans elle la mosaïque devient à
+   son tour un damier régulier — on aurait remplacé une monotonie par une autre,
+   en carrés. Un rayon domine, les autres l'entourent : c'est ce que fait une
+   vitrine. */
+.rayons-mosaique { margin: 34px 0; }
+.mosaique {
+  display: grid; gap: 12px;
+  grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: 150px;
+}
+.mosaique__tuile {
+  position: relative; overflow: hidden;
+  border-radius: 14px; background: var(--nuit);
+  text-decoration: none; display: block;
+  isolation: isolate;
+}
+.mosaique__tuile:first-child { grid-column: span 2; grid-row: span 2; }
+.mosaique__img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  transition: transform .35s ease;
+}
+.mosaique__tuile:hover .mosaique__img,
+.mosaique__tuile:focus-visible .mosaique__img { transform: scale(1.04); }
+/* Le voile est indispensable, pas décoratif : les photos de produits sont sur
+   fond BLANC, et un libellé blanc posé dessus serait illisible. Il descend de
+   transparent à presque noir pour ne couvrir que le bas, là où est le texte. */
+.mosaique__voile {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top,
+              rgba(8, 12, 30, .92) 0%, rgba(8, 12, 30, .55) 34%,
+              rgba(8, 12, 30, 0) 62%);
+}
+.mosaique__texte {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  padding: 12px 14px; color: #fff;
+  display: flex; flex-direction: column; gap: 2px;
+}
+.mosaique__nom {
+  font-size: 17px; font-weight: 800; line-height: 1.15;
+  text-transform: uppercase; letter-spacing: .01em;
+}
+.mosaique__tuile:first-child .mosaique__nom { font-size: 24px; }
+.mosaique__info {
+  font-size: 12.5px; font-weight: 600; color: var(--or);
+  font-variant-numeric: tabular-nums;
+}
+.mosaique__tuile:focus-visible { outline: 3px solid var(--or); outline-offset: 2px; }
+
+@media (min-width: 700px) {
+  .mosaique { grid-template-columns: repeat(4, 1fr); grid-auto-rows: 168px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mosaique__img { transition: none; }
+  .mosaique__tuile:hover .mosaique__img { transform: none; }
 }

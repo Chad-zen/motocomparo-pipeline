@@ -24,6 +24,23 @@
 -- ⚠️ Pendant la recréation, les pages de résultats n'ont plus de vue à lire.
 -- Sur le VPS, à lancer hors des heures de visite — et jamais pendant la chaîne
 -- quotidienne de 04:04, qui la rafraîchit.
+--
+-- ⚠️⚠️ ET SURTOUT : LE PROPRIÉTAIRE. Une vue recréée appartient à CELUI QUI LA
+-- RECRÉE. Appliquée en `sudo -u postgres`, cette migration a rendu la vue
+-- propriété de `postgres` alors que tout le reste du schéma appartient au rôle
+-- de l'application — et le site entier est passé en 500 :
+--
+--     psycopg.errors.InsufficientPrivilege:
+--     permission denied for materialized view product_stats
+--
+-- Sur toutes les pages, immédiatement, y compris l'accueil : `categories()`
+-- lit cette vue. Aucune des 239 vérifications automatiques ne pouvait l'attraper,
+-- parce qu'en local la migration est appliquée par le rôle qui possède déjà
+-- tout. C'est un défaut qui n'existe QUE là où on déploie.
+--
+-- Le propriétaire est donc repris de `product`, table du pipeline qui appartient
+-- toujours au bon rôle. Lu, jamais écrit en dur : le rôle ne porte pas le même
+-- nom sur le poste de la propriétaire et sur le VPS.
 
 DROP MATERIALIZED VIEW IF EXISTS product_stats;
 
@@ -75,5 +92,31 @@ CREATE INDEX product_stats_titre_trgm
 -- Le tri « Nouveautés ».
 CREATE INDEX product_stats_nouveaute_idx
     ON product_stats (vu_le DESC NULLS LAST, merchant_count DESC);
+
+-- Le propriétaire, repris de `product` — voir l'avertissement en tête.
+DO $$
+DECLARE proprietaire text;
+BEGIN
+    SELECT pg_get_userbyid(relowner) INTO proprietaire
+    FROM pg_class WHERE relname = 'product' AND relkind = 'r';
+    IF proprietaire IS NULL THEN
+        RAISE EXCEPTION 'table product introuvable : propriétaire indéterminable';
+    END IF;
+    EXECUTE format('ALTER MATERIALIZED VIEW product_stats OWNER TO %I', proprietaire);
+    EXECUTE format('ALTER FUNCTION refresh_product_stats() OWNER TO %I', proprietaire);
+END $$;
+
+-- Et on vérifie, plutôt que de supposer : la migration échoue bruyamment ici
+-- si la vue n'appartient pas au même rôle que la table dont elle dérive.
+DO $$
+BEGIN
+    IF (SELECT pg_get_userbyid(relowner) FROM pg_class WHERE relname = 'product_stats')
+       IS DISTINCT FROM
+       (SELECT pg_get_userbyid(relowner) FROM pg_class
+        WHERE relname = 'product' AND relkind = 'r')
+    THEN
+        RAISE EXCEPTION 'product_stats n''appartient pas au rôle de product';
+    END IF;
+END $$;
 
 ANALYZE product_stats;

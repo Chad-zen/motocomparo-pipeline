@@ -20,9 +20,13 @@ cd /srv/motocomparo/app
 
 # Les variables viennent de systemd (`EnvironmentFile`), et surtout PAS d'un
 # `. /srv/motocomparo/.env`. Sourcer un fichier de configuration, c'est
-# l'EXECUTER : une valeur contenant une espace — « MENTIONS_EDITEUR=S. KIES » —
-# faisait chercher une commande nommee KIES, et toute la chaine s'arretait avant
-# le premier telechargement. systemd lit des paires cle=valeur sans rien
+# l'EXECUTER : une valeur contenant une espace — le nom de l'editeur dans
+# MENTIONS_EDITEUR, par exemple — faisait chercher une commande portant le
+# second mot, et toute la chaine s'arretait avant le premier telechargement.
+#
+# (Le nom reel etait ecrit ici, en clair, dans un depot PUBLIC. Retire. Le depot
+# est anonymise : aucun nom, aucune adresse personnelle n'y a sa place, pas meme
+# dans un commentaire qui explique une panne.) systemd lit des paires cle=valeur sans rien
 # executer. Constate au premier essai reel, le 2026-09-17 — et c'est
 # exactement pour ca qu'on essaie une tache planifiee au lieu de l'attendre.
 

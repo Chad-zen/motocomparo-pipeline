@@ -51,3 +51,7 @@ dump.log
 
 # Lanceur local du serveur de dev (chemins Windows, propre à la machine)
 .claude/launch.json
+
+# La liste des motifs personnels a ne jamais commiter (voir
+# tests/test_depot_anonyme.py). Elle decrit ce qu elle protege.
+.anonymat

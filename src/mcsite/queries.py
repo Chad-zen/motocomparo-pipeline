@@ -213,7 +213,8 @@ def rayons(
 
 
 def ecarts(conn: psycopg.Connection, limit: int = 12,
-           jour: str | None = None) -> list[dict[str, Any]]:
+           jour: str | None = None,
+           min_marchands: int = 3) -> list[dict[str, Any]]:
     """Where choosing the right merchant saves the most.
 
     A price comparison site's equivalent of a deals row — and the honest one.
@@ -245,7 +246,13 @@ def ecarts(conn: psycopg.Connection, limit: int = 12,
                    round((1 - s.cheapest / s.dearest) * 100) AS remise
             FROM product p
             JOIN product_stats s ON s.product_id = p.id
-            WHERE s.merchant_count >= 2 AND p.status <> 'merged'
+            -- TROIS marchands, pas deux. Règle de la propriétaire, 17/09/2026 :
+            -- « je ne veux aucune offre à moins de 3 marchands dans la home
+            -- page ». Sur un comparateur c'est cohérent — une fiche à deux
+            -- offres montre un écart, trois montrent un marché. Mesuré : 5 777
+            -- candidats à deux marchands, 2 389 à trois, de quoi remplir
+            -- largement une rangée de douze.
+            WHERE s.merchant_count >= %s AND p.status <> 'merged'
               AND s.cheapest IS NOT NULL AND s.dearest IS NOT NULL
               AND s.cheapest > 0
               AND s.dearest <= s.cheapest * 2      -- au-delà : un défaut, pas une affaire
@@ -299,11 +306,12 @@ def ecarts(conn: psycopg.Connection, limit: int = 12,
             FROM unique_marque WHERE r_marque = 1
         )
         SELECT * FROM choix ORDER BY rang, bande LIMIT %s
-    """, (jour, jour, limit))
+    """, (min_marchands, jour, jour, limit))
 
 
 def nouveautes(conn: psycopg.Connection, ids: list[int],
-               limit: int = 12) -> list[dict[str, Any]]:
+               limit: int = 12,
+               min_marchands: int = 3) -> list[dict[str, Any]]:
     """Ce qui vient d'entrer au catalogue, dans un rayon donné.
 
     ATTENTION À LA DATE QU'ON LIT. `product.created_at` vaut 2026-09-14 pour les
@@ -362,6 +370,15 @@ def nouveautes(conn: psycopg.Connection, ids: list[int],
             JOIN product_stats s ON s.product_id = p.id
             WHERE p.category_id = ANY(%s) AND p.status <> 'merged'
               AND s.cheapest IS NOT NULL
+              -- Même règle que partout sur l'accueil. ⚠️ Elle vide CETTE
+              -- rangée : une fiche qui vient d'arriver est chez UN marchand par
+              -- construction, et il faut des semaines pour que trois la
+              -- listent. Mesuré le 17/09/2026 : 40 nouveautés casque à un
+              -- marchand ou plus, ZÉRO à trois. La rangée ne s'affiche donc
+              -- pas du tout : le gabarit ne rend la section que si la rangée
+              -- contient quelque chose. Mieux vaut une rangée absente qu'une
+              -- montrer une règle enfreinte.
+              AND s.merchant_count >= %s
             ORDER BY p.brand_code, p.model_display, n.vue_le DESC,
                      s.merchant_count DESC, p.slug
         ),
@@ -374,11 +391,12 @@ def nouveautes(conn: psycopg.Connection, ids: list[int],
             FROM modele
         )
         SELECT * FROM tour_de_role ORDER BY rang, vue_le DESC, slug
-    """, (ids,))[:limit]
+    """, (ids, min_marchands))[:limit]
 
 
 def baisses(conn: psycopg.Connection, limit: int = 12,
-            jours: int = 7, par_marchand: int = 3) -> list[dict[str, Any]]:
+            jours: int = 7, par_marchand: int = 3,
+            min_marchands: int = 3) -> list[dict[str, Any]]:
     """Ce qui a réellement baissé : la MÊME offre, comparée à elle-même.
 
     LA COMPARAISON QU'IL NE FAUT PAS FAIRE : le prix mini d'il y a une semaine
@@ -462,6 +480,7 @@ def baisses(conn: psycopg.Connection, limit: int = 12,
             JOIN product p ON p.id = m.product_id
             JOIN product_stats s ON s.product_id = p.id
             WHERE p.status <> 'merged' AND s.cheapest IS NOT NULL
+              AND s.merchant_count >= %s        -- même règle que `ecarts`
             -- `p.slug` clôt le tri : voir la note de `nouveautes`.
             ORDER BY p.brand_code, m.baisse DESC, p.slug
         ),
@@ -477,7 +496,7 @@ def baisses(conn: psycopg.Connection, limit: int = 12,
         -- douze ; elle n'a pas le droit d'être le catalogue d'un marchand.
         SELECT * FROM tour_de_role WHERE rang <= %s ORDER BY rang, baisse DESC
         LIMIT %s
-    """, (jours, par_marchand, limit))
+    """, (jours, min_marchands, par_marchand, limit))
 
 
 def par_slugs(conn: psycopg.Connection, slugs: list[str]) -> list[dict[str, Any]]:
