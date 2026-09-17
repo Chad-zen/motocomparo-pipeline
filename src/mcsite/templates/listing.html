@@ -98,6 +98,16 @@
   <span>{{ titre }}</span>
 </nav>
 
+{# La colonne de filtres vient AVANT le titre dans le HTML — la grille CSS
+   place l'aside en première colonne visuelle et ne s'appuie sur aucun
+   `order`, donc l'ordre du source fixe l'ordre visuel : on ne peut pas
+   descendre ce `<h1>` sans déplacer l'aside avec lui. Un lecteur d'écran qui
+   navigue de titre en titre tombait donc sur six `<h3>` de filtres avant même
+   le titre de la page. Ce `<h1>` masqué, seul de son niveau et lu en premier,
+   donne le vrai titre sans rien changer à l'écran : le titre visible plus bas
+   redevient un `<h2>` (même classe `titre-page`, donc même style). #}
+<h1 class="visuellement-cache">{{ titre }}</h1>
+
 <div class="boutique">
 
   {% if facettes %}
@@ -112,6 +122,13 @@
   </button>
 
   <aside class="filtres tiroir tiroir--bas" id="tiroir-filtres" aria-label="Filtres">
+    {# Les six sections ci-dessous sont des `<h3>` : il leur faut un `<h2>`
+       parent, sous peine de saut de niveau. Le tiroir mobile a déjà un titre
+       visible (`<b>Filtres</b>`, juste après), mais il doit rester un `<b>` :
+       le transformer en titre changerait sa taille et son poids, réglés par
+       `.tiroir__tete b`, pas par une classe. Celui-ci est donc à part,
+       masqué à l'œil, présent pour qui lit les titres. #}
+    <h2 class="visuellement-cache">Filtres</h2>
     <div class="tiroir__tete">
       <b>Filtres</b>
       <button type="button" class="tiroir__x" aria-label="Fermer">✕</button>
@@ -241,7 +258,11 @@
   <div class="boutique__corps">
     <div class="boutique__tete">
       <div>
-        <h1 class="titre-page">{{ titre }}</h1>
+        {# Le vrai `<h1>` de la page est masqué plus haut, avant la colonne de
+           filtres — voir le commentaire là-bas. Celui-ci reste le titre que
+           l'œil voit, avec la même classe `titre-page` : seul le niveau
+           change, pas le style. #}
+        <h2 class="titre-page">{{ titre }}</h2>
         {# Le nombre est déjà dans la barre de filtres (« N produits ») : le
            répéter sous le titre pousse le premier article vers le bas sans rien
            apprendre. #}

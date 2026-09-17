@@ -3,13 +3,36 @@
 #
 #   DOMAINE=staging.motocomparo.com NOINDEX=1 bash 06-nginx-tls.sh
 #
+# En production, avec le www et sans le noindex :
+#
+#   DOMAINE=motocomparo.com ALIAS=www.motocomparo.com bash 06-nginx-tls.sh
+#
 # NOINDEX=1 pour un site d'essai, rien pour la production.
 #
 # C'est l'étape qui décide de la vitesse du site. Le reste est de la plomberie.
 set -euo pipefail
 
 DOMAINE="${DOMAINE:-}"
-[ -z "$DOMAINE" ] && { echo "DOMAINE=staging.motocomparo.com bash 06-nginx-tls.sh"; exit 1; }
+[ -z "$DOMAINE" ] && { echo "DOMAINE=<nom> [ALIAS=www.<nom>] [NOINDEX=1] bash 06-nginx-tls.sh"; exit 1; }
+
+# Un SECOND nom, facultatif. En pratique le « www ».
+#
+# Il n'existait pas, et l'oubli ne se voyait pas tant qu'on ne servait qu'un
+# sous-domaine de test : personne ne tape « www.staging ». Sur un nom de domaine
+# ordinaire, en revanche, une partie des visiteurs et à peu près tous les vieux
+# liens passent par le www — et un nom absent du `server_name` ET du certificat
+# ne donne pas une page moche, il donne un AVERTISSEMENT DE SÉCURITÉ du
+# navigateur. C'est la pire page d'accueil possible.
+#
+# Les deux noms sont servis par le même bloc et couverts par le même
+# certificat ; la redirection de l'un vers l'autre est posée plus bas, pour que
+# les moteurs n'aient qu'une seule adresse à indexer.
+ALIAS="${ALIAS:-}"
+# Vers quel nom on redirige l'autre. Par défaut l'apex, sans www : c'est le plus
+# court, et c'est celui que le site s'annonce déjà à lui-même.
+CANONIQUE="${CANONIQUE:-$DOMAINE}"
+NOMS="$DOMAINE"
+[ -n "$ALIAS" ] && NOMS="$DOMAINE $ALIAS"
 
 install -d -o www-data -g www-data /var/cache/nginx/motocomparo
 
@@ -39,7 +62,15 @@ cat > /etc/nginx/sites-available/motocomparo <<CONF
 server {
     listen 80;
     listen [::]:80;
-    server_name ${DOMAINE};
+    server_name ${NOMS};
+
+    # Un seul nom pour les moteurs. Servir la MÊME page sous deux adresses les
+    # met en concurrence l'une avec l'autre : le moteur en choisit une, pas
+    # forcément celle qu'on voulait, et partage l'autorité entre les deux.
+    # La redirection est permanente (301) et garde le chemin et la requête.
+    if ($host != ${CANONIQUE}) {
+        return 301 https://${CANONIQUE}$request_uri;
+    }
 
     # Les pages sont déjà compressées par nginx ; les images viennent des
     # marchands et ne passent pas par ici.
@@ -132,18 +163,20 @@ nginx -t && systemctl reload nginx
 
 echo
 echo "== certificat HTTPS =="
-echo "   ⚠ Le DNS de ${DOMAINE} doit DÉJÀ pointer sur ce VPS, sinon certbot"
+echo "   ⚠ Le DNS de ${NOMS} doit DÉJÀ pointer sur ce VPS, sinon certbot"
 echo "     échoue et il faudra recommencer. Vérifier d'abord :"
-echo "        dig +short ${DOMAINE}"
+for n in ${NOMS}; do echo "        dig +short $n"; done
 echo
 read -r -p "   Le DNS est-il basculé ? [o/N] " reponse
 if [ "$reponse" = "o" ] || [ "$reponse" = "O" ]; then
-    certbot --nginx -d "${DOMAINE}" --redirect --agree-tos --no-eff-email
+    # `-d` par nom : un certificat qui ne couvre pas le www fait afficher un
+    # avertissement de sécurité à qui l'utilise.
+    certbot --nginx $(for n in ${NOMS}; do printf -- '-d %s ' "$n"; done)             --redirect --agree-tos --no-eff-email
     systemctl reload nginx
     echo "   certificat en place, renouvellement automatique actif"
 else
     echo "   certificat reporté. Relancer plus tard :"
-    echo "        certbot --nginx -d ${DOMAINE} --redirect"
+    echo "        certbot --nginx $(for n in ${NOMS}; do printf -- '-d %s ' "$n"; done)--redirect"
 fi
 
 echo

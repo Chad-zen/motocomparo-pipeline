@@ -99,18 +99,27 @@ img { max-width: 100%; height: auto; }
 
 main { padding: 26px 20px 60px; }
 
-.fil { color: var(--muted); font-size: 13px; margin-bottom: 14px; }
+/* `--muted` (#6a7383) est pensé pour une mention posée SUR UNE CARTE blanche :
+   4,78:1 sur `--card`. Ici le fil d'Ariane est posé à même le fond de page
+   `--bg` (#f4f5f8), pas sur une carte, et l'écart de clarté entre les deux
+   fonds suffit à faire chuter le contraste à 4,39:1 — sous les 4,5:1 requis
+   pour du 13 px. Même mesure, même remède que `--doux` plus haut : on ne
+   change pas `--muted`, qui reste juste ailleurs, on prend le jeton déjà
+   assombri pour les mentions posées sur le fond de page (5,10:1 sur `--bg`,
+   5,56:1 sur `--card` : il passe aussi là où `--muted` passait déjà). */
+.fil { color: var(--doux); font-size: 13px; margin-bottom: 14px; }
 .fil a:hover { text-decoration: underline; }
 
 h1, h2 { line-height: 1.2; }
 .titre-page { font-size: 27px; margin: 0 0 4px; }
 .titre-section { font-size: 19px; margin: 34px 0 4px; }
-.sous-titre { color: var(--muted); font-size: 14px; margin: 0 0 18px; }
-.vide { color: var(--muted); padding: 22px 0; }
+/* Même défaut que `.fil` ci-dessus : posés sur `--bg`, pas sur une carte. */
+.sous-titre { color: var(--doux); font-size: 14px; margin: 0 0 18px; }
+.vide { color: var(--doux); padding: 22px 0; }
 
 .accroche { padding: 12px 0 4px; }
 .accroche h1 { font-size: 30px; margin: 0 0 8px; }
-.accroche__chiffres { color: var(--muted); font-size: 15px; margin: 0; }
+.accroche__chiffres { color: var(--doux); font-size: 15px; margin: 0; }
 .accroche__chiffres strong { color: var(--ink); }
 
 /* ------------------------------------------------------------------- cartes */
@@ -132,7 +141,11 @@ h1, h2 { line-height: 1.2; }
   padding: 12px; background: #fff;
 }
 .carte__img img { max-height: 100%; object-fit: contain; }
-.carte__sansimg { color: #b6bcc8; font-size: 12px; }
+/* #b6bcc8 mesuré à 1,91:1 sur blanc : c'est un texte réel (« pas de visuel »),
+   pas une icône, et il tombait bien plus bas que le seuil. `--muted` fait
+   exactement ce gris-bleu discret, en passant (4,78:1) : pas besoin d'une
+   teinte de plus. */
+.carte__sansimg { color: var(--muted); font-size: 12px; }
 
 .carte__corps {
   padding: 11px 13px 13px; display: flex; flex-direction: column;
@@ -310,9 +323,10 @@ h1, h2 { line-height: 1.2; }
 
 /* --------------------------------------------------------------- pagination */
 
+/* Posée sur `--bg`, pas sur une carte : même défaut que `.fil`, plus haut. */
 .pagination {
   display: flex; align-items: center; justify-content: center;
-  gap: 18px; margin: 28px 0 0; font-size: 14px; color: var(--muted);
+  gap: 18px; margin: 28px 0 0; font-size: 14px; color: var(--doux);
 }
 .pagination a { font-weight: 600; color: var(--navy-2); }
 .pagination a:hover { text-decoration: underline; }
@@ -633,10 +647,11 @@ h1, h2 { line-height: 1.2; }
 
 /* -------------------------------------------------------------- bascule design */
 
+/* Posé sur `--bg`, pas sur une carte : même défaut que `.fil`, plus haut. */
 .bascule {
   display: inline-block; margin: 18px 0 0; font-size: 13px; font-weight: 600;
   padding: 9px 16px; border-radius: 22px;
-  border: 1px dashed var(--muted); color: var(--muted);
+  border: 1px dashed var(--doux); color: var(--doux);
 }
 .bascule:hover { border-color: var(--or); color: var(--ink); }
 
@@ -801,9 +816,10 @@ h1, h2 { line-height: 1.2; }
 }
 .etapes__liste h3 { margin: 14px 0 6px; font-size: 17px; }
 .etapes__liste p  { margin: 0; color: var(--muted); font-size: 14.5px; line-height: 1.55; }
+/* Posé sur `--bg`, pas sur une carte : même défaut que `.fil`, plus haut. */
 .etapes__partenaires {
   display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
-  gap: 10px 14px; margin: 22px 0 0; color: var(--muted); font-size: 13.5px;
+  gap: 10px 14px; margin: 22px 0 0; color: var(--doux); font-size: 13.5px;
 }
 .etapes__marchand {
   background: var(--card); border: 1px solid var(--line);
@@ -826,7 +842,9 @@ h1, h2 { line-height: 1.2; }
 .tableau-comparatif th:nth-child(n+2),
 .tableau-comparatif td:nth-child(n+2) { text-align: center; width: 22%; }
 .tableau-comparatif .oui { color: var(--ok); font-weight: 700; font-size: 17px; }
-.tableau-comparatif .non { color: #b6bcc8; font-weight: 700; font-size: 17px; }
+/* Même #b6bcc8 qu'en `.carte__sansimg` (1,91:1 sur blanc), même remède :
+   `--muted`, qui reste un gris discret tout en passant (4,78:1). */
+.tableau-comparatif .non { color: var(--muted); font-weight: 700; font-size: 17px; }
 
 /* --- questions fréquentes ------------------------------------------------- */
 
@@ -1001,7 +1019,8 @@ h1, h2 { line-height: 1.2; }
   margin: 0 0 26px;
 }
 .bandeau__phrase   { margin: 0; font-size: 18px; color: var(--ink); }
-.bandeau__chiffres { margin: 0; font-size: 13.5px; color: var(--muted); }
+/* Posé sur `--bg`, pas sur une carte : même défaut que `.fil`, plus haut. */
+.bandeau__chiffres { margin: 0; font-size: 13.5px; color: var(--doux); }
 .bandeau__chiffres strong { color: var(--ink); font-variant-numeric: tabular-nums; }
 
 /* --- la rangée des écarts ------------------------------------------------- */
@@ -1869,7 +1888,13 @@ body:has(.banc:not([hidden])) { padding-bottom: 94px; }
 
 /* --- le pied de page ------------------------------------------------------ */
 
-.pied { background: var(--nuit-doux); border-top: 3px solid var(--or); }
+/* Cette règle change le FOND du pied (clair à sa première définition, plus
+   haut) pour le nuit de la marque, mais ne touche pas sa couleur de texte :
+   `.pied` gardait donc `--muted`, un gris pensé pour un fond clair, posé
+   maintenant sur ce nuit — 3,62:1, sous le seuil. #7f8aa6 est déjà le gris du
+   pied pour ce même usage (`.lettre__note`, juste plus bas) : on le reprend
+   plutôt que d'ajouter une nuance de plus, et il passe (5,02:1). */
+.pied { background: var(--nuit-doux); border-top: 3px solid var(--or); color: #7f8aa6; }
 .pied__bloc--lettre { grid-column: span 2; min-width: 230px; }
 .lettre { display: flex; flex-direction: column; gap: 8px; }
 .lettre input {
@@ -2866,7 +2891,12 @@ select:focus-visible, textarea:focus-visible, summary:focus-visible,
 /* --- l'identité du produit ----------------------------------------------- */
 /* 600 et non 400 : « Comparateur indépendant » est une affirmation sur la
    nature du site, pas une note de bas de page. */
-.theme-v1 .fiche__signature { font-weight: 600; color: #7b8298; }
+/* #7b8298 est l'ANCIENNE valeur de `--doux`, celle mesurée à 3,83:1 sur blanc
+   et corrigée plus haut dans cette feuille (voir le commentaire sur
+   `--doux`). Cette règle, plus spécifique que `.fiche__signature`, la
+   remplaçait donc en boucle sur le thème v1 : le correctif ne s'y voyait
+   jamais. On reprend le jeton, pas la valeur qu'il a remplacée. */
+.theme-v1 .fiche__signature { font-weight: 600; color: var(--doux); }
 
 /* --- les garanties ------------------------------------------------------- */
 /* #4a5168 : un gris bleuté, pas le noir de texte courant. Quatre lignes en
@@ -2889,7 +2919,11 @@ select:focus-visible, textarea:focus-visible, summary:focus-visible,
    courante est éteinte. Un fil d'une seule couleur ne dit plus où l'on est. */
 .theme-v1 .fil { font-size: 13px; }
 .theme-v1 .fil a { color: #26355a; }
-.theme-v1 .fil span { color: #9aa0b4; }
+/* #9aa0b4 sur `--bg` : 2,39:1, très sous le seuil — la page courante du fil
+   d'Ariane, en thème v1, était le pire des cas mesurés sur cette feuille.
+   `--doux` fait le même rôle « éteint » qu'on cherchait ici, en passant
+   (5,10:1 sur `--bg`). */
+.theme-v1 .fil span { color: var(--doux); }
 
 /* --- le bandeau du haut et le logo ---------------------------------------- */
 /* 24 px, graisse 900, interlettrage −0,5 px, et le jaune de la v1 (#ffd000,
@@ -3103,10 +3137,11 @@ select:focus-visible, textarea:focus-visible, summary:focus-visible,
    repousserait vers le bas tout le reste de la page — c'est-à-dire ce que la
    visite venait chercher. */
 .bande { margin: 18px 0 26px; }
+/* Posé sur `--bg`, pas sur une carte : même défaut que `.fil`, plus haut. */
 .bande__oeil {
   margin: 0 0 10px;
   font-size: 12px; font-weight: 800; letter-spacing: .08em;
-  text-transform: uppercase; color: var(--muted);
+  text-transform: uppercase; color: var(--doux);
 }
 .bande__piste {
   list-style: none; margin: 0; padding: 0 0 8px;

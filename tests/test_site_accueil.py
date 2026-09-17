@@ -134,6 +134,17 @@ def test_la_baisse_pese_en_euros_et_reste_credible(conn):
 
 
 def test_les_baisses_ne_bougent_pas_a_donnees_egales(conn):
-    a = [r["slug"] for r in queries.baisses(conn, 12)]
-    b = [r["slug"] for r in queries.baisses(conn, 12)]
-    assert a == b
+    """SIX calculs, pas deux, et on compare AUSSI le marchand retenu.
+
+    Ce test a échoué une fois puis est repassé seul — le pire symptôme qui
+    soit, celui qu'on attribue à la malchance. La cause : deux marchands au
+    MÊME prix sur la même fiche (le Shark OXO Rydger chez Maxxess et
+    Moto-Axxe). Les deux lignes étaient identiques jusqu'au slug, PostgreSQL en
+    gardait une au hasard, et comme la rangée répartit ensuite par marchand,
+    les douze cartes se réorganisaient derrière.
+
+    Deux tirages avaient une chance sur deux de tomber pareil : c'est pour ça
+    que le défaut a survécu. Six tirages, et sur les deux champs qui comptent."""
+    tirages = [[(r["slug"], r["merchant_id"]) for r in queries.baisses(conn, 12)]
+               for _ in range(6)]
+    assert len(set(map(tuple, tirages))) == 1

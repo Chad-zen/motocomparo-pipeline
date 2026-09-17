@@ -481,12 +481,29 @@ def baisses(conn: psycopg.Connection, limit: int = 12,
             JOIN product_stats s ON s.product_id = p.id
             WHERE p.status <> 'merged' AND s.cheapest IS NOT NULL
               AND s.merchant_count >= %s        -- même règle que `ecarts`
-            -- `p.slug` clôt le tri : voir la note de `nouveautes`.
-            ORDER BY p.brand_code, m.baisse DESC, p.slug
+            -- `p.slug` PUIS `m.merchant_id` closent le tri, et il faut les
+            -- deux. Le slug seul ne suffisait pas : quand DEUX marchands
+            -- affichent le même prix sur la même fiche — le Shark OXO Rydger
+            -- chez Maxxess et Moto-Axxe — les deux lignes sont identiques
+            -- jusqu'au slug, et PostgreSQL en gardait une au hasard. La fiche
+            -- ne changeait pas, mais le marchand retenu si — et comme le tour
+            -- de rôle plus bas répartit PAR marchand, toute la rangée se
+            -- réorganisait derrière. Un ex æquo sur un seul champ suffit à
+            -- rendre douze cartes instables.
+            ORDER BY p.brand_code, m.baisse DESC, p.slug, m.merchant_id
         ),
         tour_de_role AS (
             SELECT *, row_number() OVER (PARTITION BY merchant_id
-                                         ORDER BY baisse DESC) AS rang
+                                         -- `slug` clôt le tri : deux baisses
+                                         -- égales chez le même marchand se
+                                         -- classaient dans un ordre libre, et
+                                         -- la rangée changeait d'un calcul à
+                                         -- l'autre sans qu'aucune donnée n'ait
+                                         -- bougé. Les baisses se massent sur
+                                         -- des rapports ronds — 0,90, 0,85,
+                                         -- 0,70 — donc les ex æquo sont la
+                                         -- règle ici, pas l'exception.
+                                         ORDER BY baisse DESC, slug) AS rang
             FROM unique_marque
         )
         -- Le tour de rôle ne suffisait pas : quand les autres marchands sont à
@@ -494,7 +511,8 @@ def baisses(conn: psycopg.Connection, limit: int = 12,
         -- encore — six places sur douze pour FC-Moto, toutes à −55 pile. Le
         -- plafond est donc dur. La rangée a le droit d'être plus courte que
         -- douze ; elle n'a pas le droit d'être le catalogue d'un marchand.
-        SELECT * FROM tour_de_role WHERE rang <= %s ORDER BY rang, baisse DESC
+        SELECT * FROM tour_de_role WHERE rang <= %s
+        ORDER BY rang, baisse DESC, slug
         LIMIT %s
     """, (jours, min_marchands, par_marchand, limit))
 
