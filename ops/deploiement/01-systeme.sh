@@ -48,6 +48,27 @@ ufw allow 'Nginx Full'
 ufw --force enable
 ufw status verbose
 
+echo "== fichier d'échange =="
+# Le VPS n'en a aucun par défaut. Sur une machine à UN cœur et 3,8 Go, l'absence
+# de swap ne rend rien plus rapide : elle transforme un pic de mémoire passager
+# — une restauration de base, un `match`, un VACUUM — en processus tué net.
+# Deux gigaoctets ne servent jamais en régime normal ; ils servent le jour où
+# ça déborde, et ce jour-là ils évitent de tout relancer.
+if ! swapon --show | grep -q .; then
+    fallocate -l 2G /swapfile
+    chmod 600 /swapfile
+    mkswap /swapfile >/dev/null
+    swapon /swapfile
+    grep -q '^/swapfile' /etc/fstab || echo '/swapfile none swap sw 0 0' >> /etc/fstab
+    # 10 : on ne s'en sert qu'en dernier recours. Le défaut (60) ferait sortir
+    # des pages encore utiles vers le disque sans raison.
+    sysctl -q -w vm.swappiness=10
+    grep -q '^vm.swappiness' /etc/sysctl.conf || echo 'vm.swappiness=10' >> /etc/sysctl.conf
+    echo "   2 Go d'échange en place"
+else
+    echo "   échange déjà configuré"
+fi
+
 echo "== correctifs de sécurité automatiques =="
 dpkg-reconfigure -f noninteractive unattended-upgrades
 

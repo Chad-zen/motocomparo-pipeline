@@ -4,8 +4,11 @@
 #   bash 02-postgres.sh
 #
 # Les valeurs ci-dessous ne sont pas des recettes copiées : elles viennent de la
-# taille réelle du catalogue (≈760 000 offres, base de 500 à 600 Mo d'après
-# docs/infrastructure.md) et de la mémoire du VPS.
+# taille réelle du catalogue et de la mémoire du VPS, tous deux mesurés.
+#
+# Mesuré le 2026-09-17 : la base fait 6,6 Go, dont 2,7 Go de tables de travail
+# qui ne sont PAS transférées (voir 04). Restent environ 3,9 Go, sur un VPS de
+# 3,8 Go de mémoire et 1 cœur.
 set -euo pipefail
 
 echo "== dépôt officiel PostgreSQL =="
@@ -27,9 +30,13 @@ echo "== réglages ($CONF) =="
 cat > "$CONF" <<'PGCONF'
 # Réglages MotoComparo — VPS 1 vCPU / 4 Go.
 #
-# shared_buffers : le quart de la mémoire, la règle usuelle. Le catalogue fait
-# 500-600 Mo : il tient donc ENTIÈREMENT en cache, et c'est ce qui permet à une
-# fiche de sortir sans toucher le disque.
+# shared_buffers : le quart de la mémoire, la règle usuelle.
+#
+# Le catalogue ne tient PAS entièrement dedans — 3,9 Go de données pour 1 Go de
+# cache — et c'est sans gravité : les tables lues à chaque page (`product`,
+# `product_stats`) pèsent quelques centaines de mégaoctets, le reste est de
+# l'offre brute qu'on ne relit qu'au passage du pipeline. Ce qui est chaud tient
+# au chaud, et c'est tout ce qu'on demande.
 shared_buffers = 1GB
 
 # effective_cache_size ne réserve rien : c'est ce que le planificateur croit
