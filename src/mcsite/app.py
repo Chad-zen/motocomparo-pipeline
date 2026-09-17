@@ -119,6 +119,28 @@ def _version_css() -> int:
 templates.env.globals["version_css"] = _version_css
 
 
+def _statique_existe(nom: str) -> bool:
+    """`static/<nom>` est-il présent sur le disque ?
+
+    Sert à ne proposer une image que si elle a été déposée. Un `<source>` qui
+    pointe vers un fichier absent n'est pas un détail cosmétique : le navigateur
+    choisit la source AVANT de la télécharger, et s'il retient celle-là, il
+    n'affiche pas l'image de repli — il n'affiche rien du tout. L'affiche
+    disparaîtrait de l'accueil, en desktop uniquement.
+
+    Lu à chaque rendu, pas au démarrage : l'affiche paysage peut être déposée
+    sans redémarrer le service, et la page d'accueil est de toute façon gardée
+    en cache.
+    """
+    try:
+        return (HERE / "static" / nom).is_file()
+    except OSError:
+        return False
+
+
+templates.env.globals["statique_existe"] = _statique_existe
+
+
 def _rayons() -> list[dict[str, Any]]:
     """Le menu des rayons, pris dans le cache de navigation.
 

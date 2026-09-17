@@ -888,3 +888,130 @@ deux d'ordre :
 
 Résultat : **0,16 s / 1,03 s / 2,03 s**, et l'accueil complet passe de 2,4 s à
 5,2 s à froid, 7 ms en cache.
+
+## 17/09/2026, soir — Deux pannes totales, et le test qui manquait
+
+### La panne
+
+La migration 020 recrée `product_stats` — il n'existe pas d'ALTER pour ajouter
+une colonne à une vue matérialisée. Appliquée sur le VPS en `sudo -u postgres`,
+elle a rendu la vue propriété de `postgres`, alors que tout le schéma appartient
+au rôle de l'application. Résultat, **toutes les pages en 500** :
+
+```
+psycopg.errors.InsufficientPrivilege:
+permission denied for materialized view product_stats
+```
+
+Y compris l'accueil : `categories()` lit cette vue. Réparé en rendant la vue à
+son propriétaire. La migration reprend désormais le propriétaire de `product`,
+puis **vérifie** qu'il a bien été appliqué et échoue bruyamment sinon.
+
+C'est un défaut qui n'existe QUE là où on déploie : en local, la migration est
+appliquée par le rôle qui possède déjà tout.
+
+### La seconde, une heure plus tard
+
+En câblant l'affiche paysage, j'ai ajouté `statique_existe()` au gabarit et
+oublié de le déclarer. L'accueil a rendu 500 — et **les 239 vérifications sont
+passées au vert.**
+
+C'est le constat de la journée. Aucune ne RENDAIT une page. Elles examinaient
+des requêtes, des règles, des fichiers, des invariants — tout sauf le résultat.
+Deux pannes totales en une journée, aucune attrapée, faute du test le plus bête
+qui soit : ouvrir la page et regarder le code de retour.
+
+`tests/test_site_pages.py` rend maintenant seize adresses, une fiche produit
+tirée de l'accueil, et vérifie que les fichiers d'affiche référencés existent
+vraiment — parce qu'un `<source>` retenu mais introuvable n'affiche pas l'image
+de repli, il n'affiche rien.
+
+### La fuite, et d'où elle venait
+
+Le commit `e69da0a` de ce matin — que j'avais préparé — contenait le nom de
+famille de la propriétaire en clair, dans un commentaire de
+`ops/deploiement/07-planification.sh`, sur un dépôt PUBLIC et volontairement
+anonymisé. Retiré.
+
+Mon balayage d'avant-commit cherchait un prénom, un fournisseur de messagerie,
+l'adresse IP, le mot « password ».
+Il ne cherchait pas le nom de famille. **Une vérification qui cherche les termes
+dont on se souvient, au lieu de la règle qu'on applique, ne vérifie rien.**
+
+### L'accueil : douze carrousels, c'était onze de trop
+
+Demande de la propriétaire : « trop répétitive, c'est moche de dingue, il manque
+des IMAGES, il y en a 11 c'est trop ». Le compte lui donnait raison : trois
+étagères éditoriales plus neuf étagères de rayon, toutes bâties sur la même
+carte, au même rythme, avec les mêmes boutons.
+
+Les neuf rangées de rayon deviennent une **mosaïque en grandes images** : une
+vraie photo de produit par rayon, son nombre de fiches, son prix d'entrée. La
+première tuile est deux fois plus grande — sans elle, la mosaïque serait à son
+tour un damier régulier, et on aurait remplacé une monotonie par une autre.
+
+De douze carrousels à **trois**. Aucune requête de plus : `categories()` portait
+déjà la photo et le prix d'entrée.
+
+### La bannière qui déposait des cookies
+
+Voir `partenaires.py`. L'image Motoblouz pointait vers `pkw.motoblouz.com`, le
+domaine de suivi de Kwanko : quatre cookies, 60 jours, **à l'affichage**, chez
+un visiteur qui n'avait rien cliqué — alors que la page « À propos » promet
+l'inverse. Mon commentaire d'origine disait « il n'y a pas de tiers
+supplémentaire » : vrai sur la forme, faux sur le fond. La question n'était pas
+de savoir s'il y a un tiers, mais si un cookie part sans clic.
+
+Motoblouz sort de la rotation d'images, et seulement d'elle : son lien de clic
+reste, et le revenu se fait au clic et à la vente, pas à l'affichage.
+
+## 17/09/2026, tard — Les cartes de l'accueil, et une règle qui en coûte une autre
+
+Réglages demandés par la propriétaire, capture à l'appui :
+
+- **la MARQUE en gras et en capitales**, le **titre en graisse normale**, le
+  **prix de la même taille et de la même graisse que la marque** ;
+- le **prix barré collé au prix**, et non renvoyé à l'autre bout de la carte ;
+- **plus de « X € d'écart sur cette fiche »** ni de « vu pour la première fois
+  le … » : « le client n'est pas con non plus » ;
+- la pastille **« Nouveau » sur les trois premières cartes seulement** ;
+- **aucune fiche à moins de trois marchands** sur l'accueil.
+
+Les quatre premiers sont des retraits, et ils vont dans le même sens : une carte
+de 208 px annonçait la remise **trois fois** — en pastille, en prix barré, et en
+toutes lettres. Deux ancres fortes (marque, prix) et un titre discret entre les
+deux se parcourent plus vite qu'un gros chiffre entouré de redites. Poser le
+prix à la même taille que la marque est l'inverse de l'habitude, et c'est mieux
+vu : une carte sert à **reconnaître** l'article, la fiche à en comparer le prix.
+
+### La règle des trois marchands en annule une autre
+
+Mesuré avant d'appliquer, et c'est heureux :
+
+| Rangée | à ≥2 marchands | à ≥3 marchands |
+|---|---:|---:|
+| Là où comparer rapporte le plus | 5 777 candidats | 2 389 |
+| Nouveautés casque | 40 fiches | **0** |
+
+Une fiche qui vient d'arriver est chez **un** marchand par construction ; il
+faut des semaines pour que trois la listent. La règle est donc appliquée partout
+— c'est la consigne — et elle **fait disparaître la rangée « Nouveautés
+casque »** demandée le matin même. Le gabarit ne rend la section que si elle a
+quelque chose à montrer : mieux vaut une rangée absente qu'une rangée qui
+enfreint la règle du site. La décision de garder l'une ou l'autre appartient à
+la propriétaire, qui a été prévenue avec les chiffres.
+
+### Trois fois le même piège
+
+Un `%` écrit dans un **commentaire SQL** a fait échouer une requête trois fois
+dans la journée : psycopg lit la chaîne entière, pas seulement le code, et
+« 18 % » ou `{% if %}` dans une explication devient un paramètre incomplet.
+L'erreur ne parle jamais du commentaire — elle dit « incomplete placeholder »,
+et on cherche ailleurs. Trois fois, ce n'est plus de la distraction : c'est un
+piège du langage, et `tests/test_requetes_sql.py` le garde maintenant.
+
+Un second test a été écrit puis **retiré** : il comptait les paramètres d'une
+requête en analysant du Python à coups d'expressions régulières, et rendait un
+faux positif sur une requête juste. Un test auquel on ne peut pas se fier coûte
+plus qu'il ne rapporte — on finit par le contourner, puis par ignorer ses
+semblables.

@@ -4,7 +4,7 @@ Ce dossier contient tout ce qu'il faut pour mettre MotoComparo v2 en ligne, dans
 l'ordre. **Aucun script ne s'exécute tout seul** : on les lance un par un et on
 regarde ce qui se passe entre chacun.
 
-Cible : le VPS Hostinger KVM 1 (`srv1976533.hstgr.cloud`, Ubuntu 24.04),
+Cible : le VPS Hostinger KVM 1 (`<hote-vps>`, Ubuntu 24.04),
 provisionné le 2026-09-13. Le sous-domaine `staging.motocomparo.com` sera
 basculé du mutualisé vers lui — la production WordPress et le staging WordPress
 ne sont **pas** touchés tant que la v2 n'a pas fait ses preuves.
@@ -70,7 +70,7 @@ maintenant.
 
 ## Après le déploiement — les trois vérifications
 
-```bash
+``bash
 # 1. Le site répond, et le cache fonctionne.
 curl -sI https://staging.motocomparo.com/ | grep -i x-cache   # MISS
 curl -sI https://staging.motocomparo.com/ | grep -i x-cache   # HIT
@@ -82,7 +82,7 @@ done
 
 # 3. Le relevé de nuit est bien programmé.
 systemctl list-timers mcpipe-prix.timer
-```
+``
 
 Le second appel doit être **très** inférieur au premier. S'ils sont identiques,
 le cache ne fonctionne pas : vérifier que l'application n'envoie pas d'en-tête

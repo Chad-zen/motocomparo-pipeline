@@ -76,7 +76,7 @@ server {
         # utilise \$proxy_host, c'est-a-dire 127.0.0.1:8000 pour toutes les
         # requetes : une page demandee par l'adresse IP etait resservie telle
         # quelle pour le domaine — le plan du site annoncait des adresses en
-        # 72.61.109.193 aux visiteurs du nom de domaine. Le schema y est aussi,
+        # <ip-vps> aux visiteurs du nom de domaine. Le schema y est aussi,
         # sans quoi une page servie en http reviendrait en https.
         proxy_cache_key "\$scheme\$host\$request_uri";
 

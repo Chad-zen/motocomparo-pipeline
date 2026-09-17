@@ -1,5 +1,18 @@
 # Infrastructure — what is actually there
 
+> **Les valeurs réelles ne sont PAS dans ce fichier.** Ce dépôt est public et
+> volontairement anonymisé. Noms de bases, identifiants Hostinger, adresse IP,
+> nom d'hôte et référence de paiement ont été remplacés par des marqueurs de la
+> forme `<...>` le 17/09/2026, après un audit de sécurité. Les vraies valeurs se
+> lisent dans hPanel et dans `.env`, qui n'est dans aucun dépôt.
+>
+> Elles restent lisibles dans l'historique git déjà publié : les retirer d'un
+> commit ne les efface pas des précédents. Réécrire cet historique est une
+> opération destructive sur un dépôt public — c'est une décision de la
+> propriétaire, pas une décision technique.
+>
+> `tests/test_depot_anonyme.py` empêche désormais leur retour.
+
 Measured 2026-09-13, read-only, from hPanel and from each site's WordPress
 "Site Health → Info" page. Everything here was checked, not assumed: an earlier
 version of these notes had the two databases the wrong way round and drew the
@@ -12,7 +25,7 @@ There are **two** complete WordPress sites, not one.
 | | production | staging |
 |---|---|---|
 | Address | `motocomparo.com` | `staging.motocomparo.com` |
-| Database | **`u660903589_8sMNw`** | **`u660903589_4MFbB`** |
+| Database | **`<base-prod>`** | **`<base-staging>`** |
 | Database size / quota | 2981 / 3072 MB (**97%**) | 3028 / 3072 MB (98.6%) |
 | Database created | 2025-12-31 | **2026-09-05** |
 | Table prefix | `wp_` | `wp_` |
@@ -23,8 +36,8 @@ Same theme (ReHub), same 18 active plugins, same 70 WPCode snippets, same
 ⚠️ **`4MFbB` is the staging database, not production.** Notes written before
 2026-09-13 call it "the main one" — they are wrong. A phpMyAdmin session opened
 from the `4MFbB` row is looking at staging, and its MySQL user
-(`u660903589_B6jms`) cannot see the production database at all. To reach
-production, open phpMyAdmin from the **`8sMNw`** row (user `u660903589_msxBG`).
+(`<base-bac-a-sable>`) cannot see the production database at all. To reach
+production, open phpMyAdmin from the **`8sMNw`** row (user `<user-prod>`).
 
 ## Disk is not a constraint. The per-database quota is.
 
@@ -46,8 +59,8 @@ hypothesis was raised on 2026-09-13 and disproved the same day.
 
 ## A third database exists and is nearly empty
 
-`u660903589_X5EYI` — 7 MB used, unattributed to any site, created 2026-01-02,
-user `u660903589_lRakW`. It carries its **own 3072 MB quota**.
+`<base-orpheline>` — 7 MB used, unattributed to any site, created 2026-01-02,
+user `<user-orpheline>`. It carries its **own 3072 MB quota**.
 
 The v2 catalogue is estimated at 500-600 MB. It would fit there with room to
 spare, without deleting anything from production.
@@ -65,15 +78,15 @@ day, the v2 site itself — will run.
 
 | | |
 |---|---|
-| Host name | `srv1976533.hstgr.cloud` |
-| Plan | Hostinger KVM 1 (annual, paid; payment ref H_50669617) |
+| Host name | `<hote-vps>` |
+| Plan | Hostinger KVM 1 (annual, paid) |
 | Location | France |
 | OS | Ubuntu 24.04 LTS, plain — no control panel |
 | Extras | none: no malware scanner, no Docker manager (both declined to keep RAM for PostgreSQL; both can be added later from the VPS dashboard) |
 | Expires | 2027-09-12 |
-| IPv4 | `72.61.109.193` |
-| IPv6 | `2a02:4780:28:9e00::1` |
-| Reverse DNS | `srv1976533.hstgr.cloud` (les deux) |
+| IPv4 | `<ip-vps>` |
+| IPv6 | `<ipv6-vps>` |
+| Reverse DNS | `<hote-vps>` (les deux) |
 
 Why 24.04 and not the 26.04 LTS offered as default: 24.04 is the mature LTS that
 PostgreSQL's own apt repository and most tooling target. 26.04 was five months old
@@ -105,12 +118,12 @@ PostgreSQL wants on an entry-level plan.
 ## VPS de staging — mis en ligne le 2026-09-17
 
 `https://staging.motocomparo.com` sert la **v2** depuis le VPS Hostinger
-(`72.61.109.193`). Le staging WordPress n'est pas supprimé : pour revenir en
+(`<ip-vps>`). Le staging WordPress n'est pas supprimé : pour revenir en
 arrière, il suffit de reposer l'enregistrement DNS d'origine.
 
 | | avant | après |
 |---|---|---|
-| DNS `staging` | ALIAS → `staging.motocomparo.com.cdn.hstgr.net`, TTL 300 | **A → `72.61.109.193`, TTL 300** |
+| DNS `staging` | ALIAS → `staging.motocomparo.com.cdn.hstgr.net`, TTL 300 | **A → `<ip-vps>`, TTL 300** |
 
 Hostinger refuse un ALIAS et un A sur le même nom : il faut supprimer l'ALIAS
 *avant* de créer le A. TTL volontairement court, pour que le retour en arrière

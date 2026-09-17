@@ -10,7 +10,7 @@
 
 Read on 2026-09-13 from `staging.motocomparo.com` (an exact copy of production):
 the WPCode snippets that render the site, and the real table structures in
-`u660903589_4MFbB`. Everything below was read, not guessed. The point is that
+`<base-staging>`. Everything below was read, not guessed. The point is that
 **the site's display is good and stays untouched** — `publish` must simply feed
 it what it already knows how to read.
 
@@ -19,11 +19,11 @@ it what it already knows how to read.
 A v1 product page is **a WooCommerce product post** whose attributes live in
 `wp_postmeta`, plus **its offers, in `wp_pc_offers`**, joined on the post ID.
 
-```
+``
 wp_posts (post_type=product) ─┬─ wp_postmeta        : brand, image, colour, type, price
         post_id ──────────────┴─ wp_pc_offers       : one row per merchant offer
                                └─ wp_pc_price_history: one row per merchant per day
-```
+``
 
 `wp_pc_offers.product_id` **is the WordPress post ID.** That single fact
 determines the shape of `publish`: every v2 product needs a post, and every
