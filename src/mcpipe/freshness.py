@@ -153,6 +153,17 @@ def run_freshness() -> FreshnessResult:
             cur.execute(_UNMARK_STALE)
             products_revived = cur.rowcount
 
+            # La vue `product_stats` porte TOUS les prix que le site affiche en
+            # liste — « à partir de … » sur chaque carte, le meilleur prix en
+            # haut de fiche, la rangée de l'accueil, la recherche, les compteurs
+            # de marques. Sa fonction de rafraîchissement disait elle-même être
+            # « appelée à la fin de freshness » ; elle ne l'était par aucune
+            # ligne de code. Le site pouvait donc afficher des prix arbitrairement
+            # vieux tout en promettant une actualisation quotidienne — le genre
+            # d'écart qui ne se voit pas, parce que les chiffres restent
+            # plausibles.
+            cur.execute("SELECT refresh_product_stats()")
+
         conn.commit()
         return FreshnessResult(
             fresh, expired, history_rows, prices_set, prices_cleared,

@@ -105,6 +105,12 @@ _HELMET_ACCESSORY = re.compile(
 _IS_A_HELMET_ITSELF = re.compile(r"\bcasque\b|\bhelmet\b")
 _FITS_A_HELMET = re.compile(r"(?:du|de|pour)\s+(?:le\s+)?(?:casque|helmet)"
                             r"|pour\s+\w+\s+helmet")
+# A spare part says so outright, and then no preposition is needed. Speedway
+# lists eleven "Mentonnière HJC RPHA 90S … - Pièces détachées casque" at 90 EUR
+# and they sat among 455 EUR modular helmets: the rule above wants "pour casque"
+# or "de casque" to overrule the word "casque" in the title, and "Pièces
+# détachées casque" has neither.
+_IS_A_SPARE_PART = re.compile(r"pieces? detachees?|spare parts?")
 
 
 # --- pure decisions (offline-testable) -------------------------------------
@@ -135,6 +141,8 @@ def is_helmet_accessory(title: str | None) -> bool:
     blob = tn.norm_txt(title)
     if not blob or not _HELMET_ACCESSORY.search(blob):
         return False
+    if _IS_A_SPARE_PART.search(blob):
+        return True
     return not _IS_A_HELMET_ITSELF.search(blob) or bool(_FITS_A_HELMET.search(blob))
 
 
@@ -351,7 +359,8 @@ donors AS (
                WHEN 'XXXXL' THEN '4XL'
                ELSE upper(substring(upper(s.size_code) from '{_SIZE_LETTERS}'))
            END AS taille,
-           m.code AS merchant
+           m.code AS merchant,
+           s.size_source AS origine
     FROM raw_offer o
     JOIN merchant m ON m.id = o.merchant_id AND m.gtin_trust = 'trusted'
     JOIN offer_signature s ON s.raw_offer_id = o.id
@@ -367,25 +376,45 @@ agreed AS (
     SELECT gtin,
            min(taille) AS taille,
            count(DISTINCT merchant) AS n,
-           string_agg(DISTINCT merchant, ',' ORDER BY merchant) AS qui
+           string_agg(DISTINCT merchant, ',' ORDER BY merchant) AS qui,
+           -- 'feed' seulement si TOUS les donneurs la déclaraient dans leur
+           -- flux. Un seul donneur 'mpn' dans le lot suffit à retirer à la
+           -- valeur son statut de preuve : hors habillement, `match` la
+           -- traitera alors comme une supposition — et c'en est une.
+           CASE WHEN bool_and(origine = 'feed') THEN 'feed' ELSE 'mpn' END
+               AS origine
     FROM donors
     WHERE taille IS NOT NULL AND taille <> ''
     GROUP BY gtin
     HAVING count(DISTINCT taille) = 1
 )
-INSERT INTO offer_size_override (raw_offer_id, size_code, source, donor_count, donor_codes)
-SELECT o.id, a.taille, 'xmerchant_gtin', a.n, a.qui
+INSERT INTO offer_size_override
+    (raw_offer_id, size_code, source, donor_count, donor_codes, donor_source)
+SELECT o.id, a.taille, 'xmerchant_gtin', a.n, a.qui, a.origine
 FROM raw_offer o
 JOIN merchant m ON m.id = o.merchant_id AND m.gtin_trust = 'trusted'
 JOIN offer_signature s ON s.raw_offer_id = o.id
 JOIN agreed a ON a.gtin = o.gtin
 LEFT JOIN parent_ean pe ON pe.merchant_id = o.merchant_id AND pe.gtin = o.gtin
 WHERE o.is_live AND o.gtin IS NOT NULL AND pe.gtin IS NULL
-  AND (s.size_code IS NULL OR s.size_code = '' OR s.size_code = 'TU')
+  -- On remplit une taille absente, mais aussi une taille SUPPOSÉE. Le titre et
+  -- l'URL sont des inférences — on prend le mot qui occupe la place où une
+  -- taille se trouve d'habitude, et rien ne garantit que c'en soit une. Ce que
+  -- deux marchands déclarent dans leur FLUX sur le même code-barres est une
+  -- preuve, et une preuve doit l'emporter sur une supposition.
+  --
+  -- Sans cette ligne, l'ordre des étapes retournait le raisonnement : le titre
+  -- était lu d'abord, l'offre n'était donc plus vide, et l'emprunt la sautait.
+  -- Une protection cervicale Alpinestars affichait « taille 2 » — lue dans
+  -- « BNS TECH-2 » — alors que six marchands déclaraient XS/M et L/XL sur les
+  -- mêmes codes-barres. Signalé par la propriétaire le 14/09/2026.
+  AND (s.size_code IS NULL OR s.size_code = '' OR s.size_code = 'TU'
+       OR s.size_source IN ('title', 'url'))
 ON CONFLICT (raw_offer_id) DO UPDATE SET
     size_code    = EXCLUDED.size_code,
     donor_count  = EXCLUDED.donor_count,
     donor_codes  = EXCLUDED.donor_codes,
+    donor_source = EXCLUDED.donor_source,
     confirmed_at = now()
 """
 
@@ -405,6 +434,195 @@ def borrow_sizes() -> int:
             written = cur.rowcount
         conn.commit()
         return written
+    except Exception:
+        conn.rollback()
+        raise
+    finally:
+        conn.close()
+
+
+# --- le fourre-tout « Protections », découpé ---------------------------------
+#
+# Le rayon 11 mélangeait 44 350 offres : ce qui protège le PILOTE (dorsales,
+# gilets, coudières, cervicales) et ce qui protège la MOTO (pare-carters, sabots
+# moteur, protège-réservoir) — plus, en pratique, des bulles, des garde-boue et
+# de la visserie qui n'ont rien à y faire.
+#
+# Signalé par la propriétaire le 14/09/2026 : sur la fiche d'une protection
+# cervicale Alpinestars, l'étagère « dans la même gamme de prix » proposait un
+# pare-carter SW-Motech. Même prix, même rayon, aucun rapport — et aucun filtre
+# ne pouvait les séparer tant qu'ils portaient le même numéro.
+#
+# On lit le TITRE MARCHAND, jamais notre nom reconstruit : ce dernier est un sac
+# de jetons trié alphabétiquement, il a perdu l'ordre des mots et donc le sens.
+#
+# Mesuré avant écriture : 71 % des 44 350 offres sont décidées par ces règles.
+# Les 29 % restantes — petite visserie, kits de fixation, pièces sans mot-clé —
+# restent dans le rayon 11. Une offre laissée où elle est ne casse rien ; une
+# offre mal rangée, si.
+_PROTECTION_RULES: list[tuple[re.Pattern, int]] = [
+    # La protection D'UNE PIÈCE de la moto reste une protection de la moto :
+    # « protection de silencieux » n'est pas un échappement. En premier, donc.
+    (re.compile(
+        r"pare[- ]?carter|crash ?bar|sabot|protege[- ]?reservoir|protection moteur|"
+        r"tampon|protection de cadre|insert cadre|slider|protege[- ]?main|"
+        r"protections? de radiateur|protege[- ]?disque|protections? de fourche|"
+        r"filets? de protection|protections? de disque|couvre[- ]?carter|"
+        r"cache[- ]?carter|protection d.axe|protege[- ]?levier|bras oscillant|"
+        r"barre de protection|protection (de |du )?(pot|silencieux|collecteur|"
+        r"echappement|valve)|pare[- ]?chaleur|grip de reservoir|patin|"
+        r"protection laterale|protection de bequille|protections? te de fourche|"
+        r"protection de chaine|protege[- ]?chaine|bouchon chassis"), 29),
+
+    (re.compile(
+        r"dorsale|gilet de protect|gilet protecteur|coudiere|genouillere|"
+        r"protege[- ]?dos|cervicale|neck brace|tour de nuque|col cou|"
+        r"plastron|airbag|protection pectorale|protege[- ]?tibia|ceinture lombaire|"
+        r"protection poitrine|body armour|veste de protect|protection dorsale|"
+        r"protege[- ]?hanche|protection cheville|paire de protections|"
+        r"protections? genou|protections? coude|protege[- ]?genou|protege[- ]?coude|"
+        r"short de protection|protection lombaire|veste protectrice"), 28),
+
+    # Ce qui n'est pas une protection du tout et a un vrai rayon ailleurs.
+    (re.compile(
+        r"bulle|saute[- ]?vent|pare[- ]?brise|carenage|tete de fourche|deflecteur|"
+        r"garde[- ]?boue|passage de roue|kit plastique|extension de garde|"
+        r"leche[- ]?roue|plaque phare|spoiler|aileron"), 18),   # carénage
+
+    (re.compile(
+        r"guidon|autocollant|sticker|repose[- ]?pied|planche adhesive|"
+        r"film de protection|kit (de )?(fixation|visserie)|silent ?bloc|"
+        r"poignees? de maintien|visserie"), 24),                # accessoires
+]
+
+_PROTECTION_ID = 11
+
+
+def protection_subtype_from_title(title: str | None) -> int | None:
+    """Le rayon que ce titre désigne vraiment, ou None si aucune règle ne tranche.
+
+    Première règle qui correspond gagne : elles sont rangées du plus spécifique
+    au plus général, et la protection d'une pièce mécanique passe avant la pièce
+    elle-même.
+    """
+    blob = tn.norm_txt(title)
+    if not blob:
+        return None
+    for rx, cid in _PROTECTION_RULES:
+        if rx.search(blob):
+            return cid
+    return None
+
+
+_SELECT_PROTECTIONS = """
+SELECT o.id, o.raw_title
+FROM raw_offer o
+LEFT JOIN offer_category_override ov ON ov.raw_offer_id = o.id
+LEFT JOIN category_map cm
+    ON cm.merchant_id = o.merchant_id AND cm.raw_path = o.raw_category
+WHERE o.is_live
+  AND o.raw_title IS NOT NULL
+  AND ov.raw_offer_id IS NULL
+  AND coalesce(cm.category_id, 0) = %s
+"""
+
+
+def split_protections() -> dict[int, int]:
+    """Découpe le fourre-tout « Protections ». Rend {rayon: nombre d'offres}.
+
+    N'écrit que sur les offres qui n'ont PAS déjà une correction : les règles
+    précédentes d'`enrich` sont plus spécifiques (casques, reclassement par
+    titre) et ne doivent pas être défaites par celle-ci.
+    """
+    conn = connect()
+    par_rayon: dict[int, int] = {}
+    try:
+        with conn.cursor() as cur:
+            cur.execute(_SELECT_PROTECTIONS, (_PROTECTION_ID,))
+            lignes = cur.fetchall()
+
+            corrections = []
+            for offer_id, titre in lignes:
+                cid = protection_subtype_from_title(titre)
+                if cid is not None:
+                    corrections.append((offer_id, cid, "protection_split"))
+                    par_rayon[cid] = par_rayon.get(cid, 0) + 1
+
+            if corrections:
+                cur.executemany(
+                    "INSERT INTO offer_category_override "
+                    "(raw_offer_id, category_id, source, confidence) "
+                    "VALUES (%s, %s, %s, 0.80) "
+                    "ON CONFLICT (raw_offer_id) DO NOTHING",
+                    corrections,
+                )
+        conn.commit()
+        return par_rayon
+    except Exception:
+        conn.rollback()
+        raise
+    finally:
+        conn.close()
+
+
+# --- accorder les marchands sur un même code-barres --------------------------
+#
+# LA leçon du 2026-09-14, apprise en cassant quelque chose. La découpe
+# ci-dessus lit le titre de CHAQUE offre séparément. Or les marchands ne
+# nomment pas la même chose pareil :
+#
+#   Speedway  « Tour De Nuque Alpinestars BNS Tech-2 »   -> reconnu, rayon 28
+#   Motoblouz « Protection cervicale Alpinestars BNS »   -> reconnu, rayon 28
+#   FC-Moto   « Alpinestars BNS Tech-2 Protecteur de cou » -> aucun mot-clé, 11
+#
+# Trois marchands, LE MÊME code-barres (8033637210797), deux rayons. Or le rayon
+# entre dans l'identité d'une fiche : le pipeline a vu un conflit et a détaché
+# les trois. Une fiche à sept marchands est tombée à un.
+#
+# Un code-barres désigne UN produit. Si une offre de ce code-barres a été
+# reconnue, les autres parlent du même objet — quels que soient leurs mots. On
+# propage donc la décision, exactement comme `helmet_borrowed` emprunte le
+# sous-type d'un casque au voisin qui partage son code-barres.
+#
+# Deux garde-fous :
+#   - on ne propage que si les offres reconnues sont TOUTES D'ACCORD ; deux
+#     rayons différents sur un code-barres, c'est une donnée marchande douteuse,
+#     pas une décision à trancher au hasard ;
+#   - on n'écrase jamais une décision déjà prise par une règle plus spécifique.
+_ACCORDER_PAR_GTIN = """
+WITH decide AS (
+    SELECT o.gtin, ov.category_id
+    FROM raw_offer o
+    JOIN offer_category_override ov ON ov.raw_offer_id = o.id
+    WHERE o.is_live AND o.gtin IS NOT NULL
+      AND ov.source = 'protection_split'
+),
+accord AS (
+    SELECT gtin, min(category_id) AS category_id
+    FROM decide
+    GROUP BY gtin
+    HAVING count(DISTINCT category_id) = 1
+)
+INSERT INTO offer_category_override (raw_offer_id, category_id, source, confidence)
+SELECT o.id, a.category_id, 'protection_gtin', 0.75
+FROM raw_offer o
+JOIN accord a ON a.gtin = o.gtin
+LEFT JOIN offer_category_override ov ON ov.raw_offer_id = o.id
+WHERE o.is_live AND ov.raw_offer_id IS NULL
+ON CONFLICT (raw_offer_id) DO NOTHING
+"""
+
+
+def accorder_protections_par_gtin() -> int:
+    """Propage la décision de rayon aux offres du même code-barres. Rend le
+    nombre d'offres ralliées."""
+    conn = connect()
+    try:
+        with conn.cursor() as cur:
+            cur.execute(_ACCORDER_PAR_GTIN)
+            n = cur.rowcount
+        conn.commit()
+        return n
     except Exception:
         conn.rollback()
         raise

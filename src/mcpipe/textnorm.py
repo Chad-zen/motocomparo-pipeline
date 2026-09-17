@@ -126,6 +126,15 @@ _COLOUR_FINISH: dict[str, str] = {
 # Arese ST GTX: standard/long/king size/court all sharing one item_group_id
 # at every merchant), the same false-split class the size/colour stripping
 # just above already exists to prevent.
+# ATTENTION : cette chaîne est découpée par `.split()`. Un commentaire écrit
+# À L'INTÉRIEUR y entrerait mot par mot — « mais », « pas », « donnait » —
+# et ces mots seraient alors retirés de vrais noms de produits. Commenter
+# au-dessus, jamais dedans.
+#
+# « taille / tailles » ajoutés le 14/09/2026 : « size » y était mais pas sa
+# traduction, et « Housse Moto Ixon Blanky (Taille M) » donnait les jetons
+# [blanky, housse, taille] — d'où une adresse de fiche en « -housse-taille- »
+# et 224 fiches portant un mot d'identité qui n'identifie rien.
 _STOP: frozenset[str] = frozenset(
     """
     casque helmet casco moto motard motorcycle scooter pour de du le la les the with avec et a
@@ -144,11 +153,21 @@ _STOP: frozenset[str] = frozenset(
     xs s m l xl xxl xxxl 2xl 3xl 4xl 5xl 6xl tu tailleunique
     h2o d3o d30 waterproof gore tex membrane protection homologation
     standard long court king size regular normal
+    taille tailles
     """.split()
 )
 
 _MODEL_REF_RE = re.compile(r"\b([a-z]{1,5}\d{1,4}[a-z]?|\d{2,4}[a-z]{1,3})\b")
-_SIZE_TITLE_RE = re.compile(r"-\s*([a-z0-9]{1,4})\s*$", re.I)
+# Le tiret doit être DÉTACHÉ. Un vrai suffixe de taille est séparé — « Stoner
+# - XL », « Skwal - 59 », « Couronne JT 853 - 520 » ; une génération de modèle
+# est collée — « BNS TECH-2 », « Tissu-MESH », « GT-Air ». Signalé par la
+# propriétaire le 14/09/2026 : une protection cervicale Alpinestars affichait
+# « taille 2 » à côté des XS/M et L/XL que six autres marchands déclarent.
+#
+# Mesuré sur la base : sur 50 666 tailles lues dans un titre, 39 216 viennent
+# d'un tiret collé — donc des générations — contre 11 103 d'un tiret détaché,
+# qui sont de vraies caractéristiques (pas de chaîne, nombre de rayons).
+_SIZE_TITLE_RE = re.compile(r"-\s+([a-z0-9]{1,4})\s*$", re.I)
 _SIZE_URL_RE = re.compile(r"taille[-/ ]([a-z0-9]{1,4})", re.I)
 # an mpn size suffix must be set off by a delimiter or preceded by a digit
 # (168075199XS) — a bare "...L" at the end of an unbroken token is not a size
@@ -166,6 +185,16 @@ _SIZE_URL_RE = re.compile(r"taille[-/ ]([a-z0-9]{1,4})", re.I)
 _SIZE_MPN_RE = re.compile(
     r"(?:[-_ /]|(?<=\d))(xxs|xs|s|m|l|xl|xxl|xxxl|2xl|3xl|4xl|tu|t\d{1,2})$", re.I
 )
+# A leg-length word glued to a letter size: "Short XL", "M court", "LONGM".
+# `size_code` has already stripped spaces by the time this runs, so both orders
+# have to be matched. The size is what survives; the cut is dropped.
+_FIT_PREFIX_RE = re.compile(
+    r"(?:SHORT|LONG|COURT|REGULAR|STANDARD|KING)(?P<taille>XXS|XS|S|M|L|XL|XXL|[2-6]XL)"
+    r"|(?P<taille2>XXS|XS|S|M|L|XL|XXL|[2-6]XL)(?:SHORT|LONG|COURT|REGULAR|STANDARD|KING)",
+    re.I,
+)
+
+
 _YEAR_RE = re.compile(r"\b(20(?:1[89]|2[0-9]))\b")
 # a genuine multi-item pack, not "kit chaine" / "kit piston" (single products).
 # runs on norm_txt output, so "+" is already gone — hence the gift+device pair.
@@ -361,6 +390,57 @@ def size_code(raw_size: str | None, title: str | None, link: str | None,
     # worst case it is an ugly size label; the old behaviour was a silent
     # false merge, the exact class of bug this project treats as
     # unacceptable everywhere else.
+    # A colour is never a size, whatever field it came from. Reading a size out
+    # of a title picks up whatever
+    # word sits where a size usually sits, and on 2026-09-13 that meant 6,456
+    # Motoblouz offers filed under size "NOIR", 417 more at La Bécanerie, and
+    # "BLEU" and "GRIP" besides. Each one is a variant nobody can buy, and it
+    # splits a product that should have had one.
+    if c.lower() in _COLOUR_BASE or c.lower() in _COLOUR_FALLBACK:
+        return "", ""
+
+    # Leg length is a fit, not a size: "Short XL" and "XL" are the same size in
+    # two cuts, and the owner's rule (docs/product-decisions.md) is that leg
+    # lengths are not real variants — they were already stripped from the model
+    # name for exactly this reason, but survived here and created SHORTXL beside
+    # XL. FC-Moto ships "Short XL", "Long M", "M court".
+    if m := _FIT_PREFIX_RE.fullmatch(c):
+        return (m.group("taille") or m.group("taille2")).upper(), src
+
+    # Une taille lue dans un TITRE est le signal le plus faible dont on dispose :
+    # on prend le mot qui occupe la place où une taille se trouve d'habitude, et
+    # rien ne garantit que c'en soit une. Mesuré le 2026-09-14 : 57 135 offres
+    # tiraient leur taille du titre, et sur les rayons habillement les valeurs
+    # les plus fréquentes étaient PURE, MONO, TECH, AIR, DRY, TEX, CITY, GT,
+    # RAID, YUMA — des mots de modèle et d'argumentaire. MESH avait ainsi donné
+    # une « taille MESH » sur un blouson Helstons, à côté des S/M/L/XL que cinq
+    # autres marchands déclaraient proprement.
+    #
+    # Interdire MESH, puis CUIR, puis GORETEX, serait une liste sans fin. La
+    # règle tenable est l'inverse : depuis cette source-là, on n'accepte QUE ce
+    # qui a la forme d'une taille. Les formes reconnues ont déjà été rendues
+    # plus haut (lettres, tours de tête en CM, pointures EU, coupes) ; tout ce
+    # qui arrive ici est un mot libre, et un mot libre n'est jamais une taille.
+    #
+    # Les autres sources gardent leur liberté : `feed` est déclaré par le
+    # marchand, `url` et `mpn` occupent une position structurée. Seul le titre
+    # est de la prose.
+    # ... mais seulement quand le candidat est un MOT. La frontière n'est pas
+    # arbitraire, elle est mesurée : sur les rayons habillement, le bruit est
+    # alphabétique (PURE, MONO, TECH, AIR, DRY, TEX, CITY, GT, RAID, YUMA,
+    # MESH), tandis que ce qu'il faut préserver sur les pièces est numérique —
+    # 520, 525, 530 sont des pas de chaîne, 14 à 20 des nombres de dents. Ce
+    # sont de vraies caractéristiques, et les confondre mélangerait deux chaînes
+    # différentes.
+    #
+    # La propriétaire a tranché le 14/09/2026 : corriger l'habillement, laisser
+    # les pièces à leur propre chantier. `category_id` n'existe pas encore à
+    # l'heure des signatures — c'est `match` qui le pose — donc on ne peut pas
+    # filtrer par rayon ici. Le test « contient un chiffre » sépare les deux
+    # populations sans avoir besoin du rayon.
+    if src == "title" and not any(ch.isdigit() for ch in c):
+        return "", ""
+
     return (c[:24], src) if c else ("", "")
 
 

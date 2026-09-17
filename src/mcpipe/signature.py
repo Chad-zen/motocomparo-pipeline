@@ -166,6 +166,21 @@ def compute_signatures(only_merchant: int | None = None) -> SignatureResult:
         with write.cursor() as cur:
             cur.execute(_UPSERT)
         write.commit()
+
+        # ANALYZE APRÈS le commit, et ce n'est pas du confort. Cette étape vient
+        # de réécrire une signature par offre — 767 000 lignes le 2026-09-14 —
+        # donc les statistiques du planificateur sur `offer_signature` datent
+        # d'avant. L'étape suivante du pipeline, `match`, la lit massivement.
+        #
+        # Mesuré le 2026-09-14 : `_BUILD_GTIN_UNITS` est passé de 24 à 31
+        # minutes faute de cet ANALYZE. Modéré ici, mais c'est la même cause qui
+        # a fait tourner la passe préfixe 50 minutes sans finir le matin même,
+        # et `freshness` 39 minutes au lieu de 2. Trois secondes.
+        with connect() as c2:
+            c2.autocommit = True
+            with c2.cursor() as cur:
+                cur.execute("ANALYZE offer_signature")
+
         return SignatureResult(n, time.time() - t0)
     except Exception:
         write.rollback()
