@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}Contact — MotoComparo{% endblock %}
+{% block description %}Une erreur de prix, une fiche à corriger, une question sur un marchand : écrivez-nous, on lit tout.{% endblock %}
+
+{% block contenu %}
+<nav class="fil"><a href="/">Accueil</a> › <span>Contact</span></nav>
+<h1 class="titre-page">Nous écrire</h1>
+
+{% if envoye == 1 %}
+  <p class="avis avis--ok">
+    Message reçu, merci. Nous le lisons&nbsp;; s'il porte sur une erreur de prix
+    ou de fiche, la correction part dans le prochain relevé.
+  </p>
+{% elif envoye == 2 %}
+  {# Dire la vérité quand le message a été refusé : un site dont l'argument est
+     l'honnêteté ne peut pas répondre « bien reçu » à ce qu'il a jeté. #}
+  <p class="avis avis--ko">
+    Message trop court pour être exploitable&nbsp;: dites-nous en quelques mots
+    ce que vous avez vu, et sur quelle page si possible.
+  </p>
+{% endif %}
+
+<div class="contact">
+  <form class="contact__form" method="post" action="/contact">
+    <label>Sujet
+      <select name="sujet" required>
+        <option value="erreur-prix">Un prix qui ne correspond pas</option>
+        <option value="erreur-fiche">Une fiche mal rangée ou en double</option>
+        <option value="marchand">Je suis un marchand</option>
+        <option value="autre">Autre</option>
+      </select>
+    </label>
+    <label>Votre message
+      <textarea name="corps" rows="7" required minlength="10"
+                placeholder="Dites-nous ce que vous avez vu, et sur quelle page si possible."></textarea>
+    </label>
+    {# L'adresse est facultative à dessein : quelqu'un qui signale une erreur
+       rend service même sans laisser de quoi le recontacter, et l'exiger ferait
+       perdre le signalement. #}
+    <label>Votre e-mail <span class="doux">(facultatif, pour la réponse)</span>
+      <input name="email" type="email" placeholder="vous@exemple.fr">
+    </label>
+    <button type="submit" class="bouton bouton--or">Envoyer</button>
+  </form>
+
+  <aside class="contact__aside">
+    <h2 class="titre-section">Avant d'écrire</h2>
+    <p><b>Un prix qui ne correspond pas&nbsp;?</b> Les prix sont relevés une fois
+       par jour chez chaque marchand. Celui qui fait foi est toujours celui
+       affiché sur le site du marchand au moment de la commande.</p>
+    <p><b>Une commande, un retour, un colis&nbsp;?</b> Nous ne vendons rien et
+       n'avons accès à aucune commande. C'est au marchand chez qui vous avez
+       acheté qu'il faut vous adresser.</p>
+    <p><b>Une fiche en double ou un produit mal rangé&nbsp;?</b> C'est le
+       signalement le plus utile&nbsp;: donnez-nous l'adresse de la page, elle
+       part directement dans la file de correction.</p>
+  </aside>
+</div>
+{% endblock %}

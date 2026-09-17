@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+{% block title %}À propos — MotoComparo{% endblock %}
+{% block description %}Qui nous sommes, comment les prix sont relevés, comment MotoComparo gagne sa vie et pourquoi cela ne change ni les prix affichés ni l'ordre du classement.{% endblock %}
+
+{% block contenu %}
+<nav class="fil"><a href="/">Accueil</a> › <span>À propos</span></nav>
+<h1 class="titre-page">À propos de MotoComparo</h1>
+
+<div class="texte">
+
+  <p class="texte__chapeau">MotoComparo compare le prix d'un même article
+  d'équipement moto chez {{ marchands_actifs | length }} marchands. Le site ne vend rien&nbsp;:
+  il vous envoie chez le marchand.</p>
+
+  <h2 id="liens">Liens partenaires</h2>
+  <p>Les liens vers les marchands sont des liens affiliés&nbsp;: si vous achetez
+  après avoir cliqué, MotoComparo touche une commission de la part du marchand.
+  <strong>Cela ne change pas le prix que vous payez</strong>, et cela n'influence
+  pas le classement&nbsp;: les offres sont triées par prix, pas par commission.</p>
+
+  <h2 id="prix">Comment les prix sont relevés</h2>
+  <p>Chaque marchand publie un catalogue que nous téléchargeons chaque jour.
+  Les prix affichés viennent de ces fichiers, jamais d'une saisie à la main.</p>
+  <p><strong>Un prix de plus de 24 heures est signalé comme non rafraîchi</strong>,
+  sur la ligne du marchand concerné. Il reste affiché — le masquer ferait
+  disparaître une offre qui, le plus souvent, est toujours valable — mais il est
+  dit pour ce qu'il est. Le prix qui fait foi reste celui du marchand au moment
+  de la commande.</p>
+  <p>Une offre qu'un marchand cesse complètement de publier, elle, disparaît.</p>
+  <p>Les prix sont hors frais de port. Une promotion n'est prise en compte que
+  si le marchand indique qu'elle est en cours à la date du relevé.</p>
+
+  <h2 id="produits">Comment deux offres deviennent un même produit</h2>
+  <p>Deux marchands parlent du même article quand ils publient le même
+  code-barres (EAN). C'est ce code qui fait foi, pas la ressemblance des titres.
+  En cas de désaccord entre marchands sur une caractéristique — la couleur, la
+  catégorie, le genre — les offres sont mises de côté plutôt que réunies au
+  hasard&nbsp;: un mauvais rapprochement coûte bien plus cher qu'un
+  rapprochement manqué.</p>
+  <p>La taille suit la même règle. Quand un marchand ne la précise pas, elle est
+  reprise de ce qu'un autre marchand dit du même code-barres — jamais devinée à
+  partir d'un titre. Et quand deux marchands nomment la même taille
+  différemment, la page les réunit&nbsp;: <em>«&nbsp;7&nbsp;/&nbsp;S&nbsp;»</em>.</p>
+
+  <h2 id="marchands">Les marchands</h2>
+  {# Lus en base plutôt qu'écrits ici : la liste à la main citait Maxxess et
+     Moto-Axxe, dont aucune offre n'arrivait jusqu'à une fiche faute de
+     code-barres exploitable. Un visiteur pouvait le constater dans les
+     filtres. #}
+  <p>{{ marchands_actifs | length }} marchands apparaissent aujourd'hui sur au
+  moins une fiche&nbsp;:
+  {% for m in marchands_actifs %}{{ m.code | marchand }}{{ ", " if not loop.last }}{% endfor %}.</p>
+  <p>Tous sont français sauf FC-Moto, qui est allemand et livre en France. Deux
+  autres marchands sont dans le catalogue — Maxxess et Moto-Axxe — mais leurs
+  codes-barres sont fabriqués et changent d'un relevé à l'autre&nbsp;: tant que
+  leurs offres ne peuvent pas être reliées de façon sûre à un article précis,
+  elles ne sont pas affichées. Une offre invisible vaut mieux qu'une offre mal
+  rangée.</p>
+
+  <h2 id="donnees">Données personnelles</h2>
+  <p>MotoComparo ne demande aucun compte et aucun mot de passe. Vos favoris et
+  votre comparateur restent dans votre navigateur&nbsp;: ils ne nous parviennent
+  jamais.</p>
+  <p>La seule chose que vous pouvez nous transmettre est un message via la page
+  Contact, et l'adresse e-mail que vous y laissez si vous le souhaitez. Elle
+  sert à cela et à rien d'autre.</p>
+  <p>Le site ne dépose aucun cookie et n'utilise aucun outil de mesure
+  d'audience. Deux réserves, parce qu'elles sont vraies&nbsp;: les polices de
+  caractères sont chargées depuis Google Fonts, et les photos des produits sont
+  servies par les marchands eux-mêmes. Votre navigateur les contacte donc, et
+  ils voient votre adresse IP, comme sur n'importe quel site qui affiche leurs
+  images.</p>
+  <p>Lorsque vous cliquez vers un marchand, c'est le marchand qui vous accueille
+  avec ses propres règles&nbsp;: à partir de ce clic, ce sont les siennes qui
+  s'appliquent, pas les nôtres.</p>
+
+  {# Les droits RGPD manquaient : la v1 les listait, la v2 non. Repris d'elle.
+     Le RESTE de sa politique de confidentialité n'a PAS été recopié — elle
+     parle de cookies et d'une bannière de consentement que la v2 n'a pas, et
+     l'écrire serait faux. #}
+  <p>Vous disposez d'un droit d'accès, de rectification et d'effacement de vos
+  données, d'un droit à la portabilité et à la limitation du traitement, et d'un
+  droit d'opposition. Pour les exercer, écrivez à
+  {% if mentions.contact %}<a href="mailto:{{ mentions.contact }}">{{ mentions.contact }}</a>{% else %}l'adresse indiquée ci-dessous{% endif %}&nbsp;:
+  ces demandes concernent en pratique le seul message que vous nous auriez
+  envoyé.</p>
+
+  {# --- CGU reprises de la v1 (/terms/, mise à jour du 03/01/2026), adaptées
+     là où la v2 diffère : pas de compte, pas de cookie. --- #}
+  <h2 id="cgu">Conditions générales d'utilisation</h2>
+  <p>En utilisant MotoComparo, vous acceptez les conditions ci-dessous. Si elles
+  ne vous conviennent pas, n'utilisez pas le site.</p>
+  <p><strong>Ce que nous sommes.</strong> MotoComparo est un comparateur de
+  prix. Nous ne vendons rien&nbsp;: l'achat se fait toujours chez le marchand,
+  sous ses propres conditions.</p>
+  <p><strong>Usage du site.</strong> Un usage normal et légal. L'aspiration
+  automatisée du catalogue&nbsp;— robots, moissonneurs&nbsp;— n'est pas
+  autorisée sans accord préalable.</p>
+  <p><strong>Propriété intellectuelle.</strong> Les textes, la mise en forme et
+  la base de comparaison sont protégés. Les marques, visuels et descriptions
+  appartiennent à leurs titulaires respectifs.</p>
+  <p><strong>Ce que nous ne garantissons pas.</strong> Les prix sont relevés une
+  fois par jour chez les marchands et affichés en l'état. Un prix peut avoir
+  changé depuis le relevé&nbsp;; seul celui affiché par le marchand au moment de
+  votre commande fait foi. Les prix s'entendent hors frais de port.</p>
+  <p><strong>Liens rémunérés.</strong> Certains liens vers les marchands sont
+  des liens d'affiliation. Cela ne change ni le prix que vous payez, ni l'ordre
+  dans lequel les offres sont classées&nbsp;: le classement se fait au prix
+  croissant, et aucun marchand ne paie pour sa place.</p>
+  <p><strong>Droit applicable.</strong> Droit français, juridictions
+  françaises.</p>
+
+  <h2 id="mentions">Mentions légales</h2>
+  {# Éditeur et directeur de publication : à renseigner dans `.env`
+     (MENTIONS_EDITEUR, MENTIONS_DIRECTEUR). Tant qu'ils sont vides, les lignes
+     ne s'affichent PAS — une mention légale à moitié remplie vaut moins que
+     pas de ligne du tout, et inventer ces informations serait pire. #}
+  {% if mentions.editeur %}<p><strong>Éditeur du site&nbsp;:</strong>
+    {{ mentions.editeur }}</p>{% endif %}
+  {% if mentions.directeur %}<p><strong>Directeur de la publication&nbsp;:</strong>
+    {{ mentions.directeur }}</p>{% endif %}
+  {% if mentions.hebergeur %}<p><strong>Hébergeur&nbsp;:</strong>
+    {{ mentions.hebergeur }}</p>{% endif %}
+  {% if mentions.contact %}<p><strong>Contact&nbsp;:</strong>
+    <a href="mailto:{{ mentions.contact }}">{{ mentions.contact }}</a></p>{% endif %}
+  <p><strong>Nature du service&nbsp;:</strong> comparateur de prix en ligne, au
+  sens des articles L111-7 et D111-9 et suivants du code de la consommation.
+  MotoComparo n'est pas un vendeur et n'intervient dans aucune transaction.</p>
+
+  <h2 id="contact">Contact</h2>
+  <p>Une erreur sur une fiche, un prix qui ne correspond pas, un produit mal
+  rangé&nbsp;? Signalez-le — c'est ce qui fait progresser le catalogue.</p>
+  {% if mentions.contact %}<p>Par courriel&nbsp;:
+    <a href="mailto:{{ mentions.contact }}">{{ mentions.contact }}</a>, ou par le
+    formulaire ci-dessous.</p>{% endif %}
+
+</div>
+{% endblock %}

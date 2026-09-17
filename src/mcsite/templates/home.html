@@ -1,28 +1,255 @@
 {% extends "base.html" %}
-{% block title %}MotoComparo — comparateur d'équipement moto{% endblock %}
+{% block title %}MotoComparo — comparez l'équipement moto au meilleur prix{% endblock %}
+
+{# Deux déclarations, deux effets distincts :
+
+   - `WebSite` avec sa `SearchAction` : c'est ce qui permet à Google d'afficher
+     un champ de recherche DANS son résultat, qui interroge directement le site
+     au lieu de le reparcourir. Il ne l'accorde pas sur demande, mais sans la
+     déclaration il ne peut pas l'accorder du tout.
+   - `Organization` : rattache le nom, le logo et l'adresse du site à une même
+     entité. C'est ce qui évite qu'une page de marque soit prise pour le site
+     officiel de la marque — sur un comparateur, la confusion est facile.
+
+   Pas de réseaux sociaux déclarés tant qu'il n'y en a pas : `sameAs` vide ou
+   inventé est pire que rien. #}
+{% set racine = request.url.scheme ~ '://' ~ request.url.netloc %}
+{% block donnees_structurees %}
+<script type="application/ld+json">[
+{
+ "@context": "https://schema.org", "@type": "WebSite",
+ "name": "MotoComparo", "url": {{ (racine ~ '/') | tojson }},
+ "inLanguage": "fr-FR",
+ "potentialAction": {
+   "@type": "SearchAction",
+   "target": { "@type": "EntryPoint",
+     "urlTemplate": {{ (racine ~ '/recherche?q={search_term_string}') | tojson }} },
+   "query-input": "required name=search_term_string"
+ }
+},
+{
+ "@context": "https://schema.org", "@type": "Organization",
+ "name": "MotoComparo", "url": {{ (racine ~ '/') | tojson }},
+ "logo": {{ (racine ~ '/static/logo_mc.png') | tojson }}
+}
+]</script>
+{% endblock %}
+
+{% block pleine_largeur %}
+{# L'accueil n'avait AUCUN `<h1>` : un lecteur d'écran qui liste les titres n'y
+   trouvait pas de titre de page, et « aller au titre 1 » ne menait nulle part.
+   Il est masqué à l'œil parce que l'affiche porte déjà le titre en grand —
+   masqué à l'œil seulement, pas aux lecteurs d'écran. #}
+<h1 class="visuellement-cache">Comparez l'équipement moto et trouvez le meilleur prix</h1>
+{# --- L'affiche ------------------------------------------------------------
+   L'affiche fournie par la propriétaire, pleine largeur, cliquable vers tout le
+   catalogue.
+
+   `<picture>` sert le WebP (134 Ko) à qui sait le lire, et garde le JPEG
+   (246 Ko) pour les autres — le fichier d'origine pesait 877 Ko et portait les
+   artefacts de plusieurs réenregistrements.
+
+   `width`/`height` sont déclarés pour que le navigateur réserve la place avant
+   de l'avoir chargée : sans cela, tout ce qui suit sauterait vers le bas au
+   moment où elle arrive, sous le doigt du visiteur. #}
+<a class="affiche" href="/produits"
+   aria-label="Comparez l'équipement moto et trouvez le meilleur prix">
+  <picture>
+    <source srcset="/static/affiche-portrait.webp?v={{ version_css() }}" type="image/webp">
+    <img src="/static/affiche-portrait.jpg?v={{ version_css() }}"
+         alt="Comparez l'équipement moto et trouvez le meilleur prix"
+         width="1086" height="1448" fetchpriority="high">
+  </picture>
+</a>
+
+{% endblock %}
 
 {% block contenu %}
-<section class="accroche">
-  <h1>Le même article, chez plusieurs marchands.</h1>
-  <p class="accroche__chiffres">
-    <strong>{{ "{:,}".format(totals.comparable or 0).replace(",", " ") }}</strong> fiches comparables ·
-    <strong>{{ "{:,}".format(totals.offers or 0).replace(",", " ") }}</strong> offres suivies ·
-    6 marchands
+{% from "_grille.html" import actions %}
+
+{# --- Là où comparer rapporte le plus --------------------------------------
+   L'équivalent honnête de la rangée « bons plans ». Le pourcentage n'est pas
+   une remise sur un prix barré : c'est l'écart entre le marchand le moins cher
+   et le plus cher, pour le même article, aujourd'hui. #}
+{% if ecarts %}
+<section class="rayon rayon--phare" id="ecarts">
+  <div class="rayon__tete">
+    <div>
+      <span class="rayon__oeil">Le plus gros écart de prix</span>
+      <h2>Là où comparer rapporte le plus</h2>
+    </div>
+  </div>
+  <div class="rayon__piste">
+    {% for it in ecarts %}
+    <a class="carte carte--rayon" href="/p/{{ it.slug }}">
+      {{ actions(it) }}
+      <span class="pastille">−{{ it.remise | int }}&nbsp;%</span>
+      <div class="carte__img">
+        {% if it.image_url %}<img src="{{ it.image_url }}" alt="" loading="lazy">
+        {% else %}<span class="carte__sansimg">pas de visuel</span>{% endif %}
+      </div>
+      <div class="carte__corps">
+        <span class="carte__marque">{{ it.brand_code | upper }}</span>
+        <span class="carte__nom">{{ nom(it) }}</span>
+        <div class="carte__bas">
+          <span class="carte__prix">dès {{ it.cheapest | prix }}</span>
+          <span class="carte__barre">{{ it.dearest | prix }}</span>
+        </div>
+        <span class="carte__gain">
+          <span class="prix-insecable">{{ (it.dearest - it.cheapest) | prix }}</span>
+          d'écart sur cette fiche
+        </span>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+{# --- Les rayons -----------------------------------------------------------
+   La page d'accueil de la v1 est une pile de rayons et non une grille unique :
+   c'est ce qui lui donne son allure de boutique. Un rayon défile
+   horizontalement dans son propre cadre, jamais la page. #}
+{% for r in rayons %}
+<section class="rayon">
+  <div class="rayon__tete">
+    <div>
+      <span class="rayon__oeil">Les mieux comparés</span>
+      <h2>{{ r.label_fr }}</h2>
+    </div>
+    <a class="rayon__plus" href="/c/{{ r.code }}">Voir tout →</a>
+  </div>
+  <div class="rayon__piste">
+    {% for it in r["items"] %}
+    <a class="carte carte--rayon" href="/p/{{ it.slug }}">
+      {{ actions(it) }}
+      <div class="carte__img">
+        {% if it.image_url %}<img src="{{ it.image_url }}" alt="" loading="lazy">
+        {% else %}<span class="carte__sansimg">pas de visuel</span>{% endif %}
+      </div>
+      <div class="carte__corps">
+        <span class="carte__marque">{{ it.brand_code | upper }}</span>
+        <span class="carte__nom">{{ nom(it) }}</span>
+        <div class="carte__bas">
+          <span class="carte__prix">dès {{ it.cheapest | prix }}</span>
+          <span class="puce">{{ it.merchant_count }} marchands</span>
+        </div>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+{% endfor %}
+
+{# --- Vous avez consulté récemment -----------------------------------------
+   Le cadre reste vide — et donc invisible — tant que le visiteur n'a rien
+   consulté : un rayon « récemment vus » vide est un aveu de site neuf. #}
+<section class="rayon" id="rayon-vus" hidden></section>
+
+<script>
+(function () {
+  var hote = document.getElementById('rayon-vus');
+  if (!hote) return;
+  var vus = [];
+  try { vus = JSON.parse(localStorage.getItem('mc-vus') || '[]'); } catch (e) { return; }
+  if (!vus.length) return;
+  fetch('/fragment/vus?ids=' + encodeURIComponent(vus.join(',')))
+    .then(function (r) { return r.ok ? r.text() : ''; })
+    .then(function (html) {
+      if (!html.trim()) return;
+      hote.innerHTML = html;
+      hote.hidden = false;
+    })
+    .catch(function () { /* hors ligne : le rayon reste absent, rien de cassé */ });
+
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest('[data-vider-vus]')) return;
+    try { localStorage.removeItem('mc-vus'); } catch (err) {}
+    hote.hidden = true;
+    hote.innerHTML = '';
+  });
+})();
+</script>
+
+{# --- Comment ça marche ---------------------------------------------------- #}
+<section class="etapes">
+  <h2 class="titre-centre">Comment ça marche&nbsp;?</h2>
+  <ol class="etapes__liste">
+    <li><span class="etapes__n">1</span>
+      <h3>Recherchez</h3>
+      <p>Parcourez le catalogue ou utilisez la barre de recherche pour trouver
+         votre produit.</p></li>
+    <li><span class="etapes__n">2</span>
+      <h3>Comparez</h3>
+      <p>Visualisez les prix de nos {{ marchands_actifs | length }} marchands sur
+         une seule page, taille par taille.</p></li>
+    <li><span class="etapes__n">3</span>
+      <h3>Économisez</h3>
+      <p>Cliquez sur le meilleur prix et finalisez votre achat directement chez
+         le marchand.</p></li>
+  </ol>
+  <p class="etapes__partenaires">
+    <span>Nos marchands partenaires</span>
+    {# Lus en base : la liste écrite à la main citait deux marchands dont
+       aucune offre n'arrivait jusqu'à une fiche. #}
+    {% for m in marchands_actifs %}
+      <span class="etapes__marchand">{{ m.code | marchand }}</span>
+    {% endfor %}
   </p>
 </section>
 
-<h2 class="titre-section">Les mieux comparées</h2>
-<p class="sous-titre">Les fiches où le plus de marchands se répondent.</p>
-{% include "_grille.html" %}
+{# --- Pourquoi -------------------------------------------------------------- #}
+<section class="pourquoi">
+  <h2 class="titre-centre">Pourquoi MotoComparo&nbsp;?</h2>
+  <table class="tableau-comparatif">
+    <thead>
+      <tr><th>Fonctionnalité</th><th>MotoComparo</th><th>Les autres</th></tr>
+    </thead>
+    <tbody>
+      {% for ligne in [
+        'Comparaison de prix',
+        'Spécialisé équipement moto',
+        'Marchands identifiés, jamais anonymes',
+        'Prix actualisés quotidiennement',
+        'Sans création de compte',
+        '100 % gratuit'] %}
+      <tr>
+        <td>{{ ligne }}</td>
+        <td class="oui">✓</td>
+        <td class="non">{{ '✓' if loop.first else '—' }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
 
-<h2 class="titre-section">Par catégorie</h2>
-<div class="cats">
-  {% for c in nav %}
-  <a class="cat" href="/c/{{ c.code }}">
-    <span class="cat__nom">{{ c.label_fr }}</span>
-    <span class="cat__n">{{ c.n }} fiches</span>
-    {% if c.from_price %}<span class="cat__prix">dès {{ c.from_price | prix }}</span>{% endif %}
-  </a>
+{# --- Questions fréquentes -------------------------------------------------- #}
+<section class="faq">
+  <h2 class="titre-centre">Questions fréquentes</h2>
+  {% for q, r in [
+    ("Comment MotoComparo gagne-t-il de l'argent ?",
+     "Nous touchons une petite commission lorsque vous cliquez sur un lien et achetez chez un partenaire. Cela n'affecte pas le prix que vous payez."),
+    ("Les prix sont-ils actualisés en temps réel ?",
+     "Les prix sont relevés chaque jour chez chaque marchand. Un prix qui n'a pas été rafraîchi depuis plus de 24 heures est signalé comme tel sur la ligne du marchand, pour que vous sachiez ce que vous lisez."),
+    ("Puis-je acheter directement sur MotoComparo ?",
+     "Non, nous sommes un comparateur. Nous vous redirigeons vers le site du marchand pour l'achat."),
+    ("Comment choisissez-vous les marchands partenaires ?",
+     "Nous référençons des marchands établis, français pour la plupart — FC-Moto est allemand et livre en France. Un marchand n'entre au catalogue que si son flux de prix est exploitable tous les jours."),
+    ("Le service est-il vraiment gratuit ?",
+     "Oui, l'utilisation de MotoComparo est entièrement gratuite et ne demande aucun compte.")] %}
+  <details class="faq__item">
+    <summary>{{ q }}</summary>
+    <p>{{ r }}</p>
+  </details>
   {% endfor %}
-</div>
+</section>
+
+{# --- Dernier appel --------------------------------------------------------- #}
+<section class="appel">
+  <h2>Prêt à économiser sur votre équipement&nbsp;?</h2>
+  <p>Rejoignez les motards qui comparent avant d'acheter. C'est gratuit et sans
+     inscription.</p>
+  <a class="bouton bouton--or" href="/c/{{ nav[0].code if nav else 'gloves' }}">Commencer à comparer</a>
+</section>
+
 {% endblock %}

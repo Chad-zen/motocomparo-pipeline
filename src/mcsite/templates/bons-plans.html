@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Bons plans — les plus gros écarts entre marchands — MotoComparo{% endblock %}
+{% block description %}Les produits où les marchands sont le plus en désaccord sur le prix : jusqu'à plusieurs centaines d'euros d'écart sur la même référence. Relevé chaque jour.{% endblock %}
+
+{% block contenu %}
+{% from "_grille.html" import actions %}
+
+<nav class="fil"><a href="/">Accueil</a> › <span>Bons plans</span></nav>
+<h1 class="titre-page">Meilleurs prix du moment</h1>
+
+{# Ce qui est mesuré ici, et pourquoi c'est dit à voix haute : un comparateur
+   qui affiche « -40 % » contre un prix de référence que personne ne vérifie
+   ment poliment. Ici le pourcentage est l'écart entre deux marchands qui
+   vendent le MÊME code-barres, aujourd'hui. #}
+<p class="sous-titre">
+  L'écart entre le marchand le moins cher et le plus cher, pour le même article
+  — même code-barres, aujourd'hui. Ce n'est pas une remise sur un prix barré&nbsp;:
+  c'est ce que vous économisez en choisissant le bon marchand.
+</p>
+
+{% if items %}
+<div class="grille">
+  {% for it in items %}
+  <a class="carte" href="/p/{{ it.slug }}">
+    {{ actions(it) }}
+    <span class="pastille">−{{ it.remise | int }}&nbsp;%</span>
+    <div class="carte__img">
+      {% if it.image_url %}<img src="{{ it.image_url }}" alt="" loading="lazy">
+      {% else %}<span class="carte__sansimg">pas de visuel</span>{% endif %}
+    </div>
+    <div class="carte__corps">
+      <span class="carte__marque">{{ it.brand_code | upper }}</span>
+      <span class="carte__nom">{{ nom(it) }}</span>
+      {# `merchant_count` compte des MARCHANDS, pas des offres : la carte
+   annonçait « 3 offres » pour une fiche qui en aligne onze. #}
+      <span class="carte__offres">Comparer {{ it.merchant_count }}
+        marchand{{ "s" if it.merchant_count > 1 }}</span>
+      <div class="carte__bas">
+        <span class="carte__prix"><small>à partir de</small>{{ it.cheapest | prix }}</span>
+        <span class="carte__barre">{{ it.dearest | prix }}</span>
+      </div>
+      <span class="carte__gain">
+        <span class="prix-insecable">{{ (it.dearest - it.cheapest) | prix }}</span>
+        d'écart entre marchands
+      </span>
+    </div>
+  </a>
+  {% endfor %}
+</div>
+{% else %}
+<p class="vide">Aucun écart significatif relevé aujourd'hui.</p>
+{% endif %}
+{% endblock %}

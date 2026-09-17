@@ -2,212 +2,31 @@
 {% set nom_produit = nom(p) %}
 {% set titre_page = titre_produit(p.brand_code, nom_produit, p.colour_code) %}
 {% block title %}{{ titre_page }} — MotoComparo{% endblock %}
+{# Ce que Google et les messageries affichent pour CETTE fiche. La description
+   dit le nombre de marchands et le prix de départ : c'est l'information qui
+   décide d'un clic depuis une page de résultats, et elle est vraie. #}
+{% block description %}{{ nom_produit }}{% if p.merchant_count %} — comparez {{ p.merchant_count }} marchand{{ 's' if p.merchant_count > 1 }}{% endif %}{% if p.cheapest %}, à partir de {{ p.cheapest | prix }}{% endif %}. Prix relevés chaque jour, livraison et disponibilité chez le marchand.{% endblock %}
+{% block og_type %}product{% endblock %}
+{% block og_image %}{{ image or (request.url.scheme ~ '://' ~ request.url.netloc ~ '/static/affiche-portrait.jpg') }}{% endblock %}
+
+{# CE QUE GOOGLE AFFICHE DANS SES RÉSULTATS. Sans ces données, une fiche de
+   comparateur n'est qu'un texte : avec elles, le résultat porte la fourchette
+   de prix, le nombre de marchands et la disponibilité — c'est-à-dire
+   exactement la promesse du site, visible avant le clic.
+
+   Ce qu'on n'écrit PAS : aucune note ni avis. Les cinq étoiles de la fiche
+   disent « comparateur indépendant », elles ne notent pas le produit —
+   personne n'a testé ce casque ici. Les déclarer comme une note de produit
+   serait faux, et c'est précisément le genre de fausse déclaration qui fait
+   retirer un site des résultats enrichis.
+
+   Construit côté Python (`donnees_structurees`) : composer du JSON dans un
+   gabarit, c'est se battre avec l'échappement des apostrophes, et un nom de
+   produit français en est plein. #}
+{% block donnees_structurees %}
+<script type="application/ld+json">{{ donnees_structurees | tojson }}</script>
+{% endblock %}
 
 {% block contenu %}
-<nav class="fil">
-  <a href="/">Accueil</a> › <a href="/c/{{ p.category_code }}">{{ p.category_label }}</a> › <span>{{ nom_produit }}</span>
-</nav>
-
-<div class="fiche">
-
-  <div class="fiche__visuel">
-    {% if image %}<img src="{{ image }}" alt="{{ titre_page }}">
-    {% else %}<div class="carte__sansimg">pas de visuel</div>{% endif %}
-  </div>
-
-  <div class="fiche__tete">
-    <span class="fiche__marque">{{ p.brand_code | upper }}</span>
-    <h1>{{ nom_produit }}</h1>
-    {% if p.colour_code and p.colour_code != 'unknown' %}
-      <p class="fiche__couleur">Couleur : <strong>{{ p.colour_code | couleur }}</strong></p>
-    {% endif %}
-
-    {% if p.cheapest %}
-      <p class="fiche__prix">
-        <span class="fiche__prix__mot">à partir de</span>
-        <strong data-prix-mini>{{ p.cheapest | prix }}</strong>
-      </p>
-      {# The spread is only honest within one size: comparing an offer whose
-         size nobody declared against a known M is not a comparison. Shown once a
-         size is chosen, and only then. #}
-      <p class="fiche__ecart" data-ecart></p>
-      {% if tailles %}
-        <p class="fiche__note" data-note-taille>
-          Choisissez une taille pour comparer des prix comparables.
-        </p>
-      {% endif %}
-    {% else %}
-      <p class="fiche__rupture">Aucune offre disponible en ce moment.</p>
-    {% endif %}
-
-    {% if tailles %}
-    <div class="choix-taille" data-filtre-taille>
-      <span class="choix-taille__titre">Choisissez votre taille</span>
-      <div class="choix-taille__liste">
-        <button type="button" class="taille taille--btn est-actif" data-taille="*">Toutes</button>
-        {% for t in tailles %}
-          <button type="button" class="taille taille--btn" data-taille="{{ t }}">{{ t }}</button>
-        {% endfor %}
-      </div>
-    </div>
-    {% endif %}
-
-    <dl class="attributs">
-      <dt>Catégorie</dt><dd>{{ p.category_label }}</dd>
-      {% if p.genre_age | genre %}<dt>Public</dt><dd>{{ p.genre_age | genre }}</dd>{% endif %}
-      {% if p.model_year %}<dt>Millésime</dt><dd>{{ p.model_year }}</dd>{% endif %}
-      <dt>Marchands</dt><dd>{{ p.merchant_count or 0 }}</dd>
-    </dl>
-  </div>
-</div>
-
-<h2 class="titre-section">Comparer les prix</h2>
-<p class="sous-titre" data-compte>
-  {{ nb_offres }} offres — prix hors frais de port.
-</p>
-
-<table class="offres">
-  <thead>
-    <tr><th>Marchand</th><th>Taille</th><th>Disponibilité</th><th class="num">Prix</th><th></th></tr>
-  </thead>
-  <tbody>
-  {% for o in offres %}
-    <tr class="{{ 'offres__rupture' if o.in_stock is false }}"
-        data-taille="{{ o.size_code | taille }}"
-        data-prix="{{ o.price if o.price is not none else '' }}"
-        data-nb="{{ o.autres | length + 1 }}">
-      <td>
-        <strong>{{ o.merchant | marchand }}</strong>
-        {% if o.autres %}
-          <span class="offres__groupe">{{ o.autres | length + 1 }} offres à ce prix,
-            taille non communiquée</span>
-        {% endif %}
-        <span class="offres__titre">{{ o.raw_title | truncate(70) }}</span>
-      </td>
-      <td class="offres__taille">
-        {% set t = o.size_code | taille %}
-        {% if t %}{{ t }}{% else %}<span class="etat etat--na"
-          title="Ce marchand n'a pas communiqué la taille">—</span>{% endif %}
-      </td>
-      <td>
-        {% if o.in_stock is false %}<span class="etat etat--ko">rupture de stock</span>
-        {% elif o.in_stock %}<span class="etat etat--ok">en stock</span>
-        {% else %}<span class="etat etat--na">non précisé</span>{% endif %}
-        {% if not o.fresh %}<span class="etat etat--vieux">prix non rafraîchi</span>{% endif %}
-      </td>
-      <td class="num prix">{{ o.price | prix or '—' }}</td>
-      <td>
-        <a class="bouton" href="{{ o.deeplink }}" rel="nofollow sponsored noopener"
-           target="_blank">Voir l'offre</a>
-        {% if o.autres %}
-          <span class="offres__autres">
-            {%- for lien in o.autres -%}
-              <a href="{{ lien }}" rel="nofollow sponsored noopener" target="_blank"
-                 title="Autre offre du même marchand au même prix">{{ loop.index + 1 }}</a>
-            {%- endfor -%}
-          </span>
-        {% endif %}
-      </td>
-    </tr>
-  {% else %}
-    <tr><td colspan="5" class="vide">Aucune offre active.</td></tr>
-  {% endfor %}
-  </tbody>
-</table>
-
-<p class="avertissement" data-avert>
-  Cette fiche peut contenir des offres en différentes tailles. Choisissez la vôtre
-  pour comparer des prix comparables. Les offres marquées «&nbsp;—&nbsp;» restent
-  affichées&nbsp;: le marchand n'a pas communiqué la taille, ce n'est pas une
-  taille unique.
-</p>
-
-<h2 class="titre-section">Historique du prix</h2>
-{% if courbe | length > 1 %}
-  {% set pmin = courbe | map(attribute='price') | min | float %}
-  {% set pmax = courbe | map(attribute='price') | max | float %}
-  {% set etendue = (pmax - pmin) or 1 %}
-  <svg class="courbe" viewBox="0 0 720 200" role="img"
-       aria-label="Évolution du prix le plus bas">
-    <polyline fill="none" stroke="currentColor" stroke-width="2"
-      points="{% for pt in courbe %}{{ loop.index0 * (700 / ((courbe|length) - 1)) + 10 }},{{ 180 - ((pt.price | float) - pmin) / etendue * 150 }} {% endfor %}"/>
-  </svg>
-  <p class="sous-titre">Du {{ courbe[0].observed_on }} au {{ courbe[-1].observed_on }} :
-     entre {{ pmin | prix }} et {{ pmax | prix }}.</p>
-{% else %}
-  <p class="sous-titre">
-    L'historique commence tout juste : il n'y a encore qu'un relevé
-    {% if courbe %}(le {{ courbe[0].observed_on }}){% endif %}.
-    La courbe apparaîtra après quelques jours de collecte.
-  </p>
-{% endif %}
-
-<script>
-// Filtering by size happens in the page: every offer is already here, and a
-// round trip to the server to hide table rows would only make it feel slower.
-(function () {
-  const barre = document.querySelector('[data-filtre-taille]');
-  if (!barre) return;
-
-  const lignes  = Array.from(document.querySelectorAll('.offres tbody tr[data-taille]'));
-  const compte  = document.querySelector('[data-compte]');
-  const miniEl  = document.querySelector('[data-prix-mini]');
-  const ecartEl = document.querySelector('[data-ecart]');
-  const avert   = document.querySelector('[data-avert]');
-  const note    = document.querySelector('[data-note-taille]');
-
-  const euros = (v) =>
-    v.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
-
-  function appliquer(taille) {
-    let visibles = 0;
-    const prixSurs = [];   // offers whose size is known: comparable to each other
-    const prixTous = [];
-
-    for (const tr of lignes) {
-      // an offer whose merchant never said the size stays visible: hiding it
-      // would silently drop a real offer from the comparison.
-      const sansTaille = !tr.dataset.taille || tr.dataset.taille === '—';
-      const ok = taille === '*' || sansTaille || tr.dataset.taille === taille;
-      tr.hidden = !ok;
-      if (ok) {
-        visibles += parseInt(tr.dataset.nb || '1', 10);
-        const p = parseFloat(tr.dataset.prix);
-        if (!isNaN(p) && !tr.classList.contains('offres__rupture')) {
-          prixTous.push(p);
-          if (!sansTaille) prixSurs.push(p);
-        }
-      }
-    }
-
-    compte.textContent = visibles + (visibles > 1 ? ' offres' : ' offre')
-      + (taille === '*' ? '' : ' en taille ' + taille)
-      + ' — prix hors frais de port.';
-
-    if (miniEl && prixTous.length) miniEl.textContent = euros(Math.min(...prixTous));
-
-    // The spread is a claim about the same article at two merchants. It is only
-    // true when the sizes are known and equal, so it appears with a size chosen
-    // and at least two offers that declare one.
-    if (ecartEl) {
-      const sur = taille !== '*' && prixSurs.length > 1;
-      const mini = sur ? Math.min(...prixSurs) : 0;
-      const maxi = sur ? Math.max(...prixSurs) : 0;
-      ecartEl.textContent = sur && maxi > mini
-        ? 'soit ' + euros(maxi - mini) + " d'écart en taille " + taille
-        : '';
-    }
-    if (note) note.hidden = taille !== '*';
-    if (avert) avert.hidden = taille !== '*';
-  }
-
-  barre.addEventListener('click', (e) => {
-    const btn = e.target.closest('[data-taille]');
-    if (!btn) return;
-    barre.querySelectorAll('[data-taille]').forEach((b) => b.classList.remove('est-actif'));
-    btn.classList.add('est-actif');
-    appliquer(btn.dataset.taille);
-  });
-})();
-</script>
+  {% include "_fiche.html" %}
 {% endblock %}

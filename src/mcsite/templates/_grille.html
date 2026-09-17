@@ -1,6 +1,26 @@
+{% import "_actions.html" as act %}
+{# Les deux actions posées sur chaque visuel, comme en v1 : mettre de côté, et
+   ajouter au comparateur.
+
+   Elles vivent DANS le lien de la carte, donc chaque bouton doit annuler la
+   navigation lui-même (`preventDefault`) — sans quoi cliquer le cœur ouvrirait
+   la fiche. C'est le prix de les avoir sur l'image plutôt qu'en dessous, et
+   c'est sur l'image qu'elles servent.
+#}
+{% macro actions(it) -%}
+<span class="actions-carte">
+  <button type="button" class="action-carte" data-favori="{{ it.slug }}"
+          aria-label="Mettre de côté" title="Mettre de côté">{{ act.ico_favori() }}</button>
+  <button type="button" class="action-carte" data-comparer="{{ it.slug }}"
+          data-vignette="{{ it.image_url or '' }}"
+          aria-label="Ajouter au comparateur" title="Ajouter au comparateur">{{ act.ico_comparer() }}</button>
+</span>
+{%- endmacro %}
+
 <div class="grille">
   {% for it in (featured if featured is defined else items) %}
   <a class="carte" href="/p/{{ it.slug }}">
+    {{ actions(it) }}
     <div class="carte__img">
       {% if it.image_url %}<img src="{{ it.image_url }}" alt="" loading="lazy">
       {% else %}<span class="carte__sansimg">pas de visuel</span>{% endif %}
@@ -11,10 +31,20 @@
       {% if it.colour_code and it.colour_code != 'unknown' %}
         <span class="carte__couleur">{{ it.colour_code | couleur }}</span>
       {% endif %}
+      {# « Comparer N offres » plutôt que « N marchands » : c'est ce que le
+         visiteur vient faire, pas une statistique sur le catalogue. #}
+      {# `merchant_count` compte des MARCHANDS, pas des offres : la carte
+   annonçait « 3 offres » pour une fiche qui en aligne onze. #}
+      <span class="carte__offres">Comparer {{ it.merchant_count }}
+        marchand{{ "s" if it.merchant_count > 1 }}</span>
       <div class="carte__bas">
-        <span class="carte__prix">{{ it.cheapest | prix }}</span>
-        <span class="puce">{{ it.merchant_count }} marchands</span>
+        <span class="carte__prix">
+          <small>à partir de</small>{{ it.cheapest | prix }}
+        </span>
       </div>
+      {# Une carte sans bouton ne se lit pas comme cliquable — la v1 en met un
+         sur chacune, et c'est la différence entre une vignette et une offre. #}
+      <span class="carte__cta">Comparer les prix</span>
     </div>
   </a>
   {% else %}

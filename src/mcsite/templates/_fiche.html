@@ -1,0 +1,780 @@
+{% import "_actions.html" as act %}
+{# The body of a product page, shared by both designs. Only the chrome
+   around it differs — see base.html and base.html. #}
+<nav class="fil" aria-label="Fil d'Ariane">
+  <a href="/">Accueil</a> › <a href="/c/{{ p.category_code }}">{{ p.category_label }}</a> › <span>{{ nom_produit }}</span>
+</nav>
+
+<div class="fiche">
+
+  <div class="fiche__visuel">
+    {# Le nombre d'offres, posé sur le visuel : c'est la promesse de la page,
+       et c'est la première chose que la v1 montre. #}
+    {% if nb_offres > 1 %}
+      <span class="fiche__badge">{{ nb_offres }} offres comparées</span>
+    {% endif %}
+    {% if image %}<img src="{{ image }}" alt="{{ titre_page }}">
+    {% else %}<div class="carte__sansimg">pas de visuel</div>{% endif %}
+  </div>
+
+  <div class="fiche__tete">
+    <span class="fiche__marque">{{ p.brand_code | upper }}</span>
+    <h1>{{ nom_produit }}</h1>
+
+    {% if reference %}<p class="fiche__ref">Réf. {{ reference }}</p>{% endif %}
+
+    {# Pas une note de produit : personne n'a testé ce casque ici. C'est la
+       nature du site qui est affirmée, et le libellé le dit en toutes lettres
+       pour qu'aucun visiteur ne lise « 5 étoiles pour ce casque ». #}
+    <p class="fiche__signature"><span aria-hidden="true">★★★★★</span> Comparateur indépendant</p>
+
+    {% if p.colour_code and p.colour_code != 'unknown' %}
+      <p class="fiche__couleur">Couleur : <strong>{{ p.colour_code | couleur }}</strong></p>
+    {% endif %}
+  </div>
+
+  {# Tout ce qui suit passe en PLEINE LARGEUR sous les deux colonnes. À 375 px,
+     une colonne de droite fait 160 px : le prix, l'économie et les garanties y
+     partaient sur quatre lignes chacun. L'image et l'identité se partagent le
+     haut, le reste occupe toute la largeur. #}
+  <div class="fiche__bas">
+    {% if p.cheapest and meilleure %}
+      {# Prix à gauche, actions à droite, sur UNE rangée — comme la v1. Empilé,
+         le même bloc faisait 164 px de haut chez elle contre plus du double
+         chez nous, et c'est ce genre d'écart, répété quatre fois sur la page,
+         qui donne l'impression d'un site bâclé. #}
+      <div class="meilleur meilleur--{{ niveau_remise or 'sobre' }}" data-bloc-prix>
+        <div class="meilleur__gauche">
+          <span class="meilleur__mot">Meilleur prix</span>
+          <strong class="meilleur__prix" data-prix-mini>{{ p.cheapest | prix }}</strong>
+          {# Ce qui rend l'affaire lisible : le prix le plus cher qu'on
+             pourrait payer aujourd'hui pour le MÊME article, barré, et
+             l'écart en pourcentage. Ce n'est pas un prix conseillé par un
+             fabricant ni un prix barré fourni par un marchand : c'est une
+             mesure faite entre marchands réels, que le visiteur peut vérifier
+             ligne par ligne dans le tableau juste en dessous. C'est aussi ce
+             qui la rend défendable — un comparateur qui barre un prix que
+             personne ne pratique ne vaut pas mieux que ce qu'il dénonce.
+
+             `data-seuils` porte les bornes de couleur définies dans
+             `labels.py` : le script les relit au lieu de les redéfinir. #}
+          <span class="meilleur__reference" data-reference
+                data-seuils="{{ seuils_remise | join(',') }}"
+                {{ 'hidden' if not (plus_cher and remise) }}>
+            <s class="meilleur__barre" data-prix-haut>{{ plus_cher | prix if plus_cher }}</s>
+            <span class="remise" data-remise>−{{ remise }}&nbsp;%</span>
+          </span>
+          <span class="meilleur__chez">chez {{ meilleure.merchant | marchand }}</span>
+        </div>
+        <div class="meilleur__droite">
+          <button type="button" class="meilleur__comparer action-carte"
+                  data-comparer="{{ p.slug }}" data-vignette="{{ image or '' }}"
+                  aria-label="Ajouter au comparateur" title="Ajouter au comparateur">{{ act.ico_comparer() }}</button>
+          <a class="bouton bouton--or meilleur__voir" rel="nofollow sponsored noopener"
+             target="_blank" href="{{ meilleure.deeplink }}"
+             aria-label="Voir la meilleure offre, {{ p.cheapest | prix }} chez {{ meilleure.merchant | marchand }} (nouvel onglet)">Voir l'offre →</a>
+        </div>
+      </div>
+
+      {# Ce que la comparaison rapporte, en euros. C'est la seule phrase de la
+         page qui dise à quoi sert le site, et elle n'est vraie que sur une
+         taille donnée : comparer le prix d'un XS à celui d'un XL n'est pas
+         comparer. Le script de la fiche la recalcule à chaque choix de taille. #}
+      {% if economie and economie > 0 %}
+      <p class="economie" data-economie>
+        Vous économisez jusqu'à <b class="prix-insecable">{{ economie | prix }}</b> en choisissant la
+        meilleure offre.
+      </p>
+      {% endif %}
+
+      {# Une ligne, un libellé. La v1 n'a pas de sous-titres ici, et elle a
+         raison : en deux colonnes sur un téléphone, « Prix vérifiés » et son
+         explication partaient chacun sur deux lignes, et quatre garanties
+         prenaient la moitié de l'écran. Les sous-titres vivent en bas de page,
+         dans les quatre tuiles. #}
+      <ul class="promesses">
+        <li>Prix relevés chaque jour</li>
+        <li>Marchands identifiés, jamais anonymes</li>
+        <li>Livraison et retours chez le marchand</li>
+        <li>100&nbsp;% gratuit, sans inscription</li>
+      </ul>
+
+      {# The spread is only honest within one size: comparing an offer whose
+         size nobody declared against a known M is not a comparison. Shown once a
+         size is chosen, and only then. #}
+      <p class="fiche__ecart" data-ecart role="status" aria-live="polite"></p>
+    {% else %}
+      <p class="fiche__rupture">Aucune offre disponible en ce moment.</p>
+    {% endif %}
+
+    {% if tailles %}
+    <div class="choix-taille" data-filtre-taille>
+      <span class="choix-taille__titre">Choisissez votre taille</span>
+      <div class="choix-taille__liste">
+        <button type="button" class="taille taille--btn est-actif" data-taille="*" aria-pressed="true">Toutes</button>
+        {% for t in tailles %}
+          <button type="button" class="taille taille--btn" data-taille="{{ t }}" aria-pressed="false">{{ t }}</button>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+  </div>
+</div>
+
+{# Un seul encadré, comme la v1 : le titre, l'horodatage, les offres et les
+   mentions vivent DANS la même carte bordée. Le titre posé dehors laissait le
+   bloc sans contour, et c'est ce qui lui donnait l'air flottant. #}
+<section class="offres__carte">
+<div class="offres__tete">
+  <h2 class="titre-section">Comparer les {{ nb_offres }} offres</h2>
+  {% if releve %}<p class="offres__horodatage">Mis à jour le {{ releve }}</p>{% endif %}
+</div>
+{# L'horodatage suffit : le nombre d'offres est déjà dans le titre juste
+   au-dessus, et « prix hors frais de port » est répété dans les mentions. #}
+
+<table class="offres">
+  {# Une légende : sans elle, un lecteur d'écran annonce « tableau » sans dire
+     de quoi, au milieu d'une page qui en contient un seul mais long. #}
+  <caption class="visuellement-cache">Les offres des marchands pour ce produit,
+    de la moins chère à la plus chère</caption>
+  <thead>
+    {# `scope` : sans lui, l'association prix ↔ colonne « Prix » se perd dès que
+       le tableau est parcouru cellule par cellule. #}
+    <tr><th scope="col">Marchand</th>{% if tailles %}<th scope="col">Taille</th>{% endif %}
+        <th scope="col">Disponibilité</th><th scope="col" class="num">Prix</th>
+        <th scope="col"><span class="visuellement-cache">Lien vers le marchand</span></th></tr>
+  </thead>
+  <tbody>
+  {% for o in offres %}
+    {# `est-paire` est posee ici sur l'ordre COMPLET, et RECALCULEE par le
+       script des qu'une taille est choisie : `nth-child(even)` compte les
+       lignes du HTML, pas celles qu'on voit, et le damier se serait brise des
+       le premier filtre. Voir la boucle des rangs plus bas. #}
+    <tr class="{{ 'offres__rupture' if o.in_stock is false }} {{ 'est-paire' if loop.index is even }}"
+        data-taille="{{ o.taille }}"
+        data-prix="{{ o.price if o.price is not none else '' }}"
+        data-nb="{{ o.autres | length + 1 }}">
+      <td class="offres__marchand">
+        {# Le rang est celui de la liste triée : la première ligne est la moins
+           chère en stock. Il est recalculé côté script quand une taille est
+           choisie, sinon il mentirait dès le premier filtre. #}
+        <span class="offres__rang {{ 'est-premier' if loop.first }}" data-rang>{{ loop.index }}</span>
+        {# La pastille de stock, reprise de la v1 : verte en stock, rouge en
+           rupture, grise quand le marchand n'a rien dit. Elle se lit avant le
+           texte, et c'est le premier filtre du regard. #}
+        <span class="offres__point offres__point--{{ 'ok' if o.in_stock else ('ko' if o.in_stock is false else 'na') }}"
+              aria-hidden="true"></span>
+        <strong>{{ o.merchant | marchand }}</strong>
+        {% if loop.first %}<span class="offres__gagnant">Meilleur prix</span>{% endif %}
+        {% if o.autres %}
+          <span class="offres__groupe">{{ o.autres | length + 1 }} offres à ce prix{% if tailles %},
+            taille non communiquée{% endif %}</span>
+        {% endif %}
+        <span class="offres__titre">{{ o.raw_title | truncate(70) }}</span>
+      </td>
+      {% if tailles %}<td class="offres__taille">
+        {% set t = o.taille %}
+        {# Un tiret ne dit rien. « Non communiquée » dit ce qui s'est passé, et
+           l'offre reste visible quelle que soit la taille choisie : le marchand
+           vend bien l'article, il ne détaille simplement pas ses tailles.
+
+           Mais la mention n'a de sens que s'il y a une taille À CÔTÉ de quoi la
+           lire. Sur une fiche où aucun marchand ne déclare de taille — un
+           support de valise, une pièce — elle se répétait sur chaque ligne pour
+           ne rien dire : la colonne reste vide. #}
+        {# « Non communiquée » écrit en toutes lettres prenait plus de place que
+           les vraies tailles de la colonne et attirait l'œil sur ce qu'on ne
+           sait PAS, au milieu d'un tableau fait pour comparer ce qu'on sait.
+           Un repère discret, et l'explication au clic pour qui la cherche. #}
+        {# `title` : le texte de la bulle est révélé par JavaScript. Sans lui — et
+           au survol, qui n'ouvre rien — l'infobulle native du navigateur porte
+           quand même l'explication. Le paragraphe qui la donnait sous le tableau
+           a été retiré à la demande de la propriétaire le 14/09/2026. #}
+        {% if t %}{{ t }}{% else %}<button type="button" class="taille-info"
+          data-info aria-expanded="false"
+          title="La disponibilité de cet article est confirmée par le marchand, mais le détail des tailles n'est pas précisé. Nous vous invitons à consulter sa fiche produit pour choisir votre taille."
+          aria-label="Pourquoi cette taille n'est pas indiquée">i</button>{% endif %}
+      </td>{% endif %}
+      <td class="offres__dispo">
+        {% if o.in_stock is false %}<span class="etat etat--ko">rupture de stock</span>
+        {% elif o.in_stock %}<span class="etat etat--ok">en stock</span>
+        {% else %}<span class="etat etat--na">non précisé</span>{% endif %}
+        {% if not o.fresh %}<span class="etat etat--vieux">prix non rafraîchi</span>{% endif %}
+      </td>
+      <td class="num prix offres__prix">{{ o.price | prix or '—' }}</td>
+      <td class="offres__action">
+        {# Bouton plein pour la meilleure offre uniquement ; les suivantes en
+           contour. Quand tous les boutons crient aussi fort, aucun ne dit
+           lequel est le moins cher — et c'est la seule chose que la page a à
+           dire. #}
+        {# Treize liens « Voir l'offre » identiques : la liste des liens d'un
+           lecteur d'écran ne disait ni chez qui, ni à quel prix. Et
+           `target="_blank"` n'était signalé nulle part — le retour arrière
+           cesse de fonctionner, sans explication. #}
+        <a class="bouton {{ 'bouton--or' if loop.first else 'bouton--contour' }}"
+           href="{{ o.deeplink }}" rel="nofollow sponsored noopener"
+           target="_blank"
+           aria-label="Voir l'offre à {{ o.price | prix }} chez {{ o.merchant | marchand }} (nouvel onglet)">
+          Voir l'offre<span class="visuellement-cache"> chez {{ o.merchant | marchand }}</span>
+        </a>
+        {% if o.autres %}
+          <span class="offres__autres">
+            {%- for lien in o.autres -%}
+              <a href="{{ lien }}" rel="nofollow sponsored noopener" target="_blank"
+                 title="Autre offre du même marchand au même prix">{{ loop.index + 1 }}</a>
+            {%- endfor -%}
+          </span>
+        {% endif %}
+      </td>
+    </tr>
+  {% else %}
+    <tr><td colspan="{{ 5 if tailles else 4 }}" class="vide">Aucune offre active.</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+{# La bulle du repère « i ». Une seule pour toute la page, déplacée sous le
+   bouton cliqué : sur une fiche à treize offres, treize copies du même texte
+   auraient pesé plus lourd que le tableau. Elle vit hors de toute condition —
+   elle n'est visible qu'au clic, et un bouton « i » sans bulle serait un bouton
+   mort. #}
+<div class="bulle" id="taille-info-message" hidden role="dialog"
+     aria-label="Pourquoi cette taille n'est pas indiquée">
+  <button type="button" class="bulle__x" data-bulle-fermer
+          aria-label="Fermer">&times;</button>
+  <p>La disponibilité de cet article est confirmée par le marchand, mais le
+     détail des tailles n'est pas précisé. Nous vous invitons à consulter sa
+     fiche produit pour choisir votre taille.</p>
+</div>
+
+
+<script src="/static/lightweight-charts.js?v={{ version_css() }}" defer></script>
+<script>
+// La courbe des prix — TradingView Lightweight Charts, comme la v1.
+//
+// `defer` sur la bibliothèque : elle pèse 164 Ko et la page n'a pas à
+// l'attendre pour s'afficher. On se branche donc sur `DOMContentLoaded`, qui
+// tombe après l'exécution des scripts différés.
+(function () {
+  function dessiner() {
+    const el = document.querySelector('[data-courbe]');
+    if (!el || typeof LightweightCharts === 'undefined') return;
+
+    let pts = [];
+    try { pts = JSON.parse(el.dataset.points || '[]'); } catch (e) { return; }
+    if (!pts.length) return;
+
+    const chart = LightweightCharts.createChart(el, {
+      height: el.clientHeight || 260,
+      layout: { background: { color: 'transparent' }, textColor: '#4a5168' },
+      grid: { vertLines: { color: '#eef0f6' }, horzLines: { color: '#eef0f6' } },
+      rightPriceScale: { borderColor: '#e8eaf1' },
+      timeScale: { borderColor: '#e8eaf1' },
+      // Le doigt ne vise pas au pixel : la ligne verticale du curseur gêne
+      // plus qu'elle n'aide sur un téléphone, l'infobulle suffit.
+      crosshair: { vertLine: { labelVisible: false } },
+    });
+
+    const serie = chart.addAreaSeries({
+      lineColor: '#26355a',
+      topColor: 'rgba(38, 53, 90, .28)',
+      bottomColor: 'rgba(38, 53, 90, .02)',
+      lineWidth: 2,
+    });
+    serie.setData(pts.map(p => ({ time: p.time, value: p.value })));
+    chart.timeScale().fitContent();
+
+    // L'infobulle : le prix seul dit qu'il a baissé, le marchand dit chez qui.
+    // C'est la seconde information qui décide d'un clic.
+    const tip = document.createElement('div');
+    tip.className = 'courbe__infobulle';
+    tip.hidden = true;
+    el.appendChild(tip);
+
+    const parDate = {};
+    pts.forEach(p => { parDate[p.time] = p; });
+    const euros = v => v.toLocaleString('fr-FR',
+      { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
+    const jour = t => t.split('-').reverse().join('/');
+
+    chart.subscribeCrosshairMove(function (param) {
+      const p = param && param.time && param.point ? parDate[param.time] : null;
+      if (!p) { tip.hidden = true; return; }
+      tip.hidden = false;
+      tip.innerHTML = '<b>' + euros(p.value) + '</b>'
+        + (p.store ? ' — ' + p.store : '')
+        + '<span class="courbe__infobulle-jour">' + jour(p.time) + '</span>';
+      // ramenée dans le cadre : près du bord droit, elle en sortirait
+      const x = Math.min(Math.max(param.point.x + 12, 4),
+                         el.clientWidth - tip.offsetWidth - 4);
+      tip.style.left = x + 'px';
+    });
+
+    // La bibliothèque fige la largeur à la création : sans ceci, une rotation
+    // de téléphone laisse une courbe coupée ou flottante.
+    let minuteur = null;
+    window.addEventListener('resize', function () {
+      clearTimeout(minuteur);
+      minuteur = setTimeout(() => chart.applyOptions({ width: el.clientWidth }), 120);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', dessiner);
+  } else {
+    dessiner();
+  }
+})();
+</script>
+
+<script>
+// La bulle du repère « i » de la colonne Taille.
+//
+// Une seule bulle existe dans la page ; on la déplace sous le « i » cliqué.
+// Positionnée en `fixed` à partir de la position réelle du bouton : le tableau
+// des offres défile horizontalement sur mobile, et une bulle en `absolute`
+// dans une cellule aurait été coupée par ce défilement.
+(function () {
+  const bulle = document.getElementById('taille-info-message');
+  if (!bulle) return;
+  let ancre = null;
+
+  function placer() {
+    if (!ancre) return;
+    const b = ancre.getBoundingClientRect();
+    bulle.hidden = false;                       // il faut l'afficher pour la mesurer
+    const m = bulle.getBoundingClientRect();
+    const marge = 8;
+
+    // Au-dessus par défaut ; en dessous s'il n'y a pas la place en haut.
+    const dessus = b.top - m.height - 10 >= marge;
+    bulle.classList.toggle('bulle--dessous', !dessus);
+    const y = dessus ? b.top - m.height - 10 : b.bottom + 10;
+
+    // Centrée sur le bouton, puis ramenée dans l'écran : sur un téléphone, une
+    // bulle centrée sur la dernière colonne dépasse à droite.
+    let x = b.left + b.width / 2 - m.width / 2;
+    x = Math.max(marge, Math.min(x, document.documentElement.clientWidth - m.width - marge));
+
+    bulle.style.top = y + 'px';
+    bulle.style.left = x + 'px';
+    // La flèche suit le bouton même quand la bulle a été ramenée dans l'écran.
+    bulle.style.setProperty('--fleche', (b.left + b.width / 2 - x) + 'px');
+  }
+
+  function ouvrir(bouton) {
+    if (ancre) ancre.setAttribute('aria-expanded', 'false');
+    ancre = bouton;
+    bouton.setAttribute('aria-expanded', 'true');
+    placer();
+    bulle.querySelector('[data-bulle-fermer]').focus();
+  }
+
+  function fermer() {
+    if (ancre) { ancre.setAttribute('aria-expanded', 'false'); ancre.focus(); }
+    ancre = null;
+    bulle.hidden = true;
+  }
+
+  document.addEventListener('click', function (e) {
+    const bouton = e.target.closest('[data-info]');
+    if (bouton) {
+      e.preventDefault();
+      (bouton === ancre) ? fermer() : ouvrir(bouton);
+      return;
+    }
+    // Un clic dans la bulle ne la ferme pas ; ailleurs, si.
+    if (ancre && !e.target.closest('.bulle')) fermer();
+    else if (e.target.closest('[data-bulle-fermer]')) fermer();
+  });
+
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && ancre) fermer(); });
+  // La bulle est posée en coordonnées d'écran : au défilement elle ne suivrait
+  // pas son bouton. On la replace plutôt que de la laisser dériver.
+  window.addEventListener('scroll', placer, true);
+  window.addEventListener('resize', placer);
+})();
+</script>
+
+<script>
+// Filtering by size happens in the page: every offer is already here, and a
+// round trip to the server to hide table rows would only make it feel slower.
+(function () {
+  const barre = document.querySelector('[data-filtre-taille]');
+  if (!barre) return;
+
+  const lignes  = Array.from(document.querySelectorAll('.offres tbody tr[data-taille]'));
+  const compte  = document.querySelector('[data-compte]');
+  const miniEl  = document.querySelector('[data-prix-mini]');
+  const ecartEl = document.querySelector('[data-ecart]');
+  const refEl   = document.querySelector('[data-reference]');
+  const hautEl  = document.querySelector('[data-prix-haut]');
+  const remiseEl = document.querySelector('[data-remise]');
+  const blocPrix = document.querySelector('[data-bloc-prix]');
+
+  // Les bornes viennent du serveur (`labels.SEUILS_REMISE`), elles ne sont pas
+  // réécrites ici : la couleur est une promesse faite au visiteur, et deux
+  // copies de la même règle finissent toujours par diverger.
+  const seuils = (refEl && refEl.dataset.seuils || '20,35').split(',').map(Number);
+  const niveauRemise = (pct) =>
+    pct > seuils[1] ? 'rouge' : (pct >= seuils[0] ? 'orange' : 'sobre');
+
+  // Espace insécable avant l'euro : ce texte est injecté en `textContent`, donc
+  // aucune classe CSS ne peut empêcher la coupure — c'est la chaîne elle-même
+  // qui doit tenir. (Typographie française, au passage.)
+  const euros = (v) =>
+    v.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
+
+  function appliquer(taille) {
+    let visibles = 0;
+    const prixSurs = [];   // offers whose size is known: comparable to each other
+    const prixTous = [];
+
+    for (const tr of lignes) {
+      // an offer whose merchant never said the size stays visible: hiding it
+      // would silently drop a real offer from the comparison.
+      const sansTaille = !tr.dataset.taille || tr.dataset.taille === '—';
+      const ok = taille === '*' || sansTaille || tr.dataset.taille === taille;
+      tr.hidden = !ok;
+      if (ok) {
+        visibles += parseInt(tr.dataset.nb || '1', 10);
+        const p = parseFloat(tr.dataset.prix);
+        if (!isNaN(p) && !tr.classList.contains('offres__rupture')) {
+          prixTous.push(p);
+          if (!sansTaille) prixSurs.push(p);
+        }
+      }
+    }
+
+    // `[data-compte]` a été retiré de la page : sans ce garde, la ligne
+    // ci-dessous levait une erreur et TOUT ce qui suit — prix mini, écart,
+    // pastille « meilleur prix » — cessait de s'exécuter au premier clic.
+    if (compte) {
+      compte.textContent = visibles + (visibles > 1 ? ' offres' : ' offre')
+        + (taille === '*' ? '' : ' en taille ' + taille)
+        + ' — prix hors frais de port.';
+    }
+
+    // Le rang et la pastille sont calculés côté serveur sur l'ordre COMPLET.
+    // Dès qu'une taille est choisie, la première ligne affichée n'est plus la
+    // première du tableau : sans ce recalcul, « Meilleur prix » restait sur une
+    // ligne masquée, donc invisible — et les rangs sautaient (4, 5, 11).
+    let rang = 0;
+    for (const tr of lignes) {
+      if (tr.hidden) continue;
+      rang += 1;
+      const premier = rang === 1;
+      // Le damier suit les lignes VISIBLES, pas celles du HTML : sans ca,
+      // filtrer sur une taille laissait deux fonds gris cote a cote.
+      tr.classList.toggle('est-paire', rang % 2 === 0);
+      const pastilleRang = tr.querySelector('[data-rang]');
+      if (pastilleRang) {
+        pastilleRang.textContent = rang;
+        pastilleRang.classList.toggle('est-premier', premier);
+      }
+      tr.classList.toggle('est-meilleure', premier);
+      let gagnant = tr.querySelector('.offres__gagnant');
+      if (premier && !gagnant) {
+        gagnant = document.createElement('span');
+        gagnant.className = 'offres__gagnant';
+        gagnant.textContent = 'Meilleur prix';
+        // Placée APRÈS le nom du marchand, en visant l'élément lui-même. La
+        // version d'avant comptait les voisins (`nextSibling` trois fois) : le
+        // compte tombe sur un nœud de texte ou sur un élément selon les espaces
+        // du gabarit, et la pastille changeait de côté d'une taille à l'autre.
+        const nom = tr.querySelector('td strong');
+        if (nom) nom.insertAdjacentElement('afterend', gagnant);
+      } else if (!premier && gagnant) {
+        gagnant.remove();
+      }
+      const bouton = tr.querySelector('.bouton');
+      if (bouton) {
+        bouton.classList.toggle('bouton--or', premier);
+        bouton.classList.toggle('bouton--contour', !premier);
+      }
+    }
+
+    if (miniEl && prixTous.length) miniEl.textContent = euros(Math.min(...prixTous));
+
+    // Le prix barré et la remise suivent la taille choisie, comme le reste :
+    // barrer le prix d'un 2XL en face du meilleur prix d'un M annoncerait une
+    // affaire qui n'existe pas.
+    if (refEl && hautEl && remiseEl) {
+      // `prixTous` et pas `prixSurs` : ce sont les prix des lignes RÉELLEMENT
+      // affichées sous le bloc. Le premier essai prenait les seules offres de
+      // taille connue, si bien qu'en taille L la page annonçait 43,50 € en
+      // grand, barrait 78,30 € et titrait « −16 % » — trois chiffres dont deux
+      // venaient d'un lot et le troisième d'un autre. Le visiteur doit pouvoir
+      // retrouver les deux bornes en descendant d'un écran.
+      const mini = prixTous.length ? Math.min(...prixTous) : 0;
+      const maxi = prixTous.length ? Math.max(...prixTous) : 0;
+      const montrer = prixTous.length > 1 && maxi > mini;
+      refEl.hidden = !montrer;
+      if (montrer) {
+        const pct = Math.round((1 - mini / maxi) * 100);
+        hautEl.textContent = euros(maxi);
+        remiseEl.textContent = '−' + pct + ' %';
+        // Le palier vit sur le BLOC : le prix et l'encadré y puisent la même
+        // teinte. Le poser sur la seule pastille laisserait le prix figé sur
+        // la couleur du premier affichage.
+        if (blocPrix) {
+          blocPrix.classList.remove('meilleur--sobre', 'meilleur--orange', 'meilleur--rouge');
+          blocPrix.classList.add('meilleur--' + niveauRemise(pct));
+        }
+      }
+    }
+
+    // The spread is a claim about the same article at two merchants. It is only
+    // true when the sizes are known and equal, so it appears with a size chosen
+    // and at least two offers that declare one.
+    if (ecartEl) {
+      const sur = taille !== '*' && prixSurs.length > 1;
+      const mini = sur ? Math.min(...prixSurs) : 0;
+      const maxi = sur ? Math.max(...prixSurs) : 0;
+      ecartEl.textContent = sur && maxi > mini
+        ? 'soit ' + euros(maxi - mini) + " d'écart en taille " + taille
+        : '';
+    }
+  }
+
+  barre.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-taille]');
+    if (!btn) return;
+    barre.querySelectorAll('[data-taille]').forEach((b) => b.classList.remove('est-actif'));
+    btn.classList.add('est-actif');
+    barre.querySelectorAll('[aria-pressed]').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b === btn));
+    });
+    appliquer(btn.dataset.taille);
+  });
+})();
+</script>
+
+
+<p class="mentions">
+  Les prix sont fournis par nos marchands partenaires et peuvent évoluer. Le prix
+  qui fait foi reste celui affiché sur le site du marchand au moment de la
+  commande. MotoComparo perçoit une commission sur les achats réalisés via ces
+  liens&nbsp;: elle ne change pas le prix que vous payez et n'influence pas le
+  classement, trié par prix.
+</p>
+</section>
+
+{# Même encadré que « Comparer les N offres » : ce sont les deux blocs de
+   preuve de la page — ce que les marchands demandent aujourd'hui, et ce qu'ils
+   demandaient les jours d'avant. Posé sans contour, l'historique flottait au
+   milieu de la page. Demandé par la propriétaire le 14/09/2026. #}
+<section class="offres__carte offres__carte--historique">
+<div class="offres__tete">
+  <h2 class="titre-section">Historique du meilleur prix</h2>
+</div>
+<p class="sous-titre">Évolution du prix le plus bas relevé parmi nos marchands partenaires.</p>
+{% if graphe %}
+  {# La géométrie est calculée dans `mcsite/courbe.py`, pas ici : une courbe
+     n'est honnête que si ses axes le sont, et le choix des graduations se
+     teste. L'échelle ne part PAS de zéro — sinon un casque passé de 523,57 à
+     521,90 € donnerait une ligne parfaitement plate, c'est-à-dire le contraire
+     de ce que ce graphique existe pour montrer. Chaque graduation porte donc
+     son prix, pour qu'on ne lise pas une petite baisse comme un effondrement. #}
+  {# La courbe TradingView Lightweight Charts, comme la v1 — même
+     bibliothèque, même version (4.2.3), mêmes couleurs, même infobulle qui dit
+     le prix, le marchand et la date au survol.
+
+     Le fichier est SERVI PAR NOUS, pas par un CDN. La page « Confidentialité »
+     promet qu'aucun tiers n'est contacté hormis Google Fonts et les images des
+     marchands ; aller chercher 164 Ko de JavaScript ailleurs démentirait cette
+     phrase, et une promesse de comparateur ne se dément pas pour économiser un
+     fichier.
+
+     Le SVG dessiné à la main qui occupait cette place est retiré : deux
+     courbes pour une seule vérité, c'est une de trop à tenir. Le résumé
+     chiffré juste dessous reste lisible sans JavaScript. #}
+  <div class="courbe" data-courbe
+       data-points='{{ points | tojson }}'
+       role="img"
+       aria-label="Évolution du prix le plus bas, de {{ graphe.prix_min | prix }} à {{ graphe.prix_max | prix }}"></div>
+  {# Rien sous la courbe quand le prix n'a pas bougé : elle le montre déjà, et
+     le répéter en toutes lettres ne fait qu'allonger l'encadré. Demandé par la
+     propriétaire le 14/09/2026. La fourchette reste écrite quand le prix A
+     bougé — là, le chiffre exact ne se lit pas sur le tracé. #}
+  {% if not graphe.plat %}
+  <p class="sous-titre">
+    Du {{ courbe[0].observed_on.strftime('%d/%m/%Y') }} au
+    {{ courbe[-1].observed_on.strftime('%d/%m/%Y') }}&nbsp;: entre
+    <span class="prix-insecable">{{ graphe.prix_min | prix }}</span> et
+    <span class="prix-insecable">{{ graphe.prix_max | prix }}</span>.
+  </p>
+  {% endif %}
+{% else %}
+  <p class="sous-titre">
+    L'historique commence tout juste&nbsp;: il n'y a encore qu'un relevé
+    {% if courbe %}(le {{ courbe[0].observed_on.strftime('%d/%m/%Y') }}){% endif %}.
+    La courbe apparaîtra après quelques jours de collecte.
+  </p>
+{% endif %}
+
+</section>
+
+{# Les quatre tuiles de la v1, mesurées sur sa fiche produit : elles répondent
+   aux quatre objections qu'un visiteur a juste après avoir vu le classement —
+   « ces prix sont-ils à jour », « qui sont ces boutiques », « est-ce que ça me
+   coûte plus cher », « faut-il un compte ». Elles manquaient entièrement à la
+   v2, et leur absence laissait la page finir sur un pavé de mentions légales. #}
+<div class="garanties">
+  {% for titre, detail in [
+    ('Prix vérifiés',      'Mise à jour automatique chaque jour'),
+    ('Marchands identifiés', 'Aucune boutique anonyme, aucun revendeur inconnu'),
+    ('Aucun surcoût',      'Vous payez le prix du marchand'),
+    ('Sans inscription',   'Comparez librement, sans compte')] %}
+  <div class="garanties__tuile">
+    <b>{{ titre }}</b>
+    <span>{{ detail }}</span>
+  </div>
+  {% endfor %}
+</div>
+
+{% if promos %}
+{# Repris de la v1 : un code appartient à un MARCHAND, pas à un produit, et le
+   lien mène à la page promo du marchand — pas à une plateforme d'affiliation.
+   Seuls les marchands présents sur cette fiche apparaissent : afficher le code
+   d'un marchand qui ne vend pas ce produit enverrait le visiteur là où il n'est
+   pas. #}
+<section class="promos">
+  <div class="promos__tete">
+    <h2 class="titre-section">Codes promo en cours chez ces marchands</h2>
+    <span>Vérifiés chaque jour</span>
+  </div>
+  <div class="promos__liste">
+    {% for c in promos %}
+    <div class="promo">
+      <span class="promo__point promo__point--{{ c.merchant }}" aria-hidden="true"></span>
+      <span class="promo__marchand">{{ c.merchant | marchand }}</span>
+      <span class="promo__texte">{{ c.libelle }}
+        {# Ce qui décide si la remise passera en caisse : le minimum d'achat,
+           les exclusions, et jusqu'à quand. Un code affiché sans ses conditions
+           est un code refusé au panier. #}
+        <span class="promo__cond">
+          {%- if c.conditions %}{{ c.conditions }} · {% endif -%}
+          valable jusqu'au {{ c.fin_le.strftime('%d/%m/%Y') }}
+        </span>
+      </span>
+      <button type="button" class="promo__code" data-code="{{ c.code }}"
+              title="Copier le code">{{ c.code }}</button>
+      {% if c.url %}
+        <a class="promo__voir" href="{{ c.url }}" target="_blank"
+           rel="nofollow sponsored noopener">Voir chez {{ c.merchant | marchand }} →</a>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+  <p class="promos__note">
+    Codes relevés chez les marchands et vérifiés chaque jour. Ils ne sont pas
+    déduits des prix affichés plus haut&nbsp;: la remise s'applique dans le
+    panier du marchand, sous réserve de ses conditions.
+  </p>
+</section>
+
+<script>
+/* Copier le code d'un clic. Le presse-papier peut être refusé (page non
+   sécurisée, permission), donc l'échec se voit : le bouton dit « Sélectionnez
+   le code » plutôt que de faire semblant d'avoir réussi. */
+document.addEventListener('click', function (e) {
+  const b = e.target.closest('.promo__code');
+  if (!b) return;
+  const code = b.dataset.code;
+  const dire = (mot) => {
+    const avant = b.textContent;
+    b.textContent = mot;
+    setTimeout(() => { b.textContent = avant; }, 1600);
+  };
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(code).then(() => dire('Copié !'), () => dire(code));
+  } else {
+    dire(code);
+  }
+});
+</script>
+{% endif %}
+
+{% if similaires %}
+{# Repris de la v1, y compris la phrase qui explique la sélection : dire sur
+   quoi elle repose évite qu'on la prenne pour de la publicité, et c'est vrai —
+   marque, gamme de prix, nombre de marchands, dans cet ordre. #}
+<section class="proches">
+  <h2 class="titre-section">Ces produits pourraient vous intéresser</h2>
+  <div class="proches__grille">
+    {% for it in similaires %}
+    <a class="proche" href="/p/{{ it.slug }}">
+      <span class="proche__img">
+        <img src="{{ it.image_url }}" alt="" loading="lazy">
+      </span>
+      <span class="proche__corps">
+        <span class="proche__marque">{{ it.brand_code | upper }}</span>
+        <span class="proche__nom">{{ nom(it) }}</span>
+        <span class="proche__prix">dès {{ it.cheapest | prix }}</span>
+        <span class="proche__cta">Comparer les prix</span>
+      </span>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+{% if meme_gamme %}
+{# La deuxième étagère de la v1. Sa raison d'être tient à un mot : d'AUTRES
+   marques. Celle du dessus répond « encore du même fabricant » ; celle-ci
+   répond à la question qu'on se pose vraiment à cet instant — pour ce budget,
+   qu'est-ce qui existe d'autre ? #}
+<section class="proches">
+  <h2 class="titre-section">Dans la même gamme de prix</h2>
+  <p class="sous-titre">
+    Autres marques, à 25&nbsp;% près du prix de cette fiche.
+  </p>
+  <div class="proches__grille">
+    {% for it in meme_gamme %}
+    <a class="proche" href="/p/{{ it.slug }}">
+      <span class="proche__img"><img src="{{ it.image_url }}" alt="" loading="lazy"></span>
+      <span class="proche__corps">
+        <span class="proche__marque">{{ it.brand_code | upper }}</span>
+        <span class="proche__nom">{{ nom(it) }}</span>
+        <span class="proche__prix">dès {{ it.cheapest | prix }}</span>
+        <span class="proche__cta">Comparer les prix</span>
+      </span>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+<script>
+/* Le fil des fiches consultées. Il vit dans le navigateur, comme les favoris et
+   le comparateur : le site n'a ni compte ni cookie, donc rien de tout ceci ne
+   remonte au serveur, sauf le temps d'afficher le rayon.
+
+   Douze au maximum, le plus récent devant, et la fiche courante remonte en tête
+   si elle y était déjà — sinon revenir deux fois sur le même casque remplirait
+   le rayon de ce seul casque. */
+(function () {
+  var slug = document.body.dataset.slug;
+  if (!slug) return;
+  try {
+    var vus = JSON.parse(localStorage.getItem('mc-vus') || '[]');
+    vus = vus.filter(function (s) { return s !== slug; });
+    vus.unshift(slug);
+    localStorage.setItem('mc-vus', JSON.stringify(vus.slice(0, 12)));
+  } catch (e) { /* navigation privée, stockage refusé : tant pis, pas d'erreur */ }
+})();
+</script>
+
+
+{# Une sortie, tout en bas. Une fiche produit est un cul-de-sac : on y arrive
+   par une recherche ou par Google, et une fois le prix comparé il n'y a plus
+   rien à faire. Le fil d'Ariane est en haut de page, donc hors de vue après
+   deux étagères de suggestions. Demandé par la propriétaire le 14/09/2026. #}
+{% if p.category_code and p.category_label %}
+<a class="retour-rayon" href="/c/{{ p.category_code }}">
+  <span aria-hidden="true">←</span>
+  Retour vers {{ p.category_label }}
+</a>
+{% endif %}

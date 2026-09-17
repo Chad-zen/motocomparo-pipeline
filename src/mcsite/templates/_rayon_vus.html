@@ -1,0 +1,29 @@
+{% from "_grille.html" import actions %}
+{# Fragment rendu par le serveur, injecté par la page : les cartes sont donc
+   exactement les mêmes que partout ailleurs, sans second rendu en JavaScript. #}
+<div class="rayon__tete">
+  <div>
+    <span class="rayon__oeil">Votre passage</span>
+    <h2>Vous avez consulté récemment</h2>
+  </div>
+  <button type="button" class="rayon__plus" data-vider-vus>Effacer</button>
+</div>
+<div class="rayon__piste">
+  {% for it in items %}
+  <a class="carte carte--rayon" href="/p/{{ it.slug }}">
+    {{ actions(it) }}
+    <div class="carte__img">
+      {% if it.image_url %}<img src="{{ it.image_url }}" alt="" loading="lazy">
+      {% else %}<span class="carte__sansimg">pas de visuel</span>{% endif %}
+    </div>
+    <div class="carte__corps">
+      <span class="carte__marque">{{ it.brand_code | upper }}</span>
+      <span class="carte__nom">{{ nom(it) }}</span>
+      <div class="carte__bas">
+        <span class="carte__prix">dès {{ it.cheapest | prix }}</span>
+        <span class="puce">{{ it.merchant_count }} marchands</span>
+      </div>
+    </div>
+  </a>
+  {% endfor %}
+</div>

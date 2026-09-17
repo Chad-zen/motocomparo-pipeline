@@ -1,18 +1,354 @@
 {% extends "base.html" %}
 {% block title %}{{ titre }} — MotoComparo{% endblock %}
 
+{# Un lien qui garde tous les filtres en place et n'en change qu'un. Sans cela,
+   choisir une taille effacerait la marque — le visiteur croit affiner, il
+   recommence. `''` retire le filtre. #}
+{# Changer de rayon doit GARDER les critères en cours. Le lien pointait vers
+   `/c/gants` tout nu : le compteur annonçait « Gants 2079 » (filtré à 200 €) et
+   le clic en donnait 2 185 — le filtre prix sautait en route, et le compteur
+   mentait donc à chaque fois qu'un critère était actif. #}
+{% macro lien_rayon(code_cible) -%}
+  {%- set p = {
+       'marque':    (f.marque if f else '') or '',
+       'prix_min':  (f.prix_min | round | int) if (f and f.prix_min is not none) else '',
+       'prix_max':  (f.prix_max | round | int) if (f and f.prix_max is not none) else '',
+       'taille':    (f.taille if f else '') or '',
+       'couleur':   (f.couleur if f else '') or '',
+       'marchands': (f.marchands if f else 2) | string,
+       'tri':       f.tri if f else 'pertinence',
+  } -%}
+  /c/{{ code_cible }}?{% for k, v in p.items() if v != '' and not (k == 'marchands' and v == '2') and not (k == 'tri' and v == 'pertinence') %}{{ k }}={{ v }}&amp;{% endfor %}
+{%- endmacro %}
+
+{# Sur une page de marque, `?marque=…` est IGNORÉ : la route `/m/{marque}` fixe
+   elle-même le filtre. Le panneau « Marques » y proposait donc des liens qui
+   renvoyaient sur la même marque, avec les compteurs du catalogue entier —
+   deux mensonges dans un seul clic. Ici, changer de marque change d'adresse. #}
+{% macro lien_marque(code_cible) -%}
+  {%- set p = {
+       'prix_min':  (f.prix_min | round | int) if (f and f.prix_min is not none) else '',
+       'prix_max':  (f.prix_max | round | int) if (f and f.prix_max is not none) else '',
+       'taille':    (f.taille if f else '') or '',
+       'couleur':   (f.couleur if f else '') or '',
+       'marchands': (f.marchands if f else 2) | string,
+       'tri':       f.tri if f else 'pertinence',
+  } -%}
+  /m/{{ code_cible }}?{% for k, v in p.items() if v != '' and not (k == 'marchands' and v == '2') and not (k == 'tri' and v == 'pertinence') %}{{ k }}={{ v }}&amp;{% endfor %}
+{%- endmacro %}
+
+{% macro lien(param, valeur) -%}
+  {%- set f = f or none -%}
+  {%- set p = {
+       'marque':    (f.marque if f else '') or '',
+       'prix_min':  (f.prix_min | round | int) if (f and f.prix_min is not none) else '',
+       'prix_max':  (f.prix_max | round | int) if (f and f.prix_max is not none) else '',
+       'taille':    (f.taille if f else '') or '',
+       'couleur':   (f.couleur if f else '') or '',
+       'marchands': (f.marchands if f else 2) | string,
+       'tri':       f.tri if f else 'pertinence',
+  } -%}
+  {%- if param == 'prix' -%}
+    {#- le prix est un intervalle : le retirer efface ses deux bornes -#}
+    {%- set _ = p.update({'prix_min': '', 'prix_max': ''}) -%}
+  {%- else -%}
+    {%- set _ = p.update({param: valeur}) -%}
+  {%- endif -%}
+  {#- `base` porte déjà `?q=…` pour la recherche : on enchaîne avec `&` -#}
+  {{ base }}{{ '&' if '?' in base else '?' }}{% for k, v in p.items() if v != '' and not (k == 'marchands' and v == '2') and not (k == 'tri' and v == 'pertinence') %}{{ k }}={{ v }}&amp;{% endfor %}
+{%- endmacro %}
+
+{# Une page de résultats filtrée ne doit PAS être indexée séparément : le même
+   catalogue vu sous mille combinaisons de filtres, c'est du contenu dupliqué à
+   l'échelle industrielle, et Google le sanctionne. L'adresse canonique renvoie
+   donc à la page sans filtre, et les pages filtrées sont marquées `noindex`.
+   La page 1 d'un rayon, elle, est une vraie page : elle reste indexable. #}
+{% block canonique %}{{ request.url.scheme }}://{{ request.url.netloc }}{{ base }}{% endblock %}
+{# `noindex` dès qu'un filtre est posé, ou au-delà de la première page : sinon
+   le même catalogue est indexé sous des milliers de combinaisons. `follow`
+   quand même — les liens de la page restent suivis, donc les fiches qu'elle
+   présente sont découvertes. #}
+{% block robots %}{% if f.marque or f.taille or f.couleur or f.prix_min or f.prix_max or f.texte or page > 1 %}<meta name="robots" content="noindex, follow">{% endif %}{% endblock %}
+{% block description %}{{ titre }} — {{ total }} produit{{ 's' if total > 1 }} comparé{{ 's' if total > 1 }} chez {{ marchands_actifs | length }} marchands français. Prix relevés chaque jour.{% endblock %}
+
+{# Le fil d'Ariane, redit aux moteurs. Il pointe vers `base`, l'adresse SANS
+   filtre : sur une page filtrée, un fil qui se désignerait lui-même
+   contredirait le `canonical` juste au-dessus, qui renvoie au rayon nu. #}
+{% set racine = request.url.scheme ~ '://' ~ request.url.netloc %}
+{% block donnees_structurees %}
+<script type="application/ld+json">{
+ "@context": "https://schema.org", "@type": "BreadcrumbList",
+ "itemListElement": [
+  { "@type": "ListItem", "position": 1, "name": "Accueil",
+    "item": {{ (racine ~ '/') | tojson }} },
+  { "@type": "ListItem", "position": 2, "name": {{ titre | tojson }},
+    "item": {{ (racine ~ base) | tojson }} }
+ ]
+}</script>
+{% endblock %}
+
 {% block contenu %}
-<nav class="fil"><a href="/">Accueil</a> › <span>{{ titre }}</span></nav>
-<h1 class="titre-page">{{ titre }}</h1>
-<p class="sous-titre">{{ "{:,}".format(total).replace(",", " ") }} fiches comparables</p>
-
-{% include "_grille.html" %}
-
-{% if pages > 1 %}
-<nav class="pagination">
-  {% if page > 1 %}<a href="{{ base }}?page={{ page - 1 }}">‹ Précédent</a>{% endif %}
-  <span>page {{ page }} sur {{ pages }}</span>
-  {% if page < pages %}<a href="{{ base }}?page={{ page + 1 }}">Suivant ›</a>{% endif %}
+{# `/c/{{ code }}` était vide quand `code` l'était — le lien menait alors sur
+   `/c/`, c'est-à-dire une page 404 en JSON brut, et il était présent en haut de
+   toutes les pages de catalogue. « Boutique », c'est `/produits`. #}
+<nav class="fil" aria-label="Fil d'Ariane">
+  <a href="/">Accueil</a> ›
+  <a href="/produits">Tous les produits</a> ›
+  <span>{{ titre }}</span>
 </nav>
-{% endif %}
+
+<div class="boutique">
+
+  {% if facettes %}
+  {# Le mécanisme de la v1 : une pastille flottante en bas d'écran, et un
+     panneau qui monte depuis le bas. Le pouce est en bas du téléphone — c'est
+     là que le bouton doit être, et c'est de là que le panneau doit venir.
+     L'ancienne barre en haut de liste obligeait à remonter toute la page pour
+     changer un filtre. #}
+  <button type="button" class="pastille-filtres" aria-controls="tiroir-filtres"
+          aria-expanded="false">
+    <span class="pastille-filtres__ico" aria-hidden="true">☰</span> Filtrer
+  </button>
+
+  <aside class="filtres tiroir tiroir--bas" id="tiroir-filtres" aria-label="Filtres">
+    <div class="tiroir__tete">
+      <b>Filtres</b>
+      <button type="button" class="tiroir__x" aria-label="Fermer">✕</button>
+    </div>
+    <div class="tiroir__resume">
+      <span class="tiroir__compte">{{ "{:,}".format(total).replace(",", " ") }} produits</span>
+    {# Les filtres en cours, tout en haut, chacun avec sa croix. C'est le seul
+       endroit d'où l'on voit d'un coup d'œil pourquoi la liste est si courte —
+       et le seul d'où l'on peut défaire une sélection sans rouvrir la section
+       où on l'avait prise. #}
+    {% set actifs = f.actifs() if f else [] %}
+    {% if actifs %}
+      {% for a in actifs %}
+        <a class="choix__puce" href="{{ lien(a.cle, '2' if a.cle == 'marchands' else '') }}">
+          {{ a.texte }} <b aria-hidden="true">✕</b>
+        </a>
+      {% endfor %}
+      <a class="choix__raz" href="{{ base }}">Tout effacer</a>
+    {% endif %}
+    </div>
+
+    {# L'ordre est celui de la propriétaire : on choisit d'abord CE qu'on
+       cherche (rayon, marque), puis les critères qui le restreignent (prix,
+       taille, couleur). Le nombre de marchands passe en dernier : c'est une
+       exigence sur la comparaison, pas sur le produit. #}
+    <section class="facette">
+      <h3>Catégories</h3>
+      {# La liste vient de la FACETTE, pas de l'arbre global : elle ne montre
+         que les rayons où la sélection courante a quelque chose, avec le
+         nombre qu'elle y a. #}
+      {% for c in facettes.categories[:16] %}
+        {% set ouvert = c.code == code or c.enfants | selectattr('code', 'equalto', code) | list %}
+        <a class="facette__ligne {{ 'est-actif' if c.code == code }}" href="{{ lien_rayon(c.code) }}">
+          <span>{{ c.label_fr }}</span><span class="facette__n">{{ c.n }}</span>
+        </a>
+        {% if ouvert %}
+          {% for e in c.enfants %}
+            <a class="facette__ligne facette__ligne--fille {{ 'est-actif' if e.code == code }}"
+               href="{{ lien_rayon(e.code) }}">
+              <span>{{ e.label_fr }}</span><span class="facette__n">{{ e.n }}</span>
+            </a>
+          {% endfor %}
+        {% endif %}
+      {% endfor %}
+    </section>
+
+    <section class="facette">
+      <h3>Marques</h3>
+      {% for x in facettes.marques %}
+        <a class="facette__ligne {{ 'est-actif' if f.marque == x.valeur }}"
+           href="{{ lien_marque(x.valeur) if base.startswith('/m/')
+                    else lien('marque', '' if f.marque == x.valeur else x.valeur) }}">
+          <span>{{ x.valeur | upper }}</span><span class="facette__n">{{ x.n }}</span>
+        </a>
+      {% endfor %}
+    </section>
+
+    {% if facettes.prix_maxi %}
+    <section class="facette facette--jauge">
+      <h3>Prix</h3>
+      {# Une jauge plutôt que cinq tranches : les bornes sont celles du rayon
+         affiché, pas des valeurs choisies d'avance. Proposer « 400 € et + » sur
+         un rayon de gants n'aide personne. #}
+      <form class="jauge" method="get" action="{{ base }}">
+        {% for k, v in {'marque': f.marque, 'taille': f.taille, 'couleur': f.couleur} .items() if v %}
+          <input type="hidden" name="{{ k }}" value="{{ v }}">
+        {% endfor %}
+        {% if f.marchands > 2 %}<input type="hidden" name="marchands" value="{{ f.marchands }}">{% endif %}
+        {% if f.tri != 'pertinence' %}<input type="hidden" name="tri" value="{{ f.tri }}">{% endif %}
+
+        {% set maxi = facettes.prix_maxi | round | int %}
+        <div class="jauge__piste">
+          <input type="range" name="prix_min" min="0" max="{{ maxi }}" step="5"
+                 value="{{ (f.prix_min or 0) | round | int }}" aria-label="Prix minimum">
+          <input type="range" name="prix_max" min="0" max="{{ maxi }}" step="5"
+                 value="{{ (f.prix_max or maxi) | round | int }}" aria-label="Prix maximum">
+        </div>
+        {# Les bornes suivent les poignées. Affichées en dur, elles disaient
+           « 0 € » et « 870 € » quoi qu'on déplace : on réglait à l'aveugle et
+           il fallait valider pour savoir ce qu'on avait choisi. #}
+        <p class="jauge__bornes">
+          <span class="prix-insecable" data-jauge-bas>{{ (f.prix_min or 0) | round | int }}&nbsp;€</span>
+          <span class="prix-insecable" data-jauge-haut>{{ (f.prix_max or maxi) | round | int }}&nbsp;€</span>
+        </p>
+        <button type="submit" class="jauge__ok">Appliquer</button>
+      </form>
+    </section>
+    {% endif %}
+
+    {% if facettes.tailles %}
+    <section class="facette">
+      <h3>Taille</h3>
+      <div class="pastilles">
+        {% for x in facettes.tailles %}
+          <a class="pastille-taille {{ 'est-actif' if f.taille == x.valeur }}"
+             href="{{ lien('taille', '' if f.taille == x.valeur else x.valeur) }}"
+             title="{{ x.n }} produits">{{ x.valeur | taille }}</a>
+        {% endfor %}
+      </div>
+    </section>
+    {% endif %}
+
+    {% if facettes.couleurs %}
+    <section class="facette">
+      <h3>Couleur</h3>
+      {% for x in facettes.couleurs %}
+        <a class="facette__ligne {{ 'est-actif' if f.couleur == x.valeur }}"
+           href="{{ lien('couleur', '' if f.couleur == x.valeur else x.valeur) }}">
+          <span>{{ x.valeur | couleur }}</span><span class="facette__n">{{ x.n }}</span>
+        </a>
+      {% endfor %}
+    </section>
+    {% endif %}
+
+    <section class="facette">
+      <h3>Marchands</h3>
+      {% for x in facettes.marchands %}
+        <a class="facette__ligne {{ 'est-actif' if f.marchands == x.valeur }}"
+           href="{{ lien('marchands', '2' if f.marchands == x.valeur else x.valeur|string) }}">
+          <span>{{ x.valeur }} marchands et +</span><span class="facette__n">{{ x.n }}</span>
+        </a>
+      {% endfor %}
+    </section>
+  </aside>
+  {% endif %}
+
+  <div class="boutique__corps">
+    <div class="boutique__tete">
+      <div>
+        <h1 class="titre-page">{{ titre }}</h1>
+        {# Le nombre est déjà dans la barre de filtres (« N produits ») : le
+           répéter sous le titre pousse le premier article vers le bas sans rien
+           apprendre. #}
+      </div>
+      {# Un seul contrôle plutôt que quatre bulles. Quatre bulles occupent deux
+         lignes sur un téléphone, poussent le premier produit hors de l'écran,
+         et affichent en permanence trois options qu'on ne prendra pas. La forme
+         est celle du site — coin nuit, accent ambre — et non le rectangle gris
+         de Dafy : c'est un contrôle de MotoComparo.
+
+         `<details>` plutôt qu'un menu déroulant natif : il se met aux couleurs
+         du site, se ferme avec Échap, et fonctionne sans une ligne de script. #}
+      {% set libelles = {'pertinence': 'Pertinence', 'prix': 'Prix croissant',
+                         'prix_desc': 'Prix décroissant', 'marchands': 'Plus de marchands'} %}
+      {% set choisi = (f.tri if f else 'pertinence') %}
+      <details class="tri">
+        <summary>
+          <span class="tri__mot">Trier par</span>
+          <b>{{ libelles[choisi] }}</b>
+          <span class="tri__chev" aria-hidden="true">›</span>
+        </summary>
+        <div class="tri__liste">
+          {% for cle, mot in libelles.items() %}
+            <a class="{{ 'est-actif' if choisi == cle }}" href="{{ lien('tri', cle) }}">{{ mot }}</a>
+          {% endfor %}
+        </div>
+      </details>
+    </div>
+
+    {# Mention obligatoire à un comparateur, sur la page de RÉSULTATS elle-même
+       (code de la consommation, art. L111-7 et D111-9 et suivants) : dire ce qui
+       classe, ce qui est rémunéré, et que le référencement n'est pas exhaustif.
+       Elle n'existait que sur les fiches produit, donc jamais là où le visiteur
+       lit un classement. #}
+
+    {% include "_grille.html" %}
+
+    {% if pages > 1 %}
+    <nav class="pagination">
+      {% if page > 1 %}<a href="{{ lien('page', '') }}page={{ page - 1 }}">‹ Précédent</a>{% endif %}
+      <span>page {{ page }} sur {{ pages }}</span>
+      {% if page < pages %}<a href="{{ lien('page', '') }}page={{ page + 1 }}">Suivant ›</a>{% endif %}
+    </nav>
+    {% endif %}
+
+    {# Placée EN BAS de la page de résultats, à la demande de la propriétaire
+       le 14/09/2026 : en haut, même repliée, elle s'interposait entre le titre
+       et les produits. Elle reste sur la page de résultats, ce que la loi
+       exige, et dépliable sans la quitter.
+
+       Repliée : en pavé, elle poussait les produits sous la ligne de flottaison
+       sur mobile — la propriétaire l'a signalé, capture à l'appui, le
+       14/09/2026. Elle reste sur la page de résultats, ce que la loi exige, et
+       reste dépliable sans quitter la page. Ce qui décide du classement — le
+       prix croissant, et que personne ne paie sa place — est visible sans
+       clic, parce que c'est l'information qui doit être à proximité immédiate
+       du classement. #}
+    <details class="mention-comparateur">
+      <summary>Classement par prix croissant&nbsp;: aucun marchand ne paie pour
+        sa place.</summary>
+      <p>Certains liens sont rémunérés — cela ne change ni le prix que vous
+        payez, ni l'ordre de cette page. Le référencement n'est pas exhaustif&nbsp;:
+        seuls les marchands dont nous savons lire le catalogue chaque jour y
+        figurent. Prix hors frais de port, relevés le
+        {{ releve_jour if releve_jour else "jour même" }}.</p>
+    </details>
+  </div>
+</div>
+
+<script>
+/* La jauge de prix : les bornes affichées suivent les poignées.
+
+   Trois détails qui ne se voient qu'en la manipulant :
+   - affichées en dur, elles annonçaient « 0 € » et « 870 € » quoi qu'on
+     déplace : on réglait à l'aveugle et il fallait valider pour savoir ;
+   - les deux curseurs se superposent, donc rien n'empêche de pousser le minimum
+     au-delà du maximum. On les repousse l'un l'autre plutôt que de bloquer :
+     bloquer donne l'impression que la poignée est cassée ;
+   - la piste se teinte entre les deux poignées, sinon on ne voit pas quelle
+     part de l'échelle on a retenue. */
+(function () {
+  const piste = document.querySelector('.jauge__piste');
+  if (!piste) return;
+  const bas = piste.querySelector('[name="prix_min"]');
+  const haut = piste.querySelector('[name="prix_max"]');
+  const etiqBas = document.querySelector('[data-jauge-bas]');
+  const etiqHaut = document.querySelector('[data-jauge-haut]');
+  const maxi = parseFloat(haut.max) || 1;
+
+  // Espace insécable avant l'euro : la borne est réécrite à chaque glissement,
+  // et rien ne doit pouvoir séparer le montant de sa devise.
+  const euros = (v) => Math.round(v).toLocaleString('fr-FR') + ' €';
+
+  function rafraichir(source) {
+    let a = parseFloat(bas.value), b = parseFloat(haut.value);
+    if (a > b) {
+      if (source === bas) { b = a; haut.value = b; }
+      else { a = b; bas.value = a; }
+    }
+    etiqBas.textContent = euros(a);
+    etiqHaut.textContent = euros(b);
+    piste.style.setProperty('--jauge-de', (a / maxi * 100) + '%');
+    piste.style.setProperty('--jauge-a', (b / maxi * 100) + '%');
+  }
+
+  bas.addEventListener('input', () => rafraichir(bas));
+  haut.addEventListener('input', () => rafraichir(haut));
+  rafraichir(bas);
+})();
+</script>
 {% endblock %}

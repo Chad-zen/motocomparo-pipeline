@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+{% block title %}Tableau de bord — MotoComparo
+{% endblock %}
+{% block contenu %}
+
+<h1 class="titre-page">Tableau de bord</h1>
+<p class="sous-titre">État du site au {{ maintenant }}</p>
+
+<div class="alertes">
+  {% for a in alertes %}
+    <div class="alerte alerte--{{ a.niveau }}">
+      {% if a.niveau == 'grave' %}✕{% elif a.niveau == 'attention' %}!{% else %}✓{% endif %}
+      {{ a.quoi }}
+    </div>
+  {% endfor %}
+</div>
+
+<h2 class="titre-section">Catalogue</h2>
+<div class="tuiles">
+  <div class="tuile"><span class="tuile__n">{{ "{:,}".format(cat.fiches).replace(",", " ") }}</span>fiches</div>
+  <div class="tuile tuile--phare"><span class="tuile__n">{{ "{:,}".format(cat.comparables).replace(",", " ") }}</span>comparables</div>
+  <div class="tuile"><span class="tuile__n">{{ "{:,}".format(cat.trois_marchands).replace(",", " ") }}</span>3 marchands et +</div>
+  <div class="tuile"><span class="tuile__n">{{ "{:,}".format(cat.avec_prix).replace(",", " ") }}</span>avec un prix</div>
+  <div class="tuile"><span class="tuile__n">{{ "{:,}".format(cat.variantes).replace(",", " ") }}</span>variantes</div>
+  <div class="tuile"><span class="tuile__n">{{ "{:,}".format(cat.en_revue).replace(",", " ") }}</span>en revue</div>
+  <div class="tuile"><span class="tuile__n">{{ "{:,}".format(cat.perimees).replace(",", " ") }}</span>périmées</div>
+  <div class="tuile"><span class="tuile__n">{{ "{:,}".format(cat.sans_couleur).replace(",", " ") }}</span>sans couleur</div>
+</div>
+
+<h2 class="titre-section">Prix</h2>
+<div class="tuiles">
+  <div class="tuile"><span class="tuile__n">{{ "{:,}".format(p.offres).replace(",", " ") }}</span>offres vivantes</div>
+  <div class="tuile tuile--phare"><span class="tuile__n">{{ (100 * p.fraiches / p.offres) | round | int }} %</span>de moins de 24 h</div>
+  <div class="tuile"><span class="tuile__n">{{ "{:,}".format(p.en_rupture).replace(",", " ") }}</span>en rupture</div>
+  <div class="tuile"><span class="tuile__n">{{ p.jours_historique }}</span>jours d'historique</div>
+  <div class="tuile"><span class="tuile__n">{{ p.dernier_releve }}</span>dernier relevé</div>
+</div>
+
+<h2 class="titre-section">Flux marchands</h2>
+<table class="offres">
+  <thead><tr>
+    <th>Marchand</th><th>Dernier chargement</th><th class="num">Offres</th>
+    <th class="num">Rattachées</th><th class="num">En attente</th><th class="num">Sans prix</th>
+  </tr></thead>
+  <tbody>
+  {% for f in flux %}
+    <tr>
+      <td><strong>{{ f.code | marchand }}</strong>
+        {% if f.gtin_trust == 'synthetic' %}<span class="etat etat--na">code-barres instable</span>{% endif %}
+      </td>
+      <td>{{ f.dernier_chargement.strftime('%d/%m %H:%M') if f.dernier_chargement else '—' }}</td>
+      <td class="num">{{ "{:,}".format(f.offres_vivantes).replace(",", " ") }}</td>
+      <td class="num">{{ "{:,}".format(f.rattachees).replace(",", " ") }}</td>
+      <td class="num {{ 'prix' if f.en_attente else '' }}">{{ "{:,}".format(f.en_attente).replace(",", " ") }}</td>
+      <td class="num">{{ "{:,}".format(f.sans_prix).replace(",", " ") }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+<h2 class="titre-section">Marques</h2>
+<div class="marques"><div class="marques__inner">
+  {% for m in marques_top %}
+    <a href="/m/{{ m.brand_code }}">{{ m.brand_code | upper }}
+      <span class="facette__n">{{ m.comparables }}/{{ m.fiches }}</span></a>
+  {% endfor %}
+</div></div>
+
+<h2 class="titre-section">File de revue</h2>
+<p class="sous-titre">Les rapprochements que le pipeline a refusé de faire seul.</p>
+<table class="offres">
+  <thead><tr><th>Code-barres</th><th>Motif</th><th class="num">Offres</th><th>Exemple</th></tr></thead>
+  <tbody>
+  {% for r in revue %}
+    <tr><td>{{ r.review_key }}</td><td>{{ r.kind }}</td>
+        <td class="num">{{ r.offres }}</td>
+        <td><span class="offres__titre">{{ (r.exemple or '') | truncate(60) }}</span></td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+<p class="avertissement">
+  Ce tableau est en lecture seule : aucune action ici ne modifie le catalogue.
+  Les corrections se font dans le pipeline.
+</p>
+
+<h2 class="titre-section" id="messages">Messages reçus</h2>
+{% if messages %}
+<table class="offres promo-table">
+  <tbody>
+    {% for m in messages %}
+    <tr>
+      <td>
+        <strong>{{ m.sujet }}</strong>
+        {% if not m.traite_le %}<span class="etat etat--ok">nouveau</span>{% endif %}<br>
+        <span class="offres__titre">{{ m.corps }}</span>
+        {% if m.email %}<br><span class="offres__titre">↩ {{ m.email }}</span>{% endif %}
+        {% if m.page %}<br><span class="offres__titre">depuis {{ m.page }}</span>{% endif %}
+      </td>
+      <td class="num">{{ m.recu_le.strftime('%d/%m/%Y %H:%M') }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p class="vide">Aucun message.</p>
+{% endif %}
+
+<h2 class="titre-section" id="promos">Codes promo</h2>
+<p class="sous-titre">
+  Relevés automatiquement chez les marchands par <code>mcpipe promo</code>, une
+  fois par jour — pas sur les plateformes d'affiliation, dont les flux n'étaient
+  pas à jour. Un code qui disparaît de la page du marchand se retire tout seul,
+  et un code périmé n'est plus affiché&nbsp;: mieux vaut pas de code qu'un code
+  refusé au panier.
+</p>
+<p class="sous-titre">
+  Le formulaire ci-dessous reste là pour les marchands que le relevé ne peut pas
+  lire — La Bécanerie bloque les robots derrière Cloudflare. Un code saisi à la
+  main n'est <strong>jamais</strong> écrasé par le relevé automatique.
+</p>
+
+<form class="promo-form" method="post" action="/admin/code-promo">
+  <label>Marchand
+    <select name="merchant_id" required>
+      {% for m in marchands %}<option value="{{ m.id }}">{{ m.code }}</option>{% endfor %}
+    </select>
+  </label>
+  <label>Code <input name="code" required placeholder="SPEED15" maxlength="40"></label>
+  <label class="promo-form--large">Libellé
+    <input name="libelle" required placeholder="-14 % sur tout le site" maxlength="160">
+  </label>
+  <label class="promo-form--large">Page promo du marchand
+    <input name="url" type="url" placeholder="https://www.speedway.fr/code-promo">
+  </label>
+  <label>Valable jusqu'au <input name="fin_le" type="date" required></label>
+  <button type="submit">Ajouter</button>
+</form>
+
+{% if promos %}
+<table class="offres promo-table">
+  <tbody>
+    {% for c in promos %}
+    <tr>
+      <td><strong>{{ c.marchand }}</strong> <code>{{ c.code }}</code>
+        <span class="etat etat--na">{{ 'relevé' if c.source == 'site' else 'saisi' }}</span><br>
+        <span class="offres__titre">{{ c.libelle }}{% if c.conditions %} — {{ c.conditions }}{% endif %}</span></td>
+      <td>
+        {% if c.retire_le %}<span class="etat etat--na">retiré</span>
+        {% elif c.actif %}<span class="etat etat--ok">actif, {{ c.jours_restants }} j</span>
+        {% else %}<span class="etat etat--ko">expiré</span>{% endif %}
+      </td>
+      <td class="num">{{ c.fin_le }}</td>
+      <td>
+        {% if not c.retire_le %}
+        <form method="post" action="/admin/code-promo">
+          <input type="hidden" name="retirer" value="{{ c.id }}">
+          <button type="submit" class="bouton bouton--contour">Retirer</button>
+        </form>
+        {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p class="vide">Aucun code enregistré.</p>
+{% endif %}
+{% endblock %}
