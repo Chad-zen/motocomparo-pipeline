@@ -68,11 +68,18 @@ server {
 
         # DEUX réglages qui font tout le travail sur une machine à un cœur :
         #
-        # `use_stale` : si l'application est occupée, en erreur, ou en train de
-        #   redémarrer, on continue de servir la version en cache. Un visiteur
-        #   ne voit jamais une page blanche pendant que le pipeline tourne.
-        # `background_update` : la page périmée est servie IMMÉDIATEMENT et
-        #   rafraîchie derrière. Personne n'attend jamais la reconstruction.
+        # proxy_cache_use_stale : si l'application est occupée, en erreur, ou
+        #   en train de redémarrer, on continue de servir la version en cache.
+        #   Un visiteur ne voit jamais une page blanche pendant que le pipeline
+        #   tourne.
+        # proxy_cache_background_update : la page périmée est servie
+        #   IMMÉDIATEMENT et rafraîchie derrière. Personne n'attend jamais la
+        #   reconstruction.
+        #
+        # Aucun accent grave dans ce bloc : il est volontairement NON protégé,
+        # pour que le nom de domaine soit remplacé, et bash y prendrait un
+        # accent grave pour une commande à exécuter. C'est arrivé au premier
+        # déploiement, le 2026-09-17.
         proxy_cache_use_stale error timeout updating http_500 http_502 http_503 http_504;
         proxy_cache_background_update on;
 

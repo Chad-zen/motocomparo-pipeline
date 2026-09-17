@@ -44,3 +44,7 @@ ops/*.json
 # d'autre qu'à la machine qui les a écrits.
 site.log
 site.err
+
+# La sauvegarde de la base, fabriquée pour le transfert vers le VPS.
+mcpipe.dump
+dump.log

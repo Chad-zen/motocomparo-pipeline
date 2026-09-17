@@ -72,12 +72,30 @@ else
 fi
 
 echo "== schéma de la base =="
-for f in /srv/motocomparo/app/sql/*.sql; do
-    echo "   $(basename "$f")"
-    sudo -u motocomparo env $(grep -h '^DATABASE_URL' /srv/motocomparo/.env) \
-        psql "$DATABASE_URL" -q -v ON_ERROR_STOP=1 -f "$f" 2>/dev/null \
-      || sudo -u postgres psql -d mcpipe -q -v ON_ERROR_STOP=1 -f "$f"
-done
+# L'adresse de la base est LUE dans le fichier d'environnement et passée en
+# argument. La version d'avant écrivait `psql "$DATABASE_URL"` : cette variable
+# n'existe que DANS le fichier, jamais dans ce shell, et `set -u` arrêtait le
+# script à la première migration. Constaté sur le VPS le 2026-09-17.
+#
+# Les migrations tournent sous le rôle `mcpipe`, pas sous `postgres` : les
+# objets doivent appartenir au compte qui les lira ensuite.
+#
+# À sauter si l'on restaure une sauvegarde complète (voir 04) : elle porte déjà
+# le schéma. Les rejouer ne casse rien — elles sont écrites pour être rejouées —
+# mais c'est du temps pour rien.
+if [ "${SANS_SCHEMA:-0}" = "1" ]; then
+    echo "   sauté (SANS_SCHEMA=1) — la sauvegarde apportera le schéma"
+else
+    DB_URL=$(grep -h '^DATABASE_URL=' /srv/motocomparo/.env | cut -d= -f2-)
+    if [ -z "$DB_URL" ]; then
+        echo "   DATABASE_URL introuvable dans /srv/motocomparo/.env" >&2
+        exit 1
+    fi
+    for f in /srv/motocomparo/app/sql/*.sql; do
+        echo "   $(basename "$f")"
+        psql "$DB_URL" -q -v ON_ERROR_STOP=1 -f "$f"
+    done
+fi
 
 echo
 echo "OK. Étape suivante : le transfert de la base (04-transfert-base.md),"
