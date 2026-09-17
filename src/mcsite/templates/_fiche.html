@@ -21,12 +21,17 @@
     <span class="fiche__marque">{{ p.brand_code | upper }}</span>
     <h1>{{ nom_produit }}</h1>
 
-    {% if reference %}<p class="fiche__ref">Réf. {{ reference }}</p>{% endif %}
-
-    {# Pas une note de produit : personne n'a testé ce casque ici. C'est la
-       nature du site qui est affirmée, et le libellé le dit en toutes lettres
-       pour qu'aucun visiteur ne lise « 5 étoiles pour ce casque ». #}
-    <p class="fiche__signature"><span aria-hidden="true">★★★★★</span> Comparateur indépendant</p>
+    {# La référence et la signature tiennent sur UNE ligne, comme sur la v1.
+       Empilées, elles faisaient deux lignes de gris entre le titre et le prix,
+       et repoussaient d'autant le seul chiffre que la page existe pour
+       montrer. #}
+    <p class="fiche__identite">
+      {% if reference %}<span class="fiche__ref">Réf. {{ reference }}</span>{% endif %}
+      {# Pas une note de produit : personne n'a testé ce casque ici. C'est la
+         nature du site qui est affirmée, et le libellé le dit en toutes lettres
+         pour qu'aucun visiteur ne lise « 5 étoiles pour ce casque ». #}
+      <span class="fiche__signature"><span aria-hidden="true">★★★★★</span> Comparateur indépendant</span>
+    </p>
 
     {% if p.colour_code and p.colour_code != 'unknown' %}
       <p class="fiche__couleur">Couleur : <strong>{{ p.colour_code | couleur }}</strong></p>
@@ -46,6 +51,10 @@
       <div class="meilleur meilleur--{{ niveau_remise or 'sobre' }}" data-bloc-prix>
         <div class="meilleur__gauche">
           <span class="meilleur__mot">Meilleur prix</span>
+          {# Le prix, le prix barré et la remise sur UNE ligne : les trois
+             disent la même chose — combien, au lieu de combien, et de combien
+             on descend. Sur deux lignes, l'œil doit les recomposer. #}
+          <span class="meilleur__ligne">
           <strong class="meilleur__prix" data-prix-mini>{{ p.cheapest | prix }}</strong>
           {# Ce qui rend l'affaire lisible : le prix le plus cher qu'on
              pourrait payer aujourd'hui pour le MÊME article, barré, et
@@ -63,6 +72,7 @@
                 {{ 'hidden' if not (plus_cher and remise) }}>
             <s class="meilleur__barre" data-prix-haut>{{ plus_cher | prix if plus_cher }}</s>
             <span class="remise" data-remise>−{{ remise }}&nbsp;%</span>
+          </span>
           </span>
           <span class="meilleur__chez">chez {{ meilleure.merchant | marchand }}</span>
         </div>

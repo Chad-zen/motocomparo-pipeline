@@ -87,6 +87,7 @@
 }</script>
 {% endblock %}
 
+{% import "_pub.html" as pub %}
 {% block contenu %}
 {# `/c/{{ code }}` était vide quand `code` l'était — le lien menait alors sur
    `/c/`, c'est-à-dire une page 404 en JSON brut, et il était présent en haut de
@@ -285,6 +286,11 @@
       {% if page < pages %}<a href="{{ lien('page', '') }}page={{ page + 1 }}">Suivant ›</a>{% endif %}
     </nav>
     {% endif %}
+
+    {# La bannière vient APRES les résultats et AVANT la mention du
+       classement : la dernière chose que lit le visiteur reste « aucun
+       marchand ne paie pour sa place », et non une publicité. #}
+    {{ pub.emplacement(bandeaux) }}
 
     {# Placée EN BAS de la page de résultats, à la demande de la propriétaire
        le 14/09/2026 : en haut, même repliée, elle s'interposait entre le titre

@@ -48,3 +48,6 @@ site.err
 # La sauvegarde de la base, fabriquée pour le transfert vers le VPS.
 mcpipe.dump
 dump.log
+
+# Lanceur local du serveur de dev (chemins Windows, propre à la machine)
+.claude/launch.json

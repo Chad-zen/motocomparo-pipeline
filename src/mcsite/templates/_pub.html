@@ -1,0 +1,24 @@
+{# Un emplacement publicitaire, et un seul modèle pour tous.
+
+   Trois règles tenues ici :
+
+   1. **C'est annoncé comme de la publicité.** Le site promet qu'aucun marchand
+      ne paie pour sa place dans le classement ; cette promesse ne survit que si
+      ce qui EST payé se voit comme tel. La mention n'est pas cachée dans un
+      coin gris : elle est au-dessus, lisible, avant l'image.
+   2. **Aucune bannière sur une fiche produit.** Là, le visiteur compare ; une
+      bannière d'un des marchands comparés, à côté du tableau des prix, laisse
+      croire que ce marchand a payé son rang. Elle vivrait dans la page au
+      moment exact où la neutralité compte le plus.
+   3. **La rotation est faite par le navigateur.** Les pages sont gardées une
+      heure par nginx : un tirage côté serveur donnerait une bannière fixe par
+      page pendant tout ce temps. #}
+{% macro emplacement(bandeaux) %}
+{% if bandeaux %}
+<aside class="pub {{ 'pub--large' if bandeaux[0].large }}" data-pub data-partenaires='{{ bandeaux | tojson }}'
+       aria-label="Publicité d'un marchand partenaire">
+  <p class="pub__mention">Publicité</p>
+  <div class="pub__cadre" data-pub-cadre></div>
+</aside>
+{% endif %}
+{% endmacro %}

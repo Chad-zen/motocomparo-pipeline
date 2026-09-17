@@ -20,6 +20,7 @@ from fastapi import FastAPI, HTTPException, Query, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import (
     HTMLResponse,
+    JSONResponse,
     PlainTextResponse,
     RedirectResponse,
     Response,
@@ -29,7 +30,7 @@ from fastapi.templating import Jinja2Templates
 from psycopg_pool import ConnectionPool
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
-from . import admin, cache, labels, queries
+from . import admin, cache, labels, partenaires, queries, suggestions
 from . import courbe as courbe_mod
 
 load_dotenv()
@@ -148,8 +149,13 @@ def _ctx(request: Request, **extra: Any) -> dict[str, Any]:
     nav, marques, marchands = cache.au_chaud("nav", _nav)
     # `marchands` est lu, pas écrit en dur : le bandeau annonçait « 6 marchands
     # vérifiés » alors que deux d'entre eux n'apparaissaient sur aucune fiche.
+    # Les bannières sont mises à disposition de TOUS les gabarits, mais posées
+    # seulement là où un gabarit les demande explicitement. Aucune fiche produit
+    # n'en affiche : voir le commentaire de `_pub.html`.
     return {"request": request, "nav": nav, "marques": marques,
-            "marchands_actifs": marchands, **extra}
+            "marchands_actifs": marchands,
+            "bandeaux": partenaires.bandeaux(),
+            "bandeaux_larges": partenaires.bandeaux("large"), **extra}
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -165,10 +171,18 @@ def home(request: Request):
             # the same question stacked on one page is how a home page stops
             # reading.
             familles = [c for c in _rayons() if c["n"]][:9]
+            # Les casques, avec leurs sous-rayons — `ids` porte le parent ET ses
+            # enfants, sinon « Nouveautés casque » ne verrait que les 79 casques
+            # dont aucun sous-type n'a pu être lu, et non le rayon entier.
+            casques = queries.find_category(_rayons(), "helmet")
             return {
                 "totals": queries.totals(conn),
                 "rayons": queries.rayons(conn, familles, 10),
                 "ecarts": queries.ecarts(conn, 12),
+                "nouveautes": queries.nouveautes(
+                    conn, casques["ids"] if casques else [], 12),
+                "nouveautes_rayon": casques,
+                "baisses": queries.baisses(conn, 12),
                 "affiche": queries.affiche(conn),
                 "vitrine": queries.vitrine(conn),
             }
@@ -812,6 +826,69 @@ async def contact_envoi(request: Request):
 # Absent jusqu'au 15/09/2026. Un comparateur qu'aucun moteur ne sait parcourir
 # n'a pas de raison d'exister : c'est par la recherche que ses visiteurs
 # arrivent, fiche par fiche.
+
+@app.get("/api/suggestions")
+def api_suggestions(request: Request, q: str = "") -> Response:
+    """Ce que la barre de recherche propose pendant la frappe.
+
+    Deux sources, et c'est tout l'intérêt du découpage :
+
+    - la ventilation **marque × rayon** est précalculée et gardée au chaud
+      (711 lignes, 70 Ko) : le filtrage s'y fait en mémoire, sans toucher la
+      base. Une requête par frappe coûtait 130 ms de balayage, parce que
+      `f_unaccent(brand_code)` interdit l'index ;
+    - les **produits** viennent de la base, mais servis par l'index de
+      trigrammes et mis en cache par texte tapé — deux visiteurs qui cherchent
+      « shoei » ne la font travailler qu'une fois.
+
+    `no-store` : la liste dépend de ce qu'on est en train de taper, elle n'a
+    aucune raison d'être gardée par nginx ni par le navigateur.
+    """
+    texte = (q or "").strip()[:60]
+    if len(suggestions.sans_accent(texte)) < suggestions.MINIMUM:
+        return JSONResponse({"marques": [], "entonnoir": [], "rayons": [],
+                             "produits": []},
+                            headers={"Cache-Control": "no-store"})
+
+    def _matiere() -> tuple:
+        with pool.connection() as conn:  # type: ignore[union-attr]
+            return queries.marques_par_rayon(conn), queries.categories(conn)
+
+    matrice, arbre = cache.au_chaud("suggestions|matiere", _matiere)
+
+    # `categories()` rend un arbre : on l'aplatit pour chercher aussi dans les
+    # sous-rayons (« Casques intégraux » autant que « Casques »).
+    plats: list[dict[str, Any]] = []
+    for parent in arbre:
+        plats.append(parent)
+        plats.extend(parent.get("enfants") or [])
+
+    # LA MARQUE D'ABORD. La reconnaître change tout ce qui suit : on ne cherche
+    # plus dans 313 000 fiches mais dans les quelques centaines de cette marque,
+    # et on peut donc y classer par ressemblance SANS seuil. C'est ce qui permet
+    # à « arai zzr » de trouver le SZ-R, dont « zzr » n'est qu'à 0,14 de
+    # ressemblance — bien trop peu pour franchir un seuil, largement assez pour
+    # arriver premier parmi 147 Arai.
+    noms = sorted({ligne["marque"] for ligne in matrice})
+    tapes = suggestions.mots(texte)
+    marque, restants = suggestions.reconnaitre_marque(tapes, noms)
+
+    def _produits() -> list[dict[str, Any]]:
+        with pool.connection() as conn:  # type: ignore[union-attr]
+            # Huit et non six : trois partent en grand format, il doit rester
+            # de quoi remplir « Autres produits ».
+            if marque:
+                return queries.produits_dans_la_marque(conn, marque, restants, 8)
+            return queries.produits_suggeres(conn, tapes, 8)
+
+    trouves = cache.au_chaud(f"suggestions|{texte.lower()}", _produits, ttl=300)
+
+    return JSONResponse(
+        suggestions.construire(texte, matrice, plats, trouves, _nom,
+                               marque, restants),
+        headers={"Cache-Control": "no-store"},
+    )
+
 
 @app.get("/favicon.ico", include_in_schema=False)
 def favicon() -> Response:

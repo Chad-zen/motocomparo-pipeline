@@ -590,5 +590,14 @@ function propre(u) {
    mise en page, jamais pendant. #}
 <script src="/static/etagere.js?v={{ version_css() }}" defer></script>
 
+{# La rotation des bannières partenaires. En `defer` comme l'étagère : elle ne
+   fait rien avant que la page soit lue, et n'a aucune raison de retarder son
+   affichage. #}
+<script src="/static/pub.js?v={{ version_css() }}" defer></script>
+
+{# La barre de recherche qui propose des chemins. En `defer` : elle ne sert
+   qu'au moment où quelqu'un tape, et n'a aucune raison de retarder la page. #}
+<script src="/static/recherche.js?v={{ version_css() }}" defer></script>
+
 </body>
 </html>

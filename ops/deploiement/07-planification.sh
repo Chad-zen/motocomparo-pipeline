@@ -17,7 +17,14 @@ cat > /usr/local/bin/mcpipe-prix <<'SCRIPT'
 set -euo pipefail
 export PATH=/srv/motocomparo/venv/bin:$PATH
 cd /srv/motocomparo/app
-set -a; . /srv/motocomparo/.env; set +a
+
+# Les variables viennent de systemd (`EnvironmentFile`), et surtout PAS d'un
+# `. /srv/motocomparo/.env`. Sourcer un fichier de configuration, c'est
+# l'EXECUTER : une valeur contenant une espace — « MENTIONS_EDITEUR=S. KIES » —
+# faisait chercher une commande nommee KIES, et toute la chaine s'arretait avant
+# le premier telechargement. systemd lit des paires cle=valeur sans rien
+# executer. Constate au premier essai reel, le 2026-09-17 — et c'est
+# exactement pour ca qu'on essaie une tache planifiee au lieu de l'attendre.
 
 echo "=== $(date '+%F %T') début ==="
 
@@ -31,11 +38,15 @@ mcpipe signature      # porte les tailles ; doit précéder enrich
 mcpipe enrich         # catégories + emprunt des tailles au code-barres
 mcpipe freshness      # recalcule les prix affichés — jamais optionnel
 
-# Le cache de nginx garde les pages une heure. Après une collecte, elles sont
-# périmées : on les jette, sinon les nouveaux prix attendent jusqu'à une heure
-# pour apparaître.
-find /var/cache/nginx/motocomparo -type f -delete 2>/dev/null || true
-echo "   cache de pages vidé"
+# Le vidage du cache est fait par systemd APRÈS cette chaîne, voir
+# `ExecStartPost` dans l'unité. Il était ici, et il ne faisait RIEN : le cache
+# appartient à `www-data`, la chaîne tourne sous `motocomparo`, et le
+# `2>/dev/null || true` avalait le refus. Les pages restaient donc figées
+# jusqu'à expiration — une fiche affichait encore les prix de la veille une
+# heure après la collecte. Constaté le 2026-09-17, en comparant la page servie
+# et la page reconstruite.
+#
+# Une erreur qu'on fait taire est une erreur qu'on ne voit jamais.
 
 echo "=== $(date '+%F %T') fin ==="
 SCRIPT
@@ -51,7 +62,14 @@ Wants=network-online.target
 Type=oneshot
 User=motocomparo
 Group=motocomparo
+EnvironmentFile=/srv/motocomparo/.env
 ExecStart=/usr/local/bin/mcpipe-prix
+
+# Le cache de nginx garde les pages une heure ; après une collecte elles sont
+# périmées. Le « + » fait exécuter cette ligne en root malgré le `User=`
+# ci-dessus : c'est le seul moyen pour que le compte applicatif, qui n'a aucun
+# droit sur /var/cache/nginx, déclenche quand même le vidage.
+ExecStartPost=+/usr/bin/find /var/cache/nginx/motocomparo -type f -delete
 
 # Le VPS a UN cœur, partagé avec le site. On met le pipeline derrière les
 # visiteurs : il ira un peu moins vite, personne ne verra la différence, et une

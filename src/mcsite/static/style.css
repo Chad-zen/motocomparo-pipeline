@@ -382,9 +382,18 @@ h1, h2 { line-height: 1.2; }
   /* taille puis disponibilite, empilees a droite du premier rang */
   .offres td.offres__taille { grid-column: 2; grid-row: 1; text-align: right; }
   .offres td.offres__dispo  { grid-column: 2; grid-row: 2; text-align: right; }
-  /* sans colonne de tailles, la disponibilite remonte sur le premier rang
-     plutot que de laisser un trou au-dessus d'elle */
-  .offres tr:not(:has(.offres__taille)) td.offres__dispo { grid-row: 1; }
+  /* Sans colonne de tailles, la disponibilite remonte sur le premier rang
+     plutot que de laisser un trou au-dessus d'elle.
+
+     Limitee au theme generique : dans le theme v1, le marchand occupe DEJA
+     toute la premiere ligne, et cette regle y faisait passer « en stock » par
+     dessus la pastille « Meilleur prix ». Visible sur toute fiche sans taille —
+     le top case Shad SH34, par exemple. Sa specificite (0,3,2) l emportait sur
+     celle du theme v1 (0,3,1), donc il ne suffisait pas de la redeclarer
+     ailleurs : il fallait l empecher de s appliquer ici. */
+  body:not(.theme-v1) .offres tr:not(:has(.offres__taille)) td.offres__dispo {
+    grid-row: 1;
+  }
   /* le prix et le bouton sur une ligne pleine en dessous */
   .offres td.offres__prix {
     grid-column: 1 / -1; grid-row: 3; text-align: left; padding-top: 8px;
@@ -554,14 +563,33 @@ h1, h2 { line-height: 1.2; }
 }
 .theme-v1 .fiche__prix strong { color: #b42318; font-size: 34px; }
 .theme-v1 .fiche__marque {
-  display: inline-block; background: var(--nuit); color: #fff;
+  /* Relevé sur la v1 : fond #eef1f9, encre #26355a, 11 px, graisse 800,
+     interlettrage 1 px. Nos jetons `--marque-fond` et `--marque-encre`
+     portaient déjà ces valeurs ; c'est cette règle-ci qui les écrasait par un
+     bloc navy plein.
+
+     Un pavé sombre juste au-dessus du titre lui dispute le regard : deux
+     éléments noirs à deux centimètres l'un de l'autre, et le nom du produit
+     n'est plus la première chose qu'on lit. La v1 pose une étiquette discrète,
+     et le titre reste seul à porter. */
+  display: inline-block;
+  background: var(--marque-fond); color: var(--marque-encre);
   padding: 4px 11px; border-radius: 6px; font-size: 11px;
-  letter-spacing: 1.1px; font-weight: 700;
+  letter-spacing: 1px; font-weight: 800;
 }
 .theme-v1 .fiche__tete h1 {
   /* 21 px / 800, relevé sur la v1. À 28 px et graisse 700, le titre
      paraissait plus gros ET plus maigre : c'est ce couple-là qui donnait
-     l'impression d'un gabarit générique. */
+     l'impression d'un gabarit générique.
+
+     La POLICE aussi vient de la v1, et c'est l'écart que la propriétaire a vu
+     sans pouvoir le nommer : son titre est composé dans la police du système —
+     Segoe UI sous Windows, San Francisco sur Mac — pendant que le nôtre était
+     en Source Sans 3. Deux grotesques proches, mais la police du système a des
+     formes plus fermées et un gris de page plus dense : à taille et graisse
+     identiques, elle paraît plus assise. Le reste de la page garde Roboto. */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+               Helvetica, Arial, sans-serif;
   font-size: 21px; font-weight: 800; line-height: 1.22;
   color: var(--nuit); margin-top: 10px;
 }
@@ -970,6 +998,15 @@ h1, h2 { line-height: 1.2; }
   background: var(--ko); color: #fff;
   border-radius: 6px; padding: 3px 8px;
   font-size: 12.5px; font-weight: 800; font-variant-numeric: tabular-nums;
+}
+/* « Nouveau » n'est pas une alerte : la pastille rouge est réservée à ce qui
+   chiffre — une remise, une baisse. Une nouveauté se signale sans crier, sinon
+   les deux rangées se disputent le même rouge sur la même page et plus rien
+   n'attire l'œil. */
+.pastille--neuf {
+  background: var(--nuit); color: var(--or);
+  font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+  font-size: 11px;
 }
 .carte__barre {
   color: var(--muted); text-decoration: line-through;
@@ -1759,7 +1796,14 @@ body:has(.banc:not([hidden])) { padding-bottom: 94px; }
    ========================================================================== */
 
 .tete {
-  background: linear-gradient(135deg, var(--nuit-doux), var(--nuit-clair));
+  /* Le dégradé EXACT de la v1, relevé le 17/09/2026 sur le site en ligne :
+     vertical, clair en haut, sombre en bas, trois arrêts.
+
+     Le nôtre allait à 135° et du sombre vers le clair — c'est-à-dire dans
+     l'autre sens. Un dégradé qui s'éclaircit vers le bas soulève le bandeau ;
+     celui qui s'assombrit le fait peser sur la page, et c'est ce poids qui
+     donne l'impression de sérieux que la propriétaire réclamait. */
+  background: linear-gradient(#1b2540 0%, #151d33 55%, #0f1524 100%);
   border-bottom: 3px solid var(--or);
 }
 .confiance { background: #0b1020; }
@@ -2723,3 +2767,293 @@ select:focus-visible, textarea:focus-visible, summary:focus-visible,
 }
 .courbe__infobulle[hidden] { display: none !important; }
 .courbe__infobulle-jour { display: block; opacity: .72; font-size: 11.5px; }
+
+/* ------------------------------------------------ bannières partenaires ---
+   Relevées chez Effinity et Kwanko le 17/09/2026.
+
+   L'emplacement est DÉLIBÉRÉMENT sobre : ni cadre coloré, ni ombre, rien qui
+   puisse le faire passer pour un contenu du site. Une publicité qui imite la
+   page qui l'entoure, c'est exactement ce que la loi appelle une publicité
+   trompeuse — et, sur un comparateur, c'est aussi ce qui détruit la seule chose
+   qu'on vend : la confiance dans le classement.
+
+   La mention est au-dessus, pas en dessous et pas en gris pâle : elle doit être
+   lue AVANT l'image, pas découverte après. */
+.pub {
+  margin: 26px auto 0;
+  max-width: 300px;              /* le format des bannières relevées */
+  text-align: center;
+}
+.pub__mention {
+  margin: 0 0 6px;
+  font-size: 11px; font-weight: 700; letter-spacing: .9px;
+  text-transform: uppercase; color: var(--doux, #8a90a5);
+}
+/* Le cadre garde sa place avant que l'image arrive : sans hauteur réservée, la
+   page saute sous le doigt au moment où la bannière se charge. */
+.pub__cadre { min-height: 250px; }
+.pub__cadre a { display: block; }
+.pub__cadre img {
+  display: block; width: 100%; height: auto;
+  border: 1px solid var(--ligne-carte, #e8eaf1); border-radius: 8px;
+}
+/* Une bannière qui ne se charge pas — marchand en maintenance, bloqueur de
+   publicité — ne doit pas laisser un trou de 250 px au milieu de la page. */
+.pub:empty, .pub__cadre:empty { min-height: 0; }
+.pub[hidden] { display: none !important; }
+
+/* ===================================================== la typographie v1 ===
+   Relevé le 17/09/2026, élément par élément, sur la fiche en ligne de la v1
+   (casque MT Helmets Atom 2 SV) et sur la nôtre, à 1440 px, puis comparé.
+
+   LE CONSTAT PRINCIPAL : la v1 compose toute sa FICHE dans la police du
+   système — Segoe UI sous Windows, San Francisco sur Mac. Source Sans 3 et
+   Roboto n'y servent que le bandeau du haut et le menu. Nous faisions
+   l'inverse : deux polices de rendu dans le contenu, la police du système
+   nulle part.
+
+   C'est ce qui se voit sans pouvoir se nommer. Une police système a des formes
+   plus fermées et un gris de page plus dense : à taille et graisse égales, elle
+   paraît plus assise. Une page composée dans la police du lecteur ressemble à
+   son système ; une page composée dans une police chargée ressemble à un
+   gabarit.
+
+   Tout ce qui suit est une valeur relevée, pas une valeur choisie.
+   ========================================================================== */
+
+:root { --police-v1: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                     Helvetica, Arial, sans-serif; }
+
+/* --- la fiche et la carte des offres passent à la police du système ------- */
+.theme-v1 .fil,
+.theme-v1 .fiche,
+.theme-v1 .fiche__marque,
+.theme-v1 .fiche__badge,
+.theme-v1 .offres__carte,
+.theme-v1 .meilleur,
+.theme-v1 .promesses,
+.theme-v1 .economie { font-family: var(--police-v1); }
+
+/* --- le bloc du meilleur prix -------------------------------------------- */
+/* 34 px sur la v1, 29 chez nous : cinq pixels sur le seul chiffre que la page
+   existe pour montrer. C'est l'écart le plus coûteux du lot. */
+.theme-v1 .meilleur__prix { font-size: 34px; }
+/* Blanc plein sur la v1, gris-bleu chez nous. « chez Motoblouz » est le nom du
+   marchand qu'on recommande : l'atténuer revient à s'excuser de le nommer. */
+.theme-v1 .meilleur__chez { color: #fff; }
+
+/* --- l'identité du produit ----------------------------------------------- */
+/* 600 et non 400 : « Comparateur indépendant » est une affirmation sur la
+   nature du site, pas une note de bas de page. */
+.theme-v1 .fiche__signature { font-weight: 600; color: #7b8298; }
+
+/* --- les garanties ------------------------------------------------------- */
+/* #4a5168 : un gris bleuté, pas le noir de texte courant. Quatre lignes en
+   noir plein juste sous le prix lui font concurrence. */
+.theme-v1 .promesses li { color: #4a5168; }
+
+/* --- les lignes d'offres -------------------------------------------------- */
+/* 15/700 sur la v1 contre 14/700 : le nom du marchand est ce qu'on compare,
+   il doit primer sur le reste de la ligne. */
+.theme-v1 .offres__marchand strong { font-size: 15px; color: #141a2b; }
+/* 11,5/700 et un vert plus soutenu : « en stock » est une bonne nouvelle, elle
+   se lit d'un coup d'œil ou elle ne sert à rien. */
+.theme-v1 .etat--ok { font-size: 11.5px; font-weight: 700; color: #1a7f45; }
+.theme-v1 .offres__rang { font-size: 13px; }
+.theme-v1 .offres .bouton { font-size: 14px; font-weight: 800; }
+.theme-v1 .offres__horodatage { color: #8a90a5; }
+
+/* --- le fil d'Ariane ------------------------------------------------------ */
+/* Deux gris distincts : le chemin parcouru est cliquable et bleuté, la page
+   courante est éteinte. Un fil d'une seule couleur ne dit plus où l'on est. */
+.theme-v1 .fil { font-size: 13px; }
+.theme-v1 .fil a { color: #26355a; }
+.theme-v1 .fil span { color: #9aa0b4; }
+
+/* --- le bandeau du haut et le logo ---------------------------------------- */
+/* 24 px, graisse 900, interlettrage −0,5 px, et le jaune de la v1 (#ffd000,
+   plus franc que notre #f8ca02). Le nôtre était à 21/800 : plus petit ET plus
+   maigre, donc deux fois moins présent. */
+.theme-v1 .logo__texte { font-size: 24px; font-weight: 900; letter-spacing: -.5px; }
+.theme-v1 .logo__texte .logo__jaune,
+.theme-v1 .logo__jaune { color: #ffd000; }
+/* Le texte secondaire du bandeau : plus clair (#c3cde0) et un poil plus petit.
+   Le nôtre à #8b96b0 se lisait mal sur le nuit. */
+.theme-v1 .confiance__libre,
+.theme-v1 .confiance > span:not(.confiance__fort) { font-size: 11.5px; color: #c3cde0; }
+
+/* Ces deux-là portaient leur propre `font-family`, qui l'emportait sur
+   l'héritage posé plus haut. Sur la v1 ils sont dans la police du système
+   comme le reste de la fiche — relevé : prix 34/800, titre de section 19/800. */
+.theme-v1 .meilleur__prix,
+.theme-v1 .offres__carte .titre-section { font-family: var(--police-v1); }
+
+/* Le logo. Relevé sur la v1 : 24 px, graisse 900, interlettrage −0,5 px, et le
+   jaune #ffd000. Le nôtre était à 21 px / 800 / −0,21 px en #f8ca02 — plus
+   petit, plus maigre et plus terne. Sur trois paramètres à la fois, l'écart ne
+   se voit pas comme « une police différente » mais comme « moins affirmé », et
+   c'est la première chose qu'un visiteur regarde. */
+.theme-v1 .marque__mot { font-size: 24px; font-weight: 900; letter-spacing: -.5px; }
+/* Le logo est `<b>Moto</b><i>Comparo</i>` : c'est le `i` qui porte le jaune. */
+.theme-v1 .marque__mot i { color: #ffd000; }
+
+
+/* --- la référence et la signature, sur une ligne -------------------------- */
+/* Relevé sur la v1 : « Réf. 8434639284074 » et « ★★★★★ Comparateur
+   indépendant » partagent la même ligne, à 13 px. Empilées, elles poussaient le
+   bloc du prix de vingt-cinq pixels vers le bas — sur un comparateur, c'est
+   vingt-cinq pixels retirés à la seule chose qu'on vient voir. */
+.fiche__identite {
+  display: flex; align-items: baseline; flex-wrap: wrap;
+  gap: 4px 14px; margin: 0 0 10px;
+}
+.fiche__identite .fiche__ref,
+.fiche__identite .fiche__signature { margin: 0; }
+
+/* --- le prix, le prix barré et la remise, sur une ligne ------------------- */
+/* `align-items: baseline` et non `center` : le barré et la pastille s'alignent
+   sur le pied des chiffres du prix, pas sur le milieu de sa hauteur. Centrés,
+   ils flottaient au-dessus de la virgule. */
+.meilleur__ligne {
+  display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 12px;
+}
+.meilleur__ligne .meilleur__reference { margin-top: 0; }
+
+/* Les 34 px du prix sont la valeur de la v1 en GRAND ÉCRAN. Sur téléphone elle
+   en utilise 29, et c'est nécessaire ici aussi : le bouton « comparer » est
+   posé en absolu sur le coin droit et recouvre la ligne du prix, ce qui ne
+   laisse que 209 px utiles. À 34 px, le prix barré et la remise passaient à la
+   ligne. */
+@media (max-width: 760px) {
+  .theme-v1 .meilleur__prix { font-size: 29px; }
+}
+
+/* ============================================ la liste de suggestions ======
+   Elle se pose SOUS le champ, dans le flux du formulaire, qui doit donc être
+   positionné — sinon la liste se cale sur la page et suit le défilement. */
+.quete, .tiroir__quete { position: relative; }
+
+.sugg {
+  position: absolute; z-index: 60; left: 0; right: 0; top: calc(100% + 6px);
+  background: var(--card, #fff);
+  border: 1px solid var(--ligne-carte, #e8eaf1);
+  border-radius: 12px;
+  box-shadow: 0 12px 36px rgba(15, 21, 36, .16);
+  overflow: hidden auto;
+  /* Plafonnée : sur un téléphone, une liste qui dépasse l'écran cache le
+     clavier autant que les résultats. */
+  max-height: min(64vh, 460px);
+  font-family: var(--police-v1, system-ui, sans-serif);
+  text-align: left;
+}
+.sugg[hidden] { display: none !important; }
+
+.sugg__titre {
+  margin: 0; padding: 10px 14px 4px;
+  font-size: 10.5px; font-weight: 800; letter-spacing: 1.1px;
+  text-transform: uppercase; color: var(--doux, #8a90a5);
+}
+.sugg__titre:not(:first-child) {
+  border-top: 1px solid var(--ligne-carte, #eef1f6); margin-top: 4px;
+}
+
+.sugg__ligne {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 9px 14px; text-decoration: none; color: var(--ink, #15181f);
+  font-size: 14px;
+}
+/* `est-choisi` et non `:hover` seul : la sélection au clavier doit se voir
+   exactement comme celle à la souris, sinon on ne sait plus où l'on est. */
+.sugg__ligne:hover, .sugg__ligne.est-choisi { background: #eef1f9; }
+
+.sugg__quoi { font-weight: 700; }
+.sugg__compte {
+  flex: none; font-size: 12px; font-weight: 700; color: var(--doux, #8a90a5);
+  font-variant-numeric: tabular-nums;
+}
+
+.sugg__produit { display: flex; flex-direction: column; min-width: 0; }
+.sugg__marque {
+  font-size: 10.5px; font-weight: 800; letter-spacing: .8px;
+  color: var(--marque-encre, #26355a);
+}
+/* Un nom de produit long ne doit ni pousser le prix hors du cadre, ni passer
+   sur trois lignes : il se coupe, et le prix garde sa place. */
+.sugg__nom {
+  font-size: 13.5px; overflow: hidden; text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.sugg__prix {
+  flex: none; font-size: 13px; font-weight: 800; white-space: nowrap;
+}
+
+.sugg__ligne--tout {
+  border-top: 1px solid var(--ligne-carte, #eef1f6);
+  background: #fafbfd; font-size: 13px;
+}
+.sugg__tout { font-weight: 700; color: var(--marque-encre, #26355a); }
+
+
+/* --- la vignette d'un produit dans les suggestions ------------------------ */
+/* Un carré fixe, fond clair, image contenue : les photos des marchands n'ont
+   ni la même taille ni le même cadrage, et sans cadre fixe chaque ligne de la
+   liste prendrait une hauteur différente — l'œil ne pourrait plus la balayer.
+
+   `object-fit: contain` et non `cover` : sur un casque détouré, recadrer coupe
+   la mentonnière ou la visière, c'est-à-dire ce qui permet de le reconnaître. */
+.sugg__vignette {
+  flex: none;
+  width: 42px; height: 42px;
+  display: flex; align-items: center; justify-content: center;
+  background: #f4f6fa; border-radius: 8px; overflow: hidden;
+}
+.sugg__vignette img {
+  max-width: 100%; max-height: 100%;
+  object-fit: contain; display: block;
+}
+/* La ligne d'un produit s'aligne sur la vignette, pas sur le texte. */
+.sugg__ligne .sugg__produit { flex: 1 1 auto; }
+
+
+/* --- le meilleur résultat, mis à part ------------------------------------- */
+/* Il est le premier, plus grand, et posé sur un fond différent. Trois marques
+   pour une seule idée : c'est probablement ce que vous cherchiez. Une seule
+   d'entre elles ne suffirait pas — un fond seul se prend pour une bande, une
+   taille seule pour du hasard. */
+.sugg__ligne--meilleur {
+  background: #f6f8fd;
+  border-bottom: 1px solid var(--ligne-carte, #e8eaf1);
+  padding: 12px 14px;
+  gap: 14px;
+}
+.sugg__ligne--meilleur:hover,
+.sugg__ligne--meilleur.est-choisi { background: #e9eefb; }
+
+.sugg__grande {
+  flex: none;
+  width: 62px; height: 62px;
+  display: flex; align-items: center; justify-content: center;
+  background: #fff; border: 1px solid var(--ligne-carte, #e8eaf1);
+  border-radius: 10px; overflow: hidden;
+}
+.sugg__grande img { max-width: 100%; max-height: 100%; object-fit: contain; }
+
+.sugg__nom--grand {
+  font-size: 15px; font-weight: 700; white-space: normal;
+  /* Deux lignes au plus : le nom complet d'un casque de course dépasse
+     largement, et une proposition qui prend cinq lignes cesse d'en être une. */
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.sugg__marchands {
+  font-size: 12px; color: var(--doux, #8a90a5); margin-top: 2px;
+}
+.sugg__prix--grand { font-size: 15px; }
+
+/* --- l'emplacement large, en travers de l'accueil ------------------------- */
+/* 728x90 : entre deux étagères, une bande ponctue la page là où un pavé de
+   250 px la couperait en deux. Le cadre suit l'image et non l'inverse — sur un
+   téléphone elle descend à 320 px de large et sa hauteur suit. */
+.pub--large { max-width: 728px; }
+.pub--large .pub__cadre { min-height: 0; }
+.pub--large .pub__cadre img { border-radius: 10px; }
