@@ -71,7 +71,9 @@ day, the v2 site itself — will run.
 | OS | Ubuntu 24.04 LTS, plain — no control panel |
 | Extras | none: no malware scanner, no Docker manager (both declined to keep RAM for PostgreSQL; both can be added later from the VPS dashboard) |
 | Expires | 2027-09-12 |
-| IP address | *to be filled in once provisioning completes* |
+| IPv4 | `72.61.109.193` |
+| IPv6 | `2a02:4780:28:9e00::1` |
+| Reverse DNS | `srv1976533.hstgr.cloud` (les deux) |
 
 Why 24.04 and not the 26.04 LTS offered as default: 24.04 is the mature LTS that
 PostgreSQL's own apt repository and most tooling target. 26.04 was five months old
