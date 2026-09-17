@@ -1,11 +1,12 @@
 # What `publish` has to produce
 
-> ⚠️ **CONTESTED — read `docs/REPRENDRE-ICI.md` before acting on this file.**
+> ⚠️ **OBSOLETE — decided 2026-09-13, see `docs/REPRENDRE-ICI.md` §1.**
 >
 > On 2026-09-13 a v2 storefront was written that reads PostgreSQL directly
 > (`src/mcsite/`), which removes the need for the publish path described below.
-> Two architectures are live in this repository and they contradict each other.
-> **The choice has not been made.** Do not build either side until it is.
+> The v2 storefront reads PostgreSQL directly and WordPress is out of the
+> picture. Kept as the record of what v1 expected — useful for reading its
+> 70 snippets — not as a thing to build.
 
 Read on 2026-09-13 from `staging.motocomparo.com` (an exact copy of production):
 the WPCode snippets that render the site, and the real table structures in
