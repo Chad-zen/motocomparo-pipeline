@@ -1015,3 +1015,75 @@ requête en analysant du Python à coups d'expressions régulières, et rendait 
 faux positif sur une requête juste. Un test auquel on ne peut pas se fier coûte
 plus qu'il ne rapporte — on finit par le contourner, puis par ignorer ses
 semblables.
+
+## 17/09/2026 — Le flux de La Bécanerie ment sur ses propres prix
+
+Signalé par la propriétaire sur une fiche : le prix La Bécanerie ne semblait pas
+à jour. Il ne l'est pas — et la cause n'est pas chez nous.
+
+### La chaîne de vérification, dans l'ordre
+
+| Étape | Ce qu'elle dit |
+|---|---|
+| La fiche affiche | 42,90 € chez La Bécanerie, « −40 % » |
+| La base | 42,90 €, relevé du jour à 12:44 |
+| Leur flux, téléchargé à 12:30 | **42,90 €** |
+| L'en-tête `Last-Modified` de leur serveur | régénéré **par eux** à 04:03 le jour même |
+| **Leur propre site** | **71,00 €** |
+
+Notre ingestion est fidèle : sur **20 000 références** comparées à la vraie clé
+marchande (`merchant_sku`, pas le GTIN), **19 997 prix sont identiques au flux**.
+
+### Le piège de la première mesure
+
+Le premier contrôle, fait sur le GTIN, donnait 17 écarts sur 3 019 — et il était
+faux. La Bécanerie **réutilise le même GTIN pour des produits différents** :
+`3661251059352` porte à la fois un « Kit vis BTR carter » et un « Kit Vis Déco ».
+La jointure croisait deux articles distincts et inventait des écarts de prix.
+
+Deux leçons, et la seconde compte plus : le GTIN n'est pas une clé chez ce
+marchand, et une mesure qui simplifie sa clé mesure autre chose que ce qu'elle
+croit.
+
+### Ce que le défaut vaut
+
+Deux produits vérifiés sur leur site, deux fois le même sens :
+
+| Produit | Leur flux | Leur site |
+|---|---:|---:|
+| Bloque disque Auvray DK-10 | 42,90 € | 71,00 € |
+| Kit réparation bras oscillant | 56,00 € | 75,90 € |
+
+**Le flux annonce toujours moins cher que la réalité** — le pire sens possible :
+le prix trop bas gagne la place de « meilleur prix », fabrique un « −x % » qui
+n'existe pas, et envoie le visiteur vers une déception.
+
+Ça explique aussi un signal relevé le matin même sans être creusé : La Bécanerie
+n'avait bougé **aucun** prix sur 222 907 offres en cinq jours, quand FC-Moto en
+baissait 112 149. Zéro mouvement sur un catalogue vivant était l'indice ; il
+fallait le lire.
+
+### La portée
+
+**4 831 fiches** ont aujourd'hui La Bécanerie comme prix affiché — le troisième
+marchand du site. Sur un comparateur, c'est le défaut le plus coûteux qui soit :
+il ne casse rien, ne lève aucune erreur, et détruit la seule chose qui fait la
+valeur du site.
+
+Rien n'a été modifié. Trois voies ont été présentées à la propriétaire :
+mesurer sur 30 à 50 produits avant de décider (recommandé — on ne coupe pas un
+marchand sur deux observations), suspendre La Bécanerie de l'affichage en
+attendant, ou attendre leur réponse. La décision lui appartient : elle est
+commerciale autant que technique.
+
+### Au passage, un tri instable qui ne l'était qu'une fois sur deux
+
+Un test comparait deux calculs de la rangée « Ça a baissé ». Il a échoué une
+fois, puis est repassé seul — le symptôme qu'on met sur le compte de la
+malchance. La cause : deux marchands au MÊME prix sur la même fiche (le Shark
+OXO Rydger chez Maxxess et Moto-Axxe). Les deux lignes étaient identiques
+jusqu'au slug, PostgreSQL en gardait une au hasard, et comme la rangée répartit
+ensuite par marchand, les douze cartes se réorganisaient derrière.
+
+Deux tirages avaient une chance sur deux de tomber pareil : c'est pour cela que
+le défaut a survécu. Le test en fait **six**, et compare aussi le marchand.

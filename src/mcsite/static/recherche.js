@@ -195,7 +195,11 @@
       }
 
       var autres = (d.marques || []).filter(function (m) {
-        return !d.entonnoir.length || m.marque !== d.entonnoir[0].marque;
+        // Même garde qu'au bloc au-dessus : si l'API omettait un jour
+        // `entonnoir`, lire `.length` sur `undefined` levait une exception ici
+        // et vidait TOUT l'affichage des suggestions — marques, rayons et
+        // produits compris — pas seulement cette rubrique.
+        return !(d.entonnoir && d.entonnoir.length) || m.marque !== d.entonnoir[0].marque;
       });
       if (autres.length) {
         rubrique('Marques');
@@ -214,8 +218,10 @@
       }
 
       if (d.produits && d.produits.length) {
+        // `d.meilleurs` est déjà testé plus haut avant d'être parcouru ; ici
+        // on relisait `.length` sans le même filet.
         rubrique(d.marque_seule ? 'Quelques produits'
-                 : (d.meilleurs.length ? 'Autres produits' : 'Produits'));
+                 : ((d.meilleurs && d.meilleurs.length) ? 'Autres produits' : 'Produits'));
         d.produits.forEach(function (p) {
           // Un comparateur d'équipement se lit à l'image autant qu'au texte :
           // « Casque intégral Arai CONCEPT-XE » ne dit rien de la couleur ni de
