@@ -16,6 +16,20 @@ dependencies = [
     "typer>=0.12",              # CLI
     "rich>=13.7",               # readable console output
     "structlog>=24.1",          # structured logs
+
+    # --- le site -----------------------------------------------------------
+    # Elles manquaient : le dépôt ne déclarait que le pipeline, si bien que
+    # `pip install -e .` sur un serveur neuf donnait un environnement d'où le
+    # site ne pouvait pas démarrer. Constaté au premier déploiement, le
+    # 2026-09-17 : systemd bouclait sur `203/EXEC`, faute d'uvicorn.
+    #
+    # Elles sont dans les dépendances principales et non dans un extra, parce
+    # que ce dépôt EST le site autant que le pipeline : les séparer inviterait
+    # à réinstaller à moitié, ce qui vient précisément d'arriver.
+    "fastapi>=0.115",           # le site
+    "uvicorn>=0.30",            # le serveur qui le fait tourner
+    "jinja2>=3.1",              # les gabarits de pages
+    "psycopg-pool>=3.2",        # `ConnectionPool` dans app.py
 ]
 
 [project.optional-dependencies]
