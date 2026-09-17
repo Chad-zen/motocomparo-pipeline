@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="MotoComparo">
+  <rect width="64" height="64" rx="14" fill="#0f1524"/>
+  <text x="32" y="41" text-anchor="middle"
+        font-family="Arial Black, Arial, sans-serif" font-size="26" font-weight="900"
+        fill="#f5b301" letter-spacing="-1">MC</text>
+  <path d="M12 50h40" stroke="#f5b301" stroke-width="3" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% block title %}Guides &amp; conseils — bien choisir son équipement moto — MotoComparo{% endblock %}
+{% block description %}Comment choisir un casque, une taille de blouson, des gants homologués : nos guides d'achat, écrits pour décider, sans jargon et sans publicité déguisée.{% endblock %}
+
+{% block contenu %}
+<nav class="fil"><a href="/">Accueil</a> › <span>Guides &amp; conseils</span></nav>
+<h1 class="titre-page">Guides &amp; conseils</h1>
+<p class="sous-titre">
+  De quoi choisir sans se tromper de taille ni de norme. Rien ici ne dépend d'un
+  marchand&nbsp;: ce sont les règles communes à tout l'équipement vendu en France.
+</p>
+
+{# Contenu volontairement factuel et vérifiable : normes européennes et mesures.
+   Un comparateur qui donne des conseils de vendeur perd ce qui fait sa valeur,
+   c'est-à-dire de ne rien avoir à vendre. #}
+
+<section class="guide">
+  <h2 class="titre-section">Trouver sa taille de casque</h2>
+  <p>Mesurez le tour de tête avec un mètre de couturière, à environ un
+     centimètre au-dessus des sourcils, en passant par la partie la plus large
+     de l'arrière du crâne. Notez la mesure en centimètres.</p>
+  <div class="tableau-enveloppe">
+    <table class="offres">
+      <thead><tr><th>Tour de tête</th><th>Taille</th></tr></thead>
+      <tbody>
+        {% for tour, taille in [('53 – 54 cm','XS'), ('55 – 56 cm','S'),
+                                ('57 – 58 cm','M'), ('59 – 60 cm','L'),
+                                ('61 – 62 cm','XL'), ('63 – 64 cm','2XL')] %}
+        <tr><td>{{ tour }}</td><td><b>{{ taille }}</b></td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <p class="sous-titre">Ce tableau est la correspondance la plus répandue, mais
+     chaque fabricant a sa propre coupe&nbsp;: entre deux tailles, la forme de
+     la calotte (ronde, ovale) compte autant que le chiffre. Un casque neuf doit
+     serrer fermement les joues sans créer de point dur sur le front.</p>
+</section>
+
+<section class="guide">
+  <h2 class="titre-section">La norme ECE 22.06, en clair</h2>
+  <p>Depuis le <b>1<sup>er</sup> janvier 2024</b>, les casques neufs vendus dans
+     l'Union européenne doivent être homologués <b>ECE 22.06</b>. Elle a
+     remplacé l'ECE 22.05, qui était en vigueur depuis 2000.</p>
+  <p>Ce que 22.06 ajoute&nbsp;: des chocs testés à plusieurs vitesses et sur
+     davantage de points de la calotte, un test de rotation (les blessures les
+     plus graves viennent souvent de la rotation de la tête, pas du choc
+     frontal), et l'homologation des accessoires vendus avec le casque, écran
+     solaire compris.</p>
+  <p>L'étiquette cousue à la jugulaire porte le numéro d'homologation. Un casque
+     ECE 22.05 acheté avant n'est pas interdit à l'usage&nbsp;; il ne peut
+     simplement plus être vendu neuf.</p>
+</section>
+
+<section class="guide">
+  <h2 class="titre-section">Les normes des vêtements et des protections</h2>
+  <p>Un blouson « moto » sans norme n'est qu'un blouson. Trois références
+     reviennent sur les étiquettes&nbsp;:</p>
+  <ul class="liste-puces">
+    <li><b>EN 17092</b> — les vêtements. Cinq classes&nbsp;: AAA (le plus
+        protecteur, combinaisons et cuir de route), AA (usage courant), A
+        (usage urbain), B (résistance à l'abrasion sans protections), C
+        (porte-protections seul, à mettre sous un autre vêtement).</li>
+    <li><b>EN 1621-1</b> — les coques d'épaules, coudes, hanches et genoux.
+        Niveau 1 ou niveau 2, le 2 absorbant davantage.</li>
+    <li><b>EN 1621-2</b> — les dorsales, même logique de niveaux.</li>
+    <li><b>EN 13594</b> — les gants. Niveau 1 ou 2, avec la mention <i>KP</i>
+        lorsque la protection des articulations est testée.</li>
+  </ul>
+  <p class="sous-titre">Une veste vendue sans protections dorsale et coudes est
+     fréquente&nbsp;: les emplacements existent, les coques sont à acheter à
+     part. C'est un point à vérifier avant de comparer deux prix.</p>
+</section>
+
+<section class="guide">
+  <h2 class="titre-section">Comparer deux prix sans se tromper</h2>
+  <ul class="liste-puces">
+    <li><b>La taille.</b> Sur une même fiche, deux marchands peuvent proposer
+        deux tailles différentes. Choisissez la vôtre avant de lire le
+        classement&nbsp;: sinon vous comparez deux articles différents.</li>
+    <li><b>Les frais de port.</b> Les prix affichés ici sont hors livraison. Les
+        seuils de franco varient d'un marchand à l'autre et peuvent renverser
+        un classement serré.</li>
+    <li><b>La disponibilité.</b> Un prix bas sur un article en rupture n'est pas
+        un prix. L'état du stock est indiqué sur chaque ligne.</li>
+    <li><b>Le millésime.</b> Un modèle de l'année précédente est souvent le même
+        produit à un tarif plus bas&nbsp;; parfois c'est une autre coupe. Le nom
+        complet du modèle est sur la fiche du marchand.</li>
+  </ul>
+</section>
+
+<p class="mentions">
+  Ces repères sont donnés à titre d'information générale. En cas de doute sur
+  l'homologation d'un équipement, l'étiquette cousue et la notice du fabricant
+  font foi.
+</p>
+{% endblock %}

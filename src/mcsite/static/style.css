@@ -2,6 +2,11 @@
    light ground - without reusing a line of its code. */
 
 :root {
+  /* Sans cette ligne, le navigateur d'un appareil réglé en sombre repeint
+     de lui-même ce qu'il contrôle — champs de saisie, listes déroulantes,
+     barres de défilement — et on obtient un champ noir au milieu d'une page
+     claire. Le dire explicitement est la seule façon de l'empêcher. */
+  color-scheme: light;
   --navy:   #101a3e;
   --navy-2: #1a2456;
   --amber:  #ffb400;
@@ -10,6 +15,27 @@
   --bg:     #f4f5f8;
   --card:   #ffffff;
   --line:   #e3e6ec;
+  /* Relevés sur la v1 en production, pas approchés à l'œil : c'est l'écart
+     entre ces valeurs et les nôtres qui donnait l'impression d'un gabarit. */
+  --nuit-clair: #26355a;   /* la deuxième teinte du dégradé du bloc prix */
+  --nuit-doux:  #141a2b;   /* le nuit de la v1, un cran au-dessus du nôtre */
+  /* #7b8298 mesuré à 3,83:1 sur blanc et 3,60:1 sur le fond de page : sous
+     les 4,5:1 exigés pour du texte de 12 à 13 px, et il sert partout pour
+     les mentions secondaires. Assombri jusqu'à 5,9:1 sans changer la teinte. */
+  --doux:       #5f6880;   /* gris-bleu des mentions secondaires */
+  --sur-nuit:   #c6cbdb;   /* texte discret SUR fond nuit */
+  --marque-fond: #eef1f9;  /* pastille de marque */
+  --marque-encre: #26355a;
+  --eco-fond:   #eaf7f0;   /* le vert du bandeau d'économie */
+  --eco-ligne:  #cdeadb;
+  --eco-encre:  #0f7b4f;
+  --ligne-carte: #e8eaf1;
+  /* Le trait qui separe DEUX OFFRES. Volontairement plus fonce que
+     `--line` (#e3e6ec) : il avait exactement la meme teinte et la meme
+     epaisseur que le filet interne de la carte, si bien que les deux se
+     ressemblaient et qu'on ne voyait plus ou une offre finissait. */
+  --ligne-offre: #c7cedc;
+  --puce:   #fafbfc;      /* pastilles : un ton en deçà de la carte */
   --ok:     #12724a;
   --ko:     #b42318;
   --radius: 10px;
@@ -113,13 +139,37 @@ h1, h2 { line-height: 1.2; }
   gap: 3px; flex: 1;
 }
 .carte__marque { font-size: 11px; letter-spacing: .7px; color: var(--muted); }
-.carte__nom { font-weight: 600; font-size: 14px; }
-.carte__couleur { font-size: 12px; color: var(--muted); }
-.carte__bas {
-  margin-top: auto; padding-top: 9px; display: flex;
-  align-items: baseline; justify-content: space-between; gap: 8px;
+.carte__nom {
+  font-weight: 600; font-size: 14px;
+  /* Trois lignes au plus. La hauteur d'une carte est dictée par le titre le
+     plus long de la rangée, et un titre à quatre lignes (« Kit Chaine Origine
+     Honda… ») imposait 21 px de vide à TOUTES les autres — le vide que la
+     propriétaire a signalé le 14/09/2026.
+
+     Le vide lui-même n'est pas un défaut : `margin-top: auto` sur `.carte__bas`
+     aligne les prix en bas de chaque carte, ce qui est exactement ce qu'on veut
+     d'un comparateur. On réduit donc la CAUSE, pas l'alignement. */
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
+  overflow: hidden;
 }
-.carte__prix { font-size: 17px; font-weight: 700; }
+.carte__couleur { font-size: 12px; color: var(--muted); }
+/* Un prix coupé ne se lit plus : sur une carte de rayon à 390 px on lisait
+   « dès 105,00 » puis un « € » seul sur la ligne suivante. Le montant sort du
+   filtre `prix` avec des espaces ordinaires (avant la devise, et entre les
+   milliers) : le navigateur a donc le droit d'y couper. On le lui interdit
+   ici, au lieu de parier sur une carte toujours assez large.
+   Et comme le prix ne rétrécit plus, `.carte__bas` doit pouvoir passer à la
+   ligne : sur une carte étroite la pastille descend sous le prix plutôt que
+   de lui voler la place. */
+.carte__bas {
+  margin-top: auto; padding-top: 9px; display: flex; flex-wrap: wrap;
+  align-items: baseline; justify-content: space-between; gap: 4px 8px;
+}
+.carte__prix { font-size: 17px; font-weight: 700; white-space: nowrap; }
+
+/* Même règle pour un prix noyé dans une phrase (« 12,00 € d'écart… ») : on ne
+   peut pas figer toute la phrase, seulement le montant. */
+.prix-insecable { white-space: nowrap; }
 
 .puce {
   background: #eef1f7; color: var(--navy-2); font-size: 11px; font-weight: 600;
@@ -143,7 +193,8 @@ h1, h2 { line-height: 1.2; }
 /* -------------------------------------------------------------------- fiche */
 
 .fiche {
-  display: grid; gap: 26px; grid-template-columns: minmax(240px, 380px) 1fr;
+  /* 440 px : la largeur de la colonne image de la v1, mesurée sur sa fiche. */
+  display: grid; gap: 26px; grid-template-columns: minmax(240px, 440px) 1fr;
   background: var(--card); border: 1px solid var(--line);
   border-radius: var(--radius); padding: 22px;
 }
@@ -174,7 +225,7 @@ h1, h2 { line-height: 1.2; }
 .tailles { display: flex; flex-wrap: wrap; gap: 5px; }
 .taille {
   border: 1px solid var(--line); border-radius: 6px; padding: 2px 8px;
-  font-size: 12px; background: #fafbfc;
+  font-size: 12px; background: var(--puce);
 }
 
 /* ------------------------------------------------------------------- offres */
@@ -190,10 +241,27 @@ h1, h2 { line-height: 1.2; }
   background: #fafbfd; border-bottom: 1px solid var(--line);
 }
 .offres td {
-  padding: 13px 14px; border-bottom: 1px solid var(--line); vertical-align: middle;
+  padding: 13px 14px; border-bottom: 1px solid var(--ligne-offre); vertical-align: middle;
 }
 .offres tr:last-child td { border-bottom: 0; }
 .offres__rupture { opacity: .62; }
+
+/* Une offre sur deux sur un bleu tres clair. Le trait de separation dit OU
+   une offre finit ; l'alternance de fond dit COMBIEN il y en a — on suit sa
+   ligne du prix jusqu'a son bouton sans deraper sur la voisine. Jamais sur la
+   meilleure offre : son fond ambre est la seule couleur qui porte un sens.
+
+   La teinte est celle du nuit de la marque (#0f1524, ton 220) remontee en
+   clarte, pas un bleu pris ailleurs : c'est ce qui la fait lire comme un
+   rappel de MotoComparo plutot que comme une couleur de plus. */
+/* Teinter une offre sur deux — en gris, en bleu, en bandeau — a ete essaye le
+   17/09 et abandonne : toutes ces variantes coloriaient le FOND pour suggerer
+   une frontiere, alors que le probleme etait qu'une offre ne se lisait pas
+   comme un OBJET. La reponse est structurelle, pas chromatique : sur mobile,
+   chaque offre est une carte blanche detachee, posee sur un fond clair (voir
+   la mise en page mobile plus bas). La classe `est-paire` reste posee et
+   tenue a jour par le script, au cas ou une alternance redevienne utile ;
+   plus rien ne s'y accroche pour l'instant. */
 .offres__titre { display: block; color: var(--muted); font-size: 12px; margin-top: 2px; }
 .num { text-align: right; }
 .prix {
@@ -215,11 +283,9 @@ h1, h2 { line-height: 1.2; }
 
 /* ------------------------------------------------------------------- courbe */
 
-.courbe {
-  width: 100%; height: 200px; background: var(--card);
-  border: 1px solid var(--line); border-radius: var(--radius);
-  color: var(--navy-2); padding: 8px;
-}
+/* Le cadre et le fond sont retirés : la courbe vit DANS la carte des offres,
+   et une carte dans une carte donnait ce double contour qui faisait bricolage.
+   Les dimensions sont posées plus bas, avec le reste du graphique. */
 
 /* --------------------------------------------------------------- pagination */
 
@@ -249,7 +315,7 @@ h1, h2 { line-height: 1.2; }
 
 .taille--btn {
   cursor: pointer; font: inherit; font-size: 13px; line-height: 1;
-  padding: 8px 13px; background: #fafbfc; color: var(--ink);
+  padding: 8px 13px; background: var(--puce); color: var(--ink);
   border: 1px solid var(--line); border-radius: 7px;
 }
 .taille--btn:hover { border-color: var(--navy-2); }
@@ -278,7 +344,7 @@ h1, h2 { line-height: 1.2; }
 .offres__autres a {
   display: inline-block; min-width: 20px; text-align: center; padding: 1px 5px;
   margin-right: 3px; border: 1px solid var(--line); border-radius: 5px;
-  color: var(--muted); background: #fafbfc;
+  color: var(--muted); background: var(--puce);
 }
 .offres__autres a:hover { border-color: var(--amber); color: var(--ink); }
 
@@ -295,7 +361,7 @@ h1, h2 { line-height: 1.2; }
   .offres, .offres tbody, .offres tr, .offres td { display: block; width: 100%; }
 
   .offres tr {
-    border-bottom: 1px solid var(--line);
+    border-bottom: 2px solid var(--ligne-offre);
     padding: 12px 14px;
     display: grid;
     grid-template-columns: 1fr auto;
@@ -306,18 +372,34 @@ h1, h2 { line-height: 1.2; }
 
   .offres td { border: 0; padding: 0; }
 
-  /* merchant (with its raw title) takes the left column and both rows */
-  .offres td:nth-child(1) { grid-column: 1; grid-row: 1 / span 2; }
-  /* size, then availability, stacked on the right of the first row */
-  .offres td:nth-child(2) { grid-column: 2; grid-row: 1; text-align: right; }
-  .offres td:nth-child(3) { grid-column: 2; grid-row: 2; text-align: right; }
-  /* price and button on a full-width line underneath */
-  .offres td:nth-child(4) {
+  /* On place les cellules par leur ROLE, pas par leur rang. La colonne des
+     tailles n'existe que sur les fiches qui en ont une : calee sur
+     `nth-child`, toute la grille se decalait d'un cran des qu'elle manquait —
+     le prix finissait petit dans le coin et le bouton en pleine largeur a sa
+     place. Un nom de classe ne se decale pas. */
+  /* le marchand (et son titre brut) prend la colonne de gauche, sur deux rangs */
+  .offres td.offres__marchand { grid-column: 1; grid-row: 1 / span 2; }
+  /* taille puis disponibilite, empilees a droite du premier rang */
+  .offres td.offres__taille { grid-column: 2; grid-row: 1; text-align: right; }
+  .offres td.offres__dispo  { grid-column: 2; grid-row: 2; text-align: right; }
+  /* sans colonne de tailles, la disponibilite remonte sur le premier rang
+     plutot que de laisser un trou au-dessus d'elle */
+  .offres tr:not(:has(.offres__taille)) td.offres__dispo { grid-row: 1; }
+  /* le prix et le bouton sur une ligne pleine en dessous */
+  .offres td.offres__prix {
     grid-column: 1 / -1; grid-row: 3; text-align: left; padding-top: 8px;
   }
-  .offres td:nth-child(5) { grid-column: 2; grid-row: 3; padding-top: 8px; }
+  .offres td.offres__action { grid-column: 2; grid-row: 3; padding-top: 8px; }
 
-  .offres td:nth-child(2)::before { content: "taille "; color: var(--muted); font-weight: 400; }
+  /* En colonne empilee, chaque cellule doit dire ce qu'elle est. Mais le
+     libelle se posait sur la DEUXIEME cellule, pas sur la cellule des tailles :
+     sur une fiche sans aucune taille la colonne disparait, et c'est la
+     disponibilite qui heritait du mot — « taille en stock ». On vise donc la
+     classe, et on se tait quand la cellule ne porte que le repere « i » : un
+     libelle « taille » suivi de rien n'apprend rien. */
+  .offres td.offres__taille:not(:has(.taille-info))::before {
+    content: "taille "; color: var(--muted); font-weight: 400;
+  }
   .offres__titre { margin-top: 3px; }
 
   .bouton { padding: 10px 16px; }        /* a finger, not a mouse pointer */
@@ -334,3 +416,2310 @@ h1, h2 { line-height: 1.2; }
    and shown anyway. Declared last, and !important, because any future layout
    rule on `.offres tr` would break it again the same way. */
 .offres tr[hidden] { display: none !important; }
+
+/* ---------------------------------------------------------------
+   Le langage visuel v1, replié ici le 2026-09-13. Il vivait dans un
+   second fichier chargé par-dessus tant que deux designs coexistaient ;
+   il n'y en a plus qu'un. L'ordre est conservé tel quel — ces règles
+   étaient chargées en dernier et gagnent donc les mêmes arbitrages
+   qu'avant.
+   --------------------------------------------------------------- */
+
+/* The `.theme-v1` class below is on <body> for every page: the name is kept
+   because it says where these values come from, not because a second theme
+   still exists. */
+
+/* Values read from the running v1 on 2026-09-13, not guessed:
+   navy #0f1524 for the bars, #0b1120 for the strip above, #f5b301 for the
+   accent, and the two typefaces the site actually loads. */
+.theme-v1 {
+  --or:      #f5b301;
+  --or-vif:  #ffd000;   /* the search button is brighter than the rest */
+  --nuit:    #0f1524;
+  --nuit-2:  #0b1120;
+  /* Le jaune du « C » du logo, relevé dans le PNG. Distinct de `--or`, qui est
+     l'or d'accent du site. */
+  --or-logo: #f8ca02;
+  --bg:      #f7f8fa;
+  --ink:     #1a1a1a;
+  font-family: Roboto, "Helvetica Neue", system-ui, "Segoe UI", sans-serif;
+}
+.theme-v1 h1, .theme-v1 h2, .theme-v1 h3 {
+  font-family: "Source Sans 3", system-ui, "Segoe UI", sans-serif;
+  font-weight: 700;
+}
+
+/* --------------------------------------------------------- bandeau confiance */
+
+.confiance {
+  background: var(--nuit-2);
+  /* Couleurs relevées sur la v1 en ligne le 14/09/2026, pas approchées à l'œil :
+     le texte courant y est #8B96B0 en 12 px gras 600, et la mention en or
+     #F5B301 en 12 px gras 800, le tout en Source Sans 3. La v2 avait #CFD6EA
+     en 12,5 px gras 400 — nettement plus clair et plus léger, ce que la
+     propriétaire a vu tout de suite en comparant les deux captures. */
+  font-family: "Source Sans 3", system-ui, "Segoe UI", sans-serif;
+  font-size: 12px; font-weight: 600;
+  color: #8b96b0;
+}
+.confiance__inner {
+  display: flex; flex-wrap: wrap; gap: 8px 26px;
+  padding-top: 8px; padding-bottom: 8px;
+}
+.confiance__fort { color: var(--or); font-weight: 800; }
+
+/* ------------------------------------------------------------------- en-tête */
+
+.tete { background: var(--nuit); color: #fff; }
+.tete__inner {
+  display: flex; align-items: center; gap: 18px;
+  min-height: 82px; flex-wrap: wrap;
+}
+
+.tete__menu {
+  width: 46px; height: 46px; border-radius: 12px; cursor: pointer;
+  background: rgba(255, 255, 255, .09); border: 0;
+  display: flex; flex-direction: column; justify-content: center;
+  align-items: center; gap: 4px; flex: none;
+}
+.tete__menu span { width: 18px; height: 2px; background: #fff; border-radius: 2px; }
+
+.marque { display: flex; align-items: center; flex: none; }
+.marque img { height: 42px; width: auto; display: block; }
+
+.quete { display: flex; flex: 1; min-width: 240px; }
+.quete input {
+  flex: 1; border: 0; font-size: 15px; padding: 14px 20px;
+  border-radius: 44px 0 0 44px;
+}
+.quete input:focus { outline: 2px solid var(--or); outline-offset: -2px; }
+.quete button {
+  border: 0; background: var(--or-vif); color: var(--ink);
+  padding: 0 26px; border-radius: 0 44px 44px 0; cursor: pointer;
+  font-size: 22px; line-height: 1;
+  display: flex; align-items: center; gap: 9px;
+}
+/* Le mot « Chercher » à côté de la loupe, comme en v1 : un bouton nommé se
+   reconnaît sans avoir à interpréter un pictogramme. Il s'efface sous 760 px,
+   où la barre a besoin de toute sa largeur pour le champ lui-même. */
+.quete__nom { font-size: 15px; font-weight: 700; letter-spacing: .2px; }
+@media (max-width: 760px) {
+  .quete__nom { display: none; }
+  .quete button { padding: 0 22px; }
+}
+
+.tete__actions { display: flex; gap: 9px; flex: none; }
+.tete__rond {
+  width: 46px; height: 46px; border-radius: 12px;
+  background: rgba(255, 255, 255, .09); color: #fff;
+  display: flex; align-items: center; justify-content: center; font-size: 19px;
+}
+.tete__rond--or { background: var(--or); color: var(--nuit); }
+
+/* ----------------------------------------------------------- rail catégories */
+
+.rail { background: var(--nuit); color: #dfe4f2; border-top: 1px solid rgba(255, 255, 255, .08); }
+.rail__inner { display: flex; gap: 4px; overflow-x: auto; padding-bottom: 10px; }
+.rail a {
+  color: #dfe4f2; white-space: nowrap; font-size: 14px; font-weight: 600;
+  padding: 9px 15px; border-radius: 10px;
+}
+.rail a:hover { background: rgba(255, 255, 255, .1); color: #fff; }
+.rail__n {
+  color: #8a95b8; font-size: 11px; font-weight: 400; margin-left: 6px;
+}
+
+/* --------------------------------------------------------------- rail marques */
+
+.marques { background: var(--card); border-bottom: 1px solid var(--line); }
+.marques__inner {
+  display: flex; align-items: center; gap: 7px; overflow-x: auto;
+  padding-top: 11px; padding-bottom: 11px;
+}
+.marques__titre {
+  font-size: 11px; font-weight: 700; letter-spacing: .8px;
+  color: var(--muted); white-space: nowrap; margin-right: 6px;
+}
+.marques__inner a {
+  white-space: nowrap; font-size: 12.5px; font-weight: 600;
+  padding: 7px 14px; border-radius: 20px;
+  border: 1px solid var(--line); background: var(--puce);
+}
+.marques__inner a:hover { border-color: var(--or); background: #fffaf0; }
+
+/* ----------------------------------------------------------- fiche, version 1 */
+
+.theme-v1 .fiche {
+  border: 0; box-shadow: 0 2px 14px rgba(16, 26, 62, .07); padding: 26px;
+}
+.theme-v1 .fiche__prix strong { color: #b42318; font-size: 34px; }
+.theme-v1 .fiche__marque {
+  display: inline-block; background: var(--nuit); color: #fff;
+  padding: 4px 11px; border-radius: 6px; font-size: 11px;
+  letter-spacing: 1.1px; font-weight: 700;
+}
+.theme-v1 .fiche__tete h1 {
+  /* 21 px / 800, relevé sur la v1. À 28 px et graisse 700, le titre
+     paraissait plus gros ET plus maigre : c'est ce couple-là qui donnait
+     l'impression d'un gabarit générique. */
+  font-size: 21px; font-weight: 800; line-height: 1.22;
+  color: var(--nuit); margin-top: 10px;
+}
+
+.theme-v1 .taille--btn { border-radius: 10px; min-width: 52px; }
+.theme-v1 .taille--btn.est-actif { background: var(--or); color: var(--nuit); border-color: var(--or); }
+
+.theme-v1 .offres {
+  border: 0; box-shadow: 0 2px 14px rgba(16, 26, 62, .07);
+}
+.theme-v1 .offres th { background: var(--nuit); color: #fff; }
+.theme-v1 .bouton {
+  border-radius: 24px; padding: 11px 20px; font-size: 13.5px;
+  box-shadow: 0 2px 6px rgba(255, 180, 0, .45);
+}
+
+.theme-v1 .titre-section {
+  font-size: 21px; border-left: 4px solid var(--or); padding-left: 12px;
+}
+
+/* -------------------------------------------------------------- bascule design */
+
+.bascule {
+  display: inline-block; margin: 18px 0 0; font-size: 13px; font-weight: 600;
+  padding: 9px 16px; border-radius: 22px;
+  border: 1px dashed var(--muted); color: var(--muted);
+}
+.bascule:hover { border-color: var(--or); color: var(--ink); }
+
+/* ------------------------------------------------------- boutique et filtres */
+
+.boutique {
+  display: grid; gap: 24px;
+  grid-template-columns: 248px minmax(0, 1fr);
+  align-items: start;
+}
+@media (max-width: 900px) { .boutique { grid-template-columns: 1fr; } }
+
+.filtres {
+  background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+  padding: 4px 0 10px; position: sticky; top: 14px;
+}
+.filtres__tete {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 12px; font-weight: 700; letter-spacing: .6px;
+  padding: 14px 16px; border-bottom: 1px solid var(--line);
+}
+.filtres__tete span {
+  background: var(--or); color: var(--nuit); border-radius: 20px;
+  padding: 2px 9px; font-size: 11px;
+}
+.filtres__raz {
+  display: block; font-size: 12px; color: var(--ko);
+  padding: 10px 16px 0; font-weight: 600;
+}
+
+.facette { padding: 14px 16px 4px; border-bottom: 1px solid var(--line); }
+.facette:last-child { border-bottom: 0; }
+.facette h3 {
+  font-size: 12px; letter-spacing: .6px; text-transform: uppercase;
+  color: var(--muted); margin: 0 0 8px;
+}
+.facette__ligne {
+  display: flex; justify-content: space-between; align-items: center; gap: 8px;
+  font-size: 13.5px; padding: 6px 8px; border-radius: 7px; margin: 0 -8px;
+}
+.facette__ligne:hover { background: #f3f5f9; }
+.facette__ligne.est-actif {
+  background: var(--nuit); color: #fff; font-weight: 600;
+}
+.facette__ligne.est-actif .facette__n { color: var(--or); }
+.facette__n { color: var(--muted); font-size: 11.5px; font-variant-numeric: tabular-nums; }
+
+/* ------------------------------------------------------------ tête et tris */
+
+.boutique__tete {
+  display: flex; justify-content: space-between; align-items: flex-end;
+  gap: 16px; flex-wrap: wrap; margin-bottom: 16px;
+}
+.tris { display: flex; gap: 5px; flex-wrap: wrap; }
+.tris a {
+  font-size: 12.5px; font-weight: 600; padding: 8px 13px; border-radius: 20px;
+  border: 1px solid var(--line); background: var(--card); white-space: nowrap;
+}
+.tris a:hover { border-color: var(--or); }
+.tris a.est-actif { background: var(--nuit); border-color: var(--nuit); color: #fff; }
+
+/* les cartes de la v1 ont les coins droits */
+.theme-v1 .carte { border-radius: 4px; }
+.theme-v1 .carte__img { height: 190px; }
+
+/* une sous-catégorie, décalée sous son parent */
+.facette__ligne--fille {
+  padding-left: 20px; font-size: 13px;
+}
+.facette__ligne--fille::before {
+  content: "└ "; color: var(--muted); margin-right: 2px;
+}
+
+/* ------------------------------------------------------- tableau de bord */
+
+.alertes { display: flex; flex-direction: column; gap: 7px; margin: 6px 0 10px; }
+.alerte {
+  display: flex; align-items: center; gap: 10px;
+  padding: 11px 15px; border-radius: 9px; font-size: 14px; font-weight: 500;
+  border-left: 4px solid;
+}
+.alerte--grave      { background: #fef3f2; border-color: var(--ko); color: #7a1c14; }
+.alerte--attention  { background: #fffaeb; border-color: var(--or); color: #7a5200; }
+.alerte--ok         { background: #f0fdf4; border-color: var(--ok); color: #12724a; }
+
+.tuiles {
+  display: grid; gap: 10px; margin-bottom: 6px;
+  grid-template-columns: repeat(auto-fill, minmax(148px, 1fr));
+}
+.tuile {
+  background: var(--card); border: 1px solid var(--line); border-radius: 10px;
+  padding: 14px 16px; display: flex; flex-direction: column; gap: 2px;
+  font-size: 12.5px; color: var(--muted);
+}
+.tuile__n {
+  font-size: 23px; font-weight: 700; color: var(--ink);
+  font-variant-numeric: tabular-nums; line-height: 1.15;
+}
+.tuile--phare { background: var(--nuit); border-color: var(--nuit); color: #aab3cc; }
+.tuile--phare .tuile__n { color: var(--or); }
+
+/* ================================================================= accueil ==
+   Les six blocs de la page d'accueil v1 : accroche, rayons, mode d'emploi,
+   tableau comparatif, questions fréquentes, dernier appel. Ils n'existaient pas
+   dans la première reprise du design — seule la grille de produits avait été
+   portée, et la page n'avait plus rien d'une boutique.
+   ========================================================================== */
+
+.bouton {
+  display: inline-block; border-radius: 999px;
+  padding: 13px 26px; font-weight: 700; font-size: 15px; text-decoration: none;
+}
+.bouton--or    { background: var(--or); color: #14181f; }
+.bouton--or:hover { background: var(--or-vif); }
+.bouton--creux { border: 1.5px solid rgba(255,255,255,.45); color: #fff; }
+.bouton--creux:hover { border-color: #fff; background: rgba(255,255,255,.08); }
+
+/* --- un rayon ------------------------------------------------------------- */
+
+.rayon { margin: 0 0 34px; }
+.rayon__tete {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  gap: 16px; margin-bottom: 12px;
+}
+.rayon__oeil {
+  display: block; color: var(--or); font-size: 11.5px; font-weight: 700;
+  letter-spacing: .08em; text-transform: uppercase;
+}
+.rayon__tete h2 { font-size: 23px; margin: 2px 0 0; }
+.rayon__plus {
+  color: var(--nuit); font-weight: 700; font-size: 14px;
+  text-decoration: none; white-space: nowrap;
+}
+.rayon__plus:hover { color: var(--or); }
+/* le rayon défile dans son cadre ; la page, elle, ne part jamais de côté */
+.rayon__piste {
+  display: grid; grid-auto-flow: column; grid-auto-columns: 208px;
+  gap: 14px; overflow-x: auto; padding-bottom: 8px;
+  scroll-snap-type: x proximity;
+}
+.rayon__piste > * { scroll-snap-align: start; }
+.carte--rayon { margin: 0; }
+
+/* --- mode d'emploi -------------------------------------------------------- */
+
+.titre-centre { text-align: center; font-size: 26px; margin: 0 0 24px; }
+
+.etapes, .pourquoi, .faq { margin: 44px 0; }
+.etapes__liste {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+}
+.etapes__liste li {
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: var(--radius); padding: 24px 20px; text-align: center;
+}
+.etapes__n {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 42px; height: 42px; border-radius: 50%;
+  background: var(--or); color: #14181f; font-weight: 700; font-size: 19px;
+}
+.etapes__liste h3 { margin: 14px 0 6px; font-size: 17px; }
+.etapes__liste p  { margin: 0; color: var(--muted); font-size: 14.5px; line-height: 1.55; }
+.etapes__partenaires {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+  gap: 10px 14px; margin: 22px 0 0; color: var(--muted); font-size: 13.5px;
+}
+.etapes__marchand {
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: 999px; padding: 6px 14px; font-weight: 600; color: var(--ink);
+}
+
+/* --- tableau comparatif --------------------------------------------------- */
+
+.tableau-comparatif {
+  width: 100%; border-collapse: collapse;
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: var(--radius); overflow: hidden;
+}
+.tableau-comparatif th, .tableau-comparatif td {
+  padding: 13px 16px; text-align: left; border-bottom: 1px solid var(--line);
+  font-size: 14.5px;
+}
+.tableau-comparatif thead th { background: var(--nuit); color: #fff; font-size: 13.5px; }
+.tableau-comparatif tbody tr:last-child td { border-bottom: 0; }
+.tableau-comparatif th:nth-child(n+2),
+.tableau-comparatif td:nth-child(n+2) { text-align: center; width: 22%; }
+.tableau-comparatif .oui { color: var(--ok); font-weight: 700; font-size: 17px; }
+.tableau-comparatif .non { color: #b6bcc8; font-weight: 700; font-size: 17px; }
+
+/* --- questions fréquentes ------------------------------------------------- */
+
+.faq__item {
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: var(--radius); margin-bottom: 10px;
+}
+.faq__item summary {
+  cursor: pointer; padding: 15px 18px; font-weight: 600; font-size: 15px;
+  list-style: none; display: flex; justify-content: space-between; gap: 14px;
+}
+.faq__item summary::-webkit-details-marker { display: none; }
+.faq__item summary::after { content: "+"; color: var(--or); font-size: 20px; font-weight: 700; }
+.faq__item[open] summary::after { content: "−"; }
+.faq__item p { margin: 0; padding: 0 18px 16px; color: var(--muted); line-height: 1.6; font-size: 14.5px; }
+
+/* --- dernier appel -------------------------------------------------------- */
+
+.appel {
+  background: var(--nuit); color: #fff; border-radius: 14px;
+  padding: 40px 28px; text-align: center; margin: 44px 0 10px;
+}
+.appel h2 { font-size: 26px; margin: 0 0 10px; }
+.appel p  { color: #b9c2d8; margin: 0 0 22px; }
+
+/* --- page « à propos » ---------------------------------------------------- */
+
+.texte { max-width: 68ch; }
+.texte__chapeau { font-size: 17px; line-height: 1.65; color: var(--ink); }
+.texte h2 { font-size: 19px; margin: 30px 0 8px; }
+.texte p  { line-height: 1.68; color: #3d434f; margin: 0 0 12px; }
+
+/* --- pied de page --------------------------------------------------------- */
+
+.pied__colonnes {
+  display: grid; gap: 26px 34px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  padding-top: 36px; padding-bottom: 30px;
+}
+.pied__bloc--large { grid-column: span 2; min-width: 240px; }
+.pied__marque {
+  display: block; font-family: "Source Sans 3", system-ui, sans-serif;
+  font-weight: 700; font-size: 19px; color: #fff; margin-bottom: 10px;
+}
+.pied__bloc h3 {
+  font-size: 13px; text-transform: uppercase; letter-spacing: .06em;
+  color: var(--or); margin: 0 0 12px;
+}
+.pied__bloc ul { list-style: none; margin: 0; padding: 0; }
+.pied__bloc li { margin-bottom: 8px; }
+.pied__bloc a  { color: #c9d0e0; text-decoration: none; font-size: 14px; }
+.pied__bloc a:hover { color: #fff; }
+.pied__bloc p  { color: #99a3ba; font-size: 14px; line-height: 1.6; margin: 0; }
+.pied__bas {
+  border-top: 1px solid rgba(255,255,255,.12);
+  padding-top: 18px; padding-bottom: 26px;
+}
+
+@media (max-width: 640px) {
+  .rayon__tete { align-items: flex-start; flex-direction: column; gap: 6px; }
+  .pied__bloc--large { grid-column: span 1; }
+  .tableau-comparatif th, .tableau-comparatif td { padding: 11px 10px; font-size: 13.5px; }
+}
+
+/* ================================================================= tiroirs ==
+   Un seul composant pour deux usages : le menu (bouton burger) et la colonne de
+   filtres sur mobile. Repris de la v1 — panneau sombre entrant par la gauche,
+   en-tête ambre, voile derrière, Échap pour fermer.
+
+   Le bouton burger n'ouvrait rien : il était dessiné, pas branché. Et la
+   colonne de filtres, au-dessous de 900 px, se plaçait AU-DESSUS de la grille,
+   si bien qu'il fallait la dépasser en entier pour voir un seul produit.
+   ========================================================================== */
+
+.voile {
+  position: fixed; inset: 0; background: rgba(10, 12, 20, .55);
+  z-index: 998;
+}
+
+.tiroir {
+  position: fixed; top: 0; left: 0; height: 100%;
+  width: 340px; max-width: 88%;
+  background: var(--nuit); color: #e8ecf4;
+  z-index: 999;
+  transform: translateX(-102%);
+  transition: transform .26s cubic-bezier(.4, 0, .2, 1);
+  display: flex; flex-direction: column;
+  box-shadow: 4px 0 30px rgba(0, 0, 0, .4);
+}
+.tiroir.est-ouvert { transform: translateX(0); }
+@media (prefers-reduced-motion: reduce) { .tiroir { transition: none; } }
+
+.tiroir__tete {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 15px 18px; background: var(--or); color: #141414;
+  position: sticky; top: 0; z-index: 1;
+}
+.tiroir__tete b { font-size: 16px; font-weight: 800; letter-spacing: .5px; }
+.tiroir__x {
+  background: none; border: 0; cursor: pointer;
+  font-size: 12px; font-weight: 800; letter-spacing: .5px; color: #141414;
+}
+.tiroir__corps { flex: 1; overflow-y: auto; padding-bottom: 26px; }
+
+.tiroir__quete { display: flex; gap: 6px; padding: 14px 16px 4px; }
+.tiroir__quete input {
+  flex: 1; min-width: 0; border: 0; border-radius: 8px;
+  padding: 10px 12px; font: inherit;
+}
+.tiroir__quete button {
+  border: 0; border-radius: 8px; background: var(--or);
+  padding: 0 14px; font-size: 17px; cursor: pointer;
+}
+
+.tiroir__section {
+  padding: 16px 16px 6px; margin-top: 6px;
+  border-top: 1px solid #1b2540;
+  font-size: 10.5px; font-weight: 800; letter-spacing: 1.1px;
+  text-transform: uppercase; color: var(--or);
+}
+.tiroir__item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 11px 16px; text-decoration: none; color: #e8ecf4;
+  border-bottom: 1px solid rgba(255, 255, 255, .05);
+}
+.tiroir__item:hover, .tiroir__item:focus-visible { background: #1b2540; color: #fff; }
+.tiroir__item--fille { padding-left: 32px; font-size: 14px; color: #aab4cc; }
+.tiroir__lbl { flex: 1; font-size: 14.5px; font-weight: 600; }
+.tiroir__n   { font-size: 12px; color: #7f8aa6; }
+
+/* --- la barre qui ouvre les filtres (mobile uniquement) ------------------- */
+
+
+@media (max-width: 900px) {
+
+  /* la colonne redevient un panneau : plus de `sticky`, plus de fond clair */
+  .filtres.tiroir {
+    background: var(--nuit); border: 0; border-radius: 0; padding: 0;
+    position: fixed; top: 0;
+  }
+  .filtres.tiroir .facette { border-bottom-color: #1b2540; }
+  .filtres.tiroir .facette h3 { color: var(--or); }
+  .filtres.tiroir .facette__ligne { color: #e8ecf4; }
+  .filtres.tiroir .facette__ligne:hover,
+  .filtres.tiroir .facette__ligne.est-actif { background: #1b2540; color: #fff; }
+  .filtres.tiroir .filtres__tete { display: none; }   /* le tiroir a déjà son titre */
+  .filtres.tiroir .tiroir__tete  { display: flex; }
+}
+
+/* Sur grand écran la colonne reste une colonne : le gabarit du tiroir ne doit
+   pas la sortir du flux. */
+@media (min-width: 901px) {
+  .filtres.tiroir {
+    position: sticky; transform: none; box-shadow: none;
+    width: auto; max-width: none; height: auto; z-index: auto;
+    background: var(--card); color: inherit; display: block;
+  }
+  .filtres.tiroir .tiroir__tete { display: none; }
+}
+
+/* ======================================================== accueil, v2 ======
+   Refonte inspirée d'idealo. Ce qui change par rapport à la version d'avant :
+   la page s'ouvre sur le catalogue et non sur un pavé d'accroche de 366 px. Les
+   rayons en tuiles, puis la rangée des écarts, arrivent avant tout discours ;
+   le mode d'emploi et les questions fréquentes descendent en bas de page, là où
+   on les lit quand on en a besoin.
+   ========================================================================== */
+
+.bandeau {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 18px;
+  border-left: 3px solid var(--or); padding: 2px 0 2px 14px;
+  margin: 0 0 26px;
+}
+.bandeau__phrase   { margin: 0; font-size: 18px; color: var(--ink); }
+.bandeau__chiffres { margin: 0; font-size: 13.5px; color: var(--muted); }
+.bandeau__chiffres strong { color: var(--ink); font-variant-numeric: tabular-nums; }
+
+/* --- la rangée des écarts ------------------------------------------------- */
+
+.rayon--phare .rayon__tete h2 { font-size: 25px; }
+.carte { position: relative; }
+.pastille {
+  /* Sous les boutons d'action, pas dans leur coin. La disposition v1 (plus bas
+     dans cette feuille) a déplacé le bouton « comparer » vers le coin GAUCHE,
+     c'est-à-dire exactement là où la pastille était posée : les deux se
+     superposaient en un pâté illisible, sur mobile comme sur desktop.
+     Signalé par la propriétaire, capture à l'appui, le 14/09/2026.
+     46px = 8 (marge haute) + 30 (hauteur du bouton) + 8 (respiration). */
+  position: absolute; top: 46px; left: 8px; z-index: 1;
+  background: var(--ko); color: #fff;
+  border-radius: 6px; padding: 3px 8px;
+  font-size: 12.5px; font-weight: 800; font-variant-numeric: tabular-nums;
+}
+.carte__barre {
+  color: var(--muted); text-decoration: line-through;
+  font-size: 13px; font-variant-numeric: tabular-nums;
+  /* Barré et coupé en deux, le prix de référence devient illisible. */
+  white-space: nowrap;
+}
+.carte__gain {
+  display: block; margin-top: 6px;
+  font-size: 12px; color: var(--ok); font-weight: 600;
+}
+
+@media (max-width: 640px) {
+  .bandeau__phrase { font-size: 16px; }
+}
+
+/* ======================================================= vignettes de rayon ==
+   Une photo de produit, pas un pictogramme dessiné. Dafy n'a aucune icône de
+   catégorie — que des photos ; Motoblouz utilise une photo produit pour ses
+   tuiles de rayon et ne garde des pictogrammes que dans son menu déroulant.
+   La raison est simple : à 40 pixels, la photo d'un casque dit « casque »
+   mieux que n'importe quel dessin de casque, et ce catalogue en contient déjà
+   400 000.
+
+   L'image est celle du produit le plus comparé du rayon. Un rayon parent prend
+   celle de son plus gros enfant : son propre seau ne contient que les articles
+   dont le sous-type n'a pas pu être lu, et il avait sorti un pare-soleil pour
+   illustrer « Casques ».
+   ========================================================================== */
+
+/* ============================================================ un seul thème ==
+   Le site est clair, tout le temps.
+
+   Il a suivi `prefers-color-scheme` pendant une heure : sur un téléphone réglé
+   en sombre, il s'affichait donc en sombre — et comme le bouton de bascule a
+   été retiré, plus aucun moyen d'en sortir. Suivre le réglage du système n'a de
+   sens que si l'on garde une porte de sortie ; sans bouton, c'est une décision
+   prise à la place du visiteur.
+
+   Les jetons sombres sont retirés plutôt que laissés inertes : une règle qui
+   ne s'applique jamais finit par s'appliquer un jour, au pire moment. Ils sont
+   dans l'historique si le thème sombre revient un jour avec son bouton.
+   ========================================================================== */
+
+/* --- les actions posées sur chaque visuel --------------------------------- */
+
+.actions-carte {
+  position: absolute; top: 8px; right: 8px; z-index: 2;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.action-carte {
+  width: 30px; height: 30px; border-radius: 50%;
+  border: 1px solid var(--line); background: var(--card); color: var(--muted);
+  font-size: 14px; line-height: 1; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 1px 4px rgba(16, 26, 62, .12);
+}
+.action-carte:hover { color: var(--ink); border-color: var(--or); }
+.action-carte.est-actif { background: var(--or); border-color: var(--or); color: #14181f; }
+
+/* --- les compteurs de l'en-tête ------------------------------------------- */
+
+.tete__rond { position: relative; }
+.tete__compteur {
+  position: absolute; top: -4px; right: -4px;
+  min-width: 17px; height: 17px; padding: 0 4px; border-radius: 9px;
+  background: var(--ko); color: #fff;
+  font-size: 11px; font-weight: 700; line-height: 17px; text-align: center;
+}
+.tete__rond--or .tete__compteur { background: var(--nuit); }
+
+.lien-bouton {
+  background: none; border: 0; padding: 0; cursor: pointer;
+  color: var(--ko); font: inherit; text-decoration: underline;
+}
+
+/* ================================================== en-tête, fiche, banc ====
+   Repris de la v1 telle qu'elle tourne sur mobile : le nom à côté du logo, le
+   bloc « meilleur prix » sur fond nuit, et le bandeau comparateur à quatre
+   emplacements en bas d'écran.
+   ========================================================================== */
+
+.marque { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.marque__mot {
+  font-family: "Source Sans 3", system-ui, sans-serif;
+  font-weight: 800; font-size: 21px; letter-spacing: -.01em; white-space: nowrap;
+}
+.marque__mot b { color: #fff; font-weight: 800; }
+/* Le « Comparo » exactement dans le jaune du « C » du logo, à sa droite.
+   Valeur PRÉLEVÉE dans l'image (`.scratch/couleur_logo.py` décode le PNG et
+   compte les pixels) : #F8CA02, 1 856 pixels — et non l'or du site, #F5B301,
+   qui tire vers l'ambre. Côte à côte, l'écart se voyait.
+
+   Jeton dédié, pas `--or` : repeindre le jeton changerait tous les accents du
+   site, ce qui n'était pas demandé. */
+.marque__mot i { color: var(--or-logo); font-style: normal; }
+
+/* --- la fiche ------------------------------------------------------------- */
+
+.fiche__visuel { position: relative; }
+/* Sur grand écran, `.fiche__bas` reste dans la colonne de droite, sous
+   l'identité : la place ne manque pas et la lecture y est plus naturelle. */
+@media (min-width: 761px) { .fiche__bas { grid-column: 2; } }
+.fiche__badge {
+  position: absolute; top: 12px; left: 12px; z-index: 1;
+  background: var(--or); color: #14181f;
+  border-radius: 999px; padding: 7px 16px;
+  font-size: 12.5px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase;
+}
+.fiche__ref { color: var(--muted); font-size: 14.5px; margin: 6px 0 10px; }
+.fiche__signature {
+  display: flex; align-items: center; gap: 9px;
+  margin: 0 0 18px; color: var(--muted); font-weight: 600; font-size: 15px;
+}
+.fiche__signature span { color: var(--or); letter-spacing: 2px; font-size: 15px; }
+
+.meilleur {
+  position: relative;
+  /* Un DÉGRADÉ, pas un aplat — c'est la différence qui sautait aux yeux entre
+     les deux captures. La v1 va de #141a2b à #26355a : le bloc a du relief,
+     là où notre aplat sombre le faisait paraître collé sur la page. */
+  background: linear-gradient(135deg, var(--nuit-doux), var(--nuit-clair));
+  border-radius: 14px;
+  padding: 18px 18px 20px; margin: 0 0 14px;
+}
+.meilleur__mot {
+  display: block; color: var(--or);
+  font-size: 11px; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase;
+}
+/* Blanc plein, sans contour ni teinte. Deux essais le 17/09/2026 — prix
+   coloré, puis prix blanc à contour coloré — tous deux écartés par la
+   propriétaire. C'est la couleur de l'encadré qui porte le message ; le prix,
+   lui, n'a qu'un travail : se lire. */
+.meilleur__prix {
+  display: block; color: #fff; font-size: 29px; line-height: 1.12;
+  font-family: "Source Sans 3", system-ui, sans-serif; font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  margin-top: 2px;
+  /* À 29 px c'est le prix le plus exposé de la fiche : il ne se coupe pas. */
+  white-space: nowrap;
+}
+/* --- le prix barré et la remise ------------------------------------------
+   Demandé par la propriétaire le 17/09/2026 : montrer l'affaire, pas seulement
+   le prix. Le barré est le prix le plus cher pratiqué AUJOURD'HUI pour le même
+   article — une mesure entre marchands, vérifiable dans le tableau du dessous.
+
+   Trois paliers (bornes dans `labels.SEUILS_REMISE`). Le premier devait être
+   « noir normal » ; sur ce fond bleu nuit un noir serait illisible, il devient
+   donc un gris clair neutre — même rôle : présent, sans rien crier. */
+.meilleur__reference {
+  display: flex; align-items: center; gap: 9px; margin-top: 5px;
+  flex-wrap: wrap;
+}
+.meilleur__barre {
+  color: var(--sur-nuit); font-size: 14px; text-decoration-thickness: 1.5px;
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.remise {
+  /* Angles droits, demandés le 17/09/2026. La pastille arrondie ressemblait
+     aux étiquettes « en stock » du tableau, qui ne sont que des états ; ici
+     c'est un chiffre, et un chiffre se pose dans un cadre. */
+  display: inline-block; border-radius: 0; padding: 3px 9px;
+  font-size: 12.5px; font-weight: 800; letter-spacing: .2px;
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+  background: var(--remise-fond); color: var(--remise-encre);
+}
+
+/* Une seule définition de teinte par palier, posée sur le BLOC et lue par
+   l'encadré. Elle est sur le bloc et non sur la pastille parce que le script
+   la remet à jour à chaque choix de taille : sur la pastille seule, elle
+   resterait figée sur la couleur du premier affichage. */
+.meilleur          { --remise-fond: rgba(255, 255, 255, .13); --remise-encre: #e7ebf6; }
+.meilleur--orange  { --remise-fond: #f59410; --remise-encre: #2a1800; }
+.meilleur--rouge   { --remise-fond: #e02424; --remise-encre: #fff; }
+
+/* ni italique ni 16 px : 13 px en gris-bleu clair, comme la v1 */
+.meilleur__chez { display: block; color: var(--sur-nuit); font-size: 13px; margin-top: 2px; }
+/* `.theme-v1 .bouton` est plus précis que `.meilleur__voir` et l'emportait :
+   le bouton sortait en pilule de 24 px et 13,5 px de texte au lieu des valeurs
+   de la v1. Même niveau de précision, donc l'ordre tranche. */
+.theme-v1 .meilleur__voir {
+  display: block; text-align: center; margin-top: 16px;
+  border-radius: 10px; padding: 14px 22px;
+  font-size: 15px; font-weight: 800;
+  box-shadow: 0 6px 16px rgba(245, 179, 1, .35);
+}
+/* le rond de la v1 est BLANC cerclé d'ambre, pas un disque ambre plein */
+.meilleur__comparer {
+  position: absolute; top: 18px; right: 18px;
+  width: 52px; height: 52px; font-size: 20px;
+  background: #fff; border: 2px solid var(--or); color: var(--or);
+  box-shadow: none;
+}
+.meilleur__comparer.est-actif { background: var(--or); color: var(--nuit-doux); }
+
+/* --- ce que la comparaison rapporte --------------------------------------- */
+
+.economie {
+  background: var(--eco-fond); border: 1px solid var(--eco-ligne);
+  color: var(--eco-encre); border-radius: 10px;
+  padding: 10px 14px; margin: 0 0 16px; font-size: 14px;
+}
+.economie b { font-weight: 800; }
+
+.promesses { list-style: none; margin: 0 0 20px; padding: 0; display: grid; gap: 9px; }
+.promesses li {
+  display: flex; align-items: center; gap: 11px;
+  font-size: 15px; color: var(--ink);
+}
+.promesses li::before {
+  content: "✓"; flex: 0 0 22px; height: 22px; border-radius: 50%;
+  background: var(--or); color: #14181f;
+  font-size: 12px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* --- le bandeau comparateur ---------------------------------------------- */
+
+.banc {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 900;
+  background: var(--nuit); border-top: 2px solid var(--or);
+  box-shadow: 0 -6px 24px rgba(0, 0, 0, .28);
+}
+.banc__inner {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 18px; padding-top: 12px; padding-bottom: 12px; flex-wrap: wrap;
+}
+.banc__cases { display: flex; gap: 10px; }
+.banc__case {
+  position: relative; width: 62px; height: 62px; border-radius: 12px;
+  border: 2px dashed rgba(255, 255, 255, .22);
+}
+.banc__case--plein {
+  border: 0; background: #fff; overflow: visible;
+  display: flex; align-items: center; justify-content: center;
+}
+.banc__case--plein img {
+  width: 100%; height: 100%; object-fit: contain; padding: 5px; border-radius: 12px;
+}
+.banc__x {
+  position: absolute; top: -7px; right: -7px;
+  width: 22px; height: 22px; border-radius: 50%; border: 0;
+  background: var(--ko); color: #fff;
+  font-size: 14px; line-height: 1; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+.banc__actions { display: flex; align-items: center; gap: 18px; }
+.banc__actions .lien-bouton { color: #c9d0e0; }
+
+/* le bandeau recouvre le bas de la page : on lui rend la place */
+body:has(.banc:not([hidden])) { padding-bottom: 94px; }
+
+@media (max-width: 640px) {
+  .marque__mot { font-size: 17px; }
+  .meilleur__comparer { width: 46px; height: 46px; top: 16px; right: 16px; }
+  .banc__case { width: 52px; height: 52px; }
+  .banc__inner { gap: 10px; }
+  .banc__actions { width: 100%; justify-content: space-between; }
+}
+
+
+/* ============================================== les rayons dans le menu =====
+   Mise en page relevée chez Speedway, Dafy et Motoblouz, qui la font tous les
+   trois à l'identique : icône au trait SANS pastille, large, d'une seule
+   couleur — la leur —, libellé en capitales, chevron à droite, lignes hautes
+   séparées d'un filet. C'est cette présentation, autant que le dessin, qui
+   manquait à la première version.
+   ========================================================================== */
+
+.tiroir__item {
+  padding: 4px 16px; gap: 14px; min-height: 56px;
+  border-bottom: 1px solid rgba(255, 255, 255, .07);
+}
+.tiroir__item .ico {
+  flex: 0 0 40px; width: 40px; height: 40px;
+  color: var(--or);           /* une seule couleur, comme chez les trois */
+}
+.tiroir__lbl {
+  font-size: 13.5px; font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+}
+.tiroir__item--fille { padding-left: 22px; }
+.tiroir__item--fille .ico { flex-basis: 28px; width: 28px; height: 28px; opacity: .78; }
+.tiroir__item--fille .tiroir__lbl { font-size: 12.5px; font-weight: 600; color: #b6c0d6; }
+.tiroir__chev { color: var(--or); font-size: 20px; line-height: 1; opacity: .65; }
+.tiroir__n { font-variant-numeric: tabular-nums; }
+.tiroir__item--marque .tiroir__lbl { letter-spacing: .06em; }
+
+
+/* ================================================================ l'affiche ==
+   Pleine largeur, bord à bord, comme celle de Dafy : elle est posée hors de
+   `.conteneur` (voir base.html), donc elle ignore la gouttière de 20 px au lieu
+   de lutter contre elle. Ni coins arrondis ni largeur maximale — une bannière
+   qui s'arrête avant les bords ressemble à une illustration, pas à une affiche.
+
+   `aspect-ratio` réserve sa place avant qu'elle n'arrive : sans cela tout ce
+   qui suit sauterait vers le bas au moment du chargement, sous le doigt du
+   visiteur.
+   ========================================================================== */
+
+.affiche {
+  display: block;
+  background: #070b22;          /* le fond ne clignote jamais en blanc */
+  overflow: hidden;
+
+  /* Elle occupe tout ce qui reste de l'écran sous l'en-tête : c'est ce que fait
+     Dafy, et c'est ce qui fait qu'on la voit comme une affiche et non comme une
+     illustration posée en haut d'une page.
+
+     `svh` et non `vh` : sur un téléphone, `100vh` compte la hauteur SANS la
+     barre d'adresse, donc l'affiche dépasserait de l'écran au chargement et le
+     visiteur verrait son bas coupé. `svh` prend la plus petite des deux, celle
+     qui est réellement visible.
+
+     La valeur de repli (200px) sert le temps que le script mesure, et si le
+     script ne tourne pas du tout. */
+  height: calc(100svh - var(--haut-coiffe, 200px));
+  min-height: 380px;            /* écran très bas, ou clavier ouvert */
+}
+
+/* Sur téléphone, occuper TOUT ce qui reste sous l'en-tête revenait à cacher le
+   catalogue : il fallait faire défiler une pleine hauteur d'écran avant
+   d'apercevoir le premier produit. Signalé par la propriétaire le 14/09/2026.
+
+   On retire 104 px, ce qui laisse dépasser l'intitulé de la première rangée et
+   le haut des cartes. Ce débord n'est pas une perte de place : c'est lui qui
+   dit au visiteur qu'il y a quelque chose en dessous. Une affiche qui remplit
+   l'écran pile se lit comme une page entière, et on n'y fait pas défiler. */
+@media (max-width: 899px) {
+  .affiche { height: calc(100svh - var(--haut-coiffe, 200px) - 104px); }
+}
+.affiche picture, .affiche img { display: block; width: 100%; height: 100%; }
+.affiche img { object-fit: cover; }
+
+/* Sur ordinateur, une affiche portrait ne peut pas remplir la largeur sans
+   qu'on lui coupe quelque chose. En 21/9 c'était le titre : on ne lisait plus
+   que « MOTO ». Le cadre s'allonge donc, et le cadrage remonte pour garder les
+   trois lignes du titre ET la rangée de produits.
+
+   Le vrai remède n'est pas ici : il faut une DEUXIÈME image, en paysage
+   (2560 × 1100), servie au-dessus de 900 px. Celle-ci est un pis-aller honnête
+   en attendant. */
+@media (min-width: 900px) {
+  /* Sur ordinateur, plein écran serait excessif : on y arrive avec une souris
+     et un clavier, pas en faisant défiler du pouce.
+
+     L'affiche est en PORTRAIT (1086 × 1448). La recadrer en paysage coupe soit
+     les trois lignes du titre, soit le bouton « J'en profite » — les deux
+     étant précisément ce que l'affiche a à dire. Elle est donc posée ENTIÈRE
+     au centre (`contain`), et les côtés sont remplis par la même image,
+     agrandie et floutée. Le bandeau est paysage, l'affiche est intacte, et
+     aucun pixel n'est inventé.
+
+     Ça reste un pis-aller honnête : la vraie réponse est une deuxième image
+     dessinée en paysage (2560 × 1100), qui remplacerait tout ce bloc. */
+  .affiche {
+    position: relative;
+    height: min(560px, 44vw);
+    isolation: isolate;
+  }
+  .affiche::before {
+    content: ""; position: absolute; inset: 0; z-index: 0;
+    background: url("/static/affiche-portrait.jpg") center 30% / cover no-repeat;
+    filter: blur(34px) saturate(.85) brightness(.55);
+    transform: scale(1.15);            /* le flou mange les bords, on compense */
+  }
+  .affiche picture { position: relative; z-index: 1; }
+  .affiche img { object-fit: contain; object-position: center; }
+}
+
+
+/* ================================================== en-tête sur deux lignes ==
+   Disposition relevée chez Speedway. Le gain n'est pas esthétique : sur un
+   téléphone, la barre de recherche coincée entre le logo et les icônes faisait
+   140 px utiles. Sur sa propre ligne à côté du menu, elle en fait plus du
+   double, et le placeholder tient enfin en entier.
+   ========================================================================== */
+
+.tete__inner {
+  display: block;                      /* deux lignes empilées, plus une seule */
+  padding-top: 12px; padding-bottom: 12px;
+}
+.tete__haut {
+  display: flex; align-items: center; justify-content: space-between; gap: 14px;
+  margin-bottom: 12px;
+}
+.tete__bas { display: flex; align-items: center; gap: 12px; }
+.tete__bas .quete { flex: 1; min-width: 0; }   /* la recherche prend le reste */
+.tete__actions { display: flex; gap: 10px; flex-shrink: 0; }
+
+@media (min-width: 900px) {
+  /* Sur un écran large tout tient sur une ligne. `display: contents` fait
+     disparaître les deux boîtes de regroupement : marque, raccourcis, menu et
+     recherche deviennent alors les enfants directs de l'en-tête, et peuvent
+     donc être réordonnés. Sans cela, `order` sur les raccourcis n'aurait aucun
+     effet — ils ne sont pas dans le même conteneur que la recherche. */
+  .tete__inner { display: flex; align-items: center; gap: 18px; }
+  .tete__haut, .tete__bas { display: contents; }
+  /* Le menu AVANT la marque, comme la v1 : c'est le premier geste d'un
+     visiteur qui vient parcourir un rayon, et il tombe sous le pouce à gauche.
+     L'ordre inverse (marque puis menu) venait de la reprise Speedway.
+     Écart signalé par la propriétaire, captures v1/v2 à l'appui, le
+     14/09/2026. */
+  .tete__menu   { order: 1; }
+  .marque       { order: 2; }
+  .quete        { order: 3; flex: 1; min-width: 0; }
+  .tete__actions { order: 4; }
+}
+
+
+/* =============================================== filtrer : le geste de la v1 ==
+   Pastille flottante en bas d'écran, panneau qui monte depuis le bas. Le pouce
+   est en bas du téléphone : c'est là que le bouton doit être, et c'est de là
+   que le panneau doit venir. La barre placée en haut de liste obligeait à
+   remonter toute la page pour changer un filtre — on la voyait une fois, au
+   début, et plus jamais ensuite.
+   ========================================================================== */
+
+.pastille-filtres { display: none; }
+
+@media (max-width: 900px) {
+  .pastille-filtres {
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    position: fixed; left: 50%; transform: translateX(-50%);
+    /* au-dessus de la zone de geste du téléphone, pas dessous */
+    bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+    z-index: 900;
+    min-width: 208px; padding: 15px 34px;
+    border: 0; border-radius: 999px;
+    background: var(--nuit); color: #fff;
+    font: inherit; font-size: 16px; font-weight: 700;
+    box-shadow: 0 8px 26px rgba(3, 10, 32, .42);
+    cursor: pointer;
+  }
+  .pastille-filtres__ico { font-size: 15px; color: var(--or); }
+
+  /* Le panneau monte depuis le bas et s'arrête avant le haut : la bande de
+     liste qui reste visible dit au visiteur qu'il est toujours sur sa page. */
+  .filtres.tiroir--bas {
+    top: auto; bottom: 0; left: 0;
+    width: 100%; max-width: none; height: auto; max-height: 86svh;
+    border-radius: 18px 18px 0 0;
+    transform: translateY(102%);
+    box-shadow: 0 -8px 34px rgba(0, 0, 0, .42);
+    background: var(--card);
+
+    /* `.tiroir` est une colonne flexible : ses sections se faisaient donc
+       COMPRIMER pour tenir dans la hauteur maximale, et la dernière — les
+       catégories — disparaissait purement et simplement. En bloc qui défile,
+       chaque section garde sa taille et on descend jusqu'en bas. */
+    display: block;
+    overflow-y: auto;
+    overscroll-behavior: contain;   /* le défilement ne fuit pas sur la page */
+    padding-bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+  }
+  /* le titre reste visible pendant qu'on fait défiler les filtres */
+  .filtres.tiroir--bas .tiroir__tete { position: sticky; top: 0; z-index: 2; }
+  .filtres.tiroir--bas.est-ouvert { transform: translateY(0); }
+
+  .filtres.tiroir--bas .tiroir__tete {
+    background: var(--card); color: var(--ink);
+    border-bottom: 1px solid var(--line);
+    padding: 18px 20px 14px;
+  }
+  .filtres.tiroir--bas .tiroir__tete b { font-size: 20px; letter-spacing: 0; }
+  .filtres.tiroir--bas .tiroir__x {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--puce); color: var(--ink); font-size: 17px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .tiroir__compte {
+    margin: 14px 20px 4px; display: inline-block;
+    background: var(--puce); border: 1px solid var(--line); border-radius: 999px;
+    padding: 7px 16px; font-size: 14px; font-weight: 700; color: var(--ink);
+  }
+  /* le panneau est clair : les facettes reprennent les couleurs du site */
+  .filtres.tiroir--bas .facette { border-bottom-color: var(--line); }
+  .filtres.tiroir--bas .facette h3 { color: var(--muted); }
+  .filtres.tiroir--bas .facette__ligne { color: var(--ink); }
+  .filtres.tiroir--bas .facette__ligne:hover,
+  .filtres.tiroir--bas .facette__ligne.est-actif { background: var(--puce); color: var(--ink); }
+  .filtres.tiroir--bas .filtres__tete { display: none; }
+
+  /* la pastille ne doit pas masquer la fin de la liste */
+  .boutique { padding-bottom: 84px; }
+}
+
+/* ================================================ filtres actifs et jauge ===
+   Les filtres en cours, en haut du panneau, chacun avec sa croix. C'est le seul
+   endroit d'où l'on voit d'un coup d'œil pourquoi une liste est si courte, et
+   le seul d'où l'on peut défaire une sélection sans rouvrir la section où on
+   l'avait prise.
+   ========================================================================== */
+
+.choix {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  padding: 14px 20px 4px;
+}
+.choix__puce {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--nuit); color: #fff;
+  border-radius: 999px; padding: 7px 14px;
+  font-size: 13px; font-weight: 600; text-decoration: none;
+}
+.choix__puce b { color: var(--or); font-size: 13px; }
+.choix__puce:hover { background: #1b2540; }
+.choix__raz {
+  align-self: center; color: var(--ko);
+  font-size: 13px; font-weight: 600; text-decoration: underline;
+}
+
+/* --- la jauge de prix ----------------------------------------------------- */
+
+.facette--jauge { padding-bottom: 16px; }
+.jauge__piste { position: relative; height: 30px; margin: 4px 0 2px; }
+.jauge__piste input[type="range"] {
+  position: absolute; inset: 0; width: 100%; margin: 0;
+  appearance: none; background: none; pointer-events: none;
+}
+.jauge__piste input[type="range"]::-webkit-slider-runnable-track {
+  height: 4px; border-radius: 2px; background: var(--line);
+}
+.jauge__piste input[type="range"]::-moz-range-track {
+  height: 4px; border-radius: 2px; background: var(--line);
+}
+/* seules les poignées reçoivent le doigt : sans cela, la piste du curseur du
+   dessus avalerait les clics destinés à celui du dessous */
+.jauge__piste input[type="range"]::-webkit-slider-thumb {
+  appearance: none; pointer-events: auto;
+  width: 22px; height: 22px; margin-top: -9px; border-radius: 50%;
+  background: var(--or); border: 2px solid var(--nuit); cursor: pointer;
+}
+.jauge__piste input[type="range"]::-moz-range-thumb {
+  pointer-events: auto;
+  width: 22px; height: 22px; border-radius: 50%;
+  background: var(--or); border: 2px solid var(--nuit); cursor: pointer;
+}
+.jauge__bornes {
+  display: flex; justify-content: space-between; margin: 0 0 10px;
+  font-size: 13px; font-weight: 700; color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.jauge__ok {
+  width: 100%; border: 0; border-radius: 8px; cursor: pointer;
+  background: var(--nuit); color: #fff;
+  padding: 10px; font: inherit; font-weight: 700; font-size: 14px;
+}
+
+/* --- les tailles en pastilles -------------------------------------------- */
+
+.pastilles { display: flex; flex-wrap: wrap; gap: 7px; padding-bottom: 12px; }
+.pastille-taille {
+  min-width: 44px; text-align: center;
+  border: 1px solid var(--line); border-radius: 8px;
+  padding: 9px 10px; font-size: 13.5px; font-weight: 600;
+  color: var(--ink); text-decoration: none; background: var(--card);
+}
+.pastille-taille:hover { border-color: var(--nuit); }
+.pastille-taille.est-actif { background: var(--nuit); border-color: var(--nuit); color: #fff; }
+
+/* ==================================================================== tri ====
+   Un seul contrôle au lieu de quatre bulles. Quatre bulles tiennent sur deux
+   lignes au téléphone, poussent le premier produit hors de l'écran, et
+   affichent en permanence trois options qu'on ne prendra pas.
+
+   Bâti sur `<details>` : il se met aux couleurs du site, se ferme avec Échap et
+   ne demande pas une ligne de script. La forme est celle de MotoComparo — fond
+   nuit, accent ambre — et non le rectangle gris clair du modèle.
+   ========================================================================== */
+
+.tri { position: relative; margin: 4px 0 16px; max-width: 340px; }
+.tri > summary {
+  display: flex; align-items: center; gap: 10px; cursor: pointer;
+  list-style: none;
+  background: var(--nuit); color: #fff;
+  border-radius: 10px; padding: 13px 16px;
+  font-size: 14.5px;
+}
+.tri > summary::-webkit-details-marker { display: none; }
+.tri__mot { color: #a9b3cd; }
+.tri > summary b { flex: 1; color: var(--or); font-weight: 700; }
+.tri__chev { transition: transform .18s; font-size: 19px; color: var(--or); }
+.tri[open] .tri__chev { transform: rotate(90deg); }
+
+.tri__liste {
+  position: absolute; z-index: 30; left: 0; right: 0; top: calc(100% + 6px);
+  background: var(--card); border: 1px solid var(--line); border-radius: 10px;
+  box-shadow: 0 12px 30px rgba(16, 26, 62, .16);
+  overflow: hidden;
+}
+.tri__liste a {
+  display: block; padding: 12px 16px; text-decoration: none;
+  color: var(--ink); font-size: 14.5px;
+  border-bottom: 1px solid var(--line);
+}
+.tri__liste a:last-child { border-bottom: 0; }
+.tri__liste a:hover { background: var(--puce); }
+.tri__liste a.est-actif { background: var(--nuit); color: #fff; font-weight: 700; }
+.tri__liste a.est-actif::after { content: " ✓"; color: var(--or); }
+
+
+/* ======================================== la fiche, valeurs de la v1 ========
+   Relevées sur motocomparo.com plutôt qu'estimées : titre 21 px / 800 (le nôtre
+   était à 28 / 700, plus gros et plus maigre, ce qui fait « gabarit »), coins de
+   carte à 14 px, et les gris-bleus exacts des mentions.
+   ========================================================================== */
+
+.fiche__marque {
+  display: inline-block;
+  background: var(--marque-fond); color: var(--marque-encre);
+  border-radius: 99px; padding: 6px 12px;
+  font-size: 11px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;
+}
+.fiche__ref { color: var(--doux); font-size: 13px; margin: 8px 0 6px; }
+.fiche__signature { color: var(--doux); font-size: 13px; font-weight: 400; margin-bottom: 14px; }
+.fiche__signature span { font-size: 13px; }
+.fiche__badge { padding: 6px 12px; font-size: 11px; letter-spacing: .3px; }
+.fiche__visuel { background: #f7f8fb; border: 1px solid #eceef5; border-radius: 14px; }
+.offres { border-radius: 14px; border: 1px solid var(--ligne-carte); }
+
+/* --- les quatre garanties, avec leur sous-titre --------------------------- */
+
+.promesses li { align-items: flex-start; }
+.promesses li b { display: block; font-size: 14.5px; font-weight: 700; color: var(--ink); }
+.promesses li span { display: block; font-size: 12.5px; color: var(--doux); line-height: 1.4; }
+.promesses li::before { margin-top: 1px; }
+
+/* --- les offres : rang, gagnant, horodatage, mentions --------------------- */
+
+.offres__tete {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 14px; flex-wrap: wrap;
+}
+.offres__horodatage { color: var(--doux); font-size: 12.5px; margin: 0; }
+.offres__rang {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 22px; height: 22px; margin-right: 8px; border-radius: 50%;
+  background: var(--puce); border: 1px solid var(--line);
+  font-size: 12px; font-weight: 800; color: var(--doux);
+  font-variant-numeric: tabular-nums;
+}
+.offres tr:first-child .offres__rang,
+.offres__gagnant ~ * .offres__rang { color: var(--ink); }
+.offres__gagnant {
+  display: inline-block; margin-left: 8px;
+  background: var(--or); color: var(--nuit-doux);
+  border-radius: 99px; padding: 3px 9px;
+  font-size: 10.5px; font-weight: 800; letter-spacing: .3px; text-transform: uppercase;
+}
+.mentions {
+  color: var(--doux); font-size: 12.5px; line-height: 1.6;
+  border-top: 1px solid var(--line); padding-top: 14px; margin: 20px 0 0;
+}
+
+/* ====================================================== produits proches ====
+   Deux colonnes et des cartes blanches à coins de 14 px, comme la v1. La phrase
+   qui explique la sélection est reprise elle aussi : dire sur quoi elle repose
+   évite qu'on la prenne pour de la publicité — et ici c'est vrai, l'ordre est
+   marque, puis écart de prix, puis nombre de marchands.
+   ========================================================================== */
+
+.proches { margin: 34px 0 0; }
+/* Étagère qui défile, comme sur l'accueil — demandé par la propriétaire le
+   14/09/2026. En grille, huit suggestions occupaient trois rangées et
+   repoussaient la fin de la page ; en étagère elles tiennent sur une ligne et
+   le débord à droite dit qu'il y en a d'autres.
+
+   Mêmes réglages que `.rayon__piste` : une seule mécanique de défilement dans
+   le site, pas deux qui divergeraient. */
+.proches__grille {
+  display: grid; grid-auto-flow: column; grid-auto-columns: 178px;
+  gap: 12px; margin-top: 14px;
+  overflow-x: auto; padding-bottom: 8px;
+  scroll-snap-type: x proximity;
+}
+.proches__grille > * { scroll-snap-align: start; }
+@media (min-width: 900px) { .proches__grille { grid-auto-columns: 196px; } }
+.proche {
+  display: flex; flex-direction: column;
+  background: var(--card); border: 1px solid #e6eaf0; border-radius: 14px;
+  overflow: hidden; text-decoration: none;
+  transition: box-shadow .15s, transform .15s;
+}
+.proche:hover { box-shadow: 0 6px 18px rgba(16, 26, 62, .10); transform: translateY(-2px); }
+.proche__img {
+  height: 132px; background: #fff; padding: 10px;
+  display: flex; align-items: center; justify-content: center;
+}
+.proche__img img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.proche__corps { display: flex; flex-direction: column; gap: 4px; padding: 10px 12px 12px; }
+.proche__marque {
+  font-size: 10.5px; font-weight: 800; letter-spacing: 1px;
+  color: var(--marque-encre);
+}
+.proche__nom {
+  font-size: 13.5px; font-weight: 600; color: var(--ink); line-height: 1.3;
+  /* deux lignes au plus : au-delà, les cartes de la rangée n'ont plus la même
+     hauteur et la grille se met à onduler */
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.proche__prix {
+  font-size: 15px; font-weight: 800; color: var(--nuit);
+  font-variant-numeric: tabular-nums; margin-top: 2px;
+  /* Vignettes étroites en bas de fiche : même risque de coupure qu'en rayon. */
+  white-space: nowrap;
+}
+.proche__cta {
+  margin-top: 6px; font-size: 12.5px; font-weight: 700; color: var(--marque-encre);
+}
+.proche:hover .proche__cta { color: var(--or-vif, var(--or)); }
+
+/* ============================================== la fiche, densité de la v1 ==
+   La comparaison des deux captures ne portait plus sur la couleur mais sur la
+   DENSITÉ : la v1 met en deux colonnes ce que nous empilions, et tient en un
+   écran là où nous en prenions trois. Chaque règle ci-dessous rattrape un de
+   ces empilements.
+   ========================================================================== */
+
+/* 1. Le visuel repasse en PLEINE LARGEUR sur téléphone, et en grand.
+
+      J'avais mis deux colonnes pour gagner de la hauteur ; la propriétaire
+      préfère la v1, et elle a raison sur le fond : à 375 px, deux colonnes
+      donnent une image de 137 px — un casque grand comme une vignette, sur une
+      page dont le produit est le sujet. La hauteur gagnée ne valait pas ça.
+
+      Le panneau est carré et clair, la photo respire dedans, et le badge « N
+      offres comparées » se pose sur son coin. */
+@media (max-width: 760px) {
+  .theme-v1 .fiche { grid-template-columns: 1fr; gap: 14px; padding: 14px; }
+  .theme-v1 .fiche__visuel {
+    aspect-ratio: 1 / 1; max-height: 380px;
+    display: flex; align-items: center; justify-content: center;
+    padding: 18px;
+  }
+  .theme-v1 .fiche__visuel img { max-width: 100%; max-height: 100%; object-fit: contain; }
+  .theme-v1 .fiche__badge { font-size: 11px; padding: 6px 12px; top: 12px; left: 12px; }
+}
+
+/* 2. Le bloc prix sur une rangée */
+/* Le bouton reprend TOUTE la largeur, et le rond remonte en haut à droite —
+   c'est la disposition de la v1. En les mettant côte à côte pour gagner de la
+   hauteur, j'avais rétréci le bouton d'un tiers : sur la seule action que la
+   page demande, c'est une économie qui coûte plus qu'elle ne rapporte. */
+.meilleur {
+  position: relative;
+  display: block;
+  padding: 16px 18px 18px;
+}
+.meilleur__gauche { min-width: 0; padding-right: 62px; }
+.meilleur__droite { display: block; }
+.theme-v1 .meilleur__voir { display: block; margin-top: 16px; text-align: center; }
+.meilleur__comparer {
+  position: absolute; top: 16px; right: 16px;
+  width: 48px; height: 48px; font-size: 19px;
+}
+
+/* 3. Les quatre garanties : deux colonnes là où la place existe, UNE SEULE sur
+      téléphone. À 390 px, deux colonnes coupaient chaque ligne en deux ou trois
+      morceaux (« Marchands / identifiés, / jamais anonymes »), ce qui se lit
+      plus mal qu'une liste posée à plat. */
+.promesses { grid-template-columns: 1fr; gap: 9px; }
+@media (min-width: 760px) {
+  .promesses { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px 18px; }
+}
+/* Le commentaire d'hier disait « deux colonnes aussi sur mobile ». Vu à
+   l'écran, c'était faux : à 390 px chaque ligne se coupait en deux ou trois
+   morceaux. Une colonne sur téléphone, deux au-dessus de 760 px. */
+.promesses li { font-size: 15px; color: var(--ink); align-items: center; }
+
+/* 4. Les offres : un tableau sans en-tête, comme une liste
+      « MARCHAND / TAILLE / DISPONIBILITÉ / PRIX » en capitales grises faisait
+      tableur ; la v1 n'a pas d'en-tête du tout et pose l'information dans la
+      ligne elle-même. */
+@media (max-width: 760px) {
+  .theme-v1 .offres thead { display: none; }
+}
+.bouton--contour {
+  background: var(--card); color: var(--nuit);
+  border: 1.5px solid var(--nuit); box-shadow: none;
+}
+.bouton--contour:hover { background: var(--puce); }
+
+/* ============================================ en-tête et pied, façon v1 =====
+   Le dégradé du bloc « Meilleur prix » remonte en haut de page, à la demande de
+   la propriétaire : le même `#141a2b → #26355a`, qui donne du relief là où un
+   aplat sombre paraissait plat.
+   ========================================================================== */
+
+.tete {
+  background: linear-gradient(135deg, var(--nuit-doux), var(--nuit-clair));
+  border-bottom: 3px solid var(--or);
+}
+.confiance { background: #0b1020; }
+.confiance__inner { justify-content: flex-start; }
+.confiance__service { margin-left: auto; display: flex; gap: 16px; }
+.confiance__service a { color: #97a2bd; text-decoration: none; font-size: 12px; }
+.confiance__service a:hover { color: #fff; }
+
+/* --- la marque et sa signature ------------------------------------------- */
+
+.marque__bloc { display: flex; flex-direction: column; line-height: 1.05; }
+.marque__signature {
+  /* Relevé sur la v1 : #AAB6CD, 10 px, gras 500, Source Sans 3. La v2 la
+     rendait en Roboto 9 px gras 700 et plus sombre — elle pesait plus que le
+     nom de la marque qu'elle accompagne. */
+  font-family: "Source Sans 3", system-ui, "Segoe UI", sans-serif;
+  font-size: 10px; font-weight: 500; letter-spacing: 1.3px; text-transform: uppercase;
+  color: #aab6cd; margin-top: 3px; white-space: nowrap;
+}
+
+/* --- les raccourcis nommés ----------------------------------------------- */
+
+.tete__action {
+  position: relative;
+  display: inline-flex; align-items: center; gap: 8px;
+  border: 1px solid rgba(255, 255, 255, .22); border-radius: 10px;
+  padding: 10px 14px; text-decoration: none; color: #fff;
+  font-size: 14px; font-weight: 700; white-space: nowrap;
+}
+.tete__action:hover { background: rgba(255, 255, 255, .09); }
+.tete__action--or { background: var(--or); border-color: var(--or); color: #14181f; }
+.tete__action--or:hover { background: var(--or-vif); }
+.tete__action .tete__compteur { top: -7px; right: -7px; }
+
+/* Sous 520 px le libellé n'a plus la place : l'icône reste, le mot s'efface.
+   Le bouton garde sa cible tactile — c'est le libellé qui part, pas la marge. */
+@media (max-width: 520px) {
+  .tete__nom { display: none; }
+  .tete__action { padding: 10px 12px; font-size: 17px; }
+  .marque__signature { display: none; }
+}
+
+/* --- le pied de page ------------------------------------------------------ */
+
+.pied { background: var(--nuit-doux); border-top: 3px solid var(--or); }
+.pied__bloc--lettre { grid-column: span 2; min-width: 230px; }
+.lettre { display: flex; flex-direction: column; gap: 8px; }
+.lettre input {
+  border: 1px solid rgba(255, 255, 255, .18); border-radius: 8px;
+  background: rgba(255, 255, 255, .06); color: #fff;
+  padding: 12px 14px; font: inherit; font-size: 14px;
+}
+.lettre input::placeholder { color: #8b97b4; }
+.lettre button {
+  border: 0; border-radius: 8px; cursor: pointer;
+  background: var(--or); color: #14181f;
+  padding: 12px; font: inherit; font-weight: 800; font-size: 14.5px;
+}
+.lettre button:hover { background: var(--or-vif); }
+.lettre__note { color: #7f8aa6; font-size: 12px; margin: 8px 0 0; line-height: 1.5; }
+
+@media (max-width: 760px) {
+  .pied__bloc--lettre { grid-column: 1 / -1; }
+}
+
+/* --- les cartes de rayon, façon v1 --------------------------------------- */
+
+.carte__offres {
+  font-size: 12px; color: var(--doux); font-weight: 600;
+}
+.carte__prix { display: flex; flex-direction: column; line-height: 1.15; }
+.carte__prix small {
+  font-size: 11px; font-weight: 400; color: var(--doux); letter-spacing: .02em;
+}
+.carte__cta {
+  display: block; text-align: center; margin-top: 10px;
+  background: var(--nuit); color: #fff;
+  border-radius: 8px; padding: 10px;
+  font-size: 13px; font-weight: 700;
+}
+.carte:hover .carte__cta { background: var(--nuit-clair); }
+.carte--rayon .carte__cta { display: none; }   /* les rangées défilantes restent compactes */
+
+
+/* ============================================ les offres, lignes de la v1 ===
+   Chez la v1 une offre n'est pas une ligne de tableau mais une carte : rang en
+   pastille ambre, pastille de stock, marchand, puis le prix en gros et le
+   bouton en pleine largeur. C'est ce qui reste lisible au pouce, là où quatre
+   colonnes serrées demandent de viser.
+   ========================================================================== */
+
+@media (max-width: 760px) {
+  /* Trois rangs : le marchand, puis la ligne de decision — prix a gauche,
+     taille et stock en pastilles a HAUTEUR DU PRIX, a droite — puis le bouton.
+     Les pastilles au milieu du prix parce que c'est la meme information : a
+     combien, en quelle taille, et est-ce dispo. Les lire sur trois lignes
+     separees obligeait a recomposer soi-meme ce qui est une seule reponse. */
+  /* CHAQUE OFFRE EST UNE CARTE. Le tableau devient un fond clair, et les
+     offres sont des cartes blanches posees dessus avec un vrai espace entre
+     elles. C'est la separation la plus lisible qui soit : on ne demande plus
+     a un trait, ni a une teinte, de faire croire a une frontiere — il y a
+     reellement du vide entre deux offres, et chacune a ses quatre bords. */
+  .theme-v1 .offres tr {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 0 8px;
+    padding: 14px;
+    align-items: center;
+    background: var(--card);
+    border: 1px solid #e3e8f1;
+    border-radius: 12px;
+    box-shadow: 0 1px 2px rgba(15, 21, 36, .05);
+    margin-bottom: 10px;
+  }
+  .theme-v1 .offres tr:last-child { margin-bottom: 0; }
+  .theme-v1 .offres__carte .offres { background: #eef1f7; padding: 12px; }
+
+  /* La meilleure offre : fond ambre pale ET bord ambre. Le bord fait le gros
+     du travail maintenant que chaque offre en a un — c'est le seul qui soit
+     colore, on le voit avant d'avoir lu quoi que ce soit. */
+  .theme-v1 .offres tbody tr:first-child,
+  .theme-v1 .offres tbody tr.est-meilleure {
+    background: #fffaeb;
+    border-color: var(--or);
+    box-shadow: 0 2px 10px rgba(248, 202, 2, .22);
+  }
+
+  /* Par role et non par rang : voir le bloc 620 px plus haut. */
+  .theme-v1 .offres td.offres__marchand {
+    grid-column: 1 / -1; grid-row: 1;
+    border-bottom: 1px solid #eef1f6;   /* volontairement plus clair que --ligne-offre */
+    display: flex; align-items: center; gap: 8px;
+    padding-bottom: 10px; margin-bottom: 10px;
+  }
+  /* « Meilleur prix » file au bout de la ligne : c'est une decoration du rang,
+     pas un mot de la phrase « Speedway ». */
+  .theme-v1 .offres td.offres__marchand .offres__gagnant { margin-left: auto; }
+  .theme-v1 .offres td.offres__marchand .offres__groupe { flex-basis: 100%; }
+  /* Colonnes EXPLICITES. Laissees au placement automatique, taille et stock
+     atterrissaient dans la meme case et se superposaient : dans l'ordre du
+     HTML elles viennent avant le prix, qui reclamait deja la colonne 1. Sur
+     une fiche sans tailles, la colonne 2 reste vide et se replie a zero — le
+     stock ne bouge pas. */
+  .theme-v1 .offres td.offres__taille { grid-column: 2; grid-row: 2; }
+  .theme-v1 .offres td.offres__dispo  { grid-column: 3; grid-row: 2; }
+  .theme-v1 .offres td.offres__taille,
+  .theme-v1 .offres td.offres__dispo { text-align: right; justify-self: end; }
+  .theme-v1 .offres td.offres__prix {
+    grid-column: 1; grid-row: 2; text-align: left;
+    font-size: 30px; font-weight: 800; color: var(--nuit);
+    line-height: 1.05;           /* resserre : le chiffre n'a pas de jambages */
+    padding: 2px 0;
+  }
+  /* La taille en pastille, comme le stock : deux etiquettes de meme nature
+     posees cote a cote, dont une seule est verte parce qu'une seule est une
+     bonne nouvelle. */
+  .theme-v1 .offres td.offres__taille {
+    color: #5b6478; font-size: 13.5px; font-weight: 600;
+  }
+  .theme-v1 .offres td.offres__taille:not(:has(.taille-info))::before {
+    content: "taille "; color: #8b93a5; font-weight: 500;
+  }
+  .theme-v1 .offres td.offres__taille {
+    background: #f1f3f7; border-radius: 99px; padding: 4px 11px;
+  }
+
+  .theme-v1 .offres td.offres__action {
+    grid-column: 1 / -1; grid-row: 3; padding-top: 12px;
+  }
+  /* « prix non rafraichi » est vrai mais secondaire : en petit sous la
+     pastille de stock, il ne doit pas elargir la colonne au point de rogner
+     le prix, qui est ce qu'on vient lire. */
+  .theme-v1 .offres td.offres__dispo .etat--vieux {
+    display: block; font-size: 11px; margin-top: 3px;
+  }
+  .theme-v1 .offres td.offres__action .bouton {
+    display: block; text-align: center; padding: 13px; font-size: 15px;
+    border-radius: 10px;
+  }
+
+  .theme-v1 .offres__rang {
+    width: 26px; height: 26px; background: var(--or); border-color: var(--or);
+    color: #14181f; font-size: 13px;
+  }
+  .theme-v1 .offres td.offres__marchand strong { font-size: 16px; }
+  .theme-v1 .offres__titre { display: none; }   /* le titre brut du marchand encombre */
+  .theme-v1 .etat--ok {
+    background: #e8f6ee; color: #12724a; border-radius: 99px; padding: 3px 10px;
+    font-size: 12px; font-weight: 600;
+  }
+
+}
+
+
+/* ================================= les offres, derniers écarts avec la v1 ===
+   Relevés en comparant les captures : trois détails, dont un défaut que le
+   halo ambre des boutons rendait visible sur les boutons en contour.
+   ========================================================================== */
+
+/* 1. Le rang n'est ambre que pour la MEILLEURE offre. Ambre partout, il ne
+      distingue plus rien — et c'est justement son seul rôle. */
+.theme-v1 .offres__rang {
+  background: var(--marque-fond); border-color: var(--marque-fond);
+  color: var(--marque-encre);
+}
+.theme-v1 .offres__rang.est-premier {
+  background: var(--or); border-color: var(--or); color: #14181f;
+}
+
+/* 2. La pastille de stock, avant le nom du marchand */
+.offres__point {
+  display: inline-block; width: 9px; height: 9px; border-radius: 50%;
+  margin-right: 7px; vertical-align: 1px;
+}
+.offres__point--ok { background: #16a34a; }
+.offres__point--ko { background: var(--ko); }
+.offres__point--na { background: #b6bcc8; }
+
+/* 3. « MEILLEUR PRIX » en pastille NUIT à texte ambre, pas l'inverse : en
+      ambre sur le fond ambre pâle de la première ligne, elle disparaissait. */
+.theme-v1 .offres__gagnant { background: var(--nuit); color: var(--or); }
+
+/* 4. Le halo ambre venait de `.theme-v1 .bouton`, qui l'applique à TOUS les
+      boutons. Sur un bouton blanc en contour, il dessinait une auréolejaune
+      autour d'un bouton qui n'est pas une action principale. */
+.bouton--contour { box-shadow: none; }
+.theme-v1 .bouton--contour { box-shadow: none; }
+
+
+/* --- l'encadré des offres, celui de la v1 -------------------------------- */
+
+.offres__carte {
+  background: var(--card);
+  border: 1px solid var(--ligne-carte);
+  border-radius: 14px;                 /* relevé sur la v1 */
+  box-shadow: 0 6px 24px rgba(15, 21, 36, .06);
+  overflow: hidden;
+  margin: 26px 0 0;
+}
+.offres__carte .offres__tete { padding: 18px 18px 12px; }
+/* Typographie des deux encadrés, relevée sur la v1 le 14/09/2026 : titre
+   Roboto 19 px gras 800 #0F1524, sous-titre 12,5 px #8A90A5. La v2 écrivait
+   21 px gras 700 en Source Sans 3 et un sous-titre à 14 px — plus gros et dans
+   une autre famille, ce qui se voyait tout de suite en comparant les deux
+   captures. Les DEUX titres partagent ces valeurs sur la v1 (« Comparer les N
+   offres » et « Historique du meilleur prix ») : les aligner ensemble garde la
+   cohérence entre les encadrés. */
+.offres__carte .titre-section {
+  margin: 0 0 4px; border-left: 0; padding-left: 0;
+  font-family: Roboto, "Helvetica Neue", system-ui, sans-serif;
+  font-size: 19px; font-weight: 800; color: #0f1524;
+}
+.offres__carte .sous-titre {
+  font-size: 12.5px; color: #8a90a5; margin: 0 0 16px;   /* 16 : relevé v1 */
+}
+
+/* L'encadré de l'historique porte son rembourrage LUI-MÊME, contrairement à
+   celui des offres. Raison : le tableau des offres doit venir à fleur de bord
+   (ses lignes surlignées vont d'un côté à l'autre), donc la carte est à zéro et
+   c'est l'en-tête qui écarte le titre. Ici il n'y a pas de tableau — sans cette
+   règle, le sous-titre et la courbe touchaient la bordure à 1 px près pendant
+   que le titre restait en retrait de 18. Sur la v1, les trois sont alignés à
+   16 px. Signalé par la propriétaire le 14/09/2026. */
+.offres__carte--historique { padding: 16px; }
+.offres__carte--historique .offres__tete { padding: 0; }
+.offres__carte--historique .courbe { margin: 0; height: 220px; }  /* 220 : relevé v1 */
+.offres__carte .mentions {
+  margin: 0; padding: 14px 18px 18px; border-top: 1px solid var(--line);
+}
+/* le tableau perd son propre cadre : il est déjà dans celui de la carte */
+.offres__carte .offres {
+  border: 0; border-radius: 0; box-shadow: none; margin: 0;
+}
+/* la première ligne est surlignée, y compris après un changement de taille */
+.theme-v1 .offres tbody tr.est-meilleure { background: #fffaeb; }
+
+
+/* =============================================== rayon : deux par rangée ====
+   Comme la v1. Une carte par rangée sur un téléphone, c'est un article visible
+   à la fois : il faut faire défiler quatre fois pour en comparer deux, ce qui
+   est précisément ce que le visiteur est venu faire.
+   ========================================================================== */
+
+@media (max-width: 760px) {
+  /* `.grille` nu est repris ici : les pages Bons plans, Favoris et Comparateur
+     n'ont pas la colonne de filtres et n'étaient donc pas couvertes par le
+     sélecteur d'origine — elles retombaient à une carte par rangée, qui est
+     exactement ce que ce bloc existe pour éviter. */
+  .boutique__corps .grille,
+  .grille {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .boutique__corps .carte__img,
+  .grille .carte__img { height: 132px; padding: 8px; }
+  .boutique__corps .carte__nom {
+    font-size: 13px; line-height: 1.3;
+    /* deux lignes au plus, sinon les cartes d'une rangée n'ont plus la même
+       hauteur et la grille ondule */
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .boutique__corps .carte__prix { font-size: 15px; }
+  .boutique__corps .carte__cta { font-size: 12px; padding: 9px 6px; }
+  .boutique__corps .carte__offres { font-size: 11px; }
+
+  /* La barre de tri prend toute la largeur, comme en v1 : à 182 px elle
+     ressemblait à un bouton perdu au milieu du vide.
+     `max-width: none` n'a pas suffi — son parent est en flex, donc elle se
+     rétractait sur son contenu quelle que soit la largeur autorisée. Il faut
+     le lui demander explicitement. */
+  .boutique__tete { flex-wrap: wrap; }
+  .tri { max-width: none; width: 100%; flex: 1 0 100%; }
+}
+
+/* --- la pastille de compteur, raccrochée au bouton ------------------------ */
+
+.tete__action .tete__compteur {
+  top: -6px; right: -6px;
+  /* L'anneau de la couleur de l'en-tête détache la pastille du bord du bouton
+     au lieu de la laisser flotter à côté : elle découpe le contour au lieu de
+     s'y superposer à moitié. */
+  box-shadow: 0 0 0 2px #1b2440;
+}
+
+/* ===================================================== le bureau, au propre ==
+   Presque toutes les règles de la soirée sont bornées par `max-width`, donc le
+   bureau avait gardé l'ancien comportement — par construction, pas par chance.
+   Ce qui suit est la passe qui lui manquait.
+   ========================================================================== */
+
+@media (min-width: 1150px) {
+  /* Quatre articles par rangée, pas trois. Avec la colonne de filtres, la zone
+     de contenu fait 868 px : à trois, les cartes font 280 px et laissent des
+     gouttières inutiles ; à quatre, elles font 205 px — la taille des cartes
+     des rayons de l'accueil, qui se lisent très bien. */
+  .boutique__corps .grille { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+  /* Mesuré sur la fiche v1 à 1280 px : colonne image 440, colonne texte 631,
+     et le bloc prix occupe TOUTE cette colonne (631 px, pas 520). Mes deux
+     brides — 22ch sur le titre, 520 px sur le bloc prix — étaient un confort de
+     lecture que je m'étais accordé seul : elles laissaient un vide à droite du
+     bloc sombre, et c'est l'écart qu'on voyait en comparant les deux pages. */
+  .fiche__bas { max-width: 680px; }
+}
+
+@media (min-width: 761px) {
+  /* Sur grand écran le rang et la pastille de stock restent utiles, mais le
+     tableau n'a pas besoin du fond ambre pleine largeur : un liseré suffit. */
+  .theme-v1 .offres tbody tr.est-meilleure,
+  .theme-v1 .offres tbody tr:first-child {
+    background: #fffdf7;
+    box-shadow: inset 3px 0 0 var(--or);
+  }
+}
+
+/* ============================================ bureau : les deux vrais trous ==
+   Mesurer des largeurs ne montre pas un vide. Ces deux-là ne se voient qu'en
+   regardant la page.
+   ========================================================================== */
+
+@media (min-width: 761px) {
+  /* 1. LE VIDE SOUS L'IMAGE.
+        `.fiche__bas` était placé en colonne 2, mais sur la LIGNE 2 de la
+        grille : l'image n'occupant que la ligne 1, la case en dessous restait
+        vide et le bloc prix descendait d'autant. D'où un trou blanc de la
+        hauteur de l'image, et le prix repoussé à mi-page.
+        L'image s'étend sur les deux lignes ; identité et bloc prix s'empilent
+        alors sans interruption dans la colonne de droite. */
+  .theme-v1 .fiche { align-items: start; }
+  .theme-v1 .fiche__visuel { grid-row: 1 / span 2; align-self: start; }
+
+  /* 2. LE TABLEAU QUI FAIT TABLEUR.
+        La v1 n'a pas d'en-tête de colonnes : elle pose l'information dans la
+        ligne. « MARCHAND / TAILLE / DISPONIBILITÉ / PRIX » en capitales sur
+        fond nuit annonce un export de données, pas une comparaison d'offres. */
+  .theme-v1 .offres thead { display: none; }
+  /* le titre brut du marchand double le nom sans rien apprendre */
+  .theme-v1 .offres__titre { display: none; }
+  .theme-v1 .offres td { padding: 14px 12px; vertical-align: middle; }
+  .theme-v1 .offres td:nth-child(1) { width: 44%; }
+  .theme-v1 .offres .prix { font-size: 21px; font-weight: 800; color: var(--nuit); }
+  .theme-v1 .offres td:last-child { text-align: right; width: 150px; }
+  .theme-v1 .offres td:last-child .bouton { min-width: 128px; text-align: center; }
+  .theme-v1 .offres__taille { color: var(--doux); }
+}
+
+/* ====================================== l'en-tête suit le défilement ========
+   Comme la v1. La recherche et les deux raccourcis restent atteignables où
+   qu'on soit dans la page — sur une liste de 3 590 articles, remonter pour
+   chercher autre chose est un aller-retour qu'on ne fait pas : on quitte.
+
+   La ligne de confiance, elle, part avec le défilement : elle se lit une fois,
+   à l'arrivée, et occuperait ensuite 40 px pour rien.
+   ========================================================================== */
+
+.tete {
+  position: sticky; top: 0;
+  /* sous le voile des tiroirs (998) et sous le bandeau comparateur (900),
+     au-dessus de tout le contenu */
+  z-index: 600;
+}
+
+/* La colonne de filtres colle elle aussi : sans décalage, elle se range SOUS
+   l'en-tête et on n'en voit plus que le bas. */
+@media (min-width: 901px) {
+  .filtres { top: calc(var(--haut-tete, 78px) + 14px); }
+  .filtres.tiroir { top: calc(var(--haut-tete, 78px) + 14px); }
+}
+
+/* Les ancres (« Je compare » vers les écarts) doivent s'arrêter sous l'en-tête
+   et non dessous : sinon le titre visé se retrouve caché derrière. */
+[id] { scroll-margin-top: calc(var(--haut-tete, 78px) + 12px); }
+
+/* ======================================== cartes de rayon : derniers écarts ==
+   Relevés sur la v1, carte par carte.
+   ========================================================================== */
+
+/* 1. « Comparer 3 offres » n'est pas une mise en avant : c'est une indication.
+      En gras et en bleu, elle luttait avec le nom du produit, qui est ce que le
+      visiteur lit en premier. */
+.carte__offres { font-weight: 400; color: var(--doux); }
+
+/* 2. La marque, elle, est en gras : c'est le repère qui permet de balayer une
+      grille sans lire chaque titre. */
+.carte__marque { font-weight: 800; color: var(--marque-encre); letter-spacing: .6px; }
+
+/* 3. Les deux actions aux DEUX COINS de l'image, comparateur à gauche et cœur à
+      droite, comme la v1. Empilées dans le coin droit, elles se lisaient comme
+      un seul groupe et le pouce visait l'une pour l'autre. */
+.actions-carte {
+  left: 8px; right: 8px;
+  flex-direction: row-reverse;      /* le gabarit sort cœur puis comparateur */
+  justify-content: space-between;
+}
+
+/* les deux icônes d'action, à la taille de leur bouton */
+.ico-action { width: 18px; height: 18px; display: block; }
+.tete__action .ico-action { width: 19px; height: 19px; }
+.action-carte .ico-action { width: 16px; height: 16px; }
+.meilleur__comparer .ico-action { width: 22px; height: 22px; }
+
+/* --- le résumé du panneau : compteur et filtres actifs sur une ligne ------ */
+
+.tiroir__resume {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
+  padding: 14px 20px 10px;
+}
+.tiroir__compte { margin: 0; }
+
+/* --- la piste de la jauge, teintée entre les deux poignées ---------------- */
+
+.jauge__piste::before {
+  content: ""; position: absolute; left: 0; right: 0; top: 13px; height: 4px;
+  border-radius: 2px; background: var(--line);
+}
+.jauge__piste::after {
+  content: ""; position: absolute; top: 13px; height: 4px; border-radius: 2px;
+  background: var(--or);
+  left: var(--jauge-de, 0%); right: calc(100% - var(--jauge-a, 100%));
+}
+/* les pistes propres aux curseurs s'effacent : les deux traits ci-dessus les
+   remplacent, sinon on en verrait trois empilés */
+.jauge__piste input[type="range"]::-webkit-slider-runnable-track { background: transparent; }
+.jauge__piste input[type="range"]::-moz-range-track { background: transparent; }
+/* Pas de `position` sur la poignée : positionner ce pseudo-élément la sort du
+   cadre qui la découpe, et sur Chrome Android les deux ronds allaient se
+   dessiner en haut du panneau, par-dessus le titre. C'est l'INPUT qu'on élève,
+   pas la poignée. */
+.jauge__piste input[type="range"] { z-index: 1; }
+
+/* ============================================================ codes promo ===
+   Repris de la v1. Un code appartient à un marchand, pas à un produit : la
+   pastille colorée l'identifie d'un coup d'œil dans une liste où le même
+   marchand peut apparaître deux fois.
+   ========================================================================== */
+
+.promos {
+  background: var(--card); border: 1px solid var(--ligne-carte);
+  border-radius: 18px; box-shadow: 0 6px 24px rgba(15, 21, 36, .06);
+  margin: 26px 0 0; overflow: hidden;
+}
+.promos__tete {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 14px; flex-wrap: wrap; padding: 18px 18px 4px;
+}
+.promos__tete .titre-section { margin: 0; border-left: 0; padding-left: 0; }
+.promos__tete span { color: var(--doux); font-size: 12.5px; }
+.promos__liste { padding: 10px 0; }
+.promo {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 8px 12px;
+  padding: 12px 18px; border-bottom: 1px solid var(--line);
+}
+.promo:last-child { border-bottom: 0; }
+.promo__point { width: 9px; height: 9px; border-radius: 50%; background: var(--doux); }
+.promo__point--speedway    { background: #0a58ca; }
+.promo__point--motoblouz   { background: #f5b301; }
+.promo__point--labecanerie { background: #12724a; }
+.promo__point--maxxess     { background: #b42318; }
+.promo__point--motoaxxe    { background: #7a4b12; }
+.promo__point--fcmoto      { background: #2f8c99; }
+.promo__marchand { font-weight: 700; font-size: 14.5px; }
+.promo__texte { flex: 1; min-width: 140px; color: var(--ink); font-size: 14px; }
+.promo__cond { display: block; color: var(--doux); font-size: 12.5px; margin-top: 3px; }
+.promo__code {
+  background: var(--nuit); color: var(--or); border: 0; cursor: pointer;
+  border-radius: 8px; padding: 8px 14px;
+  font: inherit; font-weight: 800; font-size: 13.5px; letter-spacing: .06em;
+}
+.promo__code:hover { background: var(--nuit-clair); }
+.promo__voir { font-size: 13px; font-weight: 700; color: var(--marque-encre); white-space: nowrap; }
+.promos__note {
+  color: var(--doux); font-size: 12.5px; line-height: 1.6;
+  border-top: 1px solid var(--line); padding: 14px 18px; margin: 0;
+}
+
+/* --- saisie des codes promo (tableau de bord) ----------------------------- */
+
+.promo-form {
+  display: grid; gap: 12px; align-items: end; margin: 14px 0 20px;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: 12px; padding: 16px;
+}
+.promo-form--large { grid-column: span 2; }
+.promo-form label { display: flex; flex-direction: column; gap: 5px; font-size: 12.5px; color: var(--doux); }
+.promo-form input, .promo-form select {
+  border: 1px solid var(--line); border-radius: 8px; padding: 10px;
+  font: inherit; font-size: 14px; background: var(--card); color: var(--ink);
+}
+.promo-form > button {
+  border: 0; border-radius: 8px; cursor: pointer; padding: 11px 18px;
+  background: var(--nuit); color: #fff; font: inherit; font-weight: 700;
+}
+.promo-table code {
+  background: var(--puce); border-radius: 5px; padding: 2px 7px;
+  font-size: 13px; font-weight: 700;
+}
+
+
+/* ------------------------------------------------ les quatre tuiles de la v1 */
+
+.garanties {
+  display: grid; gap: 14px; margin: 22px 0 0;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.garanties__tuile {
+  background: var(--card); border: 1px solid var(--ligne-carte);
+  border-radius: 14px; padding: 16px 18px; text-align: center;
+}
+.garanties__tuile b { display: block; font-size: 15px; font-weight: 700; color: var(--ink); }
+.garanties__tuile span {
+  display: block; margin-top: 4px;
+  font-size: 12.5px; line-height: 1.45; color: var(--doux);
+}
+/* En dessous de 760 px la v1 les met en 2 × 2 plutôt qu'en colonne : quatre
+   tuiles empilées font défiler pour rien. */
+@media (max-width: 760px) { .garanties { grid-template-columns: repeat(2, 1fr); } }
+
+/* ================================== la fiche sur large écran, d'après la v1 ==
+   Les captures comparées par la propriétaire sont prises en « mode ordinateur »
+   sur son téléphone. Android rend alors la page à **980 px** — pas 1024. Mes
+   premières règles démarraient à 1000 px : elles ne se déclenchaient jamais
+   chez elle, et de son côté rien n'avait changé. Le seuil est donc 900 px,
+   celui où la v1 passe elle-même en deux colonnes (vérifié : 1 colonne à
+   900 px, 2 colonnes et titre 27 px à 940).
+
+   Et la v1 n'a pas de seuil pour le bloc prix : c'est une rangée qui se
+   REPLIE quand la colonne devient trop étroite (mesuré chez elle, 110 px de
+   haut à 980, 174 px à 940 parce que le bouton passe à la ligne). D'où le
+   `flex-wrap` plutôt qu'une deuxième requête média : la page se réajuste
+   d'elle-même au lieu de casser à une largeur qu'on n'avait pas prévue.
+
+   Sous 900 px, rien ne change : bloc empilé et bouton pleine largeur.
+   ========================================================================== */
+
+@media (min-width: 900px) {
+  /* 1. Le titre : 27 px, pas 21. La v1 monte de 21 à 27 px en passant en deux
+        colonnes ; j'avais relevé le 21 px sur une capture étroite et l'avais
+        figé pour toutes les largeurs, ce qui donnait un titre d'article de
+        blog au-dessus d'un prix de 220 €. */
+  .theme-v1 .fiche__tete h1 { font-size: 27px; }
+
+  /* 2. Le bloc prix sur UNE rangée : prix à gauche, rond comparateur et bouton
+        à droite. Mesuré chez elle : flex, space-between, gap 16, padding
+        18/20 — hauteur 110 px contre 175 chez nous, soit 65 px rendus à la
+        page sans rien retirer. */
+  .meilleur {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px; padding: 18px 20px; flex-wrap: wrap;
+  }
+  .meilleur__gauche { padding-right: 0; }
+  .meilleur__droite { display: flex; align-items: center; gap: 14px; }
+
+  /* Le rond revient DANS la rangée. En position absolue il flottait au-dessus
+     du coin du bloc ; chez elle il fait 42 px et vit entre le prix et le
+     bouton. */
+  .meilleur__comparer {
+    position: static; width: 42px; height: 42px; font-size: 17px;
+    flex: 0 0 auto;
+  }
+
+  /* Le bouton reprend sa taille de bouton : 48 px de haut, largeur au contenu
+     (144 px chez elle). Pleine largeur, il ne se lisait plus comme une action
+     mais comme une bannière. */
+  .theme-v1 .meilleur__voir {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: auto; margin-top: 0; padding: 0 22px; height: 48px;
+    border-radius: 10px; white-space: nowrap;
+  }
+
+  /* 3. Les quatre garanties : 13,5 px chez elle, 15 chez nous. Trois lignes de
+        texte passaient à deux lignes chacune, et le bloc faisait 102 px au
+        lieu de 61. */
+  .promesses li { font-size: 13.5px; }
+}
+
+/* ------------------------------------------------- la courbe de prix, v1-like
+
+   Avant : une polyligne seule, sans repère — un trait qui monte ne dit rien
+   si on ne sait pas de combien. Les graduations portent maintenant un prix et
+   deux dates, et l'aire sous la courbe donne au bloc le poids visuel qu'il
+   avait sur la v1.
+   ========================================================================== */
+
+/* Le SVG dessiné à la main a été remplacé par la courbe TradingView ;
+   ses règles de tracé restent ci-dessous, inutilisées mais sans effet. */
+.courbe__grille { stroke: var(--line); stroke-width: 1; }
+.courbe__aire   { fill: rgba(38, 53, 90, .08); stroke: none; }
+.courbe__trait  { fill: none; stroke: var(--nuit-clair); stroke-width: 2.5;
+                  stroke-linejoin: round; stroke-linecap: round; }
+.courbe__fin    { fill: var(--or); stroke: var(--nuit); stroke-width: 2; }
+.courbe__prix, .courbe__date {
+  font-size: 11.5px; fill: var(--doux);
+  font-family: inherit; font-variant-numeric: tabular-nums;
+}
+/* Ancrées à droite, contre le bord : ancrées à gauche, « 1 000,00 € » sortait
+   du cadre de cinq pixels. */
+.courbe__prix { text-anchor: end; }
+/* Le gabarit pose les classes lui-même : `:first-of-type` portait sur le TYPE
+   <text>, or les étiquettes de prix sont écrites avant les dates — la règle ne
+   s'appliquait donc à rien, et la première date débordait de 8 px à gauche. */
+.courbe__date { text-anchor: middle; }
+.courbe__date--debut { text-anchor: start; }
+.courbe__date--fin   { text-anchor: end; }
+
+/* ==================================== les pages reprises de la v1 ============
+   Bons plans, Toutes les marques, Guides & conseils, Contact.
+   ========================================================================== */
+
+/* --- index alphabétique des marques --------------------------------------- */
+
+/* `top: 0` aurait glissé l'index SOUS l'en-tête, elle-même collante avec un
+   z-index de 600 : l'alphabet disparaissait au défilement. `--haut-tete` est la
+   variable que la colonne de filtres utilise déjà pour le même problème. */
+.alphabet {
+  display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 22px;
+  position: sticky; top: calc(var(--haut-tete, 78px) + 8px); z-index: 2;
+  background: var(--bg); padding: 8px 0;
+}
+.alphabet a {
+  display: grid; place-items: center; min-width: 30px; height: 30px;
+  border: 1px solid var(--ligne-carte); border-radius: 8px;
+  background: var(--card); color: var(--ink);
+  font-size: 13px; font-weight: 700; text-decoration: none;
+}
+.alphabet a:hover { background: var(--nuit); color: var(--or); border-color: var(--nuit); }
+
+.marques-bloc { margin: 0 0 26px; }
+.marques-bloc .titre-section { margin-bottom: 12px; }
+.marques-grille {
+  display: grid; gap: 10px;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+}
+.marque-tuile {
+  display: block; padding: 12px 14px; text-decoration: none;
+  background: var(--card); border: 1px solid var(--ligne-carte); border-radius: 12px;
+}
+.marque-tuile:hover { border-color: var(--nuit-clair); }
+.marque-tuile b { display: block; font-size: 14px; color: var(--ink); letter-spacing: .02em; }
+.marque-tuile span { display: block; margin-top: 2px; font-size: 12.5px; color: var(--doux); }
+
+/* --- guides ---------------------------------------------------------------- */
+
+.guide {
+  background: var(--card); border: 1px solid var(--ligne-carte);
+  border-radius: 18px; padding: 22px; margin: 0 0 18px;
+}
+.guide p { line-height: 1.65; max-width: 68ch; }
+.liste-puces { margin: 10px 0 0; padding-left: 20px; line-height: 1.7; max-width: 68ch; }
+.liste-puces li { margin-bottom: 7px; }
+.tableau-enveloppe { overflow-x: auto; margin: 12px 0; }
+
+/* --- contact --------------------------------------------------------------- */
+
+.contact { display: grid; gap: 22px; grid-template-columns: 1fr; align-items: start; }
+@media (min-width: 900px) { .contact { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); } }
+.contact__form {
+  display: grid; gap: 14px;
+  background: var(--card); border: 1px solid var(--ligne-carte);
+  border-radius: 18px; padding: 22px;
+}
+.contact__form label { display: grid; gap: 6px; font-size: 13px; font-weight: 600; color: var(--doux); }
+.contact__form input, .contact__form select, .contact__form textarea {
+  border: 1px solid var(--line); border-radius: 10px; padding: 11px 12px;
+  font: inherit; font-size: 15px; font-weight: 400; color: var(--ink);
+  background: var(--card); width: 100%;
+}
+.contact__form textarea { resize: vertical; min-height: 120px; }
+.contact__form .bouton { justify-self: start; }
+.contact__form .doux { font-weight: 400; color: var(--doux); }
+.contact__aside {
+  background: var(--marque-fond); border-radius: 18px; padding: 22px;
+}
+.contact__aside p { font-size: 14px; line-height: 1.6; color: var(--ink); margin: 0 0 12px; }
+.contact__aside p:last-child { margin-bottom: 0; }
+/* `.avis--ok` et non `.alerte--ok` : cette dernière existe déjà pour le tableau
+   de bord (bien plus haut), avec un liseré gauche de 4 px hérité de `.alerte`.
+   La redéfinir ici lui retirait ce liseré sur /admin, où les trois alertes
+   cessaient alors de se ressembler. Quatrième collision de classe du projet. */
+.avis--ok { background: var(--eco-fond); border: 1px solid #cdeadb; color: #14532d;
+            border-radius: 12px; padding: 14px 16px; margin: 0 0 18px; }
+.avis--ko { background: #fff5f5; border: 1px solid #f3c4c4; color: #8a2020;
+            border-radius: 12px; padding: 14px 16px; margin: 0 0 18px; }
+
+
+/* ============================================== accessibilité, après revue ==
+   Trois corrections mesurées : un lien d'évitement, un gris secondaire qui
+   passait sous le seuil de lisibilité, et un anneau de focus visible partout.
+   ========================================================================== */
+
+/* Visible seulement au clavier : posé hors écran, il revient dès qu'il a le
+   focus. Sans lui, on traversait l'en-tête et le tiroir à chaque page. */
+.evitement {
+  position: absolute; left: -9999px; top: 0; z-index: 1000;
+  background: var(--nuit); color: var(--or);
+  padding: 12px 18px; border-radius: 0 0 10px 0;
+  font-weight: 700; text-decoration: none;
+}
+.evitement:focus { left: 0; }
+#contenu:focus { outline: none; }   /* cible du saut, pas un élément cliquable */
+
+/* Un anneau de focus visible sur TOUT ce qui se clique. Il n'y en avait que
+   trois dans 2 200 lignes, et l'anneau par défaut du navigateur est noir sur
+   fond blanc comme sur fond nuit. */
+a:focus-visible, button:focus-visible, input:focus-visible,
+select:focus-visible, textarea:focus-visible, summary:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid var(--nuit-clair);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+.tiroir a:focus-visible, .tiroir button:focus-visible,
+.pied a:focus-visible, .meilleur a:focus-visible, .meilleur button:focus-visible {
+  outline-color: var(--or);        /* sur fond sombre, l'ambre se voit */
+}
+
+/* --- la page d'erreur ------------------------------------------------------ */
+
+.erreur { max-width: 620px; margin: 40px auto; text-align: center; }
+.erreur__code {
+  font-size: 64px; font-weight: 800; line-height: 1;
+  color: var(--ligne-carte); margin: 0 0 4px; font-variant-numeric: tabular-nums;
+}
+.erreur .titre-page { margin: 0 0 10px; }
+.erreur__actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin: 22px 0; }
+.erreur__quete {
+  display: flex; gap: 8px; flex-wrap: wrap; justify-content: center;
+  background: var(--card); border: 1px solid var(--ligne-carte);
+  border-radius: 14px; padding: 18px; margin-top: 26px;
+}
+.erreur__quete label { width: 100%; font-size: 13px; color: var(--doux); font-weight: 600; }
+.erreur__quete input {
+  flex: 1; min-width: 200px; border: 1px solid var(--line); border-radius: 10px;
+  padding: 11px 12px; font: inherit; font-size: 15px;
+}
+
+/* La mention obligatoire aux comparateurs, sur la page de résultats. Discrète
+   mais lisible : la loi demande qu'elle soit là, le bon sens qu'elle se lise. */
+.mention-comparateur {
+  font-size: 12.5px; line-height: 1.55; color: var(--doux);
+  background: var(--card); border: 1px solid var(--ligne-carte);
+  border-radius: 12px; padding: 10px 14px; margin: 0 0 14px;
+}
+/* Repliée par défaut : en pavé, elle poussait les produits sous la ligne de
+   flottaison sur mobile. Ce qui décide du classement reste visible sans clic. */
+.mention-comparateur > summary {
+  cursor: pointer; list-style: none; color: var(--doux);
+}
+.mention-comparateur > summary::-webkit-details-marker { display: none; }
+.mention-comparateur > summary::after {
+  content: " En savoir plus"; color: var(--nuit); font-weight: 600;
+  text-decoration: underline; text-underline-offset: 2px;
+}
+.mention-comparateur[open] > summary::after { content: " Réduire"; }
+.mention-comparateur > p { margin: 8px 0 0; }
+
+/* Lu par les lecteurs d'écran, invisible à l'œil. Pas `display:none`, qui les
+   ferait taire aussi. */
+.visuellement-cache {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
+}
+
+
+/* Le repère « i » de la colonne Taille — voir _fiche.html.
+   Écrire « Non communiquée » en toutes lettres prenait plus de place que les
+   vraies tailles de la colonne, et attirait l'œil sur ce qu'on ignore au milieu
+   d'un tableau fait pour comparer ce qu'on sait. */
+.taille-info {
+  width: 1.35rem; height: 1.35rem; padding: 0; border-radius: 50%;
+  border: 1px solid var(--doux); background: transparent; color: var(--doux);
+  font: 600 .75rem/1 Georgia, "Times New Roman", serif; font-style: italic;
+  cursor: pointer;
+}
+.taille-info:hover, .taille-info:focus-visible {
+  border-color: var(--nuit); color: var(--nuit); background: #fff;
+}
+.taille-info[aria-expanded="true"] {
+  border-color: var(--nuit); background: var(--nuit); color: #fff;
+}
+/* La bulle du « i » — voir _fiche.html.
+   Posée en `fixed` : le tableau des offres défile horizontalement sur mobile,
+   et une bulle rattachée à la cellule aurait été coupée par ce défilement.
+   `--fleche` est calculée en JS pour que la pointe reste sous le bouton même
+   quand la bulle a été ramenée dans l'écran. */
+.bulle[hidden] { display: none !important; }
+
+.bulle {
+  position: fixed; z-index: 8000; max-width: min(22rem, calc(100vw - 16px));
+  padding: .8rem 2rem .8rem .9rem; border-radius: 10px;
+  background: var(--nuit); color: #fff;
+  font-size: .85rem; line-height: 1.5;
+  box-shadow: 0 8px 24px rgba(15, 21, 36, .28);
+}
+.bulle p { margin: 0; }
+
+/* La pointe. `--fleche` vaut la distance entre le bord gauche de la bulle et le
+   centre du bouton. */
+.bulle::after {
+  content: ""; position: absolute; left: var(--fleche, 50%);
+  border: 7px solid transparent; transform: translateX(-50%);
+}
+.bulle::after            { top: 100%; border-top-color: var(--nuit); }
+.bulle--dessous::after   { top: auto; bottom: 100%;
+                           border-top-color: transparent;
+                           border-bottom-color: var(--nuit); }
+
+.bulle__x {
+  position: absolute; top: 4px; right: 4px;
+  width: 1.6rem; height: 1.6rem; padding: 0;
+  border: 0; background: transparent; color: #9aa4bd;
+  font-size: 1.1rem; line-height: 1; cursor: pointer;
+}
+.bulle__x:hover, .bulle__x:focus-visible { color: #fff; }
+
+/* Voile de chargement — voir base.html.
+   Repris de la v1 : un carré arrondi gris translucide, le logo au centre, posé
+   au milieu de la page. Il ne remplace pas la page, il se pose dessus : le
+   visiteur garde sous les yeux ce sur quoi il vient de cliquer, ce qui vaut
+   mieux qu'un écran vide.
+
+   Nom `.chargement` vérifié absent du reste de la feuille avant écriture : quatre
+   collisions de classe ont déjà cassé des blocs sur ce projet. */
+/* `display: flex` ci-dessous écrase l'attribut `hidden` du HTML, dont la règle
+   vient de la feuille du navigateur et perd contre une classe. Sans cette
+   ligne, le voile reste affiché EN PERMANENCE sur toutes les pages. Constaté
+   à l'écran le 2026-09-14, invisible à la lecture du code. */
+.chargement[hidden] { display: none !important; }
+
+.chargement {
+  position: fixed; inset: 0; z-index: 9000;
+  display: flex; align-items: center; justify-content: center;
+  /* Pas d'assombrissement du fond : la page reste lisible, et rien ne clignote
+     si le voile n'a vécu que quelques dizaines de millisecondes. */
+  background: transparent;
+  /* Le voile couvre l'écran pour empêcher un second clic pendant la navigation,
+     mais ne doit pas donner l'impression d'un écran mort. */
+  cursor: progress;
+}
+.chargement__marque {
+  display: grid; place-items: center;
+  width: 104px; height: 104px; border-radius: 22px;
+  background: rgba(15, 21, 36, .55);
+  backdrop-filter: blur(2px);
+  box-shadow: 0 10px 30px rgba(15, 21, 36, .25);
+  animation: chargement-pulse 1.1s ease-in-out infinite;
+}
+.chargement__marque img {
+  width: 64px; height: auto; display: block;
+}
+@keyframes chargement-pulse {
+  0%, 100% { transform: scale(1);    opacity: .92; }
+  50%      { transform: scale(1.06); opacity: 1; }
+}
+/* Une animation qui pulse est exactement ce que ce réglage demande d'éviter.
+   Le voile reste, il cesse simplement de bouger : l'information est conservée. */
+@media (prefers-reduced-motion: reduce) {
+  .chargement__marque { animation: none; }
+}
+
+
+/* Les liens de service de la barre du haut, sur desktop seulement.
+   Sur mobile ils passaient à la ligne et repoussaient l'en-tête, la recherche
+   et les produits vers le bas — signalé par la propriétaire, capture à l'appui,
+   le 14/09/2026. Aucun accès n'est perdu : « À propos » et « Contact » sont
+   dans le menu latéral ET dans le pied de page, la confidentialité aussi. */
+@media (max-width: 760px) {
+  .confiance__service { display: none; }
+}
+
+/* Les points médians de la barre du haut, et la troisième affirmation.
+   Repris de la v1 : trois promesses séparées, pas deux bouts collés. */
+.confiance__sep { color: #4a5570; padding: 0 2px; }
+.confiance__libre { color: #97a2bd; }
+@media (max-width: 760px) {
+  /* Sur un écran étroit il n'y a place que pour l'essentiel : la fraîcheur des
+     prix et le nombre de marchands. « 100 % gratuit » passerait à la ligne et
+     repousserait toute la page — exactement le défaut corrigé plus haut.
+     Les deux qui restent tiennent CÔTE À CÔTE, demandé par la propriétaire le
+     14/09/2026 : empilés, ils prenaient deux lignes pour dire deux choses
+     courtes. D'où le pas resserré et le point médian gardé entre elles. */
+  .confiance__libre { display: none; }
+  /* Le point médian PRÉCÈDE la mention qu'on masque : sans `:has()`, il
+     resterait seul en fin de ligne. */
+  .confiance__sep:has(+ .confiance__libre) { display: none; }
+  .confiance__inner { gap: 2px 8px; flex-wrap: nowrap; }
+  .confiance { font-size: 11px; }
+  .confiance__inner > span { white-space: nowrap; }
+}
+
+/* La sortie en bas de fiche — voir _fiche.html.
+   Pleine largeur et en contour : c'est une porte, pas l'action principale de
+   la page. Celle-là reste « Voir l'offre ». */
+.retour-rayon {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  margin: 26px 0 40px; padding: 15px 22px;
+  border: 1px solid var(--nuit); border-radius: 12px;
+  background: transparent; color: var(--nuit);
+  font-size: 15px; font-weight: 700; text-decoration: none;
+}
+.retour-rayon:hover, .retour-rayon:focus-visible {
+  background: var(--nuit); color: #fff;
+}
+
+/* La courbe TradingView — voir _fiche.html.
+   `position: relative` porte l'infobulle, qui est positionnée dedans. */
+.courbe {
+  position: relative;
+  width: 100%; height: 260px; margin: 10px 0 2px;
+}
+@media (max-width: 760px) { .courbe { height: 210px; } }
+
+.courbe__infobulle {
+  position: absolute; top: 8px; z-index: 5;
+  padding: 7px 11px; border-radius: 9px;
+  background: var(--nuit); color: #fff;
+  font-size: 12.5px; line-height: 1.35; white-space: nowrap;
+  box-shadow: 0 4px 14px rgba(3, 10, 32, .3);
+  pointer-events: none;
+}
+.courbe__infobulle[hidden] { display: none !important; }
+.courbe__infobulle-jour { display: block; opacity: .72; font-size: 11.5px; }

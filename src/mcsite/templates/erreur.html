@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}{{ titre }} — MotoComparo{% endblock %}
+
+{% block contenu %}
+<section class="erreur">
+  <p class="erreur__code">{{ code }}</p>
+  <h1 class="titre-page">{{ titre }}</h1>
+  <p class="sous-titre">{{ explication }}</p>
+
+  <div class="erreur__actions">
+    <a class="bouton bouton--or" href="/">Retour à l'accueil</a>
+    <a class="bouton bouton--contour" href="/produits">Voir tous les produits</a>
+  </div>
+
+  <form class="erreur__quete" action="/recherche" method="get" role="search">
+    <label for="q-erreur">Chercher un produit</label>
+    <input id="q-erreur" name="q" type="search" placeholder="casque, blouson, gants…">
+    <button type="submit" class="bouton bouton--contour">Chercher</button>
+  </form>
+</section>
+{% endblock %}

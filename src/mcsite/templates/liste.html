@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}{{ titre }} — MotoComparo{% endblock %}
+
+{% block contenu %}
+<nav class="fil"><a href="/">Accueil</a> › <span>{{ titre }}</span></nav>
+<h1 class="titre-page">{{ titre }}</h1>
+
+<div id="liste-corps" data-cle="{{ cle }}">
+  {% if items %}
+    <p class="sous-titre">
+      {{ items | length }} produit{{ 's' if items | length > 1 }} ·
+      <button type="button" class="lien-bouton" id="vider">Tout retirer</button>
+    </p>
+    {% include "_grille.html" %}
+  {% else %}
+    <p class="vide">{{ vide }}</p>
+    <p class="sous-titre">{{ aide }}</p>
+  {% endif %}
+</div>
+
+<script>
+/* La liste vit dans le navigateur ; la page, elle, est rendue par le serveur.
+   Ce petit saut fait le pont : au premier affichage sans paramètre, on remet
+   les identifiants stockés dans l'URL et on recharge. Le serveur produit alors
+   les mêmes cartes que partout ailleurs — pas de second rendu en JavaScript à
+   maintenir — et l'adresse obtenue est partageable telle quelle. */
+(function () {
+  const cle = document.getElementById('liste-corps').dataset.cle;
+  const url = new URL(location.href);
+  let stockees = [];
+  try {
+    const v = JSON.parse(localStorage.getItem('mc:' + cle) || '[]');
+    stockees = Array.isArray(v) ? v.map(e => e && e.s).filter(Boolean) : [];
+  } catch (e) { /* stockage refusé : la page restera vide, sans casser */ }
+
+  if (!url.searchParams.has('p') && stockees.length) {
+    url.searchParams.set('p', stockees.join(','));
+    location.replace(url);
+    return;
+  }
+  const vider = document.getElementById('vider');
+  if (vider) vider.addEventListener('click', function () {
+    localStorage.removeItem('mc:' + cle);
+    location.href = location.pathname;
+  });
+})();
+</script>
+{% endblock %}

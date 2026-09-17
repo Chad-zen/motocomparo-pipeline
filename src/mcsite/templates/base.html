@@ -1,43 +1,594 @@
+{# The site's visual language, rebuilt from the v1 WordPress site.
+
+   Two designs coexisted for one evening so the owner could flip between them
+   on the same product and choose on what she saw rather than on a description.
+   She chose this one on 2026-09-13; the other was removed, and its routes
+   (`/v1/...`) with it. `v1.css` was folded into `style.css` at the same time —
+   a second stylesheet loaded on top only made sense while there were two.
+#}
+{% import "_icones.html" as ic %}
+{% import "_actions.html" as act %}
 <!doctype html>
 <html lang="fr">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{% block title %}MotoComparo{% endblock %}</title>
-<link rel="stylesheet" href="/static/style.css?v={{ version_css() }}">
-</head>
-<body>
 
-<header class="bandeau">
-  <div class="conteneur bandeau__inner">
-    <a class="logo" href="/"><span class="logo__mark">MC</span> MotoComparo</a>
-    <form class="recherche" action="/recherche" method="get" role="search">
-      <input name="q" type="search" placeholder="Rechercher casques, blousons, gants&hellip;"
-             value="{{ request.query_params.get('q', '') }}" aria-label="Rechercher">
-      <button type="submit">Chercher</button>
-    </form>
+{# --- ce que les moteurs et les messageries lisent -------------------------
+   Absent jusqu'au 15/09/2026. Sans description, Google compose lui-même un
+   extrait à partir du premier texte venu — souvent le fil d'Ariane. Sans
+   adresse canonique, la même fiche atteinte par deux chemins compte comme deux
+   pages en double. Sans les balises de partage, un lien collé dans WhatsApp
+   n'affiche ni titre ni image : juste l'adresse.
+
+   Chaque page peut redéfinir ces trois blocs ; les valeurs ci-dessous sont
+   celles du site. #}
+<meta name="description" content="{% block description %}Comparez les prix de l'équipement moto chez {{ marchands_actifs | length }} marchands français vérifiés. Casques, blousons, gants, bottes — prix relevés chaque jour, gratuit et sans inscription.{% endblock %}">
+<link rel="canonical" href="{% block canonique %}{{ request.url.scheme }}://{{ request.url.netloc }}{{ request.url.path }}{% endblock %}">
+
+<meta property="og:site_name" content="MotoComparo">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:type" content="{% block og_type %}website{% endblock %}">
+<meta property="og:title" content="{% block og_titre %}{{ self.title() }}{% endblock %}">
+<meta property="og:description" content="{{ self.description() }}">
+<meta property="og:url" content="{{ self.canonique() }}">
+<meta property="og:image" content="{% block og_image %}{{ request.url.scheme }}://{{ request.url.netloc }}/static/affiche-portrait.jpg{% endblock %}">
+<meta name="twitter:card" content="summary_large_image">
+{% block robots %}{% endblock %}
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Source+Sans+3:wght@600;700&display=swap">
+{# Sans icône déclarée, le navigateur demande /favicon.ico à chaque page et
+   récolte un 404 — visible dans les journaux, et un onglet sans repère. #}
+<link rel="icon" href="/static/favicon.svg?v={{ version_css() }}" type="image/svg+xml">
+<link rel="icon" href="/static/logo_mc.png" sizes="any">
+<link rel="apple-touch-icon" href="/static/logo_mc.png">
+<link rel="stylesheet" href="/static/style.css?v={{ version_css() }}">
+{# Les données structurées de la page, pour les moteurs de recherche. Posées
+   en dernier dans l'entête pour qu'elles soient lues APRÈS le titre et la
+   description qu'elles complètent. #}
+{% block donnees_structurees %}{% endblock %}
+</head>
+{# Le site suit le réglage clair/sombre du système, et rien d'autre : le
+   bouton de bascule a été retiré à la demande de la propriétaire. Un visiteur
+   qui veut un site sombre l'a déjà réglé au niveau de son téléphone ; lui
+   redemander sur chaque site est un choix de plus pour rien. Les règles de
+   thème restent en place dans `style.css` (`prefers-color-scheme`). #}
+<body class="theme-v1" data-slug="{{ p.slug if p is defined and p else '' }}">
+
+<div class="confiance">
+  <div class="conteneur confiance__inner">
+    {# Reprise de la v1 : trois affirmations séparées par des points médians,
+       et non deux bouts de phrase collés. Le compte des marchands reste LU dans
+       la base — écrit en dur, il mentait (le bandeau annonçait six marchands
+       alors que deux n'apparaissaient sur aucune fiche). #}
+    <span>⏱ Prix actualisés quotidiennement</span>
+    <span class="confiance__sep" aria-hidden="true">·</span>
+    <span class="confiance__fort">{{ marchands_actifs | length }} marchands vérifiés et comparés</span>
+    <span class="confiance__sep" aria-hidden="true">·</span>
+    <span class="confiance__libre">100&nbsp;% gratuit, sans inscription</span>
+    {# Les liens de service à l'opposé, comme en v1 : ils doivent être
+       atteignables de partout sans être dans le chemin de personne. #}
+    <nav class="confiance__service" aria-label="Informations">
+      <a href="/infos">À propos</a>
+      <a href="/contact">Contact</a>
+      <a href="/infos#donnees">Confidentialité</a>
+      <a href="/infos#cgu">CGU</a>
+    </nav>
+  </div>
+</div>
+
+{# Sans ce lien, un visiteur au clavier traverse l'en-tête, la recherche puis
+   les ~45 liens du tiroir avant d'atteindre le contenu, à chaque page. #}
+<a class="evitement" href="#contenu">Aller au contenu</a>
+
+<header class="tete">
+  <div class="conteneur tete__inner">
+
+    {# Disposition relevée chez Speedway : marque seule sur la première ligne
+       avec ses raccourcis à l'opposé, puis le menu et la recherche dessous.
+       L'intérêt tient en une ligne : la barre de recherche récupère toute la
+       largeur, au lieu d'être coincée entre le logo et les icônes. #}
+    <div class="tete__haut">
+      <a class="marque" href="/">
+        <img src="/static/logo_mc.png?v={{ version_css() }}" alt="" width="595" height="419">
+        <span class="marque__bloc">
+          <span class="marque__mot"><b>Moto</b><i>Comparo</i></span>
+          <span class="marque__signature">Comparez. Choisissez. Roulez.</span>
+        </span>
+      </a>
+
+      <div class="tete__actions">
+        {# Nommés, pas seulement dessinés : « ⇄ » seul n'apprend à personne
+           qu'il s'agit d'un comparatif. Le libellé disparaît sous 520 px, où
+           il n'y a plus la place — l'icône reste. #}
+        <a class="tete__action tete__action--or" href="/comparer">
+          {{ act.ico_comparer() }}<span class="tete__nom">Comparatif</span>
+          <span class="tete__compteur" data-compteur="comparer" hidden></span>
+        </a>
+        <a class="tete__action" href="/favoris">
+          {{ act.ico_favori() }}<span class="tete__nom">Favoris</span>
+          <span class="tete__compteur" data-compteur="favoris" hidden></span>
+        </a>
+      </div>
+    </div>
+
+    <div class="tete__bas">
+      <button class="tete__menu" type="button" id="btn-menu"
+              aria-label="Menu" aria-expanded="false" aria-controls="tiroir-menu">
+        <span></span><span></span><span></span>
+      </button>
+
+      <form class="quete" action="/recherche" method="get" role="search">
+        <input name="q" type="search" placeholder="Rechercher casques, blousons, gants, bottes&hellip;"
+               value="{{ request.query_params.get('q', '') }}" aria-label="Rechercher un produit">
+        <button type="submit"><span aria-hidden="true">⌕</span><span
+          class="quete__nom">Chercher</span><span
+          class="visuellement-cache">Lancer la recherche</span></button>
+      </form>
+    </div>
+
   </div>
 </header>
 
-<nav class="nav" aria-label="Catégories">
-  <div class="conteneur nav__inner">
-    {% for c in nav[:9] %}
-      <a href="/c/{{ c.code }}">{{ c.label_fr }} <span class="nav__n">{{ c.n }}</span></a>
-    {% endfor %}
-  </div>
-</nav>
+{# Ce qui doit toucher les deux bords se pose ICI, en dehors de `.conteneur`
+   et de sa gouttière de 20 px. C'est plus sûr que les astuces à base de
+   `100vw` : sur un écran d'ordinateur, `100vw` compte la barre de défilement
+   et fait déborder la page de quelques pixels vers la droite. #}
+{% block pleine_largeur %}{% endblock %}
 
-<main class="conteneur">
+<main class="conteneur" id="contenu" tabindex="-1">
 {% block contenu %}{% endblock %}
 </main>
 
 <footer class="pied">
-  <div class="conteneur">
+  <div class="conteneur pied__colonnes">
+
+    <div class="pied__bloc pied__bloc--large">
+      <span class="pied__marque">Moto Comparo</span>
+      <p>Comparez les prix de l'équipement moto parmi les meilleurs revendeurs
+         français. Casques, blousons, gants, bottes&nbsp;— trouvez la meilleure
+         offre et économisez sur votre équipement.</p>
+    </div>
+
+    <div class="pied__bloc">
+      <h3>Liens rapides</h3>
+      <ul>
+        <li><a href="/">Accueil</a></li>
+        <li><a href="/bons-plans">Bons plans</a></li>
+        <li><a href="/marques">Toutes les marques</a></li>
+        <li><a href="/guides">Guides &amp; conseils</a></li>
+        <li><a href="/produits">Tous les produits</a></li>
+        <li><a href="/infos">À propos</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+    </div>
+
+    <div class="pied__bloc">
+      <h3>Notre politique</h3>
+      <ul>
+        <li><a href="/infos#donnees">Politique de confidentialité</a></li>
+        <li><a href="/infos#liens">Liens partenaires</a></li>
+        <li><a href="/infos#cgu">Conditions d'utilisation</a></li>
+        <li><a href="/infos#mentions">Mentions légales</a></li>
+        <li><a href="/infos#prix">Relevé des prix</a></li>
+      </ul>
+    </div>
+
+    <div class="pied__bloc pied__bloc--lettre">
+      <h3>La lettre hebdomadaire</h3>
+      {# Le formulaire est retiré, et ce n'est pas un oubli.
+         Il promettait « une lettre par semaine » et « désinscription en un
+         clic » : le site n'a aucun moyen d'envoyer un e-mail (aucun SMTP dans
+         tout le dépôt) et aucune route de désinscription n'existe, alors que la
+         colonne `jeton` était prévue pour ça. Il collectait donc des adresses
+         qu'on ne pouvait ni servir ni effacer sur demande — et le code de
+         `POST /lettre` l'interdisait lui-même par écrit tant que la page de
+         confidentialité n'est pas publiée.
+         À remettre le jour où les trois manquent : un envoi, une
+         désinscription, une politique de confidentialité. #}
+      <p class="lettre__note">Elle arrive. Nous préférons ne pas collecter
+         d'adresses tant que nous ne savons pas encore les servir — ni vous
+         permettre de vous désinscrire en un clic.</p>
+    </div>
+
+  </div>
+
+  <div class="conteneur pied__bas">
     <p>Les prix sont relevés chaque jour chez les marchands. Un prix de plus de
-       24&nbsp;heures n'est pas affiché.</p>
-    <p class="pied__note">Prix hors frais de port.</p>
+       24&nbsp;heures est signalé comme non rafraîchi. Prix hors frais de port.</p>
+    <p class="pied__note">© 2026 Moto Comparo. Tous droits réservés.</p>
   </div>
 </footer>
+
+{# --- Le tiroir de navigation ----------------------------------------------
+   Repris de la v1 : panneau sombre qui entre par la gauche, en-tête ambre,
+   voile cliquable derrière, Échap pour fermer. Il est là pour le mobile, mais
+   il n'est pas caché sur grand écran — le bouton, lui, l'est.
+
+   Le contenu est le même que le rail de catégories : une seule liste à tenir à
+   jour, pas deux qui divergent. #}
+{# Le bandeau du comparateur, repris de la v1 : quatre emplacements en bas
+   d'écran, les vides en pointillés pour montrer qu'il reste de la place. Il ne
+   s'affiche que lorsqu'il contient quelque chose, et il est rempli par le
+   script plus bas à partir de ce que le navigateur a retenu. #}
+<div class="banc" id="banc" hidden>
+  <div class="conteneur banc__inner">
+    <div class="banc__cases" id="banc-cases"></div>
+    <div class="banc__actions">
+      <button type="button" class="lien-bouton" id="banc-vider">Tout retirer</button>
+      <a class="bouton bouton--or" id="banc-voir" href="/comparer">Comparer</a>
+    </div>
+  </div>
+</div>
+
+<div class="voile" id="voile" hidden></div>
+
+<nav class="tiroir" id="tiroir-menu" aria-label="Menu" aria-hidden="true">
+  <div class="tiroir__tete">
+    <b>MENU</b>
+    <button type="button" class="tiroir__x" id="btn-fermer-menu">FERMER</button>
+  </div>
+  <div class="tiroir__corps">
+    <form class="tiroir__quete" action="/recherche" method="get" role="search" aria-label="Recherche du menu">
+      <input name="q" type="search" placeholder="Rechercher&hellip;" aria-label="Rechercher un produit, depuis le menu">
+      <button type="submit" aria-label="Chercher">⌕</button>
+    </form>
+
+    <div class="tiroir__section">Rayons</div>
+    {% for c in nav %}
+      <a class="tiroir__item" href="/c/{{ c.code }}">
+        {{ ic.icone(c.code) }}
+        <span class="tiroir__lbl">{{ c.label_fr }}</span>
+        <span class="tiroir__chev" aria-hidden="true">›</span>
+      </a>
+      {% for e in c.enfants %}
+        <a class="tiroir__item tiroir__item--fille" href="/c/{{ e.code }}">
+          {{ ic.icone(e.code) }}
+          <span class="tiroir__lbl">{{ e.label_fr }}</span>
+          <span class="tiroir__chev" aria-hidden="true">›</span>
+        </a>
+      {% endfor %}
+    {% endfor %}
+
+    {% if marques %}
+    <div class="tiroir__section">Marques</div>
+    {% for m in marques %}
+      <a class="tiroir__item tiroir__item--marque" href="/m/{{ m.brand_code }}">
+        <span class="tiroir__lbl">{{ m.brand_code | upper }}</span>
+        <span class="tiroir__chev" aria-hidden="true">›</span>
+      </a>
+    {% endfor %}
+    <a class="tiroir__item tiroir__item--marque" href="/marques">
+      <span class="tiroir__lbl">Toutes les marques</span>
+      <span class="tiroir__chev" aria-hidden="true">›</span>
+    </a>
+    {% endif %}
+
+    {# Les rubriques de la v1, dans son ordre : les bons plans d'abord, parce
+       que c'est ce pour quoi on ouvre un comparateur. #}
+    <div class="tiroir__section">Bons plans</div>
+    <a class="tiroir__item" href="/bons-plans">
+      <span class="tiroir__lbl">Meilleurs prix du moment</span>
+      <span class="tiroir__chev" aria-hidden="true">›</span>
+    </a>
+
+    <div class="tiroir__section">Conseils</div>
+    <a class="tiroir__item" href="/guides">
+      <span class="tiroir__lbl">Guides &amp; conseils</span>
+      <span class="tiroir__chev" aria-hidden="true">›</span>
+    </a>
+
+    <div class="tiroir__section">Le site</div>
+    <a class="tiroir__item" href="/infos">
+      <span class="tiroir__lbl">À propos</span>
+      <span class="tiroir__chev" aria-hidden="true">›</span>
+    </a>
+    <a class="tiroir__item" href="/contact">
+      <span class="tiroir__lbl">Contact</span>
+      <span class="tiroir__chev" aria-hidden="true">›</span>
+    </a>
+  </div>
+</nav>
+
+<script>
+/* --- favoris, comparateur, thème -----------------------------------------
+   Tout tient dans le navigateur : le site n'a pas de compte et ne demande pas
+   d'adresse e-mail, donc une liste de côté ne peut vivre nulle part ailleurs.
+   Chaque lecture et chaque écriture est protégée : en navigation privée, ou
+   quand le navigateur refuse le stockage, `localStorage` lève une erreur — et
+   une liste de favoris ne doit jamais empêcher le site de fonctionner.
+
+   Chaque entrée garde l'identifiant ET la vignette : le bandeau du bas doit
+   pouvoir se dessiner sans interroger le serveur, y compris sur une page qui
+   ne contient aucun des produits retenus. */
+/* L'adresse de vignette vient d'un flux marchand, donc d'un tiers. Jinja
+   l'échappe à l'écriture de l'attribut, mais `dataset` la rend déséchappée et
+   elle repartait dans `innerHTML` : une URL contenant un guillemet suffisait à
+   faire exécuter du script. On n'accepte donc qu'une adresse http(s) sans
+   guillemet ni chevron, et rien d'autre. */
+function propre(u) {
+  return /^https?:\/\/[^"'<>\s]+$/.test(u || '') ? u : '';
+}
+
+(function () {
+  var CASES = 4;   /* comme en v1 : au-delà, la comparaison ne se lit plus */
+
+  function lire(cle) {
+    try {
+      var v = JSON.parse(localStorage.getItem('mc:' + cle) || '[]');
+      return Array.isArray(v) ? v.filter(function (e) { return e && e.s; }) : [];
+    } catch (e) { return []; }
+  }
+  function ecrire(cle, v) {
+    try { localStorage.setItem('mc:' + cle, JSON.stringify(v.slice(0, 40))); }
+    catch (e) { /* la liste restera celle de la session */ }
+  }
+  function place(v, slug) {
+    for (var i = 0; i < v.length; i++) { if (v[i].s === slug) return i; }
+    return -1;
+  }
+
+  function compter() {
+    document.querySelectorAll('[data-compteur]').forEach(function (e) {
+      var n = lire(e.dataset.compteur).length;
+      e.textContent = n;
+      e.hidden = n === 0;
+    });
+  }
+  function marquer() {
+    [['favoris', 'favori'], ['comparer', 'comparer']].forEach(function (p) {
+      var dedans = lire(p[0]);
+      document.querySelectorAll('[data-' + p[1] + ']').forEach(function (b) {
+        b.classList.toggle('est-actif', place(dedans, b.dataset[p[1]]) !== -1);
+      });
+    });
+  }
+
+  var banc = document.getElementById('banc');
+  var cases = document.getElementById('banc-cases');
+
+  function dessinerBanc() {
+    if (!banc) return;
+    var v = lire('comparer');
+    banc.hidden = v.length === 0;
+    if (!v.length) return;
+    var html = '';
+    for (var i = 0; i < Math.max(CASES, v.length); i++) {
+      var e = v[i];
+      html += e
+        ? '<span class="banc__case banc__case--plein">'
+          + (propre(e.i) ? '<img src="' + propre(e.i) + '" alt="" loading="lazy">' : '')
+          + '<button type="button" class="banc__x" data-retirer="' + e.s
+          + '" aria-label="Retirer">×</button></span>'
+        : '<span class="banc__case"></span>';
+    }
+    cases.innerHTML = html;
+    document.getElementById('banc-voir').textContent = 'Comparer (' + v.length + ')';
+  }
+
+  document.addEventListener('click', function (e) {
+    var r = e.target.closest('[data-retirer]');
+    if (r) {
+      var v = lire('comparer');
+      var i = place(v, r.dataset.retirer);
+      if (i !== -1) v.splice(i, 1);
+      ecrire('comparer', v);
+      compter(); marquer(); dessinerBanc();
+      return;
+    }
+
+    var b = e.target.closest('[data-favori], [data-comparer]');
+    if (!b) return;
+    /* les boutons sont posés sur l'image, donc à l'intérieur du lien de la
+       carte : sans ceci, un clic sur le cœur ouvrirait la fiche */
+    e.preventDefault();
+    e.stopPropagation();
+    var cle = b.hasAttribute('data-favori') ? 'favoris' : 'comparer';
+    var slug = b.dataset.favori || b.dataset.comparer;
+    var v2 = lire(cle);
+    var j = place(v2, slug);
+    if (j === -1) v2.push({ s: slug, i: b.dataset.vignette || '' });
+    else v2.splice(j, 1);
+    ecrire(cle, v2);
+    compter(); marquer(); dessinerBanc();
+  });
+
+  var vider = document.getElementById('banc-vider');
+  if (vider) vider.addEventListener('click', function () {
+    ecrire('comparer', []);
+    compter(); marquer(); dessinerBanc();
+  });
+
+  compter(); marquer(); dessinerBanc();
+})();
+</script>
+
+<script>
+/* La hauteur réelle de ce qui coiffe la page, mesurée et publiée en variable
+   CSS. L'affiche d'accueil doit occuper tout ce qui reste de l'écran, et cette
+   hauteur ne peut pas se deviner en CSS : elle dépend de la ligne de confiance,
+   du logo, et du fait que le texte passe ou non à la ligne selon la largeur.
+
+   Mesurée au chargement et à chaque changement de taille — y compris la
+   rotation du téléphone, qui ne déclenche pas toujours `resize` seule, d'où
+   `visualViewport`. */
+(function () {
+  var coiffe = [document.querySelector('.confiance'), document.querySelector('.tete')];
+  function mesurer() {
+    var h = coiffe.reduce(function (t, e) { return t + (e ? e.offsetHeight : 0); }, 0);
+    document.documentElement.style.setProperty('--haut-coiffe', h + 'px');
+    // La hauteur de l'en-tête SEUL, qui reste collé en haut : tout ce qui colle
+    // aussi (la colonne de filtres) doit se placer en dessous, sinon il glisse
+    // dessous et disparaît à moitié.
+    var t = document.querySelector('.tete');
+    document.documentElement.style.setProperty('--haut-tete',
+      (t ? t.offsetHeight : 0) + 'px');
+  }
+  mesurer();
+  addEventListener('resize', mesurer);
+  if (window.visualViewport) visualViewport.addEventListener('resize', mesurer);
+  addEventListener('load', mesurer);   /* les polices changent la hauteur */
+})();
+</script>
+
+<script>
+/* Un seul mécanisme de tiroir pour les deux usages : le menu et, sur les pages
+   de catégorie, la colonne de filtres. Les deux partagent le même voile, donc
+   ouvrir l'un ferme l'autre sans code supplémentaire. */
+(function () {
+  const voile = document.getElementById('voile');
+  let ouvert = null;
+
+  /* Au chargement, tout tiroir non ouvert est inerte. Fait en script et non
+     dans le gabarit : au-dessus de 900 px la colonne de filtres n'est pas un
+     tiroir mais une vraie colonne visible, et la rendre inerte la casserait. */
+  function etatInitial() {
+    document.querySelectorAll('.tiroir').forEach(function (t) {
+      const estColonne = getComputedStyle(t).position === 'static';
+      if (!estColonne && !t.classList.contains('est-ouvert')) { ranger(t, true); }
+    });
+  }
+
+  /* `inert` retire vraiment le panneau : sans lui, un tiroir seulement décalé
+     hors écran par `transform` reste tabulable ET lu par un lecteur d'écran.
+     On tabulait donc dans le vide sur 45 liens invisibles, à chaque page — et
+     `aria-hidden` posé sur du contenu focalisable est une combinaison interdite,
+     qui rendait ces 45 arrêts parfaitement muets. */
+  function ranger(panneau, cache) {
+    panneau.setAttribute('aria-hidden', cache ? 'true' : 'false');
+    if (cache) { panneau.setAttribute('inert', ''); }
+    else { panneau.removeAttribute('inert'); }
+  }
+
+  function fermer() {
+    if (!ouvert) return;
+    ouvert.classList.remove('est-ouvert');
+    ranger(ouvert, true);
+    const declencheur = document.querySelector('[aria-controls="' + ouvert.id + '"]');
+    if (declencheur) {
+      declencheur.setAttribute('aria-expanded', 'false');
+      declencheur.focus();          /* le focus revient d'où il venait */
+    }
+    voile.hidden = true;
+    document.body.style.overflow = '';
+    ouvert = null;
+  }
+
+  function ouvrir(panneau, bouton) {
+    fermer();
+    panneau.classList.add('est-ouvert');
+    ranger(panneau, false);
+    if (bouton) bouton.setAttribute('aria-expanded', 'true');
+    const premier = panneau.querySelector('button, [href], input, select, textarea');
+    if (premier) premier.focus();   /* le focus entre dans le tiroir ouvert */
+    voile.hidden = false;
+    document.body.style.overflow = 'hidden';   /* la page derrière ne défile plus */
+    ouvert = panneau;
+  }
+
+  etatInitial();
+  window.addEventListener('resize', function () { if (!ouvert) etatInitial(); });
+
+  document.addEventListener('click', function (e) {
+    const declencheur = e.target.closest('[aria-controls]');
+    if (declencheur) {
+      const cible = document.getElementById(declencheur.getAttribute('aria-controls'));
+      if (cible && cible.classList.contains('tiroir')) {
+        e.preventDefault();
+        (cible === ouvert) ? fermer() : ouvrir(cible, declencheur);
+        return;
+      }
+    }
+    if (e.target.closest('.tiroir__x')) { e.preventDefault(); fermer(); }
+  });
+
+  voile.addEventListener('click', fermer);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') fermer(); });
+})();
+</script>
+
+{# ------------------------------------------------------- voile de chargement
+   La v1 en avait un, et il manquait ici. Le site rend ses pages côté serveur :
+   entre le clic et l'arrivée de la nouvelle page, le navigateur n'affiche
+   RIEN — l'ancienne page reste figée, et sur une page lente le visiteur croit
+   que son clic n'a pas été pris.
+
+   On ne peut pas savoir à l'avance qu'une page sera lente. On arme donc un
+   compte à rebours au clic : si la page arrive avant l'échéance, le voile n'est
+   jamais montré. Les pages rapides — la plupart, depuis la mise en cache : 0,02
+   à 0,2 s — ne le voient donc jamais passer.
+
+   `data-delai` est le seul réglage. 600 ms : en dessous, le voile clignote sur
+   des pages qui n'en avaient pas besoin ; au-delà d'une seconde, le visiteur a
+   déjà eu le temps de douter de son clic. #}
+<div class="chargement" data-chargement data-delai="600" hidden aria-hidden="true">
+  <div class="chargement__marque">
+    <img src="/static/logo_mc.png?v={{ version_css() }}" alt="" width="119" height="84">
+  </div>
+  <p class="visuellement-cache" role="status" aria-live="polite" data-chargement-dit></p>
+</div>
+
+<script>
+// Voile de chargement — voir le commentaire au-dessus.
+(function () {
+  const voile = document.querySelector('[data-chargement]');
+  if (!voile) return;
+  const delai = parseInt(voile.dataset.delai || '600', 10);
+  const dit = voile.querySelector('[data-chargement-dit]');
+  let minuteur = null;
+
+  function montrer() {
+    voile.hidden = false;
+    voile.setAttribute('aria-hidden', 'false');
+    if (dit) dit.textContent = 'Chargement de la page en cours';
+  }
+
+  function cacher() {
+    clearTimeout(minuteur);
+    minuteur = null;
+    voile.hidden = true;
+    voile.setAttribute('aria-hidden', 'true');
+    if (dit) dit.textContent = '';
+  }
+
+  function armer() {
+    if (minuteur) return;
+    minuteur = setTimeout(montrer, delai);
+  }
+
+  // Un lien qui part vraiment : même origine, pas de nouvel onglet, pas une
+  // ancre interne, pas un téléchargement. Les liens marchands ouvrent un autre
+  // onglet — la page courante ne bouge pas, il n'y a rien à annoncer.
+  document.addEventListener('click', function (e) {
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey
+        || e.shiftKey || e.altKey) return;
+    const a = e.target.closest('a[href]');
+    if (!a || a.target === '_blank' || a.hasAttribute('download')) return;
+    const url = new URL(a.href, location.href);
+    if (url.origin !== location.origin) return;
+    // Une ancre vers la même page ne recharge rien.
+    if (url.pathname === location.pathname && url.search === location.search
+        && url.hash) return;
+    armer();
+  });
+
+  document.addEventListener('submit', function (e) {
+    if (!e.defaultPrevented) armer();
+  });
+
+  // Retour arrière : la page revient du cache du navigateur sans être
+  // reconstruite. Sans ceci, le voile resterait collé à l'écran — c'est le
+  // défaut classique de ce motif.
+  window.addEventListener('pageshow', cacher);
+  window.addEventListener('pagehide', cacher);
+})();
+</script>
+
+{# Les étagères qui bouclent. Chargée en `defer` : elle ne fait rien avant que
+   la page soit lue, et mesure des largeurs — donc elle doit tourner APRÈS la
+   mise en page, jamais pendant. #}
+<script src="/static/etagere.js?v={{ version_css() }}" defer></script>
 
 </body>
 </html>
