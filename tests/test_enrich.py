@@ -9,6 +9,8 @@ adventure/trail family "enduro" where every other merchant says integral.
 
 from __future__ import annotations
 
+import pytest
+
 from mcpipe.enrich import (
     decide_helmet_category,
     decide_override,
@@ -138,3 +140,79 @@ def test_accessories_outrank_borrowing():
 def test_flip_is_not_a_modular_keyword():
     # "Flip" is a product line here, it used to turn 27 visors into modulars
     assert helmet_subtype_from_title("Acerbis Flip FS-606") is None
+
+
+# --- les rayons ajoutés le 14/09/2026 ----------------------------------------
+
+def test_les_maillots_cross_ont_enfin_un_rayon():
+    """7 293 offres tombaient dans « non classé » faute de case."""
+    from mcpipe.category import classify
+    assert classify("Maillot Motocross") == 27
+    assert classify("Équipement Cross > Maillot cross > Maillot de cross") == 27
+
+
+def test_les_masques_ont_enfin_un_rayon():
+    from mcpipe.category import classify
+    assert classify("Masques") == 26
+    assert classify("goggles") == 26
+
+
+def test_une_casquette_est_un_vetement_casual():
+    from mcpipe.category import classify
+    assert classify("caps") == 23
+    assert classify("Casquette") == 23
+
+
+def test_les_frontieres_de_mot_protegent_des_faux_positifs():
+    """`caps?` sans frontière attrapait « capot » et « capacité »."""
+    from mcpipe.category import classify
+    assert classify("capacite du reservoir") == 25
+    assert classify("Capot moteur") == 15       # pris par la règle « moteur »
+
+
+def test_aucune_regression_sur_les_rayons_existants():
+    from mcpipe.category import classify
+    assert classify("Casque cross") == 5
+    assert classify("Casque jet") == 3
+    assert classify("Blouson") == 6
+    assert classify("Gants") == 8
+    assert classify("Bottes") == 9
+
+
+# --- le fourre-tout « Protections » -------------------------------------------
+#
+# Le rayon 11 mélangeait ce qui protège le pilote et ce qui protège la moto.
+# Conséquence visible, signalée le 14/09/2026 : sur la fiche d'une protection
+# cervicale, l'étagère « même gamme de prix » proposait un pare-carter.
+
+@pytest.mark.parametrize("titre,attendu", [
+    # la moto
+    ("Pare-carter SW-MOTECH Crash bar - Noir Honda", 29),
+    ("Protège réservoir Puig HONDA CMX REBEL", 29),
+    ("Sabot moteur SW-MOTECH Aluminium - Noir", 29),
+    ("Protection de silencieux R&G Racing gauche noir", 29),
+    # le pilote
+    ("ALPINESTARS Neck Brace BNS TECH-2", 28),
+    ("Gilet de protection Acerbis KOERTA 2.0 noir/gris", 28),
+    ("Dorsale RST niveau 1", 28),
+    ("Macna Korus Veste protectrice", 28),
+    # ni l'un ni l'autre : ces rayons existent déjà
+    ("Bulle Puig Touring", 18),
+    ("Garde boue Ufo avant vert", 18),
+    ("Stickers de fourche Puig Kit Autocollants Bleu", 24),
+])
+def test_le_rayon_protections_est_decoupe(titre, attendu):
+    from mcpipe.enrich import protection_subtype_from_title
+    assert protection_subtype_from_title(titre) == attendu
+
+
+def test_un_titre_sans_mot_cle_reste_ou_il_est():
+    """Une offre laissée où elle est ne casse rien ; mal rangée, si.
+
+    29 % des 44 350 offres du rayon ne sont décidées par aucune règle — petite
+    visserie, kits de fixation. Elles restent dans « Protections ».
+    """
+    from mcpipe.enrich import protection_subtype_from_title
+    assert protection_subtype_from_title("Kit Visserie pour Plastiques Bolt") == 24
+    assert protection_subtype_from_title("Acerbis TC/S 2024") is None
+    assert protection_subtype_from_title(None) is None

@@ -166,12 +166,47 @@ def test_year_mix_is_caught(db):
 
 def test_colour_mix_is_caught(db):
     """Bug #4a: 13 real colourways of one RST suit collapsed onto one
-    product when the representative offer never stated a colour."""
+    product when the representative offer never stated a colour.
+
+    Black against white: nobody can be describing the same garment, so this
+    stays a violation whatever the inclusion rule allows elsewhere.
+    """
     with db.cursor() as cur:
         mid = _merchant_id(cur)
         pid = _make_product(cur, category_id=6)
         _make_offer(cur, mid, pid, category_id=6, primary_colour="BK")
-        _make_offer(cur, mid, pid, category_id=6, primary_colour="BK-RD")
+        _make_offer(cur, mid, pid, category_id=6, primary_colour="WH")
+
+    violations = check_match_invariants(conn=db, product_ids=[pid])
+    assert any(v.field == "primary_colour" for v in violations)
+
+
+def test_colour_inclusion_is_not_a_mix(db):
+    """One merchant names a two-tone helmet by one colour, the other by both;
+    one states the finish, the other does not. Neither contradicts the other,
+    and `match.py` now links them — so the checker must not call it a
+    violation, or it reports a failure that is not one (2,726 of them the
+    night the inclusion rule shipped)."""
+    for couleurs in (["BK", "BK-SI"], ["BK", "BK|MAT"], ["SI", "BK-SI", "BK-SI-WH"]):
+        with db.cursor() as cur:
+            mid = _merchant_id(cur)
+            pid = _make_product(cur, category_id=6)
+            for c in couleurs:
+                _make_offer(cur, mid, pid, category_id=6, primary_colour=c)
+
+        violations = check_match_invariants(conn=db, product_ids=[pid])
+        assert violations == [], f"{couleurs} should be accepted"
+
+
+def test_colour_must_be_compatible_with_every_sibling(db):
+    """`BK` is contained in both `BK|MAT` and `BK|GLO`, but matte and gloss are
+    two different products. Testing against a single "most complete" value
+    would let `BK` bridge them; every pair has to be compatible."""
+    with db.cursor() as cur:
+        mid = _merchant_id(cur)
+        pid = _make_product(cur, category_id=6)
+        for c in ("BK", "BK|MAT", "BK|GLO"):
+            _make_offer(cur, mid, pid, category_id=6, primary_colour=c)
 
     violations = check_match_invariants(conn=db, product_ids=[pid])
     assert any(v.field == "primary_colour" for v in violations)
