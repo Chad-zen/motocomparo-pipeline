@@ -101,3 +101,51 @@ PostgreSQL wants on an entry-level plan.
    blocked by space. What remains genuinely undecided is whether a v2 product
    page is a WooCommerce post or a page rendered from our own tables — that is a
    question about `wp_posts` / `wp_postmeta` growth, not about disk.
+
+## VPS de staging — mis en ligne le 2026-09-17
+
+`https://staging.motocomparo.com` sert la **v2** depuis le VPS Hostinger
+(`72.61.109.193`). Le staging WordPress n'est pas supprimé : pour revenir en
+arrière, il suffit de reposer l'enregistrement DNS d'origine.
+
+| | avant | après |
+|---|---|---|
+| DNS `staging` | ALIAS → `staging.motocomparo.com.cdn.hstgr.net`, TTL 300 | **A → `72.61.109.193`, TTL 300** |
+
+Hostinger refuse un ALIAS et un A sur le même nom : il faut supprimer l'ALIAS
+*avant* de créer le A. TTL volontairement court, pour que le retour en arrière
+prenne cinq minutes et non quatre heures.
+
+### Ce que le premier déploiement a révélé
+
+- **Les dépendances du site n'étaient déclarées nulle part.** `pip install -e .`
+  sur un serveur neuf donnait un environnement sans `fastapi`, `uvicorn`,
+  `jinja2` ni `psycopg-pool` : systemd bouclait sur `203/EXEC`. Corrigé dans
+  `pyproject.toml`.
+- **La clé de cache nginx ignorait le nom d'hôte.** Par défaut elle contient
+  `$proxy_host`, soit `127.0.0.1:8000` pour tout le monde : les pages que
+  j'avais demandées par l'adresse IP étaient resservies aux visiteurs du nom de
+  domaine, plan du site compris. Corrigé en `"$scheme$host$request_uri"`.
+- **Un `add_header` dans un bloc enfant efface ceux du parent.** L'interdiction
+  d'indexation, posée une seule fois au niveau du serveur, ne sortait sur
+  aucune page. Elle est maintenant répétée dans chaque bloc.
+- **Le staging est fermé aux moteurs** (`X-Robots-Tag: noindex, nofollow`, sur
+  toutes les pages, le plan du site et les fichiers). Sans cela il aurait
+  concurrencé la production sur ses propres pages. En production, lancer
+  `06-nginx-tls.sh` **sans** `NOINDEX=1`.
+
+### Mesures à la mise en ligne
+
+Base restaurée : 1 498 Mo (313 435 fiches, 763 908 offres vivantes). Le
+transfert n'emporte pas `stg_feed_row` ni `offer_signature_bak` — 152 Mo
+compressés au lieu de 6,6 Go.
+
+Temps de réponse en HTTPS, VPS à 1 cœur : accueil 0,10 s, bons plans 0,08 s,
+rayon casques 0,06 s, fiche produit 0,06 s. Le cache répond `HIT` dès le second
+appel.
+
+### Ce qui reste
+
+`07-planification.sh` — le relevé quotidien — n'est pas lancé : il demande les
+adresses des flux marchands dans `/srv/motocomparo/.env`. Tant qu'il ne tourne
+pas, le catalogue du VPS reste figé au 17/09.

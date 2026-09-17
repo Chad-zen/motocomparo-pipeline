@@ -75,7 +75,11 @@
 <section class="rayon rayon--phare" id="ecarts">
   <div class="rayon__tete">
     <div>
-      <span class="rayon__oeil">Le plus gros écart de prix</span>
+      {# L'œil ne dit plus « le plus gros écart » : la rangée ne montre PLUS les
+         douze plus gros pourcentages mais un échantillon pris dans chaque
+         tranche — de 15 à 50 pour cent. Le libellé suit ce que la requête fait
+         vraiment ; il disait le contraire depuis qu'elle a changé. #}
+      <span class="rayon__oeil">Des écarts de toutes tailles</span>
       <h2>Là où comparer rapporte le plus</h2>
     </div>
   </div>
@@ -106,10 +110,95 @@
 </section>
 {% endif %}
 
+{# --- Les nouveautés du rayon casque ---------------------------------------
+   « Nouveau » se lit sur la première offre vue, jamais sur `created_at` : ce
+   dernier vaut le 14/09 pour les 313 435 fiches, c'est la date de
+   reconstruction de la table. La rangée est courte au début — c'est le prix de
+   ne rien inventer — et grandit à chaque collecte. #}
+{% if nouveautes %}
+<section class="rayon" id="nouveautes">
+  <div class="rayon__tete">
+    <div>
+      <span class="rayon__oeil">Entrés au catalogue ces derniers jours</span>
+      <h2>Nouveautés casque</h2>
+    </div>
+    {% if nouveautes_rayon %}
+    <a class="rayon__plus" href="/c/{{ nouveautes_rayon.code }}">Voir tout →</a>
+    {% endif %}
+  </div>
+  <div class="rayon__piste">
+    {% for it in nouveautes %}
+    <a class="carte carte--rayon" href="/p/{{ it.slug }}">
+      {{ actions(it) }}
+      <span class="pastille pastille--neuf">Nouveau</span>
+      <div class="carte__img">
+        {% if it.image_url %}<img src="{{ it.image_url }}" alt="" loading="lazy">
+        {% else %}<span class="carte__sansimg">pas de visuel</span>{% endif %}
+      </div>
+      <div class="carte__corps">
+        <span class="carte__marque">{{ it.brand_code | upper }}</span>
+        <span class="carte__nom">{{ nom(it) }}</span>
+        <div class="carte__bas">
+          <span class="carte__prix">dès {{ it.cheapest | prix }}</span>
+          <span class="puce">{{ it.merchant_count }} marchand{{ 's' if it.merchant_count > 1 }}</span>
+        </div>
+        <span class="carte__gain">vu pour la première fois le
+          {{ it.vue_le.strftime('%d/%m') }}</span>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+{# --- Ce qui a baissé cette semaine ----------------------------------------
+   La seule rangée du site qui parle du PASSÉ. Elle ne compare pas deux prix
+   minimums à une semaine d'écart — un marchand moins cher qui arrive aurait
+   suffi à inventer une baisse — mais la même offre à elle-même, et seulement
+   celle qui porte le prix affiché aujourd'hui.
+
+   L'historique n'a que quatre jours (12, 13, 14 et 17 septembre) : la fenêtre
+   est donc plus courte que sa promesse, et s'allongera d'elle-même. #}
+{% if baisses %}
+<section class="rayon rayon--phare" id="baisses">
+  <div class="rayon__tete">
+    <div>
+      <span class="rayon__oeil">Prix relevés jour après jour</span>
+      <h2>Ça a baissé cette semaine</h2>
+    </div>
+  </div>
+  <div class="rayon__piste">
+    {% for it in baisses %}
+    <a class="carte carte--rayon" href="/p/{{ it.slug }}">
+      {{ actions(it) }}
+      <span class="pastille">−{{ it.baisse | int }}&nbsp;%</span>
+      <div class="carte__img">
+        {% if it.image_url %}<img src="{{ it.image_url }}" alt="" loading="lazy">
+        {% else %}<span class="carte__sansimg">pas de visuel</span>{% endif %}
+      </div>
+      <div class="carte__corps">
+        <span class="carte__marque">{{ it.brand_code | upper }}</span>
+        <span class="carte__nom">{{ nom(it) }}</span>
+        <div class="carte__bas">
+          <span class="carte__prix">{{ it.maintenant | prix }}</span>
+          <span class="carte__barre">{{ it.avant | prix }}</span>
+        </div>
+        <span class="carte__gain">
+          <span class="prix-insecable">{{ (it.avant - it.maintenant) | prix }}</span>
+          de moins qu'au dernier relevé
+        </span>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
 {# --- Les rayons -----------------------------------------------------------
    La page d'accueil de la v1 est une pile de rayons et non une grille unique :
    c'est ce qui lui donne son allure de boutique. Un rayon défile
    horizontalement dans son propre cadre, jamais la page. #}
+{% import "_pub.html" as pub %}
 {% for r in rayons %}
 <section class="rayon">
   <div class="rayon__tete">
@@ -139,6 +228,11 @@
     {% endfor %}
   </div>
 </section>
+{# La bannière est posée APRÈS les échappements, donc avant les pantalons —
+   emplacement choisi par la propriétaire. Au format large : entre deux
+   étagères, une bande de 90 px ponctue la page là où un pavé de 250 px la
+   couperait en deux. #}
+{% if r.code == 'exhaust' %}{{ pub.emplacement(bandeaux_larges) }}{% endif %}
 {% endfor %}
 
 {# --- Vous avez consulté récemment -----------------------------------------

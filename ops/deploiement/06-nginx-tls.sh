@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 # 06 — La façade : nginx, le CACHE, puis HTTPS.
 #
-#   DOMAINE=staging.motocomparo.com bash 06-nginx-tls.sh
+#   DOMAINE=staging.motocomparo.com NOINDEX=1 bash 06-nginx-tls.sh
+#
+# NOINDEX=1 pour un site d'essai, rien pour la production.
 #
 # C'est l'étape qui décide de la vitesse du site. Le reste est de la plomberie.
 set -euo pipefail
@@ -26,6 +28,13 @@ proxy_cache_path /var/cache/nginx/motocomparo levels=1:2
                  keys_zone=mc:10m max_size=1g inactive=24h use_temp_path=off;
 CACHECONF
 
+# Vide en production, l'en-tete d'interdiction sur un site d'essai.
+if [ "${NOINDEX:-0}" = "1" ]; then
+    ENTETE_NOINDEX='add_header X-Robots-Tag "noindex, nofollow" always;'
+else
+    ENTETE_NOINDEX=''
+fi
+
 cat > /etc/nginx/sites-available/motocomparo <<CONF
 server {
     listen 80;
@@ -38,6 +47,15 @@ server {
     gzip_types text/css application/javascript application/json image/svg+xml;
     gzip_min_length 1024;
 
+    # NOINDEX=1 : un site d'essai ne doit PAS etre indexe. Il sert le meme
+    # catalogue que la production ; laisse ouvert, il lui ferait concurrence
+    # sur ses propres pages. L'en-tete couvre TOUT — le plan du site et les
+    # fichiers compris — la ou un robots.txt ne couvre que ce qu'il nomme.
+    #
+    # Il est repete dans chaque bloc `location` qui pose deja un `add_header` :
+    # chez nginx, un add_header dans un bloc enfant EFFACE ceux du parent. Pose
+    # une seule fois ici, il ne sortait sur aucune page.
+    ${ENTETE_NOINDEX}
     access_log /var/log/nginx/motocomparo.access.log;
     error_log  /var/log/nginx/motocomparo.error.log;
 
@@ -48,11 +66,20 @@ server {
         alias /srv/motocomparo/app/src/mcsite/static/;
         expires 1y;
         add_header Cache-Control "public, immutable";
+        ${ENTETE_NOINDEX}
         access_log off;
     }
 
     location / {
         proxy_pass http://127.0.0.1:8000;
+        # La cle du cache doit porter le NOM D'HOTE. Par defaut nginx
+        # utilise \$proxy_host, c'est-a-dire 127.0.0.1:8000 pour toutes les
+        # requetes : une page demandee par l'adresse IP etait resservie telle
+        # quelle pour le domaine — le plan du site annoncait des adresses en
+        # 72.61.109.193 aux visiteurs du nom de domaine. Le schema y est aussi,
+        # sans quoi une page servie en http reviendrait en https.
+        proxy_cache_key "\$scheme\$host\$request_uri";
+
         proxy_set_header Host              \$host;
         proxy_set_header X-Real-IP         \$remote_addr;
         proxy_set_header X-Forwarded-For   \$proxy_add_x_forwarded_for;
@@ -92,6 +119,7 @@ server {
         # Pour voir, dans le navigateur, si la page vient du cache : HIT, MISS,
         # UPDATING, STALE. C'est le seul moyen de vérifier que tout ceci sert.
         add_header X-Cache \$upstream_cache_status;
+        ${ENTETE_NOINDEX}
 
         proxy_read_timeout 60s;
     }

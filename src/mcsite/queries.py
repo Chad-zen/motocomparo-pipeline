@@ -12,6 +12,7 @@ Two rules these queries follow, both learned from v1:
 from __future__ import annotations
 
 from dataclasses import dataclass
+from datetime import date
 from typing import Any
 
 import psycopg
@@ -211,7 +212,8 @@ def rayons(
     ]
 
 
-def ecarts(conn: psycopg.Connection, limit: int = 12) -> list[dict[str, Any]]:
+def ecarts(conn: psycopg.Connection, limit: int = 12,
+           jour: str | None = None) -> list[dict[str, Any]]:
     """Where choosing the right merchant saves the most.
 
     A price comparison site's equivalent of a deals row — and the honest one.
@@ -231,6 +233,7 @@ def ecarts(conn: psycopg.Connection, limit: int = 12) -> list[dict[str, Any]]:
     tracks exactly that shape as a defect (`fusion_ecart_prix_x10`). Leading the
     home page with our own worst merges would advertise the bug.
     """
+    jour = jour or date.today().isoformat()
     return _rows(conn, """
         WITH candidat AS (
             -- one line per model, not per colourway: the same GPR silencer in
@@ -251,12 +254,230 @@ def ecarts(conn: psycopg.Connection, limit: int = 12) -> list[dict[str, Any]]:
               -- chambre a air fait 7 EUR, et une rangee de piecettes ne donne a
               -- personne l'envie de comparer
               AND s.dearest - s.cheapest >= 25
-            ORDER BY p.brand_code, p.model_display, (s.dearest - s.cheapest) DESC
+            -- `p.slug` clôt le tri. Le défaut est ancien : à écart égal, deux
+            -- coloris sortaient dans un ordre libre. Il ne se voyait pas tant
+            -- que la rangée classait au pourcentage ; il éclate dès qu'un
+            -- hachage du slug entre dans le tri, puisque le slug retenu
+            -- changeait d'une visite à l'autre.
+            ORDER BY p.brand_code, p.model_display, (s.dearest - s.cheapest) DESC,
+                     p.slug
         )
-        -- ranked by PERCENTAGE, not by euros: sorting on the gap in euros only
-        -- ever surfaces the most expensive articles in the catalogue
-        SELECT * FROM candidat ORDER BY remise DESC, cheapest LIMIT %s
-    """, (limit,))
+        ,
+        -- La rangée ne montre PLUS les douze plus gros pourcentages. Triée
+        -- ainsi, elle affichait douze fois la même chose : les extrêmes du
+        -- catalogue, c'est-à-dire ses articles les plus chers et ses fusions
+        -- les plus douteuses. Un visiteur n'y apprenait rien du reste.
+        --
+        -- Les écarts sont donc rangés par TRANCHE de dix points, et la rangée
+        -- se sert dans chacune à tour de rôle : une affaire à 18 points, une à
+        -- 28, une à 40, puis on recommence. C'est la consigne de la
+        -- propriétaire — « pas celles qui sont le plus élevées, varie les
+        -- baisses » — et c'est aussi la rangée la plus honnête, parce qu'elle
+        -- décrit la distribution au lieu de n'en montrer que la queue.
+        -- La bande 0 est écartée : elle tenait le seuil d'`1.15` sur les prix,
+        -- qui arrondi tombe à −13, et la rangée s'ouvrait donc sur « −14 ».
+        -- La consigne dit « réductions IMPORTANTES, mais variées » : varier ne
+        -- veut pas dire descendre.
+        tranche AS (
+            SELECT *, width_bucket(remise, 15, 55, 4) AS bande FROM candidat
+        ),
+        -- une seule fiche par marque DANS une tranche : sans cela, une marque
+        -- au catalogue large prend la bande entière.
+        unique_marque AS (
+            SELECT *, row_number() OVER (PARTITION BY bande, brand_code
+                                         ORDER BY hashtext(slug || %s)) AS r_marque
+            FROM tranche WHERE bande >= 1
+        ),
+        -- `hashtext(slug || le jour)` : un ordre arbitraire mais STABLE sur la
+        -- journée. Un `random()` changerait à chaque calcul — donc à chaque
+        -- expiration du cache — et la rangée sauterait sous les yeux du
+        -- visiteur qui revient ; figée pour toujours, elle ne montrerait jamais
+        -- que les mêmes douze fiches. Elle tourne une fois par jour.
+        choix AS (
+            SELECT *, row_number() OVER (PARTITION BY bande
+                                         ORDER BY hashtext(slug || %s)) AS rang
+            FROM unique_marque WHERE r_marque = 1
+        )
+        SELECT * FROM choix ORDER BY rang, bande LIMIT %s
+    """, (jour, jour, limit))
+
+
+def nouveautes(conn: psycopg.Connection, ids: list[int],
+               limit: int = 12) -> list[dict[str, Any]]:
+    """Ce qui vient d'entrer au catalogue, dans un rayon donné.
+
+    ATTENTION À LA DATE QU'ON LIT. `product.created_at` vaut 2026-09-14 pour les
+    313 435 fiches : c'est le jour où la table a été reconstruite, pas une date
+    de nouveauté. S'en servir aurait donné une rangée « Nouveautés » tirée au
+    hasard dans tout le catalogue — un mensonge sans même le savoir.
+
+    La vraie date d'arrivée est celle de la première offre vue, `first_seen`.
+    Encore faut-il écarter le versement initial, qui a fait naître 763 570
+    offres le même jour : est nouveau ce qui est apparu APRÈS ce jour-là. Le
+    seuil n'est pas écrit en dur, il se lit — le `min(first_seen)` de la table —
+    pour qu'une base repartie de zéro n'ait rien à corriger ici.
+
+    La rangée est donc courte au début (37 casques le 17/09) et grandit d'un
+    jour sur l'autre. C'est le comportement voulu : mieux vaut une rangée courte
+    et vraie qu'une rangée pleine et inventée.
+    """
+    if not ids:
+        return []
+    return _rows(conn, """
+        WITH chargement AS (
+            -- le jour du versement initial, lu et non supposé
+            SELECT min(first_seen)::date AS jour FROM raw_offer
+        ),
+        -- On part du PETIT ensemble : les 10 187 offres arrivées après ce
+        -- jour-là, pas les 763 570 de la table. L'écrire dans l'autre sens —
+        -- un `min(first_seen) GROUP BY product_id` sur tout — coûtait 5,1 s
+        -- pour le même résultat, parce qu'il calculait la date d'arrivée de
+        -- chaque fiche du catalogue avant d'en jeter 99 pour cent.
+        candidate AS (
+            SELECT DISTINCT o.product_id
+            FROM raw_offer o, chargement c
+            WHERE o.first_seen >= (c.jour + 1)::timestamptz
+              AND o.product_id IS NOT NULL AND o.linked_status = 'linked'
+        ),
+        -- Puis on vérifie que la fiche n'existait PAS avant : une offre neuve
+        -- sur une fiche ancienne, c'est un marchand de plus, pas une nouveauté.
+        neuve AS (
+            SELECT k.product_id,
+                   (SELECT min(o2.first_seen)::date FROM raw_offer o2
+                    WHERE o2.product_id = k.product_id) AS vue_le
+            FROM candidate k
+        ),
+        modele AS (
+            -- un coloris par modèle, pas trois fois le même casque
+            -- `p.slug` clôt le tri : sans lui, deux fiches à égalité sortaient
+            -- dans un ordre libre et la rangée changeait d'une visite à l'autre
+            -- sans qu'aucune donnée n'ait bougé.
+            SELECT DISTINCT ON (p.brand_code, p.model_display)
+                   p.slug, p.brand_code, p.model_display, p.colour_code,
+                   s.cheapest, s.dearest, s.merchant_count, s.image_url,
+                   s.best_title, n.vue_le
+            FROM neuve n
+            JOIN chargement c ON n.vue_le > c.jour
+            JOIN product p ON p.id = n.product_id
+            JOIN product_stats s ON s.product_id = p.id
+            WHERE p.category_id = ANY(%s) AND p.status <> 'merged'
+              AND s.cheapest IS NOT NULL
+            ORDER BY p.brand_code, p.model_display, n.vue_le DESC,
+                     s.merchant_count DESC, p.slug
+        ),
+        -- puis le tour de rôle par marque : sur 37 candidats, le classement
+        -- par date donnait quatre Airoh sur douze. Une rangée « Nouveautés »
+        -- sert à montrer ce qui est arrivé, pas qui a le plus gros catalogue.
+        tour_de_role AS (
+            SELECT *, row_number() OVER (PARTITION BY brand_code
+                                         ORDER BY vue_le DESC, slug) AS rang
+            FROM modele
+        )
+        SELECT * FROM tour_de_role ORDER BY rang, vue_le DESC, slug
+    """, (ids,))[:limit]
+
+
+def baisses(conn: psycopg.Connection, limit: int = 12,
+            jours: int = 7, par_marchand: int = 3) -> list[dict[str, Any]]:
+    """Ce qui a réellement baissé : la MÊME offre, comparée à elle-même.
+
+    LA COMPARAISON QU'IL NE FAUT PAS FAIRE : le prix mini d'il y a une semaine
+    contre le prix mini d'aujourd'hui. Ces deux minimums ne portent pas sur la
+    même population — un marchand moins cher qui ARRIVE ferait baisser le
+    second sans qu'aucun prix n'ait bougé, et la rangée annoncerait une baisse
+    qui n'a pas eu lieu. On compare donc une offre à elle-même, par son
+    identifiant, et seulement celle qui porte le prix affiché aujourd'hui : ce
+    qui a baissé, c'est bien ce que le visiteur lit en tête de fiche.
+
+    CE QUE LES DONNÉES DISENT (mesuré le 17/09 sur la fenêtre 12→14). Les
+    baisses se massent sur des rapports ronds — 0,90, 0,85, 0,80, 0,70 — ce sont
+    des opérations commerciales, pas du bruit. Mais elles sont très inégalement
+    réparties : FC-Moto a baissé 112 149 de ses 143 523 offres, La Bécanerie
+    n'en a bougé aucune sur 222 907. Classée au pourcentage, la rangée aurait
+    donc montré douze articles FC-Moto à −30 % — la promotion d'un marchand,
+    présentée comme l'actualité du catalogue.
+
+    D'où le tour de rôle : le meilleur de chaque marchand d'abord, puis le
+    deuxième de chacun. Avec six marchands et douze cases, aucun n'en prend plus
+    de deux.
+
+    La fenêtre est de sept jours, mais elle part du premier relevé qu'elle y
+    trouve : l'historique n'a que quatre jours (12, 13, 14 et 17 septembre, les
+    15 et 16 n'ayant rien collecté). La rangée est juste sur ce qu'elle mesure,
+    et s'étendra d'elle-même à mesure que les relevés s'accumulent.
+    """
+    return _rows(conn, """
+        WITH borne AS (
+            SELECT min(observed_on) AS debut FROM price_history
+            WHERE observed_on >= current_date - %s
+        ),
+        depart AS (
+            SELECT h.raw_offer_id, h.price AS avant
+            FROM price_history h JOIN borne b ON h.observed_on = b.debut
+            WHERE h.price > 0
+        ),
+        -- Les offres qui ont bougé, AVANT de regarder les fiches. C'est
+        -- l'ordre qui compte : chercher d'abord l'offre la moins chère de
+        -- chacune des 313 435 fiches, puis jeter celles qui n'ont pas bougé,
+        -- coûtait 7,2 s. Ici le filtre sur le prix tombe en premier et ne
+        -- laisse passer qu'une poignée de milliers de lignes.
+        chute AS (
+            SELECT o.id AS offre_id, o.product_id, o.price AS maintenant,
+                   o.merchant_id, d.avant,
+                   round((1 - o.price / d.avant) * 100) AS baisse
+            FROM depart d JOIN raw_offer o ON o.id = d.raw_offer_id
+            WHERE o.is_live AND o.linked_status = 'linked'
+              AND o.product_id IS NOT NULL AND o.price IS NOT NULL
+              AND o.in_stock IS NOT FALSE AND o.price > 0
+              AND o.price <= d.avant * 0.9     -- en-deçà : pas une nouvelle
+              -- Une limite haute qui ATTIRE au lieu d'écarter ne sert à rien :
+              -- posée aux sept dixièmes, elle remplissait la rangée de FC-Moto
+              -- à −70 pile, toutes ses opérations venant buter dessus. Ramenée
+              -- à un peu plus de la moitié, elle redevient ce qu'elle doit
+              -- être — une garde contre l'erreur de flux, pas un tri.
+              AND o.price >= d.avant * 0.45
+              -- et la baisse doit peser en euros : un écran de casque qui
+              -- passe de 15,00 € à 4,53 € affiche un beau pourcentage et ne
+              -- mérite pas la page d'accueil.
+              AND d.avant - o.price >= 20
+        ),
+        -- l'offre qui a baissé doit être celle qui FAIT le prix affiché :
+        -- sinon la rangée annonce une baisse que la fiche ne montre pas.
+        mouvement AS (
+            SELECT c.* FROM chute c
+            WHERE NOT EXISTS (
+                SELECT 1 FROM raw_offer a
+                WHERE a.product_id = c.product_id AND a.linked_status = 'linked'
+                  AND a.price IS NOT NULL AND a.price < c.maintenant
+                  AND a.is_live AND a.in_stock IS NOT FALSE
+            )
+        ),
+        -- une seule fiche par marque, la plus forte baisse
+        unique_marque AS (
+            SELECT DISTINCT ON (p.brand_code)
+                   p.slug, p.brand_code, p.model_display, p.colour_code,
+                   s.cheapest, s.dearest, s.merchant_count, s.image_url,
+                   s.best_title, m.avant, m.maintenant, m.baisse, m.merchant_id
+            FROM mouvement m
+            JOIN product p ON p.id = m.product_id
+            JOIN product_stats s ON s.product_id = p.id
+            WHERE p.status <> 'merged' AND s.cheapest IS NOT NULL
+            -- `p.slug` clôt le tri : voir la note de `nouveautes`.
+            ORDER BY p.brand_code, m.baisse DESC, p.slug
+        ),
+        tour_de_role AS (
+            SELECT *, row_number() OVER (PARTITION BY merchant_id
+                                         ORDER BY baisse DESC) AS rang
+            FROM unique_marque
+        )
+        -- Le tour de rôle ne suffisait pas : quand les autres marchands sont à
+        -- court de candidats, la queue de la rangée se remplit du seul qui en a
+        -- encore — six places sur douze pour FC-Moto, toutes à −55 pile. Le
+        -- plafond est donc dur. La rangée a le droit d'être plus courte que
+        -- douze ; elle n'a pas le droit d'être le catalogue d'un marchand.
+        SELECT * FROM tour_de_role WHERE rang <= %s ORDER BY rang, baisse DESC
+        LIMIT %s
+    """, (jours, par_marchand, limit))
 
 
 def par_slugs(conn: psycopg.Connection, slugs: list[str]) -> list[dict[str, Any]]:
@@ -997,3 +1218,131 @@ def marchands_actifs(conn: psycopg.Connection) -> list[dict[str, Any]]:
         HAVING count(DISTINCT o.product_id) > 0
         ORDER BY count(DISTINCT o.product_id) DESC
     """)
+
+
+# ------------------------------------------------------- la barre de recherche
+
+def marques_par_rayon(conn: psycopg.Connection) -> list[dict[str, Any]]:
+    """Chaque marque, ventilée par rayon, avec son nombre de fiches comparables.
+
+    C'est la matière de l'entonnoir : taper « arai » doit pouvoir répondre
+    « Arai dans Casques (142) », « Arai dans Accessoires (3) ».
+
+    Tout est calculé d'un coup et gardé en mémoire, parce que le résultat est
+    minuscule et qu'il ne bouge qu'au passage du pipeline. Mesuré le 17/09/2026
+    sur 313 435 fiches : **711 lignes, 217 marques, 70 Ko, 157 ms**.
+
+    L'alternative — une requête par frappe — coûtait 130 ms de base à chaque
+    lettre tapée, parce que `f_unaccent(brand_code)` empêche l'index de servir
+    et force un balayage des 313 000 fiches. Sur un VPS à un cœur, taper
+    « alpinestars » aurait lancé douze balayages complets.
+    """
+    return _rows(conn, """
+        SELECT lower(p.brand_code) AS marque, c.id AS rayon_id,
+               c.code AS rayon_code, c.label_fr AS rayon, count(*) AS n
+        FROM product p
+        JOIN product_stats s ON s.product_id = p.id
+        JOIN category c ON c.id = p.category_id
+        WHERE s.merchant_count >= 2 AND s.cheapest IS NOT NULL
+          AND p.status <> 'merged'
+          AND p.brand_code IS NOT NULL AND p.brand_code <> ''
+        GROUP BY 1, 2, 3, 4
+    """)
+
+
+# Quatre mots au maximum. Au-delà, chaque mot ajoute une condition sur la même
+# expression indexée et le gain devient nul : personne ne tape cinq mots dans
+# une barre de recherche de comparateur, et s'il le fait, les quatre premiers
+# suffisent largement à cerner le produit.
+_MAX_MOTS = 4
+
+# On cherche dans le TITRE MARCHAND, pas dans notre nom reconstruit.
+#
+# `model_display` est un sac de jetons trié par ordre alphabétique : le casque
+# « Arai SZ-R VAS EVO » y devient « Evo R Sz Vas », et personne ne tape ça.
+# `best_title` est ce que le marchand écrit, dans l'ordre où il l'écrit.
+#
+# `f_recherche` (migration 018) recolle la ponctuation : « SZ-R » devient
+# « szr ». Sans cela pg_trgm y voit deux mots, « sz » et « r », et quelqu'un qui
+# tape « szr » ne rencontre ni l'un ni l'autre. L'expression est EXACTEMENT
+# celle de l'index — une autre serait ignorée en silence, et chaque frappe
+# balaierait 311 000 lignes.
+_EXPRESSION = "f_recherche(s.best_title)"
+
+_CHAMPS = """p.slug, p.model_display, s.best_title, p.brand_code,
+             p.colour_code, s.image_url, s.cheapest, s.merchant_count"""
+
+_FILTRE = """s.merchant_count >= 2 AND s.cheapest IS NOT NULL
+             AND p.status <> 'merged'"""
+
+
+def _score(nb: int) -> str:
+    """La somme des ressemblances, un terme par mot tapé."""
+    if not nb:
+        return "0"
+    return " + ".join(
+        f"strict_word_similarity(%(m{i})s, {_EXPRESSION})" for i in range(nb))
+
+
+def produits_dans_la_marque(conn: psycopg.Connection, marque: str,
+                            mots: list[str], limite: int = 6
+                            ) -> list[dict[str, Any]]:
+    """Les fiches d'UNE marque, classées par ressemblance aux mots restants.
+
+    La marque une fois reconnue, on ne cherche plus que dans son catalogue —
+    quelques centaines de fiches. On peut donc classer par ressemblance SANS
+    seuil, et c'est ce qui rattrape les fautes de frappe : « zzr » ne ressemble
+    à « szr » qu'à 0,14, bien trop peu pour franchir un seuil, mais c'est
+    suffisant pour arriver premier parmi les 147 Arai.
+
+    Mesuré le 17/09/2026 : « arai zzr » rend le SZ-R VAS EVO en tête, en 74 ms.
+    """
+    mots = [m for m in mots if m][:_MAX_MOTS]
+    args: dict[str, Any] = {f"m{i}": m for i, m in enumerate(mots)}
+    args["marque"] = marque
+    args["limite"] = limite
+    with conn.cursor(row_factory=dict_row) as cur:
+        cur.execute(f"""
+            SELECT {_CHAMPS}, ({_score(len(mots))}) AS score
+            FROM product_stats s JOIN product p ON p.id = s.product_id
+            WHERE {_FILTRE} AND p.brand_code = %(marque)s
+            ORDER BY score DESC, s.merchant_count DESC, s.cheapest
+            LIMIT %(limite)s
+        """, args)
+        return cur.fetchall()
+
+
+def produits_suggeres(conn: psycopg.Connection, mots: list[str],
+                      limite: int = 6) -> list[dict[str, Any]]:
+    """Les fiches où CHAQUE mot tapé apparaît.
+
+    Une seule condition sur la chaîne entière ne trouvait rien pour « ixon bl » :
+    notre `model_display` est un sac de jetons trié alphabétiquement, si bien que
+    « Ixon Blanky » y devient « Blanky ixon » et que la marque ne précède jamais
+    le modèle. Mot par mot, l'ordre n'a plus d'importance — et c'est l'index de
+    trigrammes qui sert chaque condition.
+    """
+    mots = [m for m in mots if m][:_MAX_MOTS]
+    if not mots:
+        return []
+    # `<<%` : « ce mot ressemble-t-il à un mot entier de ce texte ». C'est
+    # l'opérateur que sert l'index de trigrammes, et c'est la version STRICTE —
+    # l'extrait comparé doit commencer et finir sur une frontière de mot.
+    #
+    # Sans « strict », chercher « ara » proposait une veste Ixon OSTARA, une
+    # araignée SW-Motech et des gants Dainese KARAKUM : trois mots qui
+    # contiennent ces lettres au milieu, et qu'aucun visiteur ne cherchait.
+    conditions = " AND ".join(
+        f"%(m{i})s <<% {_EXPRESSION}".replace("<<%", "<<%%")
+        for i in range(len(mots)))
+    args: dict[str, Any] = {f"m{i}": m for i, m in enumerate(mots)}
+    args["limite"] = limite
+    with conn.cursor(row_factory=dict_row) as cur:
+        cur.execute(f"""
+            SELECT {_CHAMPS}, ({_score(len(mots))}) AS score
+            FROM product_stats s JOIN product p ON p.id = s.product_id
+            WHERE {_FILTRE} AND {conditions}
+            ORDER BY score DESC, s.merchant_count DESC, s.cheapest
+            LIMIT %(limite)s
+        """, args)
+        return cur.fetchall()
