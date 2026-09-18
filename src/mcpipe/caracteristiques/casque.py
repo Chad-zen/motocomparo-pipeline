@@ -57,7 +57,20 @@ from dataclasses import dataclass, field
 # intercom » et « intercom intégré » dans la même phrase de vente, et seul le
 # second veut dire que le boîtier est dans la boîte. Chaque motif de PRÉPARATION
 # est donc testé AVANT son motif de présence, et il gagne.
-_PREPARE = r"(?:pr[ée]{1,2}quip|pr[ée]par|compatible|pr[êe]t [àa]|ready|adapt[ée] (?:pour|[àa])|peut recevoir|possibilit[ée] d)"
+# Liste etablie EN LISANT les descriptions, pas de memoire. La premiere
+# version ratait « PREDISPOSE », le mot le plus employe du rayon :
+# l'extracteur annoncait « intercom fourni » sur cinq casques sur cinq alors
+# que les cinq disaient « predispose a recevoir ». Elle ratait aussi
+# « pret POUR », n'ayant prevu que « pret A ».
+#
+# Une garde qui ne connait pas le vocabulaire qu'elle doit arreter ne garde
+# rien, et elle le fait en silence : la couverture monte, et c'est justement
+# ce qui rassure a tort.
+_PREPARE = (r"(?:pr[ée]dispos|pr[ée]{1,2}quip|pr[ée]par|compatible|"
+            r"pr[êe]t (?:[àa]|pour)|ready|adapt[ée] (?:pour|[àa])|"
+            r"peut recevoir|possibilit[ée] d|en option|non fourni|"
+            r"n[ée]cessite|[àa] commander|vendu s[ée]par)"
+)
 
 # --- homologation -------------------------------------------------------------
 #
@@ -71,12 +84,22 @@ _ECE = re.compile(r"ECE[\s.\-/]?R?[\s.\-/]?22[\s.\-/]?0?([56])\b|(?<![\d.])22[\s
 #
 # Ce qui fait le prix ET le poids. L'ordre compte : « fibre de carbone » doit
 # être lu comme carbone, pas comme fibre de verre, donc carbone passe en premier.
+# « thermoplastique » N'EST PAS « polycarbonate », et les confondre etait une
+# sur-affirmation. Le polycarbonate est un thermoplastique parmi d'autres ;
+# beaucoup de casques annoncent une « resine thermoplastique » ou un melange
+# maison — l'ADT de KYT et de Suomy — qui n'en est pas. Trois cas sur sept de
+# l'echantillon etaient dans ce cas.
+#
+# On rend donc ce que le texte dit, et rien de plus : « thermoplastique »
+# devient une valeur en soi. Elle est moins precise, elle est vraie.
 _CALOTTE = [
-    ("carbone",       r"(?:fibre de )?carbone?\b|carbon fib|full.?carbon"),
-    ("composite",     r"tri.?composite|multi.?composite|composite|fibre[s]? compos"),
-    ("fibre",         r"fibre de verre|fiberglass|fibre[s]? organique"),
-    ("polycarbonate", r"polycarbonate|thermoplastique|\bABS\b|injection thermo"),
+    ("carbone",         r"(?:fibre de )?carbone?\b|carbon fib|full.?carbon"),
+    ("composite",       r"tri.?composite|multi.?composite|composite|fibre[s]? compos"),
+    ("fibre",           r"fibre de verre|fiberglass|fibre[s]? organique"),
+    ("polycarbonate",   r"polycarbonate|\bPC ?/ ?ABS\b|\bABS\b"),
+    ("thermoplastique", r"thermoplastique|thermoplastic|injection thermo"),
 ]
+
 
 # --- boucle -------------------------------------------------------------------
 _BOUCLE = [
@@ -120,6 +143,33 @@ class Casque:
                    if v is not None)
 
 
+# Un casque porte DEUX pièces en plastique, et les marchands parlent des deux
+# dans le même paragraphe : la calotte et l'écran. « Visière en polycarbonate »
+# est vrai de presque tous les casques du marché, y compris ceux dont la coque
+# est en carbone.
+#
+# Trouvé en relisant l'échantillon : un KYT R2R dont la coque est en ADT était
+# annoncé « polycarbonate », sur la foi de sa visière. La couverture ne montre
+# jamais ce genre d'erreur — elle la compte comme un succès.
+_PIECE_QUI_N_EST_PAS_LA_CALOTTE = r"(?:visi[èe]re|[ée]cran|bulle|mentonni[èe]re)"
+
+
+def _calotte(t: str) -> str | None:
+    """La matière de la COQUE, et d'elle seule.
+
+    On écarte une occurrence dont les quarante signes précédents parlent de
+    l'écran. Quarante, comme pour `_prepare_ou_fourni` : « Visière en
+    polycarbonate, résistante aux rayures » tient dedans.
+    """
+    for nom, motif in _CALOTTE:
+        for m in re.finditer(motif, t, re.I):
+            avant = t[max(0, m.start() - 40):m.start()]
+            if re.search(_PIECE_QUI_N_EST_PAS_LA_CALOTTE, avant, re.I):
+                continue          # c'est l'ecran, on passe a l'occurrence suivante
+            return nom
+    return None
+
+
 def _prepare_ou_fourni(texte: str, motif: str) -> str | None:
     """« prééquipé pour » n'est pas « fourni », et c'est LE piège du rayon.
 
@@ -150,10 +200,7 @@ def lire(titre: str, description: str) -> Casque:
     if m:
         c.homologation = "22.0" + (m.group(1) or m.group(2))
 
-    for nom, motif in _CALOTTE:
-        if re.search(motif, t, re.I):
-            c.calotte = nom
-            break
+    c.calotte = _calotte(t)
 
     for nom, motif in _BOUCLE:
         if re.search(motif, t, re.I):
