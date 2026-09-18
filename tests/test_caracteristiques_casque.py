@@ -74,3 +74,18 @@ def test_le_doute_rend_rien():
     vide = lire("", "")
     assert vide.homologation is None and vide.calotte is None
     assert vide.renseignees() == 0
+
+
+def test_le_carbone_ingredient_n_est_pas_une_coque_carbone():
+    """Le carbone est le plus souvent un INGRÉDIENT, pas la matière. L'annoncer
+    « carbone » fait passer un casque pour du haut de gamme qu'il n'est pas —
+    et c'est justement le carbone qui justifie 300 € d'écart.
+
+    Le total le disait sans qu'on l'écoute : 1 361 casques carbone sur 3 000
+    comparables, quand le carbone est rare et cher. Après correction, 998."""
+    assert lire("", "Fibres tri-composite Dyneema, carbone et aramide").calotte == "composite"
+    assert lire("", "fibres hybrides carbone-aramide").calotte == "composite"
+    assert lire("", "fibre de verre DFP renforcée de fibre de carbone").calotte == "fibre"
+    # …et une vraie coque carbone reste du carbone.
+    assert lire("", "Coque en fibres de carbone forgée").calotte == "carbone"
+    assert lire("Casque intégral HJC F71 CARBON", "").calotte == "carbone"

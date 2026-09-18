@@ -411,6 +411,25 @@ def enrich() -> None:
     console.print("[dim]now run `mcpipe match --reset` to apply.[/]")
 
 
+@app.command()
+def caracteristiques() -> None:
+    """Relit les descriptions du jour et remplit les caracteristiques.
+
+    A lancer APRES `match` : l'etape travaille par FICHE, et une fiche reunit
+    les textes de plusieurs marchands. Elle lit les fichiers de flux sur le
+    disque — les descriptions ne sont pas en base, voir la note du module.
+    """
+    from .caracteristiques import calculer
+
+    console.print("lecture des descriptions ...", end=" ")
+    fiches, lignes = calculer()
+    console.print("[green]ok[/]")
+    console.print(f"  fiches renseignees : {fiches:,}")
+    console.print(f"  caracteristiques ecrites : {lignes:,}")
+    if fiches:
+        console.print(f"  moyenne : {lignes / fiches:.2f} par fiche")
+
+
 @app.command("marchands-figes")
 def marchands_figes(
     jours: int = typer.Option(3, help="fenetre d'observation, en jours"),

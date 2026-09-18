@@ -92,10 +92,25 @@ _ECE = re.compile(r"ECE[\s.\-/]?R?[\s.\-/]?22[\s.\-/]?0?([56])\b|(?<![\d.])22[\s
 #
 # On rend donc ce que le texte dit, et rien de plus : « thermoplastique »
 # devient une valeur en soi. Elle est moins precise, elle est vraie.
+# LE COMPOSITE PASSE AVANT LE CARBONE, et l'ordre est tout le sujet.
+#
+# Le carbone est le plus souvent un INGRÉDIENT, pas la matière : « fibres
+# tri-composite Dyneema, carbone et aramide », « fibre de verre renforcée de
+# fibre de carbone », « fibres hybrides carbone-aramide ». Annoncer ces
+# casques-là « carbone » les fait passer pour du haut de gamme qu'ils ne sont
+# pas — et le carbone est justement ce qui justifie 300 € d'écart.
+#
+# Mesuré : sur dix casques où le mot apparaît, quatre étaient des composites.
+# Le total le disait déjà sans qu'on l'écoute — 1 361 casques carbone sur
+# 3 000 comparables, quand le carbone est rare et cher.
 _CALOTTE = [
-    ("carbone",         r"(?:fibre de )?carbone?\b|carbon fib|full.?carbon"),
-    ("composite",       r"tri.?composite|multi.?composite|composite|fibre[s]? compos"),
+    ("composite",       r"tri.?composite|multi.?composite|composite|fibre[s]? compos|hybride"),
+    # La fibre de verre AVANT le carbone, pour la même raison : « fibre de
+    # verre DFP renforcée de fibre de carbone » est une coque en fibre de
+    # verre, que le carbone rigidifie. Le mot « carbone » y est vrai et
+    # trompeur à la fois.
     ("fibre",           r"fibre de verre|fiberglass|fibre[s]? organique"),
+    ("carbone",         r"(?:fibre de )?carbone?\b|carbon fib|full.?carbon"),
     ("polycarbonate",   r"polycarbonate|\bPC ?/ ?ABS\b|\bABS\b"),
     ("thermoplastique", r"thermoplastique|thermoplastic|injection thermo"),
 ]
