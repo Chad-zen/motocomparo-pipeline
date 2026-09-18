@@ -3240,3 +3240,82 @@ select:focus-visible, textarea:focus-visible, summary:focus-visible,
   .mosaique__img { transition: none; }
   .mosaique__tuile:hover .mosaique__img { transform: none; }
 }
+
+/* --- Les commandes d'étagère ----------------------------------------------
+   L'étagère se déplaçait à la BARRE DE DÉFILEMENT NATIVE, posée sous chaque
+   rangée avec ses deux petits triangles. « Vraiment old school », et c'est
+   vrai : un contrôle de fenêtre de 1995 sous une vitrine.
+
+   La barre disparaît, deux boutons la remplacent. Le défilement lui-même reste
+   natif — molette, doigt, trackpad, touches fléchées : on n'a rien réimplémenté,
+   on a seulement ajouté une prise pour la souris. */
+.piste-cadre { position: relative; }
+
+/* La barre native s'en va, le défilement reste. */
+.rayon__piste, .proches__grille { scrollbar-width: none; }
+.rayon__piste::-webkit-scrollbar,
+.proches__grille::-webkit-scrollbar { width: 0; height: 0; display: none; }
+
+.piste__nav {
+  position: absolute; top: calc(50% - 34px); z-index: 2;
+  width: 40px; height: 40px; padding: 0;
+  display: grid; place-items: center;
+  border: 1px solid #e3e8f1; border-radius: 50%;
+  background: var(--card); color: var(--nuit);
+  box-shadow: 0 3px 14px rgba(15, 21, 36, .16);
+  cursor: pointer;
+  /* Invisible au repos sur grand écran : une vitrine se lit, elle ne se pilote
+     qu'au moment où on tend la main. La transition ne porte QUE sur l'opacité
+     et la visibilité — animer `display` ne marche pas. */
+  opacity: 0; visibility: hidden;
+  transition: opacity .18s ease, visibility .18s ease, transform .18s ease;
+}
+.piste__nav--gauche  { left: -14px; }
+.piste__nav--droite  { right: -14px; }
+.piste__nav svg { width: 20px; height: 20px; }
+
+.piste-cadre:hover .piste__nav,
+.piste-cadre:focus-within .piste__nav { opacity: 1; visibility: visible; }
+.piste__nav:hover { transform: scale(1.06); border-color: var(--or); }
+/* Le clavier doit voir le bouton même sans survol : sans cette règle, une
+   tabulation donnait le focus à un bouton invisible. */
+.piste__nav:focus-visible {
+  opacity: 1; visibility: visible;
+  outline: 3px solid var(--or); outline-offset: 2px;
+}
+
+@media (hover: none) {
+  /* Sur un écran tactile, on pousse l'étagère du doigt : deux pastilles posées
+     par-dessus ne feraient que masquer deux produits. */
+  .piste__nav { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .piste__nav { transition: none; }
+  .piste__nav:hover { transform: none; }
+}
+
+/* La bande de raccourcis perd elle aussi sa barre native. Ses boutons sont
+   centrés sur toute sa hauteur : une case fait 76 px, pas 200, et il n'y a pas
+   d'image sur laquelle se caler. */
+.bande__piste { scrollbar-width: none; }
+.bande__piste::-webkit-scrollbar { width: 0; height: 0; display: none; }
+.piste-cadre--bande .piste__nav { top: calc(50% - 20px); }
+.piste-cadre--bande .piste__nav--gauche { left: -12px; }
+.piste-cadre--bande .piste__nav--droite { right: -12px; }
+
+/* --- Les logos des marchands partenaires ----------------------------------
+   Remplacent les noms écrits en bas de l'accueil. Un nom en petites capitales
+   fait une liste ; une enseigne reconnue répond à la question muette du
+   visiteur — « qui compare, au juste ? »
+
+   En gris au repos, en couleur au survol : six logos aux chartes différentes,
+   posés côte à côte en pleine couleur, se disputent l'œil et transforment une
+   ligne de confiance en mur publicitaire. Le gris les remet au même niveau. */
+.etapes__logo {
+  height: 26px; width: auto; max-width: 128px;
+  object-fit: contain; vertical-align: middle;
+  filter: grayscale(1); opacity: .62;
+  transition: filter .2s ease, opacity .2s ease;
+}
+.etapes__logo:hover { filter: none; opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .etapes__logo { transition: none; } }

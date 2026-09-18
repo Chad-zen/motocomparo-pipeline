@@ -253,6 +253,16 @@ def ecarts(conn: psycopg.Connection, limit: int = 12,
             -- candidats à deux marchands, 2 389 à trois, de quoi remplir
             -- largement une rangée de douze.
             WHERE s.merchant_count >= %s AND p.status <> 'merged'
+              -- Pas de photo, pas de place sur l'accueil. Regle de la
+              -- proprietaire, 18/09/2026 : une carte « pas de visuel » posee au
+              -- milieu de onze photos ne se lit pas comme une fiche sans image,
+              -- elle se lit comme un site casse.
+              --
+              -- Aucune fiche n'est dans ce cas aujourd'hui : 0 sur 8 221 a
+              -- trois marchands. La garde ne sert donc a rien maintenant, et
+              -- c'est exactement pourquoi elle est ecrite — le jour ou un
+              -- marchand retirera une photo, personne ne relancera la mesure.
+              AND s.image_url IS NOT NULL AND s.image_url <> ''
               AND s.cheapest IS NOT NULL AND s.dearest IS NOT NULL
               AND s.cheapest > 0
               AND s.dearest <= s.cheapest * 2      -- au-delà : un défaut, pas une affaire
@@ -379,6 +389,7 @@ def nouveautes(conn: psycopg.Connection, ids: list[int],
               -- contient quelque chose. Mieux vaut une rangée absente qu'une
               -- montrer une règle enfreinte.
               AND s.merchant_count >= %s
+              AND s.image_url IS NOT NULL AND s.image_url <> ''
             ORDER BY p.brand_code, p.model_display, n.vue_le DESC,
                      s.merchant_count DESC, p.slug
         ),
@@ -481,6 +492,7 @@ def baisses(conn: psycopg.Connection, limit: int = 12,
             JOIN product_stats s ON s.product_id = p.id
             WHERE p.status <> 'merged' AND s.cheapest IS NOT NULL
               AND s.merchant_count >= %s        -- même règle que `ecarts`
+              AND s.image_url IS NOT NULL AND s.image_url <> ''
             -- `p.slug` PUIS `m.merchant_id` closent le tri, et il faut les
             -- deux. Le slug seul ne suffisait pas : quand DEUX marchands
             -- affichent le même prix sur la même fiche — le Shark OXO Rydger

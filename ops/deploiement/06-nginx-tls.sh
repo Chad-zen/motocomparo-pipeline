@@ -68,8 +68,23 @@ server {
     # met en concurrence l'une avec l'autre : le moteur en choisit une, pas
     # forcément celle qu'on voulait, et partage l'autorité entre les deux.
     # La redirection est permanente (301) et garde le chemin et la requête.
-    if ($host != ${CANONIQUE}) {
-        return 301 https://${CANONIQUE}$request_uri;
+    # AUCUN ACCENT GRAVE DANS CE COMMENTAIRE, ET C'EST LA CINQUIEME FOIS.
+    #
+    # Ce bloc est ecrit dans un heredoc NON quote : il le faut, pour que le nom
+    # de domaine y soit remplace. Tout y est donc interprete par bash AVANT
+    # d'atteindre nginx, et deux choses s'y perdent :
+    #
+    #   - les variables nginx, d'ou les dollars echappes plus bas ;
+    #   - les ACCENTS GRAVES, que bash lit comme une substitution de commande.
+    #     Un accent grave pose autour d'un nom de variable dans une EXPLICATION
+    #     fait executer ce nom comme une commande, et le script meurt sur
+    #     "unbound variable" en designant la premiere ligne du heredoc, jamais
+    #     la ligne fautive. On cherche alors tres loin de la cause.
+    #
+    # Verifie en syntaxe le jour ou cette ligne a ete ecrite : bash -n ne
+    # developpe rien, il ne pouvait pas le voir. Seul l'appel reel l'a montre.
+    if (\$host != ${CANONIQUE}) {
+        return 301 https://${CANONIQUE}\$request_uri;
     }
 
     # Les pages sont déjà compressées par nginx ; les images viennent des
@@ -83,10 +98,29 @@ server {
     # sur ses propres pages. L'en-tete couvre TOUT — le plan du site et les
     # fichiers compris — la ou un robots.txt ne couvre que ce qu'il nomme.
     #
-    # Il est repete dans chaque bloc `location` qui pose deja un `add_header` :
+    # Il est repete dans chaque bloc location qui pose deja un add_header :
     # chez nginx, un add_header dans un bloc enfant EFFACE ceux du parent. Pose
     # une seule fois ici, il ne sortait sur aucune page.
+    # (Sans accent grave autour de ces deux mots : voir l'avertissement plus
+    # haut, bash les executerait comme des commandes.)
     ${ENTETE_NOINDEX}
+    # --- En-tetes de securite ---
+    # Poses a la main sur le serveur le 17/09, donc perdus au prochain passage
+    # de ce script : ils vivent ici desormais. Repetes dans chaque bloc pour la
+    # meme raison que le noindex ci-dessus.
+    #
+    # HSTS : le navigateur refuse le HTTP sur ce nom pendant un an. Il s'en
+    # souvient, et c'est pourquoi on ne met pas preload, qui est irreversible a
+    # l'echelle des navigateurs.
+    #
+    # Pas de Content-Security-Policy : le site pose ses scripts en ligne dans
+    # les gabarits, une CSP devrait donc autoriser unsafe-inline et n'aurait
+    # plus grand effet. Une CSP de facade vaut moins que son absence, parce
+    # qu'elle fait croire la question reglee.
+    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header Referrer-Policy "strict-origin-when-cross-origin" always;
     access_log /var/log/nginx/motocomparo.access.log;
     error_log  /var/log/nginx/motocomparo.error.log;
 
@@ -98,6 +132,10 @@ server {
         expires 1y;
         add_header Cache-Control "public, immutable";
         ${ENTETE_NOINDEX}
+        add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+        add_header X-Content-Type-Options "nosniff" always;
+        add_header X-Frame-Options "SAMEORIGIN" always;
+        add_header Referrer-Policy "strict-origin-when-cross-origin" always;
         access_log off;
     }
 
@@ -151,6 +189,12 @@ server {
         # UPDATING, STALE. C'est le seul moyen de vérifier que tout ceci sert.
         add_header X-Cache \$upstream_cache_status;
         ${ENTETE_NOINDEX}
+        # Troisieme repetition : ce bloc pose son propre add_header, donc il
+        # efface ceux du parent. C'est le bloc qui sert les PAGES.
+        add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+        add_header X-Content-Type-Options "nosniff" always;
+        add_header X-Frame-Options "SAMEORIGIN" always;
+        add_header Referrer-Policy "strict-origin-when-cross-origin" always;
 
         proxy_read_timeout 60s;
     }
