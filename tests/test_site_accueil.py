@@ -148,3 +148,23 @@ def test_les_baisses_ne_bougent_pas_a_donnees_egales(conn):
     tirages = [[(r["slug"], r["merchant_id"]) for r in queries.baisses(conn, 12)]
                for _ in range(6)]
     assert len(set(map(tuple, tirages))) == 1
+
+
+# --- « pas de photo, pas de place sur l'accueil » ----------------------------
+
+def test_aucune_rangee_ne_montre_une_fiche_sans_photo(conn, casques):
+    """Règle de la propriétaire, 18/09/2026.
+
+    Une carte « pas de visuel » posée au milieu de onze photos ne se lit pas
+    comme une fiche sans image : elle se lit comme un site cassé.
+
+    Aucune fiche n'est dans ce cas aujourd'hui — 0 sur 8 221 à trois marchands —
+    et c'est précisément pourquoi ce test existe. Le jour où un marchand
+    retirera une photo, personne ne relancera cette mesure à la main, et rien
+    dans la page ne préviendra."""
+    rangees = (queries.ecarts(conn, 12)
+               + queries.nouveautes(conn, casques, 12)
+               + queries.baisses(conn, 12))
+    assert rangees, "les trois rangées sont vides : le test ne prouverait rien"
+    sans = [r["slug"] for r in rangees if not (r.get("image_url") or "").strip()]
+    assert not sans, f"fiches sans photo sur l'accueil : {sans}"

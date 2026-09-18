@@ -117,7 +117,15 @@
       {{ actions(it) }}
       <span class="pastille">−{{ it.remise | int }}&nbsp;%</span>
       <div class="carte__img">
-        {% if it.image_url %}<img src="{{ it.image_url }}" alt="" loading="lazy">
+        {# Les QUATRE PREMIERES ne sont pas différées : elles sont à l'écran dès
+           l'ouverture. `loading="lazy"` sur une image déjà visible ne fait pas
+           gagner de temps, il en fait perdre — le navigateur attend d'avoir
+           calculé la mise en page avant de seulement demander le fichier, et le
+           visiteur voit d'abord des cadres vides. Les suivantes, elles, sont
+           hors de l'écran dans un carrousel horizontal : là, différer est juste.
+           Signalé par la propriétaire le 18/09/2026. #}
+        {% if it.image_url %}<img src="{{ it.image_url }}" alt=""
+             {% if loop.index <= 4 %}fetchpriority="high"{% else %}loading="lazy"{% endif %}>
         {% else %}<span class="carte__sansimg">pas de visuel</span>{% endif %}
       </div>
       <div class="carte__corps">
@@ -184,6 +192,14 @@
 </section>
 {% endif %}
 
+{# La bannière ponctue la page ENTRE DEUX ÉTAGÈRES, ce qui était le choix
+   d'origine de la propriétaire — « entre Échappements et Pantalons », quand il
+   y avait neuf rangées de rayon. Ces rangées sont devenues une mosaïque, et la
+   bannière avait suivi jusqu'au bas de la page : elle s'y chargeait bien, mais
+   à 2 626 px du haut, entre la mosaïque et le pied. Présente, et invisible.
+   Signalé par la propriétaire le 18/09/2026 — « les bannières ont disparu ». #}
+{{ pub.emplacement(bandeaux_larges) }}
+
 {# --- Ce qui a baissé cette semaine ----------------------------------------
    La seule rangée du site qui parle du PASSÉ. Elle ne compare pas deux prix
    minimums à une semaine d'écart — un marchand moins cher qui arrive aurait
@@ -236,13 +252,11 @@
    rayons, voici leur taille, voici à partir de quel prix — en une fois et en
    grand, et elle casse enfin le rythme entre les étagères qui restent.
 
-   La bannière a dû déménager. Son repère d'origine, choisi par la propriétaire
-   — « entre Échappements et Pantalons » — était une position DANS ces neuf
-   rangées, et ces rangées n'existent plus. Elle garde son rôle : ponctuer la
-   page à mi-course, entre deux blocs de nature différente. #}
+   La bannière est remontée entre les deux étagères — voir plus haut. Posée
+   ici, après la mosaïque, elle tombait à 2 626 px du haut, coincée contre le
+   pied de page : présente dans le code, invisible en pratique. #}
 {{ cat.mosaique(nav, 9) }}
 
-{{ pub.emplacement(bandeaux_larges) }}
 
 {# --- Vous avez consulté récemment -----------------------------------------
    Le cadre reste vide — et donc invisible — tant que le visiteur n'a rien
@@ -291,12 +305,39 @@
       <p>Cliquez sur le meilleur prix et finalisez votre achat directement chez
          le marchand.</p></li>
   </ol>
+  {# LES VRAIS LOGOS, pas les noms écrits.
+
+     Un nom de marchand en petites capitales, c'est une liste ; six logos, c'est
+     une preuve. Sur un comparateur, la question muette du visiteur est « qui
+     compare, au juste ? » — et une enseigne qu'il reconnaît y répond plus vite
+     qu'un mot.
+
+     Chaque logo n'est posé QUE si son fichier existe : un logo manquant laisse
+     le nom écrit à sa place, et la ligne reste complète. Sans cette garde, la
+     rangée se trouerait en silence le jour où un fichier serait renommé — et
+     une page d'accueil amputée d'un partenaire ne se remarque pas tout de
+     suite. #}
   <p class="etapes__partenaires">
     <span>Nos marchands partenaires</span>
-    {# Lus en base : la liste écrite à la main citait deux marchands dont
-       aucune offre n'arrivait jusqu'à une fiche. #}
     {% for m in marchands_actifs %}
+      {# On prend le fichier TEL QUE LE MARCHAND LE PUBLIE, sans le convertir :
+         deux vectoriels, trois WebP, un PNG. Une conversion est une occasion
+         de perdre de la transparence ou de la netteté, pour aucun gain — et
+         trois de ces logos n'existent qu'en WebP, leurs serveurs rendant une
+         page d'erreur si on ne l'accepte pas. #}
+      {% set fichier = namespace(nom='') %}
+      {% for ext in ['svg', 'webp', 'png'] %}
+        {% if not fichier.nom and statique_existe('marchands/' ~ m.code ~ '.' ~ ext) %}
+          {% set fichier.nom = 'marchands/' ~ m.code ~ '.' ~ ext %}
+        {% endif %}
+      {% endfor %}
+      {% set fichier = fichier.nom %}
+      {% if statique_existe(fichier) %}
+      <img class="etapes__logo" src="/static/{{ fichier }}?v={{ version_css() }}"
+           alt="{{ m.code | marchand }}" loading="lazy" height="26">
+      {% else %}
       <span class="etapes__marchand">{{ m.code | marchand }}</span>
+      {% endif %}
     {% endfor %}
   </p>
 </section>

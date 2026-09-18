@@ -83,6 +83,7 @@
     copier(unUnite, piste);
 
     piste.dataset.boucle = '1';
+    commander(piste, serie / modeles.length, unite);
 
     var enCours = false;
     piste.addEventListener('scroll', function () {
@@ -105,8 +106,93 @@
     }, { passive: true });
   }
 
+  /* --- Les commandes de l'étagère -----------------------------------------
+
+     Avant : rien. L'étagère se déplaçait à la BARRE DE DÉFILEMENT NATIVE du
+     système, posée sous chaque rangée avec ses deux petits triangles. Signalé
+     par la propriétaire le 18/09/2026 — « vraiment old school » — et elle a
+     raison : c'est un contrôle de fenêtre de 1995 sous une vitrine.
+
+     Les boutons sont créés ICI et non dans le gabarit, pour trois raisons :
+
+     1. sans JavaScript, ils ne serviraient à rien — mieux vaut qu'ils
+        n'existent pas, le défilement natif reste possible au doigt et à la
+        molette ;
+     2. ils ne sont posés que sur les étagères qui DÉBORDENT vraiment ; une
+        rangée qui tient à l'écran n'a rien à commander ;
+     3. trois étagères dans le gabarit, plus celle des « déjà vus » insérée
+        après coup : quatre copies du même balisage à tenir à jour.
+  */
+  function commander(piste, pas, unite) {
+    // Sans pas fourni, on le mesure : largeur d'un enfant plus la gouttière.
+    if (!pas) {
+      var premier = piste.firstElementChild;
+      if (!premier) return;
+      pas = premier.getBoundingClientRect().width + gouttiere(piste);
+    }
+    if (pas < 1) return;
+    if (piste.dataset.commande) return;
+    piste.dataset.commande = '1';
+    var cadre = document.createElement('div');
+    cadre.className = 'piste-cadre';
+    piste.parentNode.insertBefore(cadre, piste);
+    cadre.appendChild(piste);
+
+    [-1, 1].forEach(function (sens) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'piste__nav piste__nav--' + (sens < 0 ? 'gauche' : 'droite');
+      b.setAttribute('aria-label',
+        sens < 0 ? 'Voir les produits précédents' : 'Voir les produits suivants');
+      b.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">'
+        + '<path d="' + (sens < 0 ? 'M15 5l-7 7 7 7' : 'M9 5l7 7-7 7')
+        + '" fill="none" stroke="currentColor" stroke-width="2.2"'
+        + ' stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+      b.addEventListener('click', function () {
+        // Un pas visible, pas une carte : on avance d'une fenêtre moins une
+        // carte, pour qu'il reste un repère de ce qu'on vient de voir.
+        var cartes = Math.max(1, Math.floor(piste.clientWidth / pas) - 1);
+        var saut = cartes * pas * sens;
+
+        // On franchit la couture AVANT d'animer, jamais pendant. Le bouclage
+        // remet la position en arrière d'un coup ; si ça tombait au milieu
+        // d'un défilement doux, l'animation serait coupée net et le bouton
+        // paraîtrait ne pas marcher.
+        if (unite) {
+          var apres = piste.scrollLeft + saut;
+          if (apres >= unite) piste.scrollLeft -= unite;
+          else if (apres < 0) piste.scrollLeft += unite;
+        }
+
+        var doux = !window.matchMedia
+          || !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        piste.scrollBy({ left: saut, behavior: doux ? 'smooth' : 'auto' });
+      });
+      cadre.appendChild(b);
+    });
+  }
+
+  /* La bande de raccourcis de l'accueil défile elle aussi, et portait la même
+     barre native — en haut de page, donc la plus visible de toutes.
+
+     Elle ne BOUCLE pas, et c'est voulu : une liste de rayons a un début et une
+     fin, un menu qui tourne en rond empêche de savoir si on a tout vu. Elle
+     reçoit donc les commandes sans le tapis roulant. */
+  function garnir() {
+    document.querySelectorAll('.bande__piste').forEach(function (piste) {
+      if (piste.scrollWidth <= piste.clientWidth + 8) return;
+      commander(piste, 0, 0);
+      var cadre = piste.parentNode;
+      if (cadre && cadre.classList.contains('piste-cadre')) {
+        cadre.classList.add('piste-cadre--bande');
+      }
+    });
+  }
+
   function demarrer() {
     document.querySelectorAll(SELECTEURS).forEach(boucler);
+    garnir();
   }
 
   if (document.readyState === 'loading') {

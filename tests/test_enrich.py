@@ -216,3 +216,48 @@ def test_un_titre_sans_mot_cle_reste_ou_il_est():
     assert protection_subtype_from_title("Kit Visserie pour Plastiques Bolt") == 24
     assert protection_subtype_from_title("Acerbis TC/S 2024") is None
     assert protection_subtype_from_title(None) is None
+
+
+# --- l'emprunt de taille : qui doit être en vente, et qui n'a pas à l'être ----
+
+def _bloc(nom: str) -> str:
+    """Un morceau de la requête d'emprunt, découpé sur ses CTE."""
+    from mcpipe.enrich import _BORROW_SIZE
+    reperes = ["WITH parent_ean AS (", "donors AS (", "agreed AS (",
+               "INSERT INTO offer_size_override"]
+    i = reperes.index(nom)
+    debut = _BORROW_SIZE.index(nom)
+    fin = (_BORROW_SIZE.index(reperes[i + 1], debut)
+           if i + 1 < len(reperes) else len(_BORROW_SIZE))
+    return _BORROW_SIZE[debut:fin]
+
+
+def _sans_commentaires(sql: str) -> str:
+    import re
+    return re.sub(r"--.*", "", sql)
+
+
+def test_le_donneur_n_a_pas_besoin_d_etre_en_vente():
+    """La taille qu'un code-barres désigne est une propriété PERMANENTE de
+    l'article. Qu'un marchand le stocke encore ou non n'y change rien.
+
+    Le 18/09/2026, un casque Airoh affichait cinq tailles Motoblouz empruntées
+    et une sixième « non communiquée » : son donneur — le 2XL de FC-Moto, taille
+    déclarée dans son flux — avait quitté la vente six jours plus tôt. Le trou
+    apparaissait au milieu d'une série de tailles du MÊME marchand, ce qui
+    ressemble à un défaut du site, et en était un. 384 offres sur 237 fiches."""
+    assert "is_live" not in _sans_commentaires(_bloc("donors AS ("))
+
+
+def test_le_receveur_lui_doit_etre_en_vente():
+    """L'inverse n'est pas vrai : écrire une taille sur une offre retirée de la
+    vente ne sert personne et encombrerait la table."""
+    assert "o.is_live" in _sans_commentaires(_bloc("INSERT INTO offer_size_override"))
+
+
+def test_la_garde_contre_le_code_barres_reutilise_ignore_la_vente():
+    """Ce bloc détecte un marchand qui réutilise UN code-barres sur toute une
+    série de tailles. Si une offre de la série n'est plus en vente, la
+    réutilisation reste un fait : restreindre la garde aux offres vivantes
+    l'affaiblirait au moment précis où elle sert."""
+    assert "is_live" not in _sans_commentaires(_bloc("WITH parent_ean AS ("))

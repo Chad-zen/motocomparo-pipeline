@@ -341,9 +341,14 @@ _SIZE_LETTERS = r"^(XXS|XXL|2XL|3XL|4XL|5XL|6XL|XL|XS|S|M|L)([ (]?[0-9].*)?$"
 # a false claim about a price.
 _BORROW_SIZE = f"""
 WITH parent_ean AS (
+    -- PAS de filtre `is_live` ici, et c'est volontaire : ce bloc detecte un
+    -- marchand qui REUTILISE un code-barres sur toute une serie de tailles.
+    -- Si l'une des offres de la serie n'est plus en vente, la reutilisation
+    -- reste un fait — la restreindre aux offres vivantes affaiblirait la garde
+    -- au moment ou elle sert.
     SELECT merchant_id, gtin
     FROM raw_offer
-    WHERE is_live AND gtin IS NOT NULL
+    WHERE gtin IS NOT NULL
     GROUP BY merchant_id, gtin
     HAVING count(*) > 1
 ),
@@ -365,7 +370,22 @@ donors AS (
     JOIN merchant m ON m.id = o.merchant_id AND m.gtin_trust = 'trusted'
     JOIN offer_signature s ON s.raw_offer_id = o.id
     LEFT JOIN parent_ean pe ON pe.merchant_id = o.merchant_id AND pe.gtin = o.gtin
-    WHERE o.is_live AND o.gtin IS NOT NULL AND pe.gtin IS NULL
+    -- UN DONNEUR N'A PAS BESOIN D'ETRE ENCORE EN VENTE.
+    --
+    -- La taille qu'un code-barres designe est une propriete permanente de
+    -- l'article : qu'un marchand le stocke encore ou non n'y change rien.
+    -- Exiger `o.is_live` sur le donneur jetait donc une preuve valable le jour
+    -- ou le donneur quittait son catalogue.
+    --
+    -- Signale par la proprietaire le 18/09/2026 sur un casque Airoh : Motoblouz
+    -- y vendait six declinaisons sans taille, cinq avaient emprunte la leur a
+    -- FC-Moto par le code-barres, la sixieme restait « non communiquee ». Son
+    -- donneur — le 2XL de FC-Moto, taille declaree dans son flux — avait quitte
+    -- la vente le 12 septembre. Le trou se voyait au milieu d'une serie de
+    -- tailles du MEME marchand, ce qui ressemble a un bug du site, et en est un.
+    --
+    -- Mesure avant ecriture : 384 offres sur 237 fiches retrouvent une taille.
+    WHERE o.gtin IS NOT NULL AND pe.gtin IS NULL
       -- never borrow a guess: a size read out of a title or a URL is already an
       -- inference, and an inference passed on twice stops being evidence
       AND s.size_source IN ('feed', 'mpn')

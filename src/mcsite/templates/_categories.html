@@ -108,8 +108,13 @@
   <div class="mosaique">
     {% for r in rayons[:combien] %}
     <a class="mosaique__tuile" href="/c/{{ r.code }}">
+      {# La GRANDE tuile n'est pas différée : elle occupe le quart du bloc, et
+         une tuile sans sa photo n'est pas un cadre vide mais un rectangle
+         sombre avec un libellé dessus — ce qui ressemble à une image cassée
+         plutôt qu'à une image qui arrive. #}
       {% if r.image_url %}
-      <img src="{{ r.image_url }}" alt="" loading="lazy" class="mosaique__img">
+      <img src="{{ r.image_url }}" alt="" class="mosaique__img"
+           {% if loop.first %}fetchpriority="high"{% else %}loading="lazy"{% endif %}>
       {% endif %}
       <div class="mosaique__voile"></div>
       <div class="mosaique__texte">
