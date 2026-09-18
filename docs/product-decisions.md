@@ -1087,3 +1087,73 @@ ensuite par marchand, les douze cartes se réorganisaient derrière.
 
 Deux tirages avaient une chance sur deux de tomber pareil : c'est pour cela que
 le défaut a survécu. Le test en fait **six**, et compare aussi le marchand.
+
+## 18/09/2026 — Point de reprise
+
+### En production
+La v2 est en ligne sur **motocomparo.com** et **www**, certificat valable
+jusqu'au 16/12 avec renouvellement automatique, `noindex` retiré. Le relevé
+quotidien s'est déclenché seul à 04:07 et a réussi — c'était le dernier
+inconnu de la mise en production.
+
+### La Bécanerie est écartée du site
+Son flux ne bouge plus depuis le **10 septembre** : fichier identique à l'octet
+près, zéro prix modifié, **zéro arrivée et zéro retrait** sur 222 927 offres —
+quand les cinq autres marchands renouvellent leur catalogue tous les jours.
+Deux prix relevés sur leur propre site contredisaient leur flux (71,00 € contre
+42,90 €, 75,90 € contre 56,00 €), et cinq adresses produits sur douze
+redirigent vers une page de catégorie.
+
+Une contre-expertise a cherché à réfuter ce diagnostic et n'y est pas
+parvenue : `load` fait un DELETE + COPY complet, l'UPSERT de `normalize` écrit
+`price = EXCLUDED.price` sans condition, `price_history` s'écrit après la mise
+à jour des prix. La faute est en amont.
+
+Coût mesuré : 28 365 fiches comparables, **21 944 le restent, 6 421
+disparaissent**. 1 251 changent de prix affiché, et il **monte dans 1 251 cas
+sur 1 251**.
+
+`merchant.affiche` ne coupe pas l'ingestion : on continue à télécharger et à
+historiser, parce que c'est cette mesure qui dira qu'il est reparti.
+`mcpipe marchands-figes` surveille le **mouvement du catalogue** — arrivées et
+retraits — et non les prix : un marchand peut ne changer aucun prix pendant une
+semaine calme, mais pas cesser d'avoir la moindre rupture.
+
+### Les caractéristiques, premier rayon
+`mcpipe caracteristiques` remplit **6 873 fiches casque, 24 639 valeurs**, en
+31 secondes. Couverture sur les fiches comparables : ventilation 80 %, calotte
+76 %, boucle 75 %, Pinlock 59 %, écran solaire 52 %, intercom 43 %, poids 28 %,
+homologation 11 %.
+
+**Les descriptions ne sont PAS en base** — le pipeline ne les a jamais
+ingérées. L'étape lit donc les fichiers de flux sur le disque. Le compromis est
+assumé et écrit dans le module : le calcul n'est possible que tant que le
+fichier du jour est là.
+
+### Six pièges trouvés en lisant les sorties, aucun visible dans les totaux
+Tous faisaient MONTER la couverture. Ils ressemblaient à des succès.
+
+| Piège | Ce qu'il donnait |
+|---|---|
+| « Prédisposé » lu comme « fourni » | intercom fourni 5 fois sur 5, à tort |
+| « Prêt pour » Pinlock | lentille annoncée fournie |
+| thermoplastique = polycarbonate | matière prêtée au casque |
+| la visière prise pour la calotte | un KYT à coque ADT classé polycarbonate |
+| `\b` perdus à l'écriture (0x08) | `ABS` matchait « **abs**orption » |
+| le carbone pris pour la matière | 1 361 casques carbone sur 3 000 |
+
+Après correction, la calotte passe de 84,1 % à 83,2 % et le carbone de 1 361 à
+998. Les faux positifs étaient peu nombreux et **systématiques** — invisibles
+dans un total, faux à chaque fois.
+
+**Un extracteur se juge en lisant ses sorties, pas en regardant son taux de
+remplissage.**
+
+### Ce qui reste
+- Les caractéristiques ne sont **pas encore affichées** sur la fiche produit.
+- Les autres rayons (matière, protection, climat) n'ont pas d'extracteur.
+- Le configurateur de panier n'est pas commencé : il attend que l'axe « usage »
+  existe, et cet axe n'est pas lisible dans les flux — 7 à 12 % seulement.
+- Côté propriétaire : écrire à La Bécanerie, régénérer le jeton FC-Moto et la
+  clé Effinity (exposés en clair), fournir l'affiche paysage 2560 × 860,
+  trancher sur l'historique git qui porte encore des données personnelles.
