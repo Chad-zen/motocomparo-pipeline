@@ -108,7 +108,25 @@ def categories(conn: psycopg.Connection, min_merchants: int = 2) -> list[dict[st
         if enfant:
             r["image_url"] = enfant
 
-    return sorted([r for r in racines if r["n"] > 0], key=lambda r: -r["n"])
+    # L'ORDRE N'EST PLUS CELUI DU NOMBRE DE FICHES, et c'est une décision
+    # éditoriale de la propriétaire (18/09/2026).
+    #
+    # Classés par taille, les trois premiers rayons étaient Bagagerie, Blousons
+    # et Casques : le catalogue le plus gros passait devant, pas le besoin le
+    # plus courant. Or personne n'arrive sur un comparateur d'équipement moto
+    # en cherchant d'abord un top-case. On vient pour un casque.
+    #
+    # Casque, blouson, gants ouvrent donc la marche — c'est aussi l'ordre dans
+    # lequel un motard s'équipe, et celui des trois pièces qu'on ne peut pas ne
+    # pas avoir. Le reste suit au nombre de fiches, qui reste le bon critère
+    # quand aucune raison éditoriale ne tranche.
+    TETE = ["helmet", "jacket", "gloves"]
+    return sorted(
+        [r for r in racines if r["n"] > 0],
+        # `len(TETE)` pour les autres : ils gardent leur rang relatif, réglé par
+        # le second critère. Un rayon absent de TETE ne doit pas remonter.
+        key=lambda r: (TETE.index(r["code"]) if r["code"] in TETE else len(TETE),
+                       -r["n"]))
 
 
 def find_category(cats: list[dict[str, Any]], code: str) -> dict[str, Any] | None:
@@ -781,7 +799,11 @@ def offers(conn: psycopg.Connection, product_id: int) -> list[dict[str, Any]]:
                coalesce(v.size_code, o.raw_size) AS size_code,
                o.last_seen >= now() - interval '24 hours' AS fresh
         FROM raw_offer o
-        JOIN merchant m ON m.id = o.merchant_id
+        -- `m.affiche` : un marchand mis de côté disparaît aussi de la FICHE, pas
+        -- seulement des agrégats. Sans cette ligne, `product_stats` aurait
+        -- annoncé « 2 marchands comparés » pendant que le tableau en listait
+        -- trois — une incohérence visible du visiteur et muette pour nous.
+        JOIN merchant m ON m.id = o.merchant_id AND m.affiche
         LEFT JOIN offer_variant_link l ON l.raw_offer_id = o.id
         LEFT JOIN variant v ON v.id = l.variant_id
         WHERE o.product_id = %s AND {_SHOWABLE}
@@ -814,7 +836,11 @@ def price_curve(conn: psycopg.Connection, product_id: int, days: int = 180) -> l
                h.observed_on, h.price, m.code AS merchant
         FROM price_history h
         JOIN raw_offer o ON o.id = h.raw_offer_id
-        JOIN merchant m ON m.id = o.merchant_id
+        -- `m.affiche` : un marchand mis de côté disparaît aussi de la FICHE, pas
+        -- seulement des agrégats. Sans cette ligne, `product_stats` aurait
+        -- annoncé « 2 marchands comparés » pendant que le tableau en listait
+        -- trois — une incohérence visible du visiteur et muette pour nous.
+        JOIN merchant m ON m.id = o.merchant_id AND m.affiche
         WHERE o.product_id = %s AND h.observed_on >= current_date - %s
           AND h.price <> """ + _PRIX_SENTINELLE + """
         ORDER BY h.observed_on, h.price

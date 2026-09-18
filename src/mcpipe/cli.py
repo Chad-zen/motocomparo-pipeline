@@ -411,6 +411,57 @@ def enrich() -> None:
     console.print("[dim]now run `mcpipe match --reset` to apply.[/]")
 
 
+@app.command("marchands-figes")
+def marchands_figes(
+    jours: int = typer.Option(3, help="fenetre d'observation, en jours"),
+) -> None:
+    """Quels flux ne bougent plus ?
+
+    Un flux mort ne leve aucune erreur : il se telecharge, se charge et
+    s'affiche comme les autres, avec des prix perimes. On le repere au
+    MOUVEMENT du catalogue — arrivees et retraits — parce qu'un marchand peut
+    legitimement ne changer aucun prix pendant une semaine calme, mais pas
+    cesser d'avoir la moindre rupture ni le moindre reassort.
+    """
+    from .vitalite import mesurer
+
+    lignes = mesurer(jours)
+    console.print(f"mouvement du catalogue sur {jours} jours")
+    console.print()
+    console.print(f"  {'marchand':<14}{'offres':>10}{'retirees':>10}"
+                  f"{'arrivees':>10}{'prix':>8}   etat")
+    alerte = 0
+    for v in lignes:
+        if v.fige and not v.affiche:
+            # Deja traite : ce n'est plus une alerte, c'est un constat. Le
+            # compter comme alerte ferait clignoter en rouge une decision
+            # deja prise, et on finirait par ne plus regarder le rouge.
+            etat, couleur = "fige, deja ecarte", "yellow"
+        elif v.fige:
+            etat, couleur = "FIGE", "red"
+            alerte += 1
+        elif not v.affiche:
+            etat, couleur = "ecarte, reparti", "yellow"
+        else:
+            etat, couleur = "vivant", "green"
+        console.print(f"  {v.code:<14}{v.offres:>10,}{v.retirees:>10,}"
+                      f"{v.arrivees:>10,}{v.prix_changes:>8,}   "
+                      f"[{couleur}]{etat}[/]")
+    console.print()
+    for v in lignes:
+        if v.fige and v.affiche:
+            console.print(f"  [red]{v.code} est fige ET affiche sur le site.[/] "
+                          f"Derniere arrivee : {v.dernier_mouvement}.")
+        elif not v.fige and not v.affiche:
+            console.print(f"  [green]{v.code} bouge de nouveau[/] et reste ecarte.")
+            console.print("  Pour le remettre :")
+            console.print(f"      UPDATE merchant SET affiche = true "
+                          f"WHERE code = '{v.code}';")
+            console.print("      SELECT refresh_product_stats();")
+    if not alerte:
+        console.print("  aucun flux fige.")
+
+
 @app.command()
 def freshness() -> None:
     """Expire stale offers, append today's prices, recompute each product's

@@ -54,3 +54,36 @@ def test_les_libelles_viennent_de_la_base():
     rendu = re.sub(r"\{#.*?#\}", "", texte, flags=re.S)
     for invente in ("Helmes", "Mancliqes", "Jackets", "Aventure"):
         assert invente not in rendu
+
+
+@pytest.mark.skipif(not os.environ.get("DATABASE_URL"),
+                    reason="l'ordre des rayons se lit en base")
+def test_casque_blouson_gants_ouvrent_la_marche():
+    """Décision éditoriale de la propriétaire, 18/09/2026.
+
+    Classés au nombre de fiches, les trois premiers rayons étaient Bagagerie,
+    Blousons et Casques : le catalogue le plus gros passait devant, pas le
+    besoin le plus courant. Personne n'arrive sur un comparateur d'équipement
+    moto en cherchant d'abord un top-case.
+
+    Ce test tient l'ordre parce qu'il est INVISIBLE dans le code appelant : la
+    bande de raccourcis, la mosaïque, le menu et les étagères lisent tous la
+    même liste, et un tri remis au nombre de fiches ne casserait rien — il
+    changerait seulement la première chose que voit un visiteur.
+    """
+    import psycopg
+    with psycopg.connect(os.environ["DATABASE_URL"]) as c:
+        codes = [r["code"] for r in queries.categories(c)]
+    assert codes[:3] == ["helmet", "jacket", "gloves"], codes[:6]
+
+
+def test_le_reste_suit_le_nombre_de_fiches():
+    """Au-delà des trois premiers, aucune raison éditoriale ne tranche : le
+    nombre de fiches reste le bon critère."""
+    import os as _os
+    if not _os.environ.get("DATABASE_URL"):
+        pytest.skip("base absente")
+    import psycopg
+    with psycopg.connect(_os.environ["DATABASE_URL"]) as c:
+        suite = [r["n"] for r in queries.categories(c)[3:]]
+    assert suite == sorted(suite, reverse=True), suite[:6]

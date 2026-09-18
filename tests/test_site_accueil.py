@@ -168,3 +168,42 @@ def test_aucune_rangee_ne_montre_une_fiche_sans_photo(conn, casques):
     assert rangees, "les trois rangées sont vides : le test ne prouverait rien"
     sans = [r["slug"] for r in rangees if not (r.get("image_url") or "").strip()]
     assert not sans, f"fiches sans photo sur l'accueil : {sans}"
+
+
+def test_un_marchand_ecarte_n_apparait_nulle_part(conn):
+    """Écarter un marchand doit valoir pour TOUT le site, pas seulement pour la
+    page où on y a pensé.
+
+    Le 18/09/2026, La Bécanerie a été mise de côté : son flux n'avait plus
+    bougé d'un octet depuis huit jours — zéro prix changé, zéro arrivée, zéro
+    retrait sur 222 927 offres — et ses prix contredisaient son propre site.
+
+    Le piège qu'on ferme ici : filtrer à l'affichage sans filtrer dans les
+    agrégats. La fiche aurait annoncé « 3 marchands comparés » en n'en listant
+    que deux — une incohérence que le visiteur voit et qu'aucune erreur ne
+    signale."""
+    ecartes = [r[0] for r in conn.execute(
+        "SELECT id FROM merchant WHERE NOT affiche").fetchall()]
+    if not ecartes:
+        pytest.skip("aucun marchand écarté dans cette base")
+
+    reste = conn.execute("""
+        SELECT count(*) FROM product_stats s
+        JOIN raw_offer o ON o.product_id = s.product_id
+        WHERE o.merchant_id = ANY(%s) AND o.linked_status = 'linked' AND o.is_live
+    """, (ecartes,)).fetchone()[0]
+    # `product_stats` ne doit plus contenir AUCUNE fiche dont la seule présence
+    # viendrait d'un marchand écarté ; ici on vérifie plus simplement que la vue
+    # ne les compte plus, en comparant au calcul fait sans eux.
+    attendu = conn.execute("""
+        SELECT count(*) FROM (
+            SELECT o.product_id
+            FROM raw_offer o JOIN merchant m ON m.id = o.merchant_id AND m.affiche
+            WHERE o.linked_status = 'linked' AND o.is_live AND o.product_id IS NOT NULL
+            GROUP BY o.product_id
+        ) q
+    """).fetchone()[0]
+    obtenu = conn.execute("SELECT count(*) FROM product_stats").fetchone()[0]
+    assert obtenu == attendu, (
+        f"product_stats compte {obtenu} fiches, "
+        f"{attendu} attendues en écartant les marchands mis de côté")
