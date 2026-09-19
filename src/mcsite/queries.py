@@ -1437,3 +1437,128 @@ def produits_suggeres(conn: psycopg.Connection, mots: list[str],
             LIMIT %(limite)s
         """, args)
         return cur.fetchall()
+
+
+# --- caractéristiques produit --------------------------------------------------
+#
+# Trois sources écrivent dans `product_caracteristique`, et peuvent se
+# retrouver sur le MÊME nom pour la MÊME fiche : `poids_g` existe côté flux
+# (annoncé par un marchand), côté revendeur (lu en prose) et
+# côté SHARP (pesé en laboratoire). Depuis la migration 025, les trois lignes
+# coexistent — c'est ICI, à la lecture, que le choix se fait, jamais à
+# l'écriture. Une mesure de laboratoire prime sur une annonce de revendeur, qui
+# prime sur une description marchande : c'est l'ordre inverse de la facilité à
+# obtenir la donnée, et c'est voulu.
+_SOURCE_PRIORITE = {"sharp": 0, "revendeur": 1, "flux": 2}
+
+# Pour certains noms, la priorité par défaut ne s'applique pas.
+# Le poids SHARP est mesuré en laboratoire, mais avec une seule taille de
+# référence ; le revendeur le lit dans la fiche technique du modèle exact.
+# On préfère donc revendeur > flux > sharp pour poids_g.
+_SOURCE_PRIORITE_PAR_NOM: dict[str, dict[str, int]] = {
+    "poids_g": {"revendeur": 0, "flux": 1, "sharp": 2},
+}
+
+# Noms anciens → nom canonique. Les lignes SHARP antérieures à la migration
+# 025 ont été écrites avec nom='poids' ; le rapprochement en écrira 'poids_g'
+# à la prochaine passe, mais en attendant on fusionne les deux à la lecture.
+_NOM_ALIAS: dict[str, str] = {"poids": "poids_g"}
+
+# Le libellé affiché, et RIEN d'autre — jamais la valeur, qui reste celle
+# écrite par l'extracteur. Un nom absent de ce dictionnaire s'affiche quand
+# même : `caracteristiques()` refait un libellé lisible à partir du nom brut,
+# pour qu'un nouveau rayon ne laisse jamais une caractéristique invisible en
+# attendant qu'on pense à l'ajouter ici.
+_LIBELLES: dict[str, str] = {
+    # communes à plusieurs rayons
+    "matiere": "Matière", "matiere_coque": "Matière de la coque",
+    "matiere_nommee": "Matière précise", "matiere_renforcee": "Renfort",
+    "homologation": "Homologation ECE", "note_securite": "Note de sécurité SHARP",
+    "poids_g": "Poids", "saison": "Saison", "univers": "Univers de pratique",
+    "genre": "Genre", "impermeable": "Imperméable", "gore_tex": "Gore-Tex",
+    "membrane": "Membrane imperméable", "membrane_nom": "Membrane",
+    "doublure_thermique": "Doublure thermique",
+    "doublure_thermique_amovible": "Doublure thermique amovible",
+    "ventilation": "Ventilation", "ventilations": "Ventilation",
+    "reflechissant": "Éléments réfléchissants",
+    "elements_reflechissants": "Éléments réfléchissants",
+    "reflechissants": "Éléments réfléchissants",
+    # casque
+    "calotte": "Matière de la calotte", "boucle": "Type de fermeture",
+    "pinlock": "Pinlock", "ecran_solaire": "Écran solaire intégré",
+    "interieur_amovible": "Intérieur amovible", "intercom": "Intercom",
+    "nombre_coques": "Tailles de coque disponibles",
+    # blouson / combinaison
+    "norme_en17092": "Norme EN 17092", "classe_protection": "Classe de protection",
+    "protections_epaules": "Protections épaules", "protections_coudes": "Protections coudes",
+    "dorsale": "Protection dorsale", "poche_dorsale": "Poche à dorsale",
+    "reglages_serrage": "Réglages de serrage", "zip_liaison_pantalon": "Zip de liaison pantalon",
+    # gant
+    "chauffant": "Chauffant", "niveau": "Niveau EN 13594", "kp": "Protection articulations (KP)",
+    "matiere_paume": "Matière de la paume", "matiere_dos": "Matière du dos",
+    "coque_articulations": "Coque de protection", "slider_paume": "Slider de paume",
+    "renfort_paume": "Renfort de paume", "protection_scaphoide": "Protection du scaphoïde",
+    "manchette": "Longueur de manchette", "tactile": "Compatible écran tactile",
+    # pantalon
+    "categorie": "Type", "renfort_aramide": "Renfort aramide",
+    "etendue_aramide": "Étendue du renfort aramide", "coques_genoux": "Coques genoux",
+    "niveau_genoux": "Niveau de protection (genoux)", "coques_hanches": "Coques hanches",
+    "niveau_hanches": "Niveau de protection (hanches)",
+    "genouilleres_reglables": "Genouillères réglables",
+    "emplacement_slider": "Emplacement slider", "zip_liaison": "Zip de liaison veste",
+    "coupe": "Coupe",
+    # botte
+    "protection_malleole": "Protection de malléole", "protection_selecteur": "Protection de sélecteur",
+    "protection_tibia": "Protection du tibia", "indice_hauteur": "Indice de hauteur (EN 13634)",
+    "indice_abrasion": "Indice d'abrasion (EN 13634)", "indice_coupure": "Indice de coupure (EN 13634)",
+    "indice_rigidite": "Indice de rigidité (EN 13634)", "coque_bout_de_pied": "Coque au bout du pied",
+    "fermeture": "Fermeture", "semelle_antiderapante": "Semelle antidérapante",
+    "semelle_anti_huile": "Semelle anti-huile",
+}
+
+# Les mots qu'une valeur peut prendre, tels qu'écrits par les extracteurs, vers
+# ce qu'on affiche. `True`/`False` sont la représentation texte d'un booléen
+# Python — `_ecrire()` fait `str(valeur)`, jamais autre chose — et un extracteur
+# qui ajoute un mot nouveau (« fourni », « polycarbonate »…) s'affiche déjà
+# correctement sans entrer ici : cette table ne couvre QUE les booléens.
+_VALEURS = {"True": "Oui", "False": "Non"}
+
+
+def caracteristiques(conn: psycopg.Connection, product_id: int) -> list[dict[str, Any]]:
+    """Les caractéristiques d'une fiche, une par nom, la source la plus fiable
+    d'abord quand plusieurs sources répondent sur le même nom.
+
+    Rend une liste plutôt qu'un dict : l'ordre — SHARP et le revendeur en tête,
+    reconnaissables par leur badge, puis le reste — est une information que le
+    gabarit ne doit pas avoir à recalculer.
+    """
+    lignes = _rows(conn, """
+        SELECT nom, valeur, source, confiance
+        FROM product_caracteristique
+        WHERE product_id = %s
+        ORDER BY nom
+    """, (product_id,))
+
+    par_nom: dict[str, dict[str, Any]] = {}
+    for l in lignes:
+        nom = _NOM_ALIAS.get(l["nom"], l["nom"])
+        priorite = _SOURCE_PRIORITE_PAR_NOM.get(nom, _SOURCE_PRIORITE)
+        retenue = par_nom.get(nom)
+        if retenue is None or (priorite.get(l["source"], 9)
+                               < priorite.get(retenue["source"], 9)):
+            par_nom[nom] = {**l, "nom": nom}
+
+    resultat = []
+    for nom, l in par_nom.items():
+        resultat.append({
+            "nom": nom,
+            "libelle": _LIBELLES.get(nom) or nom.replace("_", " ").capitalize(),
+            "valeur": _VALEURS.get(l["valeur"], l["valeur"]),
+            "source": l["source"],
+            "confiance": l["confiance"],
+        })
+    # SHARP et le revendeur en tête : ce sont les deux seules sources qui ne
+    # viennent pas du texte de vente d'un marchand, et la fiche doit le
+    # montrer d'un coup d'œil plutôt que de les noyer par ordre alphabétique.
+    resultat.sort(key=lambda c: (_SOURCE_PRIORITE.get(c["source"], 9), c["libelle"]))
+    return resultat

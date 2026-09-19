@@ -2126,6 +2126,53 @@ body:has(.banc:not([hidden])) { padding-bottom: 94px; }
 /* la première ligne est surlignée, y compris après un changement de taille */
 .theme-v1 .offres tbody tr.est-meilleure { background: #fffaeb; }
 
+/* --- caractéristiques -------------------------------------------------------
+   Même carte que l'historique, même rembourrage à 16 px — troisième bloc de
+   preuve de la fiche, il doit se lire comme les deux au-dessus, pas comme un
+   ajout tardif. Deux colonnes dès que la largeur le permet : sur une seule,
+   quinze caractéristiques font défiler l'écran sans qu'on en gagne rien. */
+.caracs {
+  display: grid; grid-template-columns: 1fr; column-gap: 40px; row-gap: 0;
+  margin: 0 0 12px; padding: 16px;
+  border: 1px solid var(--ligne-carte); border-radius: 10px;
+}
+@media (min-width: 620px) {
+  /* Un vrai espace ET un filet vertical entre les deux colonnes : sans eux,
+     la ligne « ... 4  SHARP » d'une colonne touchait directement le libellé
+     de la ligne d'à côté, et les deux se lisaient comme une seule phrase —
+     « Note de sécurité SHARP  4  SHARP Poids ». */
+  .caracs {
+    grid-template-columns: 1fr 1fr;
+    column-rule: 1px solid var(--line);
+  }
+}
+.carac {
+  display: flex; justify-content: space-between; align-items: baseline;
+  gap: 16px; padding: 9px 0; border-bottom: 1px solid var(--line);
+  font-size: 13.5px; min-width: 0;
+}
+.carac dt { flex: 1 1 auto; min-width: 0; }
+.carac dd { flex: 0 0 auto; }
+.caracs > .carac:last-child,
+.caracs > .carac:nth-last-child(2):nth-child(odd) { border-bottom: 0; }
+.carac dt { color: var(--doux); margin: 0; }
+.carac dd { margin: 0; font-weight: 600; color: var(--ink); text-align: right; }
+
+/* Le badge de source. Discret à dessein — la valeur elle-même est ce qui
+   compte, le badge n'est qu'une note de provenance pour qui la cherche. */
+.carac__source {
+  display: inline-block; margin-left: 6px; padding: 1px 6px;
+  border-radius: 5px; font-size: 9.5px; font-weight: 700;
+  letter-spacing: .3px; text-transform: uppercase; vertical-align: middle;
+  cursor: help;
+}
+.carac__source--sharp    { background: #e7f3ec; color: #1e7a46; }
+.carac__etoiles { display: inline-flex; gap: 1px; vertical-align: middle; margin-right: 4px; }
+.etoile { font-size: 15px; line-height: 1; }
+.etoile--pleine { color: #e8a000; }
+.etoile--vide   { color: var(--ligne-carte, #d0d4e0); }
+.carac__note-chiffre { font-weight: 600; margin-right: 6px; }
+
 
 /* =============================================== rayon : deux par rangée ====
    Comme la v1. Une carte par rangée sur un téléphone, c'est un article visible

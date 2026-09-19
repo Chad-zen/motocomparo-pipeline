@@ -339,6 +339,7 @@ def product(request: Request, slug: str):
         similaires = queries.similaires(conn, p, 6)
         meme_gamme = queries.meme_gamme(conn, p, 8)
         promos = queries.codes_promo(conn, sorted({o['merchant'] for o in rows}))
+        caracteristiques = queries.caracteristiques(conn, p["id"])
     # Les points de la courbe, posés DANS la page plutôt que servis par une
     # seconde requête : la v1 allait les chercher en JSON après coup, ce qui
     # ajoutait un aller-retour et faisait apparaître la courbe en retard.
@@ -402,6 +403,7 @@ def product(request: Request, slug: str):
              niveau_remise=labels.niveau_remise(remise),
              seuils_remise=labels.SEUILS_REMISE,
              similaires=similaires, meme_gamme=meme_gamme, promos=promos,
+             caracteristiques=caracteristiques,
              donnees_structurees=[
                  _donnees_structurees(request, p, rows, image, reference),
                  _fil_structure(request, p),
