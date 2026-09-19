@@ -33,21 +33,51 @@ from dataclasses import asdict
 from pathlib import Path
 
 from ..db import connect
-from . import casque
+from ..feeds import FEEDS, FeedSpec
+from ..normalize import _ci_get, _merchant_sku
+from . import blouson, botte, casque, gant, pantalon
 
 csv.field_size_limit(10 ** 7)
 
-# Où lire le titre et la description dans chaque flux, et avec quel séparateur.
-# Les quatre flux Effinity partagent un schéma de 73 colonnes ; Motoblouz et
-# FC-Moto ont le leur.
-_FLUX = {
-    "motoblouz":   ("|", "name",  "description"),
-    "fcmoto":      (",", "title", "description"),
-    "speedway":    (";", "title", "description"),
-    "labecanerie": (";", "title", "description"),
-    "maxxess":     (";", "title", "description"),
-    "motoaxxe":    (";", "title", "description"),
-}
+# LA CLÉ DE JOINTURE EST CELLE DU PIPELINE, PAS UNE DEUXIÈME ÉCRITE ICI.
+#
+# Ce module a d'abord cherché la référence marchande dans la colonne `id`, en
+# repli sur `internal reference`. C'était juste pour quatre marchands sur six et
+# faux pour les deux autres, en silence :
+#
+#   * FC-MOTO. Sa référence est `mpn`, en repli sur `gtin` puis `id` — la
+#     colonne `id` du flux est un hachage dont la stabilité n'est pas établie,
+#     et `normalize` ne s'en sert pas. Sur les blousons, 27 330 offres liées et
+#     UNE SEULE description retrouvée. Le marchand le mieux rempli du catalogue
+#     (couleur 90 %, taille 94 %, mpn 99 %) était absent des caractéristiques.
+#
+#   * MAXXESS ET MOTO-AXXE. Leurs identifiants de flux changent à chaque
+#     rafraîchissement, donc `normalize` fabrique la sienne à partir de l'URL
+#     cible : `u:<md5>`. Aucune valeur de la colonne `id` ne peut y correspondre.
+#     Zéro description retrouvée pour les deux.
+#
+# Rien ne le signalait : les fiches trouvées étaient correctement renseignées,
+# et les manquantes ressemblaient à des descriptions vides. On lit donc la
+# référence avec `_merchant_sku`, LA MÊME FONCTION qui l'a écrite en base. Deux
+# façons de calculer une clé de jointure finissent toujours par diverger ; il
+# n'y en a plus qu'une.
+
+
+def _lignes(feed: FeedSpec, chemin: Path):
+    """(référence marchande, titre, description) pour chaque ligne du flux."""
+    cols = feed.columns
+    with open(chemin, newline="", encoding="utf-8", errors="ignore") as f:
+        for ligne in csv.DictReader(f, delimiter=feed.delimiter):
+            deeplink = _ci_get(ligne, cols.get("link", []))
+            if not deeplink:
+                continue
+            sku = _merchant_sku(feed, ligne, deeplink)
+            if not sku:
+                continue
+            yield (sku,
+                   (_ci_get(ligne, cols.get("title", [])) or "").strip(),
+                   (_ci_get(ligne, cols.get("description", [])) or "").strip())
+
 
 # Du plus bavard au moins bavard. La Bécanerie y figure bien qu'elle soit
 # écartée de l'AFFICHAGE : ses textes restent valables, c'est son flux de PRIX
@@ -58,6 +88,10 @@ _ORDRE = ("motoblouz", "fcmoto", "speedway", "labecanerie", "maxxess", "motoaxxe
 # Les rayons qu'on sait lire, et par quel module.
 _RAYONS: dict[tuple[int, ...], object] = {
     (1, 2, 3, 4, 5): casque,     # casques : parent, intégral, jet, cross, modulable
+    (6, 10): blouson,            # blousons, vestes, et combinaisons
+    (8,): gant,                  # gants
+    (7,): pantalon,              # pantalons et jeans
+    (9,): botte,                 # bottes et chaussures
 }
 
 
@@ -101,19 +135,14 @@ def calculer(rayon: str = "casque") -> tuple[int, int]:
                 continue
             # fiche -> {marchand: (titre, description)}
             textes: dict[int, dict[str, tuple[str, str]]] = {}
-            for marchand, (sep, c_titre, c_desc) in _FLUX.items():
+            for marchand, feed in FEEDS.items():
                 chemin = _dossier_flux() / f"{marchand}.csv"
                 if not chemin.exists():
                     continue
-                with open(chemin, newline="", encoding="utf-8", errors="ignore") as f:
-                    for ligne in csv.DictReader(f, delimiter=sep):
-                        sku = (ligne.get("id") or ligne.get("internal reference") or "").strip()
-                        pid = refs.get((marchand, sku))
-                        if pid is None:
-                            continue
-                        textes.setdefault(pid, {})[marchand] = (
-                            (ligne.get(c_titre) or "").strip(),
-                            (ligne.get(c_desc) or "").strip())
+                for sku, titre, desc in _lignes(feed, chemin):
+                    pid = refs.get((marchand, sku))
+                    if pid is not None:
+                        textes.setdefault(pid, {})[marchand] = (titre, desc)
 
             for pid, par_marchand in textes.items():
                 lus = [module.lire(*par_marchand[m]) for m in _ORDRE if m in par_marchand]
@@ -136,12 +165,25 @@ def _ecrire(conn, product_id: int, lu) -> int:
     with conn.cursor() as cur:
         # On efface AVANT d'écrire : une caractéristique qui disparaît d'une
         # description doit disparaître de la fiche.
-        cur.execute("DELETE FROM product_caracteristique WHERE product_id = %s",
+        #
+        # MAIS SEULEMENT CE QUI VIENT DES FLUX. Un effacement sans condition
+        # emportait aussi les valeurs des sources extérieures — la note de
+        # sécurité SHARP et le poids pesé auraient disparu toutes les nuits à
+        # 04:04, pour revenir au prochain relevé mensuel. Une donnée qui va et
+        # vient sans raison est pire qu'une donnée absente.
+        cur.execute("DELETE FROM product_caracteristique "
+                    "WHERE product_id = %s AND source = 'flux'",
                     (product_id,))
         for nom, valeur in valeurs.items():
+            # ET UNE PHRASE DE VENTE NE RECOUVRE PAS UNE MESURE. Les deux
+            # sources se rencontrent sur les mêmes noms — la calotte, le poids.
+            # Quand un laboratoire a pesé, ce qu'écrit le vendeur ne compte
+            # plus : `DO NOTHING` laisse la valeur mesurée en place.
             cur.execute(
                 "INSERT INTO product_caracteristique "
                 "(product_id, nom, valeur, source, confiance) "
-                "VALUES (%s, %s, %s, 'flux', 'lue')",
+                "VALUES (%s, %s, %s, 'flux', 'lue') "
+                "ON CONFLICT (product_id, nom, source) DO UPDATE SET "
+                "valeur = EXCLUDED.valeur, calcule_le = now()",
                 (product_id, nom, str(valeur)))
     return len(valeurs)
