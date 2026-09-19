@@ -175,22 +175,6 @@
       </ul>
     </div>
 
-    <div class="pied__bloc pied__bloc--lettre">
-      <h3>La lettre hebdomadaire</h3>
-      {# Le formulaire est retiré, et ce n'est pas un oubli.
-         Il promettait « une lettre par semaine » et « désinscription en un
-         clic » : le site n'a aucun moyen d'envoyer un e-mail (aucun SMTP dans
-         tout le dépôt) et aucune route de désinscription n'existe, alors que la
-         colonne `jeton` était prévue pour ça. Il collectait donc des adresses
-         qu'on ne pouvait ni servir ni effacer sur demande — et le code de
-         `POST /lettre` l'interdisait lui-même par écrit tant que la page de
-         confidentialité n'est pas publiée.
-         À remettre le jour où les trois manquent : un envoi, une
-         désinscription, une politique de confidentialité. #}
-      <p class="lettre__note">Elle arrive. Nous préférons ne pas collecter
-         d'adresses tant que nous ne savons pas encore les servir — ni vous
-         permettre de vous désinscrire en un clic.</p>
-    </div>
 
   </div>
 
