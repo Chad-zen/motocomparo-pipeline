@@ -571,6 +571,47 @@
 </p>
 </section>
 
+{% if caracteristiques %}
+{# Ce que le produit EST, pas ce qu'il coûte : troisième bloc de preuve, après
+   le prix et l'historique. Les valeurs viennent de trois endroits différents —
+   les descriptions marchandes, un revendeur, et les essais
+   indépendants de SHARP — et la fiche le dit, plutôt que de les mélanger en
+   silence sous un même « caractéristiques techniques » comme n'importe quel
+   site marchand. Une caractéristique mesurée ou relevée par un tiers vaut plus
+   qu'une caractéristique annoncée par le vendeur, et le visiteur a le droit de
+   voir laquelle il regarde. #}
+<section class="offres__carte">
+<div class="offres__tete">
+  <h2 class="titre-section">Caractéristiques</h2>
+</div>
+<dl class="caracs">
+  {% for c in caracteristiques %}
+  <div class="carac">
+    <dt>{{ c.libelle }}</dt>
+    <dd>
+      {% if c.nom == 'note_securite' %}
+        {% set n = c.valeur | int(0) %}
+        <span class="carac__etoiles" aria-label="{{ n }} étoiles sur 5">
+          {%- for i in range(1, 6) -%}<span class="etoile {{ 'etoile--pleine' if i <= n else 'etoile--vide' }}" aria-hidden="true">{{ '★' if i <= n else '☆' }}</span>{%- endfor -%}
+        </span>
+        <span class="carac__note-chiffre">{{ n }}/5</span>
+      {% else %}
+        {{ c.valeur }}
+      {% endif %}
+      {% if c.source == 'sharp' %}
+        <span class="carac__source carac__source--sharp" title="Mesuré par SHARP, programme d'essais indépendant du ministère des transports britannique">SHARP</span>
+      {% endif %}
+    </dd>
+  </div>
+  {% endfor %}
+</dl>
+<p class="sous-titre">
+  Caractéristiques lues dans les descriptions des marchands partenaires{% if caracteristiques | selectattr('source', 'equalto', 'sharp') | list %},
+  complétées par les essais indépendants de <a href="https://sharp.dft.gov.uk/" target="_blank" rel="noopener">SHARP</a>{% endif %}.
+</p>
+</section>
+{% endif %}
+
 {# Même encadré que « Comparer les N offres » : ce sont les deux blocs de
    preuve de la page — ce que les marchands demandent aujourd'hui, et ce qu'ils
    demandaient les jours d'avant. Posé sans contour, l'historique flottait au
