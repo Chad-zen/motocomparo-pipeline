@@ -430,6 +430,116 @@ def caracteristiques() -> None:
         console.print(f"  moyenne : {lignes / fiches:.2f} par fiche")
 
 
+@app.command()
+def sharp(
+    limite: int = typer.Option(0, help="ne relever que les N premieres fiches"),
+) -> None:
+    """Releve les fiches SHARP : note de securite et POIDS PESE des casques.
+
+    SHARP est le programme d'essais du ministere des transports britannique. Il
+    achete les casques, les detruit sur 32 scenarios de choc, et publie une note
+    de 1 a 5 etoiles avec le poids mesure. Aucun de nos six marchands ne porte
+    cette donnee.
+
+    585 fiches a une demi-seconde : compter cinq minutes. Le relevé se refait
+    une fois par mois, pas une fois par jour — rien ne bouge plus vite que les
+    essais eux-memes.
+
+    Cette commande RELEVE seulement. Le rapprochement avec nos fiches produit
+    est une etape separee : voir `sql/024_source_sharp.sql`.
+    """
+    from .sources import sharp as src
+
+    fiches = src.relever(limite=limite or None, trace=console.print)
+    n = src.enregistrer(fiches)
+    notes = sum(1 for f in fiches if f.etoiles)
+    poids = sum(1 for f in fiches if f.poids_g)
+    console.print(f"[green]ok[/] {n:,} fiches enregistrees")
+    console.print(f"  avec une note : {notes:,}")
+    console.print(f"  avec un poids pese : {poids:,}")
+    console.print("[dim]donnees SHARP / Department for Transport, "
+                  "Open Government Licence — l'attribution est obligatoire.[/]")
+
+
+@app.command("sharp-rapprocher")
+def sharp_rapprocher() -> None:
+    """Colle les mesures SHARP sur les fiches casque qu'on sait identifier.
+
+    Separe du releve, et rejouable sans retourner chercher les 585 pages : le
+    releve est exact, le rapprochement est approximatif et se reglera plusieurs
+    fois.
+
+    La regle tient en une phrase : on prefere une fiche muette a une fiche qui
+    porte la note d'un autre modele. Les egalites ne sont pas tranchees.
+    """
+    from .sources.rapprochement import rapprocher
+
+    fiches, valeurs, ambigues, accessoires, formes = rapprocher(
+        trace=console.print)
+    console.print(f"[green]ok[/] {fiches:,} fiches rapprochees, "
+                  f"{valeurs:,} valeurs ecrites")
+    if ambigues:
+        console.print(f"  [yellow]{ambigues:,} fiches ecartees[/] : plusieurs "
+                      "modeles SHARP collaient au meme titre")
+    if accessoires:
+        console.print(f"  [yellow]{accessoires:,} fiches ecartees[/] : coiffes, "
+                      "ecrans, mentonnieres — des pieces, pas des casques")
+    if formes:
+        console.print(f"  [yellow]{formes:,} fiches ecartees[/] : SHARP ne teste "
+                      "ni les jets ni les cross, et un modulable n'est pas un "
+                      "integral")
+
+
+@app.command()
+def revendeur(
+    limite: int = typer.Option(0, help="ne relever que les N premieres fiches"),
+) -> None:
+    """Releve les fiches du revendeur : matiere, coques, fermeture, poids.
+
+    Un revendeur, pas un organisme public — ce n'est pas SHARP. Ce qu'on en
+    garde est factuel (tableau technique genere par leur boutique) ou lu avec
+    la meme prudence qu'une description marchande (poids, homologation, en
+    prose). Jamais leur texte de vente, jamais leurs notes editoriales.
+
+    Parcourt les cinq pages de categorie du rayon casque, paginees. Compter
+    plusieurs dizaines de minutes : c'est un site plus grand que SHARP, et on
+    y va plus doucement.
+    """
+    from .sources import revendeur as src
+
+    fiches = src.relever(limite=limite or None, trace=console.print)
+    n = src.enregistrer(fiches)
+    matiere = sum(1 for f in fiches if f.matiere)
+    poids = sum(1 for f in fiches if f.poids_g)
+    homolog = sum(1 for f in fiches if f.homologation)
+    console.print(f"[green]ok[/] {n:,} fiches enregistrees")
+    console.print(f"  avec une matiere : {matiere:,}")
+    console.print(f"  avec un poids (lu en prose) : {poids:,}")
+    console.print(f"  avec une homologation (lue en prose) : {homolog:,}")
+
+
+@app.command("revendeur-rapprocher")
+def revendeur_rapprocher() -> None:
+    """Colle les caracteristiques du revendeur sur les fiches casque qu'on identifie.
+
+    Le revendeur n'a pas de modele propre : une page par coloris. Le rapprochement
+    compare donc les deux titres apres avoir retire la couleur des DEUX cotes,
+    avec le meme vocabulaire de couleur que le pipeline — voir
+    sources/rapprochement_revendeur.py.
+    """
+    from .sources.rapprochement_revendeur import rapprocher
+
+    fiches, valeurs, ambigues, accessoires = rapprocher(trace=console.print)
+    console.print(f"[green]ok[/] {fiches:,} fiches rapprochees, "
+                  f"{valeurs:,} valeurs ecrites")
+    if ambigues:
+        console.print(f"  [yellow]{ambigues:,} fiches ecartees[/] : plusieurs "
+                      "fiches du revendeur collaient au meme titre")
+    if accessoires:
+        console.print(f"  [yellow]{accessoires:,} fiches ecartees[/] : ce "
+                      "n'etait pas un casque")
+
+
 @app.command("marchands-figes")
 def marchands_figes(
     jours: int = typer.Option(3, help="fenetre d'observation, en jours"),
