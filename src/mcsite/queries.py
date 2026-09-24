@@ -1728,10 +1728,29 @@ def sections_comparaison(
 # perdre les résultats enrichis. Il reste donc un AFFICHAGE, jamais une
 # DONNÉE : personne d'extérieur au site ne le lit par un flux.
 #
-# Il ne se calcule QUE quand la fiche porte au moins une mesure ou une norme
-# indépendante — SHARP pour les casques, une classe EN pour le reste. Sans
-# elle, un indice ne serait qu'une opinion sur une phrase de vente, exactement
-# ce que `caracteristiques()` refuse déjà de faire en amont.
+# CE QUI LE FONDE, ET CE QUE LA PAGE DOIT EN DIRE
+# ===============================================
+# Une première version n'acceptait de le calculer QUE sur une mesure ou une
+# norme indépendante — SHARP pour les casques, une classe EN pour le reste.
+# L'intention était juste, le résultat inutilisable : mesuré le 2026-09-24 sur
+# les fiches à deux marchands ou plus, l'indice n'apparaissait que sur 19,5 %
+# des casques, 35,9 % des blousons et 2,2 % des bottes. Il jetait au passage
+# 2 692 matières de calotte, 2 767 protections de coudes et 1 048 protections
+# de malléole — des faits lus, du même statut que ceux que la fiche affiche
+# déjà ligne par ligne. Refuser de s'en servir pour noter ce qu'on accepte
+# d'afficher n'était pas de la prudence, c'était une incohérence.
+#
+# La règle est donc devenue : toute caractéristique de protection compte, et
+# c'est le POIDS qui fait la différence entre une mesure de laboratoire et une
+# coque annoncée par un vendeur. Deux garde-fous conservés :
+#
+#   1. DEUX CRITÈRES MINIMUM. Un seul « Oui » donnerait 10/10 sur une fiche
+#      dont on ne sait presque rien — le plus sûr moyen de faire passer un
+#      manque d'information pour de l'excellence.
+#   2. L'INDICE DIT CE QU'IL VAUT. Le nombre de critères et la présence (ou
+#      l'absence) d'une norme indépendante repartent avec la note, et la page
+#      les affiche à côté. Un 8,5 fondé sur SHARP et le poids pesé ne se lit
+#      pas comme un 8,5 fondé sur deux cases cochées dans une description.
 def _echelonne(valeur: float | None, bas: float, haut: float) -> float | None:
     """`valeur` ramenée entre 0 et 10 sur l'intervalle [bas, haut]. `bas` peut
     être plus grand que `haut` — c'est ainsi qu'un poids, où MOINS vaut MIEUX,
@@ -1751,12 +1770,122 @@ _CALOTTE_VERS_NOTE = {
 _NORME_EN17092_VERS_NOTE = {"AAA": 10.0, "AA": 8.5, "A": 6.5, "B": 5.0, "C": 2.0}
 
 
-def _booleen_vers_note(valeur: str | None) -> float | None:
-    if valeur == "Oui":
-        return 10.0
-    if valeur == "Non":
-        return 3.0
+# FOURNIE N'EST PAS PRÉPARÉE, ET C'EST TOUT LE SUJET.
+#
+# Les extracteurs ne rendent pas des booléens sur ces champs-là mais un
+# vocabulaire à trois temps, et c'est une chance : « dorsale incluse » veut
+# dire qu'on l'a, « option-poche » qu'il y a un logement vide, et
+# « option-predisposee » qu'il faudra l'acheter. Les traiter tous comme un
+# « Oui » noterait de la même façon un blouson livré protégé et un blouson
+# livré avec une fermeture éclair — la confusion exacte que ce site existe
+# pour dissiper.
+#
+# Un « Non » ne descend pas à 0 : l'absence d'un renfort ne fait pas d'un
+# vêtement certifié une pièce sans protection, et un zéro écraserait la
+# moyenne entière pour une case décochée.
+_EQUIPEMENT_VERS_NOTE = {
+    "incluse": 10.0, "inclus": 10.0, "fournie": 10.0, "fournies": 10.0,
+    "fourni": 10.0, "fournis": 10.0, "oui": 10.0,
+    "option-poche": 5.0, "poche": 5.0,
+    "option-predisposee": 4.0, "predisposee": 4.0,
+    "prepare": 4.0, "prepares": 4.0, "preparee": 4.0, "preparees": 4.0,
+    "non": 3.0,
+}
+
+
+def _equipement_vers_note(valeur: str | None, plafond: float = 10.0) -> float | None:
+    """Ce que vaut un équipement de protection, de « fourni » à « absent ».
+
+    `plafond` abaisse le maximum du critère quand la chose elle-même vaut
+    moins : une poche à dorsale plafonne à 6 — c'est un logement, pas une
+    protection — et une protection de sélecteur à 7, parce qu'elle protège la
+    botte plus que le pied.
+    """
+    if not valeur:
+        return None
+    note = _EQUIPEMENT_VERS_NOTE.get(valeur.strip().lower())
+    return None if note is None else min(note, plafond)
+
+
+# Les classes de l'EN 17092, de la plus protectrice à la moins.
+_CLASSE_VERS_NOTE = {"AAA": 10.0, "AA": 8.5, "A": 6.5, "B": 5.0, "C": 2.0}
+
+
+def _classe_en17092(*valeurs: str | None) -> float | None:
+    """La classe EN 17092 d'un blouson, cherchée dans l'ordre des candidats.
+
+    Elle se range selon les fiches dans `classe_protection` OU dans
+    `homologation` (« AA » y côtoie « CE » et « EN 13634 » : le champ sert de
+    fourre-tout d'homologation, tous rayons confondus). `norme_en17092`, lui,
+    ne dit QUE la présence de la norme — jamais le niveau. Une première
+    version le lisait en premier, trouvait « Oui », n'y reconnaissait aucune
+    classe et abandonnait sans jamais regarder les deux autres : 2,3 % des
+    blousons notés au lieu de 36 %.
+    """
+    for v in valeurs:
+        if v:
+            note = _CLASSE_VERS_NOTE.get(v.strip().upper())
+            if note is not None:
+                return note
     return None
+
+
+def _certifie(valeur: str | None) -> float | None:
+    """« Certifié, mais on ne sait pas à quel niveau. »
+
+    C'est une information réelle — une pièce certifiée a passé des essais
+    qu'une pièce non certifiée n'a pas passés — et c'est la SEULE qu'on en
+    tire. D'où une note médiane, et un poids inférieur à celui d'une classe
+    connue : on ne devine pas le niveau qu'on n'a pas lu.
+    """
+    return 6.0 if valeur else None
+
+
+def _homologation_nommee(valeur: str | None, norme: str) -> float | None:
+    """La norme NOMMÉE vaut mieux qu'un « CE » générique, et c'est mesurable.
+
+    Le champ `homologation` des bottes et des gants porte trois états bien
+    distincts : la norme du rayon (« EN 13634 », « EN 13594 »), un « CE » seul
+    quand le marchand ne la nomme pas, ou rien. L'extracteur s'interdit déjà
+    de confondre les deux premiers — voir `botte._homologation`. C'est, pour
+    ces deux rayons, le seul critère GRADUÉ que les descriptions fournissent
+    en nombre : tout le reste y est une case cochée qui ne l'est jamais à
+    « non ».
+    """
+    if not valeur:
+        return None
+    v = valeur.strip().upper()
+    if norme.upper() in v:
+        return 8.0
+    return 5.0 if v == "CE" else None
+
+
+def _moyenne(*notes: float | None) -> float | None:
+    """La moyenne des notes présentes, `None` si aucune ne l'est."""
+    connues = [n for n in notes if n is not None]
+    return sum(connues) / len(connues) if connues else None
+
+
+# Le nombre de critères en dessous duquel on préfère ne rien dire. Voir le
+# garde-fou 1 du commentaire de section : à un seul critère, l'indice ne note
+# plus le produit, il note ce qu'on sait de lui.
+_CRITERES_MINIMUM = 2
+
+# GARDE-FOU 3 : UN CRITÈRE QUI NE VARIE JAMAIS NE CLASSE RIEN.
+#
+# Mesuré le 2026-09-24 sur les bottes : `protection_malleole` vaut « oui »
+# 2 017 fois et « non » zéro fois, comme `protection_tibia`, `coque_bout_de_pied`
+# et `protection_selecteur`. Un indice bâti sur ces seules cases donnait un
+# écart-type de 0,57 — la moitié du rayon entre 8,5 et 9,1 — parce qu'il ne
+# mesurait pas la protection de la botte mais la LONGUEUR de la description :
+# une fiche bavarde gagnait sur une fiche laconique, à botte identique.
+#
+# On exige donc qu'au moins un critère GRADUÉ ait répondu : une classe, un
+# niveau, une matière, un poids, une norme nommée — quelque chose qui peut
+# prendre plusieurs valeurs et donc départager deux articles. Les cases
+# cochées restent dans le calcul, elles n'ont simplement plus le droit d'y
+# être seules.
+_GRADUE, _COCHE = True, False
 
 
 def indice_protection(
@@ -1771,75 +1900,135 @@ def indice_protection(
     composantes absentes sortent du calcul ET de son poids — comparer cinq
     critères à trois n'a de sens que si les poids des trois restants
     retrouvent un total de 1.
+
+    Chaque composante est marquée `independante` quand elle vient d'un essai
+    de laboratoire ou d'une norme européenne, et non de la description d'un
+    vendeur, et `gradue` quand elle peut prendre plusieurs valeurs — voir
+    `_GRADUE`. Le résultat repart avec ces informations : ce sont elles qui
+    permettent à la page de distinguer un indice adossé à SHARP d'un indice
+    bâti sur des cases cochées, au lieu d'afficher deux chiffres qui se
+    ressemblent.
     """
     par_nom = {c["nom"]: c["valeur"] for c in caracteristiques}
+    lire = par_nom.get
+    nombre = lambda nom: _valeur_numerique(nom, lire(nom) or "")  # noqa: E731
     racine = (category_code or "").split(".", 1)[0]
-    composantes: list[tuple[str, float | None, float]] = []
+
+    # (libellé, note sur 10 ou None, poids, essai ou norme, gradué)
+    composantes: list[tuple[str, float | None, float, bool, bool]] = []
 
     if racine == "helmet":
-        if "note_securite" not in par_nom:
-            return None   # sans mesure indépendante, aucun indice à afficher
         composantes = [
-            ("Note SHARP", _echelonne(_valeur_numerique("note_securite", par_nom["note_securite"]), 0, 5), 0.6),
-            ("Poids", _echelonne(_valeur_numerique("poids_g", par_nom.get("poids_g", "")), 1900, 1250), 0.2),
-            ("Matière de calotte", _CALOTTE_VERS_NOTE.get(par_nom.get("calotte", "").lower()), 0.1),
-            ("Homologation", _echelonne(_valeur_numerique("homologation", par_nom.get("homologation", "")), 22.05, 22.06), 0.1),
+            ("Note SHARP", _echelonne(nombre("note_securite"), 0, 5), 0.45, True, _GRADUE),
+            # Le poids PESÉ par SHARP quand il y est, celui du revendeur sinon :
+            # `caracteristiques()` a déjà tranché la source en amont, ici on ne
+            # revoit pas ce choix.
+            ("Poids", _echelonne(nombre("poids_g"), 1900, 1250), 0.15, True, _GRADUE),
+            ("Matière de calotte", _CALOTTE_VERS_NOTE.get((lire("calotte") or "").lower()),
+             0.15, False, _GRADUE),
+            # 22.06 impose l'essai de choc rotationnel et le test à basse
+            # vitesse que 22.05 ne prévoyait pas : l'écart entre les deux
+            # normes est réel, pas une date sur une étiquette.
+            ("Homologation", _echelonne(nombre("homologation"), 22.05, 22.06), 0.15, True, _GRADUE),
+            # Plusieurs tailles de coque = une calotte à la taille de la tête
+            # plutôt qu'un rembourrage plus épais dans la même coque.
+            ("Tailles de coque", _echelonne(nombre("nombre_coques"), 1, 3), 0.10, False, _GRADUE),
         ]
-        base = "l'essai indépendant SHARP"
+        base = "l'essai indépendant SHARP" if "note_securite" in par_nom else None
     elif racine in ("jacket", "suit"):
-        if "norme_en17092" not in par_nom and "classe_protection" not in par_nom:
-            return None
-        epaules = _booleen_vers_note(par_nom.get("protections_epaules"))
-        coudes = _booleen_vers_note(par_nom.get("protections_coudes"))
-        articulaires = (
-            (epaules + coudes) / 2 if epaules is not None and coudes is not None
-            else epaules if epaules is not None else coudes
-        )
+        classe = _classe_en17092(lire("classe_protection"), lire("homologation"))
         composantes = [
-            ("Norme EN 17092", _NORME_EN17092_VERS_NOTE.get(
-                (par_nom.get("norme_en17092") or par_nom.get("classe_protection") or "").upper()), 0.5),
-            ("Protection dorsale", _booleen_vers_note(par_nom.get("dorsale")), 0.2),
-            ("Protections épaules/coudes", articulaires, 0.3),
+            ("Classe EN 17092", classe, 0.40, True, _GRADUE),
+            # Seulement quand la classe manque : sinon on compterait deux fois
+            # la même certification, une fois pour son niveau et une fois pour
+            # son existence.
+            ("Certifié EN 17092",
+             _certifie(lire("norme_en17092")) if classe is None else None, 0.20, True, _COCHE),
+            ("Protection dorsale", _equipement_vers_note(lire("dorsale")), 0.25, False, _GRADUE),
+            ("Protections épaules/coudes", _moyenne(
+                _equipement_vers_note(lire("protections_epaules")),
+                _equipement_vers_note(lire("protections_coudes"))), 0.25, False, _GRADUE),
+            ("Poche à dorsale", _equipement_vers_note(lire("poche_dorsale"), plafond=6.0),
+             0.10, False, _COCHE),
         ]
-        base = "la norme EN 17092"
+        base = ("la classe EN 17092" if classe is not None
+                else "la certification EN 17092" if lire("norme_en17092") else None)
     elif racine == "pants":
-        if "niveau_genoux" not in par_nom and "niveau_hanches" not in par_nom:
-            return None
-        genoux = _echelonne(_valeur_numerique("niveau_genoux", par_nom.get("niveau_genoux", "")), 0, 2)
-        hanches = _echelonne(_valeur_numerique("niveau_hanches", par_nom.get("niveau_hanches", "")), 0, 2)
-        niveau = ((genoux + hanches) / 2 if genoux is not None and hanches is not None
-                  else genoux if genoux is not None else hanches)
         composantes = [
-            ("Niveau de protection EN 1621-1", niveau, 0.6),
-            ("Renfort aramide", _booleen_vers_note(par_nom.get("renfort_aramide")), 0.4),
+            ("Niveau EN 1621-1", _moyenne(
+                _echelonne(nombre("niveau_genoux"), 0, 2),
+                _echelonne(nombre("niveau_hanches"), 0, 2)), 0.35, True, _GRADUE),
+            ("Coques genoux", _equipement_vers_note(lire("coques_genoux")), 0.25, False, _GRADUE),
+            ("Coques hanches", _equipement_vers_note(lire("coques_hanches"), plafond=9.0),
+             0.20, False, _GRADUE),
+            ("Renfort aramide", _equipement_vers_note(lire("renfort_aramide")), 0.20, False, _COCHE),
         ]
-        base = "les niveaux EN 1621-1"
+        base = ("les niveaux EN 1621-1"
+                if "niveau_genoux" in par_nom or "niveau_hanches" in par_nom else None)
     elif racine == "gloves":
-        if "niveau" not in par_nom:
-            return None
+        niveau = _echelonne(nombre("niveau"), 0, 2)
+        homologation = _homologation_nommee(lire("homologation"), "13594")
+        # Le critère mesuré domine, et de loin. Une première répartition lui
+        # donnait 0,35 contre 0,55 aux quatre cases cochées : le niveau EN,
+        # seule donnée qui distingue vraiment deux gants, y pesait moins que
+        # la somme de ce que tout le monde annonce. Écart-type tombé à 0,88,
+        # soit un rayon entier tassé autour de 7,5.
         composantes = [
-            ("Niveau EN 13594", _echelonne(_valeur_numerique("niveau", par_nom["niveau"]), 0, 2), 0.7),
-            ("Protection articulations (KP)", _booleen_vers_note(par_nom.get("kp")), 0.3),
+            ("Niveau EN 13594", niveau, 0.50, True, _GRADUE),
+            ("Homologation", homologation if niveau is None else None, 0.40, True, _GRADUE),
+            ("Coque de protection", _equipement_vers_note(lire("coque_articulations")),
+             0.15, False, _COCHE),
+            ("Protection articulations (KP)", _equipement_vers_note(lire("kp")), 0.10, False, _COCHE),
+            ("Protection du scaphoïde", _equipement_vers_note(lire("protection_scaphoide")),
+             0.05, False, _COCHE),
+            ("Renfort de paume", _equipement_vers_note(lire("renfort_paume"), plafond=8.0),
+             0.05, False, _COCHE),
         ]
-        base = "le niveau EN 13594"
+        base = ("le niveau EN 13594" if niveau is not None
+                else "l'homologation déclarée" if homologation is not None else None)
     elif racine == "boots":
-        indices = [par_nom.get(n) for n in
-                   ("indice_hauteur", "indice_abrasion", "indice_coupure", "indice_rigidite")]
-        notes = [_echelonne(_valeur_numerique("indice", v), 0, 2) for v in indices if v]
-        if not notes:
-            return None
-        composantes = [("Indices EN 13634", sum(notes) / len(notes), 1.0)]
-        base = "les indices EN 13634"
+        indices = _moyenne(*[
+            _echelonne(nombre(n), 0, 2) for n in
+            ("indice_hauteur", "indice_abrasion", "indice_coupure", "indice_rigidite")])
+        homologation = _homologation_nommee(lire("homologation"), "13634")
+        composantes = [
+            ("Indices EN 13634", indices, 0.50, True, _GRADUE),
+            # Le seul critère gradué que ce rayon fournit en nombre : la norme
+            # nommée contre un « CE » générique. Sans lui, l'indice des bottes
+            # ne reposait que sur des cases jamais décochées. Il domine donc,
+            # pour la même raison que chez les gants.
+            ("Homologation", homologation if indices is None else None, 0.45, True, _GRADUE),
+            # La malléole est l'os qui casse en premier quand un pied reste
+            # coincé sous la moto : c'est la protection qui distingue une
+            # botte moto d'une chaussure montante, et elle pèse en conséquence.
+            ("Protection de malléole", _equipement_vers_note(lire("protection_malleole")),
+             0.20, False, _COCHE),
+            ("Coque au bout du pied", _equipement_vers_note(lire("coque_bout_de_pied"), plafond=9.0),
+             0.10, False, _COCHE),
+            ("Protection du tibia", _equipement_vers_note(lire("protection_tibia"), plafond=9.0),
+             0.10, False, _COCHE),
+            ("Protection de sélecteur", _equipement_vers_note(lire("protection_selecteur"), plafond=7.0),
+             0.05, False, _COCHE),
+        ]
+        base = ("la norme EN 13634" if indices is not None
+                else "l'homologation déclarée" if homologation is not None else None)
     else:
         return None
 
-    presentes = [(libelle, note, poids) for libelle, note, poids in composantes if note is not None]
-    if not presentes:
+    presentes = [c for c in composantes if c[1] is not None]
+    if len(presentes) < _CRITERES_MINIMUM:
         return None
-    poids_total = sum(poids for _, _, poids in presentes)
-    note = sum(note * poids for _, note, poids in presentes) / poids_total
+    if not any(gradue for _, _, _, _, gradue in presentes):
+        return None   # voir le garde-fou 3 : des cases cochées ne classent rien
+    poids_total = sum(poids for _, _, poids, _, _ in presentes)
+    note = sum(n * poids for _, n, poids, _, _ in presentes) / poids_total
     return {
         "note": round(note, 1),
-        "base": base,
-        "detail": [(libelle, round(n, 1)) for libelle, n, _ in presentes],
+        "criteres": len(presentes),
+        # `base` ne vaut quelque chose que si la norme correspondante est
+        # VRAIMENT là : sans elle, la page doit dire que l'indice repose sur
+        # ce que les marchands déclarent, et pas laisser croire à un essai.
+        "base": base or "les caractéristiques déclarées par les marchands",
+        "independante": any(ind for _, _, _, ind, _ in presentes),
+        "detail": [(libelle, round(n, 1)) for libelle, n, _, _, _ in presentes],
     }

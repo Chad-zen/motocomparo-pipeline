@@ -2233,24 +2233,36 @@ body:has(.banc:not([hidden])) { padding-bottom: 94px; }
 /* --- les scores, en gros badges colorés ------------------------------- */
 .comparateur__score-case {
   background: var(--card); border: 1px solid var(--line); border-top: 0;
-  padding: 10px 12px 14px; margin-left: -1px; text-align: center;
+  padding: 10px 12px 14px; margin-left: -1px;
 }
+/* Le bloc de score occupe TOUTE la largeur de sa colonne. Une première
+   version en faisait une petite pastille de 74 px avec sa légende en gris en
+   dessous : sur un téléphone, la donnée dont la page se réclame le plus se
+   lisait moins bien que le nom du produit. Un chiffre qu'on doit chercher ne
+   sert à rien. */
 .comparateur__score {
-  display: inline-flex; align-items: baseline; gap: 2px; justify-content: center;
-  min-width: 74px; padding: 8px 14px; border-radius: 12px; color: #fff;
-  font-variant-numeric: tabular-nums;
+  display: block; width: 100%; padding: 12px 10px 10px; border-radius: 12px;
+  color: #fff; font-variant-numeric: tabular-nums; text-align: left;
 }
-.comparateur__score strong { font-size: 22px; font-weight: 800; line-height: 1; }
-.comparateur__score span { font-size: 12px; opacity: .85; }
+.comparateur__score strong {
+  display: block; font-size: 30px; font-weight: 800; line-height: 1;
+}
+.comparateur__score-titre {
+  display: block; margin-top: 4px; font-size: 11.5px; font-weight: 700;
+  line-height: 1.25; opacity: .95;
+}
 .comparateur__score--haut  { background: #1e9e5a; }
 .comparateur__score--moyen { background: #d98a12; }
 .comparateur__score--bas   { background: #c23b2c; }
-.comparateur__score--vide  { background: var(--puce, #eef0f6); color: var(--muted); font-size: 20px; }
+.comparateur__score--vide  { background: var(--puce, #eef0f6); color: var(--muted); }
 .comparateur__score--gagnant { box-shadow: 0 0 0 3px #ffe9ae; }
 .comparateur__score-legende {
-  margin: 8px 0 0; font-size: 11.5px; color: var(--muted); line-height: 1.4;
+  margin: 7px 0 0; font-size: 11.5px; color: var(--muted); line-height: 1.4;
+  cursor: help; text-align: left;
 }
-.comparateur__score-detail { display: block; margin-top: 2px; cursor: help; }
+/* Ce qui sépare un indice adossé à une norme d'un indice tiré de cases
+   cochées — la seule chose de cette légende qui mérite d'attirer l'œil. */
+.comparateur__score-norme { color: #1e7a46; font-weight: 700; }
 
 /* --- le tableau détaillé, groupé en sections repliables --------------- */
 .comparateur__tableau {

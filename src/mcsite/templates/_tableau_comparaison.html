@@ -73,18 +73,25 @@
       {% if it.indice %}
       {% set n = it.indice.note %}
       <div class="comparateur__score comparateur__score--{{ 'haut' if n >= 7 else ('moyen' if n >= 4 else 'bas') }} {{ 'comparateur__score--gagnant' if indice_gagnant is not none and n == indice_gagnant }}">
-        <strong>{{ '%.1f' | format(n) }}</strong><span>/10</span>
+        <strong>{{ '%.1f' | format(n) }}</strong>
+        <span class="comparateur__score-titre">Indice de protection</span>
       </div>
-      <p class="comparateur__score-legende">
-        Indice de protection
-        <span class="comparateur__score-detail" title="Calculé sur {{ it.indice.base }}">
-          {% for libelle, d in it.indice.detail %}{{ libelle }} {{ '%.1f' | format(d) }}{% if not loop.last %} · {% endif %}{% endfor %}
-        </span>
+      {# CE QUI FONDE LE CHIFFRE, SOUS LE CHIFFRE. Un 8,5 adossé à l'essai
+         SHARP et un 8,5 tiré de trois cases cochées dans une description ne
+         valent pas la même chose, et la page n'a pas le droit de les montrer
+         pareil. Le nombre de critères et leur nature sont donc écrits juste
+         en dessous, le détail au survol. #}
+      <p class="comparateur__score-legende" title="Calculé sur {{ it.indice.base }} — {% for libelle, d in it.indice.detail %}{{ libelle }} {{ '%.1f' | format(d) }}{% if not loop.last %} · {% endif %}{% endfor %}">
+        {{ it.indice.criteres }} critère{{ 's' if it.indice.criteres > 1 }} ·
+        {% if it.indice.independante %}<b class="comparateur__score-norme">norme ou essai</b>{% else %}déclarations marchands{% endif %}
       </p>
       {% else %}
-      <div class="comparateur__score comparateur__score--vide">—</div>
-      <p class="comparateur__score-legende">Pas de mesure ni de norme
-        indépendante sur cette fiche</p>
+      <div class="comparateur__score comparateur__score--vide">
+        <strong>—</strong>
+        <span class="comparateur__score-titre">Indice de protection</span>
+      </div>
+      <p class="comparateur__score-legende">Pas assez de données publiées sur
+        cette fiche pour le calculer</p>
       {% endif %}
     </div>
     {% endfor %}
