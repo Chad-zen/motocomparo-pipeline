@@ -41,6 +41,11 @@ mcpipe normalize
 mcpipe signature      # porte les tailles ; doit précéder enrich
 mcpipe enrich         # catégories + emprunt des tailles au code-barres
 mcpipe freshness      # recalcule les prix affichés — jamais optionnel
+mcpipe caracteristiques  # relit les descriptions du jour, remplit product_caracteristique
+                         # LIT LES FICHIERS SUR DISQUE : doit tourner apres fetch,
+                         # tant qu'ils n'ont pas ete ecrases par le prochain fetch.
+                         # Travaille par fiche deja appariee : linked_status = 'linked'
+                         # est pose par match, pas remis a zero chaque nuit.
 
 # Le vidage du cache est fait par systemd APRÈS cette chaîne, voir
 # `ExecStartPost` dans l'unité. Il était ici, et il ne faisait RIEN : le cache
