@@ -2222,21 +2222,15 @@ body:has(.banc:not([hidden])) { padding-bottom: 94px; }
   display: flex; align-items: center; justify-content: center; z-index: 1;
 }
 .comparateur__x:hover { color: var(--ink); border-color: var(--or); }
-/* Le prix et ce qu'il a départagé, dans un seul bloc cliquable. Deux lignes
-   grises qui se suivaient sans se répondre y sont devenues une pastille : le
-   prix en gras, le nombre de marchands dessous, en plus petit. */
+/* Le prix, seul, dans un bloc cliquable qui mène à la fiche. */
 .comparateur__prix-pastille {
-  display: block; margin-top: 10px; padding: 7px 10px; border-radius: 9px;
+  display: block; margin-top: 10px; padding: 8px 10px; border-radius: 9px;
   background: var(--puce, #f4f5f8); border: 1px solid var(--line);
   color: var(--ink); text-decoration: none;
 }
 .comparateur__prix-pastille b {
   display: block; font-size: 15px; font-weight: 700;
   font-variant-numeric: tabular-nums;
-}
-.comparateur__prix-pastille small {
-  display: block; margin-top: 1px; font-weight: 400; color: var(--muted);
-  font-size: 11px;
 }
 .comparateur__prix-pastille:hover { border-color: var(--or); }
 /* Le prix le plus bas de la comparaison : c'est la seule couleur de ce bloc

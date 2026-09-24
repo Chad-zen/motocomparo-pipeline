@@ -579,6 +579,50 @@ def _fourni_ou_prepare(texte: str, motif: str) -> str | None:
     return "prepare" if any(_prepare_dans(s) for s in trouves) else "fourni"
 
 
+# Toutes les pièces que le rayon protège. Sert à savoir DE QUI une marque de
+# préparation parle — voir `_prepare_pour`.
+_PIECES = (r"[ée]paules?|[ée]pauli[èe]res?|shoulders?|coudes?|coudi[èe]res?|"
+           r"elbows?|dorsales?|protection de dos|prot[èe]ge.?dos|back.?protector|"
+           r"hanches?|genoux|genouill[èe]res?|nuques?|cervicales?|"
+           r"thorax|poitrine|sternum|tibias?")
+
+
+def _prepare_pour(segment: str, motif_partie: str) -> bool:
+    """La marque de préparation de ce segment parle-t-elle de NOTRE pièce ?
+
+    LE DÉFAUT QUE CETTE FONCTION CORRIGE. Motoblouz colle ses phrases sans
+    ponctuation : « Protections coudes D3O homologuées CE Protections épaules
+    D3O homologuées CE Prédisposé à recevoir une protection dorsale ». Tout
+    tient dans un seul segment. L'ancienne règle — un segment qui porte la
+    pièce ET une marque de préparation vaut « prepare » — y lisait donc des
+    coudes « préparés » sur un blouson dont le texte dit, en toutes lettres,
+    qu'ils sont fournis et homologués. Seule la DORSALE y est en option.
+
+    Les deux familles de marques ne se rattachent pas du même côté, et c'est
+    ce qui permet de trancher :
+
+      * « prédisposé à recevoir UNE DORSALE », « poche pour UNE DORSALE » :
+        la préparation annonce ce qui SUIT ;
+      * « épaules et coudes EN OPTION », « dorsale VENDUE SÉPARÉMENT » : elle
+        qualifie ce qui PRÉCÈDE.
+
+    On reste pessimiste quand la marque ne nomme aucune pièce : « livré sans
+    protections » ne dit pas lesquelles, et se tromper dans ce sens fait
+    perdre un filtre, tandis que se tromper dans l'autre fait rouler
+    quelqu'un avec des coudes nus qu'il croit protégés.
+    """
+    for m in re.finditer(_PREPARE, segment, re.I):
+        pieces = re.findall(f"(?:{_PIECES})", segment[m.end():m.end() + 90], re.I)
+        if not pieces or any(re.search(motif_partie, p, re.I) for p in pieces):
+            return True
+    for m in re.finditer(_OPTION_APRES, segment, re.I):
+        debut = max(0, m.start() - 90)
+        pieces = re.findall(f"(?:{_PIECES})", segment[debut:m.start()], re.I)
+        if not pieces or any(re.search(motif_partie, p, re.I) for p in pieces):
+            return True
+    return False
+
+
 def _protection_du_corps(texte: str, motif_partie: str) -> str | None:
     """Une protection d'épaule, pas un empiècement d'épaule.
 
@@ -591,7 +635,8 @@ def _protection_du_corps(texte: str, motif_partie: str) -> str | None:
                if re.search(_MOT_PROTECTION, s, re.I)]
     if not trouves:
         return None
-    return "prepare" if any(_prepare_dans(s) for s in trouves) else "fournies"
+    return ("prepare" if any(_prepare_pour(s, motif_partie) for s in trouves)
+            else "fournies")
 
 
 def _matiere_coque(texte: str) -> str | None:
