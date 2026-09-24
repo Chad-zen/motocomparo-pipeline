@@ -53,10 +53,16 @@
         <span class="comparateur__marque">{{ it.brand_code | upper }}</span>
         <span class="comparateur__nom">{{ nom(it) }}</span>
       </a>
-      <span class="comparateur__prix-pastille {{ 'comparateur__prix-pastille--gagnant' if prix_gagnant is not none and it.cheapest == prix_gagnant }}">
-        {% if it.cheapest %}<small>dès</small> {{ it.cheapest | prix }}{% else %}—{% endif %}
-      </span>
-      <span class="comparateur__marchands">{{ it.merchant_count }} marchand{{ 's' if it.merchant_count > 1 }}</span>
+      {# Prix et nombre de marchands dans UN seul bloc, le second sous le
+         premier — au lieu de deux lignes grises qui se suivaient sans se
+         répondre. Le compte n'est pas une statistique de catalogue ici : il
+         dit combien de vendeurs ce prix a départagés, et il ne veut rien
+         dire loin du chiffre qu'il qualifie. #}
+      <a class="comparateur__prix-pastille {{ 'comparateur__prix-pastille--gagnant' if prix_gagnant is not none and it.cheapest == prix_gagnant }}"
+         href="/p/{{ it.slug }}">
+        <b>{% if it.cheapest %}dès {{ it.cheapest | prix }}{% else %}—{% endif %}</b>
+        <small>{{ it.merchant_count }} marchand{{ 's' if it.merchant_count > 1 }} comparé{{ 's' if it.merchant_count > 1 }}</small>
+      </a>
     </div>
     {% endfor %}
   </div>
