@@ -28,6 +28,7 @@ médiane, FC-Moto 157, La Bécanerie 127. Le premier qui sait répond.
 from __future__ import annotations
 
 import csv
+import html
 import os
 from dataclasses import asdict
 from pathlib import Path
@@ -63,6 +64,26 @@ csv.field_size_limit(10 ** 7)
 # n'y en a plus qu'une.
 
 
+# LES ENTITÉS HTML SE DÉCODENT ICI, UNE FOIS, POUR TOUT LE MONDE.
+#
+# 17,7 % des descriptions Motoblouz portent des entités non décodées —
+# `&nbsp;`, `&amp;`, `&eacute;` — mesuré le 2026-09-24 sur 120 001 lignes. Ce
+# n'est pas un détail d'affichage : les extracteurs découpent le texte sur la
+# ponctuation, et le point-virgule de `&nbsp;` y crée une FRONTIÈRE DE SEGMENT
+# FANTÔME, au milieu d'une phrase que le marchand n'a jamais coupée.
+#
+# Le défaut a été trouvé par son symptôme le plus absurde : le blouson Furygan
+# Mistral Evo 3 et sa version dame, même vêtement et description jumelle,
+# ressortaient l'un avec « protections coudes fournies » et l'autre avec
+# « préparé ». La version homme écrivait « Protections épaules&nbsp;D3O », la
+# version dame « Protections épaules D3O ». Le `;` de l'entité coupait la
+# phrase juste avant « Prédisposé à recevoir une protection dorsale », et
+# sauvait la lecture PAR ACCIDENT. Une réponse juste pour une mauvaise raison
+# est une réponse qui se trompera ailleurs.
+#
+# Décoder au bon endroit — le lecteur de flux — plutôt que dans chacun des
+# cinq rayons : deux façons de nettoyer un texte finissent toujours par
+# diverger, comme les deux clés de jointure au-dessus.
 def _lignes(feed: FeedSpec, chemin: Path):
     """(référence marchande, titre, description) pour chaque ligne du flux."""
     cols = feed.columns
@@ -75,8 +96,8 @@ def _lignes(feed: FeedSpec, chemin: Path):
             if not sku:
                 continue
             yield (sku,
-                   (_ci_get(ligne, cols.get("title", [])) or "").strip(),
-                   (_ci_get(ligne, cols.get("description", [])) or "").strip())
+                   html.unescape(_ci_get(ligne, cols.get("title", [])) or "").strip(),
+                   html.unescape(_ci_get(ligne, cols.get("description", [])) or "").strip())
 
 
 # Du plus bavard au moins bavard. La Bécanerie y figure bien qu'elle soit

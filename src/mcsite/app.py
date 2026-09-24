@@ -672,22 +672,12 @@ def favoris(request: Request, p: str = ""):
 def _noter(items: list[dict[str, Any]]) -> None:
     """Pose la note MotoComparo sur chaque fiche comparée, en place.
 
-    Les médianes de rayon — l'étalon du rapport qualité-prix — sont gardées au
-    chaud : elles balaient tout `product_stats` et ne bougent qu'au passage du
-    pipeline, alors que deux visiteurs qui comparent les mêmes casques à une
-    minute d'intervalle ont droit exactement au même chiffre.
+    Rien à interroger ici : la note ne dépend que des caractéristiques déjà
+    chargées avec la fiche. Le prix n'y entre pas — voir `_POIDS_QUALITE`.
     """
-    def _reperes() -> dict[str, float]:
-        with pool.connection() as conn:  # type: ignore[union-attr]
-            return queries.reperes_rayons(conn)
-
-    medianes = cache.au_chaud("reperes_rayons", _reperes)
     for it in items:
-        rayon = (it.get("category_code") or "").split(".", 1)[0]
         it["indice"] = queries.note_globale(
-            it["caracteristiques"], it.get("category_code") or "",
-            float(it["cheapest"]) if it.get("cheapest") else None,
-            medianes.get(rayon))
+            it["caracteristiques"], it.get("category_code") or "")
 
 
 @app.get("/comparer", response_class=HTMLResponse)

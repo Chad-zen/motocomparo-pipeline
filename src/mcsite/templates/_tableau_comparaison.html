@@ -53,15 +53,13 @@
         <span class="comparateur__marque">{{ it.brand_code | upper }}</span>
         <span class="comparateur__nom">{{ nom(it) }}</span>
       </a>
-      {# Prix et nombre de marchands dans UN seul bloc, le second sous le
-         premier — au lieu de deux lignes grises qui se suivaient sans se
-         répondre. Le compte n'est pas une statistique de catalogue ici : il
-         dit combien de vendeurs ce prix a départagés, et il ne veut rien
-         dire loin du chiffre qu'il qualifie. #}
+      {# Le prix, et lui seul. Le nombre de marchands vivait ici ; il est
+         retiré à la demande de la propriétaire : la colonne doit dire ce
+         qu'on paie, pas combien de vendeurs il a fallu lire pour le savoir.
+         Le compte reste sur la fiche produit, là où il sert. #}
       <a class="comparateur__prix-pastille {{ 'comparateur__prix-pastille--gagnant' if prix_gagnant is not none and it.cheapest == prix_gagnant }}"
          href="/p/{{ it.slug }}">
         <b>{% if it.cheapest %}dès {{ it.cheapest | prix }}{% else %}—{% endif %}</b>
-        <small>{{ it.merchant_count }} marchand{{ 's' if it.merchant_count > 1 }} comparé{{ 's' if it.merchant_count > 1 }}</small>
       </a>
     </div>
     {% endfor %}
@@ -169,15 +167,16 @@
 </div>
 
 <p class="sous-titre">
-  {% if indices %}La note MotoComparo réunit trois volets : la
+  {% if indices %}La note MotoComparo réunit deux volets : la
   <b>protection</b> — mesures et normes indépendantes d'abord, l'essai SHARP
-  pour les casques, les classes et niveaux EN pour le reste — le
-  <b>rapport qualité-prix</b>, qui rapporte ce que vaut l'article au prix
-  médian de son rayon, et l'<b>équipement</b> confirmé. Elle n'est jamais
-  tirée d'une phrase de vente, et n'apparaît que si la fiche porte assez de
-  données pour la fonder. « Équipements confirmés » se lit à la lettre : un
-  équipement qu'aucun marchand ne mentionne n'est pas compté comme absent,
-  il est compté comme inconnu.{% endif %}
+  pour les casques, les classes et niveaux EN pour le reste — et
+  l'<b>équipement</b> confirmé. Le <b>prix n'y entre pas</b> : il est affiché
+  au-dessus, où il se compare directement, et une note qui le mélangerait au
+  reste reviendrait à trier par prix en prétendant juger. La note n'est
+  jamais tirée d'une phrase de vente, et n'apparaît que si la fiche porte
+  assez de données pour la fonder. « Équipements confirmés » se lit à la
+  lettre : un équipement qu'aucun marchand ne mentionne n'est pas compté
+  comme absent, il est compté comme inconnu.{% endif %}
   Les cases surlignées en or sont celles où une fiche fait mieux qu'une
   autre — prix le plus bas, note la plus haute, ou valeur mesurée la plus
   favorable. Une case vide ne veut pas dire « non » : la source n'a

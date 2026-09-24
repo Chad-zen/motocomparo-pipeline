@@ -2137,105 +2137,33 @@ def note_equipement(
     }
 
 
-# --- le rapport qualité-prix ------------------------------------------------
-#
-# LA QUESTION QUE POSE UN COMPARATEUR, et la seule que le prix seul ne peut
-# pas trancher : est-ce que j'en ai pour mon argent ? Un casque à 100 € n'est
-# pas « bon marché » dans l'absolu, il l'est par rapport à ce que le rayon
-# demande d'ordinaire — d'où la médiane du rayon comme étalon, relevée sur le
-# catalogue lui-même et non posée à la main.
-#
-# LA COURBE, ET POURQUOI CE N'EST PAS UN SIMPLE RAPPORT. Une première version
-# divisait la qualité par le prix relatif et écrêtait à 10. Elle était juste
-# sur le principe et inutilisable en pratique : le rayon casque a une médiane
-# à 230 €, si bien qu'un casque à 1 200 € — cinq fois la médiane — tombait à
-# 1,3/10 et traînait toute sa note d'ensemble à 4,9. Un score qui range chaque
-# article haut de gamme au même niveau que le bas de gamme raté ne départage
-# plus rien.
-#
-# La courbe ci-dessous est bornée par construction : elle vaut exactement 5
-# pour une fiche de qualité moyenne au prix médian de son rayon, monte sans
-# jamais atteindre 10, et descend sans jamais toucher 0. C'est la même forme
-# qu'un rapport de cotes, et elle tient en une phrase : deux fois plus de
-# qualité par euro que la médiane du rayon vaut 6,7 ; deux fois moins, 3,3.
-_QUALITE_DE_REFERENCE = 7.0
-
-
-def note_valeur(qualite: float | None, prix: float | None,
-                mediane: float | None) -> float | None:
-    """La qualité obtenue par euro, rapportée au prix médian du rayon."""
-    if qualite is None or not prix or not mediane or prix <= 0 or mediane <= 0:
-        return None
-    return round(10.0 * qualite * mediane
-                 / (qualite * mediane + _QUALITE_DE_REFERENCE * prix), 1)
-
-
-def reperes_rayons(conn: psycopg.Connection) -> dict[str, float]:
-    """Le prix médian de chaque rayon — l'étalon de `note_valeur()`.
-
-    Une seule requête pour tout le catalogue, gardée au chaud par l'appelant :
-    elle ne bouge qu'au passage du pipeline, et la recalculer par visiteur
-    coûterait un balayage complet de `product_stats` pour un chiffre
-    identique à celui de la seconde d'avant.
-
-    Seules les fiches réellement comparables comptent (deux marchands au
-    moins) : les 280 000 autres tireraient la médiane vers des articles que
-    personne ne met en face d'un autre.
-    """
-    lignes = _rows(conn, """
-        SELECT split_part(c.code, '.', 1) AS rayon,
-               percentile_cont(0.5) WITHIN GROUP (ORDER BY s.cheapest) AS mediane
-        FROM product p
-        JOIN product_stats s ON s.product_id = p.id
-        JOIN category c ON c.id = p.category_id
-        WHERE p.status <> 'merged' AND s.merchant_count >= 2 AND s.cheapest > 0
-        GROUP BY 1
-    """)
-    return {l["rayon"]: float(l["mediane"]) for l in lignes if l["mediane"]}
-
-
-# Ce que pèse chaque volet dans la note d'ensemble.
+# Ce que pèse chaque volet dans la note.
 #
 # La protection domine, et ce n'est pas une opinion : ces articles existent
 # pour amortir un choc, et un blouson qui le fait mal reste un mauvais
-# blouson même à dix euros. Le rapport qualité-prix et l'équipement se
-# partagent le reste à parts égales — le premier parce que c'est la raison
-# d'être d'un comparateur, le second parce qu'il décrit le confort plus que
-# la sécurité.
+# blouson même à dix euros. L'équipement suit, à moitié moins, parce qu'il
+# décrit le confort plus que la sécurité.
 #
-# Le prix ne pèse pas davantage POUR UNE RAISON MESURÉE : à 0,40, il suffisait
-# qu'un article soit haut de gamme pour que sa note d'ensemble tombe sous 5,
-# protection cinq étoiles comprise. Un comparateur qui note un casque sûr
-# comme un casque médiocre parce qu'il est cher n'aide pas à choisir, il
-# range par prix — ce que le tri par prix fait déjà, mieux et sans prétendre
-# juger.
+# LE PRIX N'Y EST PLUS, et il n'y sera pas. Il y est entré le temps d'une
+# version, pour un quart, sous la forme d'un rapport qualité-prix. Retiré à
+# la demande de la propriétaire, et l'essai lui a donné raison : noter un
+# article par ce qu'il coûte revient à re-trier par prix, ce que le tableau
+# fait déjà, mieux, et sans prétendre juger. Le prix reste AFFICHÉ en tête de
+# colonne, où il se compare d'un coup d'œil.
 _POIDS_QUALITE = {"protection": 0.50, "equipement": 0.25}
-
-# LE PRIX MODULE LA NOTE, IL NE LA PILOTE JAMAIS.
-#
-# Ce ratio est fixe, et c'est tout l'intérêt. Une première version rangeait le
-# rapport qualité-prix parmi les trois volets et renormalisait les poids sur
-# ceux qui avaient répondu : quand la protection manquait, le prix se
-# retrouvait à peser la moitié de la note. Un Suomy S1-XR GP à 824 € dont
-# aucun marchand ne décrit la protection tombait ainsi à 4,0 — une note qui
-# se lit « mauvais casque » alors qu'elle dit « casque cher dont on ne sait
-# rien ». La qualité se calcule donc d'abord, entre ses seuls volets, et le
-# prix vient la corriger d'un quart au plus.
-_PART_DU_PRIX = 0.25
 
 
 def note_globale(
     caracteristiques: list[dict[str, Any]], category_code: str,
-    prix: float | None, mediane: float | None,
 ) -> dict[str, Any] | None:
-    """La note MotoComparo d'une fiche : protection, équipement et rapport
-    qualité-prix en un seul chiffre, et les trois sous-notes avec lui.
+    """La note MotoComparo d'une fiche : ce que l'article protège et ce qu'il
+    offre, en un chiffre, et les sous-notes qui le composent.
 
-    Le chiffre d'ensemble ne remplace pas ses composantes, il les résume : la
-    page affiche les trois en dessous, parce qu'un acheteur qui cherche la
-    protection maximale et un acheteur qui cherche le meilleur prix ne lisent
-    pas la même ligne — et qu'une note unique qui prétendrait trancher pour
-    eux serait une note qui ment à l'un des deux.
+    Le chiffre ne remplace pas ses composantes, il les résume : la page les
+    affiche en dessous, parce qu'un acheteur qui cherche la protection
+    maximale et un acheteur qui cherche l'équipement le plus complet ne
+    lisent pas la même ligne — et qu'une note unique qui prétendrait trancher
+    pour eux serait une note qui ment à l'un des deux.
     """
     protection = indice_protection(caracteristiques, category_code)
     equipement = note_equipement(caracteristiques, category_code)
@@ -2252,20 +2180,21 @@ def note_globale(
     poids_total = sum(_POIDS_QUALITE[cle] for _, _, cle in qualites)
     qualite = sum(n * _POIDS_QUALITE[cle] for _, n, cle in qualites) / poids_total
 
-    # 2. CE QU'IL COÛTE POUR CELA — une correction, jamais le pilote.
-    valeur = note_valeur(qualite, prix, mediane)
-    note = (qualite * (1 - _PART_DU_PRIX) + valeur * _PART_DU_PRIX
-            if valeur is not None else qualite)
-
+    # 2. LE PRIX N'ENTRE PAS DANS LA NOTE, et c'est une décision.
+    #
+    # Il y est entré le temps d'une version, pour un quart. Retiré à la
+    # demande de la propriétaire, et l'essai a donné raison à la demande :
+    # noter un article par ce qu'il coûte revient à re-trier par prix — ce
+    # que le tableau fait déjà, mieux, et sans prétendre juger. Le prix reste
+    # AFFICHÉ en tête de colonne, où il se compare d'un coup d'œil ; la note
+    # dit ce que l'article EST, pas ce qu'il vaut à ce tarif.
+    note = qualite
     volets = [(libelle, n) for libelle, n, _ in qualites]
-    if valeur is not None:
-        volets.append(("Rapport qualité-prix", valeur))
     return {
         "note": round(note, 1),
         "volets": volets,
         "protection": protection,
         "equipement": equipement,
-        "valeur": valeur,
         # Ce qui distingue une note adossée à un essai ou à une norme d'une
         # note bâtie sur des descriptions marchandes. Voir le gabarit.
         "independante": bool(protection and protection["independante"]),

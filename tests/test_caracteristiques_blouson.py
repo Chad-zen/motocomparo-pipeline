@@ -11,6 +11,7 @@ teste ce qu'on a imaginé, pas ce que les marchands écrivent.
 
 from __future__ import annotations
 
+import html
 from pathlib import Path
 
 from mcpipe.caracteristiques.blouson import Blouson, fusionner, lire
@@ -135,6 +136,52 @@ def test_les_phrases_collees_de_motoblouz_sont_bien_des_phrases():
     b = lire("", t)
     assert b.protections_epaules == "fournies"
     assert b.dorsale == "option-poche"
+
+
+def test_la_predisposition_dorsale_ne_deshabille_pas_les_coudes():
+    """Le blouson qui a montré que la note du site était instable.
+
+    Le Furygan Mistral Evo 3 et sa version dame, même vêtement et description
+    jumelle, ressortaient l'un « protections coudes fournies » et l'autre
+    « préparé ». Motoblouz colle ses phrases sans ponctuation, si bien que la
+    prédisposition à recevoir une DORSALE tombait dans le même segment que
+    des coudes et des épaules explicitement fournis et homologués.
+
+    La version homme échappait au défaut par accident : elle écrivait
+    « épaules&nbsp;D3O », et le point-virgule de l'entité HTML coupait le
+    segment juste avant. Une réponse juste pour une mauvaise raison.
+    """
+    t = ("Protections: Protections coudes D3O homologuées CE Protections "
+         "épaules D3O homologuées CE Prédisposé à recevoir une protection "
+         "dorsale D3O homologuée CE")
+    b = lire("", t)
+    assert b.protections_coudes == "fournies"
+    assert b.protections_epaules == "fournies"
+    assert b.dorsale == "option-predisposee"
+
+
+def test_les_deux_versions_du_meme_blouson_se_lisent_pareil():
+    """Le symptôme, vu du visiteur : deux fiches du même vêtement ne peuvent
+    pas porter deux lectures différentes parce qu'un marchand a écrit une
+    entité HTML là où l'autre a mis une espace."""
+    homme = ("Protections coudes D3O&reg; homologuées CE Protections "
+             "épaules&nbsp;D3O&reg; homologuées CE Prédisposé à recevoir une "
+             "protection dorsale")
+    femme = ("Protections coudes D3O homologuées CE Protections épaules D3O "
+             "homologuées CE Prédisposé à recevoir une protection dorsale")
+    # `_lignes()` décode les entités avant d'appeler les extracteurs : on fait
+    # ici ce que fait le lecteur de flux.
+    a, b = lire("", html.unescape(homme)), lire("", femme)
+    assert a.protections_coudes == b.protections_coudes == "fournies"
+    assert a.protections_epaules == b.protections_epaules == "fournies"
+
+
+def test_une_option_qui_suit_la_piece_la_qualifie_bien():
+    """L'autre sens de la règle, qui ne doit pas se perdre en corrigeant le
+    premier : « en option » placé APRÈS les pièces les qualifie vraiment."""
+    b = lire("", "Protections épaules et coudes en option, vendues séparément")
+    assert b.protections_epaules == "prepare"
+    assert b.protections_coudes == "prepare"
 
 
 def test_un_empiecement_n_est_pas_une_protection():
