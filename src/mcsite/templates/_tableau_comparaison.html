@@ -1,0 +1,169 @@
+{# Le tableau lui-même, partagé par /comparer (la liste personnelle, en
+   localStorage) et /comparatif/{slugs} (l'adresse publique et partageable).
+   Attend : items (avec .caracteristiques et .indice), sections
+   (queries.sections_comparaison), memes_rayons, mode ('perso' | 'partage'),
+   et slugs (liste, requise en mode 'partage' pour construire les liens de
+   retrait).
+
+   Bandeau d'identité, scores et tableau détaillé vivent dans UN SEUL
+   conteneur qui défile horizontalement (`comparateur__scroll`) : c'est ce qui
+   les garde synchronisés au défilement sans une ligne de JavaScript — un
+   scrollbar unique plutôt que trois à recaler entre eux.
+
+   Les largeurs de colonnes vivent en variables CSS, posées ici une fois sur
+   `comparateur__scroll` et reprises par le CSS (`style.css`) sur les trois
+   blocs — jamais en pixels figés dans le gabarit : un `@media` peut ainsi
+   resserrer la colonne des libellés sur téléphone sans que ce fichier le
+   sache. #}
+
+{% if not memes_rayons %}
+<p class="alerte alerte--attention">
+  Ces fiches ne viennent pas du même rayon : le tableau montre tout ce que
+  chacune a su lire, mais une ligne vide n'y dit pas la même chose selon le
+  produit d'en face.
+</p>
+{% endif %}
+
+{% set prix_connus = items | selectattr('cheapest') | map(attribute='cheapest') | list %}
+{% set prix_gagnant = (prix_connus | min) if (prix_connus | length) > 1 else None %}
+{% set indices = items | selectattr('indice') | map(attribute='indice') | list %}
+{% set indice_gagnant = (indices | map(attribute='note') | list | max) if (indices | length) > 1 else None %}
+
+<div class="comparateur__scroll" style="--comparateur-n: {{ items | length }};">
+
+  {# Le bandeau d'identité : une carte par produit, prix et retrait compris —
+     posé hors du tableau, comme les pastilles d'une fiche téléphone. #}
+  <div class="comparateur__entete">
+    <div class="comparateur__case-vide"></div>
+    {% for it in items %}
+    <div class="comparateur__carte">
+      {% if mode == 'perso' %}
+      <button type="button" class="comparateur__x" data-retirer="{{ it.slug }}"
+              aria-label="Retirer {{ nom(it) }} du comparateur" title="Retirer du comparateur">×</button>
+      {% elif slugs | length > 2 %}
+      <a class="comparateur__x"
+         href="/comparatif/{{ (slugs | reject('equalto', it.slug) | list) | join(',') }}"
+         aria-label="Retirer {{ nom(it) }} de la comparaison" title="Retirer de la comparaison">×</a>
+      {% endif %}
+      <a href="/p/{{ it.slug }}" class="comparateur__lien">
+        <span class="comparateur__img">
+          {% if it.image_url %}<img src="{{ it.image_url }}" alt="" loading="lazy">
+          {% else %}<span class="carte__sansimg">pas de visuel</span>{% endif %}
+        </span>
+        <span class="comparateur__marque">{{ it.brand_code | upper }}</span>
+        <span class="comparateur__nom">{{ nom(it) }}</span>
+      </a>
+      <span class="comparateur__prix-pastille {{ 'comparateur__prix-pastille--gagnant' if prix_gagnant is not none and it.cheapest == prix_gagnant }}">
+        {% if it.cheapest %}<small>dès</small> {{ it.cheapest | prix }}{% else %}—{% endif %}
+      </span>
+      <span class="comparateur__marchands">{{ it.merchant_count }} marchand{{ 's' if it.merchant_count > 1 }}</span>
+    </div>
+    {% endfor %}
+  </div>
+
+  {% if indices %}
+  {# L'indice MotoComparo : jamais dans les données structurées de la fiche
+     (voir le garde-fou dans queries.indice_protection), seulement ici, à
+     l'écran, avec sa méthode dite en toutes lettres — jamais un jugement
+     caché derrière un simple chiffre. #}
+  <div class="comparateur__scores">
+    <div class="comparateur__case-vide"></div>
+    {% for it in items %}
+    <div class="comparateur__score-case">
+      {% if it.indice %}
+      {% set n = it.indice.note %}
+      <div class="comparateur__score comparateur__score--{{ 'haut' if n >= 7 else ('moyen' if n >= 4 else 'bas') }} {{ 'comparateur__score--gagnant' if indice_gagnant is not none and n == indice_gagnant }}">
+        <strong>{{ '%.1f' | format(n) }}</strong><span>/10</span>
+      </div>
+      <p class="comparateur__score-legende">
+        Indice de protection
+        <span class="comparateur__score-detail" title="Calculé sur {{ it.indice.base }}">
+          {% for libelle, d in it.indice.detail %}{{ libelle }} {{ '%.1f' | format(d) }}{% if not loop.last %} · {% endif %}{% endfor %}
+        </span>
+      </p>
+      {% else %}
+      <div class="comparateur__score comparateur__score--vide">—</div>
+      <p class="comparateur__score-legende">Pas de mesure ni de norme
+        indépendante sur cette fiche</p>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <table class="comparateur__tableau">
+    <caption class="visuellement-cache">Caractéristiques détaillées des fiches
+      comparées, groupées par thème</caption>
+    <colgroup>
+      <col class="comparateur__col-label">
+      {% for it in items %}<col class="comparateur__col">{% endfor %}
+    </colgroup>
+    <tbody>
+      {% for section, groupe in sections %}
+      <tr class="comparateur__section-tete" data-section-titre>
+        <th colspan="{{ items | length + 1 }}">
+          <button type="button" class="comparateur__section-bouton" data-section-toggle aria-expanded="true">
+            <span class="comparateur__chevron" aria-hidden="true">▾</span> {{ section }}
+          </button>
+        </th>
+      </tr>
+      {% for l in groupe %}
+      <tr class="{{ 'comparateur__differe' if l.differe }}" data-section-ligne>
+        <th scope="row">{{ l.libelle }}</th>
+        {% for it in items %}
+        {% set c = l.valeurs.get(it.slug) %}
+        <td class="{{ 'comparateur__gagnant' if it.slug in l.gagnants and (l.gagnants | length) < (items | length) }}">
+          {% if c %}
+            {% if l.nom == 'note_securite' %}
+              {% set n = c.valeur | int(0) %}
+              <span class="carac__etoiles" aria-label="{{ n }} étoiles sur 5">
+                {%- for i in range(1, 6) -%}<span class="etoile {{ 'etoile--pleine' if i <= n else 'etoile--vide' }}" aria-hidden="true">{{ '★' if i <= n else '☆' }}</span>{%- endfor -%}
+              </span>
+            {% else %}
+              {{ c.valeur }}
+            {% endif %}
+            {% if c.source == 'sharp' %}
+              <span class="carac__source carac__source--sharp" title="Mesuré par SHARP, programme d'essais indépendant du ministère des transports britannique">SHARP</span>
+            {% endif %}
+          {% else %}
+            <span class="comparateur__vide">—</span>
+          {% endif %}
+        </td>
+        {% endfor %}
+      </tr>
+      {% endfor %}
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<p class="sous-titre">
+  {% if indices %}L'indice de protection est calculé par MotoComparo à partir
+  de mesures et de normes indépendantes — l'essai SHARP pour les casques, les
+  classes et niveaux EN pour le reste — jamais d'une phrase de vente. Il
+  n'apparaît que lorsque la fiche porte au moins une de ces données.{% endif %}
+  Les cases surlignées en or sont celles où une fiche fait mieux qu'une
+  autre — prix le plus bas, indice le plus haut, ou valeur mesurée la plus
+  favorable. Une case vide ne veut pas dire « non » : la source n'a
+  simplement rien précisé sur ce point pour cette fiche.
+</p>
+
+<script>
+/* Les sections se replient sans recharger la page : un simple bouton qui
+   cache les lignes jusqu'au prochain titre de section. Sans JavaScript, tout
+   reste visible — ce n'est pas une fonctionnalité perdue, juste un tableau
+   plus long à parcourir. */
+(function () {
+  document.querySelectorAll('[data-section-toggle]').forEach(function (bouton) {
+    bouton.addEventListener('click', function () {
+      const ouvert = bouton.getAttribute('aria-expanded') === 'true';
+      bouton.setAttribute('aria-expanded', String(!ouvert));
+      let ligne = bouton.closest('tr').nextElementSibling;
+      while (ligne && ligne.hasAttribute('data-section-ligne')) {
+        ligne.hidden = ouvert;
+        ligne = ligne.nextElementSibling;
+      }
+    });
+  });
+})();
+</script>

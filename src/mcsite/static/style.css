@@ -2174,37 +2174,37 @@ body:has(.banc:not([hidden])) { padding-bottom: 94px; }
 .carac__note-chiffre { font-weight: 600; margin-right: 6px; }
 
 /* ------------------------------------------------------------- comparateur */
-/* Le tableau lui-même défile horizontalement — jamais la page — dès que le
-   nombre de fiches dépasse ce que l'écran peut montrer d'un coup : un
-   téléphone en voit deux ou trois entières, la première colonne (les
-   libellés) reste fixe pendant qu'on fait glisser les produits. */
-.comparateur { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); }
-.comparateur__tableau {
-  width: 100%; border-collapse: collapse; background: var(--card);
-  font-size: 13.5px;
+/* Bandeau d'identité, scores et tableau détaillé vivent tous les trois dans
+   CE conteneur, et lui seul défile horizontalement : un unique scrollbar
+   plutôt que trois éléments à recaler entre eux au doigt. Les largeurs de
+   colonnes sont posées côté gabarit (Jinja), identiques sur les trois blocs
+   — c'est ce qui les garde alignés verticalement malgré le défilement. */
+.comparateur__scroll {
+  overflow-x: auto;
+  /* Réglées ici, une fois, en variables — la colonne des libellés (texte,
+     large) et celle des repères vides du bandeau/des scores (rien à lire,
+     étroite) n'ont pas à faire la même largeur, et le `@media` plus bas ne
+     resserre que celle qui compte sur un petit écran. */
+  --comparateur-label: 190px; --comparateur-repere: 32px; --comparateur-col: 168px;
 }
-.comparateur__tableau th,
-.comparateur__tableau td {
-  padding: 10px 14px; border-bottom: 1px solid var(--ligne-offre, var(--line));
-  white-space: nowrap; text-align: left;
+.comparateur__entete, .comparateur__scores {
+  display: grid; column-gap: 0; align-items: stretch;
+  grid-template-columns: var(--comparateur-repere) repeat(var(--comparateur-n), minmax(var(--comparateur-col), 1fr));
 }
-.comparateur__tableau tbody tr:last-child th,
-.comparateur__tableau tbody tr:last-child td { border-bottom: 0; }
-/* Le libellé, à gauche, est ce qu'on garde des yeux en faisant défiler les
-   produits : sans le fixer, on perd la ligne qu'on est en train de lire dès
-   qu'on glisse au-delà de la première colonne. */
-.comparateur__tableau th[scope="row"] {
-  position: sticky; left: 0; background: var(--card); z-index: 1;
-  color: var(--muted); font-weight: 600; white-space: normal; min-width: 160px;
-  box-shadow: 1px 0 0 var(--line);
+.comparateur__case-vide { min-width: 0; }
+.comparateur__col-label { width: var(--comparateur-label); }
+.comparateur__col { width: var(--comparateur-col); }
+
+/* --- la carte d'identité, une par produit ---------------------------- */
+.comparateur__carte {
+  position: relative; background: var(--card); border: 1px solid var(--line);
+  border-radius: var(--radius) var(--radius) 0 0; border-bottom: 0;
+  padding: 14px 12px 12px; margin-left: -1px;
 }
-.comparateur__coin { position: sticky; left: 0; background: var(--card); z-index: 2; }
-.comparateur__ligne-tete th { border-bottom: 1px solid var(--line); background: #fafbfd; }
-.comparateur__produit { position: relative; vertical-align: top; min-width: 150px; }
 .comparateur__lien { display: block; text-decoration: none; color: inherit; }
 .comparateur__img {
-  display: block; width: 100%; height: 92px; border-radius: 8px;
-  overflow: hidden; background: var(--puce, #fafbfc); margin-bottom: 6px;
+  display: block; width: 100%; height: 88px; border-radius: 8px;
+  overflow: hidden; background: var(--puce, #fafbfc); margin-bottom: 8px;
 }
 .comparateur__img img { width: 100%; height: 100%; object-fit: contain; }
 .comparateur__marque {
@@ -2213,21 +2213,123 @@ body:has(.banc:not([hidden])) { padding-bottom: 94px; }
 }
 .comparateur__nom {
   display: block; font-weight: 700; color: var(--ink); white-space: normal;
-  font-size: 13px; line-height: 1.3;
+  font-size: 13px; line-height: 1.3; min-height: 34px;
 }
 .comparateur__x {
-  position: absolute; top: 6px; right: 6px; width: 22px; height: 22px;
+  position: absolute; top: 8px; right: 8px; width: 24px; height: 24px;
   border-radius: 50%; border: 1px solid var(--line); background: var(--card);
   color: var(--muted); line-height: 1; cursor: pointer; font-size: 14px;
+  display: flex; align-items: center; justify-content: center; z-index: 1;
 }
 .comparateur__x:hover { color: var(--ink); border-color: var(--or); }
-.comparateur__prix { font-size: 16px; color: var(--ink); }
-.comparateur__prix-ligne th, .comparateur__prix-ligne td { background: #fffaf0; }
+.comparateur__prix-pastille {
+  display: block; margin-top: 10px; font-weight: 700; font-size: 15px;
+  color: var(--ink); font-variant-numeric: tabular-nums;
+}
+.comparateur__prix-pastille small { font-weight: 400; color: var(--muted); font-size: 11px; }
+.comparateur__prix-pastille--gagnant { color: #1e7a46; }
+.comparateur__marchands { display: block; font-size: 11.5px; color: var(--muted); margin-top: 2px; }
+
+/* --- les scores, en gros badges colorés ------------------------------- */
+.comparateur__score-case {
+  background: var(--card); border: 1px solid var(--line); border-top: 0;
+  padding: 10px 12px 14px; margin-left: -1px; text-align: center;
+}
+.comparateur__score {
+  display: inline-flex; align-items: baseline; gap: 2px; justify-content: center;
+  min-width: 74px; padding: 8px 14px; border-radius: 12px; color: #fff;
+  font-variant-numeric: tabular-nums;
+}
+.comparateur__score strong { font-size: 22px; font-weight: 800; line-height: 1; }
+.comparateur__score span { font-size: 12px; opacity: .85; }
+.comparateur__score--haut  { background: #1e9e5a; }
+.comparateur__score--moyen { background: #d98a12; }
+.comparateur__score--bas   { background: #c23b2c; }
+.comparateur__score--vide  { background: var(--puce, #eef0f6); color: var(--muted); font-size: 20px; }
+.comparateur__score--gagnant { box-shadow: 0 0 0 3px #ffe9ae; }
+.comparateur__score-legende {
+  margin: 8px 0 0; font-size: 11.5px; color: var(--muted); line-height: 1.4;
+}
+.comparateur__score-detail { display: block; margin-top: 2px; cursor: help; }
+
+/* --- le tableau détaillé, groupé en sections repliables --------------- */
+.comparateur__tableau {
+  width: 100%; border-collapse: collapse; background: var(--card);
+  border: 1px solid var(--line); border-top: 0; font-size: 13.5px;
+  table-layout: fixed;
+}
+.comparateur__tableau th,
+.comparateur__tableau td {
+  padding: 10px 14px; border-bottom: 1px solid var(--ligne-offre, var(--line));
+  white-space: normal; text-align: left; overflow-wrap: break-word;
+}
+.comparateur__tableau tbody tr:last-child th,
+.comparateur__tableau tbody tr:last-child td { border-bottom: 0; }
+/* Le libellé, à gauche, est ce qu'on garde des yeux en faisant défiler les
+   produits : sans le fixer, on perd la ligne qu'on est en train de lire dès
+   qu'on glisse au-delà de la première colonne. */
+.comparateur__tableau th[scope="row"] {
+  position: sticky; left: 0; background: var(--card); z-index: 1;
+  color: var(--muted); font-weight: 600; white-space: normal;
+  box-shadow: 1px 0 0 var(--line);
+}
 .comparateur__vide { color: var(--muted); }
 /* Une ligne où les fiches disent des choses différentes : c'est justement ce
    qu'on est venu chercher en les mettant côte à côte. */
 .comparateur__differe th, .comparateur__differe td { background: #fff9ec; }
 .comparateur__differe th { font-weight: 700; color: var(--ink); }
+/* Une case qui fait mieux que ses voisines sur cette ligne — prix, indice ou
+   valeur mesurée. Un seul jeton d'accent (l'or de la marque) pour ce signal,
+   partout où il apparaît : cartes, scores, cellules. */
+.comparateur__gagnant { background: #fff4d6; font-weight: 700; color: var(--ink); position: relative; }
+
+.comparateur__section-tete th {
+  background: #fafbfd; border-bottom: 1px solid var(--line); padding: 0;
+  position: sticky; left: 0;
+}
+.comparateur__section-bouton {
+  display: flex; align-items: center; gap: 8px; width: 100%;
+  padding: 10px 14px; background: none; border: 0; cursor: pointer;
+  font-weight: 700; font-size: 13px; color: var(--ink); text-align: left;
+  text-transform: uppercase; letter-spacing: .3px;
+}
+.comparateur__chevron { transition: transform .15s; color: var(--or); }
+.comparateur__section-bouton[aria-expanded="false"] .comparateur__chevron { transform: rotate(-90deg); }
+
+/* --- ajouter une fiche par recherche, comme sur la barre du site ------ */
+.comparateur__ajouter { position: relative; max-width: 420px; margin: 0 0 16px; }
+.comparateur__recherche {
+  width: 100%; padding: 10px 14px; border: 1px solid var(--line);
+  border-radius: 8px; font-size: 14px; background: var(--card);
+}
+.comparateur__recherche:disabled { background: var(--puce, #f4f5f8); color: var(--muted); }
+.comparateur__suggestions {
+  position: absolute; top: calc(100% + 4px); left: 0; right: 0; z-index: 5;
+  list-style: none; margin: 0; padding: 6px; background: var(--card);
+  border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 8px 24px rgba(15,20,40,.12);
+  max-height: 320px; overflow-y: auto;
+}
+.comparateur__suggestions li { margin: 0; }
+.comparateur__suggestions button {
+  display: flex; align-items: center; gap: 10px; width: 100%; padding: 7px 8px;
+  border: 0; background: none; border-radius: 7px; cursor: pointer; text-align: left;
+  font-size: 13.5px; color: var(--ink);
+}
+.comparateur__suggestions button:hover { background: var(--puce, #f4f5f8); }
+.comparateur__suggestions img,
+.comparateur__suggestion-sansimg {
+  width: 32px; height: 32px; border-radius: 6px; object-fit: contain;
+  background: var(--puce, #fafbfc); flex: 0 0 auto;
+}
+.comparateur__suggestions b { font-size: 10.5px; text-transform: uppercase; color: var(--muted); display: block; }
+
+.comparateur__vers-perso { margin-top: 14px; font-size: 13.5px; }
+
+@media (max-width: 640px) {
+  .comparateur__scroll { --comparateur-label: 108px; --comparateur-col: 152px; }
+  .comparateur__nom { font-size: 12.5px; }
+  .comparateur__score strong { font-size: 19px; }
+}
 
 
 /* =============================================== rayon : deux par rangée ====

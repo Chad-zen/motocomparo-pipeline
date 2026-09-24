@@ -10,91 +10,15 @@
     <p class="sous-titre">
       {{ items | length }} produit{{ 's' if items | length > 1 }} ·
       <button type="button" class="lien-bouton" id="vider">Tout retirer</button>
+      {% if lien_partage %}
+      · <a href="{{ lien_partage }}">Voir la version partageable →</a>
+      {% endif %}
     </p>
 
-    {% if not memes_rayons %}
-    <p class="alerte alerte--attention">
-      Ces fiches ne viennent pas du même rayon : le tableau montre tout ce que
-      chacune a su lire, mais une ligne vide n'y dit pas la même chose selon le
-      produit d'en face.
-    </p>
-    {% endif %}
-
-    <div class="comparateur">
-      <table class="comparateur__tableau">
-        <caption class="visuellement-cache">Comparaison côte à côte des fiches choisies —
-          prix, protection et caractéristiques</caption>
-        <thead>
-          <tr class="comparateur__ligne-tete">
-            <th scope="col" class="comparateur__coin"></th>
-            {% for it in items %}
-            <th scope="col" class="comparateur__produit">
-              <button type="button" class="comparateur__x" data-retirer="{{ it.slug }}"
-                      aria-label="Retirer {{ nom(it) }} du comparateur"
-                      title="Retirer du comparateur">×</button>
-              <a href="/p/{{ it.slug }}" class="comparateur__lien">
-                <span class="comparateur__img">
-                  {% if it.image_url %}<img src="{{ it.image_url }}" alt="" loading="lazy">
-                  {% else %}<span class="carte__sansimg">pas de visuel</span>{% endif %}
-                </span>
-                <span class="comparateur__marque">{{ it.brand_code | upper }}</span>
-                <span class="comparateur__nom">{{ nom(it) }}</span>
-              </a>
-            </th>
-            {% endfor %}
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="comparateur__prix-ligne">
-            <th scope="row">Prix le plus bas</th>
-            {% for it in items %}
-            <td class="num">
-              {% if it.cheapest %}<strong class="comparateur__prix">{{ it.cheapest | prix }}</strong>
-              {% else %}<span class="comparateur__vide">—</span>{% endif %}
-            </td>
-            {% endfor %}
-          </tr>
-          <tr>
-            <th scope="row">Marchands comparés</th>
-            {% for it in items %}
-            <td class="num">{{ it.merchant_count }}</td>
-            {% endfor %}
-          </tr>
-
-          {% for l in lignes %}
-          <tr class="{{ 'comparateur__differe' if l.differe }}">
-            <th scope="row">{{ l.libelle }}</th>
-            {% for it in items %}
-            {% set c = l.valeurs.get(it.slug) %}
-            <td>
-              {% if c %}
-                {% if l.nom == 'note_securite' %}
-                  {% set n = c.valeur | int(0) %}
-                  <span class="carac__etoiles" aria-label="{{ n }} étoiles sur 5">
-                    {%- for i in range(1, 6) -%}<span class="etoile {{ 'etoile--pleine' if i <= n else 'etoile--vide' }}" aria-hidden="true">{{ '★' if i <= n else '☆' }}</span>{%- endfor -%}
-                  </span>
-                {% else %}
-                  {{ c.valeur }}
-                {% endif %}
-                {% if c.source == 'sharp' %}
-                  <span class="carac__source carac__source--sharp" title="Mesuré par SHARP, programme d'essais indépendant du ministère des transports britannique">SHARP</span>
-                {% endif %}
-              {% else %}
-                <span class="comparateur__vide">—</span>
-              {% endif %}
-            </td>
-            {% endfor %}
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
-
-    <p class="sous-titre">
-      Les lignes surlignées sont celles où les fiches se distinguent. Une case
-      vide ne veut pas dire « non » : le marchand, SHARP ou le revendeur n'ont
-      simplement rien précisé sur ce point pour cette fiche.
-    </p>
+    {% set mode = 'perso' %}
+    {% set slugs = items | map(attribute='slug') | list %}
+    {% include "_ajouter_comparaison.html" %}
+    {% include "_tableau_comparaison.html" %}
   {% else %}
     <p class="vide">{{ vide }}</p>
     <p class="sous-titre">{{ aide }}</p>

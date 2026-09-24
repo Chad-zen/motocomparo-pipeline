@@ -1582,6 +1582,73 @@ _PROTECTION_EN_TETE = [
 ]
 _RANG_PROTECTION = {nom: i for i, nom in enumerate(_PROTECTION_EN_TETE)}
 
+# Les sections repliables du tableau — l'ordre ici EST l'ordre affiché.
+# « Protection & sécurité » ouvre toujours le tableau, pour la même raison que
+# `_PROTECTION_EN_TETE` ci-dessus : c'est la question qu'on pose en premier
+# sur un équipement dont le métier est de protéger, pas de plaire.
+_ORDRE_SECTIONS = [
+    "Protection & sécurité", "Matériaux", "Confort & ajustement",
+    "Climat & météo", "Options & technologies", "Usage",
+]
+_SECTION_PAR_NOM: dict[str, str] = {
+    "note_securite": "Protection & sécurité", "homologation": "Protection & sécurité",
+    "norme_en17092": "Protection & sécurité", "classe_protection": "Protection & sécurité",
+    "niveau": "Protection & sécurité", "kp": "Protection & sécurité",
+    "niveau_genoux": "Protection & sécurité", "niveau_hanches": "Protection & sécurité",
+    "indice_hauteur": "Protection & sécurité", "indice_abrasion": "Protection & sécurité",
+    "indice_coupure": "Protection & sécurité", "indice_rigidite": "Protection & sécurité",
+    "dorsale": "Protection & sécurité", "poche_dorsale": "Protection & sécurité",
+    "protections_epaules": "Protection & sécurité", "protections_coudes": "Protection & sécurité",
+    "coque_articulations": "Protection & sécurité", "protection_scaphoide": "Protection & sécurité",
+    "coque_bout_de_pied": "Protection & sécurité", "protection_malleole": "Protection & sécurité",
+    "protection_selecteur": "Protection & sécurité", "protection_tibia": "Protection & sécurité",
+    "coques_genoux": "Protection & sécurité", "coques_hanches": "Protection & sécurité",
+    "nombre_coques": "Protection & sécurité", "poids_g": "Protection & sécurité",
+    "genouilleres_reglables": "Protection & sécurité",
+    "matiere": "Matériaux", "matiere_coque": "Matériaux", "matiere_nommee": "Matériaux",
+    "matiere_renforcee": "Matériaux", "calotte": "Matériaux", "matiere_paume": "Matériaux",
+    "matiere_dos": "Matériaux", "renfort_aramide": "Matériaux", "etendue_aramide": "Matériaux",
+    "boucle": "Confort & ajustement", "manchette": "Confort & ajustement",
+    "reglages_serrage": "Confort & ajustement", "zip_liaison_pantalon": "Confort & ajustement",
+    "zip_liaison": "Confort & ajustement", "emplacement_slider": "Confort & ajustement",
+    "slider_paume": "Confort & ajustement", "renfort_paume": "Confort & ajustement",
+    "fermeture": "Confort & ajustement",
+    "impermeable": "Climat & météo", "gore_tex": "Climat & météo", "membrane": "Climat & météo",
+    "membrane_nom": "Climat & météo", "doublure_thermique": "Climat & météo",
+    "doublure_thermique_amovible": "Climat & météo", "ventilation": "Climat & météo",
+    "ventilations": "Climat & météo", "chauffant": "Climat & météo",
+    "pinlock": "Options & technologies", "ecran_solaire": "Options & technologies",
+    "interieur_amovible": "Options & technologies", "intercom": "Options & technologies",
+    "tactile": "Options & technologies", "reflechissant": "Options & technologies",
+    "elements_reflechissants": "Options & technologies", "reflechissants": "Options & technologies",
+    "saison": "Usage", "univers": "Usage", "genre": "Usage", "categorie": "Usage",
+    "coupe": "Usage", "semelle_antiderapante": "Usage", "semelle_anti_huile": "Usage",
+}
+_AUTRES = "Autres caractéristiques"
+
+# Le sens dans lequel une valeur est meilleure — seulement pour ce qui se
+# compare vraiment. La matière ou la couleur d'une boucle n'ont pas de
+# meilleur sens ; un nom absent d'ici ne reçoit jamais de « gagnant ».
+_SENS = {
+    "note_securite": "max", "poids_g": "min", "nombre_coques": "max",
+    "niveau": "max", "kp": "max", "niveau_genoux": "max", "niveau_hanches": "max",
+    "indice_hauteur": "max", "indice_abrasion": "max", "indice_coupure": "max",
+    "indice_rigidite": "max", "homologation": "max",
+}
+
+
+def _valeur_numerique(nom: str, valeur: str) -> float | None:
+    """`valeur` telle qu'écrite par l'extracteur, ramenée à un nombre quand la
+    comparaison en a un — sinon `None`, et la ligne ne désigne aucun gagnant.
+
+    `homologation` est un texte (« 22.06 ») mais se compare comme un nombre :
+    la norme la plus récente porte le chiffre le plus haut.
+    """
+    try:
+        return float(valeur)
+    except (TypeError, ValueError):
+        return None
+
 
 def tableau_comparaison(produits: list[dict[str, Any]]) -> list[dict[str, Any]]:
     """Une ligne par caractéristique, une colonne par produit — l'UNION de ce
@@ -1594,6 +1661,12 @@ def tableau_comparaison(produits: list[dict[str, Any]]) -> list[dict[str, Any]]:
     parce que le nombre de fiches comparées reste petit (huit au plus, posé
     par la route) et que la fusionner ici évite une jointure de plus dans une
     requête déjà chargée.
+
+    Chaque ligne porte sa `section` (pour le regroupement en blocs repliables
+    du gabarit) et, quand `_SENS` sait ordonner la caractéristique, le ou les
+    `gagnants` — la ou les fiches qui portent la meilleure valeur. Une égalité
+    désigne plusieurs gagnants plutôt qu'aucun : deux casques à 5 étoiles SHARP
+    se valent, aucune raison d'en avantager un.
     """
     par_nom: dict[str, dict[str, Any]] = {}
     for p in produits:
@@ -1603,11 +1676,170 @@ def tableau_comparaison(produits: list[dict[str, Any]]) -> list[dict[str, Any]]:
             entree["valeurs"][p["slug"]] = c
 
     lignes = list(par_nom.values())
-    lignes.sort(key=lambda l: (_RANG_PROTECTION.get(l["nom"], 999), l["libelle"]))
+    for l in lignes:
+        l["section"] = _SECTION_PAR_NOM.get(l["nom"], _AUTRES)
+    lignes.sort(key=lambda l: (
+        _ORDRE_SECTIONS.index(l["section"]) if l["section"] in _ORDRE_SECTIONS
+        else len(_ORDRE_SECTIONS),
+        _RANG_PROTECTION.get(l["nom"], 999), l["libelle"]))
+
     # Une ligne où tout le monde dit la même chose n'aide pas à choisir ; le
     # gabarit s'en sert pour l'atténuer, jamais pour la retirer — une valeur
     # absente ailleurs reste une information (« cette fiche ne le dit pas »).
     for l in lignes:
         vues = {v["valeur"] for v in l["valeurs"].values()}
         l["differe"] = len(vues) > 1
+
+        sens = _SENS.get(l["nom"])
+        l["gagnants"] = set()
+        if sens and len(l["valeurs"]) > 1:
+            notes = {slug: _valeur_numerique(l["nom"], v["valeur"])
+                     for slug, v in l["valeurs"].items()}
+            notes = {s: n for s, n in notes.items() if n is not None}
+            if len(notes) > 1:
+                meilleure = (max if sens == "max" else min)(notes.values())
+                l["gagnants"] = {s for s, n in notes.items() if n == meilleure}
     return lignes
+
+
+def sections_comparaison(
+    lignes: list[dict[str, Any]]
+) -> list[tuple[str, list[dict[str, Any]]]]:
+    """Les lignes de `tableau_comparaison()`, groupées par section, dans
+    l'ordre d'affichage — pas celui, alphabétique, que le filtre Jinja
+    `groupby` imposerait en triant lui-même la liste avant de la grouper.
+    `lignes` est déjà trié par section puis par libellé ; grouper ici ne fait
+    que replier ce tri, jamais le refaire.
+    """
+    groupes: dict[str, list[dict[str, Any]]] = {}
+    for l in lignes:
+        groupes.setdefault(l["section"], []).append(l)
+    ordre = _ORDRE_SECTIONS + [s for s in groupes if s not in _ORDRE_SECTIONS]
+    return [(s, groupes[s]) for s in ordre if s in groupes]
+
+
+# --- l'indice de protection MotoComparo -----------------------------------
+#
+# ⚠️ DÉLIBÉRÉMENT ABSENT DES DONNÉES STRUCTURÉES (`app._donnees_structurees`).
+# Cet indice EST un jugement du site sur le produit — à la différence des
+# cinq étoiles de la fiche, qui ne notent que le comparateur lui-même. Le
+# déclarer comme `Product.aggregateRating` dans le JSON-LD ferait dire à
+# Google que MotoComparo a testé et noté l'article, ce qui est faux et fait
+# perdre les résultats enrichis. Il reste donc un AFFICHAGE, jamais une
+# DONNÉE : personne d'extérieur au site ne le lit par un flux.
+#
+# Il ne se calcule QUE quand la fiche porte au moins une mesure ou une norme
+# indépendante — SHARP pour les casques, une classe EN pour le reste. Sans
+# elle, un indice ne serait qu'une opinion sur une phrase de vente, exactement
+# ce que `caracteristiques()` refuse déjà de faire en amont.
+def _echelonne(valeur: float | None, bas: float, haut: float) -> float | None:
+    """`valeur` ramenée entre 0 et 10 sur l'intervalle [bas, haut]. `bas` peut
+    être plus grand que `haut` — c'est ainsi qu'un poids, où MOINS vaut MIEUX,
+    s'échelonne avec la même fonction qu'une note où PLUS vaut mieux."""
+    if valeur is None:
+        return None
+    portee = haut - bas
+    if portee == 0:
+        return 5.0
+    return max(0.0, min(10.0, (valeur - bas) / portee * 10))
+
+
+_CALOTTE_VERS_NOTE = {
+    "carbone": 10.0, "fibre": 9.0, "composite": 7.0,
+    "polycarbonate": 5.0, "thermoplastique": 4.0,
+}
+_NORME_EN17092_VERS_NOTE = {"AAA": 10.0, "AA": 8.5, "A": 6.5, "B": 5.0, "C": 2.0}
+
+
+def _booleen_vers_note(valeur: str | None) -> float | None:
+    if valeur == "Oui":
+        return 10.0
+    if valeur == "Non":
+        return 3.0
+    return None
+
+
+def indice_protection(
+    caracteristiques: list[dict[str, Any]], category_code: str
+) -> dict[str, Any] | None:
+    """L'indice de protection MotoComparo pour une fiche, ou `None` si la
+    fiche n'a pas de quoi le fonder.
+
+    Une moyenne pondérée, jamais une seule mesure : le poids d'un casque sans
+    sa note SHARP ne dit rien de sa protection, et inversement une note SHARP
+    seule ignore un casque anormalement lourd pour sa catégorie. Les
+    composantes absentes sortent du calcul ET de son poids — comparer cinq
+    critères à trois n'a de sens que si les poids des trois restants
+    retrouvent un total de 1.
+    """
+    par_nom = {c["nom"]: c["valeur"] for c in caracteristiques}
+    racine = (category_code or "").split(".", 1)[0]
+    composantes: list[tuple[str, float | None, float]] = []
+
+    if racine == "helmet":
+        if "note_securite" not in par_nom:
+            return None   # sans mesure indépendante, aucun indice à afficher
+        composantes = [
+            ("Note SHARP", _echelonne(_valeur_numerique("note_securite", par_nom["note_securite"]), 0, 5), 0.6),
+            ("Poids", _echelonne(_valeur_numerique("poids_g", par_nom.get("poids_g", "")), 1900, 1250), 0.2),
+            ("Matière de calotte", _CALOTTE_VERS_NOTE.get(par_nom.get("calotte", "").lower()), 0.1),
+            ("Homologation", _echelonne(_valeur_numerique("homologation", par_nom.get("homologation", "")), 22.05, 22.06), 0.1),
+        ]
+        base = "l'essai indépendant SHARP"
+    elif racine in ("jacket", "suit"):
+        if "norme_en17092" not in par_nom and "classe_protection" not in par_nom:
+            return None
+        epaules = _booleen_vers_note(par_nom.get("protections_epaules"))
+        coudes = _booleen_vers_note(par_nom.get("protections_coudes"))
+        articulaires = (
+            (epaules + coudes) / 2 if epaules is not None and coudes is not None
+            else epaules if epaules is not None else coudes
+        )
+        composantes = [
+            ("Norme EN 17092", _NORME_EN17092_VERS_NOTE.get(
+                (par_nom.get("norme_en17092") or par_nom.get("classe_protection") or "").upper()), 0.5),
+            ("Protection dorsale", _booleen_vers_note(par_nom.get("dorsale")), 0.2),
+            ("Protections épaules/coudes", articulaires, 0.3),
+        ]
+        base = "la norme EN 17092"
+    elif racine == "pants":
+        if "niveau_genoux" not in par_nom and "niveau_hanches" not in par_nom:
+            return None
+        genoux = _echelonne(_valeur_numerique("niveau_genoux", par_nom.get("niveau_genoux", "")), 0, 2)
+        hanches = _echelonne(_valeur_numerique("niveau_hanches", par_nom.get("niveau_hanches", "")), 0, 2)
+        niveau = ((genoux + hanches) / 2 if genoux is not None and hanches is not None
+                  else genoux if genoux is not None else hanches)
+        composantes = [
+            ("Niveau de protection EN 1621-1", niveau, 0.6),
+            ("Renfort aramide", _booleen_vers_note(par_nom.get("renfort_aramide")), 0.4),
+        ]
+        base = "les niveaux EN 1621-1"
+    elif racine == "gloves":
+        if "niveau" not in par_nom:
+            return None
+        composantes = [
+            ("Niveau EN 13594", _echelonne(_valeur_numerique("niveau", par_nom["niveau"]), 0, 2), 0.7),
+            ("Protection articulations (KP)", _booleen_vers_note(par_nom.get("kp")), 0.3),
+        ]
+        base = "le niveau EN 13594"
+    elif racine == "boots":
+        indices = [par_nom.get(n) for n in
+                   ("indice_hauteur", "indice_abrasion", "indice_coupure", "indice_rigidite")]
+        notes = [_echelonne(_valeur_numerique("indice", v), 0, 2) for v in indices if v]
+        if not notes:
+            return None
+        composantes = [("Indices EN 13634", sum(notes) / len(notes), 1.0)]
+        base = "les indices EN 13634"
+    else:
+        return None
+
+    presentes = [(libelle, note, poids) for libelle, note, poids in composantes if note is not None]
+    if not presentes:
+        return None
+    poids_total = sum(poids for _, _, poids in presentes)
+    note = sum(note * poids for _, note, poids in presentes) / poids_total
+    return {
+        "note": round(note, 1),
+        "base": base,
+        "detail": [(libelle, round(n, 1)) for libelle, n, _ in presentes],
+    }

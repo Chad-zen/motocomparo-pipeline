@@ -682,7 +682,11 @@ def comparer(request: Request, p: str = ""):
         items = queries.par_slugs(conn, slugs)
         for it in items:
             it["caracteristiques"] = queries.caracteristiques(conn, it["product_id"])
+    for it in items:
+        it["indice"] = queries.indice_protection(
+            it["caracteristiques"], it.get("category_code") or "")
     lignes = queries.tableau_comparaison(items)
+    sections = queries.sections_comparaison(lignes)
     # Comparer un casque à une botte ne dit rien : le tableau reste affiché
     # (retirer une fiche silencieusement serait plus surprenant qu'un
     # avertissement), mais la page le signale plutôt que de laisser croire
@@ -691,9 +695,48 @@ def comparer(request: Request, p: str = ""):
     return templates.TemplateResponse(
         request, "comparer.html",
         _ctx(request, titre="Mon comparateur", cle="comparer", items=items,
-             lignes=lignes, memes_rayons=memes_rayons,
+             lignes=lignes, sections=sections, memes_rayons=memes_rayons, mode="perso",
+             lien_partage=("/comparatif/" + ",".join(it["slug"] for it in items)
+                           if len(items) >= 2 else None),
              vide="Aucun produit dans le comparateur.",
              aide="Le bouton ⇄ sur une image ajoute le produit ici."),
+    )
+
+
+@app.get("/comparatif/{slugs}", response_class=HTMLResponse)
+def comparatif(request: Request, slugs: str):
+    """La comparaison publique et partageable — une ADRESSE, pas une liste
+    posée dans le navigateur de quelqu'un.
+
+    `/comparer` sert la même table, mais vécue depuis les favoris de la
+    personne qui la regarde : son lien ne veut rien dire pour un tiers, et
+    aucun moteur ne peut l'indexer, puisque la page part vide sans le
+    `localStorage` qui la remplit. Cette route-ci porte les fiches dans
+    l'URL elle-même — deux casques ou trois blousons, écrits dans l'adresse —
+    partageable telle quelle et ouverte à l'indexation, comme les pages
+    « vs » d'un comparateur de téléphones.
+    """
+    slugs_list = [s for s in slugs.split(",") if s][:8]
+    if len(slugs_list) < 2:
+        raise HTTPException(404, "Il faut au moins deux fiches à comparer")
+    with pool.connection() as conn:  # type: ignore[union-attr]
+        items = queries.par_slugs(conn, slugs_list)
+        for it in items:
+            it["caracteristiques"] = queries.caracteristiques(conn, it["product_id"])
+    if len(items) < 2:
+        raise HTTPException(404, "Fiches introuvables ou insuffisantes pour comparer")
+    for it in items:
+        it["indice"] = queries.indice_protection(
+            it["caracteristiques"], it.get("category_code") or "")
+    lignes = queries.tableau_comparaison(items)
+    sections = queries.sections_comparaison(lignes)
+    memes_rayons = len({it["category_id"] for it in items}) <= 1
+    titre = " vs ".join(_nom(it) for it in items)
+    return templates.TemplateResponse(
+        request, "comparatif.html",
+        _ctx(request, titre=titre, items=items, lignes=lignes, sections=sections,
+             memes_rayons=memes_rayons, mode="partage",
+             slugs=[it["slug"] for it in items]),
     )
 
 
