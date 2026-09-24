@@ -669,6 +669,27 @@ def favoris(request: Request, p: str = ""):
     )
 
 
+def _noter(items: list[dict[str, Any]]) -> None:
+    """Pose la note MotoComparo sur chaque fiche comparée, en place.
+
+    Les médianes de rayon — l'étalon du rapport qualité-prix — sont gardées au
+    chaud : elles balaient tout `product_stats` et ne bougent qu'au passage du
+    pipeline, alors que deux visiteurs qui comparent les mêmes casques à une
+    minute d'intervalle ont droit exactement au même chiffre.
+    """
+    def _reperes() -> dict[str, float]:
+        with pool.connection() as conn:  # type: ignore[union-attr]
+            return queries.reperes_rayons(conn)
+
+    medianes = cache.au_chaud("reperes_rayons", _reperes)
+    for it in items:
+        rayon = (it.get("category_code") or "").split(".", 1)[0]
+        it["indice"] = queries.note_globale(
+            it["caracteristiques"], it.get("category_code") or "",
+            float(it["cheapest"]) if it.get("cheapest") else None,
+            medianes.get(rayon))
+
+
 @app.get("/comparer", response_class=HTMLResponse)
 def comparer(request: Request, p: str = ""):
     """Prix, protection et technologies des fiches choisies, côte à côte.
@@ -682,9 +703,7 @@ def comparer(request: Request, p: str = ""):
         items = queries.par_slugs(conn, slugs)
         for it in items:
             it["caracteristiques"] = queries.caracteristiques(conn, it["product_id"])
-    for it in items:
-        it["indice"] = queries.indice_protection(
-            it["caracteristiques"], it.get("category_code") or "")
+    _noter(items)
     lignes = queries.tableau_comparaison(items)
     sections = queries.sections_comparaison(lignes)
     # Comparer un casque à une botte ne dit rien : le tableau reste affiché
@@ -725,9 +744,7 @@ def comparatif(request: Request, slugs: str):
             it["caracteristiques"] = queries.caracteristiques(conn, it["product_id"])
     if len(items) < 2:
         raise HTTPException(404, "Fiches introuvables ou insuffisantes pour comparer")
-    for it in items:
-        it["indice"] = queries.indice_protection(
-            it["caracteristiques"], it.get("category_code") or "")
+    _noter(items)
     lignes = queries.tableau_comparaison(items)
     sections = queries.sections_comparaison(lignes)
     memes_rayons = len({it["category_id"] for it in items}) <= 1

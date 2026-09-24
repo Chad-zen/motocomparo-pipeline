@@ -2032,3 +2032,241 @@ def indice_protection(
         "independante": any(ind for _, _, _, ind, _ in presentes),
         "detail": [(libelle, round(n, 1)) for libelle, n, _, _, _ in presentes],
     }
+
+
+# --- l'équipement : ce que l'article sait faire en plus de protéger --------
+#
+# La liste par rayon est une GRILLE, pas un inventaire : elle énumère ce qu'un
+# article de ce rayon peut offrir, et la note dit quelle part en est
+# CONFIRMÉE. Le mot compte. Une ventilation qu'aucun marchand ne mentionne
+# n'est pas une ventilation absente — c'est une ventilation dont on ne sait
+# rien, et la page le dit en affichant « 3 sur 5 confirmés » à côté du
+# chiffre plutôt qu'un score nu qui ferait passer un silence pour un défaut.
+#
+# Chaque entrée accepte plusieurs noms : le même équipement s'appelle
+# `ventilation` dans un rayon et `ventilations` dans un autre, et c'est
+# l'extracteur du rayon qui a tranché, pas nous.
+_EQUIPEMENTS: dict[str, list[tuple[str, tuple[str, ...]]]] = {
+    "helmet": [
+        ("Ventilation", ("ventilation",)),
+        ("Pinlock", ("pinlock",)),
+        ("Écran solaire", ("ecran_solaire",)),
+        ("Intérieur amovible", ("interieur_amovible",)),
+        ("Intercom", ("intercom",)),
+    ],
+    "jacket": [
+        ("Membrane imperméable", ("membrane", "impermeable")),
+        ("Doublure thermique", ("doublure_thermique",)),
+        ("Doublure amovible", ("doublure_thermique_amovible",)),
+        ("Ventilation", ("ventilations", "ventilation")),
+        ("Éléments réfléchissants", ("elements_reflechissants", "reflechissants")),
+        ("Zip de liaison pantalon", ("zip_liaison_pantalon",)),
+        ("Réglages de serrage", ("reglages_serrage",)),
+    ],
+    "pants": [
+        ("Membrane imperméable", ("membrane", "impermeable")),
+        ("Doublure thermique", ("doublure_thermique",)),
+        ("Ventilation", ("ventilation",)),
+        ("Éléments réfléchissants", ("reflechissant", "reflechissants")),
+        ("Zip de liaison veste", ("zip_liaison",)),
+        ("Genouillères réglables", ("genouilleres_reglables",)),
+    ],
+    "gloves": [
+        ("Compatible écran tactile", ("tactile",)),
+        ("Imperméable", ("impermeable", "membrane")),
+        ("Ventilation", ("ventilation",)),
+        ("Doublure thermique", ("doublure_thermique",)),
+        ("Chauffant", ("chauffant",)),
+    ],
+    "boots": [
+        ("Imperméable", ("impermeable", "membrane")),
+        ("Ventilation", ("ventilation",)),
+        ("Éléments réfléchissants", ("reflechissants", "reflechissant")),
+        ("Semelle antidérapante", ("semelle_antiderapante",)),
+        ("Semelle anti-huile", ("semelle_anti_huile",)),
+    ],
+}
+_EQUIPEMENTS["suit"] = _EQUIPEMENTS["jacket"]
+
+
+def note_equipement(
+    caracteristiques: list[dict[str, Any]], category_code: str
+) -> dict[str, Any] | None:
+    """Ce que l'article offre en plus de protéger, sur 10.
+
+    La note est la moyenne de la grille ENTIÈRE du rayon, pas des seules
+    lignes renseignées : un blouson dont on ne sait rien n'a pas « 10/10
+    d'équipement » parce que son unique ligne connue dit oui. Un équipement
+    seulement PRÉPARÉ — un logement d'intercom, une fixation de Pinlock — ne
+    vaut pas un équipement fourni, et `_equipement_vers_note` fait déjà cette
+    différence.
+    """
+    grille = _EQUIPEMENTS.get((category_code or "").split(".", 1)[0])
+    if not grille:
+        return None
+    par_nom = {c["nom"]: c["valeur"] for c in caracteristiques}
+
+    notes: list[float] = []
+    confirmes: list[str] = []
+    for libelle, noms in grille:
+        valeur = next((par_nom[n] for n in noms if n in par_nom), None)
+        note = _equipement_vers_note(valeur) if valeur else None
+        if note is None and valeur:
+            # Une valeur qu'on ne sait pas noter reste une PRÉSENCE : « gore-tex »
+            # ou « drystar » dans `membrane` nomme une membrane, donc il y en a une.
+            note = 10.0
+        notes.append(note if note is not None else 0.0)
+        if note:
+            confirmes.append(libelle)
+
+    if not confirmes:
+        return None
+    # DE 5 À 10, PAS DE 0 À 10 — et c'est la même règle que partout ailleurs
+    # ici : ce qu'on ignore ne se compte pas contre l'article. Sur une échelle
+    # partant de zéro, un casque dont un seul marchand laconique parle
+    # tombait à 4,8 sur l'équipement et perdait un point et demi de note
+    # d'ensemble, non parce qu'il est moins équipé mais parce qu'on en a moins
+    # dit. L'équipement confirmé ne peut donc que faire MONTER la note ; son
+    # silence la laisse au milieu.
+    acquis = sum(notes) / (10.0 * len(grille))
+    return {
+        "note": round(5.0 + 5.0 * acquis, 1),
+        "confirmes": len(confirmes),
+        "total": len(grille),
+        "detail": confirmes,
+    }
+
+
+# --- le rapport qualité-prix ------------------------------------------------
+#
+# LA QUESTION QUE POSE UN COMPARATEUR, et la seule que le prix seul ne peut
+# pas trancher : est-ce que j'en ai pour mon argent ? Un casque à 100 € n'est
+# pas « bon marché » dans l'absolu, il l'est par rapport à ce que le rayon
+# demande d'ordinaire — d'où la médiane du rayon comme étalon, relevée sur le
+# catalogue lui-même et non posée à la main.
+#
+# LA COURBE, ET POURQUOI CE N'EST PAS UN SIMPLE RAPPORT. Une première version
+# divisait la qualité par le prix relatif et écrêtait à 10. Elle était juste
+# sur le principe et inutilisable en pratique : le rayon casque a une médiane
+# à 230 €, si bien qu'un casque à 1 200 € — cinq fois la médiane — tombait à
+# 1,3/10 et traînait toute sa note d'ensemble à 4,9. Un score qui range chaque
+# article haut de gamme au même niveau que le bas de gamme raté ne départage
+# plus rien.
+#
+# La courbe ci-dessous est bornée par construction : elle vaut exactement 5
+# pour une fiche de qualité moyenne au prix médian de son rayon, monte sans
+# jamais atteindre 10, et descend sans jamais toucher 0. C'est la même forme
+# qu'un rapport de cotes, et elle tient en une phrase : deux fois plus de
+# qualité par euro que la médiane du rayon vaut 6,7 ; deux fois moins, 3,3.
+_QUALITE_DE_REFERENCE = 7.0
+
+
+def note_valeur(qualite: float | None, prix: float | None,
+                mediane: float | None) -> float | None:
+    """La qualité obtenue par euro, rapportée au prix médian du rayon."""
+    if qualite is None or not prix or not mediane or prix <= 0 or mediane <= 0:
+        return None
+    return round(10.0 * qualite * mediane
+                 / (qualite * mediane + _QUALITE_DE_REFERENCE * prix), 1)
+
+
+def reperes_rayons(conn: psycopg.Connection) -> dict[str, float]:
+    """Le prix médian de chaque rayon — l'étalon de `note_valeur()`.
+
+    Une seule requête pour tout le catalogue, gardée au chaud par l'appelant :
+    elle ne bouge qu'au passage du pipeline, et la recalculer par visiteur
+    coûterait un balayage complet de `product_stats` pour un chiffre
+    identique à celui de la seconde d'avant.
+
+    Seules les fiches réellement comparables comptent (deux marchands au
+    moins) : les 280 000 autres tireraient la médiane vers des articles que
+    personne ne met en face d'un autre.
+    """
+    lignes = _rows(conn, """
+        SELECT split_part(c.code, '.', 1) AS rayon,
+               percentile_cont(0.5) WITHIN GROUP (ORDER BY s.cheapest) AS mediane
+        FROM product p
+        JOIN product_stats s ON s.product_id = p.id
+        JOIN category c ON c.id = p.category_id
+        WHERE p.status <> 'merged' AND s.merchant_count >= 2 AND s.cheapest > 0
+        GROUP BY 1
+    """)
+    return {l["rayon"]: float(l["mediane"]) for l in lignes if l["mediane"]}
+
+
+# Ce que pèse chaque volet dans la note d'ensemble.
+#
+# La protection domine, et ce n'est pas une opinion : ces articles existent
+# pour amortir un choc, et un blouson qui le fait mal reste un mauvais
+# blouson même à dix euros. Le rapport qualité-prix et l'équipement se
+# partagent le reste à parts égales — le premier parce que c'est la raison
+# d'être d'un comparateur, le second parce qu'il décrit le confort plus que
+# la sécurité.
+#
+# Le prix ne pèse pas davantage POUR UNE RAISON MESURÉE : à 0,40, il suffisait
+# qu'un article soit haut de gamme pour que sa note d'ensemble tombe sous 5,
+# protection cinq étoiles comprise. Un comparateur qui note un casque sûr
+# comme un casque médiocre parce qu'il est cher n'aide pas à choisir, il
+# range par prix — ce que le tri par prix fait déjà, mieux et sans prétendre
+# juger.
+_POIDS_QUALITE = {"protection": 0.50, "equipement": 0.25}
+
+# LE PRIX MODULE LA NOTE, IL NE LA PILOTE JAMAIS.
+#
+# Ce ratio est fixe, et c'est tout l'intérêt. Une première version rangeait le
+# rapport qualité-prix parmi les trois volets et renormalisait les poids sur
+# ceux qui avaient répondu : quand la protection manquait, le prix se
+# retrouvait à peser la moitié de la note. Un Suomy S1-XR GP à 824 € dont
+# aucun marchand ne décrit la protection tombait ainsi à 4,0 — une note qui
+# se lit « mauvais casque » alors qu'elle dit « casque cher dont on ne sait
+# rien ». La qualité se calcule donc d'abord, entre ses seuls volets, et le
+# prix vient la corriger d'un quart au plus.
+_PART_DU_PRIX = 0.25
+
+
+def note_globale(
+    caracteristiques: list[dict[str, Any]], category_code: str,
+    prix: float | None, mediane: float | None,
+) -> dict[str, Any] | None:
+    """La note MotoComparo d'une fiche : protection, équipement et rapport
+    qualité-prix en un seul chiffre, et les trois sous-notes avec lui.
+
+    Le chiffre d'ensemble ne remplace pas ses composantes, il les résume : la
+    page affiche les trois en dessous, parce qu'un acheteur qui cherche la
+    protection maximale et un acheteur qui cherche le meilleur prix ne lisent
+    pas la même ligne — et qu'une note unique qui prétendrait trancher pour
+    eux serait une note qui ment à l'un des deux.
+    """
+    protection = indice_protection(caracteristiques, category_code)
+    equipement = note_equipement(caracteristiques, category_code)
+
+    # 1. CE QUE VAUT L'ARTICLE, prix mis de côté. Les volets absents sortent
+    #    du calcul ET de son poids : comparer deux volets à un seul n'a de
+    #    sens que si les poids du survivant retrouvent un total de 1.
+    qualites = [(libelle, note, cle) for libelle, note, cle in (
+        ("Protection", protection["note"] if protection else None, "protection"),
+        ("Équipement", equipement["note"] if equipement else None, "equipement"),
+    ) if note is not None]
+    if not qualites:
+        return None   # sans rien savoir de l'article, le prix ne note rien
+    poids_total = sum(_POIDS_QUALITE[cle] for _, _, cle in qualites)
+    qualite = sum(n * _POIDS_QUALITE[cle] for _, n, cle in qualites) / poids_total
+
+    # 2. CE QU'IL COÛTE POUR CELA — une correction, jamais le pilote.
+    valeur = note_valeur(qualite, prix, mediane)
+    note = (qualite * (1 - _PART_DU_PRIX) + valeur * _PART_DU_PRIX
+            if valeur is not None else qualite)
+
+    volets = [(libelle, n) for libelle, n, _ in qualites]
+    if valeur is not None:
+        volets.append(("Rapport qualité-prix", valeur))
+    return {
+        "note": round(note, 1),
+        "volets": volets,
+        "protection": protection,
+        "equipement": equipement,
+        "valeur": valeur,
+        # Ce qui distingue une note adossée à un essai ou à une norme d'une
+        # note bâtie sur des descriptions marchandes. Voir le gabarit.
+        "independante": bool(protection and protection["independante"]),
+    }

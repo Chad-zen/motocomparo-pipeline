@@ -72,26 +72,44 @@
     <div class="comparateur__score-case">
       {% if it.indice %}
       {% set n = it.indice.note %}
-      <div class="comparateur__score comparateur__score--{{ 'haut' if n >= 7 else ('moyen' if n >= 4 else 'bas') }} {{ 'comparateur__score--gagnant' if indice_gagnant is not none and n == indice_gagnant }}">
+      {# Les seuils suivent la distribution RÉELLE des notes, relevée le
+         2026-09-24 : premier quartile 6,8, médiane 7,2, minimum 4,1. Avec un
+         rouge sous 4, la couleur d'alerte ne servait jamais et l'orange
+         couvrait la moitié du catalogue — trois teintes pour deux paliers
+         utiles. #}
+      <div class="comparateur__score comparateur__score--{{ 'haut' if n >= 7 else ('moyen' if n >= 5.5 else 'bas') }} {{ 'comparateur__score--gagnant' if indice_gagnant is not none and n == indice_gagnant }}">
         <strong>{{ '%.1f' | format(n) }}</strong>
-        <span class="comparateur__score-titre">Indice de protection</span>
+        <span class="comparateur__score-titre">Note MotoComparo</span>
       </div>
-      {# CE QUI FONDE LE CHIFFRE, SOUS LE CHIFFRE. Un 8,5 adossé à l'essai
-         SHARP et un 8,5 tiré de trois cases cochées dans une description ne
-         valent pas la même chose, et la page n'a pas le droit de les montrer
-         pareil. Le nombre de critères et leur nature sont donc écrits juste
-         en dessous, le détail au survol. #}
-      <p class="comparateur__score-legende" title="Calculé sur {{ it.indice.base }} — {% for libelle, d in it.indice.detail %}{{ libelle }} {{ '%.1f' | format(d) }}{% if not loop.last %} · {% endif %}{% endfor %}">
-        {{ it.indice.criteres }} critère{{ 's' if it.indice.criteres > 1 }} ·
+
+      {# LES TROIS VOLETS SOUS LE CHIFFRE D'ENSEMBLE. Un acheteur qui cherche
+         la protection maximale et un acheteur qui cherche le meilleur prix ne
+         lisent pas la même ligne : la note unique les résume, elle ne tranche
+         pas à leur place. #}
+      <ul class="comparateur__volets">
+        {% for libelle, v in it.indice.volets %}
+        <li>
+          <span class="comparateur__volet-nom">{{ libelle }}</span>
+          <span class="comparateur__volet-note comparateur__volet-note--{{ 'haut' if v >= 7 else ('moyen' if v >= 4 else 'bas') }}">{{ '%.1f' | format(v) }}</span>
+        </li>
+        {% endfor %}
+      </ul>
+
+      {# CE QUI FONDE LE CHIFFRE. Un 8,5 adossé à l'essai SHARP et un 8,5 tiré
+         de trois cases cochées dans une description ne valent pas la même
+         chose, et la page n'a pas le droit de les montrer pareil. #}
+      <p class="comparateur__score-legende"
+         title="{% if it.indice.protection %}Protection calculée sur {{ it.indice.protection.base }} — {% for libelle, d in it.indice.protection.detail %}{{ libelle }} {{ '%.1f' | format(d) }}{% if not loop.last %} · {% endif %}{% endfor %}. {% endif %}{% if it.indice.equipement %}Équipement : {{ it.indice.equipement.detail | join(', ') }}.{% endif %}">
+        {% if it.indice.equipement %}{{ it.indice.equipement.confirmes }}/{{ it.indice.equipement.total }} équipements confirmés ·{% endif %}
         {% if it.indice.independante %}<b class="comparateur__score-norme">norme ou essai</b>{% else %}déclarations marchands{% endif %}
       </p>
       {% else %}
       <div class="comparateur__score comparateur__score--vide">
         <strong>—</strong>
-        <span class="comparateur__score-titre">Indice de protection</span>
+        <span class="comparateur__score-titre">Note MotoComparo</span>
       </div>
       <p class="comparateur__score-legende">Pas assez de données publiées sur
-        cette fiche pour le calculer</p>
+        cette fiche pour la calculer</p>
       {% endif %}
     </div>
     {% endfor %}
@@ -145,12 +163,17 @@
 </div>
 
 <p class="sous-titre">
-  {% if indices %}L'indice de protection est calculé par MotoComparo à partir
-  de mesures et de normes indépendantes — l'essai SHARP pour les casques, les
-  classes et niveaux EN pour le reste — jamais d'une phrase de vente. Il
-  n'apparaît que lorsque la fiche porte au moins une de ces données.{% endif %}
+  {% if indices %}La note MotoComparo réunit trois volets : la
+  <b>protection</b> — mesures et normes indépendantes d'abord, l'essai SHARP
+  pour les casques, les classes et niveaux EN pour le reste — le
+  <b>rapport qualité-prix</b>, qui rapporte ce que vaut l'article au prix
+  médian de son rayon, et l'<b>équipement</b> confirmé. Elle n'est jamais
+  tirée d'une phrase de vente, et n'apparaît que si la fiche porte assez de
+  données pour la fonder. « Équipements confirmés » se lit à la lettre : un
+  équipement qu'aucun marchand ne mentionne n'est pas compté comme absent,
+  il est compté comme inconnu.{% endif %}
   Les cases surlignées en or sont celles où une fiche fait mieux qu'une
-  autre — prix le plus bas, indice le plus haut, ou valeur mesurée la plus
+  autre — prix le plus bas, note la plus haute, ou valeur mesurée la plus
   favorable. Une case vide ne veut pas dire « non » : la source n'a
   simplement rien précisé sur ce point pour cette fiche.
 </p>

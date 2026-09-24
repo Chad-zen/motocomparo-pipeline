@@ -2256,6 +2256,26 @@ body:has(.banc:not([hidden])) { padding-bottom: 94px; }
 .comparateur__score--bas   { background: #c23b2c; }
 .comparateur__score--vide  { background: var(--puce, #eef0f6); color: var(--muted); }
 .comparateur__score--gagnant { box-shadow: 0 0 0 3px #ffe9ae; }
+/* Les trois volets sous la note d'ensemble : protection, rapport
+   qualité-prix, équipement. Ils la décomposent sans la concurrencer — plus
+   petits, alignés, chiffres à droite pour qu'une colonne se lise de haut en
+   bas d'un seul coup d'œil. */
+.comparateur__volets {
+  list-style: none; margin: 8px 0 0; padding: 0;
+  display: flex; flex-direction: column; gap: 3px;
+}
+.comparateur__volets li {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 8px; font-size: 11.5px; line-height: 1.3;
+}
+.comparateur__volet-nom { color: var(--muted); min-width: 0; }
+.comparateur__volet-note {
+  font-weight: 700; font-variant-numeric: tabular-nums; flex: 0 0 auto;
+}
+.comparateur__volet-note--haut  { color: #1e7a46; }
+.comparateur__volet-note--moyen { color: #a56a08; }
+.comparateur__volet-note--bas   { color: #b0301f; }
+
 .comparateur__score-legende {
   margin: 7px 0 0; font-size: 11.5px; color: var(--muted); line-height: 1.4;
   cursor: help; text-align: left;
