@@ -40,6 +40,11 @@ mcpipe load
 mcpipe normalize
 mcpipe signature      # porte les tailles ; doit précéder enrich
 mcpipe enrich         # catégories + emprunt des tailles au code-barres
+mcpipe relier-tailles # relit les overrides de taille issus de l'emprunt
+                      # et rattache chaque offre a la bonne variante —
+                      # sans cela, les tailles empruntees depuis fcmoto ne
+                      # s'affichent jamais : l'emprunt ecrit dans offer_size_override,
+                      # mais le site lit variant.size_code, pose par cette etape.
 mcpipe freshness      # recalcule les prix affichés — jamais optionnel
 mcpipe caracteristiques  # relit les descriptions du jour, remplit product_caracteristique
                          # LIT LES FICHIERS SUR DISQUE : doit tourner apres fetch,
