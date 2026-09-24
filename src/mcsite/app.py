@@ -671,13 +671,27 @@ def favoris(request: Request, p: str = ""):
 
 @app.get("/comparer", response_class=HTMLResponse)
 def comparer(request: Request, p: str = ""):
-    """Side by side, the products the visitor picked to compare."""
-    slugs = [x for x in p.split(",") if x][:40]
+    """Prix, protection et technologies des fiches choisies, côte à côte.
+
+    Plafonné à huit colonnes — pas les quarante des favoris. Au-delà, un
+    tableau ne se lit plus : chaque caractéristique en ligne, chaque produit
+    en colonne, et la largeur d'écran est ce qu'elle est.
+    """
+    slugs = [x for x in p.split(",") if x][:8]
     with pool.connection() as conn:  # type: ignore[union-attr]
         items = queries.par_slugs(conn, slugs)
+        for it in items:
+            it["caracteristiques"] = queries.caracteristiques(conn, it["product_id"])
+    lignes = queries.tableau_comparaison(items)
+    # Comparer un casque à une botte ne dit rien : le tableau reste affiché
+    # (retirer une fiche silencieusement serait plus surprenant qu'un
+    # avertissement), mais la page le signale plutôt que de laisser croire
+    # que les rayons se répondent.
+    memes_rayons = len({it["category_id"] for it in items}) <= 1
     return templates.TemplateResponse(
-        request, "liste.html",
+        request, "comparer.html",
         _ctx(request, titre="Mon comparateur", cle="comparer", items=items,
+             lignes=lignes, memes_rayons=memes_rayons,
              vide="Aucun produit dans le comparateur.",
              aide="Le bouton ⇄ sur une image ajoute le produit ici."),
     )

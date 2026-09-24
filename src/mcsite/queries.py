@@ -559,9 +559,9 @@ def par_slugs(conn: psycopg.Connection, slugs: list[str]) -> list[dict[str, Any]
     if not slugs:
         return []
     lignes = _rows(conn, """
-        SELECT p.slug, p.brand_code, p.model_display, p.colour_code,
-               s.cheapest, s.dearest, s.merchant_count, s.image_url, s.best_title,
-               c.label_fr AS category_label
+        SELECT p.id AS product_id, p.slug, p.brand_code, p.model_display, p.colour_code,
+               p.category_id, s.cheapest, s.dearest, s.merchant_count, s.image_url, s.best_title,
+               c.code AS category_code, c.label_fr AS category_label
         FROM product p
         JOIN product_stats s ON s.product_id = p.id
         JOIN category c ON c.id = p.category_id
@@ -1562,3 +1562,52 @@ def caracteristiques(conn: psycopg.Connection, product_id: int) -> list[dict[str
     # montrer d'un coup d'œil plutôt que de les noyer par ordre alphabétique.
     resultat.sort(key=lambda c: (_SOURCE_PRIORITE.get(c["source"], 9), c["libelle"]))
     return resultat
+
+
+# --- le comparateur -------------------------------------------------------
+#
+# Ce que les marchands se disputent d'abord sur un équipement de sécurité,
+# ce n'est pas le prix : c'est la protection. Les noms ci-dessous montent en
+# tête du tableau ; tout le reste suit par ordre alphabétique de libellé,
+# jamais perdu — un nom absent de cette liste atterrit simplement après.
+_PROTECTION_EN_TETE = [
+    "note_securite", "homologation", "norme_en17092", "classe_protection",
+    "niveau", "kp", "niveau_genoux", "niveau_hanches",
+    "indice_hauteur", "indice_abrasion", "indice_coupure", "indice_rigidite",
+    "dorsale", "poche_dorsale", "protections_epaules", "protections_coudes",
+    "coque_articulations", "protection_scaphoide",
+    "coque_bout_de_pied", "protection_malleole", "protection_selecteur",
+    "protection_tibia", "coques_genoux", "coques_hanches",
+    "nombre_coques", "calotte", "matiere_coque",
+]
+_RANG_PROTECTION = {nom: i for i, nom in enumerate(_PROTECTION_EN_TETE)}
+
+
+def tableau_comparaison(produits: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Une ligne par caractéristique, une colonne par produit — l'UNION de ce
+    que chaque fiche a su lire, jamais l'intersection : un blouson muet sur sa
+    doublure ne doit pas faire disparaître la ligne pour celui qui la précise,
+    la cellule reste vide à sa place.
+
+    Chaque produit de `produits` doit déjà porter sa clé `caracteristiques`
+    (voir `caracteristiques()`) — récupérée à part, une requête par fiche,
+    parce que le nombre de fiches comparées reste petit (huit au plus, posé
+    par la route) et que la fusionner ici évite une jointure de plus dans une
+    requête déjà chargée.
+    """
+    par_nom: dict[str, dict[str, Any]] = {}
+    for p in produits:
+        for c in p.get("caracteristiques") or []:
+            entree = par_nom.setdefault(
+                c["nom"], {"nom": c["nom"], "libelle": c["libelle"], "valeurs": {}})
+            entree["valeurs"][p["slug"]] = c
+
+    lignes = list(par_nom.values())
+    lignes.sort(key=lambda l: (_RANG_PROTECTION.get(l["nom"], 999), l["libelle"]))
+    # Une ligne où tout le monde dit la même chose n'aide pas à choisir ; le
+    # gabarit s'en sert pour l'atténuer, jamais pour la retirer — une valeur
+    # absente ailleurs reste une information (« cette fiche ne le dit pas »).
+    for l in lignes:
+        vues = {v["valeur"] for v in l["valeurs"].values()}
+        l["differe"] = len(vues) > 1
+    return lignes
