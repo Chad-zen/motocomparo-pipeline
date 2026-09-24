@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}{{ titre }} — MotoComparo{% endblock %}
+{% block description %}Comparatif {{ titre }} : prix relevés chaque jour, indice de protection et caractéristiques côte à côte, entre marchands identifiés.{% endblock %}
+
+{% block contenu %}
+<nav class="fil" aria-label="Fil d'Ariane">
+  <a href="/">Accueil</a> › <a href="/comparer">Comparateur</a> › <span>{{ titre }}</span>
+</nav>
+<h1 class="titre-page">{{ titre }}</h1>
+<p class="sous-titre">
+  Comparaison partageable — cette adresse porte les fiches choisies, elle
+  fonctionne pour n'importe qui l'ouvre, sans rien avoir mis de côté avant.
+</p>
+
+{% set mode = 'partage' %}
+{% include "_ajouter_comparaison.html" %}
+{% include "_tableau_comparaison.html" %}
+
+<p class="comparateur__vers-perso">
+  <a href="/comparer" id="vers-perso">Reprendre cette comparaison dans mon comparateur personnel →</a>
+</p>
+<script>
+/* Le lien écrit d'abord dans le stockage du visiteur — sinon son comparateur
+   personnel resterait sur ce qu'il avait avant d'ouvrir ce lien partagé, et
+   « reprendre » n'aurait rien repris. */
+(function () {
+  var lien = document.getElementById('vers-perso');
+  if (!lien) return;
+  lien.addEventListener('click', function (e) {
+    e.preventDefault();
+    var slugs = {{ slugs | tojson }};
+    try {
+      localStorage.setItem('mc:comparer', JSON.stringify(slugs.map(function (s) { return { s: s, i: '' }; })));
+    } catch (err) { /* stockage refusé : tant pis, la page partira quand même */ }
+    location.href = lien.href;
+  });
+})();
+</script>
+{% endblock %}

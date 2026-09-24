@@ -1,0 +1,71 @@
+{# La barre « écrire pour ajouter » — reprend l'API de suggestions déjà
+   servie pour la recherche du site, pas un nouvel index. Attend `mode`
+   ('perso' | 'partage') et `slugs` (les fiches déjà dans la comparaison,
+   pour ne jamais suggérer deux fois la même et pour construire l'adresse
+   suivante en mode 'partage'). #}
+<div class="comparateur__ajouter">
+  <label for="comparateur-recherche" class="visuellement-cache">Ajouter une fiche à la comparaison</label>
+  <input type="search" id="comparateur-recherche" class="comparateur__recherche"
+         placeholder="Écrire pour ajouter une fiche…" autocomplete="off"
+         {{ 'disabled' if (slugs | length) >= 8 }}>
+  <ul class="comparateur__suggestions" id="comparateur-suggestions" hidden></ul>
+</div>
+
+<script>
+(function () {
+  var champ = document.getElementById('comparateur-recherche');
+  var liste = document.getElementById('comparateur-suggestions');
+  if (!champ || !liste) return;
+  var mode = {{ mode | tojson }};
+  var deja = {{ slugs | tojson }};
+  var minuteur = null;
+
+  function fermer() { liste.hidden = true; liste.innerHTML = ''; }
+
+  champ.addEventListener('input', function () {
+    clearTimeout(minuteur);
+    var q = champ.value.trim();
+    if (q.length < 2) { fermer(); return; }
+    minuteur = setTimeout(function () {
+      fetch('/api/suggestions?q=' + encodeURIComponent(q))
+        .then(function (r) { return r.json(); })
+        .then(function (d) {
+          var produits = (d.produits || [])
+            .filter(function (p) { return deja.indexOf(p.slug) === -1; })
+            .slice(0, 6);
+          if (!produits.length) { fermer(); return; }
+          liste.innerHTML = produits.map(function (p) {
+            return '<li><button type="button" data-ajouter="' + p.slug + '">'
+              + (p.image ? '<img src="' + p.image + '" alt="" loading="lazy">' : '<span class="comparateur__suggestion-sansimg"></span>')
+              + '<span><b>' + p.marque + '</b> ' + p.nom + '</span></button></li>';
+          }).join('');
+          liste.hidden = false;
+        })
+        .catch(function () { fermer(); });
+    }, 200);
+  });
+
+  liste.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-ajouter]');
+    if (!b) return;
+    var slug = b.dataset.ajouter;
+    if (mode === 'perso') {
+      try {
+        var v = JSON.parse(localStorage.getItem('mc:comparer') || '[]');
+        if (!v.some(function (x) { return x && x.s === slug; })) {
+          v.push({ s: slug, i: '' });
+          localStorage.setItem('mc:comparer', JSON.stringify(v));
+        }
+      } catch (err) { /* stockage refusé (navigation privée) : tant pis */ }
+      location.href = location.pathname;
+    } else {
+      var suite = deja.concat([slug]).slice(0, 8);
+      location.href = '/comparatif/' + suite.join(',');
+    }
+  });
+
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest('.comparateur__ajouter')) fermer();
+  });
+})();
+</script>
