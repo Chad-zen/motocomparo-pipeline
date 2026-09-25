@@ -1346,39 +1346,43 @@ body:has(.banc:not([hidden])) { padding-bottom: 94px; }
    visiteur.
    ========================================================================== */
 
+/* SUR TÉLÉPHONE, L'AFFICHE PREND LA FORME DE L'AFFICHE. Pas l'inverse.
+   Signalé par la propriétaire le 25/09/2026, capture à l'appui : l'intercom de
+   gauche et le casque de droite étaient coupés net.
+   La cause était une hauteur imposée — « tout ce qui reste sous l'en-tête » —
+   plus un `object-fit: cover` chargé de combler l'écart. Sur un 412 × 915, le
+   cadre faisait 412 × 621, soit un rapport de 0,66, quand l'image en fait
+   0,75 (1086 × 1448, mesuré dans le fichier) : pour remplir la hauteur
+   demandée, le navigateur débordait la largeur de 13 % et rognait autant, en
+   silence, des deux côtés — c'est-à-dire exactement là où l'affiche a mis ses
+   produits.
+   Le cadre suit donc désormais le rapport de l'image. À 412 px de large il
+   fait 549 px de haut : moins que les 621 px d'avant, donc le catalogue
+   commence plus tôt qu'avant et le débord qui invite à faire défiler est
+   conservé.
+   `svh` et non `vh` : sur un téléphone, `100vh` compte la hauteur SANS la
+   barre d'adresse, et le plafond laisserait alors l'affiche dépasser de
+   l'écran. `svh` prend la plus petite des deux, celle qu'on voit vraiment.
+   La valeur de repli (200 px) sert le temps que le script mesure la coiffe,
+   et s'il ne tourne pas du tout. */
 .affiche {
   display: block;
-  background: #070b22;          /* le fond ne clignote jamais en blanc */
   overflow: hidden;
+  aspect-ratio: 1086 / 1448;    /* la forme du fichier, relevée dedans */
+  max-height: calc(100svh - var(--haut-coiffe, 200px));
 
-  /* Elle occupe tout ce qui reste de l'écran sous l'en-tête : c'est ce que fait
-     Dafy, et c'est ce qui fait qu'on la voit comme une affiche et non comme une
-     illustration posée en haut d'une page.
-
-     `svh` et non `vh` : sur un téléphone, `100vh` compte la hauteur SANS la
-     barre d'adresse, donc l'affiche dépasserait de l'écran au chargement et le
-     visiteur verrait son bas coupé. `svh` prend la plus petite des deux, celle
-     qui est réellement visible.
-
-     La valeur de repli (200px) sert le temps que le script mesure, et si le
-     script ne tourne pas du tout. */
-  height: calc(100svh - var(--haut-coiffe, 200px));
-  min-height: 380px;            /* écran très bas, ou clavier ouvert */
-}
-
-/* Sur téléphone, occuper TOUT ce qui reste sous l'en-tête revenait à cacher le
-   catalogue : il fallait faire défiler une pleine hauteur d'écran avant
-   d'apercevoir le premier produit. Signalé par la propriétaire le 14/09/2026.
-
-   On retire 104 px, ce qui laisse dépasser l'intitulé de la première rangée et
-   le haut des cartes. Ce débord n'est pas une perte de place : c'est lui qui
-   dit au visiteur qu'il y a quelque chose en dessous. Une affiche qui remplit
-   l'écran pile se lit comme une page entière, et on n'y fait pas défiler. */
-@media (max-width: 899px) {
-  .affiche { height: calc(100svh - var(--haut-coiffe, 200px) - 104px); }
+  /* Les deux teintes des bords de l'affiche, relevées au pixel dans le JPEG
+     (#b9cfe6 en haut, #7491af en bas) et non approchées à l'œil. Elles ne se
+     voient que sur un écran trop bas pour le rapport ci-dessus, là où le
+     plafond reprend la main : la bande qui apparaît alors prolonge l'image au
+     lieu de l'encadrer de noir. */
+  background: linear-gradient(#b9cfe6, #7491af);
 }
 .affiche picture, .affiche img { display: block; width: 100%; height: 100%; }
-.affiche img { object-fit: cover; }
+/* `contain` et non `cover` : mieux vaut une bande qui prolonge l'affiche qu'un
+   produit coupé. Dans le cas courant le cadre a le rapport exact de l'image,
+   et les deux reviennent au même — sans bande et sans coupe. */
+.affiche img { object-fit: contain; }
 
 /* Sur ordinateur, une affiche portrait ne peut pas remplir la largeur sans
    qu'on lui coupe quelque chose. En 21/9 c'était le titre : on ne lisait plus
@@ -1405,6 +1409,14 @@ body:has(.banc:not([hidden])) { padding-bottom: 94px; }
     position: relative;
     height: min(560px, 44vw);
     isolation: isolate;
+    /* LE RAPPORT DU TÉLÉPHONE EST ANNULÉ ICI, et il faut le dire parce que
+       l'oubli ne ressemble pas à une erreur de CSS. `aspect-ratio` s'applique
+       à la dimension laissée libre : la hauteur étant imposée juste au-dessus,
+       c'est la LARGEUR qu'il recalculait — 560 × 0,75 = 420 px — et l'affiche
+       se retrouvait en colonne étroite à gauche d'un grand vide. */
+    aspect-ratio: auto;
+    width: 100%;
+    max-height: none;
   }
   .affiche::before {
     content: ""; position: absolute; inset: 0; z-index: 0;
