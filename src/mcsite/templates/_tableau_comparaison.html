@@ -18,9 +18,7 @@
 
 {% if not memes_rayons %}
 <p class="alerte alerte--attention">
-  Ces fiches ne viennent pas du même rayon : le tableau montre tout ce que
-  chacune a su lire, mais une ligne vide n'y dit pas la même chose selon le
-  produit d'en face.
+  Ces fiches ne sont pas du même rayon&nbsp;: la comparaison a ses limites.
 </p>
 {% endif %}
 
@@ -112,8 +110,7 @@
         <strong>—</strong>
         <span class="comparateur__score-titre">Note MotoComparo</span>
       </div>
-      <p class="comparateur__score-legende">Pas assez de données publiées sur
-        cette fiche pour la calculer</p>
+      <p class="comparateur__score-legende">Données insuffisantes</p>
       {% endif %}
     </div>
     {% endfor %}
@@ -166,21 +163,16 @@
   </table>
 </div>
 
+{# Huit lignes tenaient ici, à expliquer la méthode, les sources, ce que
+   « confirmé » veut dire et pourquoi le prix n'entre pas dans la note. Tout
+   était exact, et personne ne lit un paragraphe sous un tableau. Ce qui aide
+   à LIRE le tableau reste ; ce qui explique la méthode appartient à la page
+   Confidentialité, où on va quand on se pose la question. #}
 <p class="sous-titre">
-  {% if indices %}La note MotoComparo réunit deux volets : la
-  <b>protection</b> — mesures et normes indépendantes d'abord, l'essai SHARP
-  pour les casques, les classes et niveaux EN pour le reste — et
-  l'<b>équipement</b> confirmé. Le <b>prix n'y entre pas</b> : il est affiché
-  au-dessus, où il se compare directement, et une note qui le mélangerait au
-  reste reviendrait à trier par prix en prétendant juger. La note n'est
-  jamais tirée d'une phrase de vente, et n'apparaît que si la fiche porte
-  assez de données pour la fonder. « Équipements confirmés » se lit à la
-  lettre : un équipement qu'aucun marchand ne mentionne n'est pas compté
-  comme absent, il est compté comme inconnu.{% endif %}
-  Les cases surlignées en or sont celles où une fiche fait mieux qu'une
-  autre — prix le plus bas, note la plus haute, ou valeur mesurée la plus
-  favorable. Une case vide ne veut pas dire « non » : la source n'a
-  simplement rien précisé sur ce point pour cette fiche.
+  {% if indices %}La note résume la protection et l'équipement, jamais le
+  prix.{% endif %}
+  Les cases en or signalent la meilleure valeur de la ligne. Une case vide
+  veut dire «&nbsp;non précisé&nbsp;», pas «&nbsp;absent&nbsp;».
 </p>
 
 <script>
