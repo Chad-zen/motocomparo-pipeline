@@ -1,0 +1,103 @@
+{# Le bandeau de consentement, et les règles qu'il applique.
+
+   CE QUE LA CNIL EXIGE, ET QUI SE VOIT DANS LE BALISAGE :
+
+     * REFUSER DOIT ÊTRE AUSSI FACILE QU'ACCEPTER. Les deux boutons ont donc
+       la même taille, la même forme et le même poids visuel. Un « Refuser »
+       en lien gris sous un gros bouton coloré est le motif que la CNIL
+       sanctionne le plus — et c'est aussi une malhonnêteté ordinaire, ce que
+       ce site s'interdit ailleurs.
+     * CONTINUER À NAVIGUER NE VAUT PAS ACCEPTATION. Il n'y a donc pas de
+       croix de fermeture : fermer sans choisir laisserait le visiteur dans un
+       état ambigu que le code interpréterait, et il l'interpréterait en sa
+       défaveur. Tant que rien n'est choisi, tout reste refusé.
+     * LE CHOIX SE CHANGE. Le pied de page porte « Gérer les cookies », qui
+       rouvre ce bandeau.
+     * LE CHOIX EXPIRE. Six mois, la durée recommandée par la CNIL, après quoi
+       la question est reposée. C'est la date stockée avec le choix qui le dit.
+
+   POURQUOI `localStorage` ET PAS UN COOKIE. Le choix doit survivre d'une page
+   à l'autre, mais rien n'oblige à le renvoyer au serveur à chaque requête —
+   il ne sert qu'au navigateur. Et un site qui dépose un cookie pour savoir si
+   on l'autorise à déposer des cookies se raconte une histoire. Le reste du
+   site utilise déjà `localStorage` pour les favoris et le comparateur : c'est
+   le même mécanisme, et le visiteur l'efface de la même façon. #}
+<div class="consentement" id="consentement" role="dialog" aria-modal="false"
+     aria-labelledby="consentement-titre" hidden>
+  <div class="conteneur consentement__inner">
+    <div class="consentement__texte">
+      <p id="consentement-titre" class="consentement__titre">Mesure d'audience</p>
+      <p>Nous aimerions mesurer la fréquentation du site avec Google Analytics,
+         pour savoir ce qui sert et ce qui ne sert pas. Cela dépose des cookies
+         sur votre appareil. Le site fonctionne exactement pareil si vous
+         refusez, et rien n'est mesuré tant que vous n'avez pas accepté.
+         <a href="/infos#donnees">En savoir plus</a></p>
+    </div>
+    <div class="consentement__boutons">
+      {# L'ordre place le refus EN PREMIER, à la lecture comme au clavier. #}
+      <button type="button" class="bouton bouton--contour" data-consentement="refuse">Refuser</button>
+      <button type="button" class="bouton bouton--or" data-consentement="accepte">Accepter</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* Le bandeau, et lui seul. Le consentement par défaut et la relecture du choix
+   déjà fait vivent dans l'entête (voir `base.html`) : ils doivent s'exécuter
+   avant que le conteneur ne démarre, et ce script-ci arrive bien trop tard
+   pour ça. Ici on ne fait que POSER LA QUESTION et enregistrer la réponse. */
+(function () {
+  var CLE = 'mc:consentement';
+  var SIX_MOIS = 15552000000;   /* la durée recommandée par la CNIL */
+  var bandeau = document.getElementById('consentement');
+  if (!bandeau) return;
+
+  function lire() {
+    try {
+      var c = JSON.parse(localStorage.getItem(CLE) || 'null');
+      if (!c || !c.choix || Date.now() - c.date >= SIX_MOIS) return null;
+      return c;
+    } catch (e) { return null; }   /* stockage refusé : on redemandera */
+  }
+
+  function montrer() { bandeau.hidden = false; document.body.classList.add('a-consentement'); }
+  function cacher() { bandeau.hidden = true; document.body.classList.remove('a-consentement'); }
+
+  function repondre(choix) {
+    try {
+      localStorage.setItem(CLE, JSON.stringify({ choix: choix, date: Date.now() }));
+    } catch (e) { /* navigation privée : le choix vaut pour cette visite */ }
+    /* `gtag` n'existe que si un identifiant est configuré. Le refus n'a rien à
+       signaler — tout est déjà refusé par défaut — mais on l'envoie quand même :
+       si le visiteur change d'avis dans l'autre sens plus tard, Google doit
+       voir la transition, pas une absence. */
+    if (typeof gtag === 'function') {
+      var etat = choix === 'accepte' ? 'granted' : 'denied';
+      gtag('consent', 'update', {
+        ad_storage: etat, ad_user_data: etat,
+        ad_personalization: etat, analytics_storage: etat
+      });
+    }
+    cacher();
+  }
+
+  bandeau.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-consentement]');
+    if (b) repondre(b.dataset.consentement);
+  });
+
+  /* « Gérer les cookies », dans le pied de page : on efface le choix et on
+     repose la question. Effacer plutôt que pré-cocher l'ancien choix — le
+     visiteur qui rouvre ce bandeau vient le changer, pas le relire. */
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('[data-gerer-cookies]')) {
+      e.preventDefault();
+      try { localStorage.removeItem(CLE); } catch (err) { /* tant pis */ }
+      montrer();
+      bandeau.querySelector('[data-consentement]').focus();
+    }
+  });
+
+  if (!lire()) montrer();
+})();
+</script>

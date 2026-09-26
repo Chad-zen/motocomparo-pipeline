@@ -64,8 +64,36 @@
   <p>La seule chose que vous pouvez nous transmettre est un message via la page
   Contact, et l'adresse e-mail que vous y laissez si vous le souhaitez. Elle
   sert à cela et à rien d'autre.</p>
+  {# CE PARAGRAPHE SUIT LA CONFIGURATION, IL NE LA DEVANCE PAS.
+
+     Il a d'abord affirmé, en dur, que le site ne déposait aucun cookie et
+     n'utilisait aucune mesure d'audience. C'était vrai le jour où la phrase a
+     été écrite, et c'est devenu faux le jour où un identifiant de mesure est
+     entré dans `.env` — sans que personne ne pense à rouvrir ce fichier. Une
+     politique de confidentialité qui ment n'est pas un détail de rédaction :
+     c'est la seule page du site qu'un visiteur lit en se demandant s'il peut
+     nous croire.
+
+     Les deux versions sont donc écrites ici, et c'est le même interrupteur
+     (`mesure_active`, côté Python) qui décide laquelle s'affiche et si les
+     scripts se chargent. Les deux ne peuvent plus diverger. #}
+  {% if mesure_active %}
+  <p><strong>Mesure d'audience.</strong> Nous utilisons Google Analytics pour
+  savoir combien de personnes visitent le site et quelles pages leur servent.
+  Cet outil dépose des cookies sur votre appareil, et il ne se déclenche
+  qu'après votre accord&nbsp;: tant que vous n'avez pas répondu au bandeau, ou
+  si vous avez refusé, aucune mesure n'a lieu et aucun cookie de mesure n'est
+  déposé. Votre choix est conservé six mois dans votre navigateur, puis la
+  question vous est reposée. Vous pouvez en changer à tout moment par
+  «&nbsp;Gérer les cookies&nbsp;», en bas de chaque page.</p>
+  <p>Ce que nous y regardons est de l'ordre du comptage&nbsp;: nombre de
+  visites, pages consultées, type d'appareil, provenance. Nous ne cherchons pas
+  à vous identifier et nous ne revendons rien.</p>
+  {% else %}
   <p>Le site ne dépose aucun cookie et n'utilise aucun outil de mesure
-  d'audience. Trois réserves, parce qu'elles sont vraies&nbsp;: les polices de
+  d'audience.</p>
+  {% endif %}
+  <p>Trois réserves, parce qu'elles sont vraies&nbsp;: les polices de
   caractères sont chargées depuis Google Fonts, les photos des produits sont
   servies par les marchands eux-mêmes, et les bannières publicitaires aussi.
   Votre navigateur les contacte donc, et ils voient votre adresse IP, comme sur
@@ -85,9 +113,9 @@
   s'appliquent, pas les nôtres.</p>
 
   {# Les droits RGPD manquaient : la v1 les listait, la v2 non. Repris d'elle.
-     Le RESTE de sa politique de confidentialité n'a PAS été recopié — elle
-     parle de cookies et d'une bannière de consentement que la v2 n'a pas, et
-     l'écrire serait faux. #}
+     Le reste de sa politique n'a pas été recopié mot pour mot, mais le
+     paragraphe sur les cookies l'a rejointe le 26/09/2026, quand la mesure
+     d'audience est devenue possible. #}
   <p>Vous disposez d'un droit d'accès, de rectification et d'effacement de vos
   données, d'un droit à la portabilité et à la limitation du traitement, et d'un
   droit d'opposition. Pour les exercer, écrivez à
