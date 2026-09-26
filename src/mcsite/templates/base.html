@@ -48,6 +48,76 @@
    en dernier dans l'entête pour qu'elles soient lues APRÈS le titre et la
    description qu'elles complètent. #}
 {% block donnees_structurees %}{% endblock %}
+
+{% if mesure_active %}
+{# --- La mesure d'audience, et le consentement qui la précède ---------------
+
+   L'ORDRE DE CES DEUX BLOCS EST LA RÈGLE, PAS UNE PRÉFÉRENCE. Le consentement
+   par défaut doit être posé AVANT que le conteneur ne se charge : Google lit
+   l'état au démarrage, et un `default` écrit après le conteneur arrive trop
+   tard — les balises sont déjà parties avec l'état permissif implicite. C'est
+   l'erreur la plus courante du Consent Mode, et elle ne se voit pas : la page
+   fonctionne, les chiffres remontent, et le refus du visiteur n'a servi à rien.
+
+   TOUT EST REFUSÉ AU DÉPART. Le visiteur qui n'a rien choisi est un visiteur
+   qui n'a pas consenti — pas un visiteur qu'on mesure en attendant qu'il dise
+   non. `wait_for_update` laisse une demi-seconde au script du bas de page pour
+   relire un choix déjà fait, afin qu'un visiteur qui a accepté hier ne soit
+   pas compté comme refusant le temps que la page finisse de se charger.
+
+   Deux états restent accordés, et ce n'est pas une faveur : `security_storage`
+   couvre la lutte contre la fraude, `functionality_storage` ce sans quoi la
+   page ne marche pas. Ni l'un ni l'autre ne sert à mesurer ou à cibler. #}
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('consent', 'default', {
+  ad_storage: 'denied',
+  ad_user_data: 'denied',
+  ad_personalization: 'denied',
+  analytics_storage: 'denied',
+  functionality_storage: 'granted',
+  security_storage: 'granted',
+  wait_for_update: 500
+});
+/* Le choix déjà fait est relu ICI, au plus tôt, et pas seulement par le script
+   du bandeau : attendre le bas de page ferait démarrer le conteneur en refus
+   pour quelqu'un qui a accepté, et la première page de chaque visite serait
+   perdue. La date est relue aussi — voir `_consentement.html` pour les six
+   mois au-delà desquels on repose la question. */
+try {
+  var mcChoix = JSON.parse(localStorage.getItem('mc:consentement') || 'null');
+  if (mcChoix && mcChoix.choix === 'accepte'
+      && Date.now() - mcChoix.date < 15552000000) {
+    gtag('consent', 'update', {
+      ad_storage: 'granted', ad_user_data: 'granted',
+      ad_personalization: 'granted', analytics_storage: 'granted'
+    });
+  }
+} catch (e) { /* stockage refusé : on reste sur le refus par défaut */ }
+</script>
+{% if gtm_id %}
+{# Le conteneur lui-même. L'identifiant est validé côté Python (`_GTM_ID`)
+   contre le format `GTM-XXXXXXX` avant d'arriver ici : ce qui entre dans un
+   `<script>` ne se prend pas sur parole. #}
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer',{{ gtm_id | tojson }});</script>
+{% endif %}
+{% if ga4_id %}
+{# Google Analytics branché DIRECTEMENT, sans passer par un conteneur. C'est
+   le chemin court : un identifiant collé dans `.env` et la mesure fonctionne.
+   ⚠️ Si une balise GA4 est aussi déclarée dans GTM, chaque page compte double
+   — voir l'avertissement dans `.env.example`. #}
+<script async src="https://www.googletagmanager.com/gtag/js?id={{ ga4_id | urlencode }}"></script>
+<script>
+gtag('js', new Date());
+gtag('config', {{ ga4_id | tojson }});
+</script>
+{% endif %}
+{% endif %}
 </head>
 {# Le site suit le réglage clair/sombre du système, et rien d'autre : le
    bouton de bascule a été retiré à la demande de la propriétaire. Un visiteur
@@ -55,6 +125,16 @@
    redemander sur chaque site est un choix de plus pour rien. Les règles de
    thème restent en place dans `style.css` (`prefers-color-scheme`). #}
 <body class="theme-v1" data-slug="{{ p.slug if p is defined and p else '' }}">
+{% if gtm_id %}
+{# Le repli sans JavaScript, exigé par Google juste après l'ouverture du
+   `<body>`. Il ne porte AUCUN consentement : une iframe ne sait pas lire le
+   choix du visiteur, et le Consent Mode ne s'applique pas à elle. On l'écrit
+   quand même parce que le conteneur peut servir à autre chose qu'à mesurer,
+   et parce qu'un visiteur sans JavaScript ne dépose ici aucun cookie —
+   l'iframe ne fait que signaler une page vue au conteneur. #}
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ gtm_id | urlencode }}"
+ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+{% endif %}
 
 <div class="confiance">
   <div class="conteneur confiance__inner">
@@ -168,6 +248,12 @@
       <h3>Notre politique</h3>
       <ul>
         <li><a href="/infos#donnees">Politique de confidentialité</a></li>
+        {% if mesure_active %}
+        {# La porte de sortie exigée par la CNIL : un choix qu'on ne peut pas
+           revenir changer n'est pas un choix. Elle n'existe que si la mesure
+           existe — sinon elle rouvrirait un bandeau qui n'a rien à demander. #}
+        <li><a href="#" data-gerer-cookies>Gérer les cookies</a></li>
+        {% endif %}
         <li><a href="/infos#liens">Liens partenaires</a></li>
         <li><a href="/infos#cgu">Conditions d'utilisation</a></li>
         <li><a href="/infos#mentions">Mentions légales</a></li>
@@ -582,6 +668,8 @@ function propre(u) {
 {# La barre de recherche qui propose des chemins. En `defer` : elle ne sert
    qu'au moment où quelqu'un tape, et n'a aucune raison de retarder la page. #}
 <script src="/static/recherche.js?v={{ version_css() }}" defer></script>
+
+{% if mesure_active %}{% include "_consentement.html" %}{% endif %}
 
 </body>
 </html>

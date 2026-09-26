@@ -9,6 +9,7 @@ the two and no window during which the site shows yesterday's data.
 from __future__ import annotations
 
 import os
+import re
 from contextlib import asynccontextmanager
 from datetime import date
 from pathlib import Path
@@ -177,7 +178,11 @@ def _ctx(request: Request, **extra: Any) -> dict[str, Any]:
     return {"request": request, "nav": nav, "marques": marques,
             "marchands_actifs": marchands,
             "bandeaux": partenaires.bandeaux(),
-            "bandeaux_larges": partenaires.bandeaux("large"), **extra}
+            "bandeaux_larges": partenaires.bandeaux("large"),
+            # Vides tant que les comptes n'existent pas : le gabarit n'écrit
+            # alors ni script Google ni bandeau de consentement.
+            "gtm_id": _GTM_ID, "ga4_id": _GA4_ID,
+            "mesure_active": _MESURE_ACTIVE, **extra}
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -842,6 +847,55 @@ def marques(request: Request):
 def guides(request: Request):
     """Tailles et normes — des faits vérifiables, pas des conseils de vendeur."""
     return templates.TemplateResponse(request, "guides.html", _ctx(request))
+
+
+# --- la mesure d'audience, et son interrupteur -------------------------------
+#
+# L'IDENTIFIANT VIT DANS `.env`, ET SON ABSENCE EST UN ÉTAT NORMAL. Tant qu'il
+# n'est pas renseigné, AUCUN script Google n'est écrit dans la page : pas de
+# balise vide, pas de requête vers un conteneur inexistant, et le bandeau de
+# consentement ne s'affiche pas non plus — il n'aurait rien à faire consentir.
+# Le site reste alors exactement ce qu'il était, et la phrase de la page
+# Confidentialité qui le dit reste vraie.
+#
+# C'est aussi ce qui permet de livrer le code avant que le conteneur existe :
+# la propriétaire colle l'identifiant le jour où elle le crée, sans toucher au
+# dépôt — qui est public, et où un identifiant de mesure n'a rien à faire.
+# DEUX INTERRUPTEURS INDÉPENDANTS, et c'est voulu. Google Tag Manager est un
+# outil de plus à apprendre ; Google Analytics seul se branche en collant un
+# identifiant. On peut donc commencer par GA4 seul, ajouter GTM le jour où un
+# besoin l'exige (une balise publicitaire, un suivi de conversion), ou n'avoir
+# que GTM et déclarer GA4 dedans. Les trois combinaisons fonctionnent, et
+# aucune ne demande de retoucher le code.
+#
+# ⚠️ NE PAS DÉCLARER GA4 DES DEUX CÔTÉS. Si `GA4_ID` est renseigné ici ET
+# qu'une balise GA4 existe dans le conteneur GTM, chaque page est comptée deux
+# fois. Le garde ci-dessous ne peut pas le voir — le contenu du conteneur n'est
+# pas lisible d'ici — donc c'est écrit là où on le lira : dans `.env.example`.
+_GTM_ID = os.environ.get("GTM_ID", "").strip()
+_GA4_ID = os.environ.get("GA4_ID", "").strip()
+
+# Des identifiants, et rien d'autre. Ces champs finissent dans une balise
+# `<script>` : une valeur fantaisiste venue d'un `.env` mal recopié y serait
+# injectée telle quelle. Les formats sont fixes et connus, on s'y tient.
+# ⚠️ Les variables de cette boucle sont préfixées `_cfg_` pour une raison
+# concrète : la première version les appelait `_nom`, `_valeur`… et une boucle
+# au niveau du module laisse ses variables derrière elle. `_nom` était déjà
+# LA FONCTION qui compose le nom d'un produit, trois cents lignes plus haut ;
+# elle s'est retrouvée remplacée par la chaîne « GA4_ID », et treize
+# vérifications sont tombées sur `'str' object is not callable`.
+for _cfg_nom, _cfg_valeur, _cfg_motif, _cfg_exemple in (
+        ("GTM_ID", _GTM_ID, r"GTM-[A-Z0-9]{4,10}", "GTM-XXXXXXX"),
+        ("GA4_ID", _GA4_ID, r"G-[A-Z0-9]{4,12}", "G-XXXXXXXXXX")):
+    if _cfg_valeur and not re.fullmatch(_cfg_motif, _cfg_valeur):
+        raise RuntimeError(
+            f"{_cfg_nom} ne ressemble pas à un identifiant : {_cfg_valeur!r}. "
+            f"Format attendu : {_cfg_exemple}. Laisser vide pour désactiver.")
+
+# Le bandeau de consentement n'a de raison d'être que s'il y a quelque chose à
+# faire consentir. Sans identifiant, il ne s'affiche pas — et la phrase de la
+# page Confidentialité qui promet l'absence de mesure reste vraie.
+_MESURE_ACTIVE = bool(_GTM_ID or _GA4_ID)
 
 
 # Mentions légales : l'éditeur et le directeur de la publication ne peuvent pas
