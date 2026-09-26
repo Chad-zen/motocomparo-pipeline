@@ -203,7 +203,7 @@
            a été retiré à la demande de la propriétaire le 14/09/2026. #}
         {% if t %}{{ t }}{% else %}<button type="button" class="taille-info"
           data-info aria-expanded="false"
-          title="La disponibilité de cet article est confirmée par le marchand, mais le détail des tailles n'est pas précisé. Nous vous invitons à consulter sa fiche produit pour choisir votre taille."
+          title="Ce marchand ne détaille pas ses tailles. Vérifiez sur sa fiche."
           aria-label="Pourquoi cette taille n'est pas indiquée">i</button>{% endif %}
       </td>{% endif %}
       <td class="offres__dispo">
@@ -253,9 +253,8 @@
      aria-label="Pourquoi cette taille n'est pas indiquée">
   <button type="button" class="bulle__x" data-bulle-fermer
           aria-label="Fermer">&times;</button>
-  <p>La disponibilité de cet article est confirmée par le marchand, mais le
-     détail des tailles n'est pas précisé. Nous vous invitons à consulter sa
-     fiche produit pour choisir votre taille.</p>
+  <p>Ce marchand ne détaille pas ses tailles. Vérifiez sur sa fiche avant de
+     commander.</p>
 </div>
 
 
@@ -562,12 +561,14 @@
 </script>
 
 
+{# La mention d'affiliation est OBLIGATOIRE et reste. Ce qui l'entourait ne
+   l'était pas : cinq lignes pour dire qu'un prix peut changer et qu'une
+   commission ne coûte rien au visiteur. Le fait suffit, l'insistance faisait
+   douter. #}
 <p class="mentions">
-  Les prix sont fournis par nos marchands partenaires et peuvent évoluer. Le prix
-  qui fait foi reste celui affiché sur le site du marchand au moment de la
-  commande. MotoComparo perçoit une commission sur les achats réalisés via ces
-  liens&nbsp;: elle ne change pas le prix que vous payez et n'influence pas le
-  classement, trié par prix.
+  Prix hors frais de port, susceptibles d'évoluer. Liens affiliés&nbsp;: nous
+  touchons une commission sans effet sur votre prix ni sur le classement, trié
+  par prix.
 </p>
 </section>
 
@@ -606,8 +607,8 @@
   {% endfor %}
 </dl>
 <p class="sous-titre">
-  Caractéristiques lues dans les descriptions des marchands partenaires{% if caracteristiques | selectattr('source', 'equalto', 'sharp') | list %},
-  complétées par les essais indépendants de <a href="https://sharp.dft.gov.uk/" target="_blank" rel="noopener">SHARP</a>{% endif %}.
+  D'après les fiches marchands{% if caracteristiques | selectattr('source', 'equalto', 'sharp') | list %}
+  et les essais <a href="https://sharp.dft.gov.uk/" target="_blank" rel="noopener">SHARP</a>{% endif %}.
 </p>
 </section>
 {% endif %}
@@ -659,9 +660,8 @@
   {% endif %}
 {% else %}
   <p class="sous-titre">
-    L'historique commence tout juste&nbsp;: il n'y a encore qu'un relevé
-    {% if courbe %}(le {{ courbe[0].observed_on.strftime('%d/%m/%Y') }}){% endif %}.
-    La courbe apparaîtra après quelques jours de collecte.
+    Un seul relevé pour l'instant{% if courbe %} (le {{ courbe[0].observed_on.strftime('%d/%m/%Y') }}){% endif %}.
+    La courbe arrive dans quelques jours.
   </p>
 {% endif %}
 
@@ -720,9 +720,7 @@
     {% endfor %}
   </div>
   <p class="promos__note">
-    Codes relevés chez les marchands et vérifiés chaque jour. Ils ne sont pas
-    déduits des prix affichés plus haut&nbsp;: la remise s'applique dans le
-    panier du marchand, sous réserve de ses conditions.
+    La remise s'applique dans le panier du marchand, pas sur les prix ci-dessus.
   </p>
 </section>
 
@@ -780,7 +778,7 @@ document.addEventListener('click', function (e) {
 <section class="proches">
   <h2 class="titre-section">Dans la même gamme de prix</h2>
   <p class="sous-titre">
-    Autres marques, à 25&nbsp;% près du prix de cette fiche.
+    Autres marques, à prix comparable.
   </p>
   <div class="proches__grille">
     {% for it in meme_gamme %}

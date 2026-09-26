@@ -21,26 +21,17 @@
   <h2 id="prix">Comment les prix sont relevés</h2>
   <p>Chaque marchand publie un catalogue que nous téléchargeons chaque jour.
   Les prix affichés viennent de ces fichiers, jamais d'une saisie à la main.</p>
-  <p><strong>Un prix de plus de 24 heures est signalé comme non rafraîchi</strong>,
-  sur la ligne du marchand concerné. Il reste affiché — le masquer ferait
-  disparaître une offre qui, le plus souvent, est toujours valable — mais il est
-  dit pour ce qu'il est. Le prix qui fait foi reste celui du marchand au moment
+  <p><strong>Un prix de plus de 24 heures est signalé comme non rafraîchi</strong>
+  sur la ligne concernée. Le prix qui fait foi reste celui du marchand au moment
   de la commande.</p>
-  <p>Une offre qu'un marchand cesse complètement de publier, elle, disparaît.</p>
-  <p>Les prix sont hors frais de port. Une promotion n'est prise en compte que
-  si le marchand indique qu'elle est en cours à la date du relevé.</p>
+  <p>Les prix sont hors frais de port.</p>
 
   <h2 id="produits">Comment deux offres deviennent un même produit</h2>
   <p>Deux marchands parlent du même article quand ils publient le même
-  code-barres (EAN). C'est ce code qui fait foi, pas la ressemblance des titres.
-  En cas de désaccord entre marchands sur une caractéristique — la couleur, la
-  catégorie, le genre — les offres sont mises de côté plutôt que réunies au
-  hasard&nbsp;: un mauvais rapprochement coûte bien plus cher qu'un
-  rapprochement manqué.</p>
-  <p>La taille suit la même règle. Quand un marchand ne la précise pas, elle est
-  reprise de ce qu'un autre marchand dit du même code-barres — jamais devinée à
-  partir d'un titre. Et quand deux marchands nomment la même taille
-  différemment, la page les réunit&nbsp;: <em>«&nbsp;7&nbsp;/&nbsp;S&nbsp;»</em>.</p>
+  code-barres (EAN)&nbsp;: c'est ce code qui fait foi, pas la ressemblance des
+  titres. En cas de doute, les offres restent séparées.</p>
+  <p>Quand deux marchands nomment la même taille différemment, la page les
+  réunit&nbsp;: <em>«&nbsp;7&nbsp;/&nbsp;S&nbsp;»</em>.</p>
 
   <h2 id="marchands">Les marchands</h2>
   {# Lus en base plutôt qu'écrits ici : la liste à la main citait Maxxess et
@@ -79,16 +70,10 @@
      scripts se chargent. Les deux ne peuvent plus diverger. #}
   {% if mesure_active %}
   <p><strong>Mesure d'audience.</strong> Nous utilisons Google Analytics pour
-  savoir combien de personnes visitent le site et quelles pages leur servent.
-  Cet outil dépose des cookies sur votre appareil, et il ne se déclenche
-  qu'après votre accord&nbsp;: tant que vous n'avez pas répondu au bandeau, ou
-  si vous avez refusé, aucune mesure n'a lieu et aucun cookie de mesure n'est
-  déposé. Votre choix est conservé six mois dans votre navigateur, puis la
-  question vous est reposée. Vous pouvez en changer à tout moment par
-  «&nbsp;Gérer les cookies&nbsp;», en bas de chaque page.</p>
-  <p>Ce que nous y regardons est de l'ordre du comptage&nbsp;: nombre de
-  visites, pages consultées, type d'appareil, provenance. Nous ne cherchons pas
-  à vous identifier et nous ne revendons rien.</p>
+  compter les visites et voir quelles pages servent. Il ne se déclenche
+  qu'après votre accord, et vous pouvez en changer à tout moment par
+  «&nbsp;Gérer les cookies&nbsp;», en bas de page.</p>
+  <p>Nous ne cherchons pas à vous identifier et nous ne revendons rien.</p>
   {% else %}
   <p>Le site ne dépose aucun cookie et n'utilise aucun outil de mesure
   d'audience.</p>
@@ -99,18 +84,14 @@
   Votre navigateur les contacte donc, et ils voient votre adresse IP, comme sur
   n'importe quel site qui affiche leurs images.</p>
 
-  {# Le choix technique est expliqué en clair parce qu'il est inhabituel, et
-     que c'est lui qui permet à la phrase ci-dessus de rester vraie. #}
-  <p><strong>Sur les bannières, précisément.</strong> Les régies publicitaires
-  fournissent d'ordinaire un code qui charge l'image depuis LEUR serveur&nbsp;:
-  celui-ci voit alors passer chaque visiteur, sur chaque page, qu'il clique ou
-  non. Ce n'est pas ce que nous faisons. L'image est prise directement chez le
-  marchand, et le lien de suivi ne se déclenche qu'au moment où vous cliquez —
-  exactement comme les boutons «&nbsp;Voir l'offre&nbsp;». Tant que vous ne
-  cliquez pas, aucune régie ne sait que vous êtes passé.</p>
-  <p>Lorsque vous cliquez vers un marchand, c'est le marchand qui vous accueille
-  avec ses propres règles&nbsp;: à partir de ce clic, ce sont les siennes qui
-  s'appliquent, pas les nôtres.</p>
+  {# Le paragraphe qui détaillait le fonctionnement des régies publicitaires a
+     été retiré le 26/09/2026 : neuf lignes pour expliquer ce qu'on ne fait
+     PAS, sur une page que les visiteurs ouvrent déjà inquiets. Le fait tient
+     en une phrase ; la démonstration appartenait au code, pas au site. #}
+  <p>Les bannières publicitaires n'appellent aucune régie tant que vous ne
+  cliquez pas.</p>
+  <p>Lorsque vous cliquez vers un marchand, ce sont ses règles qui s'appliquent,
+  pas les nôtres.</p>
 
   {# Les droits RGPD manquaient : la v1 les listait, la v2 non. Repris d'elle.
      Le reste de sa politique n'a pas été recopié mot pour mot, mais le
