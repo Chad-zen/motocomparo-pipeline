@@ -547,6 +547,13 @@ h1, h2 { line-height: 1.2; }
    reconnaît sans avoir à interpréter un pictogramme. Il s'efface sous 760 px,
    où la barre a besoin de toute sa largeur pour le champ lui-même. */
 .quete__nom { font-size: 15px; font-weight: 700; letter-spacing: .2px; }
+/* Entre 900 et 1100 px, tout tient sur une ligne et la place manque : sans
+   `min-width: 0` le champ gardait sa largeur naturelle, et le bouton sortait
+   de la barre jusque sous « Comparatif » (56 px de chevauchement à 980 px,
+   vu sur un téléphone en mode « version ordinateur »). Le mot « Chercher »
+   s'efface aussi dans cette plage : la loupe suffit. */
+.quete input { min-width: 0; }
+@media (max-width: 1099px) { .quete__nom { display: none; } }
 @media (max-width: 760px) {
   .quete__nom { display: none; }
   .quete button { padding: 0 22px; }
@@ -1405,15 +1412,22 @@ body:has(.banc:not([hidden])) { padding-bottom: 94px; }
 
      Ça reste un pis-aller honnête : la vraie réponse est une deuxième image
      dessinée en paysage (2560 × 1100), qui remplacerait tout ce bloc. */
+  .affiche { height: min(560px, 44vw); }
+}
+
+/* Le fond flouté sert dès 600 px, pas seulement sur ordinateur. Sur une
+   tablette (768 × 1024) le plafond de hauteur réduisait l'affiche à 633 px de
+   large, calée à gauche d'une bande vide de 135 px. Elle est désormais au
+   centre, et les côtés sont remplis comme sur ordinateur. */
+@media (min-width: 600px) {
   .affiche {
     position: relative;
-    height: min(560px, 44vw);
     isolation: isolate;
     /* LE RAPPORT DU TÉLÉPHONE EST ANNULÉ ICI, et il faut le dire parce que
        l'oubli ne ressemble pas à une erreur de CSS. `aspect-ratio` s'applique
-       à la dimension laissée libre : la hauteur étant imposée juste au-dessus,
-       c'est la LARGEUR qu'il recalculait — 560 × 0,75 = 420 px — et l'affiche
-       se retrouvait en colonne étroite à gauche d'un grand vide. */
+       à la dimension laissée libre : la hauteur étant imposée, c'est la
+       LARGEUR qu'il recalculait — 560 × 0,75 = 420 px — et l'affiche se
+       retrouvait en colonne étroite à gauche d'un grand vide. */
     aspect-ratio: auto;
     width: 100%;
     max-height: none;
@@ -1426,6 +1440,11 @@ body:has(.banc:not([hidden])) { padding-bottom: 94px; }
   }
   .affiche picture { position: relative; z-index: 1; }
   .affiche img { object-fit: contain; object-position: center; }
+}
+@media (min-width: 600px) and (max-width: 899px) {
+  /* Même hauteur que sur téléphone — tout l'écran sous l'en-tête — mais
+     jamais plus que ce que la largeur permet à l'image (1448/1086 = 133,3 %). */
+  .affiche { height: min(calc(100svh - var(--haut-coiffe, 200px)), 133.3vw); }
 }
 
 
@@ -1866,8 +1885,12 @@ body:has(.banc:not([hidden])) { padding-bottom: 94px; }
    large, `cover` la cale sur la largeur et la moto rétrécit à 100px, un
    timbre-poste. Agrandie à 130% de la hauteur du bandeau et calée à droite,
    elle occupe la moitié droite comme sur le mockup ; le dégradé ne couvre
-   que la gauche, là où sont le logo et la signature. */
-@media (max-width: 760px) {
+   que la gauche, là où sont le logo et la signature.
+
+   899px et non 760 : c'est le seuil où l'en-tête passe sur deux lignes et où
+   les raccourcis deviennent des carrés. Avec 760, une tablette avait la mise
+   en page mobile sans la moto ni le trait — un entre-deux. */
+@media (max-width: 899px) {
   .tete {
     background:
       linear-gradient(90deg, #0d1322 0%, rgba(13, 19, 34, .94) 46%, rgba(13, 19, 34, .4) 64%, rgba(13, 19, 34, .1) 100%),
