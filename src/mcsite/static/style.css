@@ -1848,15 +1848,43 @@ body:has(.banc:not([hidden])) { padding-bottom: 94px; }
    ========================================================================== */
 
 .tete {
-  /* Le dégradé EXACT de la v1, relevé le 17/09/2026 sur le site en ligne :
-     vertical, clair en haut, sombre en bas, trois arrêts.
-
-     Le nôtre allait à 135° et du sombre vers le clair — c'est-à-dire dans
-     l'autre sens. Un dégradé qui s'éclaircit vers le bas soulève le bandeau ;
-     celui qui s'assombrit le fait peser sur la page, et c'est ce poids qui
-     donne l'impression de sérieux que la propriétaire réclamait. */
-  background: linear-gradient(#1b2540 0%, #151d33 55%, #0f1524 100%);
+  /* La moto en fond, cadrée à droite par la photo elle-même (829b7055,
+     28/09/2026) : c'est pour ça que le dégradé ne va que jusqu'à ~65% —
+     au-delà, la photo est déjà assez sombre pour porter le texte seule. */
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(90deg, #0f1524 0%, #131a2d 30%, rgba(15, 21, 36, .55) 55%, rgba(15, 21, 36, .15) 100%),
+    url("/static/header_moto.jpg") right 62% / cover no-repeat,
+    linear-gradient(#1b2540 0%, #151d33 55%, #0f1524 100%);
   border-bottom: 3px solid var(--or);
+}
+.tete__inner { position: relative; z-index: 1; }
+
+/* Le mockup de la propriétaire (28/09/2026), reproduit sur téléphone sans
+   déplacer aucun bouton. La photo n'est pas posée en `cover` : à 375px de
+   large, `cover` la cale sur la largeur et la moto rétrécit à 100px, un
+   timbre-poste. Agrandie à 130% de la hauteur du bandeau et calée à droite,
+   elle occupe la moitié droite comme sur le mockup ; le dégradé ne couvre
+   que la gauche, là où sont le logo et la signature. */
+@media (max-width: 760px) {
+  .tete {
+    background:
+      linear-gradient(90deg, #0d1322 0%, rgba(13, 19, 34, .94) 46%, rgba(13, 19, 34, .4) 64%, rgba(13, 19, 34, .1) 100%),
+      linear-gradient(rgba(13, 19, 34, 0) 55%, rgba(13, 19, 34, .55) 100%),
+      url("/static/header_moto.jpg") right 55% / auto 130% no-repeat,
+      #0f1524;
+  }
+  /* Le trait doré du mockup : court, en « / », dans le coin bas-gauche. */
+  .tete::before {
+    content: "";
+    position: absolute; left: 4px; bottom: -8px;
+    width: 3px; height: 78px; border-radius: 2px;
+    background: linear-gradient(rgba(248, 202, 2, 0), var(--or-logo) 45%);
+    box-shadow: 0 0 10px rgba(248, 202, 2, .55);
+    transform: rotate(32deg); transform-origin: bottom center;
+    z-index: 0; pointer-events: none;
+  }
 }
 .confiance { background: #0b1020; }
 .confiance__inner { justify-content: flex-start; }
@@ -1890,11 +1918,66 @@ body:has(.banc:not([hidden])) { padding-bottom: 94px; }
 .tete__action--or:hover { background: var(--or-vif); }
 .tete__action .tete__compteur { top: -7px; right: -7px; }
 
-/* Sous 520 px le libellé n'a plus la place : l'icône reste, le mot s'efface.
-   Le bouton garde sa cible tactile — c'est le libellé qui part, pas la marge. */
-@media (max-width: 520px) {
+/* Sous 900 px, l'en-tête passe sur deux lignes (voir plus bas) : Comparatif
+   et Favoris prennent alors le même traitement carré que le bouton menu —
+   46×46, même fond, sans bordure ni libellé — pour rester lisibles sur la
+   photo sans le poids de deux pastilles nommées. Les emplacements ne
+   bougent pas : Comparatif/Favoris restent à côté de la marque, le menu
+   reste à côté de la recherche. */
+@media (max-width: 899px) {
   .tete__nom { display: none; }
-  .tete__action { padding: 10px 12px; font-size: 17px; }
+  .tete__action, .tete__menu {
+    width: 46px; height: 46px; padding: 0; justify-content: center;
+    border: 1px solid rgba(255, 255, 255, .1); border-radius: 12px;
+    background: rgba(9, 13, 24, .78);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, .35);
+  }
+  .tete__action--or { background: var(--or-logo); border-color: var(--or-logo); }
+}
+
+/* Les puces de la signature, dans le jaune du logo comme sur le mockup. */
+.marque__signature i { color: var(--or-logo); font-style: normal; margin: 0 .3em; }
+
+/* --- la recherche du mockup ----------------------------------------------
+   Une seule pilule blanche : loupe grise, filet, texte, puis le bouton jaune
+   collé à droite. La loupe de tête ne sert que sur téléphone ; sur ordinateur
+   le mot « Chercher » tient déjà ce rôle. */
+.quete__loupe, .quete__ico {
+  fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round;
+}
+.quete__ico { width: 22px; height: 22px; }
+.quete__loupe { display: none; }
+
+@media (max-width: 899px) {
+  .quete {
+    align-items: center; background: #fff; border-radius: 999px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, .35); overflow: hidden;
+  }
+  .quete__loupe {
+    display: block; flex: none; width: 20px; height: 20px;
+    margin-left: 16px; padding-right: 12px; box-sizing: content-box;
+    color: #6b7280; border-right: 1px solid #d9dde5;
+  }
+  .quete input { border-radius: 0; padding: 14px 12px; background: transparent; min-width: 0; }
+  .quete input:focus { outline: none; }
+  .quete:focus-within { outline: 2px solid var(--or-logo); outline-offset: 2px; }
+  .quete button {
+    flex: none; align-self: stretch; border-radius: 0 999px 999px 0;
+    background: var(--or-logo); color: #0f1524; padding: 0 20px;
+  }
+}
+
+/* Sur un téléphone étroit, la signature reste — elle est sur le mockup — mais
+   se resserre, et le logo rapetisse d'un cran pour lui laisser la place à
+   côté des deux raccourcis. */
+@media (max-width: 520px) {
+  .marque { gap: 8px; }
+  .marque img { height: 36px; }
+  .marque__mot { font-size: 19px; }
+  .marque__signature { font-size: 8.5px; letter-spacing: .9px; margin-top: 4px; }
+  .marque__signature i { margin: 0 .15em; }
+}
+@media (max-width: 350px) {
   .marque__signature { display: none; }
 }
 

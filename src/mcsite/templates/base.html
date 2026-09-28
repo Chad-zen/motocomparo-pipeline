@@ -174,7 +174,7 @@ gtag('config', {{ ga4_id | tojson }});
         <img src="/static/logo_mc.png?v={{ version_css() }}" alt="" width="595" height="419">
         <span class="marque__bloc">
           <span class="marque__mot"><b>Moto</b><i>Comparo</i></span>
-          <span class="marque__signature">Comparez. Choisissez. Roulez.</span>
+          <span class="marque__signature">Comparez <i aria-hidden="true">•</i> Choisissez <i aria-hidden="true">•</i> Roulez</span>
         </span>
       </a>
 
@@ -200,9 +200,10 @@ gtag('config', {{ ga4_id | tojson }});
       </button>
 
       <form class="quete" action="/recherche" method="get" role="search">
+        <svg class="quete__loupe" aria-hidden="true" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></svg>
         <input name="q" type="search" placeholder="Rechercher casques, blousons, gants, bottes&hellip;"
                value="{{ request.query_params.get('q', '') }}" aria-label="Rechercher un produit">
-        <button type="submit"><span aria-hidden="true">⌕</span><span
+        <button type="submit"><svg class="quete__ico" aria-hidden="true" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></svg><span
           class="quete__nom">Chercher</span><span
           class="visuellement-cache">Lancer la recherche</span></button>
       </form>
