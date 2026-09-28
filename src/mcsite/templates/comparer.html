@@ -1,9 +1,19 @@
 {% extends "base.html" %}
+{% import "_actions.html" as act %}
 {% block title %}{{ titre }} — MotoComparo{% endblock %}
 
 {% block contenu %}
 <nav class="fil"><a href="/">Accueil</a> › <span>{{ titre }}</span></nav>
 <h1 class="titre-page">{{ titre }}</h1>
+
+{# Sur téléphone, le cœur a quitté l'en-tête pour l'alléger : les favoris
+   se rejoignent d'ici, par le bouton Comparatif. Sur ordinateur l'en-tête
+   les garde, et ce lien est masqué (style.css). #}
+<a class="comparer__favoris" href="/favoris">
+  {{ act.ico_favori() }}<span>Mes favoris</span>
+  <span class="comparer__favoris-n" data-compteur="favoris" hidden></span>
+  <span class="comparer__favoris-fleche" aria-hidden="true">→</span>
+</a>
 
 <div id="comparateur-corps" data-cle="comparer">
   {% if items %}
