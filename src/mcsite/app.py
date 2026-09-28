@@ -8,6 +8,7 @@ the two and no window during which the site shows yesterday's data.
 
 from __future__ import annotations
 
+import ipaddress
 import os
 import re
 from contextlib import asynccontextmanager
@@ -552,8 +553,20 @@ def _grouper(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
 #      le téléphone de la maison fonctionner comme avant, et ferme la porte
 #      partout ailleurs.
 # Le mot de passe n'est écrit nulle part dans le dépôt : il se pose dans `.env`.
-_RESEAU_LOCAL = ("127.", "::1", "10.", "192.168.", "172.16.", "172.17.",
-                 "172.18.", "172.19.", "172.2", "172.30.", "172.31.", "localhost")
+#
+# ⚠️ Ce sont de vrais réseaux (`ipaddress.ip_network`), pas des préfixes de
+# texte. Une version antérieure comparait l'adresse à une liste de CHAÎNES
+# (`hote.startswith("172.2")`) : "172.2" est aussi un préfixe de
+# "172.200.1.1" et de "172.255.255.255", des adresses PUBLIQUES en dehors du
+# bloc privé 172.16.0.0/12. N'importe quel visiteur dont l'adresse commençait
+# par "172.2" passait pour "réseau local" et ouvrait /admin — messages de
+# contact avec e-mails, gestion des codes promo — sans mot de passe. Comparer
+# des réseaux plutôt que des chaînes empêche la classe entière d'erreur.
+_RESEAUX_LOCAUX = tuple(
+    ipaddress.ip_network(r)
+    for r in ("127.0.0.0/8", "::1/128", "10.0.0.0/8", "192.168.0.0/16",
+              "172.16.0.0/12")
+)
 
 
 def _admin_autorise(request: Request) -> Response | None:
@@ -579,7 +592,13 @@ def _admin_autorise(request: Request) -> Response | None:
         )
 
     hote = request.client.host if request.client else ""
-    if any(hote.startswith(p) for p in _RESEAU_LOCAL):
+    try:
+        adresse = ipaddress.ip_address(hote)
+    except ValueError:
+        adresse = None
+    if adresse is not None and any(adresse in r for r in _RESEAUX_LOCAUX):
+        return None
+    if hote == "localhost":
         return None
     return PlainTextResponse(
         "Le tableau de bord n'est accessible que depuis le réseau local. "
