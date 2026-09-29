@@ -665,11 +665,24 @@ function propre(u) {
   // Un lien qui part vraiment : même origine, pas de nouvel onglet, pas une
   // ancre interne, pas un téléchargement. Les liens marchands ouvrent un autre
   // onglet — la page courante ne bouge pas, il n'y a rien à annoncer.
+  //
+  // `href="#"` TOUT SEUL EST UN CAS À PART, et c'est celui qui a cassé
+  // « Gérer les cookies » (signalé par la propriétaire, 29/09/2026, voile
+  // resté affiché indéfiniment et boutons Refuser/Accepter injoignables en
+  // dessous). `new URL('#', location.href).hash` vaut `""` — une chaîne
+  // VIDE, donc fausse — pour un `#` nu : seul `href="#section"` donne un
+  // `hash` non vide. Le filtre `... && url.hash` ne voyait donc que les
+  // ancres AVEC un identifiant, jamais un `#` seul, et un lien purement
+  // décoratif ou porteur d'un `data-*` (comme `data-gerer-cookies`, qui
+  // n'a jamais eu la moindre intention de charger une page) armait quand
+  // même le voile. Lu sur l'attribut brut plutôt que sur l'objet `URL`,
+  // qui aurait fallu re-belliqué pour ce seul cas.
   document.addEventListener('click', function (e) {
     if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey
         || e.shiftKey || e.altKey) return;
     const a = e.target.closest('a[href]');
     if (!a || a.target === '_blank' || a.hasAttribute('download')) return;
+    if (a.getAttribute('href').charAt(0) === '#') return;
     const url = new URL(a.href, location.href);
     if (url.origin !== location.origin) return;
     // Une ancre vers la même page ne recharge rien.
