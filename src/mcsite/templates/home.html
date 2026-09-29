@@ -333,19 +333,15 @@
   <p class="etapes__partenaires">
     <span>Nos marchands partenaires</span>
     {% for m in marchands_actifs %}
-      {# On prend le fichier TEL QUE LE MARCHAND LE PUBLIE, sans le convertir :
-         deux vectoriels, trois WebP, un PNG. Une conversion est une occasion
-         de perdre de la transparence ou de la netteté, pour aucun gain — et
-         trois de ces logos n'existent qu'en WebP, leurs serveurs rendant une
-         page d'erreur si on ne l'accepte pas. #}
-      {% set fichier = namespace(nom='') %}
-      {% for ext in ['svg', 'webp', 'png'] %}
-        {% if not fichier.nom and statique_existe('marchands/' ~ m.code ~ '.' ~ ext) %}
-          {% set fichier.nom = 'marchands/' ~ m.code ~ '.' ~ ext %}
-        {% endif %}
-      {% endfor %}
-      {% set fichier = fichier.nom %}
-      {% if statique_existe(fichier) %}
+      {# `logo_marchand()` (app.py) reprend cette boucle d'extensions — TEL QUE
+         LE MARCHAND LE PUBLIE, sans conversion : deux vectoriels, trois WebP,
+         un PNG. La convertir serait une occasion de perdre de la transparence
+         ou de la netteté, pour aucun gain — et trois de ces logos n'existent
+         qu'en WebP, leurs serveurs rendant une page d'erreur si on ne
+         l'accepte pas. Partagée depuis le 29/09/2026 avec la fiche produit,
+         qui en avait besoin à trois endroits. #}
+      {% set fichier = logo_marchand(m.code) %}
+      {% if fichier %}
       <img class="etapes__logo" src="/static/{{ fichier }}?v={{ version_css() }}"
            alt="{{ m.code | marchand }}" loading="lazy" height="26">
       {% else %}

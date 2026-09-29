@@ -74,7 +74,15 @@
             <span class="remise" data-remise>−{{ remise }}&nbsp;%</span>
           </span>
           </span>
-          <span class="meilleur__chez">chez {{ meilleure.merchant | marchand }}</span>
+          {% set logo_meilleur = logo_marchand(meilleure.merchant) %}
+          <span class="meilleur__chez">chez
+            {% if logo_meilleur %}
+            <img class="meilleur__logo" src="/static/{{ logo_meilleur }}?v={{ version_css() }}"
+                 alt="{{ meilleure.merchant | marchand }}" loading="lazy">
+            {% else %}
+            {{ meilleure.merchant | marchand }}
+            {% endif %}
+          </span>
         </div>
         <div class="meilleur__droite">
           <button type="button" class="meilleur__comparer action-carte"
@@ -175,7 +183,13 @@
            texte, et c'est le premier filtre du regard. #}
         <span class="offres__point offres__point--{{ 'ok' if o.in_stock else ('ko' if o.in_stock is false else 'na') }}"
               aria-hidden="true"></span>
+        {% set logo_offre = logo_marchand(o.merchant) %}
+        {% if logo_offre %}
+        <img class="offres__logo" src="/static/{{ logo_offre }}?v={{ version_css() }}"
+             alt="{{ o.merchant | marchand }}" loading="lazy">
+        {% else %}
         <strong>{{ o.merchant | marchand }}</strong>
+        {% endif %}
         {% if loop.first %}<span class="offres__gagnant">Meilleur prix</span>{% endif %}
         {% if o.autres %}
           <span class="offres__groupe">{{ o.autres | length + 1 }} offres à ce prix{% if tailles %},
@@ -700,7 +714,13 @@
     {% for c in promos %}
     <div class="promo">
       <span class="promo__point promo__point--{{ c.merchant }}" aria-hidden="true"></span>
+      {% set logo_promo = logo_marchand(c.merchant) %}
+      {% if logo_promo %}
+      <img class="promo__logo" src="/static/{{ logo_promo }}?v={{ version_css() }}"
+           alt="{{ c.merchant | marchand }}" loading="lazy">
+      {% else %}
       <span class="promo__marchand">{{ c.merchant | marchand }}</span>
+      {% endif %}
       <span class="promo__texte">{{ c.libelle }}
         {# Ce qui décide si la remise passera en caisse : le minimum d'achat,
            les exclusions, et jusqu'à quand. Un code affiché sans ses conditions

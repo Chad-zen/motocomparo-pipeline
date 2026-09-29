@@ -186,6 +186,28 @@ def _statique_existe(nom: str) -> bool:
 templates.env.globals["statique_existe"] = _statique_existe
 
 
+_LOGO_EXTENSIONS = ("svg", "webp", "png")
+
+
+def _logo_marchand(code: str) -> str:
+    """`static/marchands/<code>.<ext>` s'il existe, chemin relatif ou "".
+
+    Reprend la boucle d'extensions écrite pour la bande de logos de l'accueil
+    (`home.html`) au lieu de la copier une troisième fois dans `_fiche.html` —
+    le bandeau « meilleur prix », le tableau des offres et les blocs code
+    promo en avaient chacun besoin. Le fichier est pris TEL QUE le marchand le
+    publie, sans conversion : trois de ces logos n'existent qu'en WebP.
+    """
+    for ext in _LOGO_EXTENSIONS:
+        nom = f"marchands/{code}.{ext}"
+        if _statique_existe(nom):
+            return nom
+    return ""
+
+
+templates.env.globals["logo_marchand"] = _logo_marchand
+
+
 def _rayons() -> list[dict[str, Any]]:
     """Le menu des rayons, pris dans le cache de navigation.
 
