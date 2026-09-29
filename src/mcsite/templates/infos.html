@@ -155,9 +155,15 @@
   <h2 id="contact">Contact</h2>
   <p>Une erreur sur une fiche, un prix qui ne correspond pas, un produit mal
   rangé&nbsp;? Signalez-le — c'est ce qui fait progresser le catalogue.</p>
-  {% if mentions.contact %}<p>Par courriel&nbsp;:
-    <a href="mailto:{{ mentions.contact }}">{{ mentions.contact }}</a>, ou par le
-    formulaire ci-dessous.</p>{% endif %}
+  {# La phrase disait « le formulaire ci-dessous » — il n'y en a pas sur
+     cette page, seulement sur /contact (signalé par la propriétaire,
+     29/09/2026, en le lisant en ligne). Un lien, pas une promesse fausse. #}
+  {% if mentions.contact %}
+  <p>Par courriel&nbsp;: <a href="mailto:{{ mentions.contact }}">{{ mentions.contact }}</a>,
+    ou par <a href="/contact">le formulaire de contact</a>.</p>
+  {% else %}
+  <p>Par <a href="/contact">le formulaire de contact</a>.</p>
+  {% endif %}
 
 </div>
 {% endblock %}
