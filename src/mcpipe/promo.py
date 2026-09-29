@@ -41,8 +41,11 @@ from .db import connect
 # the dedicated promo page; the home page follows as a fallback, because several
 # of these shops announce the month's code in a banner and nowhere else.
 #
-# FC-Moto is absent: it was absent from the v1 too (a German site with no French
-# promo page). Adding one here is all it takes for it to be scanned.
+# FC-Moto est là depuis le 29/09/2026 — absent jusque-là, comme dans la v1 (un
+# site allemand, sans page promo française trouvée à l'époque). Signalé par la
+# propriétaire : son bandeau affiche un code sitewide (« 30YRS », -30 % sur les
+# TopBrands) qu'aucun relevé n'avait jamais lu. Sa page française existe bien
+# (`/fr-fr/`), et le code est visible dès la page d'accueil.
 PAGES: dict[str, tuple[str, ...]] = {
     "motoblouz": (
         "https://www.motoblouz.com/code-promo-motoblouz.html",
@@ -72,6 +75,9 @@ PAGES: dict[str, tuple[str, ...]] = {
     "speedway": (
         "https://www.speedway.fr/code-promo",
         "https://www.speedway.fr/",
+    ),
+    "fcmoto": (
+        "https://www.fc-moto.com/fr-fr/",
     ),
 }
 
@@ -109,15 +115,19 @@ _HEADERS = {
 # "CODE XYZ", because the second also matches "CODE POSTAL". When the same code
 # is seen twice, the best-scored reading wins — it carries the better context,
 # and the context is what the date and the wording are read from.
+# [A-Z0-9]{4,20} et non [A-Z][A-Z0-9]{3,19} depuis le 29/09/2026 : la lettre
+# imposée en tête ici, DANS CHAQUE MOTIF, rejetait un code comme « 30YRS »
+# (FC-Moto) avant même que `_VALID` n'ait son mot à dire — corriger `_VALID`
+# seul n'aurait rien changé, la capture elle-même échouait.
 _PATTERNS: tuple[tuple[re.Pattern[str], int], ...] = (
-    (re.compile(r"\bCODE\s+([A-Z][A-Z0-9]{3,19})\s*[-–—]?\s*ACTIF\b", re.I), 50),
-    (re.compile(r"\bAVEC\s+LE\s+CODE\s*(?:PROMO)?\s*:?\s*([A-Z][A-Z0-9]{3,19})\b", re.I), 40),
-    (re.compile(r"\bCODE\s+PROMO\s*:?\s*([A-Z][A-Z0-9]{3,19})\b", re.I), 30),
-    (re.compile(r"\bCODE\s*:\s*([A-Z][A-Z0-9]{3,19})\b", re.I), 25),
+    (re.compile(r"\bCODE\s+([A-Z0-9]{4,20})\s*[-–—]?\s*ACTIF\b", re.I), 50),
+    (re.compile(r"\bAVEC\s+LE\s+CODE\s*(?:PROMO)?\s*:?\s*([A-Z0-9]{4,20})\b", re.I), 40),
+    (re.compile(r"\bCODE\s+PROMO\s*:?\s*([A-Z0-9]{4,20})\b", re.I), 30),
+    (re.compile(r"\bCODE\s*:\s*([A-Z0-9]{4,20})\b", re.I), 25),
     (re.compile(
         r"\b(?:saisis|saisissez|utilise|utilisez|entrez|renseignez)\s+le\s+code"
-        r"\s*:?\s*([A-Z][A-Z0-9]{3,19})\b", re.I), 25),
-    (re.compile(r"\bCODE\s+([A-Z][A-Z0-9]{3,19})\b"), 10),
+        r"\s*:?\s*([A-Z0-9]{4,20})\b", re.I), 25),
+    (re.compile(r"\bCODE\s+([A-Z0-9]{4,20})\b"), 10),
 )
 
 # Ordinary French words that a shop writes in capitals next to the word "code".
@@ -135,7 +145,13 @@ DETAIL DETAILS CONDITION CONDITIONS UTILISATION BARRE BARRES TVA CGV
 FRAIS TOTAL PRIX EUROS PARTIR CUMULABLE MARQUE MARQUES SELECTION
 """.split())
 
-_VALID = re.compile(r"^[A-Z][A-Z0-9]{3,19}$")
+# Le premier caractère n'est plus forcé à une lettre depuis le 29/09/2026 :
+# FC-Moto (jamais scanné jusque-là, voir `PAGES`) sert son code sitewide sous
+# la forme « 30YRS » — 30 ans de la marque, quatre caractères, un chiffre en
+# tête. `^[A-Z][A-Z0-9]` l'aurait rejeté en silence dans `find_codes`.
+# `isdigit()` plus bas continue de rejeter un code tout en chiffres ("2026",
+# un millésime lu par erreur, pas un code).
+_VALID = re.compile(r"^[A-Z0-9]{4,20}$")
 
 _MONTHS = {
     "janvier": 1, "janv": 1, "fevrier": 2, "fev": 2, "mars": 3, "avril": 4,
@@ -234,10 +250,20 @@ def find_codes(text: str, url: str = "") -> dict[str, Hit]:
             if "INACTIF" in text[off:off + 40].upper():
                 continue
             # On the weak patterns only: if the capitals keep running after the
-            # match, we are inside a heading, not reading a code.
+            # match, we are inside a heading, not reading a code — "CODE
+            # PROMOTION2 GANTS ET CASQUES" reads PROMOTION2 as a code, but
+            # GANTS is what gives it away.
+            #
+            # The check wants a WHOLE WORD in capitals, not just a capital
+            # LETTER: `[A-ZÀ-Ý]` alone also matched FC-Moto's "30YRS Code
+            # copié" — "Code" starts with a capital like any French sentence
+            # does, and every real code on that site was rejected for it
+            # (found in testing, 29/09/2026). `{2,}` asks for at least the
+            # first two letters in capitals, which a heading's next WORD has
+            # and an ordinary capitalised word ("Code", "Écran") does not.
             if score < 40:
                 tail = text[off + len(code):off + len(code) + 20]
-                if re.match(r"^\s+[A-ZÀ-Ý]", tail):
+                if re.match(r"^\s+[A-ZÀ-Ý]{2,}", tail):
                     continue
             context = text[max(0, off - 260):off + 640]
             if re.search(r"OFFRE\s+TERMIN", context, re.I):
