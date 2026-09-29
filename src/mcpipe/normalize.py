@@ -23,6 +23,7 @@ from __future__ import annotations
 import hashlib
 import time
 from dataclasses import dataclass
+from decimal import Decimal
 from urllib.parse import parse_qs, unquote, urlparse
 
 from . import textnorm as tn
@@ -212,6 +213,15 @@ def normalize_feed(feed: FeedSpec, *, force: bool = False) -> NormalizeResult:
                         gtin_rejected += 1
                     raw_price = _ci_get(row, cols.get("price", []))
                     amount, currency = tn.price(raw_price)
+                    # FC-Moto écrit 9999.00 sur des pièces SW-Motech qui valent
+                    # normalement 45 à 95 € — un prix « indisponible » côté
+                    # fournisseur, jamais corrigé avant d'entrer dans le flux.
+                    # Six occurrences trouvées le 29/09/2026, aucune ailleurs :
+                    # `tn.price` l'a lu comme un prix valide, exactement le cas
+                    # que son propre commentaire redoute — « a wrong price is
+                    # the one thing a price-comparison site must never show ».
+                    if feed.code == "fcmoto" and amount == Decimal("9999.00"):
+                        amount = None
                     # A promotional price is what the buyer actually pays, so it
                     # is the only price a comparison site may show. FC-Moto sends
                     # both: `price` 389.99 and `sale_price` 311.99 on the same
