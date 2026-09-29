@@ -1950,7 +1950,14 @@ body:has(.banc:not([hidden])) { padding-bottom: 94px; }
    bougent pas : Comparatif/Favoris restent à côté de la marque, le menu
    reste à côté de la recherche. */
 @media (max-width: 899px) {
-  .tete__nom { display: none; }
+  /* PAS `display: none` : ça a fait disparaître « Comparatif » et « Favoris »
+     du nom accessible des liens (relevé par PageSpeed/axe le 28/09/2026, sur
+     le rendu mobile mis en ligne le jour même). Repris de `.visuellement-cache` :
+     le mot reste lu par un lecteur d'écran, invisible à l'œil. */
+  .tete__nom {
+    position: absolute; width: 1px; height: 1px; overflow: hidden;
+    clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
+  }
   .tete__action, .tete__menu {
     width: 46px; height: 46px; padding: 0; justify-content: center;
     border: 1px solid rgba(255, 255, 255, .1); border-radius: 12px;
