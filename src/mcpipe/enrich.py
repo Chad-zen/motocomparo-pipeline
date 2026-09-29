@@ -490,8 +490,23 @@ _PROTECTION_RULES: list[tuple[re.Pattern, int]] = [
     # Glissière de genou » met 26 caractères entre les deux mots, hors de la
     # première fenêtre (15) — six fiches y échappaient encore après le
     # premier passage.
-    (re.compile(r"slider.{0,40}(genou|coude|hanche|epaule)|"
-                r"(genou|coude|hanche|epaule).{0,40}slider"), 28),
+    # Mots anglais ajoutés le 29/09/2026 : « Knee Sliders » (Rebelhorn, Macna)
+    # n'a pas un seul mot français dans son titre — signalé par la
+    # propriétaire, qui les a trouvés dans /c/protection.moto malgré la
+    # premiere correction du jour.
+    # PAS "bras" seul : "bras oscillant" est le nom courant du bras oscillant
+    # de la moto (swingarm), pas celui du pilote — trouvé en verifiant les 165
+    # titres reels de /c/protection.moto avant de l'ajouter par reflexe.
+    # "\b" apres chaque mot exige un pluriel explicite : "genou" seul ne
+    # matchait plus "genoux" (pluriel irregulier en x, pas en s) des que la
+    # frontiere de mot a ete ajoutee — regression trouvee en repassant les
+    # 165 titres reels avant deploiement, pas apres.
+    (re.compile(
+        r"slider.{0,40}\b(genoux?|coudes?|hanches?|epaules?|mollets?|"
+        r"knees?|elbows?|hips?|shoulders?)\b|"
+        r"\b(genoux?|coudes?|hanches?|epaules?|mollets?|"
+        r"knees?|elbows?|hips?|shoulders?)\b.{0,40}slider"
+    ), 28),
 
     # La protection D'UNE PIÈCE de la moto reste une protection de la moto :
     # « protection de silencieux » n'est pas un échappement. En premier, donc.
