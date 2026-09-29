@@ -85,11 +85,17 @@ _UNKNOWN_ID = 25
 # teinté pour casque intégral". D'où sa position : tout en tête, avant même
 # les sous-types.
 _RULES: list[tuple[re.Pattern, int]] = [
+    # `casques?`, pluriel compris : Speedway range ses pièces détachées sous
+    # "Accessoires Casques" — pluriel — quatre marques différentes vues dans
+    # la même mesure (AGV, Schuberth, Givi, Cardo), et le pluriel manquait à
+    # l'essai du 29/09/2026, les envoyant en 25 (non classé) au lieu de 30.
     (re.compile(
-        r"\bcasque\b.*(visiere|visor|ecran|pinlock|mentonniere|coiffe|mousse"
-        r"|bavette|spoiler|joues|calotte)"
-        r"|(?:visiere|visor|ecran|pinlock|mentonniere|calotte).*\bcasque\b"
-        r"|pieces? detach.*casque|casque.*pieces? detach"
+        r"\bcasques?\b.*(visiere|visor|ecran|pinlock|mentonniere|coiffe|mousse"
+        r"|bavette|spoiler|joues|calotte|accessoires?|intercom|bluetooth)"
+        r"|(?:visiere|visor|ecran|pinlock|mentonniere|calotte|intercom"
+        r"|accessoires?)"
+        r".*\bcasques?\b"
+        r"|pieces? detach.*casques?|casques?.*pieces? detach"
     ), 30),
     (re.compile(r"\bcasque\b.*(integral|integrale)|full ?face|\bhelmets?\b"), 2),
     (re.compile(r"\bcasque\b.*(jet|demi.?jet|bol)"), 3),
