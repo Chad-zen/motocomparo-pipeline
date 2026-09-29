@@ -784,8 +784,13 @@ h1, h2 { line-height: 1.2; }
   gap: 16px; margin-bottom: 12px;
 }
 .rayon__oeil {
-  display: block; color: var(--or); font-size: 11.5px; font-weight: 700;
+  display: block; font-size: 11.5px; font-weight: 700;
   letter-spacing: .08em; text-transform: uppercase;
+  /* Pas `--or` : à 11,5px, même en gras, ce n'est pas du « grand texte » au
+     sens du WCAG (seuil 18,7px pour du gras) — il faut donc 4,5:1, et
+     #f5b301 sur #f7f8fa ne fait que 1,85:1 (releve PageSpeed Insights,
+     28/09/2026). Assombri jusqu'a 4,91:1, mesure sur le fond de page. */
+  color: #8a6700;
 }
 .rayon__tete h2 { font-size: 23px; margin: 2px 0 0; }
 .rayon__plus {

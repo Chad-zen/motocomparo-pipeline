@@ -120,6 +120,50 @@ def _version_css() -> int:
 templates.env.globals["version_css"] = _version_css
 
 
+_CSS_MINIFIE_CACHE: dict[str, tuple[float, str]] = {}
+
+
+def _minifier_css(source: str) -> str:
+    """Retire les commentaires et les espaces superflus, sans toucher au fichier
+    source : celui-ci reste le seul lu et édité, celui-ci est le seul envoyé.
+
+    Les commentaires de ce dépôt documentent des décisions au prix de
+    kilooctets de prose — précieux à lire, coûteux à transmettre sur chaque
+    page. Mesuré le 29/09/2026 (PageSpeed Insights, mobile, 67/100) : la
+    version gzippée passe de 49,5 Ko à 16,6 Ko une fois retirés — l'essentiel
+    du gain vient d'eux, pas des espaces, parce qu'un commentaire en prose
+    compresse moins bien qu'une règle CSS répétitive.
+    """
+    sans_commentaires = re.sub(r"/\*.*?\*/", "", source, flags=re.S)
+    compact = re.sub(r"\s+", " ", sans_commentaires)
+    compact = re.sub(r"\s*([{};:,])\s*", r"\1", compact)
+    compact = re.sub(r";}", "}", compact)
+    return compact.strip()
+
+
+@app.get("/css/style.min.css")
+def style_minifie() -> Response:
+    """Le CSS du site, sans ses commentaires — voir `_minifier_css`.
+
+    Calculé EN MÉMOIRE à partir de `static/style.css` et mis en cache tant
+    que le fichier n'a pas changé (même mesure que `version_css`, `st_mtime`) :
+    rien n'est jamais écrit sur le disque, donc rien ne peut diverger entre
+    une source éditée et une copie minifiée qu'on aurait oublié de refaire.
+
+    Hors de `/static/`, exprès : ce chemin est monté en `StaticFiles` plus
+    haut, qui répondrait 404 avant même d'atteindre cette route.
+    """
+    chemin = HERE / "static" / "style.css"
+    mtime = chemin.stat().st_mtime
+    entree = _CSS_MINIFIE_CACHE.get("style.css")
+    if entree is None or entree[0] != mtime:
+        entree = (mtime, _minifier_css(chemin.read_text(encoding="utf-8")))
+        _CSS_MINIFIE_CACHE["style.css"] = entree
+    return Response(
+        entree[1], media_type="text/css",
+        headers={"Cache-Control": "public, max-age=31536000, immutable"})
+
+
 def _statique_existe(nom: str) -> bool:
     """`static/<nom>` est-il présent sur le disque ?
 

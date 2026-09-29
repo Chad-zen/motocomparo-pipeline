@@ -75,8 +75,21 @@
     <source media="(min-width: 900px)" type="image/jpeg"
             srcset="/static/affiche-paysage.jpg?v={{ version_css() }}">
     {% endif %}
-    <source srcset="/static/affiche-portrait.webp?v={{ version_css() }}" type="image/webp">
+    {# En dessous de 900 px, l'affiche occupe TOUTE la largeur de l'écran
+       (`sizes="100vw"`) : un téléphone de 375 px n'a donc besoin que de sa
+       part, pas des 1086 px pleine résolution — mesuré le 29/09/2026 sur
+       PageSpeed Insights (LCP mobile à 11 s), l'image envoyée à un
+       téléphone pesait 3 fois ce qu'il affichait. Trois tailles, générées le
+       même jour depuis le même fichier source : rien d'autre ne change. #}
+    <source srcset="/static/affiche-portrait-480.webp?v={{ version_css() }} 480w,
+                     /static/affiche-portrait-750.webp?v={{ version_css() }} 750w,
+                     /static/affiche-portrait.webp?v={{ version_css() }} 1086w"
+            sizes="100vw" type="image/webp">
     <img src="/static/affiche-portrait.jpg?v={{ version_css() }}"
+         srcset="/static/affiche-portrait-480.jpg?v={{ version_css() }} 480w,
+                 /static/affiche-portrait-750.jpg?v={{ version_css() }} 750w,
+                 /static/affiche-portrait.jpg?v={{ version_css() }} 1086w"
+         sizes="100vw"
          alt="Comparez l'équipement moto et trouvez le meilleur prix"
          width="1086" height="1448" fetchpriority="high">
   </picture>

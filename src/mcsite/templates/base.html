@@ -36,14 +36,17 @@
 <meta property="og:image" content="{% block og_image %}{{ request.url.scheme }}://{{ request.url.netloc }}/static/affiche-portrait.jpg{% endblock %}">
 <meta name="twitter:card" content="summary_large_image">
 {% block robots %}{% endblock %}
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Source+Sans+3:wght@600;700&display=swap">
+{# Polices hébergées en local (`static/polices.css`, copiées le 29/09/2026) :
+   Google Fonts imposait une deuxième connexion — googleapis.com pour ce CSS,
+   puis gstatic.com pour les fichiers eux-mêmes — mesurée à 750 ms sur
+   PageSpeed Insights avant qu'une seule lettre ne s'affiche. #}
+<link rel="stylesheet" href="/static/polices.css?v={{ version_css() }}">
 {# Sans icône déclarée, le navigateur demande /favicon.ico à chaque page et
    récolte un 404 — visible dans les journaux, et un onglet sans repère. #}
 <link rel="icon" href="/static/favicon.svg?v={{ version_css() }}" type="image/svg+xml">
 <link rel="icon" href="/static/logo_mc.png" sizes="any">
 <link rel="apple-touch-icon" href="/static/logo_mc.png">
-<link rel="stylesheet" href="/static/style.css?v={{ version_css() }}">
+<link rel="stylesheet" href="/css/style.min.css?v={{ version_css() }}">
 {# Les données structurées de la page, pour les moteurs de recherche. Posées
    en dernier dans l'entête pour qu'elles soient lues APRÈS le titre et la
    description qu'elles complètent. #}
@@ -80,11 +83,11 @@ gtag('consent', 'default', {
   security_storage: 'granted',
   wait_for_update: 500
 });
-/* Le choix déjà fait est relu ICI, au plus tôt, et pas seulement par le script
-   du bandeau : attendre le bas de page ferait démarrer le conteneur en refus
-   pour quelqu'un qui a accepté, et la première page de chaque visite serait
-   perdue. La date est relue aussi — voir `_consentement.html` pour les six
-   mois au-delà desquels on repose la question. */
+/* Le choix déjà fait est relu ICI, au plus tôt — mais seulement pour mettre
+   à jour le CONSENTEMENT. Charger les scripts eux-mêmes attend la toute fin
+   de ce bloc (`mcChargerMesure`, plus bas), une fois les fonctions de
+   chargement définies. `mcMesureAutorisee` fait le pont entre les deux. */
+var mcMesureAutorisee = false;
 try {
   var mcChoix = JSON.parse(localStorage.getItem('mc:consentement') || 'null');
   if (mcChoix && mcChoix.choix === 'accepte'
@@ -93,30 +96,61 @@ try {
       ad_storage: 'granted', ad_user_data: 'granted',
       ad_personalization: 'granted', analytics_storage: 'granted'
     });
+    mcMesureAutorisee = true;
   }
 } catch (e) { /* stockage refusé : on reste sur le refus par défaut */ }
 </script>
 {% if gtm_id %}
-{# Le conteneur lui-même. L'identifiant est validé côté Python (`_GTM_ID`)
-   contre le format `GTM-XXXXXXX` avant d'arriver ici : ce qui entre dans un
-   `<script>` ne se prend pas sur parole. #}
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+{# Le conteneur lui-même, en fonction plutôt qu'en balise immédiate : voir
+   plus bas pourquoi (460 Ko de scripts Google, mesuré le 28/09/2026 sur
+   PageSpeed Insights, téléchargés par TOUT visiteur — y compris celui qui
+   n'a encore rien choisi, ou qui va refuser). L'identifiant est validé côté
+   Python (`_GTM_ID`) contre le format `GTM-XXXXXXX` avant d'arriver ici : ce
+   qui entre dans un `<script>` ne se prend pas sur parole. #}
+<script>
+function mcChargerGTM(){(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer',{{ gtm_id | tojson }});</script>
-{% endif %}
-{% if ga4_id %}
-{# Google Analytics branché DIRECTEMENT, sans passer par un conteneur. C'est
-   le chemin court : un identifiant collé dans `.env` et la mesure fonctionne.
-   ⚠️ Si une balise GA4 est aussi déclarée dans GTM, chaque page compte double
-   — voir l'avertissement dans `.env.example`. #}
-<script async src="https://www.googletagmanager.com/gtag/js?id={{ ga4_id | urlencode }}"></script>
-<script>
-gtag('js', new Date());
-gtag('config', {{ ga4_id | tojson }});
+})(window,document,'script','dataLayer',{{ gtm_id | tojson }});}
 </script>
 {% endif %}
+{% if ga4_id %}
+{# Google Analytics branché DIRECTEMENT, sans passer par un conteneur. Même
+   report qu'au-dessus : posée en fonction, elle ne se charge que si la
+   mesure est autorisée.
+   ⚠️ Si une balise GA4 est aussi déclarée dans GTM, chaque page compte double
+   — voir l'avertissement dans `.env.example`. #}
+<script>
+function mcChargerGA4(){
+  var s = document.createElement('script');
+  s.async = true;
+  s.src = 'https://www.googletagmanager.com/gtag/js?id={{ ga4_id | urlencode }}';
+  document.head.appendChild(s);
+  gtag('js', new Date());
+  gtag('config', {{ ga4_id | tojson }});
+}
+</script>
+{% endif %}
+<script>
+/* CE QUI CHANGE VRAIMENT : jusqu'ici les deux scripts ci-dessus se
+   téléchargeaient sur CHAQUE page, pour CHAQUE visiteur — le Consent Mode
+   leur disait de ne rien faire, mais ne les empêchait pas d'arriver. Ils ne
+   sont désormais appelés qu'au moment où la mesure devient autorisée : tout
+   de suite pour un visiteur qui avait déjà accepté (ci-dessous), ou au clic
+   sur « Accepter » (voir `_consentement.html`). Un visiteur qui n'a pas
+   encore répondu, ou qui refuse, ne télécharge plus rien.
+   `mcMesureChargee` empêche un double chargement si « Gérer les cookies »
+   repose la question et que le visiteur accepte à nouveau dans la même
+   session. */
+function mcChargerMesure() {
+  if (window.mcMesureChargee) return;
+  window.mcMesureChargee = true;
+  if (typeof mcChargerGTM === 'function') mcChargerGTM();
+  if (typeof mcChargerGA4 === 'function') mcChargerGA4();
+}
+if (mcMesureAutorisee) mcChargerMesure();
+</script>
 {% endif %}
 </head>
 {# Le site suit le réglage clair/sombre du système, et rien d'autre : le

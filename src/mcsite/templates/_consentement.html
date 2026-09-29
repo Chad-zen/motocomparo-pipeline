@@ -82,6 +82,11 @@
         ad_personalization: etat, analytics_storage: etat
       });
     }
+    /* Le chargement effectif des scripts Google — voir `base.html` pour
+       pourquoi il n'a lieu qu'ici, et pas dès l'ouverture de la page. */
+    if (choix === 'accepte' && typeof mcChargerMesure === 'function') {
+      mcChargerMesure();
+    }
     cacher();
   }
 
