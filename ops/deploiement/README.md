@@ -20,6 +20,7 @@ ne sont **pas** touchés tant que la v2 n'a pas fait ses preuves.
 | 5 | `05-service.sh` — le service qui tient le site debout | 2 min | oui, en HTTP |
 | 6 | `06-nginx-tls.sh` — le serveur de façade, le cache, HTTPS | 10 min | oui, en HTTPS |
 | 7 | `07-planification.sh` — le relevé de prix quotidien | 5 min | — |
+| 8 | `08-planification-promo.sh` — le relevé de codes promo quotidien | 2 min | — |
 
 ## Les trois décisions, et pourquoi
 
