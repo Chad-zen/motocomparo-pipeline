@@ -486,8 +486,12 @@ _PROTECTION_RULES: list[tuple[re.Pattern, int]] = [
     # PILOTE. Signalé par la propriétaire le 29/09/2026, sur /c/protection.moto :
     # la règle plus bas prenait "slider" pour de la moto avant même de lire le
     # mot d'à côté. Doit donc passer AVANT elle.
-    (re.compile(r"slider.{0,15}(genou|coude|hanche|epaule)|"
-                r"(genou|coude|hanche|epaule).{0,15}slider"), 28),
+    # Fenêtre élargie à 40 caractères le 29/09/2026 : « Berik Slider E.T.O
+    # Glissière de genou » met 26 caractères entre les deux mots, hors de la
+    # première fenêtre (15) — six fiches y échappaient encore après le
+    # premier passage.
+    (re.compile(r"slider.{0,40}(genou|coude|hanche|epaule)|"
+                r"(genou|coude|hanche|epaule).{0,40}slider"), 28),
 
     # La protection D'UNE PIÈCE de la moto reste une protection de la moto :
     # « protection de silencieux » n'est pas un échappement. En premier, donc.
