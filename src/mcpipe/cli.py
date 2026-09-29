@@ -203,16 +203,26 @@ def categorize(
         False, "--remap",
         help="re-run the rules over the paths currently filed as 'unknown'",
     ),
+    remap_ids: str = typer.Option(
+        "", "--remap-ids",
+        help="re-run the rules over paths currently in these category ids, "
+             "comma-separated (e.g. --remap-ids 1 after a rule change that "
+             "pulls offers OUT of the generic helmet bucket)",
+    ),
 ) -> None:
     """Seed the category taxonomy and classify every merchant category path.
 
     `--remap` est à lancer après avoir ajouté une règle : sans lui, un chemin
     déjà rangé en « non classé » y reste, et la règle neuve ne sert à rien.
+    `--remap-ids` fait la même chose pour n'importe quelle autre catégorie
+    déjà peuplée — utilisé le 29/09/2026 pour ressortir les accessoires
+    casque de la catégorie 1 après leur avoir donné la 30.
     """
     from .category import categorize as run_categorize
 
+    ids = {int(x) for x in remap_ids.split(",") if x.strip()}
     console.print("categorizing ...", end=" ")
-    res = run_categorize(remap_unknown=remap)
+    res = run_categorize(remap_unknown=remap, remap_categories=ids)
     console.print(
         f"[green]ok[/] {res.categories_seeded} categories, "
         f"{res.paths_mapped:,} new paths mapped in {res.seconds:.0f}s"

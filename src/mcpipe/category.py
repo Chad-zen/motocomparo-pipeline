@@ -60,13 +60,37 @@ CATEGORIES: list[tuple[int, int | None, str, str]] = [
     # portaient le même numéro.
     (28, 11, "protection.pilote", "Protections du pilote"),
     (29, 11, "protection.moto", "Protections de la moto"),
+    # Ajouté le 29/09/2026, après avoir mesuré ce que contenait la catégorie 1
+    # générique : des centaines d'écrans, pinlocks, mousses de joues et
+    # mentonnières détachées, rangés comme des casques faute d'un rayon pour
+    # les recevoir — signalé par la propriétaire sur deux fiches précises
+    # (un écran solaire O'Neal, un pinlock HJC), généralisé après coup.
+    (30, 1, "helmet.accessory", "Pièces & accessoires casque"),
 ]
 
 _UNKNOWN_ID = 25
 
 # ordered: first regex to match a normalized raw_category (or title, as a
 # fallback) wins — specific subtypes are listed before their parent category
+#
+# L'ACCESSOIRE PASSE AVANT TOUT LE RESTE DU RAYON CASQUE, sous-types compris.
+# Mesuré le 29/09/2026 : 2 300 fiches dans la catégorie 1 (« Casques »
+# générique), dont plusieurs centaines n'étaient pas des casques du tout —
+# écrans, pinlocks, mousses de joues, mentonnières détachées, calottes. Le
+# marchand écrit presque toujours "casque" quelque part dans le chemin d'une
+# pièce détachée de casque ("Pièces Détachées Casque", "Casque moto > Pinlock
+# et anti-buée", "Visière et accessoire > ... > Visière de casque"), donc
+# l'ancienne règle générique (`\bcasque\b`, ligne plus bas) les avalait — et
+# une règle de SOUS-TYPE placée avant elle aurait fait pareil pour un "écran
+# teinté pour casque intégral". D'où sa position : tout en tête, avant même
+# les sous-types.
 _RULES: list[tuple[re.Pattern, int]] = [
+    (re.compile(
+        r"\bcasque\b.*(visiere|visor|ecran|pinlock|mentonniere|coiffe|mousse"
+        r"|bavette|spoiler|joues|calotte)"
+        r"|(?:visiere|visor|ecran|pinlock|mentonniere|calotte).*\bcasque\b"
+        r"|pieces? detach.*casque|casque.*pieces? detach"
+    ), 30),
     (re.compile(r"\bcasque\b.*(integral|integrale)|full ?face|\bhelmets?\b"), 2),
     (re.compile(r"\bcasque\b.*(jet|demi.?jet|bol)"), 3),
     (re.compile(r"\bcasque\b.*(modulable|flip|modular)"), 4),
@@ -79,8 +103,11 @@ _RULES: list[tuple[re.Pattern, int]] = [
                 r"|\b(cross|motocross|mx)\b.*\bmaillots?\b"), 27),
     (re.compile(r"\bmasques?\b|\bgoggles?\b|\blunettes?\b"), 26),
     # Les frontières de mot ne sont pas décoratives : `caps?` sans elles
-    # attrape « capot » et « capacité ».
-    (re.compile(r"\bcasquettes?\b|\bcaps\b|\bbonnets?\b"), 23),
+    # attrape « capot » et « capacité ». Le négatif exclut la « casquette de
+    # phare » : une pièce de carénage (le carénage avant qui coiffe le phare),
+    # pas un couvre-chef — trouvée dans la même mesure du 29/09/2026, sous
+    # "Carénage > Carénage > Casquette de phare".
+    (re.compile(r"\bcasquettes?\b(?!\s+de\s+phare)|\bcaps\b|\bbonnets?\b"), 23),
     (re.compile(r"\bblouson\b|\bveste\b|\bjacket\b(?!.*helmet)"), 6),
     (re.compile(r"\bpantalon\b|\bjean\b|\bpants\b"), 7),
     (re.compile(r"\bgants?\b|\bgloves?\b"), 8),
@@ -124,7 +151,9 @@ def classify(raw_category: str | None, title: str | None = None) -> int:
     return _UNKNOWN_ID
 
 
-def categorize(remap_unknown: bool = False) -> CategorizeResult:
+def categorize(
+    remap_unknown: bool = False, remap_categories: set[int] | None = None
+) -> CategorizeResult:
     """Seed `category`, then map every merchant `raw_category` path seen in
     `raw_offer` into `category_map` (cached, so `match` is a plain join).
 
@@ -135,9 +164,20 @@ def categorize(remap_unknown: bool = False) -> CategorizeResult:
     ainsi été créés (masques, maillots cross) sans qu'une seule offre les
     rejoigne — le genre de correctif qui a l'air appliqué et ne l'est pas.
 
-    Il ne touche QUE les chemins actuellement à 25 : un chemin déjà rangé
-    ailleurs n'est jamais réévalué, donc cette option ne peut rien déclasser.
+    `remap_categories` généralise l'idée à N'IMPORTE QUELLE catégorie, pas
+    seulement 25 : ajouté le 29/09/2026 pour rejouer les chemins actuellement
+    en catégorie 1 (« Casques ») après la règle qui en a sorti les accessoires
+    (visières, pinlocks…) vers la 30. `remap_unknown=True` reste équivalent à
+    `remap_categories={25}` — les deux se combinent si les deux sont passés.
+
+    Chaque option ne touche QUE les chemins actuellement dans les catégories
+    visées : un chemin déjà rangé ailleurs n'est jamais réévalué, donc rien
+    ici ne peut déclasser un chemin correctement trié par une règle plus
+    récente que celle qui l'a rangé la première fois.
     """
+    cibles = set(remap_categories or set())
+    if remap_unknown:
+        cibles.add(_UNKNOWN_ID)
     t0 = time.time()
     conn = connect()
     try:
@@ -167,13 +207,13 @@ def categorize(remap_unknown: bool = False) -> CategorizeResult:
             )
             pairs = cur.fetchall()
 
-            if remap_unknown:
+            if cibles:
                 cur.execute(
                     """
                     SELECT DISTINCT cm.merchant_id, cm.raw_path
-                    FROM category_map cm WHERE cm.category_id = %s
+                    FROM category_map cm WHERE cm.category_id = ANY(%s)
                     """,
-                    (_UNKNOWN_ID,),
+                    (list(cibles),),
                 )
                 pairs += cur.fetchall()
             for merchant_id, raw_category in pairs:
