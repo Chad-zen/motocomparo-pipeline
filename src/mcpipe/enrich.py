@@ -481,6 +481,14 @@ def borrow_sizes() -> int:
 # restent dans le rayon 11. Une offre laissée où elle est ne casse rien ; une
 # offre mal rangée, si.
 _PROTECTION_RULES: list[tuple[re.Pattern, int]] = [
+    # « Slider » seul désigne un slider de CADRE (moto, règle juste en dessous) —
+    # mais un « slider genou » ou « slider coude » se porte, et protège le
+    # PILOTE. Signalé par la propriétaire le 29/09/2026, sur /c/protection.moto :
+    # la règle plus bas prenait "slider" pour de la moto avant même de lire le
+    # mot d'à côté. Doit donc passer AVANT elle.
+    (re.compile(r"slider.{0,15}(genou|coude|hanche|epaule)|"
+                r"(genou|coude|hanche|epaule).{0,15}slider"), 28),
+
     # La protection D'UNE PIÈCE de la moto reste une protection de la moto :
     # « protection de silencieux » n'est pas un échappement. En premier, donc.
     (re.compile(
