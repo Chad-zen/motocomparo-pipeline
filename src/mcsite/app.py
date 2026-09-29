@@ -108,10 +108,20 @@ def _version_css() -> int:
     stylesheet from before the logo had a size rule — and rendered a 595-pixel
     logo. A cache-buster that misses a file is worse than none, because the bug
     it produces looks like a design mistake.
+
+    `rglob`, not `iterdir` — the docstring above already promised "the whole
+    directory", but `iterdir` only lists `static/`'s DIRECT children, not
+    `static/marchands/` or `static/polices/`. A logo re-cropped in place
+    (29/09/2026, `motoblouz.webp`, trimmed of the transparent margin that made
+    it render smaller than the other five) would have kept the same URL and
+    the same cached copy on every phone that had already loaded it — the exact
+    failure this function exists to prevent, just one directory level down
+    from where it was being watched.
     """
     try:
         return max(
-            int(f.stat().st_mtime) for f in (HERE / "static").iterdir() if f.is_file()
+            int(f.stat().st_mtime)
+            for f in (HERE / "static").rglob("*") if f.is_file()
         )
     except (OSError, ValueError):
         return 0
