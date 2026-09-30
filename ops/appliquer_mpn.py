@@ -27,7 +27,9 @@ sys.path.insert(0, os.path.join(RACINE, "src"))
 from mcpipe.match import _LINK_MPN_PREFIXE  # noqa: E402
 
 sys.stdout.reconfigure(encoding="utf-8")  # type: ignore[union-attr]
-env = dotenv_values(os.path.join(RACINE, ".env"))
+# Le .env de production est un cran au-dessus de app/ : on prend aussi
+# l'environnement du processus (echec du 30/09/2026, KeyError en plein match).
+env = {**dotenv_values(os.path.join(RACINE, ".env")), **os.environ}
 
 
 def main() -> None:
