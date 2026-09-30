@@ -1329,7 +1329,7 @@ h1, h2 { line-height: 1.2; }
 .banc__actions .lien-bouton { color: #c9d0e0; }
 
 /* le bandeau recouvre le bas de la page : on lui rend la place */
-body:has(.banc:not([hidden])) { padding-bottom: 94px; }
+body:has(.banc:not([hidden])) { padding-bottom: var(--banc-h, 94px); }
 
 @media (max-width: 640px) {
   .marque__mot { font-size: 17px; }
@@ -1540,7 +1540,7 @@ body:has(.banc:not([hidden])) { padding-bottom: 94px; }
   /* Le bandeau comparateur occupe le même bas d'écran, au même z-index : la
      pastille passait dessous dès qu'un produit y entrait. Elle monte au-dessus. */
   body:has(.banc:not([hidden])) .pastille-filtres {
-    bottom: calc(94px + 14px + env(safe-area-inset-bottom, 0px));
+    bottom: calc(var(--banc-h, 94px) + 14px + env(safe-area-inset-bottom, 0px));
   }
 
   /* Le panneau monte depuis le bas et s'arrête avant le haut : la bande de

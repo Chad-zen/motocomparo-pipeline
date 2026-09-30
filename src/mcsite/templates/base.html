@@ -464,7 +464,17 @@ function propre(u) {
     }
     cases.innerHTML = html;
     document.getElementById('banc-voir').textContent = 'Comparer (' + v.length + ')';
+    mesurerBanc();
   }
+
+  /* La hauteur RÉELLE du bandeau, publiée pour le CSS (réserve en bas de page,
+     pastille « Filtrer » posée au-dessus). Elle ne se devine pas : sur
+     téléphone le bandeau passe sur deux lignes, 131 px et non 94. */
+  function mesurerBanc() {
+    if (!banc || banc.hidden) return;
+    document.documentElement.style.setProperty('--banc-h', banc.offsetHeight + 'px');
+  }
+  window.addEventListener('resize', mesurerBanc);
 
   document.addEventListener('click', function (e) {
     var r = e.target.closest('[data-retirer]');
