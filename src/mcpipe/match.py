@@ -144,9 +144,13 @@ CREATE TEMP TABLE _gtin_unit ON COMMIT DROP AS
 WITH members AS (
     SELECT o.id AS raw_offer_id, o.gtin, o.merchant_id,
            s.brand_code, s.primary_colour, s.model_year, s.genre_age, s.is_pack,
-           s.model_core_ref, s.model_tokens, s.model_strength, s.category_id
+           s.model_core_ref, s.model_tokens, s.model_strength, s.category_id,
+           -- le prix ne compte que s'il est affiché : un marchand écarté
+           -- (flux figé, prix périmés) ne doit pas déclencher de conflit
+           CASE WHEN o.is_live AND mch.affiche AND o.price > 0 THEN o.price END AS prix
     FROM raw_offer o
     JOIN offer_signature s ON s.raw_offer_id = o.id
+    JOIN merchant mch ON mch.id = o.merchant_id
     WHERE o.gtin IS NOT NULL
       AND o.linked_status = 'unresolved'
       AND NOT EXISTS (
@@ -188,6 +192,19 @@ conflicts AS (
         OR count(DISTINCT model_year) FILTER (WHERE model_year IS NOT NULL) > 1
         OR count(DISTINCT category_id) FILTER (WHERE category_id != 25) > 1
         OR count(DISTINCT brand_code) FILTER (WHERE brand_code IS NOT NULL) > 1
+
+    UNION
+
+    -- Deux marchands, un même code-barres, un prix CINQ fois plus haut chez
+    -- l'un : ce ne sont pas le même article. Mesuré le 30/09/2026 sur les
+    -- marchands affichés : exactement deux codes-barres au-delà de 5, les deux
+    -- faux (des mousses de joues Shoei à 25,50 € contre un intercom à 339 € ;
+    -- un écran Scorpion à 44,90 € contre un casque Exo-R1 à 352 €). Entre 3 et
+    -- 5 ne restent que de vraies soldes IXS chez FC-Moto : le seuil est là.
+    SELECT gtin FROM members
+    WHERE prix IS NOT NULL
+    GROUP BY gtin
+    HAVING count(DISTINCT merchant_id) > 1 AND max(prix) >= 5 * min(prix)
 
     UNION
 
@@ -1024,6 +1041,50 @@ WHERE g.identity_hash = u.identity_hash
   AND g.codes_barres::numeric / g.tailles >= 3
 """
 
+# --- la découpe par écart de prix, hors habillement --------------------------
+#
+# Les titres génériques de FC-Moto (« SW-Motech Noir. Honda XL750 Transalp »)
+# donnent la même identité à des pièces sans rapport : un support à 95 € et
+# des sacoches à 835 € sur une seule fiche, « dès 95 € ». Mesuré le 30/09/2026 :
+# 39 fiches à plus de 5 fois d'écart entre leurs offres, toutes par cette voie.
+#
+# Le critère : les codes-barres d'une fiche, triés par prix, ne doivent jamais
+# DOUBLER d'un cran au suivant. Les tailles d'une même pièce coûtent le même
+# prix ; une huile en 1 L et en 4 L, deux silencieux, deux pièces de montage
+# différent, non. Dès qu'un saut existe, chaque code-barres reprend sa propre
+# fiche — même geste que `_SPLIT_PIECES` juste au-dessus.
+#
+# HORS HABILLEMENT, et c'est non négociable : FC-Moto solde certaines tailles
+# d'une veste à -60 % (IXS Evans : 89,95 € et 229,95 € selon la taille). Là,
+# l'écart de prix ne dit rien de l'article.
+#
+# Le prix d'un code-barres est son MAXIMUM chez les marchands affichés : une
+# taille soldée chez l'un garde le prix plein de l'autre.
+_SPLIT_PRIX = f"""
+WITH prix_gtin AS (
+    SELECT u.gtin, u.identity_hash, max(o.price) AS prix
+    FROM _gtin_unit u
+    JOIN raw_offer o ON o.gtin = u.gtin
+    JOIN merchant m ON m.id = o.merchant_id
+    WHERE NOT u.conflict
+      AND u.category_id NOT IN {_RAYONS_HABILLEMENT}
+      AND o.is_live AND m.affiche AND o.price > 0
+    GROUP BY u.gtin, u.identity_hash
+),
+sauts AS (
+    SELECT identity_hash,
+           prix / lag(prix) OVER (PARTITION BY identity_hash ORDER BY prix) AS saut
+    FROM prix_gtin
+),
+a_couper AS (
+    SELECT identity_hash FROM sauts GROUP BY 1 HAVING max(saut) >= 2
+)
+UPDATE _gtin_unit u
+SET identity_hash = md5(u.identity_hash || '|' || u.gtin)
+FROM a_couper c
+WHERE c.identity_hash = u.identity_hash
+"""
+
 
 
 
@@ -1164,8 +1225,11 @@ def reset_match_state() -> None:
             cur.execute(f'ALTER TABLE raw_offer DROP CONSTRAINT "{raw_offer_fk}"')
             cur.execute(f'ALTER TABLE match_override DROP CONSTRAINT "{match_override_fk}"')
             cur.execute(
-                "TRUNCATE offer_variant_link, variant, product, product_identity_alias "
-                "RESTART IDENTITY"
+                # product_caracteristique pointe sur product depuis sql/023 : sans
+                # elle ici le TRUNCATE est refusé. Elle se reconstruit après le
+                # match (caracteristiques, sharp-rapprocher, revendeur-rapprocher).
+                "TRUNCATE offer_variant_link, variant, product, product_identity_alias, "
+                "product_caracteristique RESTART IDENTITY"
             )
             cur.execute(
                 "UPDATE raw_offer SET product_id = NULL, linked_status = 'unresolved', "
@@ -1267,6 +1331,8 @@ def run_match(*, avec_mpn: bool = True) -> MatchResult:
             # n'aurait jamais dû être ensemble.
             cur.execute(_SPLIT_PIECES)
             pieces_decoupees = cur.rowcount
+            cur.execute(_SPLIT_PRIX)
+            pieces_decoupees += cur.rowcount
 
             cur.execute(_FLAG_GTIN_CONFLICTS)
             gtin_conflicts = 0
