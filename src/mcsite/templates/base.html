@@ -411,6 +411,7 @@ function propre(u) {
 
 (function () {
   var CASES = 4;   /* comme en v1 : au-delà, la comparaison ne se lit plus */
+  var COMPARER_MAX = 8;   /* la page /comparer n'en montre pas davantage */
 
   function lire(cle) {
     try {
@@ -486,6 +487,16 @@ function propre(u) {
     var slug = b.dataset.favori || b.dataset.comparer;
     var v2 = lire(cle);
     var j = place(v2, slug);
+    /* Le comparateur n'affiche que 8 colonnes (voir _ajouter_comparaison) :
+       au-delà, les vignettes sortaient de l'écran sans pouvoir être retirées. */
+    if (j === -1 && cle === 'comparer' && v2.length >= COMPARER_MAX) {
+      var voir = document.getElementById('banc-voir');
+      if (voir) {
+        voir.textContent = COMPARER_MAX + ' produits maximum';
+        setTimeout(dessinerBanc, 2200);
+      }
+      return;
+    }
     if (j === -1) v2.push({ s: slug, i: b.dataset.vignette || '' });
     else v2.splice(j, 1);
     ecrire(cle, v2);

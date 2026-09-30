@@ -19,29 +19,58 @@
   var mode = {{ mode | tojson }};
   var deja = {{ slugs | tojson }};
   var minuteur = null;
+  var tour = 0;   /* seule la réponse à la DERNIÈRE frappe s'affiche */
 
-  function fermer() { liste.hidden = true; liste.innerHTML = ''; }
+  function fermer() { liste.hidden = true; liste.textContent = ''; }
+
+  /* Construit avec textContent, jamais innerHTML : le nom et la marque sont
+     écrits par les marchands (« HJC RPHA1<XL-XXL> » existe en base), et une
+     chaîne concaténée dans du HTML les aurait interprétés. */
+  function ligne(p) {
+    var li = document.createElement('li');
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.dataset.ajouter = p.slug;
+    if (p.image && /^https:\/\//.test(p.image)) {
+      var img = document.createElement('img');
+      img.src = p.image; img.alt = ''; img.loading = 'lazy';
+      b.appendChild(img);
+    } else {
+      var vide = document.createElement('span');
+      vide.className = 'comparateur__suggestion-sansimg';
+      b.appendChild(vide);
+    }
+    var texte = document.createElement('span');
+    var marque = document.createElement('b');
+    marque.textContent = p.marque || '';
+    texte.appendChild(marque);
+    texte.appendChild(document.createTextNode(' ' + (p.nom || '')));
+    b.appendChild(texte);
+    li.appendChild(b);
+    return li;
+  }
 
   champ.addEventListener('input', function () {
     clearTimeout(minuteur);
     var q = champ.value.trim();
-    if (q.length < 2) { fermer(); return; }
+    if (q.length < 2) { tour++; fermer(); return; }
     minuteur = setTimeout(function () {
+      var ce_tour = ++tour;
       fetch('/api/suggestions?q=' + encodeURIComponent(q))
         .then(function (r) { return r.json(); })
         .then(function (d) {
-          var produits = (d.produits || [])
-            .filter(function (p) { return deja.indexOf(p.slug) === -1; })
+          if (ce_tour !== tour) return;
+          /* `meilleurs` porte les trois fiches les plus pertinentes : ne lire
+             que `produits` les faisait disparaître de cette liste. */
+          var produits = (d.meilleurs || []).concat(d.produits || [])
+            .filter(function (p) { return p && p.slug && deja.indexOf(p.slug) === -1; })
             .slice(0, 6);
           if (!produits.length) { fermer(); return; }
-          liste.innerHTML = produits.map(function (p) {
-            return '<li><button type="button" data-ajouter="' + p.slug + '">'
-              + (p.image ? '<img src="' + p.image + '" alt="" loading="lazy">' : '<span class="comparateur__suggestion-sansimg"></span>')
-              + '<span><b>' + p.marque + '</b> ' + p.nom + '</span></button></li>';
-          }).join('');
+          liste.textContent = '';
+          produits.forEach(function (p) { liste.appendChild(ligne(p)); });
           liste.hidden = false;
         })
-        .catch(function () { fermer(); });
+        .catch(function () { if (ce_tour === tour) fermer(); });
     }, 200);
   });
 

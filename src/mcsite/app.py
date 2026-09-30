@@ -38,6 +38,11 @@ load_dotenv()
 
 HERE = Path(__file__).parent
 PER_PAGE = 24
+# Au-delà, une page n'a plus de sens (le catalogue entier en fait ~13 000) et
+# `?page=999999999999999999999` faisait déborder l'OFFSET après 53 s de
+# requêtes. Les prix, eux, sont bornés à 100 000 € : `?prix_min=inf` levait
+# une erreur 500 brute au rendu.
+_PAGE_MAX = 15_000
 
 pool: ConnectionPool | None = None
 
@@ -358,10 +363,10 @@ def _liste(request, titre, base, f, page, code="", courante=None):
 @app.get("/produits", response_class=HTMLResponse)
 def produits(
     request: Request,
-    page: int = Query(1, ge=1),
+    page: int = Query(1, ge=1, le=_PAGE_MAX),
     marque: str | None = None,
-    prix_min: float | None = None,
-    prix_max: float | None = None,
+    prix_min: float | None = Query(None, ge=0, le=100_000),
+    prix_max: float | None = Query(None, ge=0, le=100_000),
     taille: str | None = None,
     couleur: str | None = None,
     marchands: int = Query(2, ge=2, le=6),
@@ -379,10 +384,10 @@ def produits(
 def category(
     request: Request,
     code: str,
-    page: int = Query(1, ge=1),
+    page: int = Query(1, ge=1, le=_PAGE_MAX),
     marque: str | None = None,
-    prix_min: float | None = None,
-    prix_max: float | None = None,
+    prix_min: float | None = Query(None, ge=0, le=100_000),
+    prix_max: float | None = Query(None, ge=0, le=100_000),
     taille: str | None = None,
     couleur: str | None = None,
     marchands: int = Query(2, ge=2, le=6),
@@ -406,9 +411,9 @@ def category(
 def marque_page(
     request: Request,
     marque: str,
-    page: int = Query(1, ge=1),
-    prix_min: float | None = None,
-    prix_max: float | None = None,
+    page: int = Query(1, ge=1, le=_PAGE_MAX),
+    prix_min: float | None = Query(None, ge=0, le=100_000),
+    prix_max: float | None = Query(None, ge=0, le=100_000),
     taille: str | None = None,
     couleur: str | None = None,
     marchands: int = Query(2, ge=2, le=6),
@@ -749,8 +754,19 @@ async def admin_code_promo(request: Request):
     if refus is not None:
         return refus
 
+    # Une page tierce ouverte par l'administratrice ne doit pas pouvoir poster
+    # ici à sa place (le navigateur renverrait les identifiants Basic).
+    origine = request.headers.get("origin") or ""
+    if origine and not origine.startswith(("https://motocomparo.com",
+                                           "http://127.0.0.1", "http://localhost")):
+        return PlainTextResponse("Origine refusée.", status_code=403,
+                                 headers=_SANS_CACHE)
+
     d = parse_qs((await request.body()).decode("utf-8", "replace"))
     prendre = lambda k: (d.get(k, [""])[0] or "").strip()  # noqa: E731
+    # le lien du code s'affiche sur les fiches : https ou rien
+    if prendre("url") and not prendre("url").startswith("https://"):
+        d["url"] = [""]
     with pool.connection() as conn:  # type: ignore[union-attr]
         if prendre("retirer").isdigit():
             # `source = 'manuel'` en même temps que la date : sans ça, le relevé
@@ -1320,10 +1336,10 @@ def infos(request: Request):
 def search(
     request: Request,
     q: str = "",
-    page: int = Query(1, ge=1),
+    page: int = Query(1, ge=1, le=_PAGE_MAX),
     marque: str | None = None,
-    prix_min: float | None = None,
-    prix_max: float | None = None,
+    prix_min: float | None = Query(None, ge=0, le=100_000),
+    prix_max: float | None = Query(None, ge=0, le=100_000),
     taille: str | None = None,
     couleur: str | None = None,
     marchands: int = Query(2, ge=2, le=6),
@@ -1388,6 +1404,20 @@ async def erreur_pool(request: Request, exc: PoolTimeout):
             "<p>Le site est momentanément chargé. Réessayez dans quelques "
             "secondes.</p>", status_code=503)
     reponse.headers["Retry-After"] = "30"
+    reponse.headers["Cache-Control"] = "no-store"
+    return reponse
+
+
+@app.exception_handler(Exception)
+async def erreur_imprevue(request: Request, exc: Exception):
+    """Toute erreur non prévue rend la page d'erreur du site, jamais la page
+    texte brute de Starlette. L'erreur reste dans le journal."""
+    import logging
+    logging.getLogger("mcsite").exception("erreur non prévue sur %s", request.url.path)
+    try:
+        reponse = _page_erreur(request, 500, "Erreur")
+    except Exception:  # noqa: BLE001
+        reponse = PlainTextResponse("Erreur du site. Réessayez plus tard.", status_code=500)
     reponse.headers["Cache-Control"] = "no-store"
     return reponse
 

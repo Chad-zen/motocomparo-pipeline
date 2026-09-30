@@ -53,6 +53,9 @@ cat > /etc/fail2ban/jail.d/motocomparo.local <<'JAIL'
 [sshd]
 enabled  = true
 backend  = systemd
+# Sous Ubuntu le service s'appelle ssh.service : le filtre par defaut vise
+# sshd.service et ne voyait donc AUCUNE tentative (verifie le 30/09/2026).
+journalmatch = _COMM=sshd
 maxretry = 5
 findtime = 10m
 bantime  = 1h
