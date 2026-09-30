@@ -3833,7 +3833,10 @@ body.a-consentement .banc { display: none; }
    Le visuel ne change pas : un pseudo-élément transparent agrandit la zone
    cliquable à ~40 px autour des boutons de 22 à 30 px (cœur, comparer, croix
    de retrait, FERMER du menu). */
-.action-carte, .tiroir__x { position: relative; }
+/* Seulement les boutons DES CARTES : le bouton comparer de la fiche porte
+   aussi la classe action-carte et doit rester en position absolue (il
+   atterrissait au milieu du bloc « Meilleur prix », signale le 30/09/2026). */
+.actions-carte .action-carte, .tiroir__x { position: relative; }
 .action-carte::after, .banc__x::after, .comparateur__x::after, .tiroir__x::after {
   content: ""; position: absolute; inset: -6px;
 }
