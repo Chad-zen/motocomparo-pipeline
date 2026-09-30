@@ -2133,9 +2133,10 @@ body:has(.banc:not([hidden])) { padding-bottom: 94px; }
      reellement du vide entre deux offres, et chacune a ses quatre bords. */
   .theme-v1 .offres tr {
     display: grid;
-    /* minmax(0, …) et non 1fr : une taille longue (« 3XL / XXXL6566 ») faisait
-       déborder la carte et rognait « Voir l'offre » à 375 px */
-    grid-template-columns: minmax(0, 1fr) auto minmax(0, auto);
+    /* Le prix garde sa largeur, c'est la TAILLE qui prend l'espace restant et
+       passe à la ligne : une taille longue (« 3XL / XXXL6566 ») faisait
+       déborder la carte et rognait « Voir l'offre » à 375 px. */
+    grid-template-columns: auto minmax(0, 1fr) auto;
     gap: 0 8px;
     padding: 14px;
     align-items: center;
@@ -2195,7 +2196,7 @@ body:has(.banc:not([hidden])) { padding-bottom: 94px; }
   }
   .theme-v1 .offres td.offres__taille {
     background: #f1f3f7; border-radius: 99px; padding: 4px 11px;
-    white-space: normal; overflow-wrap: anywhere; max-width: 42vw;
+    white-space: normal; overflow-wrap: anywhere; min-width: 0;
   }
 
   .theme-v1 .offres td.offres__action {
