@@ -171,6 +171,52 @@ def merchant(code: str | None) -> str:
     return _MERCHANT.get((code or "").lower(), (code or "").title())
 
 
+# Le code de marque est normalisé pour le rapprochement (minuscules, sans
+# espace ni signe) : « SW-Motech » devient `swmotech`, « 100% » devient `100`.
+# Affiché tel quel en majuscules, il donnait « SWMOTECH » et une marque « 100 »
+# (audit du 30/09/2026). Les marques s'affichent en capitales partout sur le
+# site : la table ne rend que la COUPURE et les signes perdus. Toute marque
+# absente s'affiche comme avant, en capitales.
+_MARQUES = {
+    "100": "100%", "swmotech": "SW-MOTECH", "revit": "REV'IT!",
+    "johndoe": "JOHN DOE", "rgracing": "R&G RACING", "rg": "R&G",
+    "spconnect": "SP CONNECT", "quadlock": "QUAD LOCK",
+    "tucanourbano": "TUCANO URBANO", "oneal": "O'NEAL",
+    "hepcobecker": "HEPCO & BECKER", "kiniredbull": "KINI RED BULL",
+    "cxairdynamics": "CX AIR DYNAMICS", "troyleedesigns": "TROY LEE DESIGNS",
+    "troyleedesign": "TROY LEE DESIGNS", "mooseracing": "MOOSE RACING",
+    "flyracing": "FLY RACING", "liquimoly": "LIQUI MOLY", "mucoff": "MUC-OFF",
+    "allballs": "ALL BALLS", "motionpro": "MOTION PRO", "vancehines": "VANCE & HINES",
+    "bremboracing": "BREMBO RACING", "tcxboots": "TCX", "icon1000": "ICON 1000",
+    "helstonschevignon": "HELSTONS CHEVIGNON", "vintageindustries": "VINTAGE INDUSTRIES",
+    "belgom": "BELGOM", "lasleeve": "LA SLEEVE", "losangelessleeve": "LOS ANGELES SLEEVE",
+    "sevenmx": "SEVEN MX", "smithoptics": "SMITH OPTICS",
+    "gheat": "G-HEAT", "leovince": "LEOVINCE", "progressivesuspension": "PROGRESSIVE SUSPENSION",
+    "ysssuspension": "YSS", "legendsuspensions": "LEGEND SUSPENSIONS",
+    "ebc": "EBC", "jtbraking": "JT BRAKING", "jtdrivechain": "JT DRIVE CHAIN",
+    "sgr": "SGR", "p2r": "P2R", "1tektools": "1TEK TOOLS", "1tektuning": "1TEK TUNING",
+    "franceequipement": "FRANCE EQUIPEMENT", "franceantivol": "FRANCE ANTIVOL",
+    "fmfechappements": "FMF", "scorpionexhaust": "SCORPION EXHAUST",
+    "millerexhaust": "MILLER EXHAUST", "hpcorse": "HP CORSE", "vr46": "VR46",
+    "marcmarquez": "MARC MARQUEZ", "blackcafelondon": "BLACK CAFE LONDON",
+    "ridingculture": "RIDING CULTURE", "holyfreedom": "HOLY FREEDOM",
+    "motoairbag": "MOTOAIRBAG", "insta360": "INSTA360", "tomtom": "TOMTOM",
+    "vquattro": "V QUATTRO", "momodesign": "MOMO DESIGN", "zanheadgear": "ZAN HEADGEAR",
+    "desertfox": "DESERT FOX", "starlane": "STARLANE", "hiflofiltro": "HIFLOFILTRO",
+    "partseurope": "PARTS EUROPE", "kryptonite": "KRYPTONITE", "fullcontact": "FULL CONTACT",
+    "barkbusters": "BARKBUSTERS", "americankargo": "AMERICAN KARGO",
+    "nelsonrigg": "NELSON-RIGG", "fisthandwear": "FIST HANDWEAR",
+    "thrashinsupplyco": "THRASHIN SUPPLY CO.", "ojatmosferemetropolitaine": "OJ",
+    "uniracing": "UNIRACING", "gpracingapparel": "GP RACING APPAREL",
+    "powerstandsracing": "POWERSTANDS RACING", "yamahaoutsiders": "YAMAHA OUTSIDERS",
+}
+
+
+def brand(code: str | None) -> str:
+    c = (code or "").lower()
+    return _MARQUES.get(c, c.upper())
+
+
 def size_display(code: str | None) -> str:
     """'S5556' and 'S 55/56' both show as 'S'. 'TU' shows as nothing at all.
 

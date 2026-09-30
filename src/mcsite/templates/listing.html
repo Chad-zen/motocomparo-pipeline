@@ -161,12 +161,12 @@
          nombre qu'elle y a. #}
       {% for c in facettes.categories[:16] %}
         {% set ouvert = c.code == code or c.enfants | selectattr('code', 'equalto', code) | list %}
-        <a class="facette__ligne {{ 'est-actif' if c.code == code }}" href="{{ lien_rayon(c.code) }}">
+        <a class="facette__ligne {{ 'est-actif' if c.code == code }}" {% if c.code == code %}aria-current="true"{% endif %} href="{{ lien_rayon(c.code) }}">
           <span>{{ c.label_fr }}</span><span class="facette__n">{{ c.n }}</span>
         </a>
         {% if ouvert %}
           {% for e in c.enfants %}
-            <a class="facette__ligne facette__ligne--fille {{ 'est-actif' if e.code == code }}"
+            <a class="facette__ligne facette__ligne--fille {{ 'est-actif' if e.code == code }}" {% if e.code == code %}aria-current="true"{% endif %}
                href="{{ lien_rayon(e.code) }}">
               <span>{{ e.label_fr }}</span><span class="facette__n">{{ e.n }}</span>
             </a>
@@ -178,10 +178,10 @@
     <section class="facette">
       <h3>Marques</h3>
       {% for x in facettes.marques %}
-        <a class="facette__ligne {{ 'est-actif' if f.marque == x.valeur }}"
+        <a class="facette__ligne {{ 'est-actif' if f.marque == x.valeur }}" {% if f.marque == x.valeur %}aria-current="true"{% endif %}
            href="{{ lien_marque(x.valeur) if base.startswith('/m/')
                     else lien('marque', '' if f.marque == x.valeur else x.valeur) }}">
-          <span>{{ x.valeur | upper }}</span><span class="facette__n">{{ x.n }}</span>
+          <span>{{ x.valeur | marque }}</span><span class="facette__n">{{ x.n }}</span>
         </a>
       {% endfor %}
     </section>
@@ -199,7 +199,8 @@
         {% if f.marchands > 2 %}<input type="hidden" name="marchands" value="{{ f.marchands }}">{% endif %}
         {% if f.tri != 'pertinence' %}<input type="hidden" name="tri" value="{{ f.tri }}">{% endif %}
 
-        {% set maxi = facettes.prix_maxi | round | int %}
+        {# arrondi au multiple de 5 SUPÉRIEUR : avec step=5, un max de 349 était ramené à 345 par le navigateur, et « Appliquer » sans toucher la poignée retirait les produits entre 345 et 349 € #}
+        {% set maxi = ((facettes.prix_maxi / 5) | round(0, 'ceil') * 5) | int %}
         <div class="jauge__piste">
           <input type="range" name="prix_min" min="0" max="{{ maxi }}" step="5"
                  value="{{ (f.prix_min or 0) | round | int }}" aria-label="Prix minimum">
@@ -223,7 +224,7 @@
       <h3>Taille</h3>
       <div class="pastilles">
         {% for x in facettes.tailles %}
-          <a class="pastille-taille {{ 'est-actif' if f.taille == x.valeur }}"
+          <a class="pastille-taille {{ 'est-actif' if f.taille == x.valeur }}" {% if f.taille == x.valeur %}aria-current="true"{% endif %}
              href="{{ lien('taille', '' if f.taille == x.valeur else x.valeur) }}"
              title="{{ x.n }} produits">{{ x.valeur | taille }}</a>
         {% endfor %}
@@ -235,7 +236,7 @@
     <section class="facette">
       <h3>Couleur</h3>
       {% for x in facettes.couleurs %}
-        <a class="facette__ligne {{ 'est-actif' if f.couleur == x.valeur }}"
+        <a class="facette__ligne {{ 'est-actif' if f.couleur == x.valeur }}" {% if f.couleur == x.valeur %}aria-current="true"{% endif %}
            href="{{ lien('couleur', '' if f.couleur == x.valeur else x.valeur) }}">
           <span>{{ x.valeur | couleur }}</span><span class="facette__n">{{ x.n }}</span>
         </a>
@@ -246,7 +247,7 @@
     <section class="facette">
       <h3>Marchands</h3>
       {% for x in facettes.marchands %}
-        <a class="facette__ligne {{ 'est-actif' if f.marchands == x.valeur }}"
+        <a class="facette__ligne {{ 'est-actif' if f.marchands == x.valeur }}" {% if f.marchands == x.valeur %}aria-current="true"{% endif %}
            href="{{ lien('marchands', '2' if f.marchands == x.valeur else x.valeur|string) }}">
           <span>{{ x.valeur }} marchands et +</span><span class="facette__n">{{ x.n }}</span>
         </a>
@@ -287,7 +288,7 @@
         </summary>
         <div class="tri__liste">
           {% for cle, mot in libelles.items() %}
-            <a class="{{ 'est-actif' if choisi == cle }}" href="{{ lien('tri', cle) }}">{{ mot }}</a>
+            <a class="{{ 'est-actif' if choisi == cle }}" {% if choisi == cle %}aria-current="true"{% endif %} href="{{ lien('tri', cle) }}">{{ mot }}</a>
           {% endfor %}
         </div>
       </details>
@@ -302,7 +303,7 @@
     {% include "_grille.html" %}
 
     {% if pages > 1 %}
-    <nav class="pagination">
+    <nav class="pagination" aria-label="Pagination">
       {% if page > 1 %}<a href="{{ lien('page', '') }}page={{ page - 1 }}">‹ Précédent</a>{% endif %}
       <span>page {{ page }} sur {{ pages }}</span>
       {% if page < pages %}<a href="{{ lien('page', '') }}page={{ page + 1 }}">Suivant ›</a>{% endif %}

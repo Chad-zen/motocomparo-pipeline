@@ -117,6 +117,12 @@
     }
   });
 
-  if (!lire()) montrer();
+  /* Le bandeau est en fin de page : sans ce focus, « Refuser » était le 116e
+     arrêt de tabulation. preventScroll : la page ne saute pas vers le bas. */
+  if (!lire()) {
+    montrer();
+    try { bandeau.querySelector('[data-consentement]').focus({ preventScroll: true }); }
+    catch (e) { /* vieux navigateur : tant pis pour le focus */ }
+  }
 })();
 </script>

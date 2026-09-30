@@ -78,9 +78,16 @@ templates.env.filters["prix"] = labels.price
 templates.env.filters["couleur"] = labels.colour
 templates.env.filters["genre"] = labels.genre
 templates.env.filters["marchand"] = labels.merchant
+templates.env.filters["marque"] = labels.brand
 templates.env.filters["caracteristique"] = queries._valeur_lisible
 templates.env.filters["taille"] = labels.size_display
 templates.env.globals["titre_produit"] = labels.product_title
+
+
+from mcpipe.category import CATEGORIES as _CATEGORIES  # noqa: E402
+
+# 25 (« non classé ») n'apprend rien au visiteur : pas de libellé.
+_LIBELLE_RAYON = {cid: libelle for cid, _p, _c, libelle in _CATEGORIES if cid != 25}
 
 
 def _nom(row: Any) -> str:
@@ -103,7 +110,11 @@ def _nom(row: Any) -> str:
     # même que le visiteur lise le tableau. Voir `labels.sans_taille_finale` —
     # la règle est étroite exprès.
     if not titre:
-        return row["model_display"]
+        # Le repli seul donnait des cartes titrées « V24 » ou « 300i » : un
+        # code modèle, sans dire s'il s'agit d'un casque ou d'un pot. Le rayon
+        # le dit (audit du 30/09/2026).
+        rayon = _LIBELLE_RAYON.get(row.get("category_id")) if hasattr(row, "get") else None
+        return f"{row['model_display']} ({rayon})" if rayon else row["model_display"]
     # Deux retraits, et deux seulement. Chacun enlève une chose qui n'apprend
     # rien ou qui ment ; aucun ne touche au nom du produit lui-même.
     titre = labels.sans_queue_de_rayon(titre, row.get("brand_code") or "")
@@ -431,7 +442,7 @@ def marque_page(
         _, total = queries.listing_filtre(conn, f, 1, 0)
     if not total and page == 1:
         raise HTTPException(404, "Marque inconnue")
-    return _liste(request, marque.upper(), f"/m/{marque}", f, page)
+    return _liste(request, labels.brand(marque), f"/m/{marque}", f, page)
 
 
 @app.get("/p/{slug}", response_class=HTMLResponse)
@@ -550,7 +561,7 @@ def _donnees_structurees(
     """
     racine = f"{request.url.scheme}://{request.url.netloc}"
     nom = _nom(p)
-    marque = (p.get("brand_code") or "").upper()
+    marque = labels.brand(p.get("brand_code"))
 
     achetables = [o["price"] for o in rows
                   if o["price"] is not None and o["in_stock"] is not False]
@@ -1302,6 +1313,9 @@ def sitemap_index(request: Request) -> Response:
 
 @app.get("/sitemap-{numero}.xml")
 def sitemap_page(request: Request, numero: int) -> Response:
+    # un numéro négatif lisait une tranche depuis la FIN : un doublon valide
+    if numero < 1:
+        raise HTTPException(404, "Ce fichier de plan n'existe pas")
     urls = _urls_sitemap()
     debut = (numero - 1) * _PAR_SITEMAP
     lot = urls[debut:debut + _PAR_SITEMAP]

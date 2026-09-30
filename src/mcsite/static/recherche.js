@@ -262,15 +262,24 @@
         + (options.length > 1 ? 's' : '');
     }
 
+    function annuler() {
+      if (encours) { encours.abort(); encours = null; }
+    }
+
     function demander() {
       var texte = champ.value.trim();
-      if (texte.length < MINIMUM) { fermer(); return; }
-      if (encours) encours.abort();
+      // Effacé sous le minimum : la requête partie pour « shoei » ne doit
+      // pas rouvrir la liste une seconde plus tard (audit du 30/09/2026).
+      if (texte.length < MINIMUM) { annuler(); fermer(); return; }
+      annuler();
       encours = new AbortController();
       fetch('/api/suggestions?q=' + encodeURIComponent(texte),
             { signal: encours.signal })
         .then(function (r) { return r.ok ? r.json() : null; })
-        .then(function (d) { if (d) peindre(d, texte); })
+        .then(function (d) {
+          // seule la réponse au texte ENCORE affiché dans le champ se peint
+          if (d && champ.value.trim() === texte) peindre(d, texte);
+        })
         .catch(function () { /* annulée ou réseau : on laisse la liste en place */ });
     }
 
@@ -295,6 +304,8 @@
         // déjà ce qu'il faut, on ne s'interpose pas.
         if (choisi >= 0) { e.preventDefault(); options[choisi].click(); }
       } else if (e.key === 'Escape') {
+        clearTimeout(minuteur);
+        annuler();
         fermer();
       }
     });

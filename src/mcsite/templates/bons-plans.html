@@ -5,7 +5,7 @@
 {% block contenu %}
 {% from "_grille.html" import actions %}
 
-<nav class="fil"><a href="/">Accueil</a> › <span>Bons plans</span></nav>
+<nav class="fil" aria-label="Fil d'Ariane"><a href="/">Accueil</a> › <span>Bons plans</span></nav>
 <h1 class="titre-page">Meilleurs prix du moment</h1>
 
 {# Ce qui est mesuré ici, et pourquoi c'est dit à voix haute : un comparateur
@@ -29,7 +29,7 @@
       {% else %}<span class="carte__sansimg">pas de visuel</span>{% endif %}
     </div>
     <div class="carte__corps">
-      <span class="carte__marque">{{ it.brand_code | upper }}</span>
+      <span class="carte__marque">{{ it.brand_code | marque }}</span>
       <span class="carte__nom">{{ nom(it) }}</span>
       {# `merchant_count` compte des MARCHANDS, pas des offres : la carte
    annonçait « 3 offres » pour une fiche qui en aligne onze. #}

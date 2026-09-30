@@ -260,7 +260,7 @@ if (mcMesureAutorisee) mcChargerMesure();
     </div>
 
     <div class="pied__bloc">
-      <h3>Liens rapides</h3>
+      <h2 class="pied__titre">Liens rapides</h2>
       <ul>
         <li><a href="/">Accueil</a></li>
         <li><a href="/bons-plans">Bons plans</a></li>
@@ -273,7 +273,7 @@ if (mcMesureAutorisee) mcChargerMesure();
     </div>
 
     <div class="pied__bloc">
-      <h3>Notre politique</h3>
+      <h2 class="pied__titre">Notre politique</h2>
       <ul>
         <li><a href="/infos#donnees">Politique de confidentialité</a></li>
         {% if mesure_active %}
@@ -353,7 +353,7 @@ if (mcMesureAutorisee) mcChargerMesure();
     <div class="tiroir__section">Marques</div>
     {% for m in marques %}
       <a class="tiroir__item tiroir__item--marque" href="/m/{{ m.brand_code }}">
-        <span class="tiroir__lbl">{{ m.brand_code | upper }}</span>
+        <span class="tiroir__lbl">{{ m.brand_code | marque }}</span>
         <span class="tiroir__chev" aria-hidden="true">›</span>
       </a>
     {% endfor %}
@@ -439,7 +439,10 @@ function propre(u) {
     [['favoris', 'favori'], ['comparer', 'comparer']].forEach(function (p) {
       var dedans = lire(p[0]);
       document.querySelectorAll('[data-' + p[1] + ']').forEach(function (b) {
-        b.classList.toggle('est-actif', place(dedans, b.dataset[p[1]]) !== -1);
+        var actif = place(dedans, b.dataset[p[1]]) !== -1;
+        b.classList.toggle('est-actif', actif);
+        /* l'état se dit aussi au lecteur d'écran, pas seulement en couleur */
+        b.setAttribute('aria-pressed', actif ? 'true' : 'false');
       });
     });
   }
@@ -459,7 +462,7 @@ function propre(u) {
         ? '<span class="banc__case banc__case--plein">'
           + (propre(e.i) ? '<img src="' + propre(e.i) + '" alt="" loading="lazy">' : '')
           + '<button type="button" class="banc__x" data-retirer="' + e.s
-          + '" aria-label="Retirer">×</button></span>'
+          + '" aria-label="Retirer le produit ' + (i + 1) + ' du comparateur">×</button></span>'
         : '<span class="banc__case"></span>';
     }
     cases.innerHTML = html;
@@ -580,8 +583,30 @@ function propre(u) {
     else { panneau.removeAttribute('inert'); }
   }
 
+  /* Tiroir ouvert = tout le reste de la page inerte. Sans ça, Tab après le
+     dernier lien du tiroir partait derrière le voile, sur le bouton de menu
+     recouvert (audit du 30/09/2026). Chaque frère de chaque ancêtre du tiroir,
+     jusqu'au <body> : le tiroir des filtres est rangé DANS la page, pas à
+     côté d'elle. */
+  let rendusInertes = [];
+  function isoler(panneau) {
+    for (let n = panneau; n && n !== document.body; n = n.parentElement) {
+      Array.prototype.forEach.call(n.parentElement.children, function (frere) {
+        if (frere === n || frere === voile || frere.tagName === 'SCRIPT'
+            || frere.hasAttribute('inert')) return;
+        frere.setAttribute('inert', '');
+        rendusInertes.push(frere);
+      });
+    }
+  }
+  function liberer() {
+    rendusInertes.forEach(function (e) { e.removeAttribute('inert'); });
+    rendusInertes = [];
+  }
+
   function fermer() {
     if (!ouvert) return;
+    liberer();
     ouvert.classList.remove('est-ouvert');
     ranger(ouvert, true);
     const declencheur = document.querySelector('[aria-controls="' + ouvert.id + '"]');
@@ -598,6 +623,7 @@ function propre(u) {
     fermer();
     panneau.classList.add('est-ouvert');
     ranger(panneau, false);
+    isoler(panneau);
     if (bouton) bouton.setAttribute('aria-expanded', 'true');
     const premier = panneau.querySelector('button, [href], input, select, textarea');
     if (premier) premier.focus();   /* le focus entre dans le tiroir ouvert */

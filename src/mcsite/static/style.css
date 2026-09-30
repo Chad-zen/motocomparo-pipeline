@@ -905,7 +905,7 @@ h1, h2 { line-height: 1.2; }
   display: block; font-family: "Source Sans 3", system-ui, sans-serif;
   font-weight: 700; font-size: 19px; color: #fff; margin-bottom: 10px;
 }
-.pied__bloc h3 {
+.pied__bloc h3, .pied__bloc .pied__titre {
   font-size: 13px; text-transform: uppercase; letter-spacing: .06em;
   color: var(--or); margin: 0 0 12px;
 }
@@ -2296,7 +2296,7 @@ body:has(.banc:not([hidden])) { padding-bottom: var(--banc-h, 94px); }
   font-size: 19px; font-weight: 800; color: #0f1524;
 }
 .offres__carte .sous-titre {
-  font-size: 12.5px; color: #8a90a5; margin: 0 0 16px;   /* 16 : relevé v1 */
+  font-size: 12.5px; color: var(--doux); margin: 0 0 16px;   /* 16 : relevé v1 */
 }
 
 /* L'encadré de l'historique porte son rembourrage LUI-MÊME, contrairement à
@@ -2454,8 +2454,8 @@ body:has(.banc:not([hidden])) { padding-bottom: var(--banc-h, 94px); }
   display: block; margin-top: 4px; font-size: 11.5px; font-weight: 700;
   line-height: 1.25; opacity: .95;
 }
-.comparateur__score--haut  { background: #1e9e5a; }
-.comparateur__score--moyen { background: #d98a12; }
+.comparateur__score--haut  { background: #177a45; }   /* 5,3:1 avec le blanc ; #1e9e5a faisait 3,45:1 */
+.comparateur__score--moyen { background: #a85f00; }   /* 4,6:1 ; #d98a12 faisait 2,8:1 */
 .comparateur__score--bas   { background: #c23b2c; }
 .comparateur__score--vide  { background: var(--puce, #eef0f6); color: var(--muted); }
 .comparateur__score--gagnant { box-shadow: 0 0 0 3px #ffe9ae; }
@@ -2561,7 +2561,15 @@ body:has(.banc:not([hidden])) { padding-bottom: var(--banc-h, 94px); }
 .comparateur__vers-perso { margin-top: 14px; font-size: 13.5px; }
 
 @media (max-width: 640px) {
-  .comparateur__scroll { --comparateur-label: 108px; --comparateur-col: 152px; }
+  /* Deux produits doivent tenir dans l'écran sans défilement : 108 + 2 x 152
+     faisaient 412 px pour 335 disponibles. La colonne produit prend sa part de
+     la largeur restante, 118 px au moins (au-delà de deux, on défile). */
+  .comparateur__scroll {
+    --comparateur-label: 100px;
+    --comparateur-col: max(118px, calc((100vw - 40px - 100px) / var(--comparateur-n, 2)));
+  }
+  /* « Homologatio / n » : le libellé se coupe en français, à la syllabe */
+  .comparateur__tableau th[scope="row"], .comparateur__tableau td { hyphens: auto; overflow-wrap: normal; }
   .comparateur__nom { font-size: 12.5px; }
   .comparateur__score strong { font-size: 19px; }
 }
@@ -3103,7 +3111,7 @@ select:focus-visible, textarea:focus-visible, summary:focus-visible,
    vraies tailles de la colonne, et attirait l'œil sur ce qu'on ignore au milieu
    d'un tableau fait pour comparer ce qu'on sait. */
 .taille-info {
-  width: 1.35rem; height: 1.35rem; padding: 0; border-radius: 50%;
+  width: 1.5rem; height: 1.5rem;   /* 24 px : minimum WCAG 2.5.8 */ padding: 0; border-radius: 50%;
   border: 1px solid var(--doux); background: transparent; color: var(--doux);
   font: 600 .75rem/1 Georgia, "Times New Roman", serif; font-style: italic;
   cursor: pointer;
@@ -3276,7 +3284,7 @@ select:focus-visible, textarea:focus-visible, summary:focus-visible,
 .pub__mention {
   margin: 0 0 6px;
   font-size: 11px; font-weight: 700; letter-spacing: .9px;
-  text-transform: uppercase; color: var(--doux, #8a90a5);
+  text-transform: uppercase; color: var(--doux, #5f6880);
 }
 /* Le cadre garde sa place avant que l'image arrive : sans hauteur réservée, la
    page saute sous le doigt au moment où la bannière se charge. */
@@ -3360,7 +3368,7 @@ select:focus-visible, textarea:focus-visible, summary:focus-visible,
 .theme-v1 .etat--ok { font-size: 11.5px; font-weight: 700; color: #1a7f45; }
 .theme-v1 .offres__rang { font-size: 13px; }
 .theme-v1 .offres .bouton { font-size: 14px; font-weight: 800; }
-.theme-v1 .offres__horodatage { color: #8a90a5; }
+.theme-v1 .offres__horodatage { color: var(--doux); }
 
 /* --- le fil d'Ariane ------------------------------------------------------ */
 /* Deux gris distincts : le chemin parcouru est cliquable et bleuté, la page
@@ -3454,7 +3462,7 @@ select:focus-visible, textarea:focus-visible, summary:focus-visible,
 .sugg__titre {
   margin: 0; padding: 10px 14px 4px;
   font-size: 10.5px; font-weight: 800; letter-spacing: 1.1px;
-  text-transform: uppercase; color: var(--doux, #8a90a5);
+  text-transform: uppercase; color: var(--doux, #5f6880);
 }
 .sugg__titre:not(:first-child) {
   border-top: 1px solid var(--ligne-carte, #eef1f6); margin-top: 4px;
@@ -3471,7 +3479,7 @@ select:focus-visible, textarea:focus-visible, summary:focus-visible,
 
 .sugg__quoi { font-weight: 700; }
 .sugg__compte {
-  flex: none; font-size: 12px; font-weight: 700; color: var(--doux, #8a90a5);
+  flex: none; font-size: 12px; font-weight: 700; color: var(--doux, #5f6880);
   font-variant-numeric: tabular-nums;
 }
 
@@ -3549,7 +3557,7 @@ select:focus-visible, textarea:focus-visible, summary:focus-visible,
   overflow: hidden;
 }
 .sugg__marchands {
-  font-size: 12px; color: var(--doux, #8a90a5); margin-top: 2px;
+  font-size: 12px; color: var(--doux, #5f6880); margin-top: 2px;
 }
 .sugg__prix--grand { font-size: 15px; }
 
@@ -3820,3 +3828,19 @@ select:focus-visible, textarea:focus-visible, summary:focus-visible,
    classe est posée sur `<body>` par le script du bandeau, et retirée dès qu'on
    a répondu. */
 body.a-consentement .banc { display: none; }
+
+/* --- Zones de toucher (audit du 30/09/2026) --------------------------------
+   Le visuel ne change pas : un pseudo-élément transparent agrandit la zone
+   cliquable à ~40 px autour des boutons de 22 à 30 px (cœur, comparer, croix
+   de retrait, FERMER du menu). */
+.action-carte, .tiroir__x { position: relative; }
+.action-carte::after, .banc__x::after, .comparateur__x::after, .tiroir__x::after {
+  content: ""; position: absolute; inset: -6px;
+}
+.tiroir__x::after { inset: -12px -8px; }
+
+/* Sous 16 px, iOS Safari zoome la page au toucher d'un champ. */
+@media (max-width: 760px) {
+  .quete input, .contact__form input, .contact__form select,
+  .contact__form textarea, .erreur__quete input, .tiroir__quete input { font-size: 16px; }
+}

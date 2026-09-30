@@ -61,7 +61,7 @@
 <h2 class="titre-section">Marques</h2>
 <div class="marques"><div class="marques__inner">
   {% for m in marques_top %}
-    <a href="/m/{{ m.brand_code }}">{{ m.brand_code | upper }}
+    <a href="/m/{{ m.brand_code }}">{{ m.brand_code | marque }}
       <span class="facette__n">{{ m.comparables }}/{{ m.fiches }}</span></a>
   {% endfor %}
 </div></div>

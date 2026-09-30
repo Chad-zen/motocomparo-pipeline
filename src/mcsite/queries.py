@@ -887,6 +887,16 @@ def brands(conn: psycopg.Connection, limit: int = 12) -> list[dict[str, Any]]:
 
 # --------------------------------------------------------------------- facettes
 
+def _taille_norm(expr: str) -> str:
+    """Une seule écriture par taille : les marchands écrivent XXL ou 2XL, XXS
+    ou 2XS, pour la même chose. Le filtre proposait les deux pastilles côte à
+    côte (5 015 fiches en 2XL, 1 276 en XXL) et chacune ratait l'autre moitié.
+    Normalisé à l'affichage et au filtre ; les données ne changent pas."""
+    return (f"(CASE {expr} WHEN 'XXL' THEN '2XL' WHEN 'XXXL' THEN '3XL' "
+            f"WHEN 'XXXXL' THEN '4XL' WHEN 'XXS' THEN '2XS' WHEN 'XXXS' THEN '3XS' "
+            f"ELSE {expr} END)")
+
+
 def facets(conn: psycopg.Connection, f: Filtres) -> dict[str, Any]:
     """The counts beside each filter, computed on what the visitor can see.
 
@@ -933,7 +943,7 @@ def facets(conn: psycopg.Connection, f: Filtres) -> dict[str, Any]:
     """, {**_args(f), "lo": None, "hi": None}) or {}
 
     tailles = compte(f"""
-        SELECT v.size_code AS valeur, count(DISTINCT p.id) AS n
+        SELECT {_taille_norm('v.size_code')} AS valeur, count(DISTINCT p.id) AS n
         FROM product p
         JOIN product_stats s ON s.product_id = p.id
         JOIN variant v ON v.product_id = p.id
@@ -952,7 +962,10 @@ def facets(conn: psycopg.Connection, f: Filtres) -> dict[str, Any]:
           -- `X(0, 3)[SML]`, qui ne correspond à rien. Aucune erreur levée,
           -- aucune taille affichée : le pire des deux mondes.
           AND (v.size_code ~ '^[2-6]?X{{0,3}}[SML]$' OR v.size_code ~ '^[0-9]{{1,2}}$')
-        GROUP BY v.size_code
+          -- 65, 75, 85, 95 : des demi-pointures US (7,5 -> 75) dont le point
+          -- s'est perdu en route. Ni une pointure EU, ni une taille lisible.
+          AND v.size_code NOT IN ('65', '75', '85', '95')
+        GROUP BY 1
         HAVING count(DISTINCT p.id) >= 3
         ORDER BY count(DISTINCT p.id) DESC LIMIT 24
     """, "taille")
@@ -1092,7 +1105,8 @@ _OU = """
       AND (%(co)s::text IS NULL OR p.colour_code = %(co)s::text)
       AND (%(ta)s::text IS NULL OR EXISTS (
             SELECT 1 FROM variant v
-            WHERE v.product_id = p.id AND v.size_code = %(ta)s::text))
+            WHERE v.product_id = p.id
+              AND """ + _taille_norm("v.size_code") + """ = """ + _taille_norm("%(ta)s::text") + """))
       -- La recherche est un filtre comme les autres, et pas une page à part :
       -- c'est ce qui lui donne le même panneau, les mêmes compteurs et le même
       -- tri que le reste du site. Chaque mot doit se trouver quelque part — un

@@ -2,7 +2,7 @@
 {% block title %}{{ titre }} — MotoComparo{% endblock %}
 
 {% block contenu %}
-<nav class="fil"><a href="/">Accueil</a> › <span>{{ titre }}</span></nav>
+<nav class="fil" aria-label="Fil d'Ariane"><a href="/">Accueil</a> › <span>{{ titre }}</span></nav>
 <h1 class="titre-page">{{ titre }}</h1>
 
 <div id="liste-corps" data-cle="{{ cle }}">
@@ -40,8 +40,17 @@
   }
   const vider = document.getElementById('vider');
   if (vider) vider.addEventListener('click', function () {
-    localStorage.removeItem('mc:' + cle);
+    try { localStorage.removeItem('mc:' + cle); } catch (e) { /* tant pis */ }
     location.href = location.pathname;
+  });
+  /* Retirer une fiche de la liste depuis cette page : la carte restait
+     affichée, et F5 la ramenait (l'adresse garde l'ancien ?p=). On recharge
+     sans paramètre une fois le stockage mis à jour — le setTimeout laisse le
+     gestionnaire de base.html écrire d'abord. */
+  if (cle === 'favoris') document.addEventListener('click', function (e) {
+    if (e.target.closest('[data-favori]')) {
+      setTimeout(function () { location.replace(location.pathname); }, 0);
+    }
   });
 })();
 </script>

@@ -3,7 +3,7 @@
 {% block title %}{{ titre }} — MotoComparo{% endblock %}
 
 {% block contenu %}
-<nav class="fil"><a href="/">Accueil</a> › <span>{{ titre }}</span></nav>
+<nav class="fil" aria-label="Fil d'Ariane"><a href="/">Accueil</a> › <span>{{ titre }}</span></nav>
 <h1 class="titre-page">{{ titre }}</h1>
 
 {# Sur téléphone, le cœur a quitté l'en-tête pour l'alléger : les favoris
@@ -57,7 +57,7 @@
 
   const vider = document.getElementById('vider');
   if (vider) vider.addEventListener('click', function () {
-    localStorage.removeItem('mc:' + cle);
+    try { localStorage.removeItem('mc:' + cle); } catch (e) { /* tant pis */ }
     location.href = location.pathname;
   });
 

@@ -48,7 +48,7 @@
           {% if it.image_url %}<img src="{{ it.image_url }}" alt="" loading="lazy">
           {% else %}<span class="carte__sansimg">pas de visuel</span>{% endif %}
         </span>
-        <span class="comparateur__marque">{{ it.brand_code | upper }}</span>
+        <span class="comparateur__marque">{{ it.brand_code | marque }}</span>
         <span class="comparateur__nom">{{ nom(it) }}</span>
       </a>
       {# Le prix, et lui seul. Le nombre de marchands vivait ici ; il est

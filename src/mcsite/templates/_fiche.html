@@ -18,7 +18,7 @@
   </div>
 
   <div class="fiche__tete">
-    <span class="fiche__marque">{{ p.brand_code | upper }}</span>
+    <span class="fiche__marque">{{ p.brand_code | marque }}</span>
     <h1>{{ nom_produit }}</h1>
 
     {# La référence et la signature tiennent sur UNE ligne, comme sur la v1.
@@ -752,10 +752,13 @@ document.addEventListener('click', function (e) {
   const b = e.target.closest('.promo__code');
   if (!b) return;
   const code = b.dataset.code;
+  /* Le texte revient depuis la DONNÉE, pas depuis ce qui est affiché : au
+     second clic rapide, « avant » valait déjà « Copié ! » et le bouton y
+     restait bloqué. Un seul minuteur par bouton. */
   const dire = (mot) => {
-    const avant = b.textContent;
     b.textContent = mot;
-    setTimeout(() => { b.textContent = avant; }, 1600);
+    clearTimeout(b._minuteur);
+    b._minuteur = setTimeout(() => { b.textContent = code; }, 1600);
   };
   if (navigator.clipboard && window.isSecureContext) {
     navigator.clipboard.writeText(code).then(() => dire('Copié !'), () => dire(code));
@@ -779,7 +782,7 @@ document.addEventListener('click', function (e) {
         <img src="{{ it.image_url }}" alt="" loading="lazy">
       </span>
       <span class="proche__corps">
-        <span class="proche__marque">{{ it.brand_code | upper }}</span>
+        <span class="proche__marque">{{ it.brand_code | marque }}</span>
         <span class="proche__nom">{{ nom(it) }}</span>
         <span class="proche__prix">dès {{ it.cheapest | prix }}</span>
         <span class="proche__cta">Comparer les prix</span>
@@ -805,7 +808,7 @@ document.addEventListener('click', function (e) {
     <a class="proche" href="/p/{{ it.slug }}">
       <span class="proche__img"><img src="{{ it.image_url }}" alt="" loading="lazy"></span>
       <span class="proche__corps">
-        <span class="proche__marque">{{ it.brand_code | upper }}</span>
+        <span class="proche__marque">{{ it.brand_code | marque }}</span>
         <span class="proche__nom">{{ nom(it) }}</span>
         <span class="proche__prix">dès {{ it.cheapest | prix }}</span>
         <span class="proche__cta">Comparer les prix</span>

@@ -205,12 +205,17 @@
   // est cherchée en JavaScript et insérée ensuite. Sans cette veille elle
   // serait la seule à ne pas boucler — et c'est celle qu'on regarde le plus,
   // puisqu'elle ne contient que des fiches déjà visitées.
-  if (window.MutationObserver) {
+  //
+  // On ne veille QUE cet hôte. Veiller tout <body> relançait demarrer() à
+  // chaque nœud ajouté ailleurs — l'infobulle de la courbe réécrite à chaque
+  // mouvement de souris, les suggestions de recherche à chaque frappe.
+  var hoteVus = document.getElementById('rayon-vus');
+  if (window.MutationObserver && hoteVus) {
     new MutationObserver(function (lots) {
       for (var i = 0; i < lots.length; i++) {
         if (lots[i].addedNodes.length) { demarrer(); return; }
       }
-    }).observe(document.body, { childList: true, subtree: true });
+    }).observe(hoteVus, { childList: true, subtree: true });
   }
 
   // Passer du portrait au paysage change la largeur de la fenêtre, donc la

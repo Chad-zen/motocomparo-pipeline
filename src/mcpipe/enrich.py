@@ -76,6 +76,10 @@ _HELMET_BUCKETS: dict[str, set[str]] = {
 # purpose — writing or borrowing it would disagree with every sibling subtype
 _HELMET_SUBTYPE_IDS = frozenset({2, 3, 4, 5})
 
+# rule 3 — see enrich_categories
+_ELECTRONIQUE_ID = 19
+_ACCESSOIRE_CASQUE_ID = 30
+
 # Google's own taxonomy, straight from the feed: what is NOT a motorcycle helmet
 _NOT_A_MOTO_HELMET = re.compile(
     r"bicycle helmets|ski & snowboard helmets|goggles", re.I
@@ -303,6 +307,28 @@ def enrich_categories() -> EnrichResult:
                     else:
                         rule = "helmet_title"
                     overrides.append((offer_id, new_id, rule))
+
+            # --- rule 3: helmet parts filed under Electronics, read from the title ---
+            # Audit du 30/09/2026 : « Électronique & connectique » était pour
+            # moitié des écrans, pinlocks et mousses de casque — la carte des
+            # rayons de Motoblouz range leurs « Accessoires casque » là. Le
+            # classifieur par titre les reconnaît (69 sur 400 titres tirés au
+            # hasard, tous des pièces de casque) et laisse intercoms, supports
+            # GPS et coques de téléphone où ils sont.
+            deja = {oid for oid, _c, _r in overrides}
+            cur.execute(
+                "SELECT o.id, o.raw_title FROM raw_offer o "
+                "JOIN category_map cm ON cm.merchant_id = o.merchant_id "
+                "AND cm.raw_path = o.raw_category WHERE cm.category_id = %s",
+                (_ELECTRONIQUE_ID,),
+            )
+            for offer_id, title in cur.fetchall():
+                scanned += 1
+                if offer_id in deja:
+                    continue
+                if classify(None, title) == _ACCESSOIRE_CASQUE_ID:
+                    overrides.append((offer_id, _ACCESSOIRE_CASQUE_ID,
+                                      "electronique_piece_casque"))
 
             if overrides:
                 cur.executemany(

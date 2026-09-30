@@ -63,6 +63,16 @@ JAIL
 systemctl enable --now fail2ban
 systemctl restart fail2ban
 
+echo "== 2 bis. cache réchauffé au démarrage du site =="
+install -m 755 "$ICI/rechauffer.sh" /usr/local/bin/mcsite-rechauffer
+install -d /etc/systemd/system/mcsite.service.d
+cat > /etc/systemd/system/mcsite.service.d/rechauffer.conf <<'UNIT'
+[Service]
+# le « - » : un réchauffage raté ne doit jamais faire échouer le démarrage
+ExecStartPost=-/usr/local/bin/mcsite-rechauffer
+UNIT
+systemctl daemon-reload
+
 echo "== 3. sauvegarde de la base =="
 install -d -o mcpipe -g mcpipe -m 700 /srv/motocomparo/sauvegardes
 cat > /usr/local/bin/mcpipe-sauvegarde <<'SCRIPT'

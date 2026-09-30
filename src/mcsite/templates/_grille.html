@@ -26,7 +26,7 @@
       {% else %}<span class="carte__sansimg">pas de visuel</span>{% endif %}
     </div>
     <div class="carte__corps">
-      <span class="carte__marque">{{ it.brand_code | upper }}</span>
+      <span class="carte__marque">{{ it.brand_code | marque }}</span>
       <span class="carte__nom">{{ nom(it) }}</span>
       {% if it.colour_code and it.colour_code != 'unknown' %}
         <span class="carte__couleur">{{ it.colour_code | couleur }}</span>

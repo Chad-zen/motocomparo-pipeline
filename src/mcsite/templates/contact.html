@@ -3,7 +3,7 @@
 {% block description %}Une erreur de prix, une fiche à corriger, une question sur un marchand : écrivez-nous, on lit tout.{% endblock %}
 
 {% block contenu %}
-<nav class="fil"><a href="/">Accueil</a> › <span>Contact</span></nav>
+<nav class="fil" aria-label="Fil d'Ariane"><a href="/">Accueil</a> › <span>Contact</span></nav>
 <h1 class="titre-page">Nous écrire</h1>
 
 {% if envoye == 1 %}
@@ -38,7 +38,7 @@
        rend service même sans laisser de quoi le recontacter, et l'exiger ferait
        perdre le signalement. #}
     <label>Votre e-mail <span class="doux">(facultatif, pour la réponse)</span>
-      <input name="email" type="email" placeholder="vous@exemple.fr">
+      <input name="email" type="email" autocomplete="email" placeholder="vous@exemple.fr">
     </label>
     {# Champ piège : invisible pour un visiteur, rempli par les robots qui
        remplissent tout. Un envoi qui le porte est jeté sans rien dire. #}

@@ -3,7 +3,7 @@
 {% block description %}Toutes les marques d'équipement moto suivies par MotoComparo — Shoei, Alpinestars, Ixon, Dainese et les autres. Comparez-les chez {{ marchands_actifs | length }} marchands.{% endblock %}
 
 {% block contenu %}
-<nav class="fil"><a href="/">Accueil</a> › <span>Toutes les marques</span></nav>
+<nav class="fil" aria-label="Fil d'Ariane"><a href="/">Accueil</a> › <span>Toutes les marques</span></nav>
 <h1 class="titre-page">Toutes les marques</h1>
 <p class="sous-titre">
   {{ items | length }} marques dont au moins un produit est vendu par deux
@@ -12,7 +12,7 @@
 
 {# Index alphabétique : à 211 entrées, une simple grille oblige à balayer la
    page entière pour trouver « Shoei ». Les lettres servent d'ancres. #}
-<nav class="alphabet">
+<nav class="alphabet" aria-label="Index alphabétique">
   {% for lettre in lettres %}
     <a href="#lettre-{{ lettre }}">{{ lettre | upper }}</a>
   {% endfor %}
@@ -24,7 +24,7 @@
   <div class="marques-grille">
     {% for m in items if (m.brand_code[0] | lower) == lettre %}
       <a class="marque-tuile" href="/m/{{ m.brand_code }}">
-        <b>{{ m.brand_code | upper }}</b>
+        <b>{{ m.brand_code | marque }}</b>
         <span>{{ m.n }} produit{{ 's' if m.n > 1 }}</span>
       </a>
     {% endfor %}
