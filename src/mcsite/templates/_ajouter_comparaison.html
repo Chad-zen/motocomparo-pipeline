@@ -45,6 +45,8 @@
     marque.textContent = p.marque || '';
     texte.appendChild(marque);
     texte.appendChild(document.createTextNode(' ' + (p.nom || '')));
+    /* six SZ-R au même nom ne se distinguent que par le coloris */
+    if (p.couleur) texte.appendChild(document.createTextNode(' — ' + p.couleur));
     b.appendChild(texte);
     li.appendChild(b);
     return li;
