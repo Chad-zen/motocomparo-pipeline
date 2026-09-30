@@ -302,6 +302,22 @@
 
     {% include "_grille.html" %}
 
+    {# « Voir plus » : les produits suivants s'ajoutent sous ceux-ci, sans
+       quitter la page (demandé par la propriétaire le 30/09/2026). Les liens
+       de pagination restent dans le HTML en dessous : ce sont eux que suivent
+       les moteurs, et eux qui servent si JavaScript ne tourne pas. Le script
+       les masque dès qu'il prend la main. #}
+    {% if page < pages %}
+    <div class="plus" data-plus data-page="{{ page }}" data-pages="{{ pages }}"
+         data-total="{{ total }}" data-par-page="24"
+         data-base="{{ lien('page', '') }}" hidden>
+      <p class="plus__compte" data-plus-compte aria-live="polite">
+        {{ [page * 24, total] | min }} sur {{ "{:,}".format(total).replace(",", " ") }} produits</p>
+      <button type="button" class="bouton bouton--contour plus__bouton" data-plus-bouton>
+        Voir plus de produits</button>
+    </div>
+    {% endif %}
+
     {% if pages > 1 %}
     <nav class="pagination" aria-label="Pagination">
       {% if page > 1 %}<a href="{{ lien('page', '') }}page={{ page - 1 }}">‹ Précédent</a>{% endif %}
@@ -382,6 +398,75 @@
   bas.addEventListener('input', () => rafraichir(bas));
   haut.addEventListener('input', () => rafraichir(haut));
   rafraichir(bas);
+})();
+</script>
+
+<script>
+/* « Voir plus de produits » : la page suivante est demandée au serveur, telle
+   qu'un visiteur la verrait, et ses cartes rejoignent la grille. Aucun rendu
+   en JavaScript à maintenir en double : ce sont les MÊMES cartes, sorties du
+   même gabarit, et la page suivante est déjà en cache la plupart du temps.
+
+   L'adresse suit (`?page=N`) : un lien partagé ou un rechargement retombe sur
+   la bonne tranche. Si la demande échoue, le bouton devient un lien vers la
+   page suivante — le visiteur n'est jamais bloqué. */
+(function () {
+  const bloc = document.querySelector('[data-plus]');
+  const grille = document.querySelector('.grille');
+  if (!bloc || !grille || !window.fetch || !window.DOMParser) return;
+
+  const bouton = bloc.querySelector('[data-plus-bouton]');
+  const compte = bloc.querySelector('[data-plus-compte]');
+  const nav = document.querySelector('.pagination');
+  const pages = +bloc.dataset.pages, total = +bloc.dataset.total;
+  const parPage = +bloc.dataset.parPage;
+  const base = bloc.dataset.base;
+  let page = +bloc.dataset.page;
+  let enCours = false;
+
+  bloc.hidden = false;
+  if (nav) nav.hidden = true;   /* le bouton la remplace ; elle reste pour les robots */
+
+  const nombre = n => n.toLocaleString('fr-FR');
+  function dire() {
+    compte.textContent = nombre(Math.min(page * parPage, total)) + ' sur '
+      + nombre(total) + ' produits';
+    if (page >= pages) { bouton.hidden = true; }
+  }
+
+  bouton.addEventListener('click', function () {
+    if (enCours || page >= pages) return;
+    enCours = true;
+    const suivante = page + 1;
+    const adresse = base + 'page=' + suivante;
+    bouton.disabled = true;
+    bouton.textContent = 'Chargement…';
+    fetch(adresse, { credentials: 'same-origin' })
+      .then(r => { if (!r.ok) throw new Error(r.status); return r.text(); })
+      .then(function (html) {
+        const doc = new DOMParser().parseFromString(html, 'text/html');
+        const cartes = doc.querySelectorAll('.grille > .carte');
+        if (!cartes.length) throw new Error('vide');
+        const premiere = cartes[0];
+        cartes.forEach(c => grille.appendChild(document.importNode(c, true)));
+        page = suivante;
+        try { history.replaceState(null, '', adresse); } catch (e) { /* tant pis */ }
+        if (window.mcMarquerCartes) window.mcMarquerCartes();
+        dire();
+        /* le focus clavier passe sur la première carte ajoutée : sans ça, un
+           lecteur d'écran ne sait pas où reprendre */
+        const ajoutee = grille.querySelector('.carte[href="' + premiere.getAttribute('href') + '"]');
+        if (ajoutee) ajoutee.focus({ preventScroll: true });
+      })
+      .catch(function () {
+        location.href = adresse;   /* repli : la page suivante, classiquement */
+      })
+      .finally(function () {
+        enCours = false;
+        bouton.disabled = false;
+        bouton.textContent = 'Voir plus de produits';
+      });
+  });
 })();
 </script>
 {% endblock %}

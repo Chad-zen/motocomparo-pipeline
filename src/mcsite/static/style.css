@@ -3861,3 +3861,13 @@ body.a-consentement .banc { display: none; }
   .quete input, .contact__form input, .contact__form select,
   .contact__form textarea, .erreur__quete input, .tiroir__quete input { font-size: 16px; }
 }
+
+/* --- « Voir plus de produits » sous la grille des listes ------------------- */
+.plus {
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  margin: 26px 0 8px;
+}
+.plus[hidden], .plus__bouton[hidden], .pagination[hidden] { display: none; }
+.plus__compte { margin: 0; font-size: 13px; color: var(--doux); font-variant-numeric: tabular-nums; }
+.plus__bouton { min-width: 240px; min-height: 46px; font-weight: 700; }
+.plus__bouton:disabled { opacity: .6; cursor: progress; }

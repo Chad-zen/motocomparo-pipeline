@@ -523,6 +523,9 @@ function propre(u) {
   });
 
   compter(); marquer(); dessinerBanc();
+  /* Pour les cartes ajoutées après coup (« Voir plus » des listes) : elles
+     doivent montrer le cœur et le comparateur dans leur état réel. */
+  window.mcMarquerCartes = marquer;
 })();
 </script>
 
