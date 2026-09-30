@@ -197,7 +197,7 @@
         {% endif %}
         <span class="offres__titre">{{ o.raw_title | truncate(70) }}</span>
       </td>
-      {% if tailles %}<td class="offres__taille">
+      {% if tailles %}<td class="offres__taille{{ ' offres__taille--longue' if o.taille and o.taille | length > 6 }}">
         {% set t = o.taille %}
         {# Un tiret ne dit rien. « Non communiquée » dit ce qui s'est passé, et
            l'offre reste visible quelle que soit la taille choisie : le marchand

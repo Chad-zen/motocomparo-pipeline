@@ -2201,6 +2201,13 @@ body:has(.banc:not([hidden])) { padding-bottom: 94px; }
     white-space: normal; overflow-wrap: break-word; min-width: 0;
     border-radius: 14px; line-height: 1.3;
   }
+  /* Une taille longue (plus de 6 caractères) passe sur sa propre ligne, sous
+     le prix : à côté d'un prix en 30 px, il ne restait que ~80 px. */
+  .theme-v1 .offres td.offres__taille--longue {
+    grid-column: 1 / -1; grid-row: 3; justify-self: start; text-align: left;
+    margin-top: 8px;
+  }
+  .theme-v1 .offres tr:has(.offres__taille--longue) td.offres__action { grid-row: 4; }
 
   .theme-v1 .offres td.offres__action {
     grid-column: 1 / -1; grid-row: 3; padding-top: 12px;
