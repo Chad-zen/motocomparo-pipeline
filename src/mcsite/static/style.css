@@ -1724,7 +1724,10 @@ body:has(.banc:not([hidden])) { padding-bottom: var(--banc-h, 94px); }
 .fiche__signature { color: var(--doux); font-size: 13px; font-weight: 400; margin-bottom: 14px; }
 .fiche__signature span { font-size: 13px; }
 .fiche__badge { padding: 6px 12px; font-size: 11px; letter-spacing: .3px; }
-.fiche__visuel { background: #f7f8fb; border: 1px solid #eceef5; border-radius: 14px; }
+/* Fond BLANC, comme les photos des marchands : le gris #f7f8fb dessinait
+   deux bandes de chaque cote d une photo carree ou portrait. L encadre reste
+   (demande de la proprietaire, 30/09/2026). */
+.fiche__visuel { background: #fff; border: 1px solid #eceef5; border-radius: 14px; }
 .offres { border-radius: 14px; border: 1px solid var(--ligne-carte); }
 
 /* --- les quatre garanties, avec leur sous-titre --------------------------- */
