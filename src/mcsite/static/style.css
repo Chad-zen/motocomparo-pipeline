@@ -3234,6 +3234,17 @@ select:focus-visible, textarea:focus-visible, summary:focus-visible,
   .confiance { font-size: 11px; }
   .confiance__inner > span { white-space: nowrap; }
 }
+/* Sous 400 px, « 5 marchands vérifiés et comparés » dépassait de 11 px : la
+   page devenait plus large que l'écran, le téléphone dézoomait, et l'affiche
+   d'accueil (100 % de la largeur) laissait une bande grise à droite —
+   « l'image décalée » signalée deux fois (29 et 30/09/2026). */
+@media (max-width: 400px) {
+  .confiance__long { display: none; }
+}
+/* Filet de sécurité : un élément qui déborde ne doit plus jamais élargir la
+   page entière. `clip` et non `hidden` : pas de conteneur de défilement créé,
+   les en-têtes collants (position: sticky) continuent de fonctionner. */
+html, body { overflow-x: clip; }
 
 /* La sortie en bas de fiche — voir _fiche.html.
    Pleine largeur et en contour : c'est une porte, pas l'action principale de
