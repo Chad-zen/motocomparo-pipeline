@@ -44,8 +44,8 @@
 {# Sans icône déclarée, le navigateur demande /favicon.ico à chaque page et
    récolte un 404 — visible dans les journaux, et un onglet sans repère. #}
 <link rel="icon" href="/static/favicon.svg?v={{ version_css() }}" type="image/svg+xml">
-<link rel="icon" href="/static/logo_mc.png" sizes="any">
-<link rel="apple-touch-icon" href="/static/logo_mc.png">
+<link rel="icon" href="/static/apple-touch-icon.png" sizes="180x180">
+<link rel="apple-touch-icon" href="/static/apple-touch-icon.png">
 <link rel="stylesheet" href="/css/style.min.css?v={{ version_css() }}">
 {# Les données structurées de la page, pour les moteurs de recherche. Posées
    en dernier dans l'entête pour qu'elles soient lues APRÈS le titre et la
@@ -92,10 +92,9 @@ try {
   var mcChoix = JSON.parse(localStorage.getItem('mc:consentement') || 'null');
   if (mcChoix && mcChoix.choix === 'accepte'
       && Date.now() - mcChoix.date < 15552000000) {
-    gtag('consent', 'update', {
-      ad_storage: 'granted', ad_user_data: 'granted',
-      ad_personalization: 'granted', analytics_storage: 'granted'
-    });
+    /* Mesure seulement : le bandeau ne parle que d'audience, accepter ne
+       peut pas ouvrir les finalités publicitaires (ad_*), qui restent refusées. */
+    gtag('consent', 'update', { analytics_storage: 'granted' });
     mcMesureAutorisee = true;
   }
 } catch (e) { /* stockage refusé : on reste sur le refus par défaut */ }
@@ -128,7 +127,9 @@ function mcChargerGA4(){
   s.src = 'https://www.googletagmanager.com/gtag/js?id={{ ga4_id | urlencode }}';
   document.head.appendChild(s);
   gtag('js', new Date());
-  gtag('config', {{ ga4_id | tojson }});
+  /* 13 mois au plus pour les cookies _ga (recommandation CNIL) ; Google
+     pose 2 ans par défaut. */
+  gtag('config', {{ ga4_id | tojson }}, { cookie_expires: 34164000 });
 }
 </script>
 {% endif %}
@@ -159,16 +160,8 @@ if (mcMesureAutorisee) mcChargerMesure();
    redemander sur chaque site est un choix de plus pour rien. Les règles de
    thème restent en place dans `style.css` (`prefers-color-scheme`). #}
 <body class="theme-v1" data-slug="{{ p.slug if p is defined and p else '' }}">
-{% if gtm_id %}
-{# Le repli sans JavaScript, exigé par Google juste après l'ouverture du
-   `<body>`. Il ne porte AUCUN consentement : une iframe ne sait pas lire le
-   choix du visiteur, et le Consent Mode ne s'applique pas à elle. On l'écrit
-   quand même parce que le conteneur peut servir à autre chose qu'à mesurer,
-   et parce qu'un visiteur sans JavaScript ne dépose ici aucun cookie —
-   l'iframe ne fait que signaler une page vue au conteneur. #}
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ gtm_id | urlencode }}"
- height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-{% endif %}
+{# Pas de repli <noscript> GTM : l'iframe contactait Google sans consentement,
+   et un visiteur sans JavaScript ne peut de toute façon pas en donner un. #}
 
 <div class="confiance">
   <div class="conteneur confiance__inner">
@@ -205,7 +198,7 @@ if (mcMesureAutorisee) mcChargerMesure();
        largeur, au lieu d'être coincée entre le logo et les icônes. #}
     <div class="tete__haut">
       <a class="marque" href="/">
-        <img src="/static/logo_mc.png?v={{ version_css() }}" alt="" width="595" height="419">
+        <img src="/static/logo_mc-180.webp?v={{ version_css() }}" alt="" width="180" height="127">
         <span class="marque__bloc">
           <span class="marque__mot"><b>Moto</b><i>Comparo</i></span>
           <span class="marque__signature">Comparez <i aria-hidden="true">•</i> Choisissez <i aria-hidden="true">•</i> Roulez</span>
@@ -629,7 +622,7 @@ function propre(u) {
    déjà eu le temps de douter de son clic. #}
 <div class="chargement" data-chargement data-delai="600" hidden aria-hidden="true">
   <div class="chargement__marque">
-    <img src="/static/logo_mc.png?v={{ version_css() }}" alt="" width="119" height="84">
+    <img src="/static/logo_mc-180.webp?v={{ version_css() }}" alt="" width="119" height="84">
   </div>
   <p class="visuellement-cache" role="status" aria-live="polite" data-chargement-dit></p>
 </div>

@@ -611,7 +611,7 @@
         </span>
         <span class="carac__note-chiffre">{{ n }}/5</span>
       {% else %}
-        {{ c.valeur }}
+        {{ c.valeur | caracteristique }}
       {% endif %}
       {% if c.source == 'sharp' %}
         <span class="carac__source carac__source--sharp" title="Mesuré par SHARP, programme d'essais indépendant du ministère des transports britannique">SHARP</span>

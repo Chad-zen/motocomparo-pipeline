@@ -888,6 +888,10 @@ h1, h2 { line-height: 1.2; }
 .texte__chapeau { font-size: 17px; line-height: 1.65; color: var(--ink); }
 .texte h2 { font-size: 19px; margin: 30px 0 8px; }
 .texte p  { line-height: 1.68; color: #3d434f; margin: 0 0 12px; }
+.texte__tableau { overflow-x: auto; margin: 0 0 14px; }
+.texte__tableau table { border-collapse: collapse; width: 100%; font-size: 13.5px; line-height: 1.45; }
+.texte__tableau th, .texte__tableau td { text-align: left; vertical-align: top; padding: 7px 10px; border-bottom: 1px solid var(--line); }
+.texte__tableau th { font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: var(--doux); }
 
 /* --- pied de page --------------------------------------------------------- */
 
@@ -1530,6 +1534,11 @@ body:has(.banc:not([hidden])) { padding-bottom: 94px; }
     cursor: pointer;
   }
   .pastille-filtres__ico { font-size: 15px; color: var(--or); }
+  /* Le bandeau comparateur occupe le même bas d'écran, au même z-index : la
+     pastille passait dessous dès qu'un produit y entrait. Elle monte au-dessus. */
+  body:has(.banc:not([hidden])) .pastille-filtres {
+    bottom: calc(94px + 14px + env(safe-area-inset-bottom, 0px));
+  }
 
   /* Le panneau monte depuis le bas et s'arrête avant le haut : la bande de
      liste qui reste visible dit au visiteur qu'il est toujours sur sa page. */
@@ -1892,7 +1901,7 @@ body:has(.banc:not([hidden])) { padding-bottom: 94px; }
   overflow: hidden;
   background:
     linear-gradient(90deg, #0f1524 0%, #131a2d 30%, rgba(15, 21, 36, .55) 55%, rgba(15, 21, 36, .15) 100%),
-    url("/static/header_moto.jpg") right 62% / cover no-repeat,
+    url("/static/header_moto.webp") right 62% / cover no-repeat,
     linear-gradient(#1b2540 0%, #151d33 55%, #0f1524 100%);
   border-bottom: 3px solid var(--or);
 }
@@ -1913,7 +1922,7 @@ body:has(.banc:not([hidden])) { padding-bottom: 94px; }
     background:
       linear-gradient(90deg, #0d1322 0%, rgba(13, 19, 34, .94) 46%, rgba(13, 19, 34, .4) 64%, rgba(13, 19, 34, .1) 100%),
       linear-gradient(rgba(13, 19, 34, 0) 55%, rgba(13, 19, 34, .55) 100%),
-      url("/static/header_moto.jpg") right 55% / auto 130% no-repeat,
+      url("/static/header_moto.webp") right 55% / auto 130% no-repeat,
       #0f1524;
   }
   /* Le trait doré du mockup : court, en « / », dans le coin bas-gauche. */
@@ -2121,7 +2130,9 @@ body:has(.banc:not([hidden])) { padding-bottom: 94px; }
      reellement du vide entre deux offres, et chacune a ses quatre bords. */
   .theme-v1 .offres tr {
     display: grid;
-    grid-template-columns: 1fr auto auto;
+    /* minmax(0, …) et non 1fr : une taille longue (« 3XL / XXXL6566 ») faisait
+       déborder la carte et rognait « Voir l'offre » à 375 px */
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, auto);
     gap: 0 8px;
     padding: 14px;
     align-items: center;
@@ -2181,6 +2192,7 @@ body:has(.banc:not([hidden])) { padding-bottom: 94px; }
   }
   .theme-v1 .offres td.offres__taille {
     background: #f1f3f7; border-radius: 99px; padding: 4px 11px;
+    white-space: normal; overflow-wrap: anywhere; max-width: 42vw;
   }
 
   .theme-v1 .offres td.offres__action {
@@ -2976,6 +2988,8 @@ body:has(.banc:not([hidden])) { padding-bottom: 94px; }
 .contact__form textarea { resize: vertical; min-height: 120px; }
 .contact__form .bouton { justify-self: start; }
 .contact__form .doux { font-weight: 400; color: var(--doux); }
+.contact__piege { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.contact__rgpd { margin: 0; font-size: 12.5px; line-height: 1.5; }
 .contact__aside {
   background: var(--marque-fond); border-radius: 18px; padding: 22px;
 }

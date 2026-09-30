@@ -1004,11 +1004,17 @@ def facets(conn: psycopg.Connection, f: Filtres) -> dict[str, Any]:
     for r in categories:
         r["enfants"].sort(key=lambda e: -e["n"])
 
+    # Le libellé dit « N marchands et + » : le compte doit donc être CUMULÉ
+    # (toutes les fiches à N ou plus), pas celles à exactement N.
     marchands = compte(f"""
-        SELECT s.merchant_count AS valeur, count(*) AS n
-        FROM product p JOIN product_stats s ON s.product_id = p.id
-        {_OU}
-        GROUP BY s.merchant_count ORDER BY s.merchant_count DESC
+        SELECT valeur, (sum(n) OVER (ORDER BY valeur DESC))::bigint AS n
+        FROM (
+            SELECT s.merchant_count AS valeur, count(*) AS n
+            FROM product p JOIN product_stats s ON s.product_id = p.id
+            {_OU}
+            GROUP BY s.merchant_count
+        ) t
+        ORDER BY valeur DESC
     """, "marchands")
 
     return {
@@ -1305,6 +1311,9 @@ def marchands_actifs(conn: psycopg.Connection) -> list[dict[str, Any]]:
         SELECT m.code, count(DISTINCT o.product_id) AS fiches
         FROM merchant m
         JOIN raw_offer o ON o.merchant_id = m.id AND """ + _SHOWABLE + """
+        -- un marchand mis de côté (affiche = false) n'est sur aucune fiche : le
+        -- compter faisait annoncer 6 marchands là où le visiteur en voit 4
+        WHERE m.affiche
         GROUP BY m.code
         HAVING count(DISTINCT o.product_id) > 0
         ORDER BY count(DISTINCT o.product_id) DESC
@@ -1521,7 +1530,48 @@ _LIBELLES: dict[str, str] = {
 # Python — `_ecrire()` fait `str(valeur)`, jamais autre chose — et un extracteur
 # qui ajoute un mot nouveau (« fourni », « polycarbonate »…) s'affiche déjà
 # correctement sans entrer ici : cette table ne couvre QUE les booléens.
-_VALEURS = {"True": "Oui", "False": "Non"}
+#
+# Les extracteurs écrivent aussi des CODES en minuscules sans accent
+# (« prepare », « option-poche »…) qui s'affichaient tels quels : « Pinlock :
+# prepare ». La table ci-dessous les rend lisibles ; tout code absent passe par
+# `_valeur_lisible`, qui met au moins la majuscule. Liste relevée en base le
+# 30/09/2026 (toutes les valeurs en minuscules, 97 codes).
+_VALEURS = {
+    "True": "Oui", "False": "Non", "oui": "Oui", "non": "Non",
+    "prepare": "Préparé", "fourni": "Fourni", "fournies": "Fournies",
+    "incluse": "Incluse", "presente": "Présente", "complete": "Complète",
+    "amovible": "Amovible", "fixe": "Fixe",
+    "option-poche": "En option (poche prévue)",
+    "option-predisposee": "En option (emplacement prévu)",
+    "oui-lamine": "Oui (laminée)",
+    "ete": "Été", "hiver": "Hiver", "mi-saison": "Mi-saison",
+    "toutes-saisons": "Toutes saisons", "toutes saisons": "Toutes saisons",
+    "cuir-textile": "Cuir et textile", "cuir et textile": "Cuir et textile",
+    "gore-tex": "Gore-Tex", "gore-tex lamine": "Gore-Tex laminé",
+    "fibre": "Fibre", "thermoplastique": "Thermoplastique",
+    "demi-bottes": "Demi-bottes", "sur-pantalon": "Sur-pantalon",
+    "mi-longue": "Mi-longue", "baskets moto": "Baskets moto",
+    "d-dry": "D-Dry", "t-dry": "T-Dry", "hdry": "H-Dry", "outdry": "OutDry",
+    "bwtech": "BW-Tech", "drystar": "Drystar", "hydratex": "Hydratex",
+    "humax": "Humax", "raintex": "Raintex", "hipora": "Hipora",
+    "reissa": "Reissa", "drymesh": "DryMesh", "aquatech": "Aquatech",
+    "shelltech": "ShellTech", "sympatex": "Sympatex", "germatex": "Germatex",
+    "armalith": "Armalith", "aerotex": "Aerotex", "waterstop": "Waterstop",
+    "dyneema": "Dyneema", "twaron": "Twaron", "windscud": "Windscud",
+    "hydroscud": "Hydroscud", "rainseal": "RainSeal", "hydradri": "HydraDri",
+    "kevlar": "Kevlar", "cordura": "Cordura",
+}
+
+
+def _valeur_lisible(v: Any) -> Any:
+    if not isinstance(v, str):
+        return v
+    if v in _VALEURS:
+        return _VALEURS[v]
+    # un code en minuscules : au moins la majuscule, et le tiret redevient espace
+    if v and v == v.lower() and v[0].isalpha():
+        return (v[0].upper() + v[1:]).replace("-", " ")
+    return v
 
 
 def caracteristiques(conn: psycopg.Connection, product_id: int) -> list[dict[str, Any]]:
@@ -1553,7 +1603,10 @@ def caracteristiques(conn: psycopg.Connection, product_id: int) -> list[dict[str
         resultat.append({
             "nom": nom,
             "libelle": _LIBELLES.get(nom) or nom.replace("_", " ").capitalize(),
-            "valeur": _VALEURS.get(l["valeur"], l["valeur"]),
+            # seuls les booléens sont traduits ici : les notes (`_equipement_vers_note`,
+            # `_CALOTTE_VERS_NOTE`) lisent les codes bruts. Le reste se traduit
+            # à l'affichage, par le filtre `caracteristique`.
+            "valeur": {"True": "Oui", "False": "Non"}.get(l["valeur"], l["valeur"]),
             "source": l["source"],
             "confiance": l["confiance"],
         })

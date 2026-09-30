@@ -40,7 +40,15 @@
     <label>Votre e-mail <span class="doux">(facultatif, pour la réponse)</span>
       <input name="email" type="email" placeholder="vous@exemple.fr">
     </label>
+    {# Champ piège : invisible pour un visiteur, rempli par les robots qui
+       remplissent tout. Un envoi qui le porte est jeté sans rien dire. #}
+    <label class="contact__piege" aria-hidden="true">Site web
+      <input name="site_web" type="text" tabindex="-1" autocomplete="off">
+    </label>
     <button type="submit" class="bouton bouton--or">Envoyer</button>
+    <p class="contact__rgpd doux">Votre message et votre e-mail servent uniquement
+      à vous répondre et à corriger le site&nbsp;; ils sont effacés 12&nbsp;mois
+      après réception. <a href="/infos#donnees">Vos données</a></p>
   </form>
 
   <aside class="contact__aside">

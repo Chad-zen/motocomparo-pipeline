@@ -146,7 +146,7 @@
                 {%- for i in range(1, 6) -%}<span class="etoile {{ 'etoile--pleine' if i <= n else 'etoile--vide' }}" aria-hidden="true">{{ '★' if i <= n else '☆' }}</span>{%- endfor -%}
               </span>
             {% else %}
-              {{ c.valeur }}
+              {{ c.valeur | caracteristique }}
             {% endif %}
             {% if c.source == 'sharp' %}
               <span class="carac__source carac__source--sharp" title="Mesuré par SHARP, programme d'essais indépendant du ministère des transports britannique">SHARP</span>

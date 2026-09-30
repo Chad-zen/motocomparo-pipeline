@@ -327,7 +327,11 @@
        clic, parce que c'est l'information qui doit être à proximité immédiate
        du classement. #}
     <details class="mention-comparateur">
-      <summary>Classement par prix croissant&nbsp;: aucun marchand ne paie pour
+      {# La phrase suit le tri RÉELLEMENT appliqué : elle annonçait « prix
+         croissant » alors que le tri par défaut met d'abord les fiches
+         comparées chez le plus de marchands (audit du 30/09/2026). #}
+      {% set t = f.tri or "pertinence" %}
+      <summary>{% if t == "prix" %}Classement par prix croissant{% elif t == "prix_desc" %}Classement par prix décroissant{% elif t == "nouveautes" %}Classement par nouveauté{% else %}Classement&nbsp;: fiches comparées chez le plus de marchands d'abord, puis prix le plus bas{% endif %}&nbsp;; aucun marchand ne paie pour
         sa place.</summary>
       <p>Certains liens sont rémunérés — cela ne change ni le prix que vous
         payez, ni l'ordre de cette page. Le référencement n'est pas exhaustif&nbsp;:

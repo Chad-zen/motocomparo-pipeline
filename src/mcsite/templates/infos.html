@@ -41,12 +41,11 @@
   <p>{{ marchands_actifs | length }} marchands apparaissent aujourd'hui sur au
   moins une fiche&nbsp;:
   {% for m in marchands_actifs %}{{ m.code | marchand }}{{ ", " if not loop.last }}{% endfor %}.</p>
-  <p>Tous sont français sauf FC-Moto, qui est allemand et livre en France. Deux
-  autres marchands sont dans le catalogue — Maxxess et Moto-Axxe — mais leurs
-  codes-barres sont fabriqués et changent d'un relevé à l'autre&nbsp;: tant que
-  leurs offres ne peuvent pas être reliées de façon sûre à un article précis,
-  elles ne sont pas affichées. Une offre invisible vaut mieux qu'une offre mal
-  rangée.</p>
+  <p>Tous sont français sauf FC-Moto, qui est allemand et livre en France.
+  D'autres marchands sont dans notre catalogue sans être affichés&nbsp;: tant que
+  leurs offres ne peuvent pas être reliées de façon sûre à un article précis, ou
+  que leurs prix ne sont pas fiables, elles restent de côté. Une offre invisible
+  vaut mieux qu'une offre mal rangée.</p>
 
   <h2 id="donnees">Données personnelles</h2>
   <p>MotoComparo ne demande aucun compte et aucun mot de passe. Vos favoris et
@@ -78,11 +77,12 @@
   <p>Le site ne dépose aucun cookie et n'utilise aucun outil de mesure
   d'audience.</p>
   {% endif %}
-  <p>Trois réserves, parce qu'elles sont vraies&nbsp;: les polices de
-  caractères sont chargées depuis Google Fonts, les photos des produits sont
-  servies par les marchands eux-mêmes, et les bannières publicitaires aussi.
-  Votre navigateur les contacte donc, et ils voient votre adresse IP, comme sur
-  n'importe quel site qui affiche leurs images.</p>
+  {# Les polices sont servies par le site lui-même depuis le 28/09/2026
+     (static/polices) : la phrase qui citait Google Fonts était devenue fausse. #}
+  <p>Deux réserves, parce qu'elles sont vraies&nbsp;: les photos des produits
+  sont servies par les marchands eux-mêmes, et les bannières publicitaires
+  aussi. Votre navigateur les contacte donc, et ils voient votre adresse IP,
+  comme sur n'importe quel site qui affiche leurs images.</p>
 
   {# Le paragraphe qui détaillait le fonctionnement des régies publicitaires a
      été retiré le 26/09/2026 : neuf lignes pour expliquer ce qu'on ne fait
@@ -97,12 +97,38 @@
      Le reste de sa politique n'a pas été recopié mot pour mot, mais le
      paragraphe sur les cookies l'a rejointe le 26/09/2026, quand la mesure
      d'audience est devenue possible. #}
+  {# Ce que l'article 13 du RGPD demande de dire, et qui manquait : qui est
+     responsable, pour quoi, sur quelle base, combien de temps, à qui. Ajouté
+     après l'audit du 30/09/2026. #}
+  <p><strong>Responsable du traitement&nbsp;:</strong> l'éditeur du site
+  (voir les <a href="#mentions">mentions légales</a>).</p>
+  <div class="texte__tableau">
+  <table>
+    <thead><tr><th>Donnée</th><th>Pour quoi</th><th>Base légale</th><th>Durée</th></tr></thead>
+    <tbody>
+      <tr><td>Message et e-mail (page Contact)</td><td>Vous répondre, corriger le site</td>
+          <td>Intérêt légitime</td><td>12&nbsp;mois après réception</td></tr>
+      {% if mesure_active %}
+      <tr><td>Cookies de mesure (_ga)</td><td>Compter les visites</td>
+          <td>Votre consentement</td><td>13&nbsp;mois au plus</td></tr>
+      {% endif %}
+      <tr><td>Journaux du serveur (adresse IP, page demandée)</td><td>Sécurité, diagnostic</td>
+          <td>Intérêt légitime</td><td>14&nbsp;jours</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p><strong>Destinataires&nbsp;:</strong> notre hébergeur (serveurs en France)
+  {%- if mesure_active %}, et Google Ireland Ltd pour la mesure d'audience si
+  vous l'acceptez&nbsp;; ses données peuvent être transférées aux États-Unis,
+  dans le cadre du Data Privacy Framework{% endif %}. Rien n'est vendu ni
+  cédé à qui que ce soit.</p>
   <p>Vous disposez d'un droit d'accès, de rectification et d'effacement de vos
   données, d'un droit à la portabilité et à la limitation du traitement, et d'un
   droit d'opposition. Pour les exercer, écrivez à
   {% if mentions.contact %}<a href="mailto:{{ mentions.contact }}">{{ mentions.contact }}</a>{% else %}l'adresse indiquée ci-dessous{% endif %}&nbsp;:
   ces demandes concernent en pratique le seul message que vous nous auriez
-  envoyé.</p>
+  envoyé. Si notre réponse ne vous satisfait pas, vous pouvez saisir la CNIL
+  (<a href="https://www.cnil.fr" rel="noopener">cnil.fr</a>).</p>
 
   {# --- CGU reprises de la v1 (/terms/, mise à jour du 03/01/2026), adaptées
      là où la v2 diffère : pas de compte, pas de cookie. --- #}
@@ -124,12 +150,14 @@
   votre commande fait foi. Les prix s'entendent hors frais de port.</p>
   <p><strong>Liens rémunérés.</strong> Certains liens vers les marchands sont
   des liens d'affiliation. Cela ne change ni le prix que vous payez, ni l'ordre
-  dans lequel les offres sont classées&nbsp;: le classement se fait au prix
-  croissant, et aucun marchand ne paie pour sa place.</p>
-  <p><strong>Publicité.</strong> Les pages de résultats affichent une bannière
-  d'un marchand partenaire, signalée comme telle par la mention
-  «&nbsp;Publicité&nbsp;» placée au-dessus. Elle est choisie au hasard parmi nos
-  partenaires et n'a aucun effet sur le classement, qui reste le prix croissant.
+  de classement, et aucun marchand ne paie pour sa place. Sur une fiche, les
+  offres sont classées au prix croissant. Dans les listes, le classement par
+  défaut place d'abord les produits comparés chez le plus de marchands, puis le
+  prix le plus bas&nbsp;; vous pouvez choisir un autre tri (prix, nouveautés).</p>
+  <p><strong>Publicité.</strong> La page d'accueil et les pages de résultats
+  affichent une bannière d'un marchand partenaire, signalée comme telle par la
+  mention «&nbsp;Publicité&nbsp;» placée au-dessus. Elle est choisie au hasard
+  parmi nos partenaires et n'a aucun effet sur le classement.
   Aucune bannière n'apparaît sur une fiche produit&nbsp;: c'est là que vous
   comparez, et rien n'y doit laisser croire qu'un marchand a payé son rang.</p>
   <p><strong>Droit applicable.</strong> Droit français, juridictions

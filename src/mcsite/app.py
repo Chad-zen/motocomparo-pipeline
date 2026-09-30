@@ -28,7 +28,7 @@ from fastapi.responses import (
 )
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from psycopg_pool import ConnectionPool
+from psycopg_pool import ConnectionPool, PoolTimeout
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from . import admin, cache, labels, partenaires, queries, suggestions
@@ -49,13 +49,23 @@ async def lifespan(app: FastAPI):
     if not url:
         raise RuntimeError("DATABASE_URL is not set (check .env)")
     # small pool: this is a read-only site, and the box also runs the pipeline
-    pool = ConnectionPool(url, min_size=1, max_size=6, kwargs={"autocommit": True})
+    #
+    # `timeout=5` : quand les six connexions sont prises, un visiteur attendait
+    # 30 s puis recevait une erreur brute. Mieux vaut une page « réessayez »
+    # tout de suite (voir `erreur_pool`). `statement_timeout` empêche une seule
+    # requête de facettes emballée de garder une connexion vingt secondes.
+    pool = ConnectionPool(
+        url, min_size=1, max_size=6, timeout=5,
+        kwargs={"autocommit": True, "options": "-c statement_timeout=15000"})
     pool.wait(timeout=10)
     yield
     pool.close()
 
 
-app = FastAPI(title="motocomparo v2", lifespan=lifespan)
+# Pas de /docs, /redoc ni /openapi.json : ils listaient toutes les routes, dont
+# celles du tableau de bord, à n'importe quel visiteur.
+app = FastAPI(title="motocomparo v2", lifespan=lifespan,
+              docs_url=None, redoc_url=None, openapi_url=None)
 app.mount("/static", StaticFiles(directory=HERE / "static"), name="static")
 
 templates = Jinja2Templates(directory=HERE / "templates")
@@ -63,6 +73,7 @@ templates.env.filters["prix"] = labels.price
 templates.env.filters["couleur"] = labels.colour
 templates.env.filters["genre"] = labels.genre
 templates.env.filters["marchand"] = labels.merchant
+templates.env.filters["caracteristique"] = queries._valeur_lisible
 templates.env.filters["taille"] = labels.size_display
 templates.env.globals["titre_produit"] = labels.product_title
 
@@ -295,11 +306,20 @@ def home(request: Request):
         request, "home.html", _ctx(request, **bloc))
 
 
-def _releve_jour(conn) -> str:
-    """La date du dernier relevé de prix, pour la mention des pages de résultats."""
-    r = conn.execute(
-        "SELECT max(last_seen)::date FROM raw_offer WHERE is_live").fetchone()
-    return r[0].strftime("%d/%m/%Y") if r and r[0] else ""
+def _releve_jour() -> str:
+    """La date du dernier relevé de prix, pour la mention des pages de résultats.
+
+    Gardée au chaud sous sa propre clé : ce `max()` parcourt toute `raw_offer`
+    (1,26 Go), et il tournait jusqu'ici à chaque combinaison de filtres pas
+    encore en cache. La date ne change qu'une fois par jour.
+    """
+    def _calcul() -> str:
+        with pool.connection() as conn:  # type: ignore[union-attr]
+            r = conn.execute(
+                "SELECT max(last_seen)::date FROM raw_offer WHERE is_live").fetchone()
+        return r[0].strftime("%d/%m/%Y") if r and r[0] else ""
+
+    return cache.au_chaud("releve_jour", _calcul)
 
 
 def _liste(request, titre, base, f, page, code="", courante=None):
@@ -323,9 +343,10 @@ def _liste(request, titre, base, f, page, code="", courante=None):
         with pool.connection() as conn:  # type: ignore[union-attr]
             items, total = queries.listing_filtre(
                 conn, f, PER_PAGE, (page - 1) * PER_PAGE)
-            return items, total, queries.facets(conn, f), _releve_jour(conn)
+            return items, total, queries.facets(conn, f)
 
-    items, total, facettes, releve = cache.au_chaud(f"liste|{f}|{page}", _page)
+    items, total, facettes = cache.au_chaud(f"liste|{f}|{page}", _page)
+    releve = _releve_jour()
     return templates.TemplateResponse(
         request, "listing.html",
         _ctx(request, titre=titre, code=code, items=items, total=total,
@@ -628,8 +649,27 @@ def _grouper(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
 #      le téléphone de la maison fonctionner comme avant, et ferme la porte
 #      partout ailleurs.
 # Le mot de passe n'est écrit nulle part dans le dépôt : il se pose dans `.env`.
-_RESEAU_LOCAL = ("127.", "::1", "10.", "192.168.", "172.16.", "172.17.",
-                 "172.18.", "172.19.", "172.2", "172.30.", "172.31.", "localhost")
+#
+# Le réseau local se teste avec `ipaddress`, jamais par préfixe de texte :
+# l'ancien préfixe « 172.2 » couvrait aussi 172.2.x.x et 172.200 à 172.255,
+# des plages publiques louables chez des hébergeurs.
+#
+# Aucune page admin ne doit entrer dans le cache nginx, dont la clé ignore
+# l'adresse et l'en-tête Authorization : la première page servie à une
+# personne autorisée l'aurait été à tout le monde pendant une heure.
+_SANS_CACHE = {"Cache-Control": "no-store, private"}
+
+
+def _reseau_local(hote: str) -> bool:
+    import ipaddress
+
+    if hote == "localhost":
+        return True
+    try:
+        ip = ipaddress.ip_address(hote)
+    except ValueError:
+        return False
+    return ip.is_loopback or (ip.is_private and not ip.is_link_local)
 
 
 def _admin_autorise(request: Request) -> Response | None:
@@ -651,16 +691,16 @@ def _admin_autorise(request: Request) -> Response | None:
                 return None
         return Response(
             "Accès réservé.", status_code=401,
-            headers={"WWW-Authenticate": 'Basic realm="MotoComparo"'},
+            headers={"WWW-Authenticate": 'Basic realm="MotoComparo"', **_SANS_CACHE},
         )
 
     hote = request.client.host if request.client else ""
-    if any(hote.startswith(p) for p in _RESEAU_LOCAL):
+    if _reseau_local(hote):
         return None
     return PlainTextResponse(
         "Le tableau de bord n'est accessible que depuis le réseau local. "
         "Pour l'ouvrir ailleurs, renseignez ADMIN_MDP dans .env.",
-        status_code=403,
+        status_code=403, headers=_SANS_CACHE,
     )
 
 
@@ -692,7 +732,8 @@ def tableau_de_bord(request: Request):
             "marchands": admin.marchands(conn),
             "maintenant": _t.strftime("%d/%m/%Y %H:%M"),
         }
-    return templates.TemplateResponse(request, "admin.html", _ctx(request, **contexte))
+    return templates.TemplateResponse(request, "admin.html", _ctx(request, **contexte),
+                                      headers=_SANS_CACHE)
 
 
 @app.post("/admin/code-promo")
@@ -731,7 +772,7 @@ async def admin_code_promo(request: Request):
                        fin_le = excluded.fin_le, retire_le = NULL
             """, (int(prendre("merchant_id")), prendre("code").upper(),
                   prendre("libelle"), prendre("url"), prendre("fin_le")))
-    return RedirectResponse("/admin#promos", status_code=303)
+    return RedirectResponse("/admin#promos", status_code=303, headers=_SANS_CACHE)
 
 
 @app.get("/favoris", response_class=HTMLResponse)
@@ -839,7 +880,13 @@ async def lettre(request: Request):
     ⚠️ This writes PERSONAL DATA. It must not be opened to the public until the
     privacy page is written and published: collecting an address without saying
     what becomes of it is not acceptable, and that text is the owner's to write.
+
+    Fermée tant que la lettre n'existe pas : aucune page n'a de formulaire qui
+    y mène, mais la route acceptait n'importe quel envoi fabriqué à la main.
+    Passer `LETTRE_OUVERTE=1` dans `.env` le jour du lancement.
     """
+    if os.environ.get("LETTRE_OUVERTE", "") != "1":
+        raise StarletteHTTPException(status_code=404)
     # Le corps est décodé à la main. FastAPI comme Starlette réclament
     # `python-multipart` dès qu'on touche à un formulaire, même sans fichier :
     # une dépendance de plus à installer et à tenir à jour sur le serveur, pour
@@ -1015,8 +1062,23 @@ async def contact_envoi(request: Request):
     le tableau de bord. `parse_qs` plutôt que `Form()` pour ne pas dépendre de
     python-multipart, absent de l'environnement.
     """
-    d = parse_qs((await request.body()).decode("utf-8", "replace"))
+    # Un formulaire posté depuis un autre site n'a rien à faire ici. L'absence
+    # d'Origin (vieux navigateurs) reste acceptée.
+    origine = request.headers.get("origin")
+    if origine and origine not in ("https://motocomparo.com",
+                                   "https://www.motocomparo.com") \
+            and not _reseau_local(request.client.host if request.client else ""):
+        return PlainTextResponse("Origine refusée.", status_code=403)
+
+    brut = await request.body()
+    if len(brut) > 16_000:
+        return RedirectResponse("/contact?envoye=2", status_code=303)
+    d = parse_qs(brut.decode("utf-8", "replace"))
     prendre = lambda k: (d.get(k, [""])[0] or "").strip()  # noqa: E731
+    if prendre("site_web"):
+        # champ piège rempli : un robot. On lui répond comme à un humain pour
+        # ne pas lui apprendre ce qui l'a trahi.
+        return RedirectResponse("/contact?envoye=1", status_code=303)
     corps = prendre("corps")
     if len(corps) < 10:
         # Le `minlength` du gabarit n'engage que le navigateur ; un envoi refusé
@@ -1036,6 +1098,11 @@ async def contact_envoi(request: Request):
             (sujet, corps[:4000], prendre("email")[:190],
              request.headers.get("referer", "")[:300]),
         )
+        # La durée promise sous le formulaire : 12 mois après réception.
+        # Faite ici, à chaque nouveau message, plutôt que par un minuteur de
+        # plus — une requête sur une table de quelques lignes.
+        conn.execute("DELETE FROM message_contact "
+                     "WHERE recu_le < now() - interval '12 months'")
     return RedirectResponse("/contact?envoye=1", status_code=303)
 
 
@@ -1133,6 +1200,11 @@ def robots(request: Request) -> str:
     """
     base = f"{request.url.scheme}://{request.url.netloc}"
     return "\n".join([
+        # Le robot d'entraînement de Meta explorait les filtres sans fin et
+        # saturait le serveur (audit du 30/09/2026). nginx le refuse aussi.
+        "User-agent: meta-externalagent",
+        "Disallow: /",
+        "",
         "User-agent: *",
         "Disallow: /admin",
         "Disallow: /comparer",
@@ -1282,6 +1354,7 @@ _EXPLICATIONS = {
     422: "L'adresse contient une valeur que nous ne savons pas lire — un numéro"
          " de page ou un prix, probablement.",
     500: "Quelque chose s'est mal passé de notre côté. Ce n'est pas vous.",
+    503: "Beaucoup de visites en même temps : réessayez dans quelques secondes.",
 }
 
 
@@ -1299,6 +1372,24 @@ async def erreur_http(request: Request, exc: StarletteHTTPException):
     titres = {404: "Page introuvable", 405: "Action impossible"}
     return _page_erreur(request, exc.status_code if exc.status_code in (404, 405) else 500,
                         titres.get(exc.status_code, "Erreur"))
+
+
+@app.exception_handler(PoolTimeout)
+async def erreur_pool(request: Request, exc: PoolTimeout):
+    """Toutes les connexions sont prises : une page claire en 5 s plutôt qu'une
+    erreur brute de 21 octets au bout de 30 s. `Retry-After` et `no-store` pour
+    que ni un robot ni nginx ne gardent cette réponse pour la vraie page."""
+    try:
+        reponse = _page_erreur(request, 503, "Site momentanément chargé")
+    except PoolTimeout:
+        # le menu n'était pas en cache et demandait lui aussi une connexion
+        reponse = HTMLResponse(
+            "<!doctype html><meta charset=utf-8><title>MotoComparo</title>"
+            "<p>Le site est momentanément chargé. Réessayez dans quelques "
+            "secondes.</p>", status_code=503)
+    reponse.headers["Retry-After"] = "30"
+    reponse.headers["Cache-Control"] = "no-store"
+    return reponse
 
 
 @app.exception_handler(RequestValidationError)

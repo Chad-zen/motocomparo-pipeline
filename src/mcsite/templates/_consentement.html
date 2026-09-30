@@ -75,11 +75,21 @@
        signaler — tout est déjà refusé par défaut — mais on l'envoie quand même :
        si le visiteur change d'avis dans l'autre sens plus tard, Google doit
        voir la transition, pas une absence. */
+    /* Seule la mesure d'audience est demandée : les finalités publicitaires
+       (ad_*) restent refusées quel que soit le choix. */
     if (typeof gtag === 'function') {
-      var etat = choix === 'accepte' ? 'granted' : 'denied';
       gtag('consent', 'update', {
-        ad_storage: etat, ad_user_data: etat,
-        ad_personalization: etat, analytics_storage: etat
+        analytics_storage: choix === 'accepte' ? 'granted' : 'denied'
+      });
+    }
+    /* Retirer son accord doit aussi retirer ce qu'il avait permis de déposer. */
+    if (choix === 'refuse') {
+      document.cookie.split(';').forEach(function (c) {
+        var nom = c.split('=')[0].trim();
+        if (nom.indexOf('_ga') !== 0) return;
+        var mort = nom + '=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
+        document.cookie = mort;
+        document.cookie = mort + '; domain=.' + location.hostname.replace(/^www\./, '');
       });
     }
     /* Le chargement effectif des scripts Google — voir `base.html` pour
