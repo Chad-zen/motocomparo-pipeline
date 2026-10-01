@@ -1145,20 +1145,7 @@ h1, h2 { line-height: 1.2; }
    emplacements en bas d'écran.
    ========================================================================== */
 
-.marque { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-.marque__mot {
-  font-family: "Source Sans 3", system-ui, sans-serif;
-  font-weight: 800; font-size: 21px; letter-spacing: -.01em; white-space: nowrap;
-}
-.marque__mot b { color: #fff; font-weight: 800; }
-/* Le « Comparo » exactement dans le jaune du « C » du logo, à sa droite.
-   Valeur PRÉLEVÉE dans l'image (`.scratch/couleur_logo.py` décode le PNG et
-   compte les pixels) : #F8CA02, 1 856 pixels — et non l'or du site, #F5B301,
-   qui tire vers l'ambre. Côte à côte, l'écart se voyait.
-
-   Jeton dédié, pas `--or` : repeindre le jeton changerait tous les accents du
-   site, ce qui n'était pas demandé. */
-.marque__mot i { color: var(--or-logo); font-style: normal; }
+.marque { display: flex; align-items: center; text-decoration: none; }
 
 /* --- la fiche ------------------------------------------------------------- */
 
@@ -1332,7 +1319,6 @@ h1, h2 { line-height: 1.2; }
 body:has(.banc:not([hidden])) { padding-bottom: var(--banc-h, 94px); }
 
 @media (max-width: 640px) {
-  .marque__mot { font-size: 17px; }
   .meilleur__comparer { width: 46px; height: 46px; top: 16px; right: 16px; }
   .banc__case { width: 52px; height: 52px; }
   .banc__inner { gap: 10px; }
@@ -1954,18 +1940,6 @@ body:has(.banc:not([hidden])) { padding-bottom: var(--banc-h, 94px); }
 .confiance__service a { color: #97a2bd; text-decoration: none; font-size: 12px; }
 .confiance__service a:hover { color: #fff; }
 
-/* --- la marque et sa signature ------------------------------------------- */
-
-.marque__bloc { display: flex; flex-direction: column; line-height: 1.05; }
-.marque__signature {
-  /* Relevé sur la v1 : #AAB6CD, 10 px, gras 500, Source Sans 3. La v2 la
-     rendait en Roboto 9 px gras 700 et plus sombre — elle pesait plus que le
-     nom de la marque qu'elle accompagne. */
-  font-family: "Source Sans 3", system-ui, "Segoe UI", sans-serif;
-  font-size: 10px; font-weight: 500; letter-spacing: 1.3px; text-transform: uppercase;
-  color: #aab6cd; margin-top: 3px; white-space: nowrap;
-}
-
 /* --- les raccourcis nommés ----------------------------------------------- */
 
 .tete__action {
@@ -2026,9 +2000,6 @@ body:has(.banc:not([hidden])) { padding-bottom: var(--banc-h, 94px); }
   .comparer__favoris-fleche { margin-left: auto; color: var(--muted); }
 }
 
-/* Les puces de la signature, dans le jaune du logo comme sur le mockup. */
-.marque__signature i { color: var(--or-logo); font-style: normal; margin: 0 .3em; }
-
 /* --- la recherche du mockup ----------------------------------------------
    Une seule pilule blanche : loupe grise, filet, texte, puis le bouton jaune
    collé à droite. La loupe de tête ne sert que sur téléphone ; sur ordinateur
@@ -2060,18 +2031,10 @@ body:has(.banc:not([hidden])) { padding-bottom: var(--banc-h, 94px); }
   }
 }
 
-/* Sur un téléphone étroit, la signature reste — elle est sur le mockup — mais
-   se resserre, et le logo rapetisse d'un cran pour lui laisser la place à
-   côté des deux raccourcis. */
+/* Sur un téléphone étroit, le logo rapetisse d'un cran pour lui laisser la
+   place à côté des deux raccourcis. */
 @media (max-width: 520px) {
-  .marque { gap: 8px; }
   .marque img { height: 36px; }
-  .marque__mot { font-size: 19px; }
-  .marque__signature { font-size: 8.5px; letter-spacing: .9px; margin-top: 4px; }
-  .marque__signature i { margin: 0 .15em; }
-}
-@media (max-width: 350px) {
-  .marque__signature { display: none; }
 }
 
 /* --- le pied de page ------------------------------------------------------ */
@@ -3418,15 +3381,6 @@ html, body { overflow-x: clip; }
    comme le reste de la fiche — relevé : prix 34/800, titre de section 19/800. */
 .theme-v1 .meilleur__prix,
 .theme-v1 .offres__carte .titre-section { font-family: var(--police-v1); }
-
-/* Le logo. Relevé sur la v1 : 24 px, graisse 900, interlettrage −0,5 px, et le
-   jaune #ffd000. Le nôtre était à 21 px / 800 / −0,21 px en #f8ca02 — plus
-   petit, plus maigre et plus terne. Sur trois paramètres à la fois, l'écart ne
-   se voit pas comme « une police différente » mais comme « moins affirmé », et
-   c'est la première chose qu'un visiteur regarde. */
-.theme-v1 .marque__mot { font-size: 24px; font-weight: 900; letter-spacing: -.5px; }
-/* Le logo est `<b>Moto</b><i>Comparo</i>` : c'est le `i` qui porte le jaune. */
-.theme-v1 .marque__mot i { color: #ffd000; }
 
 
 /* --- la référence et la signature, sur une ligne -------------------------- */

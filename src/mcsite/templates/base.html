@@ -204,12 +204,15 @@ if (mcMesureAutorisee) mcChargerMesure();
        L'intérêt tient en une ligne : la barre de recherche récupère toute la
        largeur, au lieu d'être coincée entre le logo et les icônes. #}
     <div class="tete__haut">
+      {# Le badge fourni par la propriétaire (01/10/2026) porte déjà le mot
+         « MotoComparo » et la signature dans l'image elle-même — plus de
+         texte posé à côté, qui le répéterait. Le nom reste lisible pour un
+         lecteur d'écran via le texte caché, et l'`alt` de l'image reste vide
+         pour ne pas le dire une troisième fois. #}
       <a class="marque" href="/">
-        <img src="/static/logo_mc-180.webp?v={{ version_css() }}" alt="" width="180" height="127">
-        <span class="marque__bloc">
-          <span class="marque__mot"><b>Moto</b><i>Comparo</i></span>
-          <span class="marque__signature">Comparez <i aria-hidden="true">•</i> Choisissez <i aria-hidden="true">•</i> Roulez</span>
-        </span>
+        <img class="marque__badge" src="/static/logo_mc.webp?v={{ version_css() }}"
+             alt="" width="497" height="117">
+        <span class="visuellement-cache">MotoComparo — Comparez, choisissez, roulez</span>
       </a>
 
       <div class="tete__actions">
@@ -679,7 +682,7 @@ function propre(u) {
    déjà eu le temps de douter de son clic. #}
 <div class="chargement" data-chargement data-delai="600" hidden aria-hidden="true">
   <div class="chargement__marque">
-    <img src="/static/logo_mc-180.webp?v={{ version_css() }}" alt="" width="119" height="84">
+    <img src="/static/logo_mc_icon.webp?v={{ version_css() }}" alt="" width="84" height="84">
   </div>
   <p class="visuellement-cache" role="status" aria-live="polite" data-chargement-dit></p>
 </div>
