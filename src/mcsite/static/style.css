@@ -529,7 +529,7 @@ h1, h2 { line-height: 1.2; }
 .tete__menu span { width: 18px; height: 2px; background: #fff; border-radius: 2px; }
 
 .marque { display: flex; align-items: center; flex: none; }
-.marque img { height: 42px; width: auto; display: block; }
+.marque img { height: 54px; width: auto; display: block; }
 
 .quete { display: flex; flex: 1; min-width: 240px; }
 .quete input {
@@ -2034,7 +2034,7 @@ body:has(.banc:not([hidden])) { padding-bottom: var(--banc-h, 94px); }
 /* Sur un téléphone étroit, le logo rapetisse d'un cran pour lui laisser la
    place à côté des deux raccourcis. */
 @media (max-width: 520px) {
-  .marque img { height: 36px; }
+  .marque img { height: 46px; }
 }
 
 /* --- le pied de page ------------------------------------------------------ */
