@@ -1904,7 +1904,11 @@ body:has(.banc:not([hidden])) { padding-bottom: var(--banc-h, 94px); }
      28/09/2026) : c'est pour ça que le dégradé ne va que jusqu'à ~65% —
      au-delà, la photo est déjà assez sombre pour porter le texte seule. */
   position: relative;
-  overflow: hidden;
+  /* PAS d'overflow: hidden ici. Il rognait la liste des suggestions de
+     recherche, qui sort de l'en-tête par le bas : invisible sur tout le site,
+     et un tap à sa place ouvrait l'affiche ou la carte du dessous (audit de
+     l'accueil, 01/10/2026). Un fond CSS ne déborde jamais de sa boîte : la
+     photo n'en avait pas besoin. */
   background:
     linear-gradient(90deg, #0f1524 0%, #131a2d 30%, rgba(15, 21, 36, .55) 55%, rgba(15, 21, 36, .15) 100%),
     url("/static/header_moto.webp") right 62% / cover no-repeat,
@@ -2038,7 +2042,9 @@ body:has(.banc:not([hidden])) { padding-bottom: var(--banc-h, 94px); }
 @media (max-width: 899px) {
   .quete {
     align-items: center; background: #fff; border-radius: 999px;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, .35); overflow: hidden;
+    /* pas d'overflow: hidden non plus : même rognage des suggestions. Le
+       bouton porte déjà ses propres coins arrondis. */
+    box-shadow: 0 6px 18px rgba(0, 0, 0, .35);
   }
   .quete__loupe {
     display: block; flex: none; width: 20px; height: 20px;
@@ -3871,3 +3877,38 @@ body.a-consentement .banc { display: none; }
 .plus__compte { margin: 0; font-size: 13px; color: var(--doux); font-variant-numeric: tabular-nums; }
 .plus__bouton { min-width: 240px; min-height: 46px; font-weight: 700; }
 .plus__bouton:disabled { opacity: .6; cursor: progress; }
+
+/* --- « Pourquoi MotoComparo ? » : ce que fait le site, sans comparatif ----- */
+.pourquoi__liste {
+  list-style: none; margin: 0 auto; padding: 0; max-width: 720px;
+  display: grid; gap: 10px;
+}
+.pourquoi__liste li {
+  position: relative; padding: 12px 16px 12px 46px;
+  background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+  font-size: 14px; line-height: 1.45; color: var(--doux);
+}
+.pourquoi__liste li::before {
+  content: "✓"; position: absolute; left: 16px; top: 11px;
+  color: var(--ok); font-weight: 800; font-size: 16px;
+}
+.pourquoi__liste b { display: block; color: var(--ink); font-size: 15px; }
+
+/* La bannière de l'accueil, isolée des deux côtés : collée à la rangée
+   suivante, l'intertitre « Prix relevés jour après jour » se lisait comme sa
+   légende (audit de l'accueil, 01/10/2026). */
+.pub--large { margin-bottom: 34px; }
+
+/* « Comment ça marche » sur téléphone : trois lignes compactes au lieu de
+   trois cartes ; la partie réassurance faisait 1 900 px, plus que toutes les
+   rangées de produits réunies. */
+@media (max-width: 600px) {
+  .etapes__liste li {
+    display: grid; grid-template-columns: 34px 1fr; column-gap: 12px;
+    padding: 10px 0; text-align: left; background: none; border: 0; box-shadow: none;
+  }
+  .etapes__liste { gap: 2px; }
+  .etapes__liste li .etapes__n { grid-row: 1 / span 2; align-self: start; margin: 0; width: 34px; height: 34px; font-size: 16px; }
+  .etapes__liste li h3 { margin: 0 0 2px; font-size: 16px; }
+  .etapes__liste li p { margin: 0; }
+}

@@ -114,14 +114,20 @@
          plutôt qu'à une image qui arrive. #}
       {% if r.image_url %}
       <img src="{{ r.image_url }}" alt="" class="mosaique__img"
-           {% if loop.first %}fetchpriority="high"{% else %}loading="lazy"{% endif %}>
+           {# la grande tuile est à près de trois écrans du haut sur mobile :
+              chargée normalement, sans passer devant l'affiche #}
+           {% if not loop.first %}loading="lazy"{% endif %}>
       {% endif %}
       <div class="mosaique__voile"></div>
       <div class="mosaique__texte">
         <span class="mosaique__nom">{{ r.label_fr }}</span>
         <span class="mosaique__info">
-          {{ "{:,}".format(r.n).replace(",", " ") }} produits{% if r.from_price %}
-          · dès {{ r.from_price | prix }}{% endif %}
+          {# Plus de « dès X € » : calculé sur tout le rayon, il tombait sur
+             l'accessoire le moins cher — « Casques dès 4,53 € » pour un écran,
+             « Bottes dès 7,14 € » pour des chaussettes (audit de l'accueil,
+             01/10/2026). Chaque exclusion en révélait une autre ; le nombre
+             de produits, lui, est toujours vrai. #}
+          {{ "{:,}".format(r.n).replace(",", " ") }} produits
         </span>
       </div>
     </a>

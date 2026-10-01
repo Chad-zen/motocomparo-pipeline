@@ -7,7 +7,9 @@
    décide d'un clic depuis une page de résultats, et elle est vraie. #}
 {% block description %}{{ nom_produit }}{% if p.merchant_count %} — comparez {{ p.merchant_count }} marchand{{ 's' if p.merchant_count > 1 }}{% endif %}{% if p.cheapest %}, à partir de {{ p.cheapest | prix }}{% endif %}. Prix relevés chaque jour, livraison et disponibilité chez le marchand.{% endblock %}
 {% block og_type %}product{% endblock %}
-{% block og_image %}{{ image or (request.url.scheme ~ '://' ~ request.url.netloc ~ '/static/affiche-portrait.jpg') }}{% endblock %}
+{% block og_image %}{{ image or (request.url.scheme ~ '://' ~ request.url.netloc ~ '/static/og-accueil.jpg') }}{% endblock %}
+{% block og_image_dims %}{% if not image %}<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">{% endif %}{% endblock %}
 
 {# CE QUE GOOGLE AFFICHE DANS SES RÉSULTATS. Sans ces données, une fiche de
    comparateur n'est qu'un texte : avec elles, le résultat porte la fourchette

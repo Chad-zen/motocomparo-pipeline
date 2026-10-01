@@ -24,7 +24,7 @@
 
    Chaque page peut redéfinir ces trois blocs ; les valeurs ci-dessous sont
    celles du site. #}
-<meta name="description" content="{% block description %}Comparez les prix de l'équipement moto chez {{ marchands_actifs | length }} marchands français vérifiés. Casques, blousons, gants, bottes — prix relevés chaque jour, gratuit et sans inscription.{% endblock %}">
+<meta name="description" content="{% block description %}Comparateur de prix d'équipement moto : casques, blousons, gants, bottes chez {{ marchands_actifs | length }} marchands, prix relevés chaque jour. Gratuit, sans inscription.{% endblock %}">
 <link rel="canonical" href="{% block canonique %}{{ request.url.scheme }}://{{ request.url.netloc }}{{ request.url.path }}{% endblock %}">
 
 <meta property="og:site_name" content="MotoComparo">
@@ -33,7 +33,14 @@
 <meta property="og:title" content="{% block og_titre %}{{ self.title() }}{% endblock %}">
 <meta property="og:description" content="{{ self.description() }}">
 <meta property="og:url" content="{{ self.canonique() }}">
-<meta property="og:image" content="{% block og_image %}{{ request.url.scheme }}://{{ request.url.netloc }}/static/affiche-portrait.jpg{% endblock %}">
+{# Image de partage par défaut en 1200x630, le format que Facebook, WhatsApp
+   et X affichent sans rogner : l'affiche portrait y perdait son titre
+   « MOTO » (audit de l'accueil, 01/10/2026). Les fiches gardent leur photo,
+   d'où des dimensions déclarées seulement avec l'image par défaut. #}
+<meta property="og:image" content="{% block og_image %}{{ request.url.scheme }}://{{ request.url.netloc }}/static/og-accueil.jpg{% endblock %}">
+{% block og_image_dims %}<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="MotoComparo, comparateur de prix d'équipement moto">{% endblock %}
 <meta name="twitter:card" content="summary_large_image">
 {% block robots %}{% endblock %}
 {# Polices hébergées en local (`static/polices.css`, copiées le 29/09/2026) :
@@ -228,7 +235,7 @@ if (mcMesureAutorisee) mcChargerMesure();
 
       <form class="quete" action="/recherche" method="get" role="search">
         <svg class="quete__loupe" aria-hidden="true" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></svg>
-        <input name="q" type="search" placeholder="Rechercher casques, blousons, gants, bottes&hellip;"
+        <input name="q" type="search" placeholder="Casque, gants, marque&hellip;"
                value="{{ request.query_params.get('q', '') }}" aria-label="Rechercher un produit">
         <button type="submit"><svg class="quete__ico" aria-hidden="true" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></svg><span
           class="quete__nom">Chercher</span><span
@@ -253,9 +260,9 @@ if (mcMesureAutorisee) mcChargerMesure();
   <div class="conteneur pied__colonnes">
 
     <div class="pied__bloc pied__bloc--large">
-      <span class="pied__marque">Moto Comparo</span>
-      <p>Comparez les prix de l'équipement moto parmi les meilleurs revendeurs
-         français. Casques, blousons, gants, bottes&nbsp;— trouvez la meilleure
+      <span class="pied__marque">MotoComparo</span>
+      <p>Comparez les prix de l'équipement moto chez des marchands qui livrent en
+         France. Casques, blousons, gants, bottes&nbsp;— trouvez la meilleure
          offre et économisez sur votre équipement.</p>
     </div>
 
@@ -295,7 +302,7 @@ if (mcMesureAutorisee) mcChargerMesure();
   <div class="conteneur pied__bas">
     <p>Les prix sont relevés chaque jour chez les marchands. Un prix de plus de
        24&nbsp;heures est signalé comme non rafraîchi. Prix hors frais de port.</p>
-    <p class="pied__note">© 2026 Moto Comparo. Tous droits réservés.</p>
+    <p class="pied__note">© 2026 MotoComparo. Tous droits réservés.</p>
   </div>
 </footer>
 

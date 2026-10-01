@@ -64,7 +64,12 @@ def categories(conn: psycopg.Connection, min_merchants: int = 2) -> list[dict[st
                count(*) FILTER (WHERE s.merchant_count >= %s
                                 AND s.cheapest IS NOT NULL
                                 AND p.status <> 'merged') AS n,
-               min(s.cheapest) FILTER (WHERE s.merchant_count >= %s) AS from_price,
+               -- Chaussettes et sous-gants sont rangés avec les bottes et les
+               -- gants, à juste titre, mais ne peuvent pas fixer « Bottes dès
+               -- 7,14 € » : personne ne cherche une botte à ce prix.
+               min(s.cheapest) FILTER (WHERE s.merchant_count >= %s
+                   AND coalesce(s.best_title, '') !~* '(chaussette|sous[- ]gant)')
+                   AS from_price,
                -- one real product photo per department, for the tiles and the
                -- drawer. Dafy has no drawn category icons at all and Motoblouz
                -- uses a product shot for its home tiles: a photo of the thing
@@ -97,8 +102,14 @@ def categories(conn: psycopg.Connection, min_merchants: int = 2) -> list[dict[st
         r["enfants"].sort(key=lambda e: -e["n"])
         r["ids"] += [e["id"] for e in r["enfants"]]
         r["n"] += sum(e["n"] for e in r["enfants"])
-        prix = [e["from_price"] for e in r["enfants"] if e["from_price"] is not None]
-        if r["from_price"] is None and prix:
+        # Le « dès » d'un rayon qui a des sous-rayons vient de ses SOUS-RAYONS
+        # d'articles, jamais de son fourre-tout ni de ses accessoires : la
+        # tuile Casques affichait « dès 4,53 € », un écran KYT (audit de
+        # l'accueil, 01/10/2026). Le résidu et `*.accessory` gardent leur
+        # propre prix dans le menu ; ils ne fixent plus celui du rayon.
+        prix = [e["from_price"] for e in r["enfants"]
+                if e["from_price"] is not None and not e["code"].endswith(".accessory")]
+        if prix:
             r["from_price"] = min(prix)
         # A parent's own bucket is the RESIDUE — "Casques" holds only the helmets
         # no subtype could be read from — so its photo comes out of a thin and
@@ -240,12 +251,9 @@ def ecarts(conn: psycopg.Connection, limit: int = 12,
     percentage is the gap between the cheapest and the dearest merchant for the
     SAME article, today. Nothing is claimed about what it used to cost.
 
-    ⚠️ Cette rangée lit `product_stats`, dont `cheapest` et `dearest` sont un
-    simple min/max sur toutes les offres de la fiche : les deux prix peuvent
-    donc venir du MÊME marchand, ou de deux tailles différentes. La page
-    `/bons-plans` a été refaite pour comparer au niveau du code-barres ; celle-ci
-    ne l'est pas encore, et le libellé a été corrigé en conséquence — il dit
-    « d'écart sur cette fiche » et non plus « entre marchands ».
+    L'écart se mesure entre les meilleurs prix de chaque MARCHAND (voir la
+    jointure latérale) — plus entre deux tailles ou deux offres d'un même
+    marchand, ce que faisait le min/max de `product_stats` jusqu'au 01/10/2026.
 
     Capped at a factor of two on purpose. A product whose offers differ by more
     than that is far more often a bad merge than a bargain — `ops/mesure_catalogue.py`
@@ -259,11 +267,30 @@ def ecarts(conn: psycopg.Connection, limit: int = 12,
             -- three finishes is three products and would fill the row on its own
             SELECT DISTINCT ON (p.brand_code, p.model_display)
                    p.slug, p.brand_code, p.model_display, p.colour_code,
-                   s.cheapest, s.dearest, s.merchant_count, s.image_url,
+                   e.lo AS cheapest, e.hi AS dearest, s.merchant_count, s.image_url,
                    s.best_title,
-                   round((1 - s.cheapest / s.dearest) * 100) AS remise
+                   round((1 - e.lo / e.hi) * 100) AS remise
             FROM product p
             JOIN product_stats s ON s.product_id = p.id
+            -- L'ÉCART ENTRE MARCHANDS, enfin, et non plus le min/max de la
+            -- fiche : le meilleur prix de CHAQUE marchand, puis le plus bas et
+            -- le plus haut de ces meilleurs prix. Audit de l'accueil du
+            -- 01/10/2026 : les deux plus gros pourcentages de la rangée (TCX
+            -- Blend 2 WP, Dainese Desert Lady, moins 47 pour cent) opposaient FC-Moto à
+            -- FC-Moto, une pointure contre une autre.
+            JOIN LATERAL (
+                SELECT min(par_m.prix) AS lo, max(par_m.prix) AS hi,
+                       count(*) AS marchands
+                FROM (
+                    SELECT min(o.price) AS prix
+                    FROM raw_offer o
+                    JOIN merchant m ON m.id = o.merchant_id
+                    WHERE o.product_id = p.id AND o.linked_status = 'linked'
+                      AND o.is_live AND m.affiche AND o.price > 0
+                      AND o.in_stock IS NOT FALSE
+                    GROUP BY o.merchant_id
+                ) par_m
+            ) e ON true
             -- TROIS marchands, pas deux. Règle de la propriétaire, 17/09/2026 :
             -- « je ne veux aucune offre à moins de 3 marchands dans la home
             -- page ». Sur un comparateur c'est cohérent — une fiche à deux
@@ -281,20 +308,19 @@ def ecarts(conn: psycopg.Connection, limit: int = 12,
               -- c'est exactement pourquoi elle est ecrite — le jour ou un
               -- marchand retirera une photo, personne ne relancera la mesure.
               AND s.image_url IS NOT NULL AND s.image_url <> ''
-              AND s.cheapest IS NOT NULL AND s.dearest IS NOT NULL
-              AND s.cheapest > 0
-              AND s.dearest <= s.cheapest * 2      -- au-delà : un défaut, pas une affaire
-              AND s.dearest >= s.cheapest * 1.15   -- en-deçà : pas la peine de le montrer
+              AND e.marchands >= 2 AND e.lo > 0
+              AND e.hi <= e.lo * 2      -- au-delà : un défaut, pas une affaire
+              AND e.hi >= e.lo * 1.15   -- en-deçà : pas la peine de le montrer
               -- et l'écart doit peser en euros : la moitie du prix d'une
               -- chambre a air fait 7 EUR, et une rangee de piecettes ne donne a
               -- personne l'envie de comparer
-              AND s.dearest - s.cheapest >= 25
+              AND e.hi - e.lo >= 25
             -- `p.slug` clôt le tri. Le défaut est ancien : à écart égal, deux
             -- coloris sortaient dans un ordre libre. Il ne se voyait pas tant
             -- que la rangée classait au pourcentage ; il éclate dès qu'un
             -- hachage du slug entre dans le tri, puisque le slug retenu
             -- changeait d'une visite à l'autre.
-            ORDER BY p.brand_code, p.model_display, (s.dearest - s.cheapest) DESC,
+            ORDER BY p.brand_code, p.model_display, (e.hi - e.lo) DESC,
                      p.slug
         )
         ,

@@ -61,6 +61,9 @@
 
     var modeles = Array.prototype.slice.call(piste.children);
     if (!modeles.length) return;
+    // Moins de quatre cartes : pas de boucle. Deux nouveautés tripliquées
+    // défilaient en FOX, NOLAN, FOX, NOLAN (audit de l'accueil, 01/10/2026).
+    if (modeles.length < 4) return;
 
     var gap = gouttiere(piste);
     // `scrollWidth` n'inclut pas la gouttière qui suivrait le dernier

@@ -300,26 +300,40 @@ def home(request: Request):
             # of 12 products is gone rather than kept above them: two answers to
             # the same question stacked on one page is how a home page stops
             # reading.
-            familles = [c for c in _rayons() if c["n"]][:9]
+            #
+            # `totals`, `rayons`, `affiche` et `vitrine` étaient encore calculés
+            # ici alors que la page ne les lit plus depuis la mosaïque : quatre
+            # requêtes de catalogue pour rien à chaque cache froid (audit de
+            # l'accueil, 01/10/2026).
             # Les casques, avec leurs sous-rayons — `ids` porte le parent ET ses
             # enfants, sinon « Nouveautés casque » ne verrait que les 79 casques
             # dont aucun sous-type n'a pu être lu, et non le rayon entier.
             casques = queries.find_category(_rayons(), "helmet")
+            ecarts = queries.ecarts(conn, 12)
+            # Un produit déjà dans « Là où comparer rapporte le plus » ne
+            # revient pas dans « Ça a baissé » avec un autre prix barré.
+            deja = {it["slug"] for it in ecarts}
+            baisses = [it for it in queries.baisses(conn, 20)
+                       if it["slug"] not in deja][:12]
             return {
-                "totals": queries.totals(conn),
-                "rayons": queries.rayons(conn, familles, 10),
-                "ecarts": queries.ecarts(conn, 12),
+                "ecarts": ecarts,
                 "nouveautes": queries.nouveautes(
                     conn, casques["ids"] if casques else [], 12),
                 "nouveautes_rayon": casques,
-                "baisses": queries.baisses(conn, 12),
-                "affiche": queries.affiche(conn),
-                "vitrine": queries.vitrine(conn),
+                "baisses": baisses,
             }
 
     bloc = cache.au_chaud("accueil", _bloc)
+    # Les rayons d'équipement en tête de la bande et de la mosaïque : classés
+    # au seul volume, les bottes passaient 8e, derrière la bagagerie et les
+    # échappements. Le menu, lui, garde le classement par volume.
+    phares = {c: i for i, c in enumerate(_RAYONS_PHARES)}
+    nav_accueil = sorted(_rayons(), key=lambda r: (phares.get(r["code"], 99), -r["n"]))
     return templates.TemplateResponse(
-        request, "home.html", _ctx(request, **bloc))
+        request, "home.html", _ctx(request, **bloc, nav=nav_accueil))
+
+
+_RAYONS_PHARES = ("helmet", "jacket", "gloves", "boots", "pants", "protection")
 
 
 def _releve_jour() -> str:

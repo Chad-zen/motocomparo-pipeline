@@ -69,7 +69,7 @@
    quand même — les liens de la page restent suivis, donc les fiches qu'elle
    présente sont découvertes. #}
 {% block robots %}{% if f.marque or f.taille or f.couleur or f.prix_min or f.prix_max or f.texte or page > 1 %}<meta name="robots" content="noindex, follow">{% endif %}{% endblock %}
-{% block description %}{{ titre }} — {{ total }} produit{{ 's' if total > 1 }} comparé{{ 's' if total > 1 }} chez {{ marchands_actifs | length }} marchands français. Prix relevés chaque jour.{% endblock %}
+{% block description %}{{ titre }} — {{ total }} produit{{ 's' if total > 1 }} comparé{{ 's' if total > 1 }} chez {{ marchands_actifs | length }} marchands. Prix relevés chaque jour.{% endblock %}
 
 {# Le fil d'Ariane, redit aux moteurs. Il pointe vers `base`, l'adresse SANS
    filtre : sur une page filtrée, un fil qui se désignerait lui-même

@@ -26,6 +26,11 @@ if ! grep -q 'snippets/motocomparo-server.conf' /etc/nginx/sites-available/motoc
     sed -i '0,/error_log .*motocomparo.error.log;/s//&\n    include \/etc\/nginx\/snippets\/motocomparo-server.conf;/' \
         /etc/nginx/sites-available/motocomparo
 fi
+# HTTP/2 sur les lignes 443 posées par certbot (nginx 1.24 : la syntaxe
+# `listen ... http2`, la directive `http2 on;` n'existe qu'à partir de 1.25.1).
+# Une seule connexion TLS au lieu de six pour les ~30 fichiers d'une page.
+sed -i -E 's/^(\s*listen (\[::\]:)?443 ssl)( ipv6only=on)?;/\1 http2\3;/' \
+    /etc/nginx/sites-available/motocomparo
 nginx -t
 systemctl reload nginx
 # une page /admin déjà en cache y resterait une heure

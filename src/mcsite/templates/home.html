@@ -1,12 +1,14 @@
 {% extends "base.html" %}
-{% block title %}MotoComparo — comparez l'équipement moto au meilleur prix{% endblock %}
+{# « Comparateur » dans le titre : c'est le mot que tape le visiteur, et il
+   n'apparaissait qu'une fois dans toute la page (audit, 01/10/2026). #}
+{% block title %}Comparateur de prix équipement moto — MotoComparo{% endblock %}
 
 {# Deux déclarations, deux effets distincts :
 
-   - `WebSite` avec sa `SearchAction` : c'est ce qui permet à Google d'afficher
-     un champ de recherche DANS son résultat, qui interroge directement le site
-     au lieu de le reparcourir. Il ne l'accorde pas sur demande, mais sans la
-     déclaration il ne peut pas l'accorder du tout.
+   - `WebSite` : c'est ce qui donne à Google le NOM du site à afficher dans ses
+     résultats. La `SearchAction` est gardée, mais Google a retiré en 2024 le
+     champ de recherche qu'elle permettait d'afficher dans le résultat : elle
+     n'a plus d'effet visible (corrigé après l'audit du 01/10/2026).
    - `Organization` : rattache le nom, le logo et l'adresse du site à une même
      entité. C'est ce qui évite qu'une page de marque soit prise pour le site
      officiel de la marque — sur un comparateur, la confusion est facile.
@@ -40,7 +42,7 @@
    trouvait pas de titre de page, et « aller au titre 1 » ne menait nulle part.
    Il est masqué à l'œil parce que l'affiche porte déjà le titre en grand —
    masqué à l'œil seulement, pas aux lecteurs d'écran. #}
-<h1 class="visuellement-cache">Comparez l'équipement moto et trouvez le meilleur prix</h1>
+<h1 class="visuellement-cache">Comparateur de prix d'équipement moto : casques, blousons, gants, bottes</h1>
 {# --- L'affiche ------------------------------------------------------------
    L'affiche fournie par la propriétaire, pleine largeur, cliquable vers tout le
    catalogue.
@@ -83,11 +85,13 @@
        même jour depuis le même fichier source : rien d'autre ne change. #}
     <source srcset="/static/affiche-portrait-480.webp?v={{ version_css() }} 480w,
                      /static/affiche-portrait-750.webp?v={{ version_css() }} 750w,
+                     /static/affiche-portrait-828.webp?v={{ version_css() }} 828w,
                      /static/affiche-portrait.webp?v={{ version_css() }} 1086w"
             sizes="100vw" type="image/webp">
     <img src="/static/affiche-portrait.jpg?v={{ version_css() }}"
          srcset="/static/affiche-portrait-480.jpg?v={{ version_css() }} 480w,
                  /static/affiche-portrait-750.jpg?v={{ version_css() }} 750w,
+                     /static/affiche-portrait-828.jpg?v={{ version_css() }} 828w,
                  /static/affiche-portrait.jpg?v={{ version_css() }} 1086w"
          sizes="100vw"
          alt="Comparez l'équipement moto et trouvez le meilleur prix"
@@ -123,6 +127,7 @@
       <span class="rayon__oeil">Des écarts de toutes tailles</span>
       <h2>Là où comparer rapporte le plus</h2>
     </div>
+    <a class="rayon__plus" href="/bons-plans">Tous les bons plans →</a>
   </div>
   <div class="rayon__piste">
     {% for it in ecarts %}
@@ -138,7 +143,10 @@
            hors de l'écran dans un carrousel horizontal : là, différer est juste.
            Signalé par la propriétaire le 18/09/2026. #}
         {% if it.image_url %}<img src="{{ it.image_url }}" alt=""
-             {% if loop.index <= 4 %}fetchpriority="high"{% else %}loading="lazy"{% endif %}>
+             {# pas de fetchpriority : sur mobile ces cartes sont sous
+                l'affiche, et la priorité haute la retardait (audit vitesse,
+                01/10/2026). Chrome remonte seul celles qui sont à l'écran. #}
+             {% if loop.index > 4 %}loading="lazy"{% endif %}>
         {% else %}<span class="carte__sansimg">pas de visuel</span>{% endif %}
       </div>
       <div class="carte__corps">
@@ -160,6 +168,38 @@
 </section>
 {% endif %}
 
+{# --- Vous avez consulté récemment -----------------------------------------
+   Le cadre reste vide — et donc invisible — tant que le visiteur n'a rien
+   consulté : un rayon « récemment vus » vide est un aveu de site neuf.
+   Remonté sous la première rangée le 01/10/2026 : rangé sous la mosaïque, il
+   tombait à 3 326 px du haut sur mobile, là où plus personne ne le voyait. #}
+<section class="rayon" id="rayon-vus" hidden></section>
+
+<script>
+(function () {
+  var hote = document.getElementById('rayon-vus');
+  if (!hote) return;
+  var vus = [];
+  try { vus = JSON.parse(localStorage.getItem('mc-vus') || '[]'); } catch (e) { return; }
+  if (!vus.length) return;
+  fetch('/fragment/vus?ids=' + encodeURIComponent(vus.join(',')))
+    .then(function (r) { return r.ok ? r.text() : ''; })
+    .then(function (html) {
+      if (!html.trim()) return;
+      hote.innerHTML = html;
+      hote.hidden = false;
+    })
+    .catch(function () { /* hors ligne : le rayon reste absent, rien de cassé */ });
+
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest('[data-vider-vus]')) return;
+    try { localStorage.removeItem('mc-vus'); } catch (err) {}
+    hote.hidden = true;
+    hote.innerHTML = '';
+  });
+})();
+</script>
+
 {# --- Les nouveautés du rayon casque ---------------------------------------
    « Nouveau » se lit sur la première offre vue, jamais sur `created_at` : ce
    dernier vaut le 14/09 pour les 313 435 fiches, c'est la date de
@@ -173,7 +213,7 @@
       <h2>Nouveautés casque</h2>
     </div>
     {% if nouveautes_rayon %}
-    <a class="rayon__plus" href="/c/{{ nouveautes_rayon.code }}">Voir tout →</a>
+    <a class="rayon__plus" href="/c/{{ nouveautes_rayon.code }}?tri=nouveautes">Voir tout →</a>
     {% endif %}
   </div>
   <div class="rayon__piste">
@@ -271,36 +311,6 @@
 {{ cat.mosaique(nav, 9) }}
 
 
-{# --- Vous avez consulté récemment -----------------------------------------
-   Le cadre reste vide — et donc invisible — tant que le visiteur n'a rien
-   consulté : un rayon « récemment vus » vide est un aveu de site neuf. #}
-<section class="rayon" id="rayon-vus" hidden></section>
-
-<script>
-(function () {
-  var hote = document.getElementById('rayon-vus');
-  if (!hote) return;
-  var vus = [];
-  try { vus = JSON.parse(localStorage.getItem('mc-vus') || '[]'); } catch (e) { return; }
-  if (!vus.length) return;
-  fetch('/fragment/vus?ids=' + encodeURIComponent(vus.join(',')))
-    .then(function (r) { return r.ok ? r.text() : ''; })
-    .then(function (html) {
-      if (!html.trim()) return;
-      hote.innerHTML = html;
-      hote.hidden = false;
-    })
-    .catch(function () { /* hors ligne : le rayon reste absent, rien de cassé */ });
-
-  document.addEventListener('click', function (e) {
-    if (!e.target.closest('[data-vider-vus]')) return;
-    try { localStorage.removeItem('mc-vus'); } catch (err) {}
-    hote.hidden = true;
-    hote.innerHTML = '';
-  });
-})();
-</script>
-
 {# --- Comment ça marche ---------------------------------------------------- #}
 <section class="etapes">
   <h2 class="titre-centre">Comment ça marche&nbsp;?</h2>
@@ -352,28 +362,19 @@
 </section>
 
 {# --- Pourquoi -------------------------------------------------------------- #}
+{# « Les autres » a disparu le 01/10/2026 : le tableau affirmait que les
+   autres comparateurs n'identifient pas leurs marchands, ne sont pas gratuits
+   ou demandent un compte — faux pour la plupart, et invérifiable par le
+   visiteur. On dit ce que fait le site, sans prêter de défauts aux autres. #}
 <section class="pourquoi">
   <h2 class="titre-centre">Pourquoi MotoComparo&nbsp;?</h2>
-  <table class="tableau-comparatif">
-    <thead>
-      <tr><th>Fonctionnalité</th><th>MotoComparo</th><th>Les autres</th></tr>
-    </thead>
-    <tbody>
-      {% for ligne in [
-        'Comparaison de prix',
-        'Spécialisé équipement moto',
-        'Marchands identifiés, jamais anonymes',
-        'Prix actualisés quotidiennement',
-        'Sans création de compte',
-        '100 % gratuit'] %}
-      <tr>
-        <td>{{ ligne }}</td>
-        <td class="oui">✓</td>
-        <td class="non">{{ '✓' if loop.first else '—' }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+  <ul class="pourquoi__liste">
+    <li><b>Spécialisé équipement moto</b> casques, blousons, gants, bottes, pièces</li>
+    <li><b>{{ marchands_actifs | length }} marchands nommés</b> sur chaque fiche, jamais anonymes</li>
+    <li><b>Prix relevés chaque jour</b> et un prix trop ancien est signalé</li>
+    <li><b>Comparaison taille par taille</b> le prix de VOTRE taille, pas d'une autre</li>
+    <li><b>Gratuit, sans compte</b> rien à créer, rien à donner</li>
+  </ul>
 </section>
 
 {# --- Questions fréquentes -------------------------------------------------- #}

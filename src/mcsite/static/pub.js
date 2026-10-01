@@ -59,9 +59,13 @@
     document.querySelectorAll('[data-pub]').forEach(poser);
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', demarrer);
-  } else {
+  // Après `load`, plus au DOMContentLoaded : la bannière (un GIF de 45 à
+  // 110 Ko) partait en même temps que l'affiche et lui disputait le réseau
+  // (audit vitesse de l'accueil, 01/10/2026). Toujours en `eager`, donc
+  // chargée bien avant qu'on arrive à sa hauteur.
+  if (document.readyState === 'complete') {
     demarrer();
+  } else {
+    window.addEventListener('load', demarrer);
   }
 })();

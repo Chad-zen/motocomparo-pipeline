@@ -143,6 +143,21 @@
         lm.classList.add('sugg__ligne--meilleur');
       }
 
+      // UN RAYON NOMMÉ PASSE DEVANT. Taper « gants », c'est chercher le rayon
+      // Gants : sur mobile, la ligne arrivait sous trois grandes cartes
+      // produits, hors du panneau visible (audit de l'accueil, 01/10/2026).
+      // Seulement quand aucune marque n'est reconnue : « shoei gants » garde
+      // l'entonnoir de la marque, plus précis.
+      function peindreRayons() {
+        if (!(d.rayons && d.rayons.length)) return;
+        rubrique('Rayons');
+        d.rayons.forEach(function (r) {
+          option('/c/' + r.code, [elem('span', 'sugg__quoi', r.label)]);
+        });
+      }
+      var rayonsEnTete = !!(d.rayons && d.rayons.length && !d.marque_reconnue);
+      if (rayonsEnTete) peindreRayons();
+
       // LES MEILLEURS RÉSULTATS, en premier et en grand — plusieurs, pas un.
       // Six SZ-R ne diffèrent que par la finition : désigner un vainqueur, ce
       // serait cacher les autres réponses, aussi justes que lui.
@@ -210,12 +225,7 @@
         });
       }
 
-      if (d.rayons && d.rayons.length) {
-        rubrique('Rayons');
-        d.rayons.forEach(function (r) {
-          option('/c/' + r.code, [elem('span', 'sugg__quoi', r.label)]);
-        });
-      }
+      if (!rayonsEnTete) peindreRayons();
 
       if (d.produits && d.produits.length) {
         // `d.meilleurs` est déjà testé plus haut avant d'être parcouru ; ici
