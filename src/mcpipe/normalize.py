@@ -21,6 +21,7 @@ Freshness: every offer seen in this run gets `last_seen = <run start>` and
 from __future__ import annotations
 
 import hashlib
+import re
 import time
 from dataclasses import dataclass
 from decimal import Decimal
@@ -80,6 +81,21 @@ _LABECANERIE_HORS_MOTO = frozenset({
 })
 _HORS_PERIMETRE: dict[str, frozenset[str]] = {
     "labecanerie": _LABECANERIE_HORS_MOTO,
+}
+
+# Filet de sécurité : des outils et consommables d'ATELIER (démonte-pneu,
+# dégraissant, support mural, batterie de vélo électrique…) servent le vélo ET
+# la moto et restent rangés sous une catégorie générique partagée — « Partie
+# cycle », « Outillage et entretien », « Lubrifiant » — que la liste par
+# catégorie ci-dessus ne peut pas distinguer. 221 lignes trouvées ainsi le
+# 01/10/2026, hors des catégories déjà écartées. `\b` (limites de mot) laisse
+# passer « vélomoteur » (un cyclomoteur, donc motorisé) et « VéloSolex » (un
+# nom propre) : aucun des deux n'est un vélo au sens où on l'exclut ici.
+_LABECANERIE_TITRE_VELO = re.compile(
+    r"\b(v[ée]lo[s]?|vtt|trottinette[s]?|draisienne[s]?)\b", re.IGNORECASE
+)
+_FILTRE_TITRE: dict[str, re.Pattern] = {
+    "labecanerie": _LABECANERIE_TITRE_VELO,
 }
 
 
@@ -202,11 +218,16 @@ ON CONFLICT (merchant_id, merchant_sku) DO UPDATE SET
 """
 
 
-def hors_perimetre(feed_code: str, category_level1: str | None) -> bool:
-    """True when a row's top-level category is outside what this site compares
-    for that merchant — pure and offline-testable, see `_HORS_PERIMETRE`."""
+def hors_perimetre(
+    feed_code: str, category_level1: str | None, title: str | None = None
+) -> bool:
+    """True when a row is outside what this site compares for that merchant —
+    pure and offline-testable, see `_HORS_PERIMETRE` et `_FILTRE_TITRE`."""
     exclus = _HORS_PERIMETRE.get(feed_code)
-    return bool(exclus and category_level1 and category_level1.strip() in exclus)
+    if exclus and category_level1 and category_level1.strip() in exclus:
+        return True
+    motif = _FILTRE_TITRE.get(feed_code)
+    return bool(motif and title and motif.search(title))
 
 
 def normalize_feed(feed: FeedSpec, *, force: bool = False) -> NormalizeResult:
@@ -232,11 +253,13 @@ def normalize_feed(feed: FeedSpec, *, force: bool = False) -> NormalizeResult:
             copy_sql = f"COPY _norm ({', '.join(_OFFER_COLS)}) FROM STDIN"
             with write.cursor() as cur, cur.copy(copy_sql) as cp:
                 for (row,) in src:
-                    if hors_perimetre(feed.code, _ci_get(row, cols.get("category", []))):
+                    title = _ci_get(row, cols.get("title", []))
+                    if hors_perimetre(
+                        feed.code, _ci_get(row, cols.get("category", [])), title
+                    ):
                         n_hors_perimetre += 1
                         continue
                     deeplink = _ci_get(row, cols.get("link", []))
-                    title = _ci_get(row, cols.get("title", []))
                     if not deeplink or not title:
                         continue
                     sku = _merchant_sku(feed, row, deeplink)

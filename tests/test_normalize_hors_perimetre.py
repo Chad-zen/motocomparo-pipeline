@@ -42,3 +42,33 @@ def test_les_autres_marchands_ne_sont_pas_filtres():
     # le filtre est spécifique au flux dont la contamination a été mesurée.
     assert not hors_perimetre("speedway", "Équipement cycliste")
     assert not hors_perimetre("motoblouz", "Partie cycle vélo")
+
+
+# Le filet de sécurité par titre : des outils et consommables d'atelier
+# (démonte-pneu, dégraissant, support mural…) partagent une catégorie
+# générique avec la moto et échappent au filtre par catégorie.
+
+def test_le_titre_ecarte_les_outils_de_velo_en_categorie_partagee():
+    for titre in (
+        "Démonte pneu vélo Michelin jaune nylon (lot de 3 pièces)",
+        "Dégraissant vélo WD-40 (500ml)",
+        "Support présentoir vélo au plafond à poulie par cadre(1 vélo)",
+        "Kit Tubeless 27.5'' WAG pour VTT (30mm)",
+        "Trottinette Disney Cars pliable et réglable rouge",
+        "Draisienne Kiddimoto Heroes Evel Knievel",
+        "Batterie Vélo Électrique Shimano BT-E8016 pour Support Central 630 W",
+    ):
+        assert hors_perimetre("labecanerie", "Partie cycle", titre)
+
+
+def test_le_titre_epargne_le_cyclomoteur_et_le_nom_propre():
+    # « vélomoteur » (un cyclomoteur, donc motorisé) et « VéloSolex » (un nom
+    # propre) ne sont pas le vélo qu'on exclut ici — \b les protège.
+    assert not hors_perimetre(
+        "labecanerie", "Moteur", "Vilebrequin Nuova Mazzucchelli pour vélomoteur 48cc")
+    assert not hors_perimetre(
+        "labecanerie", "Partie cycle", "Restaurez et réparez votre VéloSolex")
+
+
+def test_le_titre_n_ecarte_rien_chez_les_autres_marchands():
+    assert not hors_perimetre("speedway", "Partie cycle", "Démonte pneu vélo Michelin")
