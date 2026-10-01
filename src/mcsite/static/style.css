@@ -1200,11 +1200,17 @@ h1, h2 { line-height: 1.2; }
    « noir normal » ; sur ce fond bleu nuit un noir serait illisible, il devient
    donc un gris clair neutre — même rôle : présent, sans rien crier. */
 .meilleur__reference {
-  display: flex; align-items: center; gap: 9px; margin-top: 5px;
-  flex-wrap: wrap;
+  display: flex; align-items: center; gap: 7px; margin-top: 5px;
+  /* `nowrap` : le barré et la pastille se séparaient l'un de l'autre sur
+     un petit écran (360px), alors même que la ligne qui les contient ne
+     retombait plus sous le prix — signalé le 01/10/2026. */
+  flex-wrap: nowrap;
 }
 .meilleur__barre {
-  color: var(--sur-nuit); font-size: 14px; text-decoration-thickness: 1.5px;
+  /* Blanc, comme le prix : en gris (--sur-nuit) il se lisait mal sur le
+     dégradé nuit, signalé par la propriétaire (01/10/2026) avec une
+     capture à l'appui. */
+  color: #fff; font-size: 14px; text-decoration-thickness: 1.5px;
   font-variant-numeric: tabular-nums; white-space: nowrap;
 }
 .remise {
@@ -1847,6 +1853,16 @@ body:has(.banc:not([hidden])) { padding-bottom: var(--banc-h, 94px); }
 }
 .meilleur__gauche { min-width: 0; padding-right: 62px; }
 .meilleur__droite { display: block; }
+/* Le prix barré et la remise passaient sous le prix faute de place (le
+   rond du comparateur réserve 62px à droite) : signalé le 01/10/2026,
+   capture à l'appui, « chez <marchand> » se retrouvait poussé d'autant
+   plus bas. Des jetons plus serrés gardent les trois sur la ligne du
+   prix ; « chez » remonte d'elle-même juste en dessous. Le passage à
+   `nowrap` et le resserrement de l'espacement sont posés plus bas, sur la
+   définition de `.meilleur__ligne` — une seule règle, pas deux qui se
+   disputent selon l'ordre du fichier. */
+.meilleur__barre { font-size: 13px; }
+.meilleur__reference .remise { font-size: 11.5px; padding: 3px 7px; }
 .theme-v1 .meilleur__voir { display: block; margin-top: 16px; text-align: center; }
 .meilleur__comparer {
   position: absolute; top: 16px; right: 16px;
@@ -3398,9 +3414,15 @@ html, body { overflow-x: clip; }
 /* --- le prix, le prix barré et la remise, sur une ligne ------------------- */
 /* `align-items: baseline` et non `center` : le barré et la pastille s'alignent
    sur le pied des chiffres du prix, pas sur le milieu de sa hauteur. Centrés,
-   ils flottaient au-dessus de la virgule. */
+   ils flottaient au-dessus de la virgule.
+
+   `nowrap`, pas `wrap`, et un espacement resserré : signalé le
+   01/10/2026, capture à l'appui — le prix barré et la remise retombaient
+   sous le prix, et « chez <marchand> » suivait d'autant plus bas. Avec
+   les tailles de police resserrées sur mobile (plus haut dans ce
+   fichier), les trois tiennent sur la ligne du prix jusqu'à 360px. */
 .meilleur__ligne {
-  display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 12px;
+  display: flex; align-items: baseline; flex-wrap: nowrap; gap: 4px 7px;
 }
 .meilleur__ligne .meilleur__reference { margin-top: 0; }
 
