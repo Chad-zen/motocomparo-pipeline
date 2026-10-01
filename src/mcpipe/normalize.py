@@ -59,6 +59,29 @@ _OFFER_COLS = (
 _RETIRE_ABORT_FRACTION = 0.20
 _RETIRE_ABORT_FLOOR = 500  # don't trip the breaker on tiny merchants
 
+# La Bécanerie's feed, frozen since mi-septembre, a repris le 29/09/2026 — avec
+# un renouvellement si large (284 296 lignes contre 222 927, 62 % des
+# références remplacées) que le disjoncteur ci-dessus l'a refusé trois nuits
+# de suite. Vérifié avant réintégration (01/10/2026) : les nouvelles
+# références sont réelles (pages et prix confirmés sur la-becanerie.com), mais
+# leur flux unique couvre aussi le VÉLO — une boutique que ce site ne compare
+# pas. 21 726 lignes sur 284 296 (7,6 %) portent une catégorie de niveau 1
+# vélo/trottinette/draisinette/nutrition ; le reste (équipement route, cross,
+# carénage, freinage, moteur…) est bien de la moto. Ces catégories n'entrent
+# jamais dans `raw_offer`.
+_LABECANERIE_HORS_MOTO = frozenset({
+    "Partie cycle vélo", "Roue et pneu vélo", "Équipement cycliste",
+    "Freinage vélo", "Accessoire vélo", "Casque vélo", "Bagagerie vélo",
+    "Transport vélo",
+    # trottinettes, draisiennes : pas de l'équipement moto non plus
+    "Mobilité",
+    # compléments alimentaires, hors du périmètre « équipement »
+    "Nutrition et Bien-être",
+})
+_HORS_PERIMETRE: dict[str, frozenset[str]] = {
+    "labecanerie": _LABECANERIE_HORS_MOTO,
+}
+
 
 class RetirementGuardError(RuntimeError):
     """Raised when a run would retire an implausible share of a merchant's offers."""
@@ -71,6 +94,7 @@ class NormalizeResult:
     retired: int
     gtin_rejected: int
     seconds: float
+    hors_perimetre: int = 0
 
 
 def _ci_get(row: dict, names: list[str]) -> str | None:
@@ -178,6 +202,13 @@ ON CONFLICT (merchant_id, merchant_sku) DO UPDATE SET
 """
 
 
+def hors_perimetre(feed_code: str, category_level1: str | None) -> bool:
+    """True when a row's top-level category is outside what this site compares
+    for that merchant — pure and offline-testable, see `_HORS_PERIMETRE`."""
+    exclus = _HORS_PERIMETRE.get(feed_code)
+    return bool(exclus and category_level1 and category_level1.strip() in exclus)
+
+
 def normalize_feed(feed: FeedSpec, *, force: bool = False) -> NormalizeResult:
     t0 = time.time()
     cols = feed.columns
@@ -192,6 +223,7 @@ def normalize_feed(feed: FeedSpec, *, force: bool = False) -> NormalizeResult:
 
         n = 0
         gtin_rejected = 0
+        n_hors_perimetre = 0
         with read.cursor(name="stg") as src:
             src.itersize = 5_000
             src.execute(
@@ -200,6 +232,9 @@ def normalize_feed(feed: FeedSpec, *, force: bool = False) -> NormalizeResult:
             copy_sql = f"COPY _norm ({', '.join(_OFFER_COLS)}) FROM STDIN"
             with write.cursor() as cur, cur.copy(copy_sql) as cp:
                 for (row,) in src:
+                    if hors_perimetre(feed.code, _ci_get(row, cols.get("category", []))):
+                        n_hors_perimetre += 1
+                        continue
                     deeplink = _ci_get(row, cols.get("link", []))
                     title = _ci_get(row, cols.get("title", []))
                     if not deeplink or not title:
@@ -302,7 +337,8 @@ def normalize_feed(feed: FeedSpec, *, force: bool = False) -> NormalizeResult:
             )
             retired = cur.rowcount
         write.commit()
-        return NormalizeResult(feed.code, n, retired, gtin_rejected, time.time() - t0)
+        return NormalizeResult(feed.code, n, retired, gtin_rejected, time.time() - t0,
+                               n_hors_perimetre)
     except Exception:
         write.rollback()
         raise

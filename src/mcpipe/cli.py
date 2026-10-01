@@ -171,6 +171,8 @@ def normalize(
             console.print(f"[red]FAILED[/] {exc}")
             continue
         extra = f", {res.gtin_rejected:,} bad GTINs dropped" if res.gtin_rejected else ""
+        if res.hors_perimetre:
+            extra += f", {res.hors_perimetre:,} hors périmètre écartées"
         console.print(
             f"[green]ok[/] {res.upserted:,} offers, {res.retired:,} retired{extra}"
             f" in {res.seconds:.0f}s"

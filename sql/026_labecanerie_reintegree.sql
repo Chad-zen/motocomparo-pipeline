@@ -1,0 +1,28 @@
+-- La Bécanerie réintègre le site — 01/10/2026.
+--
+-- Mise de côté le 18/09/2026 (migration 021) : son flux était figé, fichier
+-- identique à l'octet près plusieurs jours de suite, zéro mouvement de
+-- catalogue, deux prix faux vérifiés à la main sur son propre site.
+--
+-- Le flux a recommencé à bouger le 29/09/2026 — 170 Mo puis 239 Mo puis
+-- 268 Mo, en grossissant chaque jour — mais avec un renouvellement si large
+-- (284 296 lignes contre 222 927 suivies, 62 % des références remplacées)
+-- que le disjoncteur de `normalize` (`_RETIRE_ABORT_FRACTION`, 20 %) l'a
+-- refusé trois nuits de suite, sans le signaler ailleurs qu'au journal.
+--
+-- Vérifié avant de remettre le drapeau à true (01/10/2026) :
+--   * 6 références neuves tirées au hasard, toutes réelles sur
+--     la-becanerie.com, prix identiques au flux ;
+--   * le même flux couvre aussi une boutique VÉLO que ce site ne compare
+--     pas — 21 726 lignes sur 284 296 (7,6 %), repérables par leur
+--     catégorie de premier niveau. Ces catégories sont désormais écartées
+--     à la source, dans `normalize.py` (`_LABECANERIE_HORS_MOTO`), avant
+--     d'entrer dans `raw_offer` — ce n'est pas une affaire de ce drapeau,
+--     mais la condition posée avant de le repasser à true.
+--
+-- POUR LA RETIRER À NOUVEAU, le jour où son flux se fige encore :
+--
+--     UPDATE merchant SET affiche = false WHERE code = 'labecanerie';
+--     SELECT refresh_product_stats();
+
+UPDATE merchant SET affiche = true WHERE code = 'labecanerie';
