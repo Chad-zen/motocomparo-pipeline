@@ -467,7 +467,20 @@ def model(title: str | None, brand_code: str, colour_raw: str | None,
     # (seen live: "Pantalon REV'IT Stratum ... - Pantalon moto REV'IT") would
     # otherwise duplicate every one of its words in `model_tokens`, leaking
     # into `model_display`/`slug` as "It It Pantalon Pantalon Rev Rev ..."
-    kept = list(dict.fromkeys(w for w in t.split() if w and w not in _STOP))
+    # Un nombre de 6 chiffres ou plus est une RÉFÉRENCE, pas un mot — trouvé
+    # vivant (01/10/2026) : Speedway écrit « Kit Chaine Origine Ktm 85 Sx P.R
+    # 107105151 - Transmission D.I.D », et faute de titre plus propre chez un
+    # autre marchand, « 107105151 » devenait le premier mot du nom ET de
+    # l'adresse de la fiche. `_MODEL_REF_RE` plafonne déjà les chiffres d'un
+    # ref à 4 (520, 1290, 2024…) : au-delà, ce n'est jamais une cylindrée, un
+    # pas de chaîne ou une année, c'est un numéro de catalogue. Mesuré sur le
+    # catalogue : 21 590 jetons à 6 chiffres ou plus, contre un usage massif
+    # et légitime à 1-5 (pas de chaîne, pointures, millésimes, couples de
+    # serrage) — la coupure reste donc à 6, pas plus bas.
+    kept = list(dict.fromkeys(
+        w for w in t.split()
+        if w and w not in _STOP and not (w.isdigit() and len(w) >= 6)
+    ))
     # anchor: an alnum ref built from the KEPT tokens (so "gt air 2" -> "gtair2"
     # but "euro 3" never appears — "euro" is a stopword). Only trust it as an
     # identity anchor when there is at least one other distinctive token.

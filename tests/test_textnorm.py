@@ -150,6 +150,28 @@ def test_size_never_leaks_into_model():
     assert "m" not in tokens
 
 
+def test_reference_number_never_leaks_into_model():
+    """Réel, Speedway, 01/10/2026 : « Kit Chaine Origine Ktm 85 Sx P.R
+    107105151 - Transmission D.I.D » donnait le slug
+    did-107105151-85-chaine-... — le numéro de catalogue devenait le premier
+    mot de la fiche. `_MODEL_REF_RE` plafonne un ref à 4 chiffres (520,
+    1290, 2024…) ; au-delà ce n'est jamais une cote technique."""
+    tokens, _, _ = tn.model(
+        "Kit Chaine Origine Ktm 85 Sx P.R 107105151 - Transmission D.I.D",
+        "did", None, None,
+    )
+    assert "107105151" not in tokens
+    # les cotes techniques courtes restent : 85 (le KTM 85 SX)
+    assert "85" in tokens
+
+
+def test_les_cotes_techniques_courtes_restent():
+    # pas de chaîne, cylindrée, millésime : jamais plus de 4 chiffres, donc
+    # jamais coupés par le filtre des références longues.
+    tokens, _, _ = tn.model("Chaine DID 520 VX3 118 maillons", "did", None, None)
+    assert "520" in tokens and "118" in tokens
+
+
 def test_model_tokens_deduplicated():
     """A merchant title that repeats itself (real feed example: "Pantalon
     REV'IT Stratum Gore-Tex Standard Noir Gris - Pantalon moto REV'IT")
