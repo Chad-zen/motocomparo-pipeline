@@ -3000,6 +3000,11 @@ body:has(.banc:not([hidden])) { padding-bottom: var(--banc-h, 94px); }
 .contact__form .doux { font-weight: 400; color: var(--doux); }
 .contact__piege { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 .contact__rgpd { margin: 0; font-size: 12.5px; line-height: 1.5; }
+/* Sans style propre, le lien se fondait dans le paragraphe gris et
+   « Vos données » se lisait comme une phrase coupée net, pas comme un
+   lien — signalé par la propriétaire (01/10/2026). Même traitement que
+   le lien du bandeau cookies. */
+.contact__rgpd a { color: var(--or, #f5b301); text-decoration: underline; }
 .contact__aside {
   background: var(--marque-fond); border-radius: 18px; padding: 22px;
 }
