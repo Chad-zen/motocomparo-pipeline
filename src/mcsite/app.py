@@ -1094,13 +1094,74 @@ def contact(request: Request, envoye: int = 0):
         request, "contact.html", _ctx(request, envoye=envoye))
 
 
+def _notifier_contact(sujet: str, corps: str, email: str, page: str) -> None:
+    """Prévient par e-mail qu'un message est arrivé — en plus de l'écrire en
+    base, jamais à sa place : `/admin` reste la source, cette notification
+    peut échouer sans rien perdre.
+
+    Désactivée tant que `SMTP_HOST` est vide dans `.env` (c'est le cas par
+    défaut) : pas de serveur d'envoi configuré, pas de tentative, aucune
+    erreur. Une seule boîte sert à tout — envoi et réception — via Hostinger
+    Mail, SSL implicite sur le port 465.
+
+    Jamais laissée faire échouer l'enregistrement du message : un problème
+    réseau ou des identifiants faux ne doivent coûter qu'une notification
+    manquée, pas le message lui-même, déjà écrit en base avant cet appel.
+    """
+    hote = os.environ.get("SMTP_HOST", "").strip()
+    if not hote:
+        return
+    utilisateur = os.environ.get("SMTP_USER", "").strip()
+    mdp = os.environ.get("SMTP_PASS", "").strip()
+    dest = os.environ.get("CONTACT_NOTIF_TO", "").strip() or utilisateur
+    if not (utilisateur and mdp and dest):
+        return
+
+    import smtplib
+    import ssl
+    from email.message import EmailMessage
+
+    libelles = {
+        "erreur-prix": "Un prix qui ne correspond pas",
+        "erreur-fiche": "Une fiche mal rangée ou en double",
+        "marchand": "Je suis un marchand",
+        "autre": "Autre",
+    }
+    msg = EmailMessage()
+    msg["Subject"] = f"[Contact MotoComparo] {libelles.get(sujet, sujet)}"
+    msg["From"] = utilisateur
+    msg["To"] = dest
+    # Répondre à CE message répond directement au visiteur, sans passer par
+    # la boîte de contact — seulement quand il a laissé une adresse.
+    if email:
+        msg["Reply-To"] = email
+    msg.set_content(
+        f"{corps}\n\n---\n"
+        f"E-mail laissé : {email or '(aucun)'}\n"
+        f"Page : {page or '(inconnue)'}\n"
+        f"Lu et répondu depuis /admin sur le site."
+    )
+    port = int(os.environ.get("SMTP_PORT", "465") or "465")
+    try:
+        # Délai court et volontaire : un serveur SMTP qui ne répond pas ne
+        # doit pas faire attendre le visiteur sur sa page de confirmation.
+        with smtplib.SMTP_SSL(hote, port, timeout=8,
+                              context=ssl.create_default_context()) as serveur:
+            serveur.login(utilisateur, mdp)
+            serveur.send_message(msg)
+    except Exception:  # noqa: BLE001 — une notification manquée n'est pas une panne
+        import logging
+        logging.getLogger("mcsite").exception("notification de contact non envoyée")
+
+
 @app.post("/contact")
 async def contact_envoi(request: Request):
-    """Enregistre le message. Pas d'e-mail affiché, pas d'envoi SMTP.
+    """Enregistre le message, puis tente de prévenir par e-mail.
 
-    Une adresse en clair sur une page publique est aspirée en quelques jours, et
-    le site n'a pas de serveur d'envoi : les messages sont stockés et relus dans
-    le tableau de bord. `parse_qs` plutôt que `Form()` pour ne pas dépendre de
+    Une adresse en clair sur une page publique est aspirée en quelques jours :
+    le message est donc TOUJOURS écrit en base et relu depuis le tableau de
+    bord, que la notification par e-mail (`_notifier_contact`) réussisse ou
+    non. `parse_qs` plutôt que `Form()` pour ne pas dépendre de
     python-multipart, absent de l'environnement.
     """
     # Un formulaire posté depuis un autre site n'a rien à faire ici. L'absence
@@ -1132,18 +1193,22 @@ async def contact_envoi(request: Request):
     sujet = prendre("sujet")
     if sujet not in SUJETS_CONTACT:
         sujet = "autre"
+    email_visiteur = prendre("email")[:190]
+    page_origine = request.headers.get("referer", "")[:300]
     with pool.connection() as conn:  # type: ignore[union-attr]
         conn.execute(
             "INSERT INTO message_contact (sujet, corps, email, page) "
             "VALUES (%s, %s, nullif(%s, ''), %s)",
-            (sujet, corps[:4000], prendre("email")[:190],
-             request.headers.get("referer", "")[:300]),
+            (sujet, corps[:4000], email_visiteur, page_origine),
         )
         # La durée promise sous le formulaire : 12 mois après réception.
         # Faite ici, à chaque nouveau message, plutôt que par un minuteur de
         # plus — une requête sur une table de quelques lignes.
         conn.execute("DELETE FROM message_contact "
                      "WHERE recu_le < now() - interval '12 months'")
+    # APRÈS le commit implicite de l'INSERT (connexion en autocommit) : le
+    # message est déjà écrit en base, quoi qu'il arrive à la notification.
+    _notifier_contact(sujet, corps[:4000], email_visiteur, page_origine)
     return RedirectResponse("/contact?envoye=1", status_code=303)
 
 
