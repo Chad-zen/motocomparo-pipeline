@@ -148,8 +148,16 @@ def _sans_signes(s: str) -> str:
 
 
 def product_title(brand: str, model: str, colour_code: str | None) -> str:
-    """What the page is called. Colour belongs in the name: it defines the page."""
-    parts = [brand.upper(), model]
+    """What the page is called. Colour belongs in the name: it defines the page.
+
+    `model` est le titre du marchand, repris verbatim (`_nom` dans `app.py`) —
+    certains l'écrivent déjà avec la marque en tête (« FOX V1 Frame Casque de
+    motocross » chez FC-Moto). La reprendre devant donnait « FOX FOX V1
+    Frame... » — vu en vrai sur un casque entré au catalogue le 04/10/2026.
+    """
+    premier_mot = (model or "").split(" ", 1)[0]
+    parts = [model] if _sans_signes(premier_mot) == _sans_signes(brand) \
+        else [brand.upper(), model]
     if c := colour(colour_code):
         parts.append(f"— {c}")
     return " ".join(p for p in parts if p)
