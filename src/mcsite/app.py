@@ -317,8 +317,13 @@ def home(request: Request):
                        if it["slug"] not in deja][:12]
             return {
                 "ecarts": ecarts,
+                # min_marchands=2, pas 3 (le défaut) : mesuré le 04/10/2026,
+                # 47 casques recents a 2 marchands contre 2 seulement a 3 — a
+                # 3 la rangee affichait deux cartes et un grand vide a cote,
+                # signale par la proprietaire comme un bug visuel.
                 "nouveautes": queries.nouveautes(
-                    conn, casques["ids"] if casques else [], 12),
+                    conn, casques["ids"] if casques else [], 12,
+                    min_marchands=2),
                 "nouveautes_rayon": casques,
                 "baisses": baisses,
             }
