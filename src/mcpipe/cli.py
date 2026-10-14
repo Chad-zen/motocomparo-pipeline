@@ -92,8 +92,20 @@ def fetch(
                 mark[0] = written
                 console.print(_mb(written), end=" ")
 
+        connues = None
+        if f.connus_seulement:
+            from .db import connect
+            with connect() as conn:
+                connues = {r[0] for r in conn.execute(
+                    "SELECT merchant_sku FROM raw_offer WHERE merchant_id = %s",
+                    (f.merchant_id,))}
+            # Base vide : filtrer ne garderait rien. On télécharge tout, et on
+            # le dit, plutôt que de vider le marchand en silence.
+            if not connues:
+                console.print("[yellow]aucune offre connue, filtre ignoré[/]", end=" ")
         try:
-            res = fetch_feed(f, dest, max_age_seconds=max_age, on_progress=progress)
+            res = fetch_feed(f, dest, max_age_seconds=max_age, on_progress=progress,
+                             connues=connues)
         except Exception as exc:  # noqa: BLE001 — report and keep going
             console.print(f"[red]FAILED[/] {exc}")
             continue
@@ -110,6 +122,10 @@ def fetch(
         else:
             total_bytes += res.bytes
             console.print(f"[green]ok[/] {_mb(res.bytes)} in {res.seconds:.0f}s")
+            if res.filtre:
+                lues, gardees = res.filtre
+                console.print(f"  offres connues seulement : {gardees:,} gardées"
+                              f" sur {lues:,} lues")
 
     console.print(f"\n{_mb(total_bytes)} téléchargés dans {dest}/")
     if economise:

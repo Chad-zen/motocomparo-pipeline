@@ -42,6 +42,9 @@ class FeedSpec:
     columns: dict[str, list[str]] = field(default_factory=dict)
     # env var holding a bearer token, when the feed endpoint requires one
     auth_token_env: str | None = None
+    # Ne garder, au téléchargement, que les offres déjà connues en base — voir
+    # `fetch._filtrer_connues`. Aucune offre nouvelle n'entre tant que c'est vrai.
+    connus_seulement: bool = False
 
     @property
     def url(self) -> str | None:
@@ -146,6 +149,11 @@ FEEDS: dict[str, FeedSpec] = {
         code="fcmoto", merchant_id=6, platform="webgains", delimiter=",",
         gtin_trust="trusted", reliability_rank=2, columns=_WEBGAINS_COLUMNS,
         auth_token_env="FEED_FCMOTO_TOKEN",
+        # Le 14/10/2026 le flux est passé de 160 000 à 6,8 millions de lignes
+        # (7,2 Go) et a rempli le disque du VPS. Décision de la propriétaire :
+        # ne mettre à jour que les produits FC-Moto déjà connus. À retirer
+        # quand le flux redevient normal — de nouveaux produits entreront alors.
+        connus_seulement=True,
     ),
 }
 

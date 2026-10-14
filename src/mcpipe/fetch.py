@@ -49,6 +49,8 @@ class FetchResult:
     #: le serveur a répondu « rien de neuf » (304). Distinct de `from_cache`,
     #: qui veut seulement dire « ma copie est récente, je n'ai pas demandé ».
     unchanged: bool = False
+    #: (lignes lues, lignes gardées) quand le flux a été filtré aux offres connues
+    filtre: tuple[int, int] | None = None
 
 
 def _meta_path(dest_dir: Path, code: str) -> Path:
@@ -73,15 +75,67 @@ def _ecrire_empreinte(dest_dir: Path, code: str, entetes: httpx.Headers) -> None
         json.dump(empreinte, fh)
 
 
+def _lignes(morceaux):
+    """Les lignes d'un texte reçu par morceaux, fin de ligne comprise.
+
+    Coupé sur `\\n` seulement : `csv` recolle lui-même un champ entre
+    guillemets qui contient un saut de ligne (les descriptions FC-Moto en ont).
+    """
+    reste = ""
+    for m in morceaux:
+        reste += m
+        parts = reste.split("\n")
+        reste = parts.pop()
+        for p in parts:
+            yield p + "\n"
+    if reste:
+        yield reste
+
+
+def _filtrer_connues(feed: FeedSpec, morceaux, fh, connues: set[str],
+                     on_progress=None) -> tuple[int, int, int]:
+    """Écrit dans `fh` l'en-tête et les seules lignes dont la clé est connue.
+
+    Le flux n'est jamais écrit en entier : c'est tout l'intérêt — le 14/10/2026,
+    FC-Moto a envoyé 7,2 Go, plus que le disque libre. La clé est calculée par
+    `normalize._merchant_sku`, la même qui identifie l'offre en base : le
+    filtre et la base ne peuvent pas diverger.
+    Rend (octets écrits, lignes lues, lignes gardées).
+    """
+    import csv
+    import sys
+
+    from .normalize import _merchant_sku
+
+    csv.field_size_limit(sys.maxsize)
+    lecteur = csv.reader(_lignes(morceaux), delimiter=feed.delimiter)
+    ecrivain = csv.writer(fh, delimiter=feed.delimiter, lineterminator="\n")
+    entete = next(lecteur)
+    ecrivain.writerow(entete)
+    lues = gardees = 0
+    for ligne in lecteur:
+        lues += 1
+        if _merchant_sku(feed, dict(zip(entete, ligne)), "") in connues:
+            ecrivain.writerow(ligne)
+            gardees += 1
+        if on_progress is not None and lues % 250_000 == 0:
+            on_progress(feed.code, fh.tell())
+    return fh.tell(), lues, gardees
+
+
 def fetch_feed(
     feed: FeedSpec,
     dest_dir: Path,
     *,
     max_age_seconds: float | None = 3 * 3600,
     on_progress=None,
+    connues: set[str] | None = None,
 ) -> FetchResult:
     """Download one feed. Reuses an existing file younger than `max_age_seconds`
-    (set to None to always re-download)."""
+    (set to None to always re-download).
+
+    `connues` : si fourni (et non vide), seules les offres dont la clé y figure
+    sont écrites — voir `_filtrer_connues`."""
     if feed.url is None:
         raise ValueError(f"feed {feed.code!r} has no URL configured")
 
@@ -131,12 +185,19 @@ def fetch_feed(
             return FetchResult(feed.code, final, taille, time.time() - t0,
                                from_cache=True, unchanged=True)
         r.raise_for_status()
-        with part.open("wb") as fh:
-            for chunk in r.iter_bytes(chunk_size=1 << 20):  # 1 MiB
-                fh.write(chunk)
-                written += len(chunk)
-                if on_progress is not None:
-                    on_progress(feed.code, written)
+        if connues:
+            with part.open("w", encoding="utf-8", newline="") as fh:
+                written, lues, gardees = _filtrer_connues(
+                    feed, r.iter_text(chunk_size=1 << 20), fh, connues, on_progress)
+            filtre = (lues, gardees)
+        else:
+            filtre = None
+            with part.open("wb") as fh:
+                for chunk in r.iter_bytes(chunk_size=1 << 20):  # 1 MiB
+                    fh.write(chunk)
+                    written += len(chunk)
+                    if on_progress is not None:
+                        on_progress(feed.code, written)
 
         # a stream that stops short of the advertised length is a truncated
         # download, not a complete feed. `num_bytes_downloaded` is the count
@@ -160,4 +221,4 @@ def fetch_feed(
     # place. Une empreinte écrite plus tôt ferait sauter le prochain
     # téléchargement au nom d'une copie qui n'existe pas.
     _ecrire_empreinte(dest_dir, feed.code, entetes)
-    return FetchResult(feed.code, final, written, time.time() - t0)
+    return FetchResult(feed.code, final, written, time.time() - t0, filtre=filtre)
