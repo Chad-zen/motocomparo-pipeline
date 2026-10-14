@@ -7,6 +7,20 @@ qu'une décision soit prise.
 
 ---
 
+## 00. INCIDENT DU 2026-10-14 — à lire avant le reste
+
+Disque plein du VPS causé par un flux FC-Moto anormal (7,2 Go), prix du site
+figés deux jours, offres FC-Moto restaurées depuis la sauvegarde du 13/10, et six
+correctifs du site (favicon, « %None », meilleur prix par taille, recherche par
+EAN, filtre de rayon, codes-barres + SEO). Tout est dans
+`docs/plans/2026-10-15-incident-fcmoto-et-correctifs.md`.
+
+**⚠️ Ouvert :** la tâche nocturne retélécharge FC-Moto — si son flux est encore
+à ~7 Go, le disque se remplit à nouveau. Voir la section « Reste ouvert » du
+fichier ci-dessus.
+
+---
+
 ## 0. CE QUI A CHANGÉ LE 2026-09-14 — à lire avant le reste
 
 Session autonome longue. Le détail est dans

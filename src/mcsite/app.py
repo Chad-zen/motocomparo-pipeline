@@ -507,11 +507,26 @@ def product(request: Request, slug: str):
     # the cheapest offer that a visitor can actually buy today — `rows` is
     # already sorted in stock first, then by price
     meilleure = next((o for o in rows if o["price"] is not None), None)
-    # the barcode, shown as the reference: it is the one identifier every
-    # merchant on the page agrees on, which is exactly what makes it worth
-    # printing. Merchants with a synthetic GTIN are skipped — theirs is ours.
-    reference = next((o["gtin"] for o in rows
-                      if o["gtin"] and o["merchant"] not in ("maxxess", "motoaxxe")), None)
+    # Le code-barres affiché. UN EAN PAR TAILLE : l'Arai Frost en porte cinq.
+    # L'ancien code prenait celui de la première offre du tableau, donc d'une
+    # taille au hasard — « un code qui sort de je ne sais où », selon la
+    # propriétaire (15/10/2026). Près du titre : seulement s'il est unique, ou
+    # celui de la taille choisie (script de la fiche). Tous les codes restent
+    # écrits en clair dans « Codes-barres par taille » : une recherche Google
+    # sur un EAN doit pouvoir tomber sur cette page, quelle que soit la taille.
+    # Maxxess et Moto-Axxe sont écartés : leur GTIN est synthétique.
+    for o in rows:
+        o["ean"] = (o["gtin"] if o["gtin"]
+                    and o["merchant"] not in ("maxxess", "motoaxxe") else "")
+    eans = {o["ean"] for o in rows if o["ean"]}
+    reference = next(iter(eans)) if len(eans) == 1 else None
+    # La taille d'un code se lit sur les offres qui la déclarent ; un code vu
+    # seulement chez des marchands muets sur la taille reste sans taille.
+    codes_tailles = []
+    for ean in eans:
+        vues = {o["taille"] for o in rows if o["ean"] == ean and o["taille"]}
+        codes_tailles.append({"ean": ean, "taille": vues.pop() if len(vues) == 1 else ""})
+    codes_tailles.sort(key=lambda c: (not c["taille"], labels.size_key(c["taille"]), c["ean"]))
     # What comparing is worth here, in euros. Computed across every live offer;
     # the page's own script narrows it to the chosen size, because comparing an
     # XS against an XL is not comparing.
@@ -548,8 +563,10 @@ def product(request: Request, slug: str):
              seuils_remise=labels.SEUILS_REMISE,
              similaires=similaires, meme_gamme=meme_gamme, promos=promos,
              caracteristiques=caracteristiques,
+             codes_tailles=codes_tailles if len(codes_tailles) > 1 else [],
              donnees_structurees=[
-                 _donnees_structurees(request, p, rows, image, reference),
+                 _donnees_structurees(request, p, rows, image, reference,
+                                      codes_tailles),
                  _fil_structure(request, p),
              ]),
     )
@@ -561,8 +578,15 @@ def _donnees_structurees(
     rows: list[dict[str, Any]],
     image: str | None,
     reference: str | None,
+    codes_tailles: list[dict[str, str]] | None = None,
 ) -> dict[str, Any]:
     """Le produit et sa fourchette de prix, décrits pour les moteurs.
+
+    Plusieurs tailles, chacune avec son EAN : un `ProductGroup` (variesBy
+    size) et une variante par taille, portant SON code-barres et SA
+    fourchette de prix. L'ancien balisage posait le `gtin13` d'une seule
+    taille, prise au hasard, sur un produit qui les couvre toutes — une
+    donnée fausse. Avis d'un consultant SEO, 15/10/2026.
 
     Une fiche de comparateur sans ces données n'est qu'un texte dans les
     résultats de recherche. Avec elles, le résultat porte la fourchette de
@@ -623,6 +647,40 @@ def _donnees_structurees(
                 else "https://schema.org/OutOfStock"
             ),
         }
+
+    variantes = []
+    for c in codes_tailles or []:
+        if not c["taille"]:
+            continue
+        lignes = [o for o in rows if o["ean"] == c["ean"] and o["price"] is not None]
+        if not lignes:
+            continue
+        dispo = [o["price"] for o in lignes if o["in_stock"] is not False]
+        prix_v = [o["price"] for o in lignes]
+        variantes.append({
+            "@type": "Product",
+            "name": f"{nom} — taille {c['taille']}",
+            "size": c["taille"],
+            "gtin13" if len(c["ean"]) == 13 else "sku": c["ean"],
+            "offers": {
+                "@type": "AggregateOffer",
+                "priceCurrency": "EUR",
+                "lowPrice": f"{min(dispo or prix_v):.2f}",
+                "highPrice": f"{max(prix_v):.2f}",
+                "offerCount": len(lignes),
+                "availability": ("https://schema.org/InStock" if dispo
+                                 else "https://schema.org/OutOfStock"),
+            },
+        })
+    if len(variantes) > 1:
+        groupe = {k: v for k, v in produit.items() if k != "offers"}
+        groupe.update({
+            "@type": "ProductGroup",
+            "productGroupID": p["slug"],
+            "variesBy": "https://schema.org/size",
+            "hasVariant": variantes,
+        })
+        return groupe
     return produit
 
 

@@ -26,7 +26,8 @@
        et repoussaient d'autant le seul chiffre que la page existe pour
        montrer. #}
     <p class="fiche__identite">
-      {% if reference %}<span class="fiche__ref">Réf. {{ reference }}</span>{% endif %}
+      <span class="fiche__ref" data-ean data-ean-initial="{{ reference or '' }}"
+            {{ 'hidden' if not reference }}>EAN <span data-ean-valeur>{{ reference or '' }}</span></span>
       {# Pas une note de produit : personne n'a testé ce casque ici. C'est la
          nature du site qui est affirmée, et le libellé le dit en toutes lettres
          pour qu'aucun visiteur ne lise « 5 étoiles pour ce casque ». #}
@@ -171,6 +172,7 @@
        le premier filtre. Voir la boucle des rangs plus bas. #}
     <tr class="{{ 'offres__rupture' if o.in_stock is false }} {{ 'est-paire' if loop.index is even }}"
         data-taille="{{ o.taille }}"
+        data-ean="{{ o.ean or '' }}"
         data-prix="{{ o.price if o.price is not none else '' }}"
         data-nb="{{ o.autres | length + 1 }}">
       <td class="offres__marchand">
@@ -437,6 +439,8 @@
   const blocPrix = document.querySelector('[data-bloc-prix]');
   const chezEl  = document.querySelector('.meilleur__chez');
   const voirEl  = document.querySelector('.meilleur__voir');
+  const eanEl   = document.querySelector('[data-ean]');
+  const eanVal  = document.querySelector('[data-ean-valeur]');
 
   // Les bornes viennent du serveur (`labels.SEUILS_REMISE`), elles ne sont pas
   // réécrites ici : la couleur est une promesse faite au visiteur, et deux
@@ -532,6 +536,20 @@
     }
 
     if (miniEl && prixTous.length) miniEl.textContent = euros(Math.min(...prixTous));
+
+    // Un EAN par taille : on montre celui de la taille choisie, lu sur une
+    // ligne qui DÉCLARE cette taille (une ligne sans taille peut porter le
+    // code de n'importe laquelle). Sur « Toutes », retour à la valeur du
+    // serveur — vide, donc masqué, dès que la fiche en porte plusieurs.
+    if (eanEl && eanVal) {
+      let ean = eanEl.dataset.eanInitial || '';
+      if (taille !== '*') {
+        const ligne = lignes.find(tr => tr.dataset.taille === taille && tr.dataset.ean);
+        ean = ligne ? ligne.dataset.ean : '';
+      }
+      eanVal.textContent = ean;
+      eanEl.hidden = !ean;
+    }
 
     // Le bandeau « chez X » et le bouton « Voir l'offre » tout en haut de la
     // fiche restaient figés sur le marchand le moins cher TOUTES tailles
@@ -667,6 +685,26 @@
   D'après les fiches marchands{% if caracteristiques | selectattr('source', 'equalto', 'sharp') | list %}
   et les essais <a href="https://sharp.dft.gov.uk/" target="_blank" rel="noopener">SHARP</a>{% endif %}.
 </p>
+</section>
+{% endif %}
+
+{% if codes_tailles %}
+{# Un EAN par taille, tous écrits en clair et rendus par le serveur : une
+   recherche Google sur n'importe lequel doit pouvoir tomber sur cette page.
+   Les mêmes codes sont déclarés taille par taille dans les données
+   structurées (`ProductGroup`). #}
+<section class="offres__carte">
+<div class="offres__tete">
+  <h2 class="titre-section">Codes-barres par taille</h2>
+</div>
+<dl class="caracs">
+  {% for c in codes_tailles %}
+  <div class="carac">
+    <dt>{{ c.taille or 'Taille non précisée' }}</dt>
+    <dd>EAN {{ c.ean }}</dd>
+  </div>
+  {% endfor %}
+</dl>
 </section>
 {% endif %}
 

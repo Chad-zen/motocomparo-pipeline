@@ -72,7 +72,7 @@ def test_la_page_rend(client, chemin):
 def test_la_fiche_produit_rend(client, une_fiche):
     r = client.get(f"/p/{une_fiche}")
     assert r.status_code == 200
-    assert "Réf." in r.text
+    assert "data-ean" in r.text
 
 
 def test_une_fiche_inconnue_est_un_404_pas_un_500(client):
