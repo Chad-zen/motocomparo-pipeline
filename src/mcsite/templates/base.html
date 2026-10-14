@@ -49,9 +49,16 @@
    PageSpeed Insights avant qu'une seule lettre ne s'affiche. #}
 <link rel="stylesheet" href="/static/polices.css?v={{ version_css() }}">
 {# Sans icône déclarée, le navigateur demande /favicon.ico à chaque page et
-   récolte un 404 — visible dans les journaux, et un onglet sans repère. #}
-<link rel="icon" href="/static/favicon.svg?v={{ version_css() }}" type="image/svg+xml">
-<link rel="icon" href="/static/apple-touch-icon.png" sizes="180x180">
+   récolte un 404 — visible dans les journaux, et un onglet sans repère.
+
+   Le SVG d'origine encapsulait une image déjà réduite : net à 32px, mais à
+   16px (la taille réelle d'un onglet) le cadran de vitesse et les reflets du
+   badge se brouillent en bouillie grise — signalé par la propriétaire
+   (14/10/2026). Trois tailles PNG générées directement depuis la source,
+   chacune servie telle quelle plutôt que redimensionnée par le navigateur. #}
+<link rel="icon" href="/static/favicon.ico?v={{ version_css() }}" sizes="any">
+<link rel="icon" href="/static/favicon-32.png?v={{ version_css() }}" type="image/png" sizes="32x32">
+<link rel="icon" href="/static/favicon-16.png?v={{ version_css() }}" type="image/png" sizes="16x16">
 <link rel="apple-touch-icon" href="/static/apple-touch-icon.png">
 <link rel="stylesheet" href="/css/style.min.css?v={{ version_css() }}">
 {# Les données structurées de la page, pour les moteurs de recherche. Posées

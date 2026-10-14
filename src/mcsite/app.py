@@ -1295,10 +1295,10 @@ def favicon() -> Response:
     site portait un 404 sous CHAQUE visite. Un 404 qu'on s'explique est un 404
     qu'on finit par ne plus lire, y compris le jour où il en cache un vrai.
 
-    Redirection permanente plutôt que copie d'un fichier `.ico` : une seule
-    image à tenir à jour, et le navigateur ne redemande plus.
+    Redirection permanente vers le vrai `.ico` servi par ailleurs dans
+    `/static` : le navigateur ne redemande plus après la première fois.
     """
-    return RedirectResponse("/static/favicon.svg", status_code=301)
+    return RedirectResponse("/static/favicon.ico", status_code=301)
 
 
 @app.get("/robots.txt", response_class=PlainTextResponse)
