@@ -792,6 +792,27 @@ def listing_count(
 
 # ------------------------------------------------------------------------ product
 
+def slug_par_gtin(conn: psycopg.Connection, gtin: str) -> str | None:
+    """Le slug de la fiche qui porte CE code-barres, ou rien.
+
+    Un EAN/UPC tapé dans la recherche ne ressemble jamais au texte d'un
+    titre marchand (`f_recherche` compare des mots, pas des chiffres) : la
+    recherche habituelle rend donc toujours une page vide pour un code-barres
+    valide — signalé par la propriétaire (14/10/2026). Un produit retiré
+    (`status = 'merged'`) n'est jamais la cible : sa fiche n'existe plus,
+    seule celle qui l'a absorbé doit répondre.
+    """
+    row = _row(conn, """
+        SELECT p.slug
+        FROM raw_offer o
+        JOIN product p ON p.id = o.product_id
+        WHERE o.gtin = %s AND p.status <> 'merged'
+        ORDER BY o.is_live DESC, o.last_seen DESC
+        LIMIT 1
+    """, (gtin,))
+    return row["slug"] if row else None
+
+
 def product(conn: psycopg.Connection, slug: str) -> dict[str, Any] | None:
     return _row(conn, """
         SELECT p.id, p.brand_code, p.model_display, p.colour_code, p.genre_age,

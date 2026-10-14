@@ -10,6 +10,7 @@
    mentait donc à chaque fois qu'un critère était actif. #}
 {% macro lien_rayon(code_cible) -%}
   {%- set p = {
+       'q':         (f.texte if f else '') or '',
        'marque':    (f.marque if f else '') or '',
        'prix_min':  (f.prix_min | round | int) if (f and f.prix_min is not none) else '',
        'prix_max':  (f.prix_max | round | int) if (f and f.prix_max is not none) else '',

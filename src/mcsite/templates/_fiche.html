@@ -71,7 +71,7 @@
                 data-seuils="{{ seuils_remise | join(',') }}"
                 {{ 'hidden' if not (plus_cher and remise) }}>
             <s class="meilleur__barre" data-prix-haut>{{ plus_cher | prix if plus_cher }}</s>
-            <span class="remise" data-remise>−{{ remise }}&nbsp;%</span>
+            <span class="remise" data-remise>−{{ remise or 0 }}&nbsp;%</span>
           </span>
           </span>
           {% set logo_meilleur = logo_marchand(meilleure.merchant) %}
@@ -435,6 +435,8 @@
   const hautEl  = document.querySelector('[data-prix-haut]');
   const remiseEl = document.querySelector('[data-remise]');
   const blocPrix = document.querySelector('[data-bloc-prix]');
+  const chezEl  = document.querySelector('.meilleur__chez');
+  const voirEl  = document.querySelector('.meilleur__voir');
 
   // Les bornes viennent du serveur (`labels.SEUILS_REMISE`), elles ne sont pas
   // réécrites ici : la couleur est une promesse faite au visiteur, et deux
@@ -483,11 +485,22 @@
     // Dès qu'une taille est choisie, la première ligne affichée n'est plus la
     // première du tableau : sans ce recalcul, « Meilleur prix » restait sur une
     // ligne masquée, donc invisible — et les rangs sautaient (4, 5, 11).
+    //
+    // `gagnantTr` cherche la première ligne visible qui n'est PAS en rupture :
+    // sans ce garde, une offre épuisée mais moins chère gardait le badge
+    // « Meilleur prix » — repéré sur un Arai taille S en rupture chez FC-Moto
+    // (15/10/2026), où le badge restait sur une offre qu'on ne peut pas acheter.
+    let gagnantTr = null;
+    for (const tr of lignes) {
+      if (tr.hidden) continue;
+      if (!gagnantTr && !tr.classList.contains('offres__rupture')) gagnantTr = tr;
+    }
+
     let rang = 0;
     for (const tr of lignes) {
       if (tr.hidden) continue;
       rang += 1;
-      const premier = rang === 1;
+      const premier = tr === gagnantTr;
       // Le damier suit les lignes VISIBLES, pas celles du HTML : sans ca,
       // filtrer sur une taille laissait deux fonds gris cote a cote.
       tr.classList.toggle('est-paire', rang % 2 === 0);
@@ -519,6 +532,36 @@
     }
 
     if (miniEl && prixTous.length) miniEl.textContent = euros(Math.min(...prixTous));
+
+    // Le bandeau « chez X » et le bouton « Voir l'offre » tout en haut de la
+    // fiche restaient figés sur le marchand le moins cher TOUTES tailles
+    // confondues, même rompu ou plus cher pour la taille choisie — le
+    // visiteur cliquait vers une offre qui ne correspondait plus au prix
+    // affiché. Ils suivent maintenant `gagnantTr`, exactement comme la ligne
+    // du tableau.
+    if (chezEl && voirEl && gagnantTr) {
+      const cellMarchand = gagnantTr.querySelector('.offres__marchand');
+      const lienOffre = gagnantTr.querySelector('.offres__action a');
+      const logo = cellMarchand && cellMarchand.querySelector('img');
+      if (logo) {
+        chezEl.textContent = 'chez ';
+        const copie = logo.cloneNode(true);
+        copie.className = 'meilleur__logo';
+        chezEl.appendChild(copie);
+      } else {
+        const nom = cellMarchand && cellMarchand.querySelector('strong');
+        chezEl.textContent = 'chez ' + (nom ? nom.textContent : '');
+      }
+      if (lienOffre) {
+        voirEl.href = lienOffre.href;
+        const prixLigne = parseFloat(gagnantTr.dataset.prix);
+        const nomMarchand = (logo ? logo.alt
+          : (cellMarchand.querySelector('strong') || {}).textContent) || '';
+        voirEl.setAttribute('aria-label',
+          'Voir la meilleure offre, ' + (isNaN(prixLigne) ? '' : euros(prixLigne))
+          + ' chez ' + nomMarchand + ' (nouvel onglet)');
+      }
+    }
 
     // Le prix barré et la remise suivent la taille choisie, comme le reste :
     // barrer le prix d'un 2XL en face du meilleur prix d'un M annoncerait une

@@ -414,6 +414,7 @@ def produits(
 def category(
     request: Request,
     code: str,
+    q: str = "",
     page: int = Query(1, ge=1, le=_PAGE_MAX),
     marque: str | None = None,
     prix_min: float | None = Query(None, ge=0, le=100_000),
@@ -430,9 +431,15 @@ def category(
         raise HTTPException(404, "Catégorie inconnue")
     # a parent searches itself and its children: clicking "Casques" must return
     # every helmet, not only those with no readable subtype
-    f = queries.Filtres(categories=courante["ids"], marque=marque,
-                        prix_min=prix_min, prix_max=prix_max, taille=taille,
-                        couleur=couleur, marchands=marchands, tri=tri)
+    #
+    # `q` : sans lui, taper « Honda » puis cliquer un rayon dans le panneau
+    # de facettes perdait le mot tapé — `lien_rayon` dans listing.html porte
+    # maintenant le même paramètre, mais la route doit aussi savoir le lire.
+    # Signalé par la propriétaire (14/10/2026).
+    f = queries.Filtres(categories=courante["ids"], texte=q.strip() or None,
+                        marque=marque, prix_min=prix_min, prix_max=prix_max,
+                        taille=taille, couleur=couleur, marchands=marchands,
+                        tri=tri)
     return _liste(request, courante["label_fr"], f"/c/{code}", f, page,
                   code=code, courante=courante)
 
@@ -1450,6 +1457,18 @@ def search(
     nothing to narrow them down. The typed words are now a filter like any
     other, which also means they survive every click inside the panel.
     """
+    # Un code-barres (EAN-8 à GTIN-14, chiffres uniquement) ne ressemble
+    # jamais à un titre marchand : la recherche texte ci-dessous ne le
+    # trouve jamais, même collé mot pour mot sur la bonne fiche. On le
+    # cherche donc directement par code-barres, et on saute tout droit à la
+    # fiche s'il y en a une — pas de page de résultats à un seul élément.
+    code = q.strip()
+    if code.isdigit() and 8 <= len(code) <= 14:
+        with pool.connection() as conn:  # type: ignore[union-attr]
+            slug = queries.slug_par_gtin(conn, code)
+        if slug:
+            return RedirectResponse(f"/p/{slug}", status_code=302)
+
     f = queries.Filtres(texte=q.strip() or None, marque=marque,
                         prix_min=prix_min, prix_max=prix_max, taille=taille,
                         couleur=couleur, marchands=marchands, tri=tri)
