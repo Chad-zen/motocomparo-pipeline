@@ -286,3 +286,39 @@ chacune (1,3-2,4 s par combinaison jamais vue, instantané ensuite grâce aux
 caches). Le prochain levier serait d'en réduire le nombre — chantier à mener
 avec mesures avant/après, une fusion naïve ayant déjà été essayée et
 abandonnée (commentaire dans `queries.py`).
+
+## 7. Fin de journée : filtres, fiche, bandeau cookies (15/10, soir)
+
+- **Colonne de filtres ordinateur** : tient dans l'écran et défile seule ;
+  on n'a plus à descendre toute la page pour atteindre Couleur (`14e4d48`).
+- **Fiche produit** : l'encadré photo occupe toute la hauteur de la colonne
+  prix/tailles, plus de blanc dessous (`90e4ef0`).
+- **Filtre « N marchands et + »** retiré du panneau et sa requête avec ; le
+  paramètre reste lu pour les anciens liens (`90e4ef0`).
+- **Rubriques repliables comme chez Speedway** : Taille, Couleur, Prix… sont
+  des accordéons. Ouvertes d'office : Catégories, Marques, et toute rubrique
+  avec un choix actif ; les gestes du visiteur sont retenus pour l'onglet
+  (`3b3d9dd`). Fausse route d'abord : un bouton « Fermer les filtres » global
+  (`ace8d0d`, `9973e8f`) — ce n'était pas la demande, retiré sans trace.
+- **Bandeau cookies** d'après la maquette de la propriétaire (cookies casqués
+  « M » et « C ») : carte compacte en bas d'écran, sans voile ; « Tout
+  refuser » et « Accepter et fermer » de même taille (contour discret sur le
+  refus) ; texte de la maquette sans ce qui serait faux (pas de
+  personnalisation, pas d'écran de réglages) ; « Continuer sans accepter »
+  retiré à sa demande ; plus de cadre de focus jaune à l'ouverture
+  (`9c402b7` → `a1b5180`). Tests de consentement verts : refus d'abord,
+  Google chargé à l'accord seulement, choix 6 mois, « Gérer les cookies ».
+
+**Reste ouvert à la fin du 15/10 :**
+- Blog : la rubrique `/guides` est en ligne, mais les 3 brouillons ne sont
+  pas publiés (passages « essai réel » à fournir par la propriétaire, ou à
+  réécrire sans prétendre à un essai).
+- Alertes de prix : aucun e-mail de BAISSE encore observé en production.
+- Facettes : 1,3 à 2,4 s par combinaison neuve ; le prochain levier est d'en
+  réduire le nombre de requêtes (chantier mesuré, pas improvisé).
+- Logo vectoriel (SVG) : fichier source manquant.
+- Anciennes adresses v1 (`/shop/…`, `/product/…`) : répondent 404, encore
+  explorées par Google — des redirections 301 récupéreraient ce trafic.
+- Base : `VACUUM FULL` à planifier ; restes de l'incident FC-Moto toujours
+  sur le VPS (base `mcpipe_restore_tmp`, ~1,7 Go de CSV dans `/tmp`,
+  disque à 71 %).
