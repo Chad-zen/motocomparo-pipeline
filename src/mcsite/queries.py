@@ -996,6 +996,7 @@ def facets(conn: psycopg.Connection, f: Filtres) -> dict[str, Any]:
         FROM product p
         JOIN product_stats s ON s.product_id = p.id
         JOIN variant v ON v.product_id = p.id
+        JOIN category c ON c.id = p.category_id
         {_OU} AND v.size_code <> 'TU'
           -- Seulement ce qui EST une taille. Le champ en contient d'autres
           -- choses, héritées des flux : des mots du modèle (MONO, PURE, TECH,
@@ -1010,7 +1011,18 @@ def facets(conn: psycopg.Connection, f: Filtres) -> dict[str, Any]:
           -- `{{0,3}}` comme un champ à formater — le motif partait en
           -- `X(0, 3)[SML]`, qui ne correspond à rien. Aucune erreur levée,
           -- aucune taille affichée : le pire des deux mondes.
-          AND (v.size_code ~ '^[2-6]?X{{0,3}}[SML]$' OR v.size_code ~ '^[0-9]{{1,2}}$')
+          --
+          -- Les BOTTES ont leur propre échelle, normalisée en `EU36`..`EU52` :
+          -- un chiffre brut à 1-2 chiffres n'y est jamais une vraie pointure,
+          -- toujours un résidu de flux (pointure US sans préfixe, demi-pointure
+          -- tronquée). Un visiteur voyait « 8, 11, 34, 2 » côte à côte et
+          -- jamais une pointure EU, qui ne matchait aucun des deux motifs
+          -- (signalé par la propriétaire le 15/10/2026). Ailleurs (gants,
+          -- blousons...) ce même chiffre brut EST la taille : la restriction
+          -- ne vaut que pour les bottes.
+          AND (v.size_code ~ '^[2-6]?X{{0,3}}[SML]$'
+               OR v.size_code ~ '^EU[0-9]{{2}}$'
+               OR (c.code <> 'boots' AND v.size_code ~ '^[0-9]{{1,2}}$'))
           -- 65, 75, 85, 95 : des demi-pointures US (7,5 -> 75) dont le point
           -- s'est perdu en route. Ni une pointure EU, ni une taille lisible.
           AND v.size_code NOT IN ('65', '75', '85', '95')
