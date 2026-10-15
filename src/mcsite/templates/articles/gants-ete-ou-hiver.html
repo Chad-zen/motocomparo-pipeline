@@ -1,61 +1,94 @@
 {#---
-titre: Gants été ou hiver : comment choisir
-description: La norme EN 13594 expliquée, et ce que les fiches des marchands déclarent vraiment sur la saison, l'imperméabilité et le niveau de protection des gants moto.
+titre: Gants moto été, mi-saison ou hiver : comment choisir
+description: Norme EN 13594, niveau 1 ou 2, membrane ou déperlant : ce qui distingue un gant moto d'été d'un gant d'hiver, chiffres du catalogue à l'appui.
 date: 2026-10-16
 statut: publié
 rayon: gloves
 produits:
 marques:
+illustration: gants-ete-ou-hiver.webp
+illustration_alt: Mains gantées posées sur la poignée d'une moto, route mouillée et feuilles d'automne en arrière-plan.
 ---#}
 
+<div class="article__reponse">
+  <p>
+    <b>La réponse courte.</b> La saison choisit la doublure et
+    l'imperméabilité&nbsp;; la protection, elle, dépend de la norme
+    <b>EN 13594</b>, la même pour tous les gants. Pour rouler en automne et en
+    hiver, cherchez un gant homologué EN 13594 avec une membrane imperméable
+    (pas seulement un traitement déperlant), une doublure thermique et une
+    manchette longue qui recouvre la manche du blouson. Un gant d'été
+    perforé n'est pas fait pour la pluie ni pour le froid.
+  </p>
+</div>
+
+<h2>Ce que la loi impose</h2>
 <p>
-  Un gant moto n'est pas qu'une question de saison. Il doit d'abord répondre à
-  une norme, et c'est elle qui garantit un niveau de protection minimal —
-  la saison ne fait que choisir la doublure et l'imperméabilité qui vont
-  autour.
+  Depuis le 20 novembre 2016, le port de gants homologués est obligatoire
+  pour le conducteur et le passager d'une moto, d'un scooter ou d'un
+  cyclomoteur (article R431-1-2 du Code de la route, créé par le décret
+  n°&nbsp;2016-1232). Rouler sans gants homologués expose à une amende de
+  troisième classe et au retrait d'un point. La règle ne dépend pas de la
+  saison&nbsp;: un gant d'été doit être homologué au même titre qu'un gant
+  d'hiver.
 </p>
 
 <h2>La norme EN 13594, en clair</h2>
 <p>
-  Les gants de moto homologués portent la norme <b>EN 13594</b>. Elle fixe
-  deux niveaux&nbsp;: le <b>niveau 1</b>, pour un usage urbain à vitesse
-  modérée, et le <b>niveau 2</b>, plus protecteur, pensé pour la route et la
-  vitesse. La mention <b>KP</b> (Knuckle Protection) signale que la
-  protection des articulations a été testée séparément&nbsp;; son absence ne
-  veut pas dire qu'il n'y a pas de coque, seulement qu'elle n'a pas été
-  testée selon ce protocole précis.
+  Un gant homologué porte la référence <b>EN 13594</b> sur l'étiquette
+  cousue à l'intérieur, avec un pictogramme de motard. La norme fixe deux
+  niveaux&nbsp;: le <b>niveau 1</b>, le socle exigé, et le <b>niveau 2</b>,
+  qui demande une meilleure résistance à l'abrasion, à la coupure et aux
+  chocs. La mention <b>KP</b> (pour <i>knuckle protection</i>, protection
+  des articulations) indique que la coque des phalanges a été testée au
+  choc. Son absence ne veut pas dire qu'il n'y a pas de coque, seulement
+  qu'elle n'a pas été testée selon ce protocole.
 </p>
 
-<h2>Ce que les fiches de notre catalogue déclarent</h2>
+<h2>Ce que déclarent les fiches de notre catalogue</h2>
 <p>
-  Répartition des gants comparables (deux marchands au moins, prix connu) de
-  notre catalogue selon ce qu'indique leur fiche&nbsp;:
+  Les tableaux suivants comptent les gants comparables du catalogue (vendus
+  par deux marchands au moins, avec un prix connu) selon ce que leur fiche
+  marchande indique. Ils sont recalculés à l'ouverture de la page.
 </p>
 
+<h3>Saison déclarée</h3>
 {% set rep = donnees.repartition('gloves', 'saison') %}
 {% include "_article_repartition.html" %}
 
-<h3>Niveau de protection (EN 13594)</h3>
-{% set rep = donnees.repartition('gloves', 'niveau') %}
+<h3>Homologation déclarée</h3>
+{# Le libellé du site pour `homologation` est celui des casques (« ECE ») :
+   remplacé ici, sans toucher au résultat mis en cache. #}
+{% set rep = dict(donnees.repartition('gloves', 'homologation'), libelle='Homologation') %}
 {% include "_article_repartition.html" %}
-
-<p class="sous-titre">
-  Les fiches où aucune de ces deux informations n'apparaît ne sont pas
-  comptées ici&nbsp;: le marchand ne les a pas renseignées, ce qui ne veut
-  pas dire que le gant n'est pas homologué — vérifiez l'étiquette cousue.
+<p>
+  Une fiche qui indique seulement «&nbsp;CE&nbsp;» signale un équipement de
+  protection individuelle sans citer la norme&nbsp;: c'est le marchand qui
+  n'a pas recopié la référence, pas forcément le gant qui ne l'a pas.
+  L'étiquette cousue, elle, doit mentionner EN 13594.
 </p>
 
-<h2>Été, hiver, mi-saison : ce qui change</h2>
+<h3>Protection des articulations testée (KP)</h3>
+{% set rep = donnees.repartition('gloves', 'kp') %}
+{% include "_article_repartition.html" %}
+
+<h2>Été, mi-saison, hiver : ce qui change</h2>
 <ul class="liste-puces">
-  <li><b>Été.</b> Matière perforée ou ajourée, souvent sans doublure
-      thermique ni membrane imperméable&nbsp;: la priorité va à la
-      ventilation, pas à la protection contre la pluie.</li>
-  <li><b>Hiver.</b> Doublure thermique et membrane imperméable (Gore-Tex ou
-      équivalent), manchette plus longue pour couvrir le poignet du blouson.
-      Certains modèles ajoutent un système chauffant&nbsp;: la fiche le
-      déclare explicitement quand c'est le cas.</li>
-  <li><b>Mi-saison.</b> Un compromis&nbsp;: souvent imperméable sans être
-      aussi isolant qu'un gant d'hiver.</li>
+  <li><b>Été.</b> Cuir perforé ou textile ajouré, souvent sans doublure
+      thermique ni membrane&nbsp;: la priorité va à la ventilation. Ces gants
+      se mouillent sous une averse et refroidissent vite dès que la
+      température baisse.</li>
+  <li><b>Mi-saison.</b> Un compromis pour le printemps et l'automne&nbsp;:
+      souvent imperméable, avec une doublure légère, sans être aussi isolant
+      qu'un gant d'hiver.</li>
+  <li><b>Hiver.</b> Doublure thermique et membrane imperméable, manchette
+      longue qui se ferme par-dessus la manche du blouson pour que l'eau et
+      l'air ne remontent pas. L'isolation ajoute de l'épaisseur&nbsp;: le
+      toucher des commandes est moins précis qu'avec un gant fin.</li>
+  <li><b>Chauffant.</b> Une résistance alimentée par une batterie ou par la
+      moto. C'est la seule solution qui produit de la chaleur au lieu de
+      seulement la conserver&nbsp;; elle est aussi la plus chère, et la fiche
+      le déclare toujours explicitement.</li>
 </ul>
 
 <h2>Avant d'acheter</h2>
@@ -66,15 +99,27 @@ marques:
       taille habituelle, pas plus petit&nbsp;: trop serré, il gêne la
       circulation et les doigts refroidissent plus vite.</li>
   <li><b>L'imperméabilité.</b> Une membrane (Gore-Tex ou équivalent) garde
-      l'eau dehors. Un traitement « déperlant » de surface, lui, s'use avec le
-      temps et cède sous une averse longue. La fiche dit lequel des deux, et
-      ce mot compte plus que la mention « imperméable ».</li>
+      l'eau dehors. Un traitement «&nbsp;déperlant&nbsp;» de surface, lui,
+      s'use avec le temps et cède sous une averse longue. La fiche dit lequel
+      des deux, et ce mot compte plus que la mention «&nbsp;imperméable&nbsp;».</li>
   <li><b>L'entretien.</b> Suivez la notice du fabricant&nbsp;: un gant en
       cuir se nettoie et se nourrit, et ne passe pas en machine sauf mention
       contraire. Un mauvais lavage abîme aussi la membrane.</li>
   <li><b>Le froid prolongé.</b> Sur un long trajet par temps froid, aucun
       gant ne garde à lui seul les doigts au chaud&nbsp;: poignées chauffantes,
       manchons ou gants chauffants prennent alors le relais.</li>
+</ul>
+
+<h2>Pour comparer les prix</h2>
+<ul class="liste-puces">
+  <li><a href="/c/gloves?saison=hiver">Les gants d'hiver comparés</a>,
+      <a href="/c/gloves?saison=mi-saison">les gants mi-saison</a> et
+      <a href="/c/gloves?saison=ete">les gants d'été</a>.</li>
+  <li><a href="/c/gloves">Tous les gants</a>, avec le filtre
+      «&nbsp;Homologation&nbsp;» pour ne garder que les fiches qui citent
+      EN 13594.</li>
+  <li><a href="/guides#guide-normes">Les normes des vêtements et des
+      protections</a> (EN 17092, EN 1621, EN 13594).</li>
 </ul>
 
 <p class="mentions">

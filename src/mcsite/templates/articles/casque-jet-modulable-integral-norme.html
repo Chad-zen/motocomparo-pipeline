@@ -1,47 +1,70 @@
 {#---
-titre: Casque jet, modulable ou intégral : ce que change la norme
-description: La norme ECE 22.06 ne protège pas de la même façon selon le type de casque. Ce qu'elle teste réellement, et combien de modèles de chaque type sont comparables sur le site.
+titre: Casque jet, modulable ou intégral : que dit la norme ECE 22.06 ?
+description: Jet, intégral ou modulable : ce que la norme ECE 22.06 teste sur chaque type de casque, comment lire l'étiquette P, J ou P/J, et quel type pour quel usage.
 date: 2026-10-16
 statut: publié
 rayon: helmet
 produits:
 marques:
+illustration: casque-jet-modulable-integral-norme.webp
+illustration_alt: Trois silhouettes de casques moto sans marque, un jet, un modulable et un intégral, alignés sur une étagère d'atelier.
 ---#}
 
+<div class="article__reponse">
+  <p>
+    <b>La réponse courte.</b> Un casque jet, un modulable et un intégral
+    peuvent tous être homologués ECE 22.06 sans protéger la même surface&nbsp;:
+    seuls l'intégral et le modulable fermé ont une mentonnière testée au
+    choc. L'étiquette cousue sur la jugulaire le dit par une lettre&nbsp;:
+    <b>P</b> (mentonnière protectrice), <b>J</b> (jet, sans protection du
+    bas du visage) ou <b>P/J</b> (modulable homologué dans les deux
+    positions). Le jet convient à la ville, l'intégral à la route, le
+    modulable à ceux qui veulent l'ouvrir à l'arrêt ou portent des lunettes.
+  </p>
+</div>
+
 <p>
-  « Casque intégral », « jet », « modulable »&nbsp;: ces mots décrivent une
-  forme, pas un niveau de protection. La norme <b>ECE 22.06</b> — voir le
-  <a href="/guides#guide-ece2206">guide qui l'explique</a> — ne teste pas non
-  plus tous les casques de la même façon, et c'est ce que ce type de casque
-  change concrètement.
+  «&nbsp;Intégral&nbsp;», «&nbsp;jet&nbsp;», «&nbsp;modulable&nbsp;»&nbsp;:
+  ces mots décrivent une forme, pas un niveau de protection. La norme
+  <b>ECE 22.06</b>, obligatoire pour tout casque neuf vendu dans l'Union
+  européenne (voir le <a href="/guides#guide-ece2206">repère qui
+  l'explique</a>), ne teste pas tous les casques de la même façon. Voici ce
+  qui change selon le type, et comment le vérifier soi-même sur
+  l'étiquette.
 </p>
 
-<h2>Ce que la norme teste, et où elle s'arrête</h2>
+<h2>Ce que la norme teste, type par type</h2>
 <p>
-  ECE 22.06 classe un casque homologué selon ce qu'il protège&nbsp;:
+  Tous les casques homologués ECE 22.06 passent les mêmes essais sur la
+  calotte&nbsp;: chocs à plusieurs vitesses et en plusieurs points, essai de
+  rotation (la tête qui pivote brusquement au moment de l'impact), tenue de
+  la jugulaire, champ de vision et qualité optique de l'écran quand il y en
+  a un. La différence porte sur le bas du visage&nbsp;:
 </p>
 <ul class="liste-puces">
-  <li><b>Intégral et modulable (mentonnière fermée).</b> La mentonnière est
-      testée au choc, comme la calotte. C'est la seule configuration qui
-      couvre le bas du visage et le menton au moment de l'impact.</li>
-  <li><b>Jet.</b> Pas de mentonnière&nbsp;: la norme ne teste donc que la
-      calotte et la nuque, pas une zone qui n'existe pas sur le casque.</li>
-  <li><b>Modulable, mentonnière relevée.</b> Un modulable homologué pour
-      rouler mentonnière relevée porte une double homologation (P/J) qui le
-      dit explicitement sur son étiquette&nbsp;; tous les modulables ne
-      l'ont pas.</li>
+  <li><b>Intégral.</b> La mentonnière fait partie de la calotte et elle est
+      testée au choc. Étiquette&nbsp;: <b>P</b>.</li>
+  <li><b>Jet.</b> Il n'y a pas de mentonnière, donc rien à tester à cet
+      endroit&nbsp;: le menton et la mâchoire restent exposés. Étiquette&nbsp;:
+      <b>J</b>. Un jet avec une petite mentonnière décorative ou amovible non
+      testée porte la mention <b>NP</b> (non protectrice).</li>
+  <li><b>Modulable.</b> La mentonnière se relève. Fermée, elle est testée
+      comme celle d'un intégral. Pour avoir le droit de rouler mentonnière
+      relevée, le casque doit aussi être homologué en jet&nbsp;: il porte
+      alors la double mention <b>P/J</b>. Un modulable marqué seulement
+      <b>P</b> se roule mentonnière fermée.</li>
 </ul>
 <p>
-  Autrement dit&nbsp;: un casque jet et un casque intégral peuvent tous deux
-  être homologués ECE 22.06 sans protéger la même surface du visage. Ce n'est
-  pas un défaut de l'un ou de l'autre, c'est ce que chaque forme a été conçue
-  pour faire.
+  Sur l'étiquette, le numéro d'homologation d'un casque ECE 22.06 commence
+  par <b>06</b>&nbsp;; la lettre P, J, P/J ou NP suit. C'est la seule
+  vérification qui fasse foi, avant la fiche du marchand.
 </p>
 
 <h2>Ce qu'on trouve sur MotoComparo aujourd'hui</h2>
 <p>
-  Nombre de fiches comparables (deux marchands au moins, prix connu) et prix
-  de départ par type de casque, à la date de lecture de cette page&nbsp;:
+  Nombre de fiches comparables (vendues par deux marchands au moins, avec un
+  prix connu) et premier prix par type de casque, calculés à l'ouverture de
+  cette page&nbsp;:
 </p>
 {% set casques = nav | selectattr('code', 'equalto', 'helmet') | first %}
 {% if casques %}
@@ -51,7 +74,7 @@ marques:
     <tbody>
       {% for r in casques.enfants %}
       <tr>
-        <td>{{ r.label_fr }}</td>
+        <td><a href="/c/{{ r.code }}">{{ r.label_fr }}</a></td>
         <td>{{ r.n }}</td>
         <td>{{ r.from_price | prix if r.from_price else '—' }}</td>
       </tr>
@@ -60,13 +83,25 @@ marques:
   </table>
 </div>
 {% endif %}
-
-<p class="sous-titre">
-  Les prix de départ ne disent rien de la protection&nbsp;: un jet d'entrée
-  de gamme et un intégral d'entrée de gamme sont tous deux homologués, sur des
-  zones différentes. Le choix entre les deux dépend de l'usage, pas d'un
-  chiffre.
+<p>
+  Les premiers prix ne disent rien de la protection&nbsp;: un jet et un
+  intégral d'entrée de gamme sont tous deux homologués, sur des zones
+  différentes. Les casques cross, eux, sont conçus pour le tout-terrain et
+  se portent avec un masque plutôt qu'un écran.
 </p>
+
+<h3>Les notes SHARP déclarées</h3>
+<p>
+  Au-delà de la norme, le programme britannique SHARP teste des casques du
+  commerce avec des chocs plus sévères et les note de une à cinq
+  étoiles&nbsp;; ses résultats sont publics sur
+  <a href="https://sharp.dft.gov.uk/" rel="noopener">sharp.dft.gov.uk</a>.
+  SHARP ne teste que les casques à mentonnière (intégraux et modulables).
+  Répartition des notes (en étoiles) parmi les casques comparables du
+  site&nbsp;:
+</p>
+{% set rep = donnees.repartition('helmet', 'note_securite') %}
+{% include "_article_repartition.html" %}
 
 <h2>Quel type pour quel usage</h2>
 <ul class="liste-puces">
@@ -87,4 +122,17 @@ marques:
   Quel que soit le type, la taille compte plus que la forme&nbsp;: un casque
   trop grand bouge sur la tête en cas de choc. Il doit tenir sans flotter,
   joues légèrement serrées, sans point douloureux après quelques minutes.
+  Le <a href="/guides#guide-taille-casque">guide des tailles</a> explique
+  comment mesurer son tour de tête.
 </p>
+
+<h2>Pour aller plus loin</h2>
+<ul class="liste-puces">
+  <li>Comparer les prix&nbsp;: <a href="/c/helmet.jet">casques jet</a>,
+      <a href="/c/helmet.modular">casques modulables</a>,
+      <a href="/c/helmet.integral">casques intégraux</a>.</li>
+  <li>Un exemple de comparaison entre deux intégraux d'entrée de
+      gamme&nbsp;: <a href="/guides/ls2-ff818-vs-scorpion-exo-530">LS2 FF818
+      Storm III ou Scorpion Exo-530 Air</a>.</li>
+  <li><a href="/guides#guide-ece2206">La norme ECE 22.06 en clair</a>.</li>
+</ul>

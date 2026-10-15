@@ -1180,6 +1180,8 @@ def article(request: Request, slug: str):
                       "logo": {"@type": "ImageObject",
                                "url": racine + "/static/logo_mc.png"}},
     }
+    if a.illustration_url:
+        posting["image"] = racine + a.illustration_url
     if a.marques:
         posting["about"] = [{"@type": "Brand", "name": labels.brand(m)}
                             for m in a.marques]

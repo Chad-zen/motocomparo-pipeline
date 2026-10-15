@@ -1,43 +1,91 @@
 {#---
-titre: LS2 FF818 Storm III ou Scorpion Exo-530 Air : lequel comparer d'abord
-description: Deux casques intégraux homologués ECE 22.06 autour de 150-200 euros, comparés sur le prix, le nombre de marchands et les caractéristiques déclarées.
+titre: LS2 FF818 Storm III ou Scorpion Exo-530 Air : lequel choisir ?
+description: Deux intégraux ECE 22.06 d'entrée de gamme comparés sur le prix du jour chez plusieurs marchands, les équipements déclarés et ce qu'il reste à essayer.
 date: 2026-10-16
 statut: publié
 rayon: helmet.integral
 produits: ls2-ff818-gy-8e99d3ce, scorpion-530-air-exo-solid-bk-mat-28564d58
 marques: ls2, scorpion
+illustration: ls2-ff818-vs-scorpion-exo-530.webp
+illustration_alt: Un mètre de couturière posé autour d'une tête, vue de dos, dans un atelier moto à la lumière du soir.
 ---#}
 
+{% set ls2 = 'ls2-ff818-gy-8e99d3ce' %}
+{% set scorpion = 'scorpion-530-air-exo-solid-bk-mat-28564d58' %}
+{% set noms = {ls2: 'le LS2 FF818 Storm III', scorpion: 'le Scorpion Exo-530 Air'} %}
+{% set c = donnees.comparaison([ls2, scorpion]) %}
+{% set f = c.fiches %}
+{% set deux_prix = f | length == 2 and f[0].cheapest and f[1].cheapest %}
+
+<div class="article__reponse">
+  <p>
+    <b>La réponse courte.</b> Sur le papier, ces deux casques intégraux sont
+    presque identiques&nbsp;: même homologation ECE 22.06, même calotte
+    déclarée, écran solaire, boucle micrométrique, Pinlock fourni et
+    préparation intercom.
+    {% if deux_prix %}
+      {% set tri = f | sort(attribute='cheapest') %}
+      {% set ecart = tri[1].cheapest - tri[0].cheapest %}
+      {% if ecart > 0 %}
+      Aujourd'hui, {{ noms.get(tri[0].slug, tri[0].slug) }} est le moins cher
+      des deux, de {{ ecart | prix }} au meilleur prix relevé.
+      {% else %}
+      Aujourd'hui, ils se vendent au même prix au meilleur marchand.
+      {% endif %}
+    {% endif %}
+    Ce qui doit trancher entre les deux, c'est la forme de votre tête&nbsp;:
+    seul un essai casque fermé permet d'en juger.
+  </p>
+</div>
+
 <p>
-  Le LS2 FF818 Storm III et le Scorpion Exo-530 Air sont deux casques
-  intégraux d'entrée de gamme, tous deux homologués <b>ECE 22.06</b>, tous
-  deux vendus par au moins cinq des marchands suivis par MotoComparo. Voici ce
-  que les fiches et les prix relevés permettent de dire, et ce qu'ils ne
-  permettent pas de dire.
+  Le LS2 FF818 Storm III et le Scorpion Exo-530 Air visent le même
+  motard&nbsp;: un premier intégral, ou un remplaçant pour la route et les
+  trajets quotidiens, sans dépasser le prix d'un casque d'entrée de gamme.
+  Cette page compare ce qui se vérifie (les prix relevés chaque jour chez les
+  marchands suivis par MotoComparo et les caractéristiques qu'ils
+  déclarent) et signale ce qui ne se vérifie qu'en essayant le casque.
 </p>
 
-{% set c = donnees.comparaison(['ls2-ff818-gy-8e99d3ce', 'scorpion-530-air-exo-solid-bk-mat-28564d58']) %}
+<h2>Le comparatif chiffré, mis à jour chaque jour</h2>
+<p>
+  Le tableau ci-dessous est calculé à l'ouverture de la page. Les prix sont
+  ceux du coloris suivi pour chaque modèle&nbsp;; les autres coloris ont leur
+  propre fiche, parfois à un autre prix.
+</p>
 {% include "_article_comparaison.html" %}
 
-<h2>Ce que montrent les chiffres</h2>
+<h2>Ce que montrent les fiches</h2>
 <p>
-  Les deux casques partagent l'essentiel de leur fiche technique&nbsp;:
-  calotte en polycarbonate, écran solaire intégré, boucle micrométrique,
-  préparation intercom et pinlock fourni. Aucun des deux n'affiche de poids
-  déclaré par un marchand au moment de la rédaction — impossible donc de dire
-  lequel est le plus léger sur la balance, seulement sur l'étiquette que
-  chacun affiche (à vérifier sur la notice en cas de doute).
+  Les marchands décrivent les deux casques avec les mêmes équipements&nbsp;:
+  écran solaire escamotable, boucle micrométrique (une boucle à crans qui se
+  ferme d'une main, gants enfilés), insert Pinlock fourni (un second écran
+  intérieur qui empêche la buée) et emplacement prévu pour un intercom, vendu
+  à part. Les deux fiches portent l'homologation ECE 22.06, la norme exigée
+  pour tout casque neuf vendu dans l'Union européenne.
 </p>
 <p>
-  Le LS2 est, à la date de rédaction, moins cher en prix de départ et vendu
-  dans la même fourchette de tailles (du XXS au XXXL chez les deux marques,
-  d'après les offres relevées). La fiche du Scorpion ne mentionne pas
-  d'intérieur amovible&nbsp;: cela peut vouloir dire qu'il n'en a pas, ou
-  simplement que l'extracteur de fiche ne l'a pas lu — seule la notice du
-  fabricant tranche, pas une case manquante dans un flux marchand.
+  Les flux des marchands indiquent une calotte en polycarbonate pour les
+  deux. LS2 désigne la sienne sous le nom commercial «&nbsp;KPA&nbsp;», un
+  alliage thermoplastique&nbsp;: ce sont deux noms pour la même famille de
+  matériaux injectés, moins chère à produire que la fibre ou le carbone.
+</p>
+<p>
+  Une différence apparaît dans notre catalogue&nbsp;: la fiche du LS2 déclare
+  un intérieur amovible et lavable, celle du Scorpion ne le mentionne pas.
+  Plusieurs pages marchandes l'annoncent pourtant pour le Scorpion. L'absence
+  d'une case dans un flux ne prouve donc pas l'absence de l'équipement&nbsp;:
+  la notice du fabricant tranche.
+</p>
+<p>
+  Scorpion met en avant deux systèmes que ses descriptions détaillent&nbsp;:
+  des mousses de joues gonflables (AirFit) pour ajuster le maintien, et des
+  mousses découpées pour glisser des branches de lunettes (KwikFit). Si vous
+  portez des lunettes de vue, c'est un point à vérifier en priorité lors de
+  l'essai.
 </p>
 
-<h2>Ce que les chiffres ne disent pas</h2>
+<h2>Ce que les fiches ne disent pas</h2>
 <p>
   MotoComparo n'a pas de banc d'essai et n'a porté aucun des deux casques.
   Trois points comptent pourtant autant que le prix, et seul un essai sur sa
@@ -58,13 +106,34 @@ marques: ls2, scorpion
       boutiques, en donnent une idée plus fiable qu'une fiche produit.</li>
 </ul>
 <p>
-  Pour la protection elle-même, la note SHARP, quand un modèle en a une, est
-  publique et vérifiable&nbsp;: elle figure alors sur la fiche du casque.
+  Pour la protection elle-même, les deux casques répondent à la même norme
+  de choc et de rotation, et la norme ne les distingue pas. Le programme
+  britannique SHARP, qui teste au-delà de la norme et note de une à cinq
+  étoiles, publie ses résultats sur
+  <a href="https://sharp.dft.gov.uk/" rel="noopener">sharp.dft.gov.uk</a>&nbsp;;
+  quand un modèle y est noté, la note apparaît sur sa fiche MotoComparo.
 </p>
 
-<p class="sous-titre">
-  Les deux fiches homologuées ECE 22.06 (voir le guide juste
-  <a href="/guides#guide-ece2206">en dessous</a>) répondent à la même norme
-  de choc et de rotation&nbsp;: la norme ne distingue pas entre les deux au
-  niveau de protection déclaré.
-</p>
+<h2>Comment trancher</h2>
+<ol class="liste-puces">
+  <li>Mesurez votre tour de tête et repérez votre taille avec le
+      <a href="/guides#guide-taille-casque">guide des tailles de casque</a>.</li>
+  <li>Essayez les deux modèles dans cette taille, casque fermé, dix minutes
+      chacun. Gardez celui qui tient sans point douloureux.</li>
+  <li>Comparez ensuite le prix du jour sur sa fiche
+      (<a href="/p/{{ ls2 }}">LS2 FF818</a>,
+      <a href="/p/{{ scorpion }}">Scorpion Exo-530 Air</a>), en vérifiant que
+      votre taille est en stock chez le marchand le moins cher.</li>
+</ol>
+
+<h2>Pour aller plus loin</h2>
+<ul class="liste-puces">
+  <li><a href="/c/helmet.integral">Tous les casques intégraux comparés</a>,
+      triés par prix.</li>
+  <li>Les autres modèles des deux marques&nbsp;: <a href="/m/ls2">LS2</a> et
+      <a href="/m/scorpion">Scorpion</a>.</li>
+  <li><a href="/guides/casque-jet-modulable-integral-norme">Casque jet,
+      modulable ou intégral&nbsp;: ce que change la norme</a>, si vous hésitez
+      encore sur le type de casque.</li>
+  <li><a href="/guides#guide-ece2206">La norme ECE 22.06 en clair</a>.</li>
+</ul>

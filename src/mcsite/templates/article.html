@@ -1,6 +1,13 @@
 {% extends "base.html" %}
 {% block title %}{{ article.titre }} — MotoComparo{% endblock %}
 {% block description %}{{ article.description }}{% endblock %}
+{% block og_type %}article{% endblock %}
+{# L'illustration de l'article, quand elle est déposée, sert aussi d'image de
+   partage. La condition est DANS les blocs : dans un gabarit enfant, Jinja
+   applique un bloc même s'il est écrit sous un `if`. Dimensions non
+   déclarées : le 1600x900 est demandé par la charte, pas vérifié ici. #}
+{% block og_image %}{% if article.illustration_url %}{{ request.url.scheme }}://{{ request.url.netloc }}{{ article.illustration_url }}{% else %}{{ super() }}{% endif %}{% endblock %}
+{% block og_image_dims %}{% if article.illustration_url %}<meta property="og:image:alt" content="{{ article.illustration_alt }}">{% else %}{{ super() }}{% endif %}{% endblock %}
 {% block robots %}{% if not article.publie %}<meta name="robots" content="noindex, follow">{% endif %}{% endblock %}
 {% block donnees_structurees %}
 <script type="application/ld+json">{{ donnees_structurees | tojson }}</script>
@@ -24,6 +31,16 @@
     Publié le {{ article.date.strftime('%d/%m/%Y') }}
     {%- if article.maj and article.maj != article.date %} · mis à jour le {{ article.maj.strftime('%d/%m/%Y') }}{% endif %}
   </p>
+
+  {% if article.illustration_url %}
+  {# Une scène d'ambiance générée par IA, jamais une photo de produit : la
+     légende le dit, pour qu'on ne la prenne pas pour une prise de vue. #}
+  <figure class="article__illustration">
+    <img src="{{ article.illustration_url }}" alt="{{ article.illustration_alt }}"
+         width="1600" height="900" fetchpriority="high" decoding="async">
+    <figcaption>Illustration d'ambiance générée par IA.</figcaption>
+  </figure>
+  {% endif %}
 
   <div class="article__corps">
     {% include article.gabarit %}

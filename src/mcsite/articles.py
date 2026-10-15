@@ -29,7 +29,19 @@ rendu :
     rayon: gloves
     produits: slug-1, slug-2
     marques: ls2, scorpion
+    illustration: gants-ete-ou-hiver.webp
+    illustration_alt: Route de campagne mouillée sous un ciel d'automne.
     ---#}
+
+L'ILLUSTRATION EST FACULTATIVE, ET SON ABSENCE NE CASSE RIEN. Le fichier
+nommé par `illustration:` vit dans `static/guides/`. Tant qu'il n'y est pas
+déposé, l'article se rend sans image : on peut écrire l'en-tête avant
+d'avoir généré l'image, et l'image apparaît le jour où le fichier arrive,
+sans toucher au texte. Un nom de fichier sans texte alternatif est refusé au
+chargement : une image sans `alt` est un trou d'accessibilité, et c'est la
+seule description qu'un moteur lit. Ces images sont des scènes d'ambiance
+générées par IA, jamais un produit de marque (voir
+`docs/blog/charte-editoriale.md`) ; la page le dit sous l'image.
 
 LE BROUILLON NE SORT PAS. Un brouillon n'est listé nulle part, n'entre pas
 dans le plan du site, et son adresse répond 404 — sauf si `BLOG_APERCU=1` est
@@ -60,6 +72,8 @@ from typing import Any
 from . import cache, queries
 
 DOSSIER = Path(__file__).parent / "templates" / "articles"
+# Les illustrations des articles, servies sous `/static/guides/<fichier>`.
+ILLUSTRATIONS = Path(__file__).parent / "static" / "guides"
 
 BROUILLON = "brouillon"
 PUBLIE = "publié"
@@ -72,6 +86,9 @@ _ENTETE = re.compile(r"\A\s*\{#---\s*\n(.*?)\n---#\}", re.S)
 # sache s'il est complet.
 _TROU = re.compile(r"\ba_completer\s*\(")
 _SLUG = re.compile(r"[a-z0-9]+(?:-[a-z0-9]+)*")
+# Un nom de fichier simple, sans dossier : l'en-tête ne doit pouvoir désigner
+# qu'un fichier de `static/guides/`.
+_IMAGE = re.compile(r"[a-z0-9]+(?:-[a-z0-9]+)*\.(?:webp|jpg|jpeg|png)")
 
 _log = logging.getLogger("mcsite.articles")
 
@@ -89,12 +106,27 @@ class Article:
     produits: tuple[str, ...] = ()
     marques: tuple[str, ...] = ()
     trous: int = 0                   # passages `a_completer` restants
+    illustration: str = ""           # nom de fichier dans `static/guides/`
+    illustration_alt: str = ""
     extra: dict[str, str] = field(default_factory=dict)
 
     @property
     def publie(self) -> bool:
         """Publié ET complet. L'un sans l'autre reste un brouillon."""
         return self.statut == PUBLIE and self.trous == 0
+
+    @property
+    def illustration_url(self) -> str | None:
+        """`/static/guides/<fichier>` si le fichier est déposé, sinon None.
+
+        Regardé à chaque rendu, comme les articles eux-mêmes : une image
+        déposée sur le serveur apparaît sans redémarrer le service, et un
+        en-tête qui annonce une image pas encore générée ne produit pas
+        d'image cassée.
+        """
+        if self.illustration and (ILLUSTRATIONS / self.illustration).is_file():
+            return f"/static/guides/{self.illustration}"
+        return None
 
 
 def apercu_actif() -> bool:
@@ -136,10 +168,18 @@ def lire(chemin: Path) -> Article:
         raise ValueError(f"{chemin.name} : statut {statut!r} (brouillon ou publié)")
     statut = PUBLIE if statut in ("publié", "publie") else BROUILLON
 
+    illustration = champs.get("illustration", "")
+    illustration_alt = champs.get("illustration_alt", "")
+    if illustration and not _IMAGE.fullmatch(illustration):
+        raise ValueError(f"{chemin.name} : illustration {illustration!r} : un nom de "
+                         "fichier simple attendu (minuscules, tirets, .webp/.jpg/.png)")
+    if illustration and not illustration_alt:
+        raise ValueError(f"{chemin.name} : illustration sans « illustration_alt »")
+
     corps = texte[m.end():]
     trous = len(_TROU.findall(corps))
     connus = {"slug", "titre", "description", "date", "maj", "statut",
-              "rayon", "produits", "marques"}
+              "rayon", "produits", "marques", "illustration", "illustration_alt"}
     article = Article(
         slug=slug,
         titre=champs["titre"],
@@ -152,6 +192,8 @@ def lire(chemin: Path) -> Article:
         produits=_liste(champs.get("produits", "")),
         marques=_liste(champs.get("marques", "")),
         trous=trous,
+        illustration=illustration,
+        illustration_alt=illustration_alt,
         extra={k: v for k, v in champs.items() if k not in connus},
     )
     if statut == PUBLIE and trous:
