@@ -46,6 +46,11 @@ mcpipe relier-tailles # relit les overrides de taille issus de l'emprunt
                       # s'affichent jamais : l'emprunt ecrit dans offer_size_override,
                       # mais le site lit variant.size_code, pose par cette etape.
 mcpipe freshness      # recalcule les prix affichés — jamais optionnel
+# Les alertes de prix lisent les prix que freshness vient de poser. Le `||` est
+# voulu : un serveur d'envoi en panne ne doit pas priver le site des
+# caracteristiques du jour. La commande elle-meme ne sort en erreur que sur une
+# panne de base ; l'echec s'ecrit dans le journal, la chaine continue.
+mcpipe alertes || echo "!!! mcpipe alertes en echec, chaine poursuivie"
 mcpipe caracteristiques  # relit les descriptions du jour, remplit product_caracteristique
                          # LIT LES FICHIERS SUR DISQUE : doit tourner apres fetch,
                          # tant qu'ils n'ont pas ete ecrases par le prochain fetch.

@@ -157,6 +157,42 @@
     </div>
     {% endif %}
 
+    {# L'alerte de baisse de prix. N'EXISTE QUE SI UN E-MAIL PEUT PARTIR
+       (`alertes_ouvertes`, posé dans `_ctx` depuis `mcpipe.courriel.configure`).
+       Tant que `SMTP_PASS` est vide en production, cette balise n'est jamais
+       rendue : montrer le formulaire sans pouvoir envoyer la confirmation
+       ferait croire à un visiteur qu'il est suivi pour rien. Pas de modale :
+       un simple <details>, refermé par défaut, sous le bloc prix. #}
+    {% if p.cheapest and alertes_ouvertes %}
+    <details class="alerte-prix">
+      <summary class="alerte-prix__resume">Prévenez-moi si le prix baisse</summary>
+      <form method="post" action="/alertes" class="alerte-prix__form">
+        <input type="hidden" name="produit" value="{{ p.slug }}">
+        <label class="alerte-prix__piege" aria-hidden="true">Site web
+          <input name="site_web" type="text" tabindex="-1" autocomplete="off">
+        </label>
+        <label>Votre e-mail
+          <input name="email" type="email" required autocomplete="email" placeholder="vous@exemple.fr">
+        </label>
+        {% if tailles %}
+        <label>Taille <span class="doux">(facultatif)</span>
+          <select name="taille">
+            <option value="">Toutes</option>
+            {% for t in tailles %}<option value="{{ t }}">{{ t }}</option>{% endfor %}
+          </select>
+        </label>
+        {% endif %}
+        <label>Me prévenir sous <span class="doux">(facultatif, sinon : toute baisse)</span>
+          <input name="prix_cible" type="text" inputmode="decimal" placeholder="{{ p.cheapest | prix }}">
+        </label>
+        <button type="submit" class="bouton bouton--contour">M'alerter</button>
+        <p class="alerte-prix__rgpd doux">Un e-mail de confirmation est envoyé avant
+          toute alerte ; désinscription en un clic à tout moment.
+          <a href="/infos#donnees">En savoir plus sur vos données</a></p>
+      </form>
+    </details>
+    {% endif %}
+
   </div>
 </div>
 
