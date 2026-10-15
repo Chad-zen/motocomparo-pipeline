@@ -4039,10 +4039,14 @@ html, body { overflow-x: clip; }
   text-align: center; padding: 11px 12px; font-size: 14.5px; font-weight: 800;
   border-radius: 10px; cursor: pointer; border: 2px solid transparent;
 }
+/* Contour discret (la propriétaire, 15/10/2026) : un trait fin gris clair au
+   lieu du cadre noir épais. Le bouton garde la même taille et la même graisse
+   que « Accepter et fermer » : discret, pas caché. */
 .consentement__boutons .bouton--contour {
-  background: #fff; color: var(--ink, #0f1524); border-color: var(--ink, #0f1524);
+  background: #fff; color: var(--ink, #0f1524);
+  border: 1px solid #d5d9e3; padding: 12px 13px;
 }
-.consentement__boutons .bouton--contour:hover { background: #f3f5fa; filter: none; }
+.consentement__boutons .bouton--contour:hover { background: #f5f6fa; border-color: #b9bfcd; filter: none; }
 .consentement button:focus-visible, .consentement a:focus-visible {
   outline: 3px solid var(--or, #f5b301); outline-offset: 2px;
 }
@@ -4073,6 +4077,7 @@ html, body { overflow-x: clip; }
   .consentement__titre { font-size: 17px; }
   .consentement__texte p { font-size: 13px; line-height: 1.45; }
   .consentement__boutons .bouton { padding: 11px 6px; font-size: 14px; }
+  .consentement__boutons .bouton--contour { padding: 12px 7px; }
 }
 
 /* Le bandeau du comparateur s'efface tant que la question est posée. */
