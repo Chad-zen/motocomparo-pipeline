@@ -322,3 +322,32 @@ abandonnée (commentaire dans `queries.py`).
 - Base : `VACUUM FULL` à planifier ; restes de l'incident FC-Moto toujours
   sur le VPS (base `mcpipe_restore_tmp`, ~1,7 Go de CSV dans `/tmp`,
   disque à 71 %).
+
+## 8. Anciennes adresses v1 et indexation (15/10, soir)
+
+**Redirections v1** (`src/mcsite/v1.py`, `83c409a` → `15c7830`). La v1 était
+un WordPress/WooCommerce ; ses adresses rendaient 404 (~57 000 demandes en
+deux semaines : Googlebot, Ahrefs, Applebot…). Aucune table de
+correspondance : tout se lit dans l'adresse.
+- `/product/<slug>/` et `/shop/<rayon>/<slug>/` : la fiche actuelle si la
+  marque est écrite en toutes lettres, la ressemblance ≥ 0,60 ET la même
+  référence de modèle (lettres+chiffres : f100, u04) ; sinon la page de la
+  marque, sinon le rayon du premier mot de produit (rayons mesurés dans le
+  catalogue), sinon `/produits`. Garde-fou de la référence ajouté après un
+  contrôle en production : un HJC F100 partait sur un HJC i91.
+- `/product-category/…`, `/shop/?mc_type=&mc_brand=&product_cat=` : rayon,
+  marque. Articles `/2026/…` → `/guides`. `sitemap_index.xml` → `sitemap.xml`.
+- Mécanique WordPress (`wp-*`, `xmlrpc.php`, flux, compte) : 410.
+- `robots.txt` : `Allow: /product/*?taille=` (et `/shop/`, `/product-category/`)
+  — 72 anciennes fiches étaient bloquées, Google ne voyait pas la redirection.
+- Contrôle : 40 fiches réelles → 40 × 301 → 200 ; les exemples listés par
+  Search Console (404 et 5xx) vérifiés un par un en ligne.
+
+**Search Console** (compte de la propriétaire) : 33,2 k pages indexées,
+46,2 k non indexées. Validations lancées le 15/10 : « Introuvable (404) »
+(11 103 pages, toutes des adresses v1) et « Erreur serveur (5xx) » (6, des
+adresses v1 pendant les surcharges d'août-septembre). Non lancée : « Bloquée
+par robots.txt », la liste mêlant des filtres du site actuel qui DOIVENT
+rester bloqués. À suivre : « Détectée, actuellement non indexée » (16 133) —
+Google connaît ces pages sans être venu les lire, ce qui dépend surtout de la
+vitesse du serveur.
