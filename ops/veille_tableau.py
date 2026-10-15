@@ -14,13 +14,21 @@ de bord. Le dossier est ignoré par git : on n'y met que des relevés.
 from __future__ import annotations
 
 import json
+import os
 import subprocess
 import sys
 from pathlib import Path
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 DOSSIER = Path(__file__).resolve().parent / "veille"
 CLE = Path.home() / ".ssh" / "motocomparo_vps"
-HOTE = "root@72.61.109.193"
+# L'adresse du serveur n'a pas sa place dans un dépôt public — voir
+# tests/test_depot_anonyme.py. Elle vient de `.env`, comme les autres secrets
+# du projet (SOURCE_REVENDEUR_RACINE, FEED_*_URL...).
+HOTE = os.environ.get("VPS_HOTE", "")
 COMMANDE = (
     "systemd-run --wait --pipe --quiet "
     "--property=EnvironmentFile=/srv/motocomparo/.env "
@@ -48,6 +56,8 @@ def _ecrire(nom: str, lignes: list[dict]) -> None:
 
 
 def main() -> None:
+    if not HOTE:
+        raise SystemExit("VPS_HOTE n'est pas renseigné dans .env — voir .env.example")
     r = _releve()
     DOSSIER.mkdir(exist_ok=True)
     niveaux = [a["niveau"] for a in r["alertes"]]
