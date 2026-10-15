@@ -169,7 +169,13 @@
            href="{{ '/recherche?q=' ~ (f.texte | urlencode) if f and f.texte else '/produits' }}">
           <span>← Toutes les catégories</span></a>
       {% endif %}
-      {% for c in (facettes.categories if code else facettes.categories[:16]) %}
+      {# Dix lignes visibles, le reste en faisant défiler DANS le filtre — « affiche
+         juste les 10 premiers et un moyen de scroller », la propriétaire,
+         15/10/2026. Le nombre caché est écrit sous la liste : sur téléphone la
+         barre de défilement est invisible. Voir `.facette__liste`. #}
+      {% set liste_cats = facettes.categories if code else facettes.categories[:16] %}
+      <div class="facette__liste">
+      {% for c in liste_cats %}
         {% set ouvert = c.code == code or c.enfants | selectattr('code', 'equalto', code) | list %}
         {% if not code or ouvert %}
         <a class="facette__ligne {{ 'est-actif' if c.code == code }}" {% if c.code == code %}aria-current="true"{% endif %} href="{{ lien_rayon(c.code) }}">
@@ -185,10 +191,13 @@
         {% endif %}
         {% endif %}
       {% endfor %}
+      </div>
+      {% if not code and liste_cats | length > 10 %}<p class="facette__plus">+ {{ liste_cats | length - 10 }} autres, faites défiler</p>{% endif %}
     </section>
 
     <section class="facette">
       <h3>Marques</h3>
+      <div class="facette__liste">
       {% for x in facettes.marques %}
         <a class="facette__ligne {{ 'est-actif' if f.marque == x.valeur }}" {% if f.marque == x.valeur %}aria-current="true"{% endif %}
            href="{{ lien_marque(x.valeur) if base.startswith('/m/')
@@ -196,6 +205,8 @@
           <span>{{ x.valeur | marque }}</span><span class="facette__n">{{ x.n }}</span>
         </a>
       {% endfor %}
+      </div>
+      {% if facettes.marques | length > 10 %}<p class="facette__plus">+ {{ facettes.marques | length - 10 }} autres, faites défiler</p>{% endif %}
     </section>
 
     {% if facettes.prix_maxi %}
@@ -234,25 +245,29 @@
     {% if facettes.tailles %}
     <section class="facette">
       <h3>Taille</h3>
-      <div class="pastilles">
+      <div class="pastilles facette__liste facette__liste--pastilles">
         {% for x in facettes.tailles %}
           <a class="pastille-taille {{ 'est-actif' if f.taille == x.valeur }}" {% if f.taille == x.valeur %}aria-current="true"{% endif %}
              href="{{ lien('taille', '' if f.taille == x.valeur else x.valeur) }}"
              title="{{ x.n }} produits">{{ x.valeur | taille }}</a>
         {% endfor %}
       </div>
+      {% if facettes.tailles | length > 12 %}<p class="facette__plus">+ {{ facettes.tailles | length - 12 }} autres tailles, faites défiler</p>{% endif %}
     </section>
     {% endif %}
 
     {% if facettes.couleurs %}
     <section class="facette">
       <h3>Couleur</h3>
+      <div class="facette__liste">
       {% for x in facettes.couleurs %}
         <a class="facette__ligne {{ 'est-actif' if f.couleur == x.valeur }}" {% if f.couleur == x.valeur %}aria-current="true"{% endif %}
            href="{{ lien('couleur', '' if f.couleur == x.valeur else x.valeur) }}">
           <span>{{ x.valeur | couleur }}</span><span class="facette__n">{{ x.n }}</span>
         </a>
       {% endfor %}
+      </div>
+      {% if facettes.couleurs | length > 10 %}<p class="facette__plus">+ {{ facettes.couleurs | length - 10 }} autres, faites défiler</p>{% endif %}
     </section>
     {% endif %}
 
@@ -265,6 +280,16 @@
         </a>
       {% endfor %}
     </section>
+    {# Un choix rangé au-delà des dix premières lignes doit rester visible :
+       on fait défiler sa liste jusqu'à lui (la liste seule, pas la page). #}
+    <script>
+      document.querySelectorAll('.facette__liste').forEach(function (l) {
+        var a = l.querySelector('.est-actif');
+        if (a && a.offsetTop + a.offsetHeight > l.clientHeight) {
+          l.scrollTop = a.offsetTop - l.offsetTop - l.clientHeight / 2;
+        }
+      });
+    </script>
   </aside>
   {% endif %}
 

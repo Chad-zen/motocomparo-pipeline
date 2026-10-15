@@ -706,6 +706,19 @@ h1, h2 { line-height: 1.2; }
 .facette__ligne.est-actif .facette__n { color: var(--or); }
 .facette__n { color: var(--muted); font-size: 11.5px; font-variant-numeric: tabular-nums; }
 .facette__retour { color: var(--doux); margin-bottom: 4px; }
+
+/* Dix lignes visibles par filtre, le reste défile dans le filtre lui-même
+   (33 px la ligne, mesurés). Les lignes débordent de 8 px de chaque côté
+   (`margin: 0 -8px`) : la zone défilante les couperait, d'où le rembourrage
+   qui leur rend cette place. */
+.facette__liste {
+  max-height: 330px; overflow-y: auto; overscroll-behavior: contain;
+  margin-inline: -8px; padding-inline: 8px;
+  scrollbar-width: thin;
+}
+/* Tailles : trois rangées de pastilles (40 px + 6 px d'écart). */
+.facette__liste--pastilles { max-height: 140px; margin-inline: 0; padding-inline: 0; }
+.facette__plus { margin: 6px 0 8px; color: var(--muted); font-size: 11.5px; }
 .facette__retour:hover { color: var(--ink); }
 
 /* ------------------------------------------------------------ tête et tris */
