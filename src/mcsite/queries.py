@@ -1299,11 +1299,20 @@ def _facettes_caracteristiques(conn: psycopg.Connection, f: Filtres,
         return vides
     out = {}
     for param in FILTRES_CARACTERISTIQUES:
+        # MATERIALIZED : la table des valeurs est calculée UNE fois. En
+        # sous-requête jointe, le planificateur la croyait petite (3 215 lignes
+        # attendues, 20 919 réelles : la condition sur `nom` y est comptée deux
+        # fois) et, face à quelques dizaines de fiches, la recalculait pour
+        # chacune — 1,3 s pour la Matière de deux marques de casques, et le
+        # délai de 15 s dépassé sur les bottes. Mesuré en production le
+        # 15/10/2026 : mêmes résultats sur 18 cas, 0,06 s au lieu de 1,34 s
+        # dans le pire, aucun cas ralenti.
         lignes = compte(f"""
-            SELECT fc.valeur, count(*) AS n
+            WITH carac AS MATERIALIZED ({_CARAC_SQL[param]})
+            SELECT carac.valeur, count(*) AS n
             FROM product p
             JOIN product_stats s ON s.product_id = p.id
-            LEFT JOIN ({_CARAC_SQL[param]}) fc ON fc.product_id = p.id
+            LEFT JOIN carac ON carac.product_id = p.id
             {_OU}
             GROUP BY 1
         """, param)
