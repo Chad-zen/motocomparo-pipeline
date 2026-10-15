@@ -169,12 +169,13 @@
            href="{{ '/recherche?q=' ~ (f.texte | urlencode) if f and f.texte else '/produits' }}">
           <span>← Toutes les catégories</span></a>
       {% endif %}
-      {# Dix lignes visibles, le reste en faisant défiler DANS le filtre — « affiche
-         juste les 10 premiers et un moyen de scroller », la propriétaire,
-         15/10/2026. Le nombre caché est écrit sous la liste : sur téléphone la
-         barre de défilement est invisible. Voir `.facette__liste`. #}
+      {# Dix lignes visibles, les autres derrière « Voir les N autres » — voir le
+         script en fin de panneau. Un défilement DANS le filtre a été essayé
+         d'abord : imbriqué dans le tiroir qui défile lui-même, il accrochait le
+         doigt sur téléphone (« le scroll est buggé, c'est une galère », la
+         propriétaire, 15/10/2026). #}
       {% set liste_cats = facettes.categories if code else facettes.categories[:16] %}
-      <div class="facette__liste">
+      <div class="facette__liste" data-max="10">
       {% for c in liste_cats %}
         {% set ouvert = c.code == code or c.enfants | selectattr('code', 'equalto', code) | list %}
         {% if not code or ouvert %}
@@ -192,12 +193,12 @@
         {% endif %}
       {% endfor %}
       </div>
-      {% if not code and liste_cats | length > 10 %}<p class="facette__plus">+ {{ liste_cats | length - 10 }} autres, faites défiler</p>{% endif %}
+      <button type="button" class="facette__plus" data-plus hidden></button>
     </section>
 
     <section class="facette">
       <h3>Marques</h3>
-      <div class="facette__liste">
+      <div class="facette__liste" data-max="10">
       {% for x in facettes.marques %}
         <a class="facette__ligne {{ 'est-actif' if f.marque == x.valeur }}" {% if f.marque == x.valeur %}aria-current="true"{% endif %}
            href="{{ lien_marque(x.valeur) if base.startswith('/m/')
@@ -206,7 +207,7 @@
         </a>
       {% endfor %}
       </div>
-      {% if facettes.marques | length > 10 %}<p class="facette__plus">+ {{ facettes.marques | length - 10 }} autres, faites défiler</p>{% endif %}
+      <button type="button" class="facette__plus" data-plus hidden></button>
     </section>
 
     {% if facettes.prix_maxi %}
@@ -245,21 +246,21 @@
     {% if facettes.tailles %}
     <section class="facette">
       <h3>Taille</h3>
-      <div class="pastilles facette__liste facette__liste--pastilles">
+      <div class="pastilles facette__liste facette__liste--pastilles" data-max="12">
         {% for x in facettes.tailles %}
           <a class="pastille-taille {{ 'est-actif' if f.taille == x.valeur }}" {% if f.taille == x.valeur %}aria-current="true"{% endif %}
              href="{{ lien('taille', '' if f.taille == x.valeur else x.valeur) }}"
              title="{{ x.n }} produits">{{ x.valeur | taille }}</a>
         {% endfor %}
       </div>
-      {% if facettes.tailles | length > 12 %}<p class="facette__plus">+ {{ facettes.tailles | length - 12 }} autres tailles, faites défiler</p>{% endif %}
+      <button type="button" class="facette__plus" data-plus hidden></button>
     </section>
     {% endif %}
 
     {% if facettes.couleurs %}
     <section class="facette">
       <h3>Couleur</h3>
-      <div class="facette__liste">
+      <div class="facette__liste" data-max="10">
       {% for x in facettes.couleurs %}
         <a class="facette__ligne {{ 'est-actif' if f.couleur == x.valeur }}" {% if f.couleur == x.valeur %}aria-current="true"{% endif %}
            href="{{ lien('couleur', '' if f.couleur == x.valeur else x.valeur) }}">
@@ -267,7 +268,7 @@
         </a>
       {% endfor %}
       </div>
-      {% if facettes.couleurs | length > 10 %}<p class="facette__plus">+ {{ facettes.couleurs | length - 10 }} autres, faites défiler</p>{% endif %}
+      <button type="button" class="facette__plus" data-plus hidden></button>
     </section>
     {% endif %}
 
@@ -280,14 +281,29 @@
         </a>
       {% endfor %}
     </section>
-    {# Un choix rangé au-delà des dix premières lignes doit rester visible :
-       on fait défiler sa liste jusqu'à lui (la liste seule, pas la page). #}
+    {# Replie chaque liste à `data-max` éléments, avec un bouton qui la déplie
+       sur place. Sans script, tout reste affiché. Une liste dont le choix actif
+       est au-delà de la limite reste dépliée : on ne cache pas ce qui est
+       sélectionné. #}
     <script>
-      document.querySelectorAll('.facette__liste').forEach(function (l) {
-        var a = l.querySelector('.est-actif');
-        if (a && a.offsetTop + a.offsetHeight > l.clientHeight) {
-          l.scrollTop = a.offsetTop - l.offsetTop - l.clientHeight / 2;
-        }
+      document.querySelectorAll('.facette__liste[data-max]').forEach(function (l) {
+        var max = +l.dataset.max, items = l.children, caches = items.length - max;
+        var bouton = l.nextElementSibling;
+        if (caches <= 0 || !bouton || !bouton.hasAttribute('data-plus')) return;
+        var actif = l.querySelector('.est-actif');
+        var rang = actif ? Array.prototype.indexOf.call(items, actif) : -1;
+        var libelle = function () {
+          bouton.textContent = l.classList.contains('est-repliee')
+            ? 'Voir les ' + caches + ' autres' : 'Voir moins';
+          bouton.setAttribute('aria-expanded', String(!l.classList.contains('est-repliee')));
+        };
+        if (rang < max) l.classList.add('est-repliee');
+        libelle();
+        bouton.hidden = false;
+        bouton.addEventListener('click', function () {
+          l.classList.toggle('est-repliee');
+          libelle();
+        });
       });
     </script>
   </aside>
