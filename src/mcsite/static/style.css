@@ -2761,7 +2761,16 @@ body:has(.banc:not([hidden])) { padding-bottom: var(--banc-h, 94px); }
         L'image s'étend sur les deux lignes ; identité et bloc prix s'empilent
         alors sans interruption dans la colonne de droite. */
   .theme-v1 .fiche { align-items: start; }
-  .theme-v1 .fiche__visuel { grid-row: 1 / span 2; align-self: start; }
+  /* L'encadré photo prend TOUTE la hauteur de la colonne de droite, et la
+     photo s'agrandit pour l'occuper. Calé en haut, il laissait ~200 px de vide
+     sous la photo face au bloc prix et aux tailles (la propriétaire,
+     15/10/2026). La photo est posée en absolu : elle suit la hauteur de
+     l'encadré sans jamais l'imposer. */
+  .theme-v1 .fiche__visuel { grid-row: 1 / span 2; align-self: stretch; min-height: 340px; }
+  .theme-v1 .fiche__visuel img {
+    position: absolute; inset: 24px; width: calc(100% - 48px); height: calc(100% - 48px);
+    max-height: none; object-fit: contain;
+  }
 
   /* 2. LE TABLEAU QUI FAIT TABLEUR.
         La v1 n'a pas d'en-tête de colonnes : elle pose l'information dans la

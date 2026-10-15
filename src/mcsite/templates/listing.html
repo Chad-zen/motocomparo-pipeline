@@ -188,8 +188,7 @@
 
     {# L'ordre est celui de la propriétaire : on choisit d'abord CE qu'on
        cherche (rayon, marque), puis les critères qui le restreignent (prix,
-       taille, couleur). Le nombre de marchands passe en dernier : c'est une
-       exigence sur la comparaison, pas sur le produit. #}
+       taille, couleur). #}
     <section class="facette">
       <h3>Catégories</h3>
       {# La liste vient de la FACETTE, pas de l'arbre global : elle ne montre
@@ -367,16 +366,10 @@
       <button type="button" class="facette__plus" data-facette-plus hidden></button>
     </section>
     {% endif %}
-
-    <section class="facette">
-      <h3>Marchands</h3>
-      {% for x in facettes.marchands %}
-        <a class="facette__ligne {{ 'est-actif' if f.marchands == x.valeur }}" {% if f.marchands == x.valeur %}aria-current="true"{% endif %}
-           href="{{ lien('marchands', '2' if f.marchands == x.valeur else x.valeur|string) }}">
-          <span>{{ x.valeur }} marchands et +</span><span class="facette__n">{{ x.n }}</span>
-        </a>
-      {% endfor %}
-    </section>
+    {# Le filtre « N marchands et + » a été retiré à la demande de la
+       propriétaire (15/10/2026). Le paramètre `marchands` reste lu : une
+       ancienne adresse qui le porte filtre encore, et sa puce permet de
+       l'enlever. #}
   </aside>
   {% endif %}
 

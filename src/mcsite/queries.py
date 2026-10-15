@@ -968,8 +968,6 @@ def facets(conn: psycopg.Connection, f: Filtres) -> dict[str, Any]:
             args["ta"] = None
         elif sans == "couleur":
             args["co"] = None
-        elif sans == "marchands":
-            args["m"] = 2
         elif sans == "categories":
             args["c"] = None
         elif sans in FILTRES_CARACTERISTIQUES:
@@ -1078,26 +1076,15 @@ def facets(conn: psycopg.Connection, f: Filtres) -> dict[str, Any]:
     for r in categories:
         r["enfants"].sort(key=lambda e: -e["n"])
 
-    # Le libellé dit « N marchands et + » : le compte doit donc être CUMULÉ
-    # (toutes les fiches à N ou plus), pas celles à exactement N.
-    marchands = compte(f"""
-        SELECT valeur, (sum(n) OVER (ORDER BY valeur DESC))::bigint AS n
-        FROM (
-            SELECT s.merchant_count AS valeur, count(*) AS n
-            FROM product p JOIN product_stats s ON s.product_id = p.id
-            {_OU}
-            GROUP BY s.merchant_count
-        ) t
-        ORDER BY valeur DESC
-    """, "marchands")
-
+    # Plus de facette « N marchands et + » : retirée du panneau à la demande de
+    # la propriétaire (15/10/2026), sa requête l'est aussi — une de moins par
+    # combinaison de filtres. Le paramètre `marchands` reste appliqué par `_OU`.
     return {
         "categories": categories,
         "marques": marques,
         "prix_maxi": float(bornes.get("maxi") or 0),
         "tailles": tailles,
         "couleurs": couleurs,
-        "marchands": marchands,
         **_facettes_caracteristiques(conn, f, compte),
     }
 
