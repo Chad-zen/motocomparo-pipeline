@@ -95,12 +95,17 @@ _TYPES_V1 = {
 _ACCENT_CASSE = re.compile("a[\u0080-\u009f]")
 
 
+def normaliser(texte: str) -> str:
+    """Un texte réduit à ses mots, comme le reste de la recherche les écrit."""
+    texte = _ACCENT_CASSE.sub("e", texte)
+    texte = re.sub(r"[^a-z0-9]+", " ", suggestions.sans_accent(texte).lower())
+    return " ".join(suggestions.mots(texte))
+
+
 def phrase(chemin: str) -> str:
     """Les mots d'une ancienne adresse de fiche, prêts à être cherchés."""
     dernier = chemin.strip().strip("/").split("/")[-1]
-    texte = _ACCENT_CASSE.sub("e", unquote(dernier, errors="replace"))
-    texte = re.sub(r"[^a-z0-9]+", " ", suggestions.sans_accent(texte).lower())
-    return " ".join(suggestions.mots(texte))
+    return normaliser(unquote(dernier, errors="replace"))
 
 
 def marque_ecrite(mots: list[str], marques: set[str]) -> str | None:
@@ -163,20 +168,36 @@ def cible_boutique_v1(params: dict[str, str], marques_listees: set[str]) -> str:
     return "/produits"
 
 
+def references(mots: list[str]) -> set[str]:
+    """Les références de modèle : lettres ET chiffres mêlés (f100, ro15, u04)."""
+    return {m for m in mots if re.search(r"[a-z]", m) and re.search(r"\d", m)}
+
+
 def cible_fiche_v1(chemin: str, marques: set[str], marques_listees: set[str],
-                   meilleure) -> str:
+                   candidates) -> str:
     """Une ancienne fiche -> la nouvelle fiche, ou ce qui s'en approche le plus.
 
-    `meilleure(marque, phrase)` rend `(slug, score)` de la fiche la plus
-    ressemblante de la marque, ou None : la base reste hors de ce module.
+    `candidates(marque, phrase)` rend les fiches les plus ressemblantes de la
+    marque, `(slug, score, titre)`, meilleure d'abord : la base reste hors de
+    ce module.
+
+    LA RÉFÉRENCE DE MODÈLE DOIT ÊTRE LA MÊME. Les mots génériques gonflent la
+    ressemblance : « casque modulable hjc f100 gris » trouvait un HJC i91 gris
+    au-dessus du seuil — même marque, même type, mauvais casque. Quand
+    l'ancienne adresse porte une référence (f100), la fiche visée doit la
+    porter aussi, sinon on s'en tient à la page de la marque.
     """
     texte = phrase(chemin)
     mots = texte.split()
     marque = marque_ecrite(mots, marques)
     if marque:
-        trouve = meilleure(marque, texte)
-        if trouve and trouve[1] >= SEUIL_FICHE:
-            return f"/p/{trouve[0]}"
+        refs = references(mots)
+        for slug, score, titre in candidates(marque, texte) or []:
+            if score < SEUIL_FICHE:
+                break
+            if refs and not refs & set(normaliser(titre or "").split()):
+                continue
+            return f"/p/{slug}"
         if marque in marques_listees:
             return f"/m/{marque}"
     rayon = rayon_des_mots(mots)

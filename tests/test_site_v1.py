@@ -35,9 +35,27 @@ def test_le_premier_mot_de_produit_decide_du_rayon():
     assert v1.rayon_des_mots("bidule inconnu".split()) is None
 
 
+def test_la_reference_de_modele_doit_etre_la_meme():
+    # vu en production : « casque modulable hjc f100 gris » trouvait un i91
+    candidates = lambda marque, texte: [  # noqa: E731
+        ("hjc-i91-gy-db5127be", 0.71, "Casque modulable HJC i91 gris"),
+        ("hjc-f100-gy-aaa", 0.66, "Casque modulable HJC F100 Gris Nardo")]
+    assert v1.cible_fiche_v1("/product/casque-modulable-hjc-f100-gris-nardo-m/",
+                             MARQUES, LISTEES, candidates) == "/p/hjc-f100-gy-aaa"
+    seul_i91 = lambda marque, texte: candidates(marque, texte)[:1]  # noqa: E731
+    assert v1.cible_fiche_v1("/product/casque-modulable-hjc-f100-gris-nardo-m/",
+                             MARQUES, LISTEES, seul_i91) == "/m/hjc"
+    # la référence peut être coupée par la ponctuation du titre marchand
+    ixon = lambda marque, texte: [("ixon-u04-bk", 0.67, "Airbag moto Ixon IX-AIRBAG U04")]  # noqa: E731
+    assert v1.cible_fiche_v1("/product/airbag-ix-airbag-u04-ixon/",
+                             MARQUES, LISTEES, ixon) == "/p/ixon-u04-bk"
+
+
 def test_une_fiche_n_est_visee_que_si_la_ressemblance_est_forte():
-    forte = lambda marque, texte: ("bardahl-nettoyant-carburateur-500ml-abc", 0.72)  # noqa: E731
-    faible = lambda marque, texte: ("scorpion-ecran-exo-210-air-def", 0.43)  # noqa: E731
+    forte = lambda marque, texte: [("bardahl-nettoyant-carburateur-500ml-abc", 0.72,  # noqa: E731
+                                    "Nettoyant carburateur Bardahl 500ML")]
+    faible = lambda marque, texte: [("scorpion-ecran-exo-210-air-def", 0.43,  # noqa: E731
+                                     "Ecran casque Scorpion Exo FUME - EXO-210 AIR")]
     assert v1.cible_fiche_v1("/product/additif-bardahl-nettoyant-carburateur-500-ml/",
                              MARQUES, LISTEES, forte) == "/p/bardahl-nettoyant-carburateur-500ml-abc"
     # ressemblance faible : la page de la marque, pas un modèle voisin

@@ -1727,16 +1727,16 @@ def _marques_v1() -> tuple[set[str], set[str]]:
     return cache.au_chaud("v1-marques", _calcul, ttl=6 * 3600)
 
 
-def _meilleure_v1(marque: str, texte: str) -> tuple[str, float] | None:
-    """La fiche vivante de la marque qui ressemble le plus à l'ancienne adresse."""
+def _candidates_v1(marque: str, texte: str) -> list[tuple[str, float, str]]:
+    """Les fiches vivantes de la marque qui ressemblent le plus à l'ancienne adresse."""
     with pool.connection() as conn:  # type: ignore[union-attr]
-        r = conn.execute("""
-            SELECT p.slug, similarity(f_recherche(s.best_title), %(t)s)
+        rows = conn.execute("""
+            SELECT p.slug, similarity(f_recherche(s.best_title), %(t)s), s.best_title
             FROM product p JOIN product_stats s ON s.product_id = p.id
             WHERE p.brand_code = %(m)s AND p.status <> 'merged'
               AND s.cheapest IS NOT NULL AND s.best_title IS NOT NULL
-            ORDER BY 2 DESC LIMIT 1""", {"m": marque, "t": texte}).fetchone()
-    return (r[0], float(r[1])) if r else None
+            ORDER BY 2 DESC LIMIT 5""", {"m": marque, "t": texte}).fetchall()
+    return [(r[0], float(r[1]), r[2]) for r in rows]
 
 
 # Une ancienne adresse donne toujours la même cible dans la journée : gardée
@@ -1745,7 +1745,7 @@ def _meilleure_v1(marque: str, texte: str) -> tuple[str, float] | None:
 @lru_cache(maxsize=8192)
 def _cible_fiche_v1(chemin: str) -> str:
     toutes, listees = _marques_v1()
-    return v1_mod.cible_fiche_v1(chemin, toutes, listees, _meilleure_v1)
+    return v1_mod.cible_fiche_v1(chemin, toutes, listees, _candidates_v1)
 
 
 @app.get("/product/{chemin:path}")
