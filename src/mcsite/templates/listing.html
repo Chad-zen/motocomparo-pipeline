@@ -142,6 +142,10 @@
 <h1 class="visuellement-cache">{{ titre }}</h1>
 
 <div class="boutique">
+{# Colonne repliée la dernière fois ? Appliqué AVANT que la colonne soit
+   dessinée, sinon elle apparaît puis disparaît. Préférence propre au
+   navigateur, rien ne sort de lui. #}
+<script>try { if (localStorage.getItem('mc-filtres-masques') === '1') document.currentScript.parentElement.classList.add('boutique--sans-filtres'); } catch (e) {}</script>
 
   {% if facettes %}
   {# Le mécanisme de la v1 : une pastille flottante en bas d'écran, et un
@@ -397,6 +401,22 @@
                          'prix': 'Prix croissant',
                          'prix_desc': 'Prix décroissant', 'marchands': 'Plus de marchands'} %}
       {% set choisi = (f.tri if f else 'pertinence') %}
+      <div class="boutique__outils">
+      {# Replier la colonne de filtres, comme chez Speedway : un bouton sombre
+         à entonnoir juste avant le tri, « Fermer les filtres » / « Afficher
+         les filtres » (demandé par la propriétaire le 15/10/2026). Écran large
+         seulement : sur téléphone les filtres sont déjà dans un tiroir fermé.
+         Le nombre de filtres actifs reste affiché colonne repliée : une liste
+         filtrée sans le dire induirait en erreur. Pas d'`aria-controls` : le
+         script des tiroirs l'intercepterait et ouvrirait le tiroir. #}
+      {% if facettes %}
+        {% set n_actifs = (f.actifs() | length) if f else 0 %}
+        <button type="button" class="bascule-filtres" data-bascule-filtres aria-expanded="true">
+          <svg class="bascule-filtres__ico" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path d="M3 4h14l-5.5 6.5V16l-3 1.5v-7z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+          <span data-bascule-filtres-texte>Fermer les filtres</span>
+          {% if n_actifs %}<span class="bascule-filtres__n" title="{{ n_actifs }} filtre{{ 's' if n_actifs > 1 }} actif{{ 's' if n_actifs > 1 }}">{{ n_actifs }}</span>{% endif %}
+        </button>
+      {% endif %}
       <details class="tri">
         <summary>
           <span class="tri__mot">Trier par</span>
@@ -409,6 +429,7 @@
           {% endfor %}
         </div>
       </details>
+      </div>
     </div>
 
     {# Mention obligatoire à un comparateur, sur la page de RÉSULTATS elle-même
@@ -620,9 +641,33 @@
     });
   }
 
+  /* Fermer / afficher la colonne de filtres (écran large). L'état vit sur
+     `.boutique`, hors de la zone remplacée par les filtres sans rechargement :
+     il survit donc aux clics. Le bouton, lui, est remplacé — d'où un
+     libellé recalculé à chaque fois et un écouteur posé sur le document. */
+  const CLE_MASQUES = 'mc-filtres-masques';
+  function libelleBascule() {
+    const boutique = document.querySelector('.boutique');
+    const b = document.querySelector('[data-bascule-filtres]');
+    if (!boutique || !b) return;
+    const masques = boutique.classList.contains('boutique--sans-filtres');
+    b.querySelector('[data-bascule-filtres-texte]').textContent =
+      masques ? 'Afficher les filtres' : 'Fermer les filtres';
+    b.setAttribute('aria-expanded', String(!masques));
+  }
+  document.addEventListener('click', function (e) {
+    const b = e.target.closest('[data-bascule-filtres]');
+    if (!b) return;
+    const boutique = document.querySelector('.boutique');
+    const masques = boutique.classList.toggle('boutique--sans-filtres');
+    try { localStorage.setItem(CLE_MASQUES, masques ? '1' : '0'); } catch (err) {}
+    libelleBascule();
+  });
+
   replier(null);
   jauge();
   voirPlus();
+  libelleBascule();
 
   /* ------------------------------------------------- Filtres sans rechargement
      Chaque filtre était un lien : un clic rechargeait TOUTE la page — en-tête,
@@ -714,6 +759,7 @@
     replier(ouvertes);
     jauge();
     voirPlus();
+    libelleBascule();
     if (window.mcMarquerCartes) window.mcMarquerCartes();
     a.scrollTop = haut;
     const retour = reprise && a.querySelector(reprise);
