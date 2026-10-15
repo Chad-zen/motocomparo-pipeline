@@ -32,7 +32,10 @@ from fastapi.templating import Jinja2Templates
 from psycopg_pool import ConnectionPool, PoolTimeout
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
+from functools import lru_cache
+
 from . import admin, cache, labels, partenaires, queries, suggestions
+from . import v1 as v1_mod
 from . import articles as articles_mod
 from . import courbe as courbe_mod
 
@@ -1703,6 +1706,98 @@ def verification_google() -> str:
     conserver le statut de proprietaire confirme.
     """
     return "google-site-verification: google91d87112b2771314.html"
+
+
+# --- les adresses de l'ancien site (v1) -------------------------------------
+# Voir `v1.py` : 301 vers ce qui les remplace, 410 pour la mécanique WordPress.
+
+def _marques_v1() -> tuple[set[str], set[str]]:
+    """Toutes les marques, et celles qui ont une page (`/m/…` sinon 404)."""
+    def _calcul() -> tuple[set[str], set[str]]:
+        with pool.connection() as conn:  # type: ignore[union-attr]
+            toutes = {r[0] for r in conn.execute(
+                "SELECT DISTINCT brand_code FROM product "
+                "WHERE brand_code <> '' AND status <> 'merged'")}
+            listees = {r[0] for r in conn.execute(
+                "SELECT DISTINCT p.brand_code FROM product p "
+                "JOIN product_stats s ON s.product_id = p.id "
+                "WHERE s.merchant_count >= 2 AND s.cheapest IS NOT NULL "
+                "AND p.status <> 'merged' AND p.brand_code <> ''")}
+        return toutes, listees
+    return cache.au_chaud("v1-marques", _calcul, ttl=6 * 3600)
+
+
+def _meilleure_v1(marque: str, texte: str) -> tuple[str, float] | None:
+    """La fiche vivante de la marque qui ressemble le plus à l'ancienne adresse."""
+    with pool.connection() as conn:  # type: ignore[union-attr]
+        r = conn.execute("""
+            SELECT p.slug, similarity(f_recherche(s.best_title), %(t)s)
+            FROM product p JOIN product_stats s ON s.product_id = p.id
+            WHERE p.brand_code = %(m)s AND p.status <> 'merged'
+              AND s.cheapest IS NOT NULL AND s.best_title IS NOT NULL
+            ORDER BY 2 DESC LIMIT 1""", {"m": marque, "t": texte}).fetchone()
+    return (r[0], float(r[1])) if r else None
+
+
+# Une ancienne adresse donne toujours la même cible dans la journée : gardée
+# à part, hors de `cache.py`, dont les 400 places servent aux listes et que
+# 4 500 anciennes fiches videraient.
+@lru_cache(maxsize=8192)
+def _cible_fiche_v1(chemin: str) -> str:
+    toutes, listees = _marques_v1()
+    return v1_mod.cible_fiche_v1(chemin, toutes, listees, _meilleure_v1)
+
+
+@app.get("/product/{chemin:path}")
+def v1_fiche(chemin: str):
+    return RedirectResponse(_cible_fiche_v1(chemin), status_code=301)
+
+
+@app.get("/product-category/{chemin:path}")
+def v1_rayon(chemin: str):
+    return RedirectResponse(v1_mod.cible_rayon_v1(chemin), status_code=301)
+
+
+@app.get("/shop")
+@app.get("/shop/{chemin:path}")
+def v1_boutique(request: Request, chemin: str = ""):
+    cible = v1_mod.cible_boutique_v1(dict(request.query_params), _marques_v1()[1])
+    return RedirectResponse(cible, status_code=301)
+
+
+# Les articles du blog v1 (`/2026/08/05/rouler-en-securite…/`) : la rubrique
+# qui les remplace.
+@app.get("/2025/{chemin:path}")
+@app.get("/2026/{chemin:path}")
+def v1_article(chemin: str):
+    return RedirectResponse("/guides", status_code=301)
+
+
+def _redirection_fixe(cible: str):
+    def route():
+        return RedirectResponse(cible, status_code=301)
+    return route
+
+
+for _ancienne, _cible in v1_mod.REDIRECTIONS_FIXES.items():
+    # Les deux écritures : sans la seconde, `/about/` passait d'abord par la
+    # redirection automatique vers `/about`, soit deux sauts au lieu d'un.
+    for _forme in (_ancienne, _ancienne + "/"):
+        if not _forme.endswith(".xml/"):
+            app.add_api_route(_forme, _redirection_fixe(_cible), methods=["GET"])
+
+
+# La mécanique de WordPress (`wp-cron.php`, `xmlrpc.php`, `wp-json`, les flux,
+# le compte client) n'a jamais été une page : 410 « disparu pour de bon », que
+# Google retire plus vite qu'un 404 et cesse de redemander.
+def _disparu():
+    return PlainTextResponse("Cette adresse de l'ancien site n'existe plus.", status_code=410)
+
+
+for _motif in ("/wp-{reste:path}", "/xmlrpc.php", "/feed", "/feed/",
+               "/comments/feed", "/comments/feed/", "/my-account",
+               "/my-account/{reste:path}"):
+    app.add_api_route(_motif, _disparu, methods=["GET", "POST"])
 
 
 @app.get("/robots.txt", response_class=PlainTextResponse)
