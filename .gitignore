@@ -55,3 +55,6 @@ dump.log
 # La liste des motifs personnels a ne jamais commiter (voir
 # tests/test_depot_anonyme.py). Elle decrit ce qu elle protege.
 .anonymat
+
+# releves du tableau de bord de veille (ops/veille_tableau.py)
+ops/veille/

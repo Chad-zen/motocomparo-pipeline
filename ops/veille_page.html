@@ -1,0 +1,265 @@
+<style>
+.vx { display: grid; gap: var(--cds-gap-lg); font-family: var(--font-anthropic-sans); max-width: 72rem; margin-inline: auto; }
+.vx-tete { display: grid; gap: var(--cds-gap-xs); }
+.vx-titre { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: var(--cds-font-size-title); margin: 0; text-wrap: balance; }
+.vx-resume { margin: 0; color: var(--color-fg-muted); font-size: var(--cds-font-size-body); }
+.vx-etat { display: inline-flex; align-items: center; gap: var(--cds-gap-xs); font-size: var(--cds-font-size-caption); font-weight: var(--cds-font-weight-medium); text-transform: uppercase; letter-spacing: .06em; }
+.vx-etat::before { content: ""; width: .5rem; height: .5rem; border-radius: 50%; background: var(--color-fg-muted); }
+.vx-etat[data-niveau="ok"] { color: var(--color-ok); } .vx-etat[data-niveau="ok"]::before { background: var(--color-ok); }
+.vx-etat[data-niveau="attention"] { color: var(--color-warn); } .vx-etat[data-niveau="attention"]::before { background: var(--color-warn); }
+.vx-etat[data-niveau="critique"] { color: var(--color-bad); } .vx-etat[data-niveau="critique"]::before { background: var(--color-bad); }
+.vx-carte { background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-lg); display: grid; gap: var(--cds-gap-sm); min-width: 0; align-content: start; }
+.vx-carte h2 { margin: 0; font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); }
+.vx-note { margin: 0; color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); }
+.vx-tuiles { display: grid; gap: var(--cds-gap-md); grid-template-columns: repeat(auto-fit, minmax(min(100%, 10.5rem), 1fr)); }
+.vx-tuile { background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-md); display: grid; gap: var(--cds-gap-xs); align-content: start; }
+.vx-tuile span { color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); }
+.vx-tuile .vx-chiffre { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: var(--cds-font-size-title); font-variant-numeric: tabular-nums; color: var(--color-fg); }
+.vx-tuile .vx-chiffre[data-alerte="1"] { color: var(--color-bad); }
+.vx-tuile small { color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); }
+.vx-grille { display: grid; gap: var(--cds-gap-md); grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); }
+.vx-tableau { overflow-x: auto; }
+.vx-tableau table { width: 100%; border-collapse: collapse; font-size: var(--cds-font-size-body); font-variant-numeric: tabular-nums; }
+.vx-tableau th { text-align: left; font-weight: var(--cds-font-weight-medium); color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); padding: var(--cds-pad-xs) var(--cds-pad-sm) var(--cds-pad-xs) 0; border-bottom: 1px solid var(--color-border-line); }
+.vx-tableau td { padding: var(--cds-pad-xs) var(--cds-pad-sm) var(--cds-pad-xs) 0; border-bottom: 1px solid var(--color-border-line); vertical-align: top; }
+.vx-tableau .nb { text-align: right; }
+.vx-tableau td[data-mauvais="1"] { color: var(--color-bad); font-weight: var(--cds-font-weight-medium); }
+.vx-tableau td[data-moyen="1"] { color: var(--color-warn); }
+.vx-pastille { display: inline-block; padding: 0 var(--cds-pad-xs); border-radius: var(--cds-radius); font-size: var(--cds-font-size-caption); font-weight: var(--cds-font-weight-medium); }
+.vx-pastille[data-niveau="critique"] { color: var(--color-bad); border: 1px solid var(--color-bad); }
+.vx-pastille[data-niveau="attention"] { color: var(--color-warn); border: 1px solid var(--color-warn); }
+.vx-vide { color: var(--color-ok); margin: 0; }
+.vx-graphe { position: relative; min-height: 180px; }
+.vx-bulle { position: absolute; pointer-events: none; background: var(--cds-surface-popover); border: 1px solid var(--cds-border); border-radius: var(--cds-radius); box-shadow: var(--cds-shadow-popover); padding: var(--cds-pad-xs) var(--cds-pad-sm); font-size: var(--cds-font-size-caption); white-space: nowrap; }
+.vx-bulle b { display: block; color: var(--cds-text-secondary); font-weight: 400; }
+[data-dash-source-state=refreshing] { opacity: .5; transition: opacity var(--cds-dur-slow); }
+[data-dash-source-state=empty] { color: transparent; }
+</style>
+
+<div class="vx">
+  <header class="vx-tete" id="etat">
+    <h1 class="vx-titre">Veille MotoComparo</h1>
+    <span class="vx-etat dash-skeleton" id="vx-etat" data-source="indicateurs" data-field="statut" data-row="0">—</span>
+    <p class="vx-resume dash-skeleton" id="vx-resume">—</p>
+  </header>
+
+  <section class="vx-carte" id="alertes">
+    <h2>Alertes du jour</h2>
+    <p class="vx-note">Seuils fixes : prix vieux de plus de 26 h, disque à 85 % puis 92 %, offres d'un marchand qui varient de plus de 30 % en un jour, page à plus de 3 s, plus de 20 erreurs serveur en 24 h, chaîne nocturne en échec, sauvegarde manquante.</p>
+    <div class="vx-tableau">
+      <table data-source="alertes" data-row-key="message">
+        <thead><tr><th data-field="niveau">Niveau</th><th data-field="sujet">Sujet</th><th data-field="message">Ce qui se passe</th></tr></thead>
+        <tbody id="vx-alertes"></tbody>
+      </table>
+    </div>
+    <p class="vx-vide" id="vx-rien" hidden>Aucune alerte : tout est dans les seuils.</p>
+  </section>
+
+  <section class="vx-tuiles" id="chiffres" aria-label="Chiffres du jour">
+    <div class="vx-tuile"><span>Pages testées en ligne</span><b class="vx-chiffre" id="vx-pages" data-source="indicateurs" data-field="pages_ok" data-row="0">—</b><small id="vx-pages-sur">—</small></div>
+    <div class="vx-tuile"><span>Disque du serveur</span><b class="vx-chiffre" id="vx-disque" data-source="indicateurs" data-field="disque_pct" data-row="0">—</b><small id="vx-disque-libre">—</small></div>
+    <div class="vx-tuile"><span>Erreurs serveur, 24 h</span><b class="vx-chiffre" id="vx-5xx" data-source="indicateurs" data-field="erreurs_5xx_24h" data-row="0">—</b><small>réponses 5xx vues par nginx</small></div>
+    <div class="vx-tuile"><span>Fiches avec un prix</span><b class="vx-chiffre" id="vx-fiches" data-source="indicateurs" data-field="fiches_avec_prix" data-row="0">—</b><small id="vx-fiches-sur">—</small></div>
+    <div class="vx-tuile"><span>Chaîne nocturne</span><b class="vx-chiffre" id="vx-chaine" data-source="indicateurs" data-field="chaine_resultat" data-row="0">—</b><small id="vx-chaine-fin">—</small></div>
+    <div class="vx-tuile"><span>Messages de contact, 24 h</span><b class="vx-chiffre" id="vx-messages" data-source="indicateurs" data-field="messages_contact_24h" data-row="0">—</b><small>à lire dans /admin</small></div>
+  </section>
+
+  <section class="vx-carte" id="marchands">
+    <h2>Prix par marchand</h2>
+    <p class="vx-note">Offres en ligne, âge du dernier relevé, et variation depuis la veille. Un âge en rouge veut dire que le site affiche « prix non rafraîchi » pour ce marchand.</p>
+    <div class="vx-tableau">
+      <table data-source="marchands" data-row-key="marchand">
+        <thead><tr><th data-field="marchand">Marchand</th><th data-field="offres" class="nb">Offres</th><th data-field="age_h" class="nb">Relevé il y a</th><th data-field="variation" class="nb">Depuis la veille</th></tr></thead>
+        <tbody id="vx-marchands"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <div class="vx-grille" id="tendances">
+    <section class="vx-carte">
+      <h2>Alertes, jour par jour</h2>
+      <p class="vx-note">Critiques en rouge, à surveiller en orange. 90 derniers jours.</p>
+      <div class="vx-graphe" id="vx-g-alertes" data-source="historique"></div>
+    </section>
+    <section class="vx-carte">
+      <h2>Disque du serveur, jour par jour</h2>
+      <p class="vx-note">Part utilisée. Lignes de seuil à 85 % et 92 %.</p>
+      <div class="vx-graphe" id="vx-g-disque" data-source="historique"></div>
+    </section>
+  </div>
+
+  <p class="vx-note" id="vx-genere">—</p>
+</div>
+
+<script>
+const fr = new Intl.NumberFormat('fr-FR');
+const fr1 = new Intl.NumberFormat('fr-FR', { maximumFractionDigits: 1 });
+const pct = new Intl.NumberFormat('fr-FR', { style: 'percent', maximumFractionDigits: 0, signDisplay: 'exceptZero' });
+const quand = (iso) => new Date(iso).toLocaleString('fr-FR', { dateStyle: 'long', timeStyle: 'short', timeZone: 'Europe/Paris' });
+const jourCourt = (j) => new Date(j + 'T12:00:00Z').toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' });
+const LIBELLES = { ok: 'Tout va bien', attention: 'À surveiller', critique: 'Action requise' };
+const CHAINE = { success: 'réussie', 'exit-code': 'en échec', timeout: 'trop longue', '': 'pas encore lancée' };
+
+const ecrire = (id, texte) => { const el = document.getElementById(id); if (el) { el.textContent = texte; el.classList.remove('dash-skeleton'); } };
+
+function haut(i) {
+  const etat = document.getElementById('vx-etat');
+  if (i.status !== 'ok' || !i.data.length) {
+    etat.textContent = '—'; etat.removeAttribute('data-niveau');
+    ['vx-resume', 'vx-genere'].forEach((id) => ecrire(id, '—'));
+    return;
+  }
+  const r = i.data[0];
+  etat.dataset.niveau = r.statut;
+  etat.textContent = r.statut;
+  etat.setAttribute('aria-label', LIBELLES[r.statut] || r.statut);
+  etat.classList.remove('dash-skeleton');
+  const c = Number(r.critiques), a = Number(r.attentions);
+  ecrire('vx-resume', c + a === 0
+    ? 'Rien à signaler : site en ligne, prix à jour, disque et chaîne nocturne dans les seuils.'
+    : `${LIBELLES[r.statut]} : ${c} alerte${c > 1 ? 's' : ''} critique${c > 1 ? 's' : ''} et ${a} à surveiller.`);
+  ecrire('vx-genere', `Relevé du ${quand(r.genere_le)} (heure de Paris), par la vérification quotidienne.`);
+
+  ecrire('vx-pages-sur', `sur ${r.pages_testees} · la plus lente ${fr1.format(r.page_plus_lente_s)} s`);
+  const disque = document.getElementById('vx-disque');
+  disque.textContent = fr1.format(r.disque_pct); disque.dataset.alerte = r.disque_pct >= 85 ? '1' : '0';
+  ecrire('vx-disque-libre', `% utilisés · ${fr1.format(r.disque_libre_go)} Go libres · base ${fr1.format(r.base_go)} Go`);
+  const err = document.getElementById('vx-5xx');
+  err.textContent = fr.format(r.erreurs_5xx_24h); err.dataset.alerte = r.erreurs_5xx_24h > 20 ? '1' : '0';
+  document.getElementById('vx-fiches').textContent = fr.format(r.fiches_avec_prix);
+  ecrire('vx-fiches-sur', `sur ${fr.format(r.fiches_total)} fiches`);
+  const chaine = document.getElementById('vx-chaine');
+  chaine.textContent = r.chaine_resultat; chaine.title = CHAINE[r.chaine_resultat] || r.chaine_resultat;
+  chaine.dataset.alerte = r.chaine_resultat && r.chaine_resultat !== 'success' ? '1' : '0';
+  ecrire('vx-chaine-fin', `${CHAINE[r.chaine_resultat] || ''} · fin ${r.chaine_fin || '—'}`);
+  document.getElementById('vx-messages').textContent = fr.format(r.messages_contact_24h);
+  const pages = document.getElementById('vx-pages');
+  pages.textContent = r.pages_ok; pages.dataset.alerte = r.pages_ok < r.pages_testees ? '1' : '0';
+}
+
+function alertes(d) {
+  const corps = document.getElementById('vx-alertes');
+  const rien = document.getElementById('vx-rien');
+  corps.replaceChildren();
+  if (d.status !== 'ok') { rien.hidden = true; return; }
+  rien.hidden = d.data.length > 0;
+  for (const a of d.data) {
+    const tr = document.createElement('tr');
+    const niv = document.createElement('td');
+    const p = document.createElement('span');
+    p.className = 'vx-pastille'; p.dataset.niveau = a.niveau; p.textContent = a.niveau;
+    niv.append(p);
+    const suj = document.createElement('td'); suj.textContent = a.sujet;
+    const msg = document.createElement('td'); msg.textContent = a.message;
+    tr.append(niv, suj, msg);
+    corps.append(tr);
+  }
+}
+
+function marchands(d) {
+  const corps = document.getElementById('vx-marchands');
+  corps.replaceChildren();
+  if (d.status !== 'ok') return;
+  for (const m of d.data) {
+    const tr = document.createElement('tr');
+    const nom = document.createElement('td'); nom.textContent = m.marchand;
+    const off = document.createElement('td'); off.className = 'nb'; off.textContent = fr.format(m.offres);
+    const age = document.createElement('td'); age.className = 'nb';
+    age.textContent = m.age_h == null ? '—' : (m.age_h < 48 ? fr1.format(m.age_h) + ' h' : fr1.format(m.age_h / 24) + ' j');
+    if (m.age_h == null || m.age_h > 26) age.dataset.mauvais = '1';
+    const vari = document.createElement('td'); vari.className = 'nb';
+    vari.textContent = m.variation == null ? 'premier relevé' : pct.format(m.variation);
+    if (m.variation != null && Math.abs(m.variation) > 0.3) vari.dataset.moyen = '1';
+    tr.append(nom, off, age, vari);
+    corps.append(tr);
+  }
+}
+
+function bulle(boite, x, y, titre, lignes) {
+  let b = boite.querySelector('.vx-bulle');
+  if (!b) { b = document.createElement('div'); b.className = 'vx-bulle'; boite.append(b); }
+  b.replaceChildren();
+  const t = document.createElement('b'); t.textContent = titre; b.append(t);
+  for (const l of lignes) { const s = document.createElement('div'); s.textContent = l; b.append(s); }
+  b.hidden = false;
+  const w = b.offsetWidth, W = boite.clientWidth;
+  b.style.left = Math.max(0, Math.min(W - w, x - w / 2)) + 'px';
+  b.style.top = Math.max(0, y - b.offsetHeight - 8) + 'px';
+}
+
+function axes(svg, x, y, h, m, jours, fmtY) {
+  const g = svg.append('g').attr('transform', `translate(0,${h - m.b})`)
+    .call(d3.axisBottom(x).tickValues(jours.length > 8 ? jours.filter((_, i) => i % Math.ceil(jours.length / 6) === 0) : jours).tickFormat(jourCourt).tickSizeOuter(0));
+  g.attr('font-size', null).attr('font-family', null);
+  g.selectAll('text').attr('fill', 'var(--color-fg-muted)').style('font-size', 'var(--cds-font-size-caption)');
+  g.selectAll('line,path').attr('stroke', 'var(--cds-chart-axis)');
+  const gy = svg.append('g').attr('transform', `translate(${m.l},0)`).call(d3.axisLeft(y).ticks(4).tickFormat(fmtY).tickSize(-(x.range()[1] - m.l)));
+  gy.attr('font-size', null).attr('font-family', null);
+  gy.select('.domain').remove();
+  gy.selectAll('line').attr('stroke', 'var(--cds-chart-grid)');
+  gy.selectAll('text').attr('fill', 'var(--color-fg-muted)').style('font-size', 'var(--cds-font-size-caption)');
+}
+
+function grapheAlertes(h) {
+  const boite = document.getElementById('vx-g-alertes');
+  boite.replaceChildren();
+  if (h.status !== 'ok' || !h.data.length) return;
+  const W = boite.clientWidth, H = 180, m = { t: 8, r: 8, b: 24, l: 28 };
+  const jours = h.data.map((r) => r.jour);
+  const x = d3.scaleBand(jours, [m.l, W - m.r]).padding(0.3);
+  const y = d3.scaleLinear([0, Math.max(3, d3.max(h.data, (r) => Number(r.critiques) + Number(r.attentions)))], [H - m.b, m.t]).nice();
+  const svg = d3.select(boite).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('role', 'img')
+    .attr('aria-label', 'Nombre d’alertes par jour');
+  axes(svg, x, y, H, m, jours, d3.format('d'));
+  const bw = Math.min(32, x.bandwidth());
+  const dx = (x.bandwidth() - bw) / 2;
+  const g = svg.append('g');
+  for (const r of h.data) {
+    const c = Number(r.critiques), a = Number(r.attentions);
+    if (a) g.append('rect').attr('x', x(r.jour) + dx).attr('width', bw).attr('y', y(c + a)).attr('height', y(c) - y(c + a)).attr('rx', 4).attr('fill', 'var(--color-warn)');
+    if (c) g.append('rect').attr('x', x(r.jour) + dx).attr('width', bw).attr('y', y(c)).attr('height', y(0) - y(c)).attr('rx', 4).attr('fill', 'var(--cds-chart-status-critical)');
+    svg.append('rect').attr('x', x(r.jour)).attr('width', x.bandwidth()).attr('y', m.t).attr('height', H - m.b - m.t).attr('fill', 'transparent')
+      .on('mousemove', () => bulle(boite, x(r.jour) + x.bandwidth() / 2, y(c + a), jourCourt(r.jour), [`${c} critique${c > 1 ? 's' : ''}`, `${a} à surveiller`]))
+      .on('mouseleave', () => { const b = boite.querySelector('.vx-bulle'); if (b) b.hidden = true; });
+  }
+}
+
+function grapheDisque(h) {
+  const boite = document.getElementById('vx-g-disque');
+  boite.replaceChildren();
+  if (h.status !== 'ok' || !h.data.length) return;
+  const W = boite.clientWidth, H = 180, m = { t: 8, r: 36, b: 24, l: 36 };
+  const pts = h.data.map((r) => ({ jour: r.jour, v: Number(r.disque_pct) }));
+  const jours = pts.map((p) => p.jour);
+  const x = d3.scalePoint(jours, [m.l + 8, W - m.r - 8]);
+  const y = d3.scaleLinear([Math.min(60, d3.min(pts, (p) => p.v) - 5), 100], [H - m.b, m.t]);
+  const svg = d3.select(boite).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('role', 'img')
+    .attr('aria-label', 'Part du disque utilisée, par jour');
+  axes(svg, x, y, H, m, jours, (v) => v + ' %');
+  for (const [s, lib] of [[85, '85 %'], [92, '92 %']]) {
+    svg.append('line').attr('x1', m.l).attr('x2', W - m.r).attr('y1', y(s)).attr('y2', y(s))
+      .attr('stroke', 'var(--cds-chart-reference)').attr('stroke-dasharray', '4 3');
+    svg.append('text').attr('x', W - m.r + 4).attr('y', y(s) + 4).attr('fill', 'var(--color-fg-muted)').style('font-size', 'var(--cds-font-size-caption)').text(lib);
+  }
+  if (pts.length > 1) {
+    svg.append('path').datum(pts).attr('fill', 'none').attr('stroke', dash.colors[0]).attr('stroke-width', 2)
+      .attr('stroke-linecap', 'round').attr('stroke-linejoin', 'round')
+      .attr('d', d3.line((p) => x(p.jour), (p) => y(p.v)));
+  }
+  for (const p of pts) {
+    svg.append('circle').attr('cx', x(p.jour)).attr('cy', y(p.v)).attr('r', 3.5)
+      .attr('fill', p.v >= 85 ? 'var(--cds-chart-status-critical)' : dash.colors[0])
+      .on('mousemove', () => bulle(boite, x(p.jour), y(p.v), jourCourt(p.jour), [fr1.format(p.v) + ' % utilisés']))
+      .on('mouseleave', () => { const b = boite.querySelector('.vx-bulle'); if (b) b.hidden = true; });
+  }
+}
+
+dash.onData(() => {
+  haut(dash.data('indicateurs'));
+  alertes(dash.data('alertes'));
+  marchands(dash.data('marchands'));
+  const h = dash.data('historique');
+  grapheAlertes(h);
+  grapheDisque(h);
+});
+</script>
