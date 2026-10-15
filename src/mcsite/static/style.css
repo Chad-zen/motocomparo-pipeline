@@ -1787,24 +1787,28 @@ body:has(.banc:not([hidden])) { padding-bottom: var(--banc-h, 94px); }
 /* « Fermer / Afficher les filtres », juste avant le tri, comme chez
    Speedway. Même pavé sombre et même hauteur que « Trier par » : les deux
    se lisent comme une seule barre d'outils. Écran large seulement. */
-.boutique__outils { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-.bascule-filtres { display: none; }
+.boutique__outils {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  margin: 4px 0 16px;
+}
+.boutique__outils .tri { margin: 0; }
+/* Sur téléphone et tablette, le même bouton s'appelle « Filtrer » et ouvre le
+   tiroir (comme la barre « Filtrer | Trier par » de Speedway mobile) : il n'y
+   a pas de colonne à replier. */
+.bascule-filtres {
+  display: inline-flex; align-items: center; gap: 9px; cursor: pointer;
+  background: var(--nuit); color: #fff; border: 0;
+  border-radius: 10px; padding: 13px 16px;
+  font: inherit; font-size: 14.5px; font-weight: 600; white-space: nowrap;
+}
+.bascule-filtres__ico { color: var(--or); flex: none; }
+.bascule-filtres:hover .bascule-filtres__ico { transform: scale(1.08); }
+.bascule-filtres:focus-visible { outline: 2px solid var(--or); outline-offset: 2px; }
+.bascule-filtres__n {
+  background: var(--or); color: var(--nuit); border-radius: 20px;
+  padding: 1px 8px; font-size: 12px; font-weight: 800;
+}
 @media (min-width: 901px) {
-  .boutique__outils { margin: 4px 0 16px; }
-  .boutique__outils .tri { margin: 0; }
-  .bascule-filtres {
-    display: inline-flex; align-items: center; gap: 9px; cursor: pointer;
-    background: var(--nuit); color: #fff; border: 0;
-    border-radius: 10px; padding: 13px 16px;
-    font: inherit; font-size: 14.5px; font-weight: 600;
-  }
-  .bascule-filtres__ico { color: var(--or); flex: none; }
-  .bascule-filtres:hover .bascule-filtres__ico { transform: scale(1.08); }
-  .bascule-filtres:focus-visible { outline: 2px solid var(--or); outline-offset: 2px; }
-  .bascule-filtres__n {
-    background: var(--or); color: var(--nuit); border-radius: 20px;
-    padding: 1px 8px; font-size: 12px; font-weight: 800;
-  }
   .boutique.boutique--sans-filtres { grid-template-columns: minmax(0, 1fr); }
   .boutique--sans-filtres > .filtres { display: none; }
 }
@@ -2732,8 +2736,12 @@ body:has(.banc:not([hidden])) { padding-bottom: var(--banc-h, 94px); }
      rétractait sur son contenu quelle que soit la largeur autorisée. Il faut
      le lui demander explicitement. */
   .boutique__tete { flex-wrap: wrap; }
-  .boutique__outils { flex: 1 0 100%; }
+  .boutique__outils { flex: 1 0 100%; flex-wrap: nowrap; }
   .tri { max-width: none; width: 100%; flex: 1 0 100%; }
+  /* « Filtrer » et « Trier par » sur UNE ligne : le bouton à sa taille, le
+     tri prend le reste. */
+  .boutique__outils .tri { flex: 1 1 0; width: auto; min-width: 0; }
+  .boutique__outils .bascule-filtres { flex: none; padding: 13px 14px; }
 }
 
 /* --- la pastille de compteur, raccrochée au bouton ------------------------ */

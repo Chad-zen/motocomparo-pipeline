@@ -646,23 +646,41 @@
      il survit donc aux clics. Le bouton, lui, est remplacé — d'où un
      libellé recalculé à chaque fois et un écouteur posé sur le document. */
   const CLE_MASQUES = 'mc-filtres-masques';
+  /* Écran étroit : les filtres sont un tiroir (position fixed). Le bouton
+     s'appelle alors « Filtrer » et ouvre ce tiroir — en passant par la
+     pastille flottante, qui porte déjà tout le mécanisme d'ouverture. */
+  const modeTiroir = () => {
+    const a = document.getElementById('tiroir-filtres');
+    return !!a && getComputedStyle(a).position === 'fixed';
+  };
   function libelleBascule() {
     const boutique = document.querySelector('.boutique');
     const b = document.querySelector('[data-bascule-filtres]');
     if (!boutique || !b) return;
+    const texte = b.querySelector('[data-bascule-filtres-texte]');
+    if (modeTiroir()) {
+      texte.textContent = 'Filtrer';
+      b.removeAttribute('aria-expanded');
+      return;
+    }
     const masques = boutique.classList.contains('boutique--sans-filtres');
-    b.querySelector('[data-bascule-filtres-texte]').textContent =
-      masques ? 'Afficher les filtres' : 'Fermer les filtres';
+    texte.textContent = masques ? 'Afficher les filtres' : 'Fermer les filtres';
     b.setAttribute('aria-expanded', String(!masques));
   }
   document.addEventListener('click', function (e) {
     const b = e.target.closest('[data-bascule-filtres]');
     if (!b) return;
+    if (modeTiroir()) {
+      const pastille = document.querySelector('.pastille-filtres');
+      if (pastille) pastille.click();
+      return;
+    }
     const boutique = document.querySelector('.boutique');
     const masques = boutique.classList.toggle('boutique--sans-filtres');
     try { localStorage.setItem(CLE_MASQUES, masques ? '1' : '0'); } catch (err) {}
     libelleBascule();
   });
+  window.addEventListener('resize', libelleBascule);
 
   replier(null);
   jauge();
