@@ -269,6 +269,170 @@ def test_l_homologue_en_cuir_est_un_autre_modele():
     assert lire("", t).matiere_coque != "cuir"
 
 
+# -----------------------------------------------------------------------------
+# 3 bis. LA MATIÈRE ÉCRITE QU'ON NE LISAIT PAS (relevé du 15/10/2026)
+#
+# 52 blousons visibles sans matière dans la base locale, 326 si l'on retire
+# les textes FC-Moto. Chaque phrase ci-dessous vient de l'un d'eux : le
+# marchand écrivait la matière, l'extracteur ne la voyait pas.
+# -----------------------------------------------------------------------------
+
+def test_le_denier_est_la_marque_d_un_tissu():
+    """« 600D » est la masse d'un fil, et le mot n'existe que pour une fibre :
+    671 occurrences dans le rayon, aucune sur un blouson tout cuir. Le second
+    texte est collé à la rubrique suivante, comme Motoblouz les écrit."""
+    for phrase in (
+        "Matière: En matière 480 D x 640 D Tactel®Doublure aérée",
+        "Matières: En fibre Tech 600DMembrane BWTECH CLASSICDoublure: Doublure "
+        "SHELLTECH Super amovibleDoublure fixe en maille",
+        "Matière: Polyfibre 450D avec renfort 600D dans les zones critiques",
+    ):
+        assert lire("", phrase).matiere_coque == "textile", phrase
+
+
+def test_un_motif_3d_n_est_pas_un_denier():
+    """La garde du motif précédent : un chiffre seul devant « D » n'est pas un
+    fil. Relevé sur une Alpinestars AMT-8, dont le texte ne nomme AUCUNE
+    matière — elle doit rester sans."""
+    t = ("Matière: Veste de performance 100 % stretch hautement respirante pour "
+         "une flexibilité et un confort inégalésNouveau motif ergonomique 3D "
+         "conçu pour améliorer la flexibilité")
+    assert lire("", t).matiere_coque is None
+
+
+def test_les_noms_de_tissu_que_le_marchand_explique():
+    """Serica, Twiltex, Tactel : des noms déposés, mais que les marchands
+    expliquent eux-mêmes ailleurs dans le rayon (« En Serica, mix de coton
+    sergé et de polyester », « tissu technique Twiltex 100% polyester »)."""
+    for phrase in (
+        "Matière: En TwiltexProtections: Protections coudes CE amovibles ALPHA",
+        "Matière: Séricaétanchéité: Membrane étancheDoublure: Doublure thermo-alu",
+        "Matière: En fibre Tactel® déperlant et respirantGilet doublure thermique",
+        "Matière: En Dupont Kevlar et Tartan Polycoton offrant souplesse",
+        "Matières: Construction en flannelDoublure: La doublure fixe en mesh",
+        "Matière: Fabriquée en satin de haute qualité pour une finition élégante",
+        "Matière: Fabriqué en taffetas matelassé avec une couche intérieure "
+        "d'isolation rembourrée en polyester 100 % recyclé",
+    ):
+        assert lire("", phrase).matiere_coque == "textile", phrase
+
+
+def test_le_satin_d_une_doublure_ne_fait_pas_un_cuir_textile():
+    """Le satin est une coque sur un blouson Alpinestars, une doublure sur tous
+    les blousons en cuir du rayon qui le nomment."""
+    t = "* Matériau supérieur: cuir de buffle * Doublure: doublure en satin massif"
+    assert lire("", t).matiere_coque == "cuir"
+
+
+def test_le_jean_matiere_et_le_jean_pantalon():
+    """« Veste moto en jean » est une matière. « Boucle permettant d'attacher
+    votre jean » est un pantalon, et la formule est sur des dizaines de
+    blousons, en cuir comme en textile."""
+    assert lire("Veste Macna Inland Quilted Vert Marron - Blouson Moto MACNA",
+                "Macna vous propose sa veste moto en jean pour homme"
+                ).matiere_coque == "textile"
+    t = ("Boucle située à l'arrière du blouson permettant d'attacher votre "
+         "jean afin de l'empêcher de remonter")
+    assert lire("", t).matiere_coque is None
+
+
+def test_softshell_coupe_par_la_decoupe_des_phrases_collees():
+    """« SoftShell » porte une majuscule au milieu : la découpe des phrases
+    collées de Motoblouz y voyait deux phrases, « Soft » et « Shell ». Les
+    quatre Spidi The Standard restaient sans matière, et la faute de frappe
+    « Sofshell » (Bering Lady Rotor) aussi."""
+    for phrase in (
+        "Matières: En SoftShell multicouche élastique 3 couchesMembrane H2OUT",
+        "Matières: SofshellMembrane étanche BWTECH SuperDoublure: Doudoune",
+    ):
+        assert lire("", phrase).matiere_coque == "textile", phrase
+
+
+def test_une_marque_deposee_termine_une_phrase_collee():
+    """« Doublure XTM-Fiber®Matière extérieure 100 % twill de nylon » : sans
+    coupure après le ®, la doublure et la coque tenaient dans un seul segment,
+    et la doublure, nommée la première, faisait taire le nylon."""
+    t = ("Matière: Multistretch confortConstruction bicoucheDoublure "
+         "XTM-Fiber®Matière extérieure 100 % twill de nylonImperméable")
+    assert lire("", t).matiere_coque == "textile"
+
+
+def test_cent_pour_cent_cuir_n_est_pas_une_garniture():
+    """« 100 % cuir » se lisait « 00 % cuir », comme les « 3 % cuir
+    véritable » d'un denim : deux blousons tout cuir restaient sans matière."""
+    for phrase in (
+        "Construction 100% cuir pleine fleur. Coupe cintrée style perfecto",
+        "Matière: 100 % cuir de vachette perforé d'une épaisseur de 1,1-1,3 mm",
+    ):
+        assert lire("", phrase).matiere_coque == "cuir", phrase
+
+
+def test_le_polyester_minoritaire_d_un_cuir_est_une_garniture():
+    """L'inverse des « 3 % cuir » : dix pour cent de polyester sur un blouson
+    en cuir sont l'extensible des soufflets. FC-Moto vend le même GS-1
+    « Blouson de moto en cuir »."""
+    for phrase in (
+        "Cuir de vachette mat de haute qualité offrant une finition résistante "
+        "pour un usage quotidien Composition 80% cuir, 10% polyester et 10% "
+        "élastane",
+        "Conception et matériaux Extérieur en 90% cuir nubuck et 10% polyester "
+        "offrant une finition cuir résistante",
+    ):
+        assert lire("", phrase).matiere_coque == "cuir", phrase
+
+
+def test_veste_a_capuche_n_est_pas_une_capuche():
+    """« Veste de moto à capuche pour homme, réalisée en tissu Softshell » : la
+    capuche qualifie la veste. Une capuche dont on donne la matière reste une
+    capuche, et sa matière n'est pas celle du blouson."""
+    t = ("Matière: Veste de moto à capuche pour homme, réalisée en tissu "
+         "Softshell doux et dotée de grands panneaux en mesh")
+    assert lire("", t).matiere_coque == "textile"
+    t = "Capuche en nylon léger pliable intégrée au col"
+    assert lire("", t).matiere_coque is None
+
+
+def test_l_intitule_matiere_ouvre_une_nouvelle_rubrique():
+    """Le nouveau format Motoblouz enchaîne les rubriques sans ponctuation.
+    L'insert de la phrase d'avant effaçait le textile nommé en toutes
+    lettres (Held Omberg)."""
+    t = ("Conception et matériaux Insert Armarcor sur les zones d'impact pour "
+         "renforcer la résistance à l'abrasion en cas de glissade Matière "
+         "textile renforcée pour conserver la structure du vêtement")
+    assert lire("", t).matiere_coque == "textile"
+
+
+def test_la_matiere_interieure_est_une_doublure():
+    """« Matière intérieure en mesh » sur un Ixon Cranky Air que Speedway et
+    Moto-Axxe vendent tous deux « blouson en cuir ». Il ressortait
+    « cuir-textile » à cause de sa doublure."""
+    for phrase in (
+        "Matières: En cuir de vachette semi-aniline perforé Matière intérieure "
+        "en mesh pou une ventilation optimale",
+        "Matière extérieure en Cuir de vachette semi-aniline perforé. Matière "
+        "intérieure en Mesh pour une ventilation optimale.",
+    ):
+        assert lire("", phrase).matiere_coque == "cuir", phrase
+
+
+def test_une_membrane_ou_un_lamine_ne_disent_pas_la_matiere():
+    """Ce qui DOIT rester vide. « Laminé 3 couches », « Z-Liner solto-TEX »,
+    « Membrane HydraDri » décrivent l'étanchéité, pas la coque, et aucun de ces
+    textes ne nomme de tissu. Déduire « textile » de la membrane serait la
+    déduction que le rayon refuse partout ailleurs."""
+    for phrase in (
+        "Matières: En matière PFC FreeLaminé 3 couchesDoublure: Doublure "
+        "thermique amovible intégrale",
+        "Matière: Stratifié Z-Liner 2 couches solto-TEX®Le matériau extérieur "
+        "élastique iXS-Stretch optimise l'ajustement",
+        "Matière: Léger, imperméable et respirant avec des matériaux "
+        "extensibles pour la mobilitéMembrane HydraDri EVO",
+        "Matière: Construction Laminée GORE-TEX PRO 3L : Offre une performance "
+        "100% imperméable",
+    ):
+        assert lire("", phrase).matiere_coque is None, phrase
+
+
 # =============================================================================
 # 4. LES MOTS QUI EN CACHENT UN AUTRE
 # =============================================================================

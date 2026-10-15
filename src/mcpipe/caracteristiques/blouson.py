@@ -161,11 +161,24 @@ _PIECE_QUI_N_EST_PAS_LA_COQUE = (
     r"(?:doublure|doublage|membrane|renfort|empi[èe]cement|insert|panneau[x]?\s+"
     r"(?:de\s+)?doublure|poche|col\b|poignet|sangle|patte|bande|velcro|"
     r"fermeture|[ée]clair|glissi[èe]re|\bzip|couture|curseur|logo|"
-    r"[ée]tiquette|capuche|bas du dos|bord.?c[ôo]te|"
+    # « Veste de moto À CAPUCHE pour homme, réalisée en tissu Softshell » : la
+    # capuche y est un attribut du vêtement, pas la pièce dont on parle.
+    r"[ée]tiquette|(?<![àa] )capuche|bas du dos|bord.?c[ôo]te|"
     # « Version tissu de son homologue EN CUIR » : le cuir est celui d'un AUTRE
     # modèle du catalogue. Vu sur un blouson Helstons en tissu.
-    r"homologue|version|d[ée]clinaison|contrairement)"
+    r"homologue|version|d[ée]clinaison|contrairement|"
+    # « En cuir de vachette semi-aniline perforé Matière intérieure en mesh » :
+    # la matière INTÉRIEURE est une doublure qui ne dit pas son nom.
+    r"mati[èe]res?\s+int[ée]rieures?|couches?\s+int[ée]rieures?)"
 )
+
+# L'intitulé « Matière » écrit avec sa majuscule ouvre une nouvelle rubrique,
+# même collée à la précédente : « Insert Armarcor sur les zones d'impact pour
+# renforcer la résistance à l'abrasion en cas de glissade Matière textile
+# renforcée » (Held Omberg). La garde ci-dessus ne remonte pas au-delà : l'insert
+# appartenait à la phrase d'avant, et le textile, nommé en toutes lettres, était
+# perdu. Sensible à la casse : « inserts en matière textile » reste un insert.
+_INTITULE_MATIERE = re.compile(r"(?-i:\bMati[èe]res?\b)")
 
 # Le cuir, et rien que le cuir de la coque.
 _CUIR = r"\bcuirs?\b|\bleather\b|peau de (?:vache|ch[èe]vre|buffle)|vachette|nubuck"
@@ -184,12 +197,59 @@ _CUIR_FAUX = (r"cuirs?\s+(?:synth[ée]tiques?|artificiels?|v[ée]g[ée]tal|PU\b|
 # générique. C'est le CUIR qu'il ne faut pas inventer.
 _TEXTILE = (r"\btextiles?\b|polyester|polyamide|\bnylon\b|cordura|softshell|"
             r"\bmesh\b|maille|tissu|\bcoton\b|denim|ripstop|\bsergé\b|"
-            r"fibretech|germadura|airguard|\btoile\b|polaire")
+            r"fibretech|germadura|airguard|\btoile\b|polaire|"
+            # Ajouts du 15/10/2026, tous relevés dans une fiche restée sans
+            # matière alors que le marchand l'écrivait :
+            #
+            # Le DENIER, « 600D », « 480 D x 640 D Tactel® ». C'est la masse
+            # d'un fil : il n'existe que pour une fibre. 671 occurrences dans le
+            # rayon, aucune sur un blouson tout cuir. Sensible à la casse, pour
+            # que « 3D Air Mesh » ou un « 360 d'ouverture » n'en soient pas ;
+            # « 600DMembrane », collé, en est un.
+            r"(?-i:\b\d{2,4}\s?D(?![a-z0-9-]))|\bdeniers?\b|"
+            # Les noms de tissu que les marchands EXPLIQUENT eux-mêmes : « En
+            # Serica, mix de coton sergé et de polyester », « tissu technique
+            # Twiltex 100% polyester », « Tissu Tactel », « Softwill ».
+            # Pas de `\b` après Serica : « Matière: Séricaétanchéité »
+            # (Segura Fergus), deux rubriques collées sans espace.
+            r"tactel|twill|twiltex|\bs[ée]rica|flan+el+e?\b|"
+            # Deux armures de tissu : « Fabriqué en taffetas matelassé »,
+            # « Fabriquée en satin ». Sur un cuir, le satin est la doublure
+            # (« Doublure fixe en satin »), et la garde le sait déjà.
+            r"taffetas|\bsatin\b|"
+            # « Polycoton », « polyfibre 450D », « poly-tissu 600D » : `\bcoton`
+            # ne voyait pas le coton derrière le préfixe.
+            r"\bpoly-?(?:coton|fibre|tissu|fabric)|"
+            # Le jean comme MATIÈRE, pas comme pantalon : « Veste Jean Moto »,
+            # « veste moto en jean ». La « boucle de jean » et le blouson
+            # « facile à associer à un jean », présents partout, n'en sont pas.
+            r"\b(?:vestes?|blousons?|surchemises?)\s+(?:moto\s+)?jeans?\b|"
+            r"\ben\s+jeans?\b")
+
+# « Softshell » coupé en deux par la découpe des phrases collées : « En
+# SoftShell multicouche » devenait « En Soft » et « Shell multicouche », et le
+# mot n'était plus reconnu. Relevé sur les quatre Spidi The Standard. On
+# l'écrit d'un seul tenant AVANT de découper ; la faute « Sofshell » (Bering
+# Lady Rotor) suit le même chemin. Pas de `\b` final : « SofshellMembrane
+# étanche » est collé à la rubrique suivante.
+_SOFTSHELL = re.compile(r"\bsoft?[\s-]?shell", re.I)
 
 # « 3 % cuir véritable », « sangle velcro/cuir » : une garniture n'est pas une
 # coque. Relevé sur un blouson Trilobite en denim, annoncé « cuir » par la
 # première version.
-_CUIR_GARNITURE = re.compile(r"\d{1,2}\s?%\s*(?:de\s*)?cuir", re.I)
+#
+# Le chiffre ne doit pas être la fin d'un « 100 % » : « Construction 100% cuir
+# pleine fleur » (Overlap Tina) et « 100 % cuir de vachette » (John Doe Storm)
+# se lisaient « 00 % cuir », une garniture, et le blouson tout cuir restait
+# sans matière. Et une garniture est MINORITAIRE : « 80 % cuir » est la coque.
+_MINORITAIRE = r"(?<![\d,.])[1-4]?\d\s?%\s*(?:de\s*)?"
+_CUIR_GARNITURE = re.compile(_MINORITAIRE + r"cuir", re.I)
+
+# La même garniture, côté textile : « Cuir de vachette mat, 80% cuir 10%
+# polyester 10% élastane » (GMS GS-1) est un blouson en cuir, que FC-Moto
+# vend d'ailleurs « Blouson de moto en cuir ». Les dix pour cent de polyester
+# sont l'extensible des soufflets, pas une coque mixte.
+_TEXTILE_GARNITURE = re.compile(_MINORITAIRE + r"$", re.I)
 
 # --- membrane et imperméabilité -----------------------------------------------
 #
@@ -508,8 +568,13 @@ _CHAMPS = (
 # Le deux-points NE coupE PAS entre deux chiffres : « EN 1621-2:2014, en
 # option » doit rester d'un seul tenant, sans quoi on perd le « en option » et
 # on annonce une dorsale fournie qui ne l'est pas.
+#
+# La phrase collée peut aussi finir sur une marque déposée : « Doublure
+# XTM-Fiber®Matière extérieure 100 % twill de nylon » (John Doe Flight). Sans
+# coupure après le ®, la doublure et la coque tenaient dans un seul segment,
+# et la doublure, nommée en premier, effaçait le nylon de la coque.
 _COUPURE = re.compile(
-    r"[.;!?•·]|[*]|(?<!\d):(?!\d)|(?<=[a-zà-ÿ0-9\)])(?=[A-ZÀ-Þ][a-zà-ÿ])"
+    r"[.;!?•·]|[*]|(?<!\d):(?!\d)|(?<=[a-zà-ÿ0-9\)®™])(?=[A-ZÀ-Þ][a-zà-ÿ])"
 )
 
 
@@ -647,22 +712,31 @@ def _matiere_coque(texte: str) -> str | None:
     compte pas. Les deux ensemble donnent « cuir-textile », qui est ce que le
     marchand écrit lui-même (« blouson cuir/textile »).
     """
-    morceaux = _segments(texte)
+    morceaux = _segments(_SOFTSHELL.sub("Softshell", texte))
 
-    def porte(motif: str, faux: str | None = None) -> bool:
+    def porte(motif: str, faux: str | None = None,
+              garniture: re.Pattern | None = None) -> bool:
         for s in morceaux:
             for m in re.finditer(motif, s, re.I):
                 avant = s[:m.start()]
+                intitules = list(_INTITULE_MATIERE.finditer(avant))
+                if intitules:
+                    avant = avant[intitules[-1].start():]
                 if re.search(_PIECE_QUI_N_EST_PAS_LA_COQUE, avant, re.I):
                     break         # tout ce segment parle d'une autre pièce
                 if faux and re.search(faux, s[max(0, m.start() - 12):m.end() + 16], re.I):
                     continue      # « cuir synthétique » : le mot sans la matière
-                if _CUIR_GARNITURE.search(s[max(0, m.start() - 12):m.end()]):
+                # `pos` et non une tranche : la garde regarde le chiffre d'AVANT
+                # la fenêtre, sans quoi « 100 % » coupé en « 00 % » repasse.
+                if _CUIR_GARNITURE.search(s, max(0, m.start() - 12), m.end()):
                     continue      # « 3 % cuir véritable » : une garniture
+                if garniture and garniture.search(s, 0, m.start()):
+                    continue      # « 10% polyester » sur un blouson en cuir
                 return True
         return False
 
-    cuir, textile = porte(_CUIR, _CUIR_FAUX), porte(_TEXTILE)
+    cuir = porte(_CUIR, _CUIR_FAUX)
+    textile = porte(_TEXTILE, garniture=_TEXTILE_GARNITURE if cuir else None)
     if cuir and textile:
         return "cuir-textile"
     if cuir:
