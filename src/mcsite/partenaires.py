@@ -37,6 +37,7 @@ seul réglage, sans toucher au reste.
 from __future__ import annotations
 
 import os
+from datetime import date
 from typing import Any
 
 # Mettre `PUB_EMPREINTE_REGIE=1` pour servir l'image depuis le serveur de la
@@ -48,6 +49,12 @@ EMPREINTE_REGIE = os.environ.get("PUB_EMPREINTE_REGIE", "0") == "1"
 # `clic` : l'adresse de suivi de la régie, celle qui rémunère.
 # `image` : le visuel, chez le marchand.
 # `regie` : le même visuel vu par le serveur de la régie, si on l'active.
+# `expire_le` (facultatif) : le visuel porte une date de fin écrite EN DUR dans
+# l'image (« Jusqu'au 12 octobre » …) — le code ne peut pas la lire, seul un
+# humain ou l'œil d'un agent le peut. Une fois la date notée ici, le marchand
+# sort tout seul de la rotation le lendemain, plutôt que de rester affiché
+# périmé en attendant qu'on s'en aperçoive — constaté sur Maxxess le
+# 15/10/2026 (bannière « jusqu'au 12 octobre » encore en ligne le 15).
 PARTENAIRES: list[dict[str, str]] = [
     {
         "code": "speedway",
@@ -72,6 +79,10 @@ PARTENAIRES: list[dict[str, str]] = [
         "regie": "https://track.effiliation.com/servlet/effi.show?id_compteur=23313069",
         "image": "https://media.maxxess.fr/communication/maxxess/Effinity/2026/DUOS_GAGNANTS/300x250.gif",
         "large": "https://media.maxxess.fr/communication/maxxess/Effinity/2026/DUOS_GAGNANTS/728x90.gif",
+        # « Les duos gagnants » — vue en ligne le 15/10/2026, affichait encore
+        # « Jusqu'au 12 octobre 2026 ». À remettre en rotation avec un visuel
+        # à jour quand Maxxess en fournit un.
+        "expire_le": "2026-10-12",
     },
     {
         "code": "motoaxxe",
@@ -154,7 +165,10 @@ def bandeaux(format: str = "carre") -> list[dict[str, Any]]:
         }
         # Un partenaire sans visuel utilisable est ÉCARTÉ, pas affiché vide.
         # `EMPREINTE_REGIE` le ramène, puisque dans ce mode c'est justement le
-        # pixel de la régie qui est servi et assumé.
+        # pixel de la régie qui est servi et assumé. Un visuel expiré
+        # (`expire_le` dépassée) sort aussi, régie ou pas : une bannière
+        # périmée n'est pas une question de mesure d'audience.
         for p in PARTENAIRES
-        if EMPREINTE_REGIE or p.get("large" if large else "image")
+        if (EMPREINTE_REGIE or p.get("large" if large else "image"))
+        and (not p.get("expire_le") or date.fromisoformat(p["expire_le"]) >= date.today())
     ]
