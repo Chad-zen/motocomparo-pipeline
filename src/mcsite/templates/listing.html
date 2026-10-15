@@ -69,7 +69,10 @@
    le même catalogue est indexé sous des milliers de combinaisons. `follow`
    quand même — les liens de la page restent suivis, donc les fiches qu'elle
    présente sont découvertes. #}
-{% block robots %}{% if f.marque or f.taille or f.couleur or f.prix_min or f.prix_max or f.texte or page > 1 %}<meta name="robots" content="noindex, follow">{% endif %}{% endblock %}
+{# Sur une page de marque (`/m/…`), `f.marque` est l'objet même de la page, pas
+   un filtre posé dessus : le compter excluait de Google toutes les pages
+   marques (`noindex` constaté le 15/10/2026 sur /m/alpinestars). #}
+{% block robots %}{% if (f.marque and not base.startswith('/m/')) or f.taille or f.couleur or f.prix_min or f.prix_max or f.texte or page > 1 %}<meta name="robots" content="noindex, follow">{% endif %}{% endblock %}
 {% block description %}{{ titre }} — {{ total }} produit{{ 's' if total > 1 }} comparé{{ 's' if total > 1 }} chez {{ marchands_actifs | length }} marchands. Prix relevés chaque jour.{% endblock %}
 
 {# Le fil d'Ariane, redit aux moteurs. Il pointe vers `base`, l'adresse SANS

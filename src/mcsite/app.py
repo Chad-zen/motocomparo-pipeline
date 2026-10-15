@@ -1434,10 +1434,23 @@ def _urls_sitemap() -> list[str]:
             rayons = conn.execute(
                 "SELECT code FROM category WHERE id <> %s ORDER BY code",
                 (queries.UNCLASSIFIED_ID,)).fetchall()
+            # Les pages marques manquaient au plan (15/10/2026). Même règle
+            # que les fiches : seulement les marques qui ont de quoi comparer —
+            # cinq fiches à deux marchands au moins. Une page « Marque X » à
+            # une seule fiche comparable n'apporte rien à qui la trouve.
+            marques = conn.execute("""
+                SELECT p.brand_code FROM product p
+                JOIN product_stats s ON s.product_id = p.id
+                WHERE p.status <> 'merged' AND s.merchant_count >= 2
+                  AND s.cheapest IS NOT NULL AND p.brand_code <> 'unknown'
+                GROUP BY p.brand_code HAVING count(*) >= 5
+                ORDER BY count(*) DESC
+            """).fetchall()
         fixes = ["/", "/produits", "/bons-plans", "/marques", "/guides",
                  "/infos", "/contact"]
         return (fixes
                 + [f"/c/{r[0]}" for r in rayons]
+                + [f"/m/{r[0]}" for r in marques]
                 + [f"/p/{r[0]}" for r in rows])
 
     return cache.au_chaud("sitemap", _calcul, ttl=6 * 3600)

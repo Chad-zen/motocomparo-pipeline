@@ -16,6 +16,19 @@
    Pas de réseaux sociaux déclarés tant qu'il n'y en a pas : `sameAs` vide ou
    inventé est pire que rien. #}
 {% set racine = request.url.scheme ~ '://' ~ request.url.netloc %}
+{# Les questions fréquentes, UNE fois : la section visible et le balisage FAQPage
+   lu par Google les reprennent toutes deux, pour qu'ils ne divergent jamais. #}
+{% set faq = [
+    ("Comment MotoComparo gagne-t-il de l'argent ?",
+     "Nous touchons une petite commission lorsque vous cliquez sur un lien et achetez chez un partenaire. Cela n'affecte pas le prix que vous payez."),
+    ("Les prix sont-ils actualisés en temps réel ?",
+     "Les prix sont relevés chaque jour chez chaque marchand. Un prix qui n'a pas été rafraîchi depuis plus de 24 heures est signalé comme tel sur la ligne du marchand, pour que vous sachiez ce que vous lisez."),
+    ("Puis-je acheter directement sur MotoComparo ?",
+     "Non, nous sommes un comparateur. Nous vous redirigeons vers le site du marchand pour l'achat."),
+    ("Comment choisissez-vous les marchands partenaires ?",
+     "Nous référençons des marchands établis, français pour la plupart — FC-Moto est allemand et livre en France. Un marchand n'entre au catalogue que si son flux de prix est exploitable tous les jours."),
+    ("Le service est-il vraiment gratuit ?",
+     "Oui, l'utilisation de MotoComparo est entièrement gratuite et ne demande aucun compte.")] %}
 {% block donnees_structurees %}
 <script type="application/ld+json">[
 {
@@ -33,6 +46,13 @@
  "@context": "https://schema.org", "@type": "Organization",
  "name": "MotoComparo", "url": {{ (racine ~ '/') | tojson }},
  "logo": {{ (racine ~ '/static/logo_mc.png') | tojson }}
+},
+{
+ "@context": "https://schema.org", "@type": "FAQPage",
+ "mainEntity": [{% for q, r in faq %}
+   {"@type": "Question", "name": {{ q | tojson }},
+    "acceptedAnswer": {"@type": "Answer", "text": {{ r | tojson }}}}{{ "," if not loop.last }}{% endfor %}
+ ]
 }
 ]</script>
 {% endblock %}
@@ -380,17 +400,7 @@
 {# --- Questions fréquentes -------------------------------------------------- #}
 <section class="faq">
   <h2 class="titre-centre">Questions fréquentes</h2>
-  {% for q, r in [
-    ("Comment MotoComparo gagne-t-il de l'argent ?",
-     "Nous touchons une petite commission lorsque vous cliquez sur un lien et achetez chez un partenaire. Cela n'affecte pas le prix que vous payez."),
-    ("Les prix sont-ils actualisés en temps réel ?",
-     "Les prix sont relevés chaque jour chez chaque marchand. Un prix qui n'a pas été rafraîchi depuis plus de 24 heures est signalé comme tel sur la ligne du marchand, pour que vous sachiez ce que vous lisez."),
-    ("Puis-je acheter directement sur MotoComparo ?",
-     "Non, nous sommes un comparateur. Nous vous redirigeons vers le site du marchand pour l'achat."),
-    ("Comment choisissez-vous les marchands partenaires ?",
-     "Nous référençons des marchands établis, français pour la plupart — FC-Moto est allemand et livre en France. Un marchand n'entre au catalogue que si son flux de prix est exploitable tous les jours."),
-    ("Le service est-il vraiment gratuit ?",
-     "Oui, l'utilisation de MotoComparo est entièrement gratuite et ne demande aucun compte.")] %}
+  {% for q, r in faq %}
   <details class="faq__item">
     <summary>{{ q }}</summary>
     <p>{{ r }}</p>
