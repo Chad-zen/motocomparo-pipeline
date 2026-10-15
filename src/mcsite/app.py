@@ -1385,9 +1385,19 @@ _EMAIL_RE = re.compile(r"[^@\s]{1,64}@[^@\s]{1,190}\.[^@\s.]{2,24}")
 
 
 def _page_alerte(request: Request, etat: str, **extra: Any) -> HTMLResponse:
+    # La carte produit (photo, nom, prix) : seulement sur cette PAGE, jamais
+    # dans l'e-mail — une image distante dans un e-mail est un pixel de suivi
+    # d'ouverture, exactement ce que `/infos#donnees` promet de ne pas faire.
+    # Repérée par la propriétaire comme manquante (15/10/2026) : la page,
+    # elle, n'a pas cette contrainte.
+    produit = None
+    slug = extra.get("slug")
+    if slug:
+        with pool.connection() as conn:  # type: ignore[union-attr]
+            produit = queries.product(conn, slug)
     return templates.TemplateResponse(
         request, "alerte.html",
-        _ctx(request, etat=etat, mesure_active=False,
+        _ctx(request, etat=etat, mesure_active=False, produit=produit,
              duree_vie=alertes_prix.DUREE_VIE_TEXTE,
              attente=alertes_prix.ATTENTE_TEXTE, **extra),
         headers=_SANS_CACHE)
@@ -1470,10 +1480,10 @@ async def alerte_demande(request: Request):
             prix_cible=prix_cible, prix_reference=reference)
 
     if jeton:
-        sujet, corps = alertes_prix.courriel_confirmation(
+        sujet, corps, html = alertes_prix.courriel_confirmation(
             titre=_nom(p), taille=taille, prix_cible=prix_cible,
             prix_actuel=reference, jeton=jeton)
-        if not courriel.envoyer(email, sujet, corps):
+        if not courriel.envoyer(email, sujet, corps, html=html):
             # Rien n'est parti : on ne garde pas une adresse à laquelle on n'a
             # pas pu écrire, et on le dit — sans rien révéler de l'adresse.
             with pool.connection() as conn:  # type: ignore[union-attr]

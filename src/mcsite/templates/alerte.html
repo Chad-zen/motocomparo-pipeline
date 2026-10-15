@@ -21,6 +21,28 @@
 
 {% block contenu %}
 <section class="erreur alerte-page">
+  <img class="alerte-page__banniere" src="/static/alerte-banniere.webp?v={{ version_css() }}"
+       alt="" width="1240" height="413">
+
+  {# La carte produit : seulement sur les états où elle dit quelque chose
+     d'utile (une demande en cours, à confirmer, active, ou qu'on vient
+     d'arrêter) — pas sur une erreur de saisie, où le produit n'est pas le
+     sujet. `produit` est None si le slug ne correspond à rien (lien
+     trafiqué) : la carte ne s'affiche alors simplement pas. #}
+  {% if produit and etat in ('demande', 'a-confirmer', 'active', 'arretee') %}
+  <a class="alerte-page__produit" href="/p/{{ produit.slug }}">
+    <span class="alerte-page__produit-img">
+      {% if produit.image_url %}<img src="{{ produit.image_url }}" alt="" loading="lazy">
+      {% else %}<span class="carte__sansimg">pas de visuel</span>{% endif %}
+    </span>
+    <span class="alerte-page__produit-texte">
+      <span class="alerte-page__produit-marque">{{ produit.brand_code | marque }}</span>
+      <span class="alerte-page__produit-nom">{{ nom(produit) }}</span>
+      {% if produit.cheapest %}<span class="alerte-page__produit-prix">dès {{ produit.cheapest | prix }}</span>{% endif %}
+    </span>
+  </a>
+  {% endif %}
+
   {% if etat == 'demande' %}
     <h1 class="titre-page">Un e-mail vient de partir</h1>
     <p class="sous-titre">Si l'adresse indiquée est la bonne, vous allez

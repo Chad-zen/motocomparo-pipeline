@@ -26,6 +26,7 @@ import secrets
 import time
 from dataclasses import dataclass
 from decimal import Decimal
+from html import escape
 from typing import Any
 
 from psycopg.rows import dict_row
@@ -248,15 +249,69 @@ def enregistrer_demande(conn, *, email: str, slug: str, taille: str | None,
 _SIGNATURE = ("--\nMotoComparo, comparateur de prix d'équipement moto\n"
               "Vos données : {site}/infos#donnees")
 
+# Les couleurs du site (voir `static/style.css`, `:root`) : reprises en dur ici
+# plutôt qu'importées, parce qu'un client mail ne lit pas de feuille de style
+# externe — tout doit être écrit en ligne dans le HTML lui-même.
+_OR = "#f5b301"
+_NUIT = "#0f1524"
+_DOUX = "#5f6880"
+_LIGNE = "#e3e6ec"
+
+
+def _email_html(*, titre: str, lignes_html: str, bouton_texte: str,
+                bouton_lien: str, pied_html: str) -> str:
+    """L'habillage commun aux deux e-mails : le bandeau (joint, jamais chargé
+    à distance — voir `courriel.cid_banniere`), un titre, le corps fourni par
+    l'appelant, un bouton, puis le pied légal.
+
+    Tableaux et styles en ligne partout : c'est le seul HTML qu'un client mail
+    rend de façon fiable, Outlook compris. `width` sur chaque `<table>`
+    plutôt que `max-width` seul, pour la même raison.
+    """
+    site = site_url()
+    return f"""<!doctype html>
+<html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"></head>
+<body style="margin:0; padding:24px 12px; background:{_LIGNE};
+             font-family:Arial, Helvetica, sans-serif;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td align="center">
+<table role="presentation" width="480" cellpadding="0" cellspacing="0"
+       style="width:480px; max-width:100%; background:#ffffff; border-radius:12px; overflow:hidden;">
+  <tr><td><img src="cid:{courriel.cid_banniere()}" width="480" height="160"
+               alt="MotoComparo" style="display:block; width:100%; height:auto;"></td></tr>
+  <tr><td style="padding:28px 28px 8px;">
+    <h1 style="margin:0 0 14px; font-size:20px; line-height:1.3; color:{_NUIT};">{escape(titre)}</h1>
+    <div style="font-size:14.5px; line-height:1.6; color:#222;">{lignes_html}</div>
+  </td></tr>
+  <tr><td style="padding:8px 28px 28px;">
+    <table role="presentation" cellpadding="0" cellspacing="0"><tr><td
+        style="background:{_OR}; border-radius:8px;">
+      <a href="{bouton_lien}" style="display:inline-block; padding:12px 22px;
+         font-size:14.5px; font-weight:bold; color:{_NUIT}; text-decoration:none;">
+        {escape(bouton_texte)}
+      </a>
+    </td></tr></table>
+  </td></tr>
+  <tr><td style="padding:18px 28px 26px; border-top:1px solid {_LIGNE};
+                 font-size:12px; line-height:1.6; color:{_DOUX};">
+    {pied_html}
+    <br><br>MotoComparo, comparateur de prix d'équipement moto —
+    <a href="{site}/infos#donnees" style="color:{_DOUX};">vos données</a>
+  </td></tr>
+</table>
+</td></tr></table>
+</body></html>"""
+
 
 def courriel_confirmation(*, titre: str, taille: str | None, prix_cible: Any,
-                          prix_actuel: Any, jeton: str) -> tuple[str, str]:
+                          prix_actuel: Any, jeton: str) -> tuple[str, str, str]:
     site = site_url()
     seuil = (f"dès qu'une offre passe à {labels.price(prix_cible)} ou moins"
              if prix_cible is not None else
              f"dès qu'une offre passe sous {labels.price(prix_actuel)}, "
              "le meilleur prix d'aujourd'hui" if prix_actuel is not None else
              "dès qu'une offre est disponible")
+    lien = f"{site}/alertes/confirmer?jeton={jeton}"
     corps = (
         "Bonjour,\n\n"
         "Quelqu'un — vous, sans doute — a demandé à être prévenu sur MotoComparo "
@@ -264,14 +319,32 @@ def courriel_confirmation(*, titre: str, taille: str | None, prix_cible: Any,
         f"  {titre}{' — taille ' + taille if taille else ''}\n"
         f"  Seuil : {seuil}.\n\n"
         f"Un clic suffit pour l'activer, dans les {ATTENTE_TEXTE} :\n"
-        f"{site}/alertes/confirmer?jeton={jeton}\n\n"
+        f"{lien}\n\n"
         "Si vous ne confirmez pas, nous ne vous écrirons plus et la demande "
         f"s'effacera d'elle-même. Une fois activée, l'alerte dure "
         f"{DUREE_VIE_TEXTE}, puis s'arrête toute seule ; chaque e-mail "
         "contiendra un lien pour l'arrêter avant.\n\n"
         "Ce n'est pas vous qui avez fait cette demande ? Ignorez simplement ce "
         "message, il n'y aura pas de suite.\n\n" + _SIGNATURE.format(site=site))
-    return f"Confirmez votre alerte de prix : {titre}", corps
+    html = _email_html(
+        titre="Un dernier clic pour activer l'alerte",
+        lignes_html=(
+            f"<p style=\"margin:0 0 10px;\">Quelqu'un — vous, sans doute — a "
+            "demandé à être prévenu quand le prix de cet article baisse :</p>"
+            f"<p style=\"margin:0 0 10px; padding:12px 14px; background:#f7f8fb; "
+            f"border-radius:8px;\"><b>{escape(titre)}</b>"
+            + (f"<br>Taille {escape(taille)}" if taille else "")
+            + f"<br>Seuil : {escape(seuil)}</p>"
+            f"<p style=\"margin:0;\">Un clic suffit, dans les {ATTENTE_TEXTE}. "
+            "Sans confirmation, la demande s'efface d'elle-même et nous ne "
+            "vous écrirons plus.</p>"),
+        bouton_texte="Confirmer l'alerte", bouton_lien=lien,
+        pied_html=(f"Une fois activée, l'alerte dure {DUREE_VIE_TEXTE}, puis "
+                    "s'arrête toute seule ; chaque e-mail contiendra un lien "
+                    "pour l'arrêter avant. Ce n'est pas vous qui avez fait "
+                    "cette demande&nbsp;? Ignorez ce message, il n'y aura pas "
+                    "de suite."))
+    return f"Confirmez votre alerte de prix : {titre}", corps, html
 
 
 def liens_sortie(jeton: str) -> dict[str, str]:
@@ -281,16 +354,17 @@ def liens_sortie(jeton: str) -> dict[str, str]:
 
 
 def courriel_baisse(*, titre: str, slug: str, taille: str | None, prix: Any,
-                    marchand: str, jeton: str, expire_le: Any) -> tuple[str, str, dict]:
+                    marchand: str, jeton: str, expire_le: Any) -> tuple[str, str, str, dict]:
     site = site_url()
     liens = liens_sortie(jeton)
+    lien_fiche = f"{site}/p/{slug}"
     expire = expire_le.strftime("%d/%m/%Y") if expire_le else ""
     corps = (
         "Bonjour,\n\n"
         f"Le prix que vous attendiez est là :\n\n"
         f"  {titre}{' — taille ' + taille if taille else ''}\n"
         f"  {labels.price(prix)} chez {labels.merchant(marchand)}\n\n"
-        f"Voir l'offre et comparer : {site}/p/{slug}\n\n"
+        f"Voir l'offre et comparer : {lien_fiche}\n\n"
         "Ce prix a été relevé cette nuit chez le marchand ; c'est celui affiché "
         "sur son site, au moment de la commande, qui compte vraiment.\n\n"
         "On ne vous réécrira que si le prix baisse encore"
@@ -299,12 +373,30 @@ def courriel_baisse(*, titre: str, slug: str, taille: str | None, prix: Any,
         f"Arrêter cette alerte : {liens['arreter']}\n"
         f"Supprimer toutes vos alertes et votre adresse : {liens['tout']}\n\n"
         + _SIGNATURE.format(site=site))
+    html = _email_html(
+        titre="Le prix que vous attendiez est là",
+        lignes_html=(
+            f"<p style=\"margin:0 0 10px; padding:14px; background:#f7f8fb; "
+            f"border-radius:8px;\"><b>{escape(titre)}</b>"
+            + (f"<br>Taille {escape(taille)}" if taille else "")
+            + f"<br><span style=\"font-size:19px; font-weight:bold; color:{_NUIT};\">"
+            f"{escape(labels.price(prix))}</span> chez {escape(labels.merchant(marchand))}</p>"
+            "<p style=\"margin:0;\">Relevé cette nuit chez le marchand ; "
+            "c'est le prix affiché sur son site, au moment de la commande, "
+            "qui compte vraiment.</p>"),
+        bouton_texte="Voir l'offre et comparer", bouton_lien=lien_fiche,
+        pied_html=(
+            "On ne vous réécrira que si le prix baisse encore"
+            + (f", et au plus tard jusqu'au {escape(expire)} si on connaît "
+               "la date de fin." if expire else ".")
+            + f" <a href=\"{liens['arreter']}\" style=\"color:{_DOUX};\">Arrêter cette alerte</a>"
+            f" · <a href=\"{liens['tout']}\" style=\"color:{_DOUX};\">Supprimer toutes mes alertes</a>"))
     # Désinscription en un clic depuis le logiciel de messagerie (RFC 8058) :
     # Gmail et les autres l'affichent à côté de l'expéditeur.
     entetes = {"List-Unsubscribe": f"<{liens['arreter']}>",
                "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
                "Auto-Submitted": "auto-generated"}
-    return f"Ça y est, le prix a baissé : {titre} à {labels.price(prix)}", corps, entetes
+    return f"Ça y est, le prix a baissé : {titre} à {labels.price(prix)}", corps, html, entetes
 
 
 def titre_fiche(best_title: str | None, model_display: str, brand_code: str) -> str:
@@ -370,11 +462,11 @@ def run_alertes() -> AlertesResultat:
             if d_affilee >= _ECHECS_MAX:
                 echecs += 1
                 continue
-            sujet, corps, entetes = courriel_baisse(
+            sujet, corps, html, entetes = courriel_baisse(
                 titre=titre_fiche(a["best_title"], a["model_display"], a["brand_code"]),
                 slug=a["produit_slug"], taille=a["taille"], prix=o["price"],
                 marchand=o["merchant"], jeton=a["jeton"], expire_le=a["expire_le"])
-            if courriel.envoyer(a["email"], sujet, corps, entetes=entetes, delai=20):
+            if courriel.envoyer(a["email"], sujet, corps, html=html, entetes=entetes, delai=20):
                 # Commit alerte par alerte : si la chaîne meurt au milieu, ce qui
                 # est parti est marqué et ne repartira pas demain.
                 conn.execute(
