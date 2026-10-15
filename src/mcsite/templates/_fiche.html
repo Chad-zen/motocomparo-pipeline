@@ -25,14 +25,33 @@
        Empilées, elles faisaient deux lignes de gris entre le titre et le prix,
        et repoussaient d'autant le seul chiffre que la page existe pour
        montrer. #}
-    <p class="fiche__identite">
+    <div class="fiche__identite">
+      {# Un EAN par taille. Sur « Toutes » : celui de la plus petite taille, et
+         un clic déroule tous les autres — demandé par la propriétaire
+         (15/10/2026). La liste est dans le HTML rendu par le serveur, donc lue
+         par les moteurs même repliée : une recherche sur n'importe quel EAN
+         peut trouver la fiche. Une taille choisie affiche le sien. #}
+      {% if codes_tailles %}
+      {% set premier = codes_tailles[0] %}
+      <details class="fiche__refs" data-ean data-ean-initial="{{ premier.ean }}"
+               data-ean-taille-initiale="{{ premier.taille }}">
+        <summary class="fiche__ref">Réf.&nbsp;: <span data-ean-valeur>{{ premier.ean }}</span>
+          <span class="fiche__refs-taille" data-ean-taille>{{ ('(' ~ premier.taille ~ ')') if premier.taille }}</span></summary>
+        <ul class="fiche__refs-liste" aria-label="Codes-barres par taille">
+          {% for c in codes_tailles %}
+          <li><span>{{ c.taille or 'Taille non précisée' }}</span> <span>{{ c.ean }}</span></li>
+          {% endfor %}
+        </ul>
+      </details>
+      {% else %}
       <span class="fiche__ref" data-ean data-ean-initial="{{ reference or '' }}"
-            {{ 'hidden' if not reference }}>EAN <span data-ean-valeur>{{ reference or '' }}</span></span>
+            {{ 'hidden' if not reference }}>Réf.&nbsp;: <span data-ean-valeur>{{ reference or '' }}</span></span>
+      {% endif %}
       {# Pas une note de produit : personne n'a testé ce casque ici. C'est la
          nature du site qui est affirmée, et le libellé le dit en toutes lettres
          pour qu'aucun visiteur ne lise « 5 étoiles pour ce casque ». #}
       <span class="fiche__signature"><span aria-hidden="true">★★★★★</span> Comparateur indépendant</span>
-    </p>
+    </div>
 
     {% if p.colour_code and p.colour_code != 'unknown' %}
       <p class="fiche__couleur">Couleur : <strong>{{ p.colour_code | couleur }}</strong></p>
@@ -441,6 +460,7 @@
   const voirEl  = document.querySelector('.meilleur__voir');
   const eanEl   = document.querySelector('[data-ean]');
   const eanVal  = document.querySelector('[data-ean-valeur]');
+  const eanTaille = document.querySelector('[data-ean-taille]');
 
   // Les bornes viennent du serveur (`labels.SEUILS_REMISE`), elles ne sont pas
   // réécrites ici : la couleur est une promesse faite au visiteur, et deux
@@ -541,13 +561,18 @@
     // ligne qui DÉCLARE cette taille (une ligne sans taille peut porter le
     // code de n'importe laquelle). Sur « Toutes », retour à la valeur du
     // serveur — vide, donc masqué, dès que la fiche en porte plusieurs.
+    // Avec la liste déroulante (plusieurs EAN), on revient au plus petit
+    // quand la taille choisie n'en déclare aucun, plutôt que de tout masquer.
     if (eanEl && eanVal) {
       let ean = eanEl.dataset.eanInitial || '';
+      let etiquette = eanEl.dataset.eanTailleInitiale || '';
       if (taille !== '*') {
         const ligne = lignes.find(tr => tr.dataset.taille === taille && tr.dataset.ean);
-        ean = ligne ? ligne.dataset.ean : '';
+        if (ligne) { ean = ligne.dataset.ean; etiquette = taille; }
+        else if (!eanEl.matches('details')) ean = '';
       }
       eanVal.textContent = ean;
+      if (eanTaille) eanTaille.textContent = etiquette ? '(' + etiquette + ')' : '';
       eanEl.hidden = !ean;
     }
 
@@ -685,26 +710,6 @@
   D'après les fiches marchands{% if caracteristiques | selectattr('source', 'equalto', 'sharp') | list %}
   et les essais <a href="https://sharp.dft.gov.uk/" target="_blank" rel="noopener">SHARP</a>{% endif %}.
 </p>
-</section>
-{% endif %}
-
-{% if codes_tailles %}
-{# Un EAN par taille, tous écrits en clair et rendus par le serveur : une
-   recherche Google sur n'importe lequel doit pouvoir tomber sur cette page.
-   Les mêmes codes sont déclarés taille par taille dans les données
-   structurées (`ProductGroup`). #}
-<section class="offres__carte">
-<div class="offres__tete">
-  <h2 class="titre-section">Codes-barres par taille</h2>
-</div>
-<dl class="caracs">
-  {% for c in codes_tailles %}
-  <div class="carac">
-    <dt>{{ c.taille or 'Taille non précisée' }}</dt>
-    <dd>EAN {{ c.ean }}</dd>
-  </div>
-  {% endfor %}
-</dl>
 </section>
 {% endif %}
 

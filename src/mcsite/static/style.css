@@ -3174,16 +3174,17 @@ select:focus-visible, textarea:focus-visible, summary:focus-visible,
      mais ne doit pas donner l'impression d'un écran mort. */
   cursor: progress;
 }
+/* Le badge rond seul, sans pastille autour : le carré gris translucide de la
+   v1 encadrait un logo devenu rond — « moins sexy », selon la propriétaire
+   (15/10/2026). L'ombre suit la forme du disque (drop-shadow) au lieu de
+   dessiner une boîte. */
 .chargement__marque {
   display: grid; place-items: center;
-  width: 104px; height: 104px; border-radius: 22px;
-  background: rgba(15, 21, 36, .55);
-  backdrop-filter: blur(2px);
-  box-shadow: 0 10px 30px rgba(15, 21, 36, .25);
   animation: chargement-pulse 1.1s ease-in-out infinite;
 }
 .chargement__marque img {
-  width: 64px; height: auto; display: block;
+  width: 88px; height: 88px; display: block; border-radius: 50%;
+  filter: drop-shadow(0 8px 20px rgba(15, 21, 36, .35));
 }
 @keyframes chargement-pulse {
   0%, 100% { transform: scale(1);    opacity: .92; }
@@ -3415,6 +3416,35 @@ html, body { overflow-x: clip; }
 }
 .fiche__identite .fiche__ref,
 .fiche__identite .fiche__signature { margin: 0; }
+
+/* La réf. déroulante : un EAN par taille, le plus petit affiché, les autres au
+   clic. Liste posée PAR-DESSUS la fiche, pour que l'ouvrir ne pousse pas le
+   prix vers le bas. */
+.fiche__refs { position: relative; }
+.fiche__refs > summary {
+  cursor: pointer; list-style: none; display: inline-flex; align-items: baseline; gap: 4px;
+  font-variant-numeric: tabular-nums;
+}
+.fiche__refs > summary::-webkit-details-marker { display: none; }
+.fiche__refs > summary::after {
+  content: ""; width: 6px; height: 6px; margin-left: 3px; align-self: center;
+  border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor;
+  transform: translateY(-2px) rotate(45deg); transition: transform .15s;
+}
+.fiche__refs[open] > summary::after { transform: translateY(1px) rotate(-135deg); }
+.fiche__refs > summary:hover { color: var(--ink); }
+.fiche__refs > summary:focus-visible { outline: 2px solid var(--or); outline-offset: 2px; border-radius: 3px; }
+.fiche__refs-taille { color: var(--doux); }
+.fiche__refs-liste {
+  position: absolute; z-index: 20; top: calc(100% + 6px); left: 0; margin: 0;
+  min-width: 15rem; max-height: 18rem; overflow-y: auto; padding: 6px 0; list-style: none;
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+  box-shadow: 0 6px 18px rgba(16, 26, 62, .10);
+  font-size: 13px; font-variant-numeric: tabular-nums;
+}
+.fiche__refs-liste li { display: flex; justify-content: space-between; gap: 16px; padding: 5px 14px; color: var(--ink); }
+.fiche__refs-liste li span:first-child { color: var(--doux); }
+@media (prefers-reduced-motion: reduce) { .fiche__refs > summary::after { transition: none; } }
 
 /* --- le prix, le prix barré et la remise, sur une ligne ------------------- */
 /* `align-items: baseline` et non `center` : le barré et la pastille s'alignent
