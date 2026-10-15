@@ -81,3 +81,28 @@ Donc :
 **À faire après déploiement :** passer une fiche multi-tailles dans le test des
 résultats enrichis de Google, puis surveiller la Search Console (rapport
 « Extraits de produits ») sur quelques semaines.
+
+## 3. Suites du 15/10
+
+- **FC-Moto, produits connus seulement** (`FeedSpec.connus_seulement`, commit
+  « fetch: FC-Moto filtre aux offres deja connues »). Le flux est lu et trié au
+  fil du téléchargement, jamais écrit en entier : ~160 000 lignes gardées sur
+  6,8 millions. Aucun nouveau produit FC-Moto n'entre tant que le réglage est
+  vrai — à retirer quand le flux redevient normal. Premier passage lancé le
+  15/10 à 00h UTC (`systemd-run --unit=fcmoto-rattrapage`, journal :
+  `journalctl -u fcmoto-rattrapage`).
+- **Tableau de bord « Veille MotoComparo »** (artefact claude.ai
+  `PozDFC7k3JPuWPX8CDYe51`). Relevé : `ops/surveillance.py` (sur le VPS,
+  alertes à seuils fixes) → `ops/veille_tableau.py` (sur le poste, 4 fichiers
+  dans `ops/veille/`) → tâche planifiée locale `veille-motocomparo`, chaque jour
+  à 8h, qui envoie les fichiers et notifie si une alerte est critique. Lecture
+  seule. La tâche ne tourne que si l'application Claude est ouverte (sinon au
+  prochain lancement).
+- **Réf. déroulante** sur la fiche : EAN de la plus petite taille, liste de
+  tous les EAN au clic ; remplace le bloc « Codes-barres par taille ».
+- **Voile de chargement** : badge rond seul, fond transparent, sans pastille.
+- Repéré par le premier relevé, non traité : Googlebot reçoit des erreurs 500
+  sur d'anciennes adresses de la v1 (`/shop/…`, `/product/…`) ; la base fait
+  34,7 Go après la suppression de 2,1 M de lignes (place non rendue au disque
+  tant qu'un `VACUUM FULL` n'est pas passé — à planifier, il demande de
+  l'espace libre et bloque la table).
