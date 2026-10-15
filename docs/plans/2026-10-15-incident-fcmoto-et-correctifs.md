@@ -238,3 +238,51 @@ précédent, à retenir pour la suite :
   d'usage encore.
 - Logo en SVG (demandé en passant par la propriétaire) : pas encore fait, le
   fichier vectoriel source manque.
+
+## 6. Indexation, tailles des bottes, et des filtres enfin rapides (15/10, après-midi)
+
+**Indexation Google.** Propriété `https://motocomparo.com/` validée dans
+Search Console (compte de la propriétaire, méthode fichier HTML servi par la
+route `/google91d87112b2771314.html` — à ne jamais supprimer). Le sitemap
+déclaré jusque-là était `/sitemap_index.xml`, qui n'existe pas (« impossible
+de récupérer » depuis le 07/09) : `/sitemap.xml` soumis, lu sans erreur.
+Réindexation de l'accueil demandée. GTM ne sert pas à l'indexation.
+
+**Tailles des bottes.** Le filtre Taille des bottes montrait « 8, 11, 34, 2,
+M » et jamais une pointure : la regex des facettes (pensée pour vêtements et
+gants) prenait les résidus de flux à 1-2 chiffres et ratait `EU36`..`EU52`.
+Corrigé dans `facets()` pour le seul rayon bottes (`f725576`).
+
+**Multi-sélection.** Marque et taille se cochent à plusieurs (`= ANY(...)`,
+union des valeurs) ; `/m/{marque}` reste une page à marque unique (`36fead6`).
+
+**Pourquoi les filtres étaient si lents — quatre causes empilées :**
+1. Robots d'IA. PerplexityBot refusé sur les pages à paramètres (`31859b3`),
+   puis, passé aux fiches, plafonné avec ClaudeBot, Bytespider, GPTBot…
+   à 30 pages/min PAR FAMILLE toutes adresses confondues (`8112002`) : la
+   limite par adresse ne voyait rien, IP tournantes. Charge 5 -> ~1,5.
+2. Rechargement complet à chaque clic. Désormais la case se coche à
+   l'instant, les coches marque/taille rapprochées partent en une seule
+   demande (450 ms), seuls liste et compteurs sont remplacés, tiroir ouvert
+   conservé, Précédent/Suivant gérés, repli sans JS intact (`3fae3fe`).
+   Référence : Motoblouz (appli Nuxt) et Speedway (PrestaShop + ElasticShop)
+   ne rechargent jamais la page.
+3. **Bug trouvé en route : sur ordinateur, la colonne de filtres était
+   inerte** (non cliquable) — le script du tiroir ne reconnaissait une
+   colonne qu'en `static`, elle est en `sticky`. Un tiroir = `fixed` (`3fae3fe`).
+4. Plans de requête désastreux en production : « bottes ET sidi » estimé à
+   11 fiches (568 réelles), la sous-requête Matière recalculée par fiche —
+   10 s, puis 500 au-delà de 15 s dès deux marques. Statistique étendue
+   (rayon, marque) via `sql/029` (appliquée en tant que `mcpipe`) + CTE
+   `MATERIALIZED` pour Matière/Homologation/Saison (`9765f2b`). Mesuré en
+   production : 10-25 s / erreur 500 -> 1,3 à 2,4 s par combinaison neuve,
+   résultats identiques sur 18 cas comparés.
+
+Fausse piste écartée : un index sur `product(category_id)` changeait le plan
+sans gain (et ralentissait le filtre taille) — retiré, non déployé.
+
+**Reste ouvert :** les ~9 requêtes de facettes coûtent encore 0,1-0,2 s
+chacune (1,3-2,4 s par combinaison jamais vue, instantané ensuite grâce aux
+caches). Le prochain levier serait d'en réduire le nombre — chantier à mener
+avec mesures avant/après, une fusion naïve ayant déjà été essayée et
+abandonnée (commentaire dans `queries.py`).
