@@ -10,14 +10,17 @@
    mentait donc à chaque fois qu'un critère était actif. #}
 {% macro lien_rayon(code_cible) -%}
   {%- set p = {
-       'q':         (f.texte if f else '') or '',
-       'marque':    (f.marque if f else '') or '',
-       'prix_min':  (f.prix_min | round | int) if (f and f.prix_min is not none) else '',
-       'prix_max':  (f.prix_max | round | int) if (f and f.prix_max is not none) else '',
-       'taille':    (f.taille if f else '') or '',
-       'couleur':   (f.couleur if f else '') or '',
-       'marchands': (f.marchands if f else 2) | string,
-       'tri':       f.tri if f else 'pertinence',
+       'q':            (f.texte if f else '') or '',
+       'marque':       (f.marque if f else '') or '',
+       'prix_min':     (f.prix_min | round | int) if (f and f.prix_min is not none) else '',
+       'prix_max':     (f.prix_max | round | int) if (f and f.prix_max is not none) else '',
+       'taille':       (f.taille if f else '') or '',
+       'couleur':      (f.couleur if f else '') or '',
+       'matiere':      (f.matiere if f else '') or '',
+       'homologation': (f.homologation if f else '') or '',
+       'saison':       (f.saison if f else '') or '',
+       'marchands':    (f.marchands if f else 2) | string,
+       'tri':          f.tri if f else 'pertinence',
   } -%}
   /c/{{ code_cible }}?{% for k, v in p.items() if v != '' and not (k == 'marchands' and v == '2') and not (k == 'tri' and v == 'pertinence') %}{{ k }}={{ v }}&amp;{% endfor %}
 {%- endmacro %}
@@ -28,12 +31,15 @@
    deux mensonges dans un seul clic. Ici, changer de marque change d'adresse. #}
 {% macro lien_marque(code_cible) -%}
   {%- set p = {
-       'prix_min':  (f.prix_min | round | int) if (f and f.prix_min is not none) else '',
-       'prix_max':  (f.prix_max | round | int) if (f and f.prix_max is not none) else '',
-       'taille':    (f.taille if f else '') or '',
-       'couleur':   (f.couleur if f else '') or '',
-       'marchands': (f.marchands if f else 2) | string,
-       'tri':       f.tri if f else 'pertinence',
+       'prix_min':     (f.prix_min | round | int) if (f and f.prix_min is not none) else '',
+       'prix_max':     (f.prix_max | round | int) if (f and f.prix_max is not none) else '',
+       'taille':       (f.taille if f else '') or '',
+       'couleur':      (f.couleur if f else '') or '',
+       'matiere':      (f.matiere if f else '') or '',
+       'homologation': (f.homologation if f else '') or '',
+       'saison':       (f.saison if f else '') or '',
+       'marchands':    (f.marchands if f else 2) | string,
+       'tri':          f.tri if f else 'pertinence',
   } -%}
   /m/{{ code_cible }}?{% for k, v in p.items() if v != '' and not (k == 'marchands' and v == '2') and not (k == 'tri' and v == 'pertinence') %}{{ k }}={{ v }}&amp;{% endfor %}
 {%- endmacro %}
@@ -41,13 +47,16 @@
 {% macro lien(param, valeur) -%}
   {%- set f = f or none -%}
   {%- set p = {
-       'marque':    (f.marque if f else '') or '',
-       'prix_min':  (f.prix_min | round | int) if (f and f.prix_min is not none) else '',
-       'prix_max':  (f.prix_max | round | int) if (f and f.prix_max is not none) else '',
-       'taille':    (f.taille if f else '') or '',
-       'couleur':   (f.couleur if f else '') or '',
-       'marchands': (f.marchands if f else 2) | string,
-       'tri':       f.tri if f else 'pertinence',
+       'marque':       (f.marque if f else '') or '',
+       'prix_min':     (f.prix_min | round | int) if (f and f.prix_min is not none) else '',
+       'prix_max':     (f.prix_max | round | int) if (f and f.prix_max is not none) else '',
+       'taille':       (f.taille if f else '') or '',
+       'couleur':      (f.couleur if f else '') or '',
+       'matiere':      (f.matiere if f else '') or '',
+       'homologation': (f.homologation if f else '') or '',
+       'saison':       (f.saison if f else '') or '',
+       'marchands':    (f.marchands if f else 2) | string,
+       'tri':          f.tri if f else 'pertinence',
   } -%}
   {%- if param == 'prix' -%}
     {#- le prix est un intervalle : le retirer efface ses deux bornes -#}
@@ -72,7 +81,7 @@
 {# Sur une page de marque (`/m/…`), `f.marque` est l'objet même de la page, pas
    un filtre posé dessus : le compter excluait de Google toutes les pages
    marques (`noindex` constaté le 15/10/2026 sur /m/alpinestars). #}
-{% block robots %}{% if (f.marque and not base.startswith('/m/')) or f.taille or f.couleur or f.prix_min or f.prix_max or f.texte or page > 1 %}<meta name="robots" content="noindex, follow">{% endif %}{% endblock %}
+{% block robots %}{% if (f.marque and not base.startswith('/m/')) or f.taille or f.couleur or f.matiere or f.homologation or f.saison or f.prix_min or f.prix_max or f.texte or page > 1 %}<meta name="robots" content="noindex, follow">{% endif %}{% endblock %}
 {% block description %}{{ titre }} — {{ total }} produit{{ 's' if total > 1 }} comparé{{ 's' if total > 1 }} chez {{ marchands_actifs | length }} marchands. Prix relevés chaque jour.{% endblock %}
 
 {# Le fil d'Ariane, redit aux moteurs. Il pointe vers `base`, l'adresse SANS
@@ -220,7 +229,9 @@
          affiché, pas des valeurs choisies d'avance. Proposer « 400 € et + » sur
          un rayon de gants n'aide personne. #}
       <form class="jauge" method="get" action="{{ base }}">
-        {% for k, v in {'marque': f.marque, 'taille': f.taille, 'couleur': f.couleur} .items() if v %}
+        {% for k, v in {'marque': f.marque, 'taille': f.taille, 'couleur': f.couleur,
+                        'matiere': f.matiere, 'homologation': f.homologation,
+                        'saison': f.saison} .items() if v %}
           <input type="hidden" name="{{ k }}" value="{{ v }}">
         {% endfor %}
         {% if f.marchands > 2 %}<input type="hidden" name="marchands" value="{{ f.marchands }}">{% endif %}
@@ -268,6 +279,56 @@
         <a class="facette__ligne {{ 'est-actif' if f.couleur == x.valeur }}" {% if f.couleur == x.valeur %}aria-current="true"{% endif %}
            href="{{ lien('couleur', '' if f.couleur == x.valeur else x.valeur) }}">
           <span>{{ x.valeur | couleur }}</span><span class="facette__n">{{ x.n }}</span>
+        </a>
+      {% endfor %}
+      </div>
+      <button type="button" class="facette__plus" data-facette-plus hidden></button>
+    </section>
+    {% endif %}
+
+    {# Matière, Homologation, Saison : lues dans les caractéristiques
+       marchandes (`product_caracteristique`), jamais devinées — voir
+       `queries._facettes_caracteristiques`. Une liste vide ici veut dire que
+       la couverture mesurée sur CETTE liste est sous le seuil ; la section ne
+       s'affiche pas plutôt que d'afficher un filtre presque toujours vide. #}
+    {% if facettes.matiere %}
+    <section class="facette">
+      <h3>Matière</h3>
+      <div class="facette__liste" data-max="10">
+      {% for x in facettes.matiere %}
+        <a class="facette__ligne {{ 'est-actif' if f.matiere == x.valeur }}" {% if f.matiere == x.valeur %}aria-current="true"{% endif %}
+           href="{{ lien('matiere', '' if f.matiere == x.valeur else x.valeur) }}">
+          <span>{{ x.libelle }}</span><span class="facette__n">{{ x.n }}</span>
+        </a>
+      {% endfor %}
+      </div>
+      <button type="button" class="facette__plus" data-facette-plus hidden></button>
+    </section>
+    {% endif %}
+
+    {% if facettes.homologation %}
+    <section class="facette">
+      <h3>Homologation</h3>
+      <div class="facette__liste" data-max="10">
+      {% for x in facettes.homologation %}
+        <a class="facette__ligne {{ 'est-actif' if f.homologation == x.valeur }}" {% if f.homologation == x.valeur %}aria-current="true"{% endif %}
+           href="{{ lien('homologation', '' if f.homologation == x.valeur else x.valeur) }}">
+          <span>{{ x.libelle }}</span><span class="facette__n">{{ x.n }}</span>
+        </a>
+      {% endfor %}
+      </div>
+      <button type="button" class="facette__plus" data-facette-plus hidden></button>
+    </section>
+    {% endif %}
+
+    {% if facettes.saison %}
+    <section class="facette">
+      <h3>Saison</h3>
+      <div class="facette__liste" data-max="10">
+      {% for x in facettes.saison %}
+        <a class="facette__ligne {{ 'est-actif' if f.saison == x.valeur }}" {% if f.saison == x.valeur %}aria-current="true"{% endif %}
+           href="{{ lien('saison', '' if f.saison == x.valeur else x.valeur) }}">
+          <span>{{ x.libelle }}</span><span class="facette__n">{{ x.n }}</span>
         </a>
       {% endfor %}
       </div>
