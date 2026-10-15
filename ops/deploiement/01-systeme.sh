@@ -72,5 +72,20 @@ fi
 echo "== correctifs de sécurité automatiques =="
 dpkg-reconfigure -f noninteractive unattended-upgrades
 
+# Les correctifs passent AVANT la chaîne des prix (04:14 UTC), jamais pendant.
+# Par défaut Ubuntu les pose entre 06:00 et 07:00 UTC : le 15/10/2026, une mise
+# à jour de systemd y a redémarré PostgreSQL à 06:15, en pleine chaîne, qui
+# s'est arrêtée sur « connection is lost » à deux minutes de la fin. Entre
+# 02:30 et 03:00 UTC, ils ont fini bien avant 04:14.
+mkdir -p /etc/systemd/system/apt-daily-upgrade.timer.d
+cat > /etc/systemd/system/apt-daily-upgrade.timer.d/avant-la-chaine.conf <<'CONF'
+[Timer]
+OnCalendar=
+OnCalendar=*-*-* 02:30
+RandomizedDelaySec=30m
+CONF
+systemctl daemon-reload
+systemctl restart apt-daily-upgrade.timer
+
 echo
 echo "OK. Étape suivante : bash 02-postgres.sh"
