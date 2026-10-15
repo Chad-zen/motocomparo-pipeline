@@ -584,11 +584,18 @@ function propre(u) {
 
   /* Au chargement, tout tiroir non ouvert est inerte. Fait en script et non
      dans le gabarit : au-dessus de 900 px la colonne de filtres n'est pas un
-     tiroir mais une vraie colonne visible, et la rendre inerte la casserait. */
+     tiroir mais une vraie colonne visible, et la rendre inerte la casserait.
+
+     Un tiroir est `position: fixed` ; tout le reste est une colonne. Le test
+     était `=== 'static'`, mais la colonne est passée en `sticky` : elle était
+     rendue inerte sur tout écran d'ordinateur, et un clic sur un filtre n'y
+     faisait plus rien (relevé le 15/10/2026). La colonne est aussi remise en
+     service au passage écran étroit -> large, où elle avait pu être rangée. */
+  function estTiroir(t) { return getComputedStyle(t).position === 'fixed'; }
   function etatInitial() {
     document.querySelectorAll('.tiroir').forEach(function (t) {
-      const estColonne = getComputedStyle(t).position === 'static';
-      if (!estColonne && !t.classList.contains('est-ouvert')) { ranger(t, true); }
+      if (!estTiroir(t)) { ranger(t, false); }
+      else if (!t.classList.contains('est-ouvert')) { ranger(t, true); }
     });
   }
 
@@ -695,8 +702,7 @@ function propre(u) {
     let note = null;
     try { note = JSON.parse(sessionStorage.getItem(CLE) || 'null'); sessionStorage.removeItem(CLE); }
     catch (err) {}
-    const estTiroir = getComputedStyle(filtres).position !== 'static';
-    if (note && estTiroir && Date.now() - note.t < 30000) {
+    if (note && estTiroir(filtres) && Date.now() - note.t < 30000) {
       filtres.style.transition = 'none';
       ouvrir(filtres, document.querySelector('[aria-controls="tiroir-filtres"]'));
       filtres.scrollTop = note.haut || 0;

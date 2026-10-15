@@ -791,6 +791,26 @@ h1, h2 { line-height: 1.2; }
 .facette__plus:focus-visible { outline: 2px solid var(--or); outline-offset: 2px; border-radius: 3px; }
 .facette__retour:hover { color: var(--ink); }
 
+/* Pendant qu'une liste filtrée arrive (voir « Filtres sans rechargement »
+   dans listing.html) : les résultats pâlissent, les cases restent vives —
+   on peut continuer à cocher. Une barre fine en tête du tiroir dit que
+   quelque chose tourne, sans masquer quoi que ce soit. */
+.boutique__corps { transition: opacity .15s ease; }
+.boutique__corps.est-en-chargement { opacity: .45; pointer-events: none; }
+.filtres.est-en-chargement .tiroir__resume { position: relative; }
+.filtres.est-en-chargement .tiroir__resume::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--or), transparent);
+  background-size: 50% 100%; background-repeat: no-repeat;
+  animation: chargement-filtres 0.9s linear infinite;
+}
+@keyframes chargement-filtres {
+  from { background-position: -50% 0; } to { background-position: 150% 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .filtres.est-en-chargement .tiroir__resume::after { animation: none; background: var(--or); }
+}
+
 /* ------------------------------------------------------------ tête et tris */
 
 .boutique__tete {

@@ -177,7 +177,8 @@
       {% for a in actifs %}
         {# marque/taille : la croix ne retire QUE cette valeur-là, les autres
            valeurs cochées du même filtre restent. #}
-        <a class="choix__puce" href="{{ bascule(a.cle, a.valeur) if a.cle in ('marque', 'taille') else lien(a.cle, '2' if a.cle == 'marchands' else '') }}">
+        <a class="choix__puce" href="{{ bascule(a.cle, a.valeur) if a.cle in ('marque', 'taille') else lien(a.cle, '2' if a.cle == 'marchands' else '') }}"
+           {% if a.cle in ('marque', 'taille') and not (a.cle == 'marque' and base.startswith('/m/')) %}data-bascule="{{ a.cle }}" data-valeur="{{ a.valeur }}"{% endif %}>
           {{ a.texte }} <b aria-hidden="true">✕</b>
         </a>
       {% endfor %}
@@ -239,6 +240,7 @@
            plusieurs marques sans perdre les autres. #}
         {% set actif = x.valeur in ((f.marque or []) if f else []) %}
         <a class="facette__ligne {{ 'est-actif' if actif }}" {% if actif %}aria-current="true"{% endif %}
+           {% if not base.startswith('/m/') %}data-bascule="marque" data-valeur="{{ x.valeur }}"{% endif %}
            href="{{ lien_marque(x.valeur) if base.startswith('/m/')
                     else bascule('marque', x.valeur) }}">
           <span>{{ x.valeur | marque }}</span><span class="facette__n">{{ x.n }}</span>
@@ -292,6 +294,7 @@
         {% for x in facettes.tailles %}
           {% set actif = x.valeur in ((f.taille or []) if f else []) %}
           <a class="pastille-taille {{ 'est-actif' if actif }}" {% if actif %}aria-current="true"{% endif %}
+             data-bascule="taille" data-valeur="{{ x.valeur }}"
              href="{{ bascule('taille', x.valeur) }}"
              title="{{ x.n }} produits">{{ x.valeur | taille }}</a>
         {% endfor %}
@@ -374,31 +377,6 @@
         </a>
       {% endfor %}
     </section>
-    {# Replie chaque liste à `data-max` éléments, avec un bouton qui la déplie
-       sur place. Sans script, tout reste affiché. Une liste dont le choix actif
-       est au-delà de la limite reste dépliée : on ne cache pas ce qui est
-       sélectionné. #}
-    <script>
-      document.querySelectorAll('.facette__liste[data-max]').forEach(function (l) {
-        var max = +l.dataset.max, items = l.children, caches = items.length - max;
-        var bouton = l.nextElementSibling;
-        if (caches <= 0 || !bouton || !bouton.hasAttribute('data-facette-plus')) return;
-        var actif = l.querySelector('.est-actif');
-        var rang = actif ? Array.prototype.indexOf.call(items, actif) : -1;
-        var libelle = function () {
-          bouton.textContent = l.classList.contains('est-repliee')
-            ? 'Voir les ' + caches + ' autres' : 'Voir moins';
-          bouton.setAttribute('aria-expanded', String(!l.classList.contains('est-repliee')));
-        };
-        if (rang < max) l.classList.add('est-repliee');
-        libelle();
-        bouton.hidden = false;
-        bouton.addEventListener('click', function () {
-          l.classList.toggle('est-repliee');
-          libelle();
-        });
-      });
-    </script>
   </aside>
   {% endif %}
 
@@ -506,112 +484,322 @@
 </div>
 
 <script>
-/* La jauge de prix : les bornes affichées suivent les poignées.
-
-   Trois détails qui ne se voient qu'en la manipulant :
-   - affichées en dur, elles annonçaient « 0 € » et « 870 € » quoi qu'on
-     déplace : on réglait à l'aveugle et il fallait valider pour savoir ;
-   - les deux curseurs se superposent, donc rien n'empêche de pousser le minimum
-     au-delà du maximum. On les repousse l'un l'autre plutôt que de bloquer :
-     bloquer donne l'impression que la poignée est cassée ;
-   - la piste se teinte entre les deux poignées, sinon on ne voit pas quelle
-     part de l'échelle on a retenue. */
+/* Tout ce qui vit dans la page de résultats, et qui doit pouvoir se rebrancher
+   quand la liste est remplacée sans recharger la page (voir « Filtres sans
+   rechargement » plus bas) : un script posé dans un morceau de HTML inséré
+   après coup ne s'exécute jamais, d'où ces fonctions qu'on rappelle. */
 (function () {
-  const piste = document.querySelector('.jauge__piste');
-  if (!piste) return;
-  const bas = piste.querySelector('[name="prix_min"]');
-  const haut = piste.querySelector('[name="prix_max"]');
-  const etiqBas = document.querySelector('[data-jauge-bas]');
-  const etiqHaut = document.querySelector('[data-jauge-haut]');
-  const maxi = parseFloat(haut.max) || 1;
+  const contenu = document.getElementById('contenu');
 
-  // Espace insécable avant l'euro : la borne est réécrite à chaque glissement,
-  // et rien ne doit pouvoir séparer le montant de sa devise.
-  const euros = (v) => Math.round(v).toLocaleString('fr-FR') + ' €';
+  /* Replie chaque liste à `data-max` éléments, avec un bouton qui la déplie
+     sur place. Sans script, tout reste affiché. Une liste dont le choix actif
+     est au-delà de la limite reste dépliée : on ne cache pas ce qui est
+     sélectionné. `ouvertes` : les sections que le visiteur avait dépliées
+     avant un rafraîchissement le restent. */
+  function replier(ouvertes) {
+    document.querySelectorAll('.facette__liste[data-max]').forEach(function (l) {
+      const max = +l.dataset.max, items = l.children, caches = items.length - max;
+      const bouton = l.nextElementSibling;
+      if (caches <= 0 || !bouton || !bouton.hasAttribute('data-facette-plus')) return;
+      const actif = l.querySelector('.est-actif');
+      const rang = actif ? Array.prototype.indexOf.call(items, actif) : -1;
+      const libelle = function () {
+        bouton.textContent = l.classList.contains('est-repliee')
+          ? 'Voir les ' + caches + ' autres' : 'Voir moins';
+        bouton.setAttribute('aria-expanded', String(!l.classList.contains('est-repliee')));
+      };
+      if (rang < max && !(ouvertes && ouvertes.has(titreDe(l)))) l.classList.add('est-repliee');
+      libelle();
+      bouton.hidden = false;
+      bouton.addEventListener('click', function () {
+        l.classList.toggle('est-repliee');
+        libelle();
+      });
+    });
+  }
+  function titreDe(liste) {
+    const h = liste.closest('.facette') && liste.closest('.facette').querySelector('h3');
+    return h ? h.textContent.trim() : '';
+  }
 
-  function rafraichir(source) {
-    let a = parseFloat(bas.value), b = parseFloat(haut.value);
-    if (a > b) {
-      if (source === bas) { b = a; haut.value = b; }
-      else { a = b; bas.value = a; }
+  /* La jauge de prix : les bornes affichées suivent les poignées.
+
+     Trois détails qui ne se voient qu'en la manipulant :
+     - affichées en dur, elles annonçaient « 0 € » et « 870 € » quoi qu'on
+       déplace : on réglait à l'aveugle et il fallait valider pour savoir ;
+     - les deux curseurs se superposent, donc rien n'empêche de pousser le
+       minimum au-delà du maximum. On les repousse l'un l'autre plutôt que de
+       bloquer : bloquer donne l'impression que la poignée est cassée ;
+     - la piste se teinte entre les deux poignées, sinon on ne voit pas quelle
+       part de l'échelle on a retenue. */
+  function jauge() {
+    const piste = document.querySelector('.jauge__piste');
+    if (!piste) return;
+    const bas = piste.querySelector('[name="prix_min"]');
+    const haut = piste.querySelector('[name="prix_max"]');
+    const etiqBas = document.querySelector('[data-jauge-bas]');
+    const etiqHaut = document.querySelector('[data-jauge-haut]');
+    const maxi = parseFloat(haut.max) || 1;
+    // Espace insécable avant l'euro : la borne est réécrite à chaque
+    // glissement, et rien ne doit pouvoir séparer le montant de sa devise.
+    const euros = (v) => Math.round(v).toLocaleString('fr-FR') + ' €';
+    function rafraichir(source) {
+      let a = parseFloat(bas.value), b = parseFloat(haut.value);
+      if (a > b) {
+        if (source === bas) { b = a; haut.value = b; }
+        else { a = b; bas.value = a; }
+      }
+      etiqBas.textContent = euros(a);
+      etiqHaut.textContent = euros(b);
+      piste.style.setProperty('--jauge-de', (a / maxi * 100) + '%');
+      piste.style.setProperty('--jauge-a', (b / maxi * 100) + '%');
     }
-    etiqBas.textContent = euros(a);
-    etiqHaut.textContent = euros(b);
-    piste.style.setProperty('--jauge-de', (a / maxi * 100) + '%');
-    piste.style.setProperty('--jauge-a', (b / maxi * 100) + '%');
+    bas.addEventListener('input', () => rafraichir(bas));
+    haut.addEventListener('input', () => rafraichir(haut));
+    rafraichir(bas);
   }
 
-  bas.addEventListener('input', () => rafraichir(bas));
-  haut.addEventListener('input', () => rafraichir(haut));
-  rafraichir(bas);
-})();
-</script>
+  /* « Voir plus de produits » : la page suivante est demandée au serveur,
+     telle qu'un visiteur la verrait, et ses cartes rejoignent la grille. Aucun
+     rendu en JavaScript à maintenir en double : ce sont les MÊMES cartes,
+     sorties du même gabarit, et la page suivante est déjà en cache la plupart
+     du temps.
 
-<script>
-/* « Voir plus de produits » : la page suivante est demandée au serveur, telle
-   qu'un visiteur la verrait, et ses cartes rejoignent la grille. Aucun rendu
-   en JavaScript à maintenir en double : ce sont les MÊMES cartes, sorties du
-   même gabarit, et la page suivante est déjà en cache la plupart du temps.
+     L'adresse suit (`?page=N`) : un lien partagé ou un rechargement retombe sur
+     la bonne tranche. Si la demande échoue, le bouton devient un lien vers la
+     page suivante — le visiteur n'est jamais bloqué. */
+  function voirPlus() {
+    const bloc = document.querySelector('[data-plus]');
+    const grille = document.querySelector('.grille');
+    if (!bloc || !grille || !window.fetch || !window.DOMParser) return;
 
-   L'adresse suit (`?page=N`) : un lien partagé ou un rechargement retombe sur
-   la bonne tranche. Si la demande échoue, le bouton devient un lien vers la
-   page suivante — le visiteur n'est jamais bloqué. */
-(function () {
-  const bloc = document.querySelector('[data-plus]');
-  const grille = document.querySelector('.grille');
-  if (!bloc || !grille || !window.fetch || !window.DOMParser) return;
+    const bouton = bloc.querySelector('[data-plus-bouton]');
+    const compte = bloc.querySelector('[data-plus-compte]');
+    const nav = document.querySelector('.pagination');
+    const pages = +bloc.dataset.pages, total = +bloc.dataset.total;
+    const parPage = +bloc.dataset.parPage;
+    const base = bloc.dataset.base;
+    let page = +bloc.dataset.page;
+    let enCours = false;
 
-  const bouton = bloc.querySelector('[data-plus-bouton]');
-  const compte = bloc.querySelector('[data-plus-compte]');
-  const nav = document.querySelector('.pagination');
-  const pages = +bloc.dataset.pages, total = +bloc.dataset.total;
-  const parPage = +bloc.dataset.parPage;
-  const base = bloc.dataset.base;
-  let page = +bloc.dataset.page;
-  let enCours = false;
+    bloc.hidden = false;
+    if (nav) nav.hidden = true;   /* le bouton la remplace ; elle reste pour les robots */
 
-  bloc.hidden = false;
-  if (nav) nav.hidden = true;   /* le bouton la remplace ; elle reste pour les robots */
+    const nombre = n => n.toLocaleString('fr-FR');
+    function dire() {
+      compte.textContent = nombre(Math.min(page * parPage, total)) + ' sur '
+        + nombre(total) + ' produits';
+      if (page >= pages) { bouton.hidden = true; }
+    }
 
-  const nombre = n => n.toLocaleString('fr-FR');
-  function dire() {
-    compte.textContent = nombre(Math.min(page * parPage, total)) + ' sur '
-      + nombre(total) + ' produits';
-    if (page >= pages) { bouton.hidden = true; }
+    bouton.addEventListener('click', function () {
+      if (enCours || page >= pages) return;
+      enCours = true;
+      const suivante = page + 1;
+      const adresse = base + 'page=' + suivante;
+      bouton.disabled = true;
+      bouton.textContent = 'Chargement…';
+      fetch(adresse, { credentials: 'same-origin' })
+        .then(r => { if (!r.ok) throw new Error(r.status); return r.text(); })
+        .then(function (html) {
+          const doc = new DOMParser().parseFromString(html, 'text/html');
+          const cartes = doc.querySelectorAll('.grille > .carte');
+          if (!cartes.length) throw new Error('vide');
+          const premiere = cartes[0];
+          cartes.forEach(c => grille.appendChild(document.importNode(c, true)));
+          page = suivante;
+          try { history.replaceState(history.state, '', adresse); } catch (e) { /* tant pis */ }
+          if (window.mcMarquerCartes) window.mcMarquerCartes();
+          dire();
+          /* le focus clavier passe sur la première carte ajoutée : sans ça, un
+             lecteur d'écran ne sait pas où reprendre */
+          const ajoutee = grille.querySelector('.carte[href="' + premiere.getAttribute('href') + '"]');
+          if (ajoutee) ajoutee.focus({ preventScroll: true });
+        })
+        .catch(function () {
+          location.href = adresse;   /* repli : la page suivante, classiquement */
+        })
+        .finally(function () {
+          enCours = false;
+          bouton.disabled = false;
+          bouton.textContent = 'Voir plus de produits';
+        });
+    });
   }
 
-  bouton.addEventListener('click', function () {
-    if (enCours || page >= pages) return;
-    enCours = true;
-    const suivante = page + 1;
-    const adresse = base + 'page=' + suivante;
-    bouton.disabled = true;
-    bouton.textContent = 'Chargement…';
-    fetch(adresse, { credentials: 'same-origin' })
-      .then(r => { if (!r.ok) throw new Error(r.status); return r.text(); })
-      .then(function (html) {
+  replier(null);
+  jauge();
+  voirPlus();
+
+  /* ------------------------------------------------- Filtres sans rechargement
+     Chaque filtre était un lien : un clic rechargeait TOUTE la page — en-tête,
+     menu, pied, tiroir refermé puis rouvert — et la page restait figée jusqu'à
+     la réponse. Motoblouz et Speedway ne rechargent rien (relevé le
+     15/10/2026, « les leurs sont direct », la propriétaire).
+
+     Ici, la case cochée change d'état À L'INSTANT, et seuls la liste et les
+     compteurs sont remplacés à l'arrivée de la réponse — le tiroir reste
+     ouvert, à la même hauteur. Marque et taille, qui se cochent en série,
+     attendent un court instant que le visiteur ait fini : trois tailles
+     cochées d'affilée font UNE demande au serveur, pas trois.
+
+     La réponse est la page complète, la même que sans script (et donc la même
+     entrée de cache nginx) : rien n'est rendu deux fois. Les liens gardent
+     leur vraie adresse — sans JavaScript, ou si la demande échoue, le clic
+     recharge la page comme avant. */
+  if (!window.fetch || !window.DOMParser || !window.URLSearchParams
+      || !window.AbortController || !history.pushState) return;
+
+  const PAUSE = 450;   /* ms laissées pour cocher une autre case avant d'envoyer */
+  let controleur = null;
+  let minuteur = null;
+  let cible = null;    /* l'adresse en cours de composition, case après case */
+
+  const aside = () => document.getElementById('tiroir-filtres');
+  const corps = () => document.querySelector('.boutique__corps');
+
+  function signaler(oui) {
+    const c = corps(), a = aside();
+    if (c) { c.classList.toggle('est-en-chargement', oui); c.setAttribute('aria-busy', String(oui)); }
+    if (a) a.classList.toggle('est-en-chargement', oui);
+  }
+
+  function charger(url, empiler) {
+    clearTimeout(minuteur);
+    if (controleur) controleur.abort();
+    const ici = controleur = new AbortController();
+    signaler(true);
+    fetch(url, { credentials: 'same-origin', signal: ici.signal })
+      .then(r => { if (!r.ok) throw new Error(r.status); return r.text().then(t => [t, r.url]); })
+      .then(function ([html, finale]) {
+        if (ici !== controleur) return;
         const doc = new DOMParser().parseFromString(html, 'text/html');
-        const cartes = doc.querySelectorAll('.grille > .carte');
-        if (!cartes.length) throw new Error('vide');
-        const premiere = cartes[0];
-        cartes.forEach(c => grille.appendChild(document.importNode(c, true)));
-        page = suivante;
-        try { history.replaceState(null, '', adresse); } catch (e) { /* tant pis */ }
-        if (window.mcMarquerCartes) window.mcMarquerCartes();
-        dire();
-        /* le focus clavier passe sur la première carte ajoutée : sans ça, un
-           lecteur d'écran ne sait pas où reprendre */
-        const ajoutee = grille.querySelector('.carte[href="' + premiere.getAttribute('href') + '"]');
-        if (ajoutee) ajoutee.focus({ preventScroll: true });
+        if (!remplacer(doc)) { location.href = url; return; }
+        document.title = doc.title;
+        if (empiler) history.pushState({ mcListe: 1 }, '', finale);
+        cible = null;
+        try { sessionStorage.removeItem('mc-filtres-ouverts'); } catch (e) {}
       })
-      .catch(function () {
-        location.href = adresse;   /* repli : la page suivante, classiquement */
+      .catch(function (err) {
+        if (err && err.name === 'AbortError') return;
+        location.href = url;   /* repli : la page, classiquement */
       })
       .finally(function () {
-        enCours = false;
-        bouton.disabled = false;
-        bouton.textContent = 'Voir plus de produits';
+        if (ici === controleur) { controleur = null; signaler(false); }
       });
+  }
+
+  function remplacer(doc) {
+    const a = aside(), c = corps();
+    const na = doc.getElementById('tiroir-filtres'), nc = doc.querySelector('.boutique__corps');
+    if (!a || !c || !na || !nc) return false;
+
+    const haut = a.scrollTop;
+    const ouvertes = new Set();
+    a.querySelectorAll('.facette__liste[data-max]:not(.est-repliee)').forEach(l => ouvertes.add(titreDe(l)));
+    const f = document.activeElement;
+    const reprise = f && a.contains(f) && f.dataset && f.dataset.bascule
+      ? '.facette [data-bascule="' + f.dataset.bascule + '"][data-valeur="' + CSS.escape(f.dataset.valeur) + '"]'
+      : null;
+    /* La bannière est déjà tirée et chargée : on la garde telle quelle plutôt
+       que d'en poser une vide que pub.js ne repasserait pas remplir. */
+    const pub = c.querySelector('[data-pub]');
+
+    /* Le contenu change, les deux conteneurs restent : le tiroir ouvert garde
+       son état (et le reste de la page son `inert`). */
+    a.innerHTML = na.innerHTML;
+    c.innerHTML = nc.innerHTML;
+    const nouvelle = c.querySelector('[data-pub]');
+    if (pub && nouvelle) nouvelle.replaceWith(pub);
+
+    const fil = contenu.querySelector('.fil'), nfil = doc.querySelector('#contenu .fil');
+    if (fil && nfil) fil.innerHTML = nfil.innerHTML;
+    const h1 = contenu.querySelector('h1.visuellement-cache');
+    const nh1 = doc.querySelector('#contenu h1.visuellement-cache');
+    if (h1 && nh1) h1.textContent = nh1.textContent;
+
+    replier(ouvertes);
+    jauge();
+    voirPlus();
+    if (window.mcMarquerCartes) window.mcMarquerCartes();
+    a.scrollTop = haut;
+    const retour = reprise && a.querySelector(reprise);
+    if (retour) retour.focus({ preventScroll: true });
+
+    /* Colonne de gauche (écran large) : la liste peut avoir rétréci sous le
+       regard. On remonte en haut des résultats s'ils sont sortis de l'écran. */
+    if (getComputedStyle(a).position !== 'fixed') {
+      const r = c.getBoundingClientRect();
+      if (r.top < 0) c.scrollIntoView({ block: 'start' });
+    }
+    return true;
+  }
+
+  /* Marque, taille : coche immédiate, envoi groupé. L'adresse est composée à
+     partir de la DERNIÈRE adresse demandée, pas des liens de la page — ceux-ci
+     datent d'avant la case précédente, et cocher 42 puis 43 en vitesse aurait
+     perdu le 42. */
+  function basculer(param, valeur) {
+    const u = new URL(cible || location.href);
+    const avant = u.searchParams.getAll(param);
+    const coche = avant.indexOf(valeur) === -1;
+    u.searchParams.delete(param);
+    (coche ? avant.concat(valeur) : avant.filter(v => v !== valeur))
+      .forEach(v => u.searchParams.append(param, v));
+    u.searchParams.delete('page');   /* un autre filtre, c'est une autre liste */
+    cible = u.href;
+
+    document.querySelectorAll('[data-bascule="' + param + '"][data-valeur="' + CSS.escape(valeur) + '"]')
+      .forEach(function (el) {
+        if (el.classList.contains('choix__puce')) { el.hidden = !coche; return; }
+        el.classList.toggle('est-actif', coche);
+        if (coche) el.setAttribute('aria-current', 'true'); else el.removeAttribute('aria-current');
+      });
+
+    if (controleur) { controleur.abort(); controleur = null; }
+    clearTimeout(minuteur);
+    signaler(true);
+    minuteur = setTimeout(function () { charger(cible, true); }, PAUSE);
+  }
+
+  document.addEventListener('click', function (e) {
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey
+        || e.shiftKey || e.altKey) return;
+    const lien = e.target.closest('a[href]');
+    if (!lien || !lien.closest('#tiroir-filtres, .tri__liste')) return;
+    const url = new URL(lien.href, location.href);
+    if (url.origin !== location.origin) return;
+    e.preventDefault();
+    const tri = lien.closest('details.tri');
+    if (tri) tri.open = false;
+    if (lien.dataset.bascule) { basculer(lien.dataset.bascule, lien.dataset.valeur); return; }
+    cible = null;
+    if (!lien.classList.contains('choix__puce')) {
+      lien.classList.add('est-actif');   /* le choix se voit avant la réponse */
+    }
+    charger(url.href, true);
+  });
+
+  /* « Appliquer » de la jauge : même chemin. L'adresse du formulaire est
+     gardée telle quelle (sur la recherche, elle porte le `q`). */
+  document.addEventListener('submit', function (e) {
+    const form = e.target.closest('form.jauge');
+    if (!form || e.defaultPrevented) return;
+    e.preventDefault();
+    const u = new URL(form.getAttribute('action'), location.href);
+    new FormData(form).forEach((v, k) => u.searchParams.append(k, v));
+    u.searchParams.delete('page');
+    cible = null;
+    charger(u.href, true);
+  });
+
+  /* Précédent / suivant du navigateur : on recharge la liste de cette
+     adresse-là, sans recharger la page. */
+  try { history.replaceState({ mcListe: 1 }, ''); } catch (e) {}
+  window.addEventListener('popstate', function (e) {
+    if (!e.state || !e.state.mcListe) return;
+    cible = null;
+    charger(location.href, false);
   });
 })();
 </script>
