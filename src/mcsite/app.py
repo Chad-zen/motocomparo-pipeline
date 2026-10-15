@@ -399,6 +399,9 @@ def produits(
     prix_max: float | None = Query(None, ge=0, le=100_000),
     taille: str | None = None,
     couleur: str | None = None,
+    matiere: str | None = None,
+    homologation: str | None = None,
+    saison: str | None = None,
     marchands: int = Query(2, ge=2, le=6),
     tri: str = "pertinence",
 ):
@@ -406,7 +409,11 @@ def produits(
     leads. No category is fixed, so the visitor narrows down from the whole
     shelf instead of having to pick a department before seeing anything."""
     f = queries.Filtres(marque=marque, prix_min=prix_min, prix_max=prix_max,
-                        taille=taille, couleur=couleur, marchands=marchands, tri=tri)
+                        taille=taille, couleur=couleur,
+                        matiere=queries.code_filtre(matiere),
+                        homologation=queries.code_filtre(homologation),
+                        saison=queries.code_filtre(saison),
+                        marchands=marchands, tri=tri)
     return _liste(request, "Tous les produits", "/produits", f, page)
 
 
@@ -421,6 +428,9 @@ def category(
     prix_max: float | None = Query(None, ge=0, le=100_000),
     taille: str | None = None,
     couleur: str | None = None,
+    matiere: str | None = None,
+    homologation: str | None = None,
+    saison: str | None = None,
     marchands: int = Query(2, ge=2, le=6),
     tri: str = "pertinence",
 ):
@@ -438,7 +448,11 @@ def category(
     # Signalé par la propriétaire (14/10/2026).
     f = queries.Filtres(categories=courante["ids"], texte=q.strip() or None,
                         marque=marque, prix_min=prix_min, prix_max=prix_max,
-                        taille=taille, couleur=couleur, marchands=marchands,
+                        taille=taille, couleur=couleur,
+                        matiere=queries.code_filtre(matiere),
+                        homologation=queries.code_filtre(homologation),
+                        saison=queries.code_filtre(saison),
+                        marchands=marchands,
                         tri=tri)
     return _liste(request, courante["label_fr"], f"/c/{code}", f, page,
                   code=code, courante=courante)
@@ -453,6 +467,9 @@ def marque_page(
     prix_max: float | None = Query(None, ge=0, le=100_000),
     taille: str | None = None,
     couleur: str | None = None,
+    matiere: str | None = None,
+    homologation: str | None = None,
+    saison: str | None = None,
     marchands: int = Query(2, ge=2, le=6),
     tri: str = "pertinence",
 ):
@@ -463,7 +480,11 @@ def marque_page(
     offers nothing to narrow once you land.
     """
     f = queries.Filtres(marque=marque, prix_min=prix_min, prix_max=prix_max,
-                        taille=taille, couleur=couleur, marchands=marchands, tri=tri)
+                        taille=taille, couleur=couleur,
+                        matiere=queries.code_filtre(matiere),
+                        homologation=queries.code_filtre(homologation),
+                        saison=queries.code_filtre(saison),
+                        marchands=marchands, tri=tri)
     with pool.connection() as conn:  # type: ignore[union-attr]
         _, total = queries.listing_filtre(conn, f, 1, 0)
     if not total and page == 1:
@@ -1505,6 +1526,9 @@ def search(
     prix_max: float | None = Query(None, ge=0, le=100_000),
     taille: str | None = None,
     couleur: str | None = None,
+    matiere: str | None = None,
+    homologation: str | None = None,
+    saison: str | None = None,
     marchands: int = Query(2, ge=2, le=6),
     tri: str = "pertinence",
 ):
@@ -1529,7 +1553,11 @@ def search(
 
     f = queries.Filtres(texte=q.strip() or None, marque=marque,
                         prix_min=prix_min, prix_max=prix_max, taille=taille,
-                        couleur=couleur, marchands=marchands, tri=tri)
+                        couleur=couleur,
+                        matiere=queries.code_filtre(matiere),
+                        homologation=queries.code_filtre(homologation),
+                        saison=queries.code_filtre(saison),
+                        marchands=marchands, tri=tri)
     titre = f"Recherche : {q}" if q.strip() else "Recherche"
     return _liste(request, titre, f"/recherche?q={quote_plus(q)}", f, page)
 

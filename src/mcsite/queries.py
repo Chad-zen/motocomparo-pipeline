@@ -972,6 +972,8 @@ def facets(conn: psycopg.Connection, f: Filtres) -> dict[str, Any]:
             args["m"] = 2
         elif sans == "categories":
             args["c"] = None
+        elif sans in FILTRES_CARACTERISTIQUES:
+            args[FILTRES_CARACTERISTIQUES[sans]] = None
         return _rows(conn, sql, args)
 
     marques = compte(f"""
@@ -1084,9 +1086,227 @@ def facets(conn: psycopg.Connection, f: Filtres) -> dict[str, Any]:
         "tailles": tailles,
         "couleurs": couleurs,
         "marchands": marchands,
+        **_facettes_caracteristiques(conn, f, compte),
     }
 
 
+# --- filtres Matière, Homologation, Saison --------------------------------------
+#
+# Demandés par la propriétaire le 15/10/2026. Ils ne lisent QUE
+# `product_caracteristique`, c'est-à-dire ce que les extracteurs de
+# `mcpipe caracteristiques` ont trouvé écrit dans un texte marchand (ou ce que
+# SHARP et le revendeur publient). Rien n'est déduit ici : une fiche dont le
+# texte ne dit rien n'a pas de valeur, et n'apparaît sous aucune option.
+#
+# La Saison n'a PAS eu besoin d'un nouveau lecteur de titres : blouson.py,
+# pantalon.py et gant.py l'extraient déjà, sur les seuls mots explicites
+# (« été », « estival », « hiver », « hivernal », « grand froid »,
+# « mi-saison », « toutes saisons », « 4 saisons », « 3 en 1 »), en écartant
+# « summer »/« winter » (noms de technologies chez Macna), les collections
+# datées (« hiver 2025 »), le participe passé « a été », et tout texte qui nomme
+# deux saisons à la fois. Relire les titres ici aurait doublé ce travail avec
+# moins de garde-fous.
+
+# Mesure d'abord, choix ensuite : c'est l'ordre que le site applique partout.
+# Une mesure de laboratoire prime sur une annonce de revendeur, qui prime sur
+# une description marchande. Utilisé par le filtre ET par la fiche
+# (`caracteristiques()`), pour qu'une fiche filtrée « carbone » ne s'ouvre
+# jamais sur « fibre » — 360 couples (fiche, nom) ont deux sources en
+# désaccord dans la base locale le 15/10/2026.
+_SOURCE_PRIORITE = {"sharp": 0, "revendeur": 1, "flux": 2}
+
+# Les rayons, par identifiant — ce sont ceux de `mcpipe.caracteristiques._RAYONS`,
+# la seule liste de rayons dont les caractéristiques sont lues.
+_CASQUES = (1, 2, 3, 4, 5)
+_BLOUSONS = (6, 10)      # blousons/vestes, combinaisons
+_PANTALONS = (7,)
+_GANTS = (8,)
+_BOTTES = (9,)
+RAYONS_CARACTERISTIQUES = frozenset(_CASQUES + _BLOUSONS + _PANTALONS + _GANTS + _BOTTES)
+
+def _ids(t: tuple[int, ...]) -> str:
+    return ", ".join(str(i) for i in t)
+
+
+def _retenues(*noms: str) -> str:
+    """Une ligne par (fiche, nom) : la valeur de la source la plus fiable."""
+    prio = "CASE pc.source " + " ".join(
+        f"WHEN '{s}' THEN {r}" for s, r in _SOURCE_PRIORITE.items()) + " ELSE 9 END"
+    liste = ", ".join(f"'{n}'" for n in noms)
+    return f"""
+        SELECT DISTINCT ON (pc.product_id, pc.nom) pc.product_id, pc.nom, pc.valeur
+        FROM product_caracteristique pc
+        WHERE pc.nom IN ({liste})
+        ORDER BY pc.product_id, pc.nom, {prio}"""
+
+
+# Une requête par filtre, qui rend (product_id, valeur) — une ligne par fiche
+# qui a une valeur, aucune pour les autres. La valeur est un CODE de filtre, et
+# sa traduction dépend du rayon, parce que les extracteurs rangent la même idée
+# sous des noms différents :
+#
+#   * Matière. La coque EXTÉRIEURE d'un blouson s'appelle `matiere_coque` ; sur
+#     un gant, `matiere_coque` est la coque des phalanges (carbone, TPU) et ne
+#     dit rien de la matière du gant — elle n'est donc lue que sur les blousons
+#     et combinaisons. Un casque, c'est sa calotte.
+#   * Homologation. ECE 22.0x sur un casque ; la classe EN 17092 sur un blouson
+#     (`classe_protection`, ou la norme seule quand la classe n'est pas écrite)
+#     et sur un pantalon (`homologation` y vaut A/AA/AAA) ; EN 13594 ou « CE »
+#     et le niveau sur un gant ; EN 13634 ou « CE » sur une botte. « CE » sans
+#     norme reste « CE » : gant.py explique pourquoi on ne lui prête pas
+#     l'EN 13594 que le texte ne nomme pas.
+#   * Saison. Une seule écriture : gant.py écrit « été » avec accents,
+#     pantalon.py « toutes saisons » avec une espace.
+#
+# TROIS REQUÊTES ET PAS UN PIVOT UNIQUE. La première version pivotait les huit
+# noms d'un coup (`array_agg … ORDER BY` par nom) : 260 ms par appel sur la
+# base locale, payés dans chaque requête du panneau — 5,6 s pour un rayon
+# filtré. Chaque requête ne lit ici que ses noms, sans tri par agrégat, et
+# n'est calculée qu'une fois par requête (sous-requête non corrélée, jointe
+# par hachage) grâce à l'index `(nom, valeur)` de la migration 023.
+_CARAC_SQL: dict[str, str] = {
+    "matiere": f"""
+        SELECT r.product_id,
+               replace(replace(unaccent(lower(r.valeur)), ' et ', '-'), ' ', '-') AS valeur
+        FROM ({_retenues('matiere', 'matiere_coque', 'calotte')}) r
+        JOIN product pp ON pp.id = r.product_id
+        WHERE (r.nom = 'calotte' AND pp.category_id IN ({_ids(_CASQUES)}))
+           OR (r.nom = 'matiere_coque' AND pp.category_id IN ({_ids(_BLOUSONS)}))
+           OR (r.nom = 'matiere'
+               AND pp.category_id IN ({_ids(_PANTALONS + _GANTS + _BOTTES)}))""",
+    "homologation": f"""
+        SELECT k.product_id, CASE
+            WHEN pp.category_id IN ({_ids(_CASQUES)}) THEN 'ece-' || k.homologation
+            WHEN pp.category_id IN ({_ids(_BLOUSONS)}) THEN coalesce(
+                'classe-' || lower(k.classe_protection),
+                CASE WHEN k.norme_en17092 = 'True' THEN 'en17092' END)
+            WHEN pp.category_id IN ({_ids(_PANTALONS)}) THEN 'classe-' || lower(k.homologation)
+            WHEN pp.category_id IN ({_ids(_GANTS)}) THEN
+                CASE k.homologation WHEN 'EN 13594' THEN 'en13594' WHEN 'CE' THEN 'ce' END
+                || coalesce('-niveau-' || k.niveau, '')
+            WHEN pp.category_id IN ({_ids(_BOTTES)}) THEN
+                CASE k.homologation WHEN 'EN 13634' THEN 'en13634' WHEN 'CE' THEN 'ce' END
+          END AS valeur
+        FROM (
+          SELECT r.product_id,
+                 max(r.valeur) FILTER (WHERE r.nom = 'homologation') AS homologation,
+                 max(r.valeur) FILTER (WHERE r.nom = 'classe_protection') AS classe_protection,
+                 max(r.valeur) FILTER (WHERE r.nom = 'norme_en17092') AS norme_en17092,
+                 max(r.valeur) FILTER (WHERE r.nom = 'niveau') AS niveau
+          FROM ({_retenues('homologation', 'classe_protection', 'norme_en17092', 'niveau')}) r
+          GROUP BY r.product_id
+        ) k
+        JOIN product pp ON pp.id = k.product_id""",
+    "saison": f"""
+        SELECT r.product_id, replace(unaccent(r.valeur), ' ', '-') AS valeur
+        FROM ({_retenues('saison')}) r""",
+}
+
+# Les trois filtres : paramètre d'URL -> clé d'argument SQL.
+FILTRES_CARACTERISTIQUES = {
+    "matiere": "mat", "homologation": "hom", "saison": "sai",
+}
+
+# Ce qu'on affiche pour chaque code. Un code absent d'ici s'affiche quand même
+# (majuscule, tirets en espaces) : un extracteur qui apprend une valeur nouvelle
+# ne doit pas la rendre invisible en attendant qu'on pense à la nommer.
+_LIBELLES_FILTRE: dict[str, dict[str, str]] = {
+    "matiere": {
+        "cuir": "Cuir", "textile": "Textile", "cuir-textile": "Cuir et textile",
+        "denim": "Denim", "synthetique": "Synthétique",
+        "carbone": "Carbone", "polycarbonate": "Polycarbonate",
+        "composite": "Composite", "fibre": "Fibre",
+        "thermoplastique": "Thermoplastique",
+    },
+    "homologation": {
+        "ece-22.06": "ECE 22.06", "ece-22.05": "ECE 22.05",
+        "classe-aaa": "Classe AAA (EN 17092)", "classe-aa": "Classe AA (EN 17092)",
+        "classe-a": "Classe A (EN 17092)", "classe-b": "Classe B (EN 17092)",
+        "classe-c": "Classe C (EN 17092)",
+        "en17092": "EN 17092, classe non précisée",
+        "en13594-niveau-2": "EN 13594 niveau 2", "en13594-niveau-1": "EN 13594 niveau 1",
+        "en13594": "EN 13594, niveau non précisé",
+        "ce-niveau-2": "CE niveau 2", "ce-niveau-1": "CE niveau 1",
+        "ce": "CE, norme non précisée",
+        "en13634": "EN 13634",
+    },
+    "saison": {
+        "ete": "Été", "mi-saison": "Mi-saison", "hiver": "Hiver",
+        "toutes-saisons": "Toutes saisons",
+    },
+}
+
+
+def libelle_filtre(param: str, code: str) -> str:
+    connu = _LIBELLES_FILTRE.get(param, {}).get(code)
+    if connu:
+        return connu
+    return (code[:1].upper() + code[1:]).replace("-", " ")
+
+
+def code_filtre(valeur: str | None) -> str | None:
+    """Un code de filtre tel qu'il peut arriver dans l'URL, ou rien.
+
+    Les codes sont écrits par `_CARAC_SQL` : minuscules, chiffres, point
+    et tiret. Tout autre caractère vient d'une adresse fabriquée à la main, et
+    serait recopié tel quel dans chaque lien du panneau.
+    """
+    if not valeur:
+        return None
+    v = valeur.strip().lower()
+    if not v or len(v) > 40 or any(not (c.isascii() and (c.isalnum() or c in ".-")) for c in v):
+        return None
+    return v
+
+
+# LE SEUIL D'AFFICHAGE : 15 % DE LA LISTE COURANTE.
+#
+# Un filtre qui ne couvre qu'une poignée de fiches trompe deux fois : il laisse
+# croire que les autres n'ont pas la propriété, et cocher « Cuir » ferait
+# disparaître des blousons en cuir dont le texte ne le dit pas. On ne le montre
+# donc que si les fiches qui ont une valeur pèsent assez dans ce que le
+# visiteur regarde. Mesuré sur la base locale le 15/10/2026 (fiches affichées,
+# 2 marchands et +) — voir le message de commit pour le détail par rayon :
+# les rayons d'équipement se situent entre 18 et 70 %, les rayons sans
+# extracteur (échappements, bagagerie…) à 0, et « Tous les produits » sous les
+# 15 %. Le seuil passe entre les deux : chaque rayon où l'extracteur a vraiment
+# lu quelque chose garde son filtre, une liste où il serait anecdotique ne
+# l'affiche pas. Le filtre reste affiché tant qu'il est COCHÉ, quelle que soit
+# la couverture : on ne cache pas ce qui est sélectionné.
+COUVERTURE_MIN = 0.15
+
+
+def _facettes_caracteristiques(conn: psycopg.Connection, f: Filtres,
+                               compte) -> dict[str, list[dict[str, Any]]]:
+    """Les options de Matière, Homologation et Saison, avec leurs compteurs —
+    vides quand la couverture n'atteint pas `COUVERTURE_MIN`."""
+    vides = {p: [] for p in FILTRES_CARACTERISTIQUES}
+    # Un rayon qu'aucun extracteur ne lit (échappements, pneus…) n'a rien à
+    # montrer : on ne paie même pas la requête.
+    if f.categories and not RAYONS_CARACTERISTIQUES.intersection(f.categories):
+        return vides
+    out = {}
+    for param in FILTRES_CARACTERISTIQUES:
+        lignes = compte(f"""
+            SELECT fc.valeur, count(*) AS n
+            FROM product p
+            JOIN product_stats s ON s.product_id = p.id
+            LEFT JOIN ({_CARAC_SQL[param]}) fc ON fc.product_id = p.id
+            {_OU}
+            GROUP BY 1
+        """, param)
+        total = sum(ligne["n"] for ligne in lignes)
+        couverts = [ligne for ligne in lignes if ligne["valeur"] is not None]
+        actif = getattr(f, param)
+        if not total or (sum(ligne["n"] for ligne in couverts) / total < COUVERTURE_MIN
+                         and not actif):
+            out[param] = []
+            continue
+        couverts.sort(key=lambda ligne: (-ligne["n"], ligne["valeur"]))
+        out[param] = [{"valeur": ligne["valeur"], "n": ligne["n"],
+                       "libelle": libelle_filtre(param, ligne["valeur"])}
+                      for ligne in couverts]
+    return out
 
 
 @dataclass(frozen=True, kw_only=True)
@@ -1112,6 +1332,10 @@ class Filtres:
     prix_max: float | None = None
     taille: str | None = None
     couleur: str | None = None
+    # Codes écrits par `_CARAC_SQL` (« cuir », « ece-22.06 », « ete »).
+    matiere: str | None = None
+    homologation: str | None = None
+    saison: str | None = None
     marchands: int = 2
     tri: str = "pertinence"
 
@@ -1135,6 +1359,10 @@ class Filtres:
             out.append({"cle": "taille", "texte": f"Taille {self.taille}"})
         if self.couleur:
             out.append({"cle": "couleur", "texte": self.couleur})
+        for param in FILTRES_CARACTERISTIQUES:
+            code = getattr(self, param)
+            if code:
+                out.append({"cle": param, "texte": libelle_filtre(param, code)})
         if self.marchands > 2:
             out.append({"cle": "marchands", "texte": f"{self.marchands} marchands et +"})
         return out
@@ -1154,6 +1382,17 @@ _OU = """
             SELECT 1 FROM variant v
             WHERE v.product_id = p.id
               AND """ + _taille_norm("v.size_code") + """ = """ + _taille_norm("%(ta)s::text") + """))
+      -- Matière, homologation, saison : lues dans `product_caracteristique`,
+      -- jamais devinées. Un IN non corrélé, calculé une fois et haché.
+      AND (%(mat)s::text IS NULL OR p.id IN (
+            SELECT fc.product_id FROM (""" + _CARAC_SQL["matiere"] + """) fc
+            WHERE fc.valeur = %(mat)s::text))
+      AND (%(hom)s::text IS NULL OR p.id IN (
+            SELECT fc.product_id FROM (""" + _CARAC_SQL["homologation"] + """) fc
+            WHERE fc.valeur = %(hom)s::text))
+      AND (%(sai)s::text IS NULL OR p.id IN (
+            SELECT fc.product_id FROM (""" + _CARAC_SQL["saison"] + """) fc
+            WHERE fc.valeur = %(sai)s::text))
       -- La recherche est un filtre comme les autres, et pas une page à part :
       -- c'est ce qui lui donne le même panneau, les mêmes compteurs et le même
       -- tri que le reste du site. Chaque mot doit se trouver quelque part — un
@@ -1194,6 +1433,8 @@ def _args(f: Filtres) -> dict[str, Any]:
         "c": f.categories, "b": f.marque or None, "m": f.marchands,
         "lo": f.prix_min, "hi": f.prix_max,
         "ta": f.taille or None, "co": f.couleur or None,
+        "mat": f.matiere or None, "hom": f.homologation or None,
+        "sai": f.saison or None,
         "q": _mots(f.texte),
     }
 
@@ -1519,7 +1760,11 @@ def produits_suggeres(conn: psycopg.Connection, mots: list[str],
 # l'écriture. Une mesure de laboratoire prime sur une annonce de revendeur, qui
 # prime sur une description marchande : c'est l'ordre inverse de la facilité à
 # obtenir la donnée, et c'est voulu.
-_SOURCE_PRIORITE = {"sharp": 0, "revendeur": 1, "flux": 2}
+#
+# `_SOURCE_PRIORITE` est défini plus haut, avec les filtres Matière /
+# Homologation / Saison : `_OU` en a besoin dès l'import du module, et le
+# filtre doit choisir la MÊME source que la fiche, sans quoi un casque filtré
+# « carbone » pourrait s'ouvrir sur une fiche qui dit « fibre ».
 
 # Pour certains noms, la priorité par défaut ne s'applique pas.
 # Le poids SHARP est mesuré en laboratoire, mais avec une seule taille de
