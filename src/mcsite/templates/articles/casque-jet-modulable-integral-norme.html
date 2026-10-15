@@ -1,0 +1,71 @@
+{#---
+titre: Casque jet, modulable ou intégral : ce que change la norme
+description: La norme ECE 22.06 ne protège pas de la même façon selon le type de casque. Ce qu'elle teste réellement, et combien de modèles de chaque type sont comparables sur le site.
+date: 2026-10-15
+statut: brouillon
+rayon: helmet
+produits:
+marques:
+---#}
+
+<p>
+  « Casque intégral », « jet », « modulable »&nbsp;: ces mots décrivent une
+  forme, pas un niveau de protection. La norme <b>ECE 22.06</b> — voir le
+  <a href="/guides#guide-ece2206">guide qui l'explique</a> — ne teste pas non
+  plus tous les casques de la même façon, et c'est ce que ce type de casque
+  change concrètement.
+</p>
+
+<h2>Ce que la norme teste, et où elle s'arrête</h2>
+<p>
+  ECE 22.06 classe un casque homologué selon ce qu'il protège&nbsp;:
+</p>
+<ul class="liste-puces">
+  <li><b>Intégral et modulable (mentonnière fermée).</b> La mentonnière est
+      testée au choc, comme la calotte. C'est la seule configuration qui
+      couvre le bas du visage et le menton au moment de l'impact.</li>
+  <li><b>Jet.</b> Pas de mentonnière&nbsp;: la norme ne teste donc que la
+      calotte et la nuque, pas une zone qui n'existe pas sur le casque.</li>
+  <li><b>Modulable, mentonnière relevée.</b> Un modulable homologué pour
+      rouler mentonnière relevée porte une double homologation (P/J) qui le
+      dit explicitement sur son étiquette&nbsp;; tous les modulables ne
+      l'ont pas.</li>
+</ul>
+<p>
+  Autrement dit&nbsp;: un casque jet et un casque intégral peuvent tous deux
+  être homologués ECE 22.06 sans protéger la même surface du visage. Ce n'est
+  pas un défaut de l'un ou de l'autre, c'est ce que chaque forme a été conçue
+  pour faire.
+</p>
+
+<h2>Ce qu'on trouve sur MotoComparo aujourd'hui</h2>
+<p>
+  Nombre de fiches comparables (deux marchands au moins, prix connu) et prix
+  de départ par type de casque, à la date de lecture de cette page&nbsp;:
+</p>
+{% set casques = nav | selectattr('code', 'equalto', 'helmet') | first %}
+{% if casques %}
+<div class="tableau-enveloppe">
+  <table class="offres">
+    <thead><tr><th>Type</th><th>Fiches comparables</th><th>Dès</th></tr></thead>
+    <tbody>
+      {% for r in casques.enfants %}
+      <tr>
+        <td>{{ r.label_fr }}</td>
+        <td>{{ r.n }}</td>
+        <td>{{ r.from_price | prix if r.from_price else '—' }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endif %}
+
+<p class="sous-titre">
+  Les prix de départ ne disent rien de la protection&nbsp;: un jet d'entrée
+  de gamme et un intégral d'entrée de gamme sont tous deux homologués, sur des
+  zones différentes. Le choix entre les deux dépend de l'usage, pas d'un
+  chiffre.
+</p>
+
+{{ a_completer("conseil d'usage concret par type (ville/route/déplacement longue distance) fondé sur une pratique réelle, pas une généralité de fiche produit") }}

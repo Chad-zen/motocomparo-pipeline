@@ -32,6 +32,7 @@ from psycopg_pool import ConnectionPool, PoolTimeout
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from . import admin, cache, labels, partenaires, queries, suggestions
+from . import articles as articles_mod
 from . import courbe as courbe_mod
 
 load_dotenv()
@@ -122,6 +123,25 @@ def _nom(row: Any) -> str:
 
 
 templates.env.globals["nom"] = _nom
+
+
+def _a_completer(indice: str) -> str:
+    """Pose un repère visible « À COMPLÉTER PAR LA PROPRIÉTAIRE » dans un
+    article en chantier, avec l'indice de ce qui manque (un essai porté, une
+    impression de confort…).
+
+    Cherché comme TEXTE par `articles.lire` (voir `_TROU`) : tant qu'un
+    article en contient un, il reste un brouillon même si son en-tête dit
+    « publié », et un brouillon ne sort jamais du mode aperçu (`BLOG_APERCU`).
+    Cette fonction ne rend donc en pratique que sur une page déjà fermée au
+    public — elle peut se permettre d'être explicite.
+    """
+    from markupsafe import Markup, escape
+    return Markup(f'<p class="alerte alerte--attention a-completer">'
+                  f'À COMPLÉTER PAR LA PROPRIÉTAIRE — {escape(indice)}</p>')
+
+
+templates.env.globals["a_completer"] = _a_completer
 
 
 def _version_css() -> int:
@@ -712,12 +732,21 @@ def _fil_structure(request: Request, p: dict[str, Any]) -> dict[str, Any]:
     pour un seul fil finiraient par se contredire, et c'est la version cachée
     qui mentirait sans que personne le voie.
     """
-    racine = f"{request.url.scheme}://{request.url.netloc}"
     etapes = [("Accueil", "/")]
     if p.get("category_code"):
         etapes.append((p.get("category_label") or p["category_code"],
                        f"/c/{p['category_code']}"))
     etapes.append((_nom(p), f"/p/{p['slug']}"))
+    return _fil(request, etapes)
+
+
+def _fil(request: Request, etapes: list[tuple[str, str]]) -> dict[str, Any]:
+    """Un `BreadcrumbList` à partir des étapes (libellé, chemin) déjà affichées.
+
+    Sorti de `_fil_structure` pour servir aussi aux articles : un seul endroit
+    qui sait écrire un fil d'Ariane pour les moteurs.
+    """
+    racine = f"{request.url.scheme}://{request.url.netloc}"
     return {
         "@context": "https://schema.org",
         "@type": "BreadcrumbList",
@@ -1100,8 +1129,55 @@ def marques(request: Request):
 
 @app.get("/guides", response_class=HTMLResponse)
 def guides(request: Request):
-    """Tailles et normes — des faits vérifiables, pas des conseils de vendeur."""
-    return templates.TemplateResponse(request, "guides.html", _ctx(request))
+    """Tailles et normes — des faits vérifiables, pas des conseils de vendeur.
+
+    C'est aussi l'index des articles : une seule rubrique éditoriale, pas un
+    blog à côté (voir l'en-tête de `articles.py`). Seuls les articles publiés
+    y sont listés ; sans aucun, la page reste exactement celle d'avant.
+    """
+    return templates.TemplateResponse(
+        request, "guides.html", _ctx(request, articles=articles_mod.publies()))
+
+
+_DONNEES_ARTICLE = articles_mod.Donnees(lambda: pool)
+
+
+@app.get("/guides/{slug}", response_class=HTMLResponse)
+def article(request: Request, slug: str):
+    """Un article. Un brouillon répond 404 hors aperçu (`BLOG_APERCU=1`)."""
+    a = articles_mod.trouver(slug)
+    if a is None:
+        raise HTTPException(404, "Article introuvable")
+    racine = f"{request.url.scheme}://{request.url.netloc}"
+    url = f"{racine}/guides/{a.slug}"
+    # `BlogPosting` plutôt qu'`Article` : c'est le type que Google attend
+    # pour un texte daté d'une rubrique de conseils. Auteur et éditeur sont
+    # le site lui-même — aucune personne n'est nommée, aucun avis n'est
+    # déclaré : il n'y en a pas.
+    posting: dict[str, Any] = {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": a.titre,
+        "description": a.description,
+        "datePublished": a.date.isoformat(),
+        "dateModified": (a.maj or a.date).isoformat(),
+        "inLanguage": "fr-FR",
+        "mainEntityOfPage": {"@type": "WebPage", "@id": url},
+        "url": url,
+        "author": {"@type": "Organization", "name": "MotoComparo", "url": racine + "/"},
+        "publisher": {"@type": "Organization", "name": "MotoComparo",
+                      "logo": {"@type": "ImageObject",
+                               "url": racine + "/static/logo_mc.png"}},
+    }
+    if a.marques:
+        posting["about"] = [{"@type": "Brand", "name": labels.brand(m)}
+                            for m in a.marques]
+    fil = _fil(request, [("Accueil", "/"), ("Guides & conseils", "/guides"),
+                         (a.titre, f"/guides/{a.slug}")])
+    return templates.TemplateResponse(
+        request, "article.html",
+        _ctx(request, article=a, donnees=_DONNEES_ARTICLE,
+             donnees_structurees=[posting, fil]))
 
 
 # --- la mesure d'audience, et son interrupteur -------------------------------
@@ -1469,6 +1545,9 @@ def _urls_sitemap() -> list[str]:
             """).fetchall()
         fixes = ["/", "/produits", "/bons-plans", "/marques", "/guides",
                  "/infos", "/contact"]
+        # Les articles PUBLIÉS seulement : un brouillon répond 404 en
+        # production, le proposer aux moteurs serait leur donner une erreur.
+        fixes += [f"/guides/{a.slug}" for a in articles_mod.publies()]
         return (fixes
                 + [f"/c/{r[0]}" for r in rayons]
                 + [f"/m/{r[0]}" for r in marques]
