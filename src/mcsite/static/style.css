@@ -3985,55 +3985,102 @@ html, body { overflow-x: clip; }
 
 
 /* ============================================ le bandeau de consentement ====
-   Posé AU-DESSUS du bandeau comparateur (z-index 900) : tant qu'on n'a pas
-   répondu, la question passe devant le reste. Il n'y a pas de voile sombre
-   derrière — le site reste lisible et utilisable pendant qu'on décide, ce qui
-   est exactement ce que la CNIL demande : refuser ne doit pas coûter plus
-   cher qu'accepter, et être empêché de lire la page en fait partie.
+   La maquette de la propriétaire (15/10/2026), en carte COMPACTE posée en bas
+   de l'écran (« trop grosse, en bas aussi »). Pas de voile : la page reste
+   lisible et utilisable pendant qu'on choisit. Le refus pèse autant que
+   l'accord : « Tout refuser » est un bouton de même taille que « Accepter et
+   fermer », et « Continuer sans accepter » refuse aussi, en un clic.
    ========================================================================== */
 
 .consentement {
   position: fixed; left: 0; right: 0; bottom: 0; z-index: 1000;
-  background: var(--nuit, #0f1524); color: #e8ebf3;
-  border-top: 3px solid var(--or, #f5b301);
-  box-shadow: 0 -8px 28px rgba(8, 12, 26, .35);
+  padding: 0 16px 16px; pointer-events: none;
 }
-.consentement__inner {
-  display: flex; align-items: center; gap: 22px;
-  padding-top: 14px; padding-bottom: 14px;
+.consentement[hidden] { display: none; }
+.consentement__carte {
+  pointer-events: auto;
+  width: min(1040px, 100%); margin: 0 auto;
+  display: grid; align-items: center; gap: 4px 22px;
+  grid-template-columns: 132px minmax(0, 1fr) auto;
+  grid-template-areas: "illu haut    haut"
+                       "illu texte   boutons";
+  background: #fff; color: var(--ink, #0f1524);
+  border-radius: 18px; padding: 14px 22px 16px 16px;
+  box-shadow: 0 0 0 6px rgba(15, 21, 36, .82), 0 16px 40px rgba(8, 12, 26, .35);
 }
-.consentement__texte { flex: 1; min-width: 0; font-size: 13.5px; line-height: 1.5; }
-.consentement__texte p { margin: 0; color: #c6cbdb; }
+.consentement__illu { grid-area: illu; width: 132px; height: auto; display: block; }
+.consentement__haut {
+  grid-area: haut;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+}
+.consentement__continuer {
+  background: none; border: 0; padding: 2px 0; cursor: pointer;
+  font: inherit; font-size: 13px; color: #6b7286; white-space: nowrap;
+  text-decoration: underline; text-underline-offset: 3px;
+}
+.consentement__continuer:hover { color: var(--ink, #0f1524); }
+.consentement__marque {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-weight: 800; font-size: 13px; color: var(--ink, #0f1524); white-space: nowrap;
+}
+.consentement__marque img { width: 22px; height: 22px; }
+.consentement__texte { grid-area: texte; min-width: 0; }
 .consentement__titre {
-  font-weight: 700; color: #fff; font-size: 14.5px; margin-bottom: 3px !important;
+  margin: 0 0 4px; font-size: 20px; line-height: 1.2; font-weight: 800;
+  letter-spacing: -.2px;
 }
-.consentement__texte a { color: var(--or, #f5b301); text-decoration: underline; }
+.consentement__texte p { margin: 0; font-size: 14px; line-height: 1.5; color: #3a4257; }
+.consentement__texte a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
 
 /* LES DEUX BOUTONS ONT LE MÊME POIDS, et c'est la règle de fond de ce bandeau :
-   même largeur minimale, même hauteur, même graisse. Seule la couleur les
-   distingue, et « Refuser » garde un contour net sur le fond sombre — pas un
-   lien gris qu'on ne trouve qu'en cherchant. */
-.consentement__boutons { display: flex; gap: 10px; flex-shrink: 0; }
+   même largeur, même hauteur, même graisse. Seule la couleur les distingue,
+   et « Tout refuser » garde un contour franc — pas un lien gris qu'on ne
+   trouve qu'en cherchant. */
+.consentement__boutons {
+  grid-area: boutons;
+  display: grid; grid-template-columns: repeat(2, 168px); gap: 10px;
+}
 .consentement__boutons .bouton {
-  min-width: 132px; text-align: center; padding: 11px 18px; font-size: 14px;
-  cursor: pointer; border: 2px solid transparent;
+  text-align: center; padding: 11px 12px; font-size: 14.5px; font-weight: 800;
+  border-radius: 10px; cursor: pointer; border: 2px solid transparent;
 }
 .consentement__boutons .bouton--contour {
-  background: transparent; color: #fff; border-color: #6b7591;
+  background: #fff; color: var(--ink, #0f1524); border-color: var(--ink, #0f1524);
 }
-.consentement__boutons .bouton--contour:hover { border-color: #fff; filter: none; }
-
-/* Sur téléphone, les boutons passent sous le texte et se partagent la largeur
-   à parts égales — toujours la même règle : aucun des deux ne doit être plus
-   facile à atteindre que l'autre. */
-@media (max-width: 720px) {
-  .consentement__inner { flex-direction: column; align-items: stretch; gap: 12px; }
-  .consentement__boutons .bouton { flex: 1; min-width: 0; }
+.consentement__boutons .bouton--contour:hover { background: #f3f5fa; filter: none; }
+.consentement button:focus-visible, .consentement a:focus-visible {
+  outline: 3px solid var(--or, #f5b301); outline-offset: 2px;
 }
 
-/* Le bandeau du comparateur se pousse pour ne pas passer sous celui-ci. La
-   classe est posée sur `<body>` par le script du bandeau, et retirée dès qu'on
-   a répondu. */
+/* Écran moyen : les boutons passent sous le texte. */
+@media (max-width: 960px) {
+  .consentement__carte {
+    grid-template-columns: 110px minmax(0, 1fr);
+    grid-template-areas: "illu haut" "illu texte" "boutons boutons";
+  }
+  .consentement__illu { width: 110px; }
+  .consentement__boutons { grid-template-columns: 1fr 1fr; margin-top: 8px; }
+}
+
+/* Téléphone : une petite carte en bas, l'illustration réduite à côté du
+   titre, les deux boutons à parts égales — aucun n'est plus facile à
+   atteindre que l'autre. */
+@media (max-width: 600px) {
+  .consentement { padding: 0 8px 8px; }
+  .consentement__carte {
+    grid-template-columns: 74px minmax(0, 1fr); gap: 4px 12px;
+    padding: 12px 14px 14px; border-radius: 16px;
+    box-shadow: 0 0 0 4px rgba(15, 21, 36, .82), 0 10px 30px rgba(8, 12, 26, .35);
+  }
+  .consentement__illu { width: 74px; align-self: start; margin-top: 4px; }
+  .consentement__marque { display: none; }
+  .consentement__titre { font-size: 17px; }
+  .consentement__texte p { font-size: 13px; line-height: 1.45; }
+  .consentement__boutons .bouton { padding: 11px 6px; font-size: 14px; }
+}
+
+/* Le bandeau du comparateur s'efface tant que la question est posée. */
+body.a-consentement .banc { display: none; }
 body.a-consentement .banc { display: none; }
 
 /* --- Zones de toucher (audit du 30/09/2026) --------------------------------

@@ -22,25 +22,42 @@
    on l'autorise à déposer des cookies se raconte une histoire. Le reste du
    site utilise déjà `localStorage` pour les favoris et le comparateur : c'est
    le même mécanisme, et le visiteur l'efface de la même façon. #}
+{# LA MAQUETTE DE LA PROPRIÉTAIRE (15/10/2026) : une carte blanche, les deux
+   cookies casqués « M » et « C », « Salut c'est nous… les Cookies ! ». Deux
+   écarts assumés, validés avec elle :
+     * « Paramétrer » est devenu « Tout refuser », de la même taille que
+       « Accepter et fermer » : il n'y a qu'une finalité (la mesure d'audience),
+       un écran de réglages n'aurait eu qu'un seul interrupteur, et le refus
+       doit peser autant que l'accord.
+     * le texte ne parle que de ce que le site fait vraiment : mesurer son
+       audience. Pas de « personnalisation du contenu », il n'y en a pas.
+   « Continuer sans accepter », en haut, est un refus de plus, pas un renvoi :
+   il enregistre le même choix que « Tout refuser ». #}
+{# Posée EN BAS et compacte (la propriétaire, 15/10/2026 : « trop grosse, en
+   bas aussi ») : la page reste lisible et utilisable pendant qu'on choisit,
+   aucun voile, aucune partie du site bloquée. #}
 <div class="consentement" id="consentement" role="dialog" aria-modal="false"
-     aria-labelledby="consentement-titre" hidden>
-  <div class="conteneur consentement__inner">
-    {# COURT, ET C'EST LE SUJET. La première version disait la même chose en
-       quatre phrases : les cookies déposés, le site qui marche quand même,
-       rien mesuré avant accord. Tout était vrai et tout était de trop — à
-       force de jurer qu'on ne fera rien de mal, on a l'air de s'excuser, donc
-       d'avoir quelque chose à se faire pardonner. Une phrase sur le pourquoi,
-       une sur la liberté de refuser, le détail derrière le lien. #}
+     aria-labelledby="consentement-titre" aria-describedby="consentement-texte" hidden>
+  <div class="consentement__carte">
+    <img class="consentement__illu" src="/static/cookies-casques.webp?v={{ version_css() }}"
+         alt="" width="805" height="475" loading="eager">
+    <div class="consentement__haut">
+      <button type="button" class="consentement__continuer" data-consentement="refuse">Continuer sans accepter</button>
+      <span class="consentement__marque">
+        <img src="/static/logo_mc_icon.webp?v={{ version_css() }}" alt="" width="22" height="22">
+        motocomparo.com
+      </span>
+    </div>
     <div class="consentement__texte">
-      <p id="consentement-titre" class="consentement__titre">Cookies de mesure</p>
-      <p>Pour améliorer le site, nous aimerions mesurer son audience avec Google
-         Analytics. Refuser ne change rien à votre visite.
-         <a href="/infos#donnees">En savoir plus</a></p>
+      <h2 id="consentement-titre" class="consentement__titre">Salut c'est nous… les Cookies&nbsp;!</h2>
+      <p id="consentement-texte">Nous aimerions mesurer l'audience du site avec
+        Google Analytics pour l'améliorer. Refuser ne change rien à votre visite.
+        <a href="/infos#donnees">En savoir plus</a></p>
     </div>
     <div class="consentement__boutons">
       {# L'ordre place le refus EN PREMIER, à la lecture comme au clavier. #}
-      <button type="button" class="bouton bouton--contour" data-consentement="refuse">Refuser</button>
-      <button type="button" class="bouton bouton--or" data-consentement="accepte">Accepter</button>
+      <button type="button" class="bouton bouton--contour" data-consentement="refuse">Tout refuser</button>
+      <button type="button" class="bouton bouton--or" data-consentement="accepte">Accepter et fermer</button>
     </div>
   </div>
 </div>
