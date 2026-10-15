@@ -340,6 +340,38 @@ h1, h2 { line-height: 1.2; }
 .pied p { margin: 0 0 5px; }
 .pied__note { font-size: 12px; }
 
+/* ------------------------------------------------------------- alerte prix */
+/* Un simple <details>, pas une modale (choix du 15/10/2026) : la ligne
+   `summary` prend la même hauteur qu'un bouton discret fermé, et s'ouvre en
+   carte plate — même famille visuelle que `.contact__form`, en plus compact
+   parce qu'elle vit sous un bloc déjà chargé (prix, économie, promesses). */
+.alerte-prix { margin: 4px 0 14px; }
+.alerte-prix__resume {
+  cursor: pointer; font-size: 13.5px; font-weight: 700; color: var(--marque-encre);
+  padding: 2px 0; list-style: none;
+}
+.alerte-prix__resume::-webkit-details-marker { display: none; }
+.alerte-prix__resume::before { content: "🔔  "; }
+.alerte-prix__form {
+  display: grid; gap: 10px; margin-top: 10px;
+  background: var(--puce); border: 1px solid var(--line); border-radius: 12px;
+  padding: 14px;
+}
+.alerte-prix__form label { display: grid; gap: 5px; font-size: 12.5px; font-weight: 600; color: var(--doux); }
+.alerte-prix__form input, .alerte-prix__form select {
+  border: 1px solid var(--line); border-radius: 8px; padding: 9px 10px;
+  font: inherit; font-size: 14px; color: var(--ink); background: var(--card); width: 100%;
+}
+.alerte-prix__form .bouton { justify-self: start; }
+.alerte-prix__piege { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.alerte-prix__rgpd { margin: 0; font-size: 11.5px; line-height: 1.5; }
+.alerte-prix__rgpd a { color: var(--or, #f5b301); text-decoration: underline; }
+
+/* Les pages de confirmation / désinscription : même carcasse que `.erreur`,
+   réutilisée telle quelle (alerte.html), plus le petit formulaire à un bouton
+   qu'elles ajoutent parfois (confirmer, tout supprimer). */
+.alerte-page__form { margin-top: 18px; }
+
 /* ------------------------------------------------------------ choix taille */
 
 .choix-taille { margin: 20px 0 4px; }

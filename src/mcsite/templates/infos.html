@@ -51,9 +51,28 @@
   <p>MotoComparo ne demande aucun compte et aucun mot de passe. Vos favoris et
   votre comparateur restent dans votre navigateur&nbsp;: ils ne nous parviennent
   jamais.</p>
-  <p>La seule chose que vous pouvez nous transmettre est un message via la page
-  Contact, et l'adresse e-mail que vous y laissez si vous le souhaitez. Elle
-  sert à cela et à rien d'autre.</p>
+  <p>Ce que vous pouvez nous transmettre&nbsp;: un message via la page Contact,
+  avec l'adresse e-mail que vous y laissez si vous le souhaitez&nbsp;; et, sur
+  une fiche produit{% if not alertes_ouvertes %} — lorsque le bouton existe{% endif %},
+  une adresse e-mail pour être prévenu si le prix baisse. Chacune sert à cela et
+  à rien d'autre.</p>
+  {# MÊME RÈGLE QUE POUR LA MESURE D'AUDIENCE PLUS BAS : cette page ne doit
+     affirmer que ce que le code fait réellement. Le formulaire d'alerte
+     n'existe sur les fiches QUE si l'envoi d'e-mails est configuré
+     (`alertes_ouvertes`, posé par `mcpipe.courriel.configure()` dans `_ctx`) :
+     tant que ce n'est pas le cas (SMTP_PASS vide en production au
+     15/10/2026), rien n'est collecté et le paragraphe le dit. #}
+  {% if alertes_ouvertes %}
+  <p><strong>Alerte de baisse de prix.</strong> Si vous demandez à être prévenu
+  sur une fiche, nous enregistrons votre e-mail, la fiche, la taille et le prix
+  visé si vous en indiquez un. Rien n'est envoyé avant que vous ayez confirmé
+  par un lien reçu par e-mail (double consentement)&nbsp;: une demande non
+  confirmée sous 7&nbsp;jours est effacée. Une fois confirmée, l'alerte dure
+  6&nbsp;mois puis s'efface d'elle-même&nbsp;; chaque e-mail de baisse contient
+  un lien pour l'arrêter en un clic, et un lien pour effacer toutes vos alertes
+  et votre adresse d'un coup. Aucun pixel de suivi, aucune image distante dans
+  ces e-mails.</p>
+  {% endif %}
   {# CE PARAGRAPHE SUIT LA CONFIGURATION, IL NE LA DEVANCE PAS.
 
      Il a d'abord affirmé, en dur, que le site ne déposait aucun cookie et
@@ -108,6 +127,12 @@
     <tbody>
       <tr><td>Message et e-mail (page Contact)</td><td>Vous répondre, corriger le site</td>
           <td>Intérêt légitime</td><td>12&nbsp;mois après réception</td></tr>
+      {% if alertes_ouvertes %}
+      <tr><td>E-mail, fiche, taille, prix visé (alerte de prix)</td>
+          <td>Vous prévenir d'une baisse</td>
+          <td>Votre consentement</td>
+          <td>7&nbsp;jours sans confirmation, 6&nbsp;mois une fois confirmée</td></tr>
+      {% endif %}
       {% if mesure_active %}
       <tr><td>Cookies de mesure (_ga)</td><td>Compter les visites</td>
           <td>Votre consentement</td><td>13&nbsp;mois au plus</td></tr>

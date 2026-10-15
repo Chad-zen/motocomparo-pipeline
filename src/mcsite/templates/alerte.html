@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{# Les pages où mènent les liens des e-mails d'alerte, et la confirmation
+   d'inscription. Une seule page, plusieurs états (`etat`) : les textes sont
+   proches, séparer les fichiers aurait dupliqué le gabarit pour rien.
+
+   `robots` : noindex partout, ces pages ne servent à rien pour un moteur de
+   recherche et portent parfois un jeton dans l'adresse (défense en
+   profondeur ; le jeton n'est de toute façon jamais dans l'URL d'une page
+   indexable ordinaire). #}
+{% block robots %}<meta name="robots" content="noindex, nofollow">{% endblock %}
+{% block title %}
+{%- if etat == 'demande' %}Vérifiez votre boîte mail
+{%- elif etat == 'adresse' or etat == 'prix' or etat == 'refus' or etat == 'envoi' %}Alerte non enregistrée
+{%- elif etat == 'inconnu' %}Lien expiré ou déjà utilisé
+{%- elif etat == 'a-confirmer' %}Confirmer l'alerte
+{%- elif etat == 'active' %}Alerte activée
+{%- elif etat == 'arretee' %}Alerte arrêtée
+{%- elif etat == 'tout-confirmer' %}Tout supprimer
+{%- elif etat == 'tout-efface' %}Vos alertes sont effacées
+{%- endif %} — MotoComparo{% endblock %}
+
+{% block contenu %}
+<section class="erreur alerte-page">
+  {% if etat == 'demande' %}
+    <h1 class="titre-page">Vérifiez votre boîte mail</h1>
+    <p class="sous-titre">Si l'adresse indiquée est valide, un e-mail de
+      confirmation vient de partir. Ouvrez-le et cliquez sur le lien dans les
+      {{ attente }} : sans cela, rien n'est activé et la demande s'efface
+      d'elle-même.</p>
+
+  {% elif etat == 'adresse' %}
+    <h1 class="titre-page">Adresse illisible</h1>
+    <p class="sous-titre">L'adresse e-mail saisie n'a pas une forme valide.
+      Réessayez depuis la fiche produit.</p>
+
+  {% elif etat == 'prix' %}
+    <h1 class="titre-page">Prix illisible</h1>
+    <p class="sous-titre">Le prix saisi n'est pas un nombre valide. Réessayez
+      depuis la fiche produit, ou laissez le champ vide pour être prévenu de
+      toute baisse.</p>
+
+  {% elif etat == 'refus' %}
+    <h1 class="titre-page">Demande non enregistrée</h1>
+    <p class="sous-titre">Cette demande n'a pas pu être enregistrée.
+      Réessayez depuis la fiche produit.</p>
+
+  {% elif etat == 'envoi' %}
+    <h1 class="titre-page">L'e-mail n'est pas parti</h1>
+    <p class="sous-titre">Rien n'a été enregistré : nous n'avons pas pu vous
+      écrire à cette adresse à l'instant. Réessayez un peu plus tard.</p>
+
+  {% elif etat == 'inconnu' %}
+    <h1 class="titre-page">Lien expiré ou déjà utilisé</h1>
+    <p class="sous-titre">Ce lien ne correspond à aucune alerte active — il a
+      peut-être déjà servi, ou la demande n'a jamais été confirmée dans les
+      {{ attente }}. Pour recommencer, retournez sur la fiche produit.</p>
+
+  {% elif etat == 'a-confirmer' %}
+    <h1 class="titre-page">Confirmer l'alerte de prix</h1>
+    <p class="sous-titre">Un clic suffit pour activer l'alerte sur cette
+      fiche.</p>
+    <form method="post" action="/alertes/confirmer" class="alerte-page__form">
+      <input type="hidden" name="jeton" value="{{ jeton }}">
+      <button type="submit" class="bouton bouton--or">Confirmer l'alerte</button>
+    </form>
+
+  {% elif etat == 'active' %}
+    <h1 class="titre-page">Alerte activée</h1>
+    <p class="sous-titre">Vous serez prévenu par e-mail à la prochaine baisse,
+      pendant {{ duree_vie }}. Chaque e-mail contient un lien pour l'arrêter.</p>
+
+  {% elif etat == 'arretee' %}
+    <h1 class="titre-page">Alerte arrêtée</h1>
+    <p class="sous-titre">Cette alerte est effacée ; vous ne recevrez plus
+      rien à son sujet.</p>
+
+  {% elif etat == 'tout-confirmer' %}
+    <h1 class="titre-page">Supprimer toutes vos alertes</h1>
+    <p class="sous-titre">{{ nombre }} alerte{{ 's' if nombre > 1 }}
+      enregistrée{{ 's' if nombre > 1 }} sous cette adresse. Confirmer les
+      efface toutes, ainsi que l'adresse elle-même.</p>
+    <form method="post" action="/alertes/tout-supprimer" class="alerte-page__form">
+      <input type="hidden" name="jeton" value="{{ jeton }}">
+      <button type="submit" class="bouton bouton--or">Tout supprimer</button>
+    </form>
+
+  {% elif etat == 'tout-efface' %}
+    <h1 class="titre-page">Vos alertes sont effacées</h1>
+    <p class="sous-titre">{{ nombre }} alerte{{ 's' if nombre > 1 }} et votre
+      adresse ont été supprimées.</p>
+  {% endif %}
+
+  <div class="erreur__actions">
+    {% if slug %}
+      <a class="bouton bouton--contour" href="/p/{{ slug }}">Voir la fiche</a>
+    {% endif %}
+    <a class="bouton bouton--contour" href="/">Retour à l'accueil</a>
+  </div>
+</section>
+{% endblock %}

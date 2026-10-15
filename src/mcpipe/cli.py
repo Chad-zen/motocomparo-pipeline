@@ -639,6 +639,28 @@ def freshness() -> None:
 
 
 @app.command()
+def alertes() -> None:
+    """Préviennent par e-mail les alertes de prix atteintes. Après `freshness`.
+
+    Efface d'abord les demandes non confirmées (7 jours) et les alertes
+    échues (6 mois). Sans SMTP configuré, n'envoie rien et sort sans erreur ;
+    une panne d'envoi non plus ne fait pas échouer la chaîne de nuit.
+    """
+    from .alertes import run_alertes
+
+    res = run_alertes()
+    console.print(f"alertes : {res.effacees} effacée(s) (non confirmées ou échues)")
+    if not res.smtp:
+        console.print("  [yellow]SMTP non configuré[/] : aucun e-mail envoyé")
+        return
+    console.print(f"  examinées : {res.examinees}   envoyées : {res.envoyees}   "
+                  f"échecs d'envoi : {res.echecs}   ({res.seconds:.0f}s)")
+    if res.echecs:
+        console.print("  [yellow]des e-mails ne sont pas partis[/] : ils seront "
+                      "retentés la nuit prochaine (rien n'a été marqué envoyé)")
+
+
+@app.command()
 def promo() -> None:
     """Read the merchants' own promo pages and refresh `code_promo`.
 

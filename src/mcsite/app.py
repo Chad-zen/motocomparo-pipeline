@@ -12,6 +12,7 @@ import os
 import re
 from contextlib import asynccontextmanager
 from datetime import date
+from decimal import Decimal, InvalidOperation
 from pathlib import Path
 from typing import Any
 from urllib.parse import parse_qs, quote_plus
@@ -84,6 +85,8 @@ templates.env.filters["taille"] = labels.size_display
 templates.env.globals["titre_produit"] = labels.product_title
 
 
+from mcpipe import alertes as alertes_prix  # noqa: E402
+from mcpipe import courriel  # noqa: E402
 from mcpipe.category import CATEGORIES as _CATEGORIES  # noqa: E402
 
 # 25 (« non classé ») n'apprend rien au visiteur : pas de libellé.
@@ -285,7 +288,12 @@ def _ctx(request: Request, **extra: Any) -> dict[str, Any]:
             # Vides tant que les comptes n'existent pas : le gabarit n'écrit
             # alors ni script Google ni bandeau de consentement.
             "gtm_id": _GTM_ID, "ga4_id": _GA4_ID,
-            "mesure_active": _MESURE_ACTIVE, **extra}
+            "mesure_active": _MESURE_ACTIVE,
+            # Les alertes de prix n'existent pour le visiteur que si un e-mail
+            # peut partir : sans SMTP complet (SMTP_PASS vide en production au
+            # 15/10/2026), ni formulaire sur les fiches, ni ligne dans /infos.
+            "alertes_ouvertes": courriel.configure(),
+            **extra}
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -1178,50 +1186,37 @@ def _notifier_contact(sujet: str, corps: str, email: str, page: str) -> None:
     réseau ou des identifiants faux ne doivent coûter qu'une notification
     manquée, pas le message lui-même, déjà écrit en base avant cet appel.
     """
-    hote = os.environ.get("SMTP_HOST", "").strip()
-    if not hote:
+    # L'envoi lui-même vit dans `mcpipe.courriel`, partagé avec les alertes de
+    # prix ; il se tait sans configuration et n'émet jamais d'exception.
+    if not courriel.configure():
         return
-    utilisateur = os.environ.get("SMTP_USER", "").strip()
-    mdp = os.environ.get("SMTP_PASS", "").strip()
-    dest = os.environ.get("CONTACT_NOTIF_TO", "").strip() or utilisateur
-    if not (utilisateur and mdp and dest):
-        return
-
-    import smtplib
-    import ssl
-    from email.message import EmailMessage
-
+    dest = os.environ.get("CONTACT_NOTIF_TO", "").strip() or courriel.expediteur()
     libelles = {
         "erreur-prix": "Un prix qui ne correspond pas",
         "erreur-fiche": "Une fiche mal rangée ou en double",
         "marchand": "Je suis un marchand",
         "autre": "Autre",
     }
-    msg = EmailMessage()
-    msg["Subject"] = f"[Contact MotoComparo] {libelles.get(sujet, sujet)}"
-    msg["From"] = utilisateur
-    msg["To"] = dest
-    # Répondre à CE message répond directement au visiteur, sans passer par
-    # la boîte de contact — seulement quand il a laissé une adresse.
-    if email:
-        msg["Reply-To"] = email
-    msg.set_content(
+    # Délai court (8 s par défaut) et volontaire : un serveur SMTP qui ne
+    # répond pas ne doit pas faire attendre le visiteur sur sa confirmation.
+    # `repondre_a` : répondre à CE message répond directement au visiteur,
+    # sans passer par la boîte de contact — seulement s'il a laissé une adresse.
+    courriel.envoyer(
+        dest, f"[Contact MotoComparo] {libelles.get(sujet, sujet)}",
         f"{corps}\n\n---\n"
         f"E-mail laissé : {email or '(aucun)'}\n"
         f"Page : {page or '(inconnue)'}\n"
-        f"Lu et répondu depuis /admin sur le site."
-    )
-    port = int(os.environ.get("SMTP_PORT", "465") or "465")
-    try:
-        # Délai court et volontaire : un serveur SMTP qui ne répond pas ne
-        # doit pas faire attendre le visiteur sur sa page de confirmation.
-        with smtplib.SMTP_SSL(hote, port, timeout=8,
-                              context=ssl.create_default_context()) as serveur:
-            serveur.login(utilisateur, mdp)
-            serveur.send_message(msg)
-    except Exception:  # noqa: BLE001 — une notification manquée n'est pas une panne
-        import logging
-        logging.getLogger("mcsite").exception("notification de contact non envoyée")
+        f"Lu et répondu depuis /admin sur le site.",
+        repondre_a=email)
+
+
+def _origine_refusee(request: Request) -> bool:
+    """Un formulaire posté depuis un autre site n'a rien à faire ici. L'absence
+    d'Origin (vieux navigateurs, logiciels de messagerie) reste acceptée."""
+    origine = request.headers.get("origin")
+    return bool(origine and origine not in ("https://motocomparo.com",
+                                            "https://www.motocomparo.com")
+                and not _reseau_local(request.client.host if request.client else ""))
 
 
 @app.post("/contact")
@@ -1234,12 +1229,7 @@ async def contact_envoi(request: Request):
     non. `parse_qs` plutôt que `Form()` pour ne pas dépendre de
     python-multipart, absent de l'environnement.
     """
-    # Un formulaire posté depuis un autre site n'a rien à faire ici. L'absence
-    # d'Origin (vieux navigateurs) reste acceptée.
-    origine = request.headers.get("origin")
-    if origine and origine not in ("https://motocomparo.com",
-                                   "https://www.motocomparo.com") \
-            and not _reseau_local(request.client.host if request.client else ""):
+    if _origine_refusee(request):
         return PlainTextResponse("Origine refusée.", status_code=403)
 
     brut = await request.body()
@@ -1280,6 +1270,238 @@ async def contact_envoi(request: Request):
     # message est déjà écrit en base, quoi qu'il arrive à la notification.
     _notifier_contact(sujet, corps[:4000], email_visiteur, page_origine)
     return RedirectResponse("/contact?envoye=1", status_code=303)
+
+
+# --- les alertes de baisse de prix -------------------------------------------
+#
+# Les règles (ce qu'est une baisse, les plafonds, les durées) sont dans
+# `mcpipe/alertes.py`, lues aussi par l'envoi de nuit. Ici : le formulaire de la
+# fiche et les pages où mènent les liens des e-mails.
+#
+# Les pages qui portent un jeton ne chargent JAMAIS la mesure d'audience
+# (`mesure_active=False`) et demandent qu'aucun référent ne parte : l'adresse
+# complète, jeton compris, finirait sinon chez Google. `no-store` : nginx ne
+# les met pas en cache (il respecte cet en-tête), aucune ne doit être resservie
+# à un autre visiteur.
+
+_EMAIL_RE = re.compile(r"[^@\s]{1,64}@[^@\s]{1,190}\.[^@\s.]{2,24}")
+
+
+def _page_alerte(request: Request, etat: str, **extra: Any) -> HTMLResponse:
+    return templates.TemplateResponse(
+        request, "alerte.html",
+        _ctx(request, etat=etat, mesure_active=False,
+             duree_vie=alertes_prix.DUREE_VIE_TEXTE,
+             attente=alertes_prix.ATTENTE_TEXTE, **extra),
+        headers=_SANS_CACHE)
+
+
+def _prix_saisi(texte: str) -> Decimal | None | bool:
+    """« 89,90 € » → Decimal('89.90'). Vide → None. Illisible ou hors bornes →
+    False : on le dit au visiteur plutôt que d'ignorer son seuil en silence."""
+    texte = texte.replace("€", "").replace(" ", "").replace(" ", "").replace(",", ".")
+    if not texte:
+        return None
+    try:
+        v = Decimal(texte).quantize(Decimal("0.01"))
+    except (InvalidOperation, ValueError):
+        return False
+    return v if Decimal("0") < v <= Decimal("100000") else False
+
+
+@app.post("/alertes")
+async def alerte_demande(request: Request):
+    """Le formulaire « Prévenez-moi si le prix baisse » de la fiche.
+
+    Mêmes protections que le contact : Origin, corps borné, champ piège
+    `site_web`, `parse_qs` (pas de python-multipart). La réponse est la MÊME
+    que l'adresse soit nouvelle, déjà inscrite ou au plafond — voir
+    `alertes_prix.enregistrer_demande`.
+
+    404 tant que l'envoi d'e-mails n'est pas configuré : le formulaire n'est
+    alors affiché nulle part, et un envoi fabriqué à la main n'enregistrerait
+    qu'une adresse à qui l'on ne pourrait jamais écrire.
+    """
+    if not courriel.configure():
+        raise StarletteHTTPException(status_code=404)
+    if _origine_refusee(request):
+        return PlainTextResponse("Origine refusée.", status_code=403)
+    brut = await request.body()
+    if len(brut) > 4_000:
+        return _page_alerte(request, "refus")
+    d = parse_qs(brut.decode("utf-8", "replace"))
+    prendre = lambda k: (d.get(k, [""])[0] or "").strip()  # noqa: E731
+    slug = prendre("produit")[:200]
+    if prendre("site_web"):
+        # Un robot : la réponse d'un humain, pour ne rien lui apprendre.
+        return RedirectResponse(f"/alertes/demande?p={quote_plus(slug)}", status_code=303)
+    email = prendre("email").lower()[:254]
+    if not _EMAIL_RE.fullmatch(email):
+        return _page_alerte(request, "adresse", slug=slug)
+    prix_cible = _prix_saisi(prendre("prix_cible"))
+    if prix_cible is False:
+        return _page_alerte(request, "prix", slug=slug)
+    taille = prendre("taille")[:60] or None
+
+    with pool.connection() as conn:  # type: ignore[union-attr]
+        p = queries.product(conn, slug)
+        if p is None:
+            raise HTTPException(404, "Produit inconnu")
+        # La taille doit être l'un des boutons de la fiche, calculés comme la
+        # fiche les calcule : un libellé inventé ne correspondrait jamais à
+        # rien et l'alerte resterait muette six mois.
+        if taille:
+            rows = queries.offers(conn, p["id"])
+            fusion = labels.equivalences_tailles(rows)
+            permises = {fusion.get(labels.size_display(o["size_code"]), "") for o in rows}
+            if taille not in permises - {""}:
+                return _page_alerte(request, "refus", slug=slug)
+        # Le prix de référence est relu ici, en base, jamais pris dans le
+        # formulaire : c'est lui qui décide de ce qu'est « une baisse ».
+        offres = alertes_prix.offres_achetables(conn, [slug])[slug]
+        o = alertes_prix.meilleure(offres, taille)
+        reference = o["price"] if o else None
+        # Un seuil déjà atteint aujourd'hui n'apprendrait rien demain : il
+        # devient « toute baisse sous le prix du jour ».
+        if prix_cible is not None and reference is not None and prix_cible >= reference:
+            prix_cible = None
+        # Les effacements promis, faits aussi ici : une table de quelques
+        # lignes, pas besoin d'attendre la nuit.
+        alertes_prix.purger(conn)
+        jeton = alertes_prix.enregistrer_demande(
+            conn, email=email, slug=slug, taille=taille,
+            prix_cible=prix_cible, prix_reference=reference)
+
+    if jeton:
+        sujet, corps = alertes_prix.courriel_confirmation(
+            titre=_nom(p), taille=taille, prix_cible=prix_cible,
+            prix_actuel=reference, jeton=jeton)
+        if not courriel.envoyer(email, sujet, corps):
+            # Rien n'est parti : on ne garde pas une adresse à laquelle on n'a
+            # pas pu écrire, et on le dit — sans rien révéler de l'adresse.
+            with pool.connection() as conn:  # type: ignore[union-attr]
+                conn.execute("DELETE FROM alerte_prix WHERE jeton = %s "
+                             "AND confirme_le IS NULL AND envois = 1", (jeton,))
+            return _page_alerte(request, "envoi", slug=slug)
+    return RedirectResponse(f"/alertes/demande?p={quote_plus(slug)}", status_code=303)
+
+
+@app.get("/alertes/demande", response_class=HTMLResponse)
+def alerte_demandee(request: Request, p: str = ""):
+    return _page_alerte(request, "demande", slug=p[:200])
+
+
+def _jeton(valeur: str) -> str:
+    # `token_urlsafe(32)` fait 43 caractères ; tout le reste est rejeté avant
+    # d'atteindre la base.
+    v = (valeur or "").strip()
+    return v if re.fullmatch(r"[A-Za-z0-9_-]{20,100}", v) else ""
+
+
+async def _jeton_poste(request: Request) -> str:
+    brut = await request.body()
+    if len(brut) > 1_000:
+        return ""
+    return _jeton(parse_qs(brut.decode("utf-8", "replace")).get("jeton", [""])[0])
+
+
+@app.get("/alertes/confirmer", response_class=HTMLResponse)
+def alerte_confirmer_page(request: Request, jeton: str = ""):
+    """Le lien de l'e-mail de confirmation mène à un BOUTON, pas à la
+    confirmation elle-même : les filtres anti-spam ouvrent les liens des
+    e-mails pour les inspecter, et confirmeraient l'alerte à la place de la
+    personne — le double opt-in ne prouverait plus rien."""
+    jeton = _jeton(jeton)
+    a = None
+    if jeton:
+        with pool.connection() as conn:  # type: ignore[union-attr]
+            a = conn.execute(
+                "SELECT produit_slug, confirme_le IS NOT NULL AS active FROM alerte_prix "
+                "WHERE jeton = %s AND (confirme_le IS NOT NULL OR cree_le > now() - "
+                f"interval '{alertes_prix.ATTENTE_CONFIRMATION}')", (jeton,)).fetchone()
+    if a is None:
+        return _page_alerte(request, "inconnu")
+    if a[1]:
+        return _page_alerte(request, "active", slug=a[0], jeton=jeton)
+    return _page_alerte(request, "a-confirmer", slug=a[0], jeton=jeton)
+
+
+@app.post("/alertes/confirmer", response_class=HTMLResponse)
+async def alerte_confirmer(request: Request):
+    if _origine_refusee(request):
+        return PlainTextResponse("Origine refusée.", status_code=403)
+    jeton = await _jeton_poste(request)
+    a = None
+    if jeton:
+        with pool.connection() as conn:  # type: ignore[union-attr]
+            a = conn.execute(
+                "UPDATE alerte_prix SET confirme_le = coalesce(confirme_le, now()) "
+                "WHERE jeton = %s AND (confirme_le IS NOT NULL OR cree_le > now() - "
+                f"interval '{alertes_prix.ATTENTE_CONFIRMATION}') "
+                "RETURNING produit_slug", (jeton,)).fetchone()
+    if a is None:
+        return _page_alerte(request, "inconnu")
+    return _page_alerte(request, "active", slug=a[0], jeton=jeton)
+
+
+def _arreter(jeton: str) -> str | None:
+    if not jeton:
+        return None
+    with pool.connection() as conn:  # type: ignore[union-attr]
+        a = conn.execute("DELETE FROM alerte_prix WHERE jeton = %s RETURNING produit_slug",
+                         (jeton,)).fetchone()
+    return a[0] if a else None
+
+
+@app.get("/alertes/arreter", response_class=HTMLResponse)
+def alerte_arreter_lien(request: Request, jeton: str = ""):
+    """Désinscription en UN clic, comme promis dans chaque e-mail : le lien
+    suffit, sans bouton à confirmer. L'alerte est EFFACÉE, pas désactivée."""
+    slug = _arreter(_jeton(jeton))
+    return _page_alerte(request, "arretee" if slug else "inconnu", slug=slug or "")
+
+
+@app.post("/alertes/arreter")
+async def alerte_arreter(request: Request):
+    """Le « se désabonner » des logiciels de messagerie (RFC 8058) : un POST
+    envoyé par le serveur de Gmail ou d'Outlook, sans Origin, avec le jeton
+    dans l'adresse. Accepté aussi depuis la page, jeton dans le corps."""
+    if _origine_refusee(request):
+        return PlainTextResponse("Origine refusée.", status_code=403)
+    jeton = _jeton(request.query_params.get("jeton", "")) or await _jeton_poste(request)
+    slug = _arreter(jeton)
+    return _page_alerte(request, "arretee" if slug else "inconnu", slug=slug or "")
+
+
+@app.get("/alertes/tout-supprimer", response_class=HTMLResponse)
+def alerte_tout_supprimer_page(request: Request, jeton: str = ""):
+    """Effacer TOUTES les alertes d'une adresse passe par un bouton : un
+    filtre anti-spam qui ouvre le lien ne doit pas tout effacer à la place
+    de la personne."""
+    jeton = _jeton(jeton)
+    n = 0
+    if jeton:
+        with pool.connection() as conn:  # type: ignore[union-attr]
+            n = conn.execute(
+                "SELECT count(*) FROM alerte_prix WHERE email = "
+                "(SELECT email FROM alerte_prix WHERE jeton = %s)", (jeton,)).fetchone()[0]
+    if not n:
+        return _page_alerte(request, "inconnu")
+    return _page_alerte(request, "tout-confirmer", jeton=jeton, nombre=n)
+
+
+@app.post("/alertes/tout-supprimer", response_class=HTMLResponse)
+async def alerte_tout_supprimer(request: Request):
+    if _origine_refusee(request):
+        return PlainTextResponse("Origine refusée.", status_code=403)
+    jeton = await _jeton_poste(request)
+    n = 0
+    if jeton:
+        with pool.connection() as conn:  # type: ignore[union-attr]
+            n = conn.execute(
+                "DELETE FROM alerte_prix WHERE email = "
+                "(SELECT email FROM alerte_prix WHERE jeton = %s)", (jeton,)).rowcount
+    return _page_alerte(request, "tout-efface" if n else "inconnu", nombre=n)
 
 
 # --- ce qui rend le site trouvable ------------------------------------------
