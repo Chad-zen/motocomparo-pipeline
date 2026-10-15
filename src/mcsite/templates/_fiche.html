@@ -165,7 +165,7 @@
        un simple <details>, refermé par défaut, sous le bloc prix. #}
     {% if p.cheapest and alertes_ouvertes %}
     <details class="alerte-prix">
-      <summary class="alerte-prix__resume">Prévenez-moi si le prix baisse</summary>
+      <summary class="alerte-prix__resume">Être prévenu si ça baisse</summary>
       <form method="post" action="/alertes" class="alerte-prix__form">
         <input type="hidden" name="produit" value="{{ p.slug }}">
         <label class="alerte-prix__piege" aria-hidden="true">Site web
@@ -175,19 +175,20 @@
           <input name="email" type="email" required autocomplete="email" placeholder="vous@exemple.fr">
         </label>
         {% if tailles %}
-        <label>Taille <span class="doux">(facultatif)</span>
+        <label>Taille
           <select name="taille">
-            <option value="">Toutes</option>
+            <option value="">Toutes les tailles</option>
             {% for t in tailles %}<option value="{{ t }}">{{ t }}</option>{% endfor %}
           </select>
         </label>
         {% endif %}
-        <label>Me prévenir sous <span class="doux">(facultatif, sinon : toute baisse)</span>
+        <label>Me prévenir à partir de <span class="doux">(laissez vide pour être prévenu de toute baisse)</span>
           <input name="prix_cible" type="text" inputmode="decimal" placeholder="{{ p.cheapest | prix }}">
         </label>
         <button type="submit" class="bouton bouton--contour">M'alerter</button>
-        <p class="alerte-prix__rgpd doux">Un e-mail de confirmation est envoyé avant
-          toute alerte ; désinscription en un clic à tout moment.
+        <p class="alerte-prix__rgpd doux">On vous envoie d'abord un e-mail de
+          confirmation, pour être sûrs que c'est bien vous. Vous pourrez vous
+          désinscrire en un clic, à tout moment.
           <a href="/infos#donnees">En savoir plus sur vos données</a></p>
       </form>
     </details>

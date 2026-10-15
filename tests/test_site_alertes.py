@@ -176,14 +176,14 @@ def _avec_smtp(monkeypatch):
 def test_formulaire_absent_sans_smtp(client, une_fiche_avec_prix, monkeypatch):
     _sans_smtp(monkeypatch)
     page = client.get(f"/p/{une_fiche_avec_prix}").text
-    assert "Prévenez-moi si le prix baisse" not in page
+    assert "Être prévenu si ça baisse" not in page
     assert 'action="/alertes"' not in page
 
 
 def test_formulaire_present_avec_smtp(client, une_fiche_avec_prix, monkeypatch):
     _avec_smtp(monkeypatch)
     page = client.get(f"/p/{une_fiche_avec_prix}").text
-    assert "Prévenez-moi si le prix baisse" in page
+    assert "Être prévenu si ça baisse" in page
     assert 'action="/alertes"' in page
 
 

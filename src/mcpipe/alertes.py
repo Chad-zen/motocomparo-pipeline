@@ -259,18 +259,18 @@ def courriel_confirmation(*, titre: str, taille: str | None, prix_cible: Any,
              "dès qu'une offre est disponible")
     corps = (
         "Bonjour,\n\n"
-        "Quelqu'un — vous, sans doute — a demandé sur MotoComparo à être prévenu "
-        "à cette adresse quand le prix de cet article baisse :\n\n"
+        "Quelqu'un — vous, sans doute — a demandé à être prévenu sur MotoComparo "
+        "quand le prix de cet article baisse :\n\n"
         f"  {titre}{' — taille ' + taille if taille else ''}\n"
-        f"  Prévenu {seuil}.\n\n"
-        f"Pour activer l'alerte, ouvrez ce lien dans les {ATTENTE_TEXTE} :\n"
+        f"  Seuil : {seuil}.\n\n"
+        f"Un clic suffit pour l'activer, dans les {ATTENTE_TEXTE} :\n"
         f"{site}/alertes/confirmer?jeton={jeton}\n\n"
-        "Sans confirmation, nous ne vous écrirons plus et cette demande sera "
-        f"effacée sous {ATTENTE_TEXTE}. Une fois confirmée, l'alerte dure "
-        f"{DUREE_VIE_TEXTE}, puis s'efface d'elle-même ; chaque e-mail contient "
-        "un lien pour l'arrêter.\n\n"
-        "Si vous n'êtes pas à l'origine de cette demande, ignorez simplement ce "
-        "message.\n\n" + _SIGNATURE.format(site=site))
+        "Si vous ne confirmez pas, nous ne vous écrirons plus et la demande "
+        f"s'effacera d'elle-même. Une fois activée, l'alerte dure "
+        f"{DUREE_VIE_TEXTE}, puis s'arrête toute seule ; chaque e-mail "
+        "contiendra un lien pour l'arrêter avant.\n\n"
+        "Ce n'est pas vous qui avez fait cette demande ? Ignorez simplement ce "
+        "message, il n'y aura pas de suite.\n\n" + _SIGNATURE.format(site=site))
     return f"Confirmez votre alerte de prix : {titre}", corps
 
 
@@ -290,21 +290,21 @@ def courriel_baisse(*, titre: str, slug: str, taille: str | None, prix: Any,
         f"Le prix que vous attendiez est là :\n\n"
         f"  {titre}{' — taille ' + taille if taille else ''}\n"
         f"  {labels.price(prix)} chez {labels.merchant(marchand)}\n\n"
-        f"Comparer les offres : {site}/p/{slug}\n\n"
-        "Prix relevé cette nuit chez le marchand ; celui qui fait foi est celui "
-        "affiché sur son site au moment de la commande.\n\n"
-        "Nous vous écrirons de nouveau seulement si le prix baisse encore"
-        + (f", et au plus tard jusqu'au {expire}, date où l'alerte s'efface."
+        f"Voir l'offre et comparer : {site}/p/{slug}\n\n"
+        "Ce prix a été relevé cette nuit chez le marchand ; c'est celui affiché "
+        "sur son site, au moment de la commande, qui compte vraiment.\n\n"
+        "On ne vous réécrira que si le prix baisse encore"
+        + (f", et au plus tard jusqu'au {expire} si on connaît la date de fin."
            if expire else ".") + "\n\n"
         f"Arrêter cette alerte : {liens['arreter']}\n"
-        f"Effacer toutes vos alertes et votre adresse : {liens['tout']}\n\n"
+        f"Supprimer toutes vos alertes et votre adresse : {liens['tout']}\n\n"
         + _SIGNATURE.format(site=site))
     # Désinscription en un clic depuis le logiciel de messagerie (RFC 8058) :
     # Gmail et les autres l'affichent à côté de l'expéditeur.
     entetes = {"List-Unsubscribe": f"<{liens['arreter']}>",
                "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
                "Auto-Submitted": "auto-generated"}
-    return f"Baisse de prix : {titre} à {labels.price(prix)}", corps, entetes
+    return f"Ça y est, le prix a baissé : {titre} à {labels.price(prix)}", corps, entetes
 
 
 def titre_fiche(best_title: str | None, model_display: str, brand_code: str) -> str:

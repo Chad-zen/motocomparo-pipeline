@@ -22,38 +22,38 @@
 {% block contenu %}
 <section class="erreur alerte-page">
   {% if etat == 'demande' %}
-    <h1 class="titre-page">Vérifiez votre boîte mail</h1>
-    <p class="sous-titre">Si l'adresse indiquée est valide, un e-mail de
-      confirmation vient de partir. Ouvrez-le et cliquez sur le lien dans les
-      {{ attente }} : sans cela, rien n'est activé et la demande s'efface
-      d'elle-même.</p>
+    <h1 class="titre-page">Un e-mail vient de partir</h1>
+    <p class="sous-titre">Si l'adresse indiquée est la bonne, vous allez
+      recevoir un e-mail de confirmation. Ouvrez-le et cliquez sur le lien
+      dans les {{ attente }} : sans ça, l'alerte ne s'active pas et la
+      demande s'efface toute seule.</p>
 
   {% elif etat == 'adresse' %}
     <h1 class="titre-page">Adresse illisible</h1>
-    <p class="sous-titre">L'adresse e-mail saisie n'a pas une forme valide.
-      Réessayez depuis la fiche produit.</p>
+    <p class="sous-titre">L'adresse e-mail saisie n'a pas l'air valide.
+      Retournez sur la fiche produit pour réessayer.</p>
 
   {% elif etat == 'prix' %}
     <h1 class="titre-page">Prix illisible</h1>
-    <p class="sous-titre">Le prix saisi n'est pas un nombre valide. Réessayez
-      depuis la fiche produit, ou laissez le champ vide pour être prévenu de
-      toute baisse.</p>
+    <p class="sous-titre">Le prix saisi n'est pas un nombre valide. Retournez
+      sur la fiche produit pour réessayer, ou laissez le champ vide pour être
+      prévenu de toute baisse.</p>
 
   {% elif etat == 'refus' %}
     <h1 class="titre-page">Demande non enregistrée</h1>
     <p class="sous-titre">Cette demande n'a pas pu être enregistrée.
-      Réessayez depuis la fiche produit.</p>
+      Retournez sur la fiche produit pour réessayer.</p>
 
   {% elif etat == 'envoi' %}
-    <h1 class="titre-page">L'e-mail n'est pas parti</h1>
-    <p class="sous-titre">Rien n'a été enregistré : nous n'avons pas pu vous
-      écrire à cette adresse à l'instant. Réessayez un peu plus tard.</p>
+    <h1 class="titre-page">Notre e-mail n'est pas parti</h1>
+    <p class="sous-titre">Rien n'a été enregistré : nous n'avons pas réussi à
+      vous écrire à l'instant. Réessayez un peu plus tard.</p>
 
   {% elif etat == 'inconnu' %}
     <h1 class="titre-page">Lien expiré ou déjà utilisé</h1>
-    <p class="sous-titre">Ce lien ne correspond à aucune alerte active — il a
+    <p class="sous-titre">Ce lien ne correspond à aucune alerte active : il a
       peut-être déjà servi, ou la demande n'a jamais été confirmée dans les
-      {{ attente }}. Pour recommencer, retournez sur la fiche produit.</p>
+      {{ attente }}. Retournez sur la fiche produit pour recommencer.</p>
 
   {% elif etat == 'a-confirmer' %}
     <h1 class="titre-page">Confirmer l'alerte de prix</h1>
@@ -66,19 +66,20 @@
 
   {% elif etat == 'active' %}
     <h1 class="titre-page">Alerte activée</h1>
-    <p class="sous-titre">Vous serez prévenu par e-mail à la prochaine baisse,
-      pendant {{ duree_vie }}. Chaque e-mail contient un lien pour l'arrêter.</p>
+    <p class="sous-titre">C'est noté : on vous écrit dès que le prix baisse,
+      pendant {{ duree_vie }}. Chaque e-mail contient un lien pour tout
+      arrêter.</p>
 
   {% elif etat == 'arretee' %}
     <h1 class="titre-page">Alerte arrêtée</h1>
-    <p class="sous-titre">Cette alerte est effacée ; vous ne recevrez plus
-      rien à son sujet.</p>
+    <p class="sous-titre">C'est fait, cette alerte est effacée. Vous ne
+      recevrez plus rien à son sujet.</p>
 
   {% elif etat == 'tout-confirmer' %}
     <h1 class="titre-page">Supprimer toutes vos alertes</h1>
     <p class="sous-titre">{{ nombre }} alerte{{ 's' if nombre > 1 }}
-      enregistrée{{ 's' if nombre > 1 }} sous cette adresse. Confirmer les
-      efface toutes, ainsi que l'adresse elle-même.</p>
+      enregistrée{{ 's' if nombre > 1 }} sous cette adresse. En confirmant,
+      elles sont toutes effacées — ainsi que l'adresse elle-même.</p>
     <form method="post" action="/alertes/tout-supprimer" class="alerte-page__form">
       <input type="hidden" name="jeton" value="{{ jeton }}">
       <button type="submit" class="bouton bouton--or">Tout supprimer</button>
@@ -87,7 +88,7 @@
   {% elif etat == 'tout-efface' %}
     <h1 class="titre-page">Vos alertes sont effacées</h1>
     <p class="sous-titre">{{ nombre }} alerte{{ 's' if nombre > 1 }} et votre
-      adresse ont été supprimées.</p>
+      adresse viennent d'être supprimées.</p>
   {% endif %}
 
   <div class="erreur__actions">
