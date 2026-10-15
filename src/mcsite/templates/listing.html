@@ -160,8 +160,18 @@
       {# La liste vient de la FACETTE, pas de l'arbre global : elle ne montre
          que les rayons où la sélection courante a quelque chose, avec le
          nombre qu'elle y a. #}
-      {% for c in facettes.categories[:16] %}
+      {# Une catégorie choisie : seule sa branche reste (elle et ses
+         sous-catégories), plus un retour. Laisser les onze autres sous la
+         catégorie active se lisait comme si le choix n'avait rien fait —
+         « c'est débile », la propriétaire, 15/10/2026. #}
+      {% if code %}
+        <a class="facette__ligne facette__retour"
+           href="{{ '/recherche?q=' ~ (f.texte | urlencode) if f and f.texte else '/produits' }}">
+          <span>← Toutes les catégories</span></a>
+      {% endif %}
+      {% for c in (facettes.categories if code else facettes.categories[:16]) %}
         {% set ouvert = c.code == code or c.enfants | selectattr('code', 'equalto', code) | list %}
+        {% if not code or ouvert %}
         <a class="facette__ligne {{ 'est-actif' if c.code == code }}" {% if c.code == code %}aria-current="true"{% endif %} href="{{ lien_rayon(c.code) }}">
           <span>{{ c.label_fr }}</span><span class="facette__n">{{ c.n }}</span>
         </a>
@@ -172,6 +182,7 @@
               <span>{{ e.label_fr }}</span><span class="facette__n">{{ e.n }}</span>
             </a>
           {% endfor %}
+        {% endif %}
         {% endif %}
       {% endfor %}
     </section>

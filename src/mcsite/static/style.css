@@ -705,6 +705,8 @@ h1, h2 { line-height: 1.2; }
 }
 .facette__ligne.est-actif .facette__n { color: var(--or); }
 .facette__n { color: var(--muted); font-size: 11.5px; font-variant-numeric: tabular-nums; }
+.facette__retour { color: var(--doux); margin-bottom: 4px; }
+.facette__retour:hover { color: var(--ink); }
 
 /* ------------------------------------------------------------ tête et tris */
 
