@@ -45,34 +45,38 @@
 
   {% if etat == 'demande' %}
     <h1 class="titre-page">Un e-mail vient de partir</h1>
-    <p class="sous-titre">E-mail de confirmation envoyé si l'adresse est
-      valide. Lien à ouvrir dans les {{ attente }} : sans clic, demande
-      effacée automatiquement.</p>
+    <p class="sous-titre">Si l'adresse indiquée est valide, un e-mail de
+      confirmation vient de partir. Cliquez sur son lien dans les
+      {{ attente }} : sans cela, la demande sera effacée
+      automatiquement.</p>
 
   {% elif etat == 'adresse' %}
     <h1 class="titre-page">Adresse illisible</h1>
-    <p class="sous-titre">Adresse e-mail invalide. Réessai depuis la fiche
-      produit.</p>
+    <p class="sous-titre">L'adresse e-mail saisie n'est pas valide.
+      Réessayez depuis la fiche produit.</p>
 
   {% elif etat == 'prix' %}
     <h1 class="titre-page">Prix illisible</h1>
-    <p class="sous-titre">Prix saisi invalide. Réessai depuis la fiche
-      produit, ou champ vide pour suivre toute baisse.</p>
+    <p class="sous-titre">Le prix saisi n'est pas valide. Réessayez depuis
+      la fiche produit, ou laissez le champ vide pour être prévenu de
+      toute baisse.</p>
 
   {% elif etat == 'refus' %}
     <h1 class="titre-page">Demande non enregistrée</h1>
-    <p class="sous-titre">Demande non enregistrée. Réessai depuis la fiche
-      produit.</p>
+    <p class="sous-titre">Cette demande n'a pas pu être enregistrée.
+      Réessayez depuis la fiche produit.</p>
 
   {% elif etat == 'envoi' %}
     <h1 class="titre-page">E-mail non envoyé</h1>
-    <p class="sous-titre">Rien n'a été enregistré. Réessai plus tard.</p>
+    <p class="sous-titre">Rien n'a été enregistré : l'e-mail n'a pas pu
+      être envoyé. Réessayez un peu plus tard.</p>
 
   {% elif etat == 'inconnu' %}
     <h1 class="titre-page">Lien expiré ou déjà utilisé</h1>
-    <p class="sous-titre">Lien invalide : déjà utilisé, ou demande non
-      confirmée dans les {{ attente }}. Nouvelle demande depuis la fiche
-      produit.</p>
+    <p class="sous-titre">Ce lien ne correspond à aucune alerte active : il
+      a peut-être déjà servi, ou la demande n'a jamais été confirmée dans
+      les {{ attente }}. Repartez de la fiche produit pour
+      recommencer.</p>
 
   {% elif etat == 'a-confirmer' %}
     <h1 class="titre-page">Confirmer l'alerte de prix</h1>
@@ -84,19 +88,21 @@
 
   {% elif etat == 'active' %}
     <h1 class="titre-page">Alerte activée</h1>
-    <p class="sous-titre">Alerte active {{ duree_vie }}. E-mail à la prochaine
-      baisse, lien de désinscription inclus.</p>
+    <p class="sous-titre">L'alerte est active pour {{ duree_vie }}. Vous
+      recevrez un e-mail à la prochaine baisse, avec un lien pour vous
+      désinscrire.</p>
 
   {% elif etat == 'arretee' %}
     <h1 class="titre-page">Alerte arrêtée</h1>
-    <p class="sous-titre">Alerte effacée. Aucun e-mail à venir à son
-      sujet.</p>
+    <p class="sous-titre">Cette alerte est effacée. Vous ne recevrez plus
+      rien à son sujet.</p>
 
   {% elif etat == 'tout-confirmer' %}
     <h1 class="titre-page">Supprimer toutes vos alertes</h1>
     <p class="sous-titre">{{ nombre }} alerte{{ 's' if nombre > 1 }}
-      enregistrée{{ 's' if nombre > 1 }} sous cette adresse. Confirmation =
-      suppression totale, adresse comprise.</p>
+      enregistrée{{ 's' if nombre > 1 }} sous cette adresse. En confirmant,
+      {{ 'elles seront toutes supprimées' if nombre > 1 else 'elle sera
+      supprimée' }}, ainsi que l'adresse elle-même.</p>
     <form method="post" action="/alertes/tout-supprimer" class="alerte-page__form">
       <input type="hidden" name="jeton" value="{{ jeton }}">
       <button type="submit" class="bouton bouton--or">Tout supprimer</button>
@@ -105,7 +111,7 @@
   {% elif etat == 'tout-efface' %}
     <h1 class="titre-page">Vos alertes sont effacées</h1>
     <p class="sous-titre">{{ nombre }} alerte{{ 's' if nombre > 1 }} et
-      l'adresse supprimées.</p>
+      l'adresse ont été supprimées.</p>
   {% endif %}
 
   <div class="erreur__actions">
