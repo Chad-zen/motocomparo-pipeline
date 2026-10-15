@@ -1,0 +1,66 @@
+{#---
+titre: Gants été ou hiver : comment choisir
+description: La norme EN 13594 expliquée, et ce que les fiches des marchands déclarent vraiment sur la saison, l'imperméabilité et le niveau de protection des gants moto.
+date: 2026-10-15
+statut: brouillon
+rayon: gloves
+produits:
+marques:
+---#}
+
+<p>
+  Un gant moto n'est pas qu'une question de saison. Il doit d'abord répondre à
+  une norme, et c'est elle qui garantit un niveau de protection minimal —
+  la saison ne fait que choisir la doublure et l'imperméabilité qui vont
+  autour.
+</p>
+
+<h2>La norme EN 13594, en clair</h2>
+<p>
+  Les gants de moto homologués portent la norme <b>EN 13594</b>. Elle fixe
+  deux niveaux&nbsp;: le <b>niveau 1</b>, pour un usage urbain à vitesse
+  modérée, et le <b>niveau 2</b>, plus protecteur, pensé pour la route et la
+  vitesse. La mention <b>KP</b> (Knuckle Protection) signale que la
+  protection des articulations a été testée séparément&nbsp;; son absence ne
+  veut pas dire qu'il n'y a pas de coque, seulement qu'elle n'a pas été
+  testée selon ce protocole précis.
+</p>
+
+<h2>Ce que les fiches de notre catalogue déclarent</h2>
+<p>
+  Répartition des gants comparables (deux marchands au moins, prix connu) de
+  notre catalogue selon ce qu'indique leur fiche&nbsp;:
+</p>
+
+{% set rep = donnees.repartition('gloves', 'saison') %}
+{% include "_article_repartition.html" %}
+
+<h3>Niveau de protection (EN 13594)</h3>
+{% set rep = donnees.repartition('gloves', 'niveau') %}
+{% include "_article_repartition.html" %}
+
+<p class="sous-titre">
+  Les fiches où aucune de ces deux informations n'apparaît ne sont pas
+  comptées ici&nbsp;: le marchand ne les a pas renseignées, ce qui ne veut
+  pas dire que le gant n'est pas homologué — vérifiez l'étiquette cousue.
+</p>
+
+<h2>Été, hiver, mi-saison : ce qui change</h2>
+<ul class="liste-puces">
+  <li><b>Été.</b> Matière perforée ou ajourée, souvent sans doublure
+      thermique ni membrane imperméable&nbsp;: la priorité va à la
+      ventilation, pas à la protection contre la pluie.</li>
+  <li><b>Hiver.</b> Doublure thermique et membrane imperméable (Gore-Tex ou
+      équivalent), manchette plus longue pour couvrir le poignet du blouson.
+      Certains modèles ajoutent un système chauffant&nbsp;: la fiche le
+      déclare explicitement quand c'est le cas.</li>
+  <li><b>Mi-saison.</b> Un compromis&nbsp;: souvent imperméable sans être
+      aussi isolant qu'un gant d'hiver.</li>
+</ul>
+
+{{ a_completer("retour d'usage réel : tenue de la membrane imperméable après plusieurs lavages, sensation de froid aux doigts en dessous de quelle température - aucun test mené ici") }}
+
+<p class="mentions">
+  Rien ci-dessus ne remplace l'étiquette cousue du gant ni la notice du
+  fabricant, seules sources qui font foi en cas de doute sur l'homologation.
+</p>

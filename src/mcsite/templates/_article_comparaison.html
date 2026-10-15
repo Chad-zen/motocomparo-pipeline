@@ -1,0 +1,73 @@
+{# Le bloc de données d'un article : deux à quatre fiches, prix du jour et
+   caractéristiques, sans la note MotoComparo ni le dépliant de sections —
+   ceux-là vivent dans le vrai comparateur (`_tableau_comparaison.html`), vers
+   lequel ce bloc renvoie.
+
+   Attend `c` (le résultat de `donnees.comparaison(...)` posé par l'article :
+   fiches, lignes, jours, manquants). `fiches`, pas `items` : Jinja lit un
+   dict par attribut, et `c.items` aurait trouvé la méthode `dict.items`
+   avant la clé. #}
+
+{% if c.fiches %}
+<div class="article-comparaison">
+  <table class="offres article-comparaison__tableau">
+    <caption class="visuellement-cache">Comparaison de prix et caractéristiques</caption>
+    <thead>
+      <tr>
+        <th scope="col"></th>
+        {% for it in c.fiches %}
+        <th scope="col">
+          <a href="/p/{{ it.slug }}">{{ nom(it) }}</a>
+        </th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">Prix du jour</th>
+        {% for it in c.fiches %}
+        <td><b>{% if it.cheapest %}dès {{ it.cheapest | prix }}{% else %}—{% endif %}</b></td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <th scope="row">Marchands qui le vendent</th>
+        {% for it in c.fiches %}
+        <td>{{ it.merchant_count }}</td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <th scope="row">Plus bas prix relevé ({{ c.jours }} jours)</th>
+        {% for it in c.fiches %}
+        <td>
+          {% if it.plus_bas %}
+            {{ it.plus_bas.price | prix }}
+            <span class="sous-titre">le {{ it.plus_bas.observed_on.strftime('%d/%m') }}
+              {% if it.plus_bas.merchant %}chez {{ it.plus_bas.merchant | marchand }}{% endif %}</span>
+          {% else %}—{% endif %}
+        </td>
+        {% endfor %}
+      </tr>
+      {% for l in c.lignes %}
+      <tr>
+        <th scope="row">{{ l.libelle }}</th>
+        {% for it in c.fiches %}
+        {% set v = l.valeurs.get(it.slug) %}
+        <td>{{ v.valeur | caracteristique if v else '—' }}</td>
+        {% endfor %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% if c.fiches | length >= 2 %}
+  <p class="sous-titre">
+    <a href="/comparatif/{{ c.fiches | map(attribute='slug') | join(',') }}">Voir le comparateur complet, avec la note MotoComparo →</a>
+  </p>
+  {% endif %}
+  {% if c.manquants %}
+  {# Une fiche citée dans l'article a disparu ou changé de statut depuis
+     l'écriture : on le dit plutôt que de faire silencieusement un tableau à
+     trois colonnes sans expliquer pourquoi il en manque une. #}
+  <p class="sous-titre">({{ c.manquants | length }} référence(s) citée(s) non trouvée(s) dans le catalogue actuel.)</p>
+  {% endif %}
+</div>
+{% endif %}

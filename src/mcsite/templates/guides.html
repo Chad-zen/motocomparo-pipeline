@@ -14,6 +14,25 @@
    Un comparateur qui donne des conseils de vendeur perd ce qui fait sa valeur,
    c'est-à-dire de ne rien avoir à vendre. #}
 
+{% if articles %}
+{# La liste des ARTICLES, au-dessus des quatre repères d'origine : ce sont
+   eux qui répondent à une recherche précise (« gants été ou hiver »), les
+   repères ci-dessous servent de référence une fois sur la fiche. Rien
+   n'apparaît ici tant qu'aucun article n'est publié (`articles.publies()`,
+   app.py) — ni ici ni dans le menu : une rubrique vide n'a rien à annoncer. #}
+<section class="guide guide--articles">
+  <h2 class="titre-section">Les derniers articles</h2>
+  <ul class="articles-liste">
+    {% for a in articles %}
+    <li class="articles-liste__item">
+      <a href="/guides/{{ a.slug }}"><b>{{ a.titre }}</b></a>
+      <p class="sous-titre">{{ a.description }}</p>
+    </li>
+    {% endfor %}
+  </ul>
+</section>
+{% endif %}
+
 <section class="guide">
   <h2 class="titre-section">Trouver sa taille de casque</h2>
   <p>Mesurez le tour de tête avec un mètre de couturière, à environ un
@@ -37,7 +56,7 @@
      serrer fermement les joues sans créer de point dur sur le front.</p>
 </section>
 
-<section class="guide">
+<section class="guide" id="guide-ece2206">
   <h2 class="titre-section">La norme ECE 22.06, en clair</h2>
   <p>Depuis le <b>1<sup>er</sup> janvier 2024</b>, les casques neufs vendus dans
      l'Union européenne doivent être homologués <b>ECE 22.06</b>. Elle a

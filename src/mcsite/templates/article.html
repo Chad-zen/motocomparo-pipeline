@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}{{ article.titre }} — MotoComparo{% endblock %}
+{% block description %}{{ article.description }}{% endblock %}
+{% block robots %}{% if not article.publie %}<meta name="robots" content="noindex, follow">{% endif %}{% endblock %}
+{% block donnees_structurees %}
+<script type="application/ld+json">{{ donnees_structurees | tojson }}</script>
+{% endblock %}
+
+{% block contenu %}
+<nav class="fil" aria-label="Fil d'Ariane">
+  <a href="/">Accueil</a> › <a href="/guides">Guides &amp; conseils</a> › <span>{{ article.titre }}</span>
+</nav>
+
+{% if not article.publie %}
+<p class="alerte alerte--attention">
+  BROUILLON — non publié, non indexé, visible seulement en aperçu local
+  ({{ article.trous }} passage(s) à compléter par la propriétaire).
+</p>
+{% endif %}
+
+<article class="article">
+  <h1 class="titre-page">{{ article.titre }}</h1>
+  <p class="sous-titre">
+    Publié le {{ article.date.strftime('%d/%m/%Y') }}
+    {%- if article.maj and article.maj != article.date %} · mis à jour le {{ article.maj.strftime('%d/%m/%Y') }}{% endif %}
+  </p>
+
+  <div class="article__corps">
+    {% include article.gabarit %}
+  </div>
+</article>
+
+<p class="mentions">
+  Les prix et caractéristiques cités ici sont ceux relevés par MotoComparo au
+  moment de la lecture&nbsp;; ils changent avec le marché. Aucune impression
+  d'essai n'est rapportée ici&nbsp;: le site n'a pas de banc d'essai et
+  personne ici n'a porté ces équipements.
+</p>
+{% endblock %}

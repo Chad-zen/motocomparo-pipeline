@@ -1,0 +1,33 @@
+{# Combien de fiches comparables déclarent chaque valeur d'une
+   caractéristique, et à quel prix médian — voir `articles.Donnees.repartition`.
+   Attend `rep` : rayon, nom, libelle, lignes (valeur, n, mediane, mini), total,
+   renseignees. #}
+
+{% if rep.lignes %}
+<div class="tableau-enveloppe">
+  <table class="offres">
+    <thead>
+      <tr><th>{{ rep.libelle }}</th><th>Fiches</th><th>Prix médian</th><th>Prix le plus bas</th></tr>
+    </thead>
+    <tbody>
+      {% for l in rep.lignes %}
+      <tr>
+        <td>{{ l.valeur | caracteristique }}</td>
+        <td>{{ l.n }}</td>
+        <td>{{ l.mediane | prix if l.mediane else '—' }}</td>
+        <td>{{ l.mini | prix if l.mini else '—' }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+<p class="sous-titre">
+  Sur {{ rep.total }} fiches comparables du rayon, {{ rep.renseignees }}
+  déclarent cette caractéristique sur leur fiche marchand
+  ({{ ((rep.renseignees / rep.total) * 100) | round | int if rep.total else 0 }}&nbsp;%).
+  Les autres ne la mentionnent simplement pas — ce n'est pas une absence
+  constatée.
+</p>
+{% else %}
+<p class="sous-titre">Aucune fiche comparable ne déclare cette caractéristique pour le moment.</p>
+{% endif %}
