@@ -314,37 +314,35 @@ def courriel_confirmation(*, titre: str, taille: str | None, prix_cible: Any,
     lien = f"{site}/alertes/confirmer?jeton={jeton}"
     corps = (
         "Bonjour,\n\n"
-        "Quelqu'un — vous, sans doute — a demandé à être prévenu sur MotoComparo "
-        "quand le prix de cet article baisse :\n\n"
+        "Demande de suivi de prix sur MotoComparo :\n\n"
         f"  {titre}{' — taille ' + taille if taille else ''}\n"
         f"  Seuil : {seuil}.\n\n"
-        f"Un clic suffit pour l'activer, dans les {ATTENTE_TEXTE} :\n"
+        f"Confirmation en un clic, dans les {ATTENTE_TEXTE} :\n"
         f"{lien}\n\n"
-        "Si vous ne confirmez pas, nous ne vous écrirons plus et la demande "
-        f"s'effacera d'elle-même. Une fois activée, l'alerte dure "
-        f"{DUREE_VIE_TEXTE}, puis s'arrête toute seule ; chaque e-mail "
-        "contiendra un lien pour l'arrêter avant.\n\n"
-        "Ce n'est pas vous qui avez fait cette demande ? Ignorez simplement ce "
-        "message, il n'y aura pas de suite.\n\n" + _SIGNATURE.format(site=site))
+        "Sans confirmation : demande effacée automatiquement, aucune alerte "
+        f"envoyée. Une fois confirmée : alerte active {DUREE_VIE_TEXTE}, puis "
+        "suppression automatique ; chaque e-mail inclut un lien pour "
+        "l'arrêter avant.\n\n"
+        "Demande non reconnue ? Message à ignorer, sans suite.\n\n"
+        + _SIGNATURE.format(site=site))
     html = _email_html(
-        titre="Un dernier clic pour activer l'alerte",
+        titre="Confirmation requise",
         lignes_html=(
-            f"<p style=\"margin:0 0 10px;\">Quelqu'un — vous, sans doute — a "
-            "demandé à être prévenu quand le prix de cet article baisse :</p>"
+            "<p style=\"margin:0 0 10px;\">Demande de suivi de prix sur "
+            "MotoComparo :</p>"
             f"<p style=\"margin:0 0 10px; padding:12px 14px; background:#f7f8fb; "
             f"border-radius:8px;\"><b>{escape(titre)}</b>"
             + (f"<br>Taille {escape(taille)}" if taille else "")
             + f"<br>Seuil : {escape(seuil)}</p>"
-            f"<p style=\"margin:0;\">Un clic suffit, dans les {ATTENTE_TEXTE}. "
-            "Sans confirmation, la demande s'efface d'elle-même et nous ne "
-            "vous écrirons plus.</p>"),
+            f"<p style=\"margin:0;\">Confirmation en un clic, dans les "
+            f"{ATTENTE_TEXTE}. Sans confirmation : demande effacée "
+            "automatiquement, aucune alerte envoyée.</p>"),
         bouton_texte="Confirmer l'alerte", bouton_lien=lien,
-        pied_html=(f"Une fois activée, l'alerte dure {DUREE_VIE_TEXTE}, puis "
-                    "s'arrête toute seule ; chaque e-mail contiendra un lien "
-                    "pour l'arrêter avant. Ce n'est pas vous qui avez fait "
-                    "cette demande&nbsp;? Ignorez ce message, il n'y aura pas "
-                    "de suite."))
-    return f"Confirmez votre alerte de prix : {titre}", corps, html
+        pied_html=(f"Alerte active {DUREE_VIE_TEXTE} après confirmation, puis "
+                    "suppression automatique. Lien de désinscription dans "
+                    "chaque e-mail. Demande non reconnue&nbsp;? Message à "
+                    "ignorer, sans suite."))
+    return f"Confirmation d'alerte de prix : {titre}", corps, html
 
 
 def liens_sortie(jeton: str) -> dict[str, str]:
@@ -361,42 +359,40 @@ def courriel_baisse(*, titre: str, slug: str, taille: str | None, prix: Any,
     expire = expire_le.strftime("%d/%m/%Y") if expire_le else ""
     corps = (
         "Bonjour,\n\n"
-        f"Le prix que vous attendiez est là :\n\n"
+        "Baisse de prix constatée :\n\n"
         f"  {titre}{' — taille ' + taille if taille else ''}\n"
         f"  {labels.price(prix)} chez {labels.merchant(marchand)}\n\n"
         f"Voir l'offre et comparer : {lien_fiche}\n\n"
-        "Ce prix a été relevé cette nuit chez le marchand ; c'est celui affiché "
-        "sur son site, au moment de la commande, qui compte vraiment.\n\n"
-        "On ne vous réécrira que si le prix baisse encore"
-        + (f", et au plus tard jusqu'au {expire} si on connaît la date de fin."
-           if expire else ".") + "\n\n"
+        "Prix relevé cette nuit chez le marchand. Prix exact au moment de la "
+        "commande : celui affiché sur son site.\n\n"
+        "Prochain e-mail uniquement en cas de nouvelle baisse"
+        + (f", jusqu'au {expire} au plus tard." if expire else ".") + "\n\n"
         f"Arrêter cette alerte : {liens['arreter']}\n"
-        f"Supprimer toutes vos alertes et votre adresse : {liens['tout']}\n\n"
+        f"Supprimer toutes les alertes et l'adresse : {liens['tout']}\n\n"
         + _SIGNATURE.format(site=site))
     html = _email_html(
-        titre="Le prix que vous attendiez est là",
+        titre="Baisse de prix constatée",
         lignes_html=(
             f"<p style=\"margin:0 0 10px; padding:14px; background:#f7f8fb; "
             f"border-radius:8px;\"><b>{escape(titre)}</b>"
             + (f"<br>Taille {escape(taille)}" if taille else "")
             + f"<br><span style=\"font-size:19px; font-weight:bold; color:{_NUIT};\">"
             f"{escape(labels.price(prix))}</span> chez {escape(labels.merchant(marchand))}</p>"
-            "<p style=\"margin:0;\">Relevé cette nuit chez le marchand ; "
-            "c'est le prix affiché sur son site, au moment de la commande, "
-            "qui compte vraiment.</p>"),
+            "<p style=\"margin:0;\">Prix relevé cette nuit chez le marchand. "
+            "Prix exact au moment de la commande : celui affiché sur son "
+            "site.</p>"),
         bouton_texte="Voir l'offre et comparer", bouton_lien=lien_fiche,
         pied_html=(
-            "On ne vous réécrira que si le prix baisse encore"
-            + (f", et au plus tard jusqu'au {escape(expire)} si on connaît "
-               "la date de fin." if expire else ".")
+            "Prochain e-mail uniquement en cas de nouvelle baisse"
+            + (f", jusqu'au {escape(expire)} au plus tard." if expire else ".")
             + f" <a href=\"{liens['arreter']}\" style=\"color:{_DOUX};\">Arrêter cette alerte</a>"
-            f" · <a href=\"{liens['tout']}\" style=\"color:{_DOUX};\">Supprimer toutes mes alertes</a>"))
+            f" · <a href=\"{liens['tout']}\" style=\"color:{_DOUX};\">Supprimer toutes les alertes</a>"))
     # Désinscription en un clic depuis le logiciel de messagerie (RFC 8058) :
     # Gmail et les autres l'affichent à côté de l'expéditeur.
     entetes = {"List-Unsubscribe": f"<{liens['arreter']}>",
                "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
                "Auto-Submitted": "auto-generated"}
-    return f"Ça y est, le prix a baissé : {titre} à {labels.price(prix)}", corps, html, entetes
+    return f"Baisse de prix : {titre} à {labels.price(prix)}", corps, html, entetes
 
 
 def titre_fiche(best_title: str | None, model_display: str, brand_code: str) -> str:

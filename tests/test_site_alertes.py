@@ -232,7 +232,7 @@ def test_double_opt_in_rien_n_est_envoye_avant_confirmation(
     assert len(envoyes) == 1
     dest, sujet, corps = envoyes[0]
     assert dest == EMAIL_TEST
-    assert "Confirmez votre alerte" in sujet
+    assert "Confirmation d'alerte" in sujet
     m = re.search(r"jeton=([A-Za-z0-9_-]+)", corps)
     assert m, "le lien de confirmation doit porter un jeton"
     jeton = m.group(1)
