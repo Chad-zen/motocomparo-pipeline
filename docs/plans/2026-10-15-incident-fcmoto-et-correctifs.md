@@ -106,3 +106,135 @@ résultats enrichis de Google, puis surveiller la Search Console (rapport
   34,7 Go après la suppression de 2,1 M de lignes (place non rendue au disque
   tant qu'un `VACUUM FULL` n'est pas passé — à planifier, il demande de
   l'espace libre et bloque la table).
+- Catégorie choisie : seule sa branche reste affichée dans le panneau
+  « Catégories » (plus les onze autres rayons sous la ligne active) — un lien
+  « ← Toutes les catégories » ramène en arrière en gardant le mot tapé.
+- Chaque filtre (Catégories, Marques, Couleur, Taille) replié à 10 lignes
+  (12 pastilles pour Taille), un bouton « Voir les N autres » déplie sur
+  place. **Essai raté et corrigé le jour même** : une première version faisait
+  défiler la liste DANS le filtre, imbriquée dans le tiroir mobile qui défile
+  lui-même — « le scroll est bugué, c'est une galère » — remplacée par le
+  bouton, sans aucun défilement interne.
+- Bannière Maxxess périmée (« jusqu'au 12 octobre », vue en ligne le 15)
+  retirée ; nouveau champ `expire_le` dans `partenaires.py` pour qu'un
+  partenaire sorte de lui-même de la rotation une fois sa date dépassée.
+- La tâche `veille-motocomparo` (8h) vérifie désormais aussi, chaque jour, les
+  bannières affichées sur l'accueil et une page de liste : zoom + lecture de
+  toute date visible, alerte critique si dépassée. Jamais corrigé
+  automatiquement.
+
+## 4. Audit SEO externe, et les trois chantiers menés en parallèle (15/10)
+
+Une IA tierce (sans accès au site, qui le dit elle-même) a produit un audit à
+partir d'une seule capture d'écran. Vérifié point par point sur le vrai site :
+la moitié des manques annoncés existaient déjà (comparateur, guides, mentions
+légales, bande de catégories…). Deux vrais manques retenus et corrigés
+**avant** de lancer les chantiers :
+- `/m/<marque>` portait `noindex` (la marque comptait comme un filtre sur sa
+  propre page) → levé ; 161 pages marques (≥ 5 fiches comparables) ajoutées au
+  plan du site.
+- La FAQ de l'accueil (5 questions) n'avait pas de balisage `FAQPage` → ajouté,
+  tiré de la MÊME liste que la section visible (jamais deux sources qui
+  pourraient diverger).
+
+**Trois chantiers lancés en agents séparés** (worktrees isolés, aucun ne
+pousse ni ne déploie — relu, testé et fusionné par la session principale) :
+
+1. **Filtres Matière / Homologation / Saison** sur les 4 pages de liste.
+   Lisent exclusivement `product_caracteristique` (ce que les extracteurs ont
+   trouvé dans un texte marchand), jamais déduits. Un filtre masqué sous 15 %
+   de couverture du rayon (ex. Saison absente sur Casques : 0 %). Aucune
+   migration — index `(nom, valeur)` déjà posé (migration 023).
+2. **Le blog**, sous `/guides` (pas de section à part — une seule porte
+   éditoriale, voir l'en-tête de `src/mcsite/articles.py`). Un article =
+   `templates/articles/<slug>.html`, en-tête Jinja en commentaire
+   (`titre, description, date, statut, rayon, produits, marques`). Un
+   `a_completer(...)` resté dans le texte transforme l'article en brouillon
+   même si `statut: publié` — la règle du site (rien de publié qui ne soit
+   mesuré) appliquée par le code, pas laissée à la mémoire. Trois brouillons
+   écrits (duel LS2/Scorpion, gants été/hiver, casque jet/modulable/intégral
+   et la norme) — chacun attend un retour d'usage réel de la propriétaire,
+   repéré par ce marqueur.
+3. **L'alerte de baisse de prix** (le plus gros morceau — voir section 5).
+
+**Ce que la relecture a dû corriger avant de fusionner** (aucun n'était une
+erreur des agents, plutôt l'angle mort de travailler sur trois branches en
+parallèle) :
+- Conflit sur `listing.html` entre les filtres caractéristiques et les
+  correctifs de catégorie du même jour — résolu à la main.
+- `ops/veille_tableau.py` (écrit le jour même) avait l'IP du VPS en clair,
+  jamais testé contre `test_depot_anonyme.py` avant la fusion complète de la
+  suite → `VPS_HOTE` déplacé dans `.env` / `.env.example`.
+- Config nginx d'un agent posée au bon endroit du dépôt
+  (`ops/deploiement/nginx/motocomparo-server.conf`) mais qui correspond en
+  réalité à un FRAGMENT inclus sur le serveur
+  (`/etc/nginx/snippets/motocomparo-server.conf`), pas au fichier
+  `sites-available/motocomparo` complet (SSL, Certbot) — vérifié avant de
+  copier, sauvegarde des deux fichiers live faite avant remplacement.
+
+**Déploiement serveur, dans l'ordre :** migration `sql/028_alerte_prix.sql`
+appliquée en tant que `mcpipe` → nginx (snippet + http.conf) testé
+(`nginx -t`) puis rechargé → `07-planification.sh` relancé pour ajouter
+`mcpipe alertes` à la chaîne nocturne (`/usr/local/bin/mcpipe-prix`) →
+`systemctl restart mcsite`. Un 500 ponctuel sur l'accueil juste après
+(`statement timeout` sur une requête déjà existante, page froide) — résolu de
+lui-même à la requête suivante, sans rapport avec les fusions.
+
+## 5. L'alerte de baisse de prix — et sa boîte mail
+
+**La fonctionnalité.** Double opt-in RGPD complet : formulaire sur la fiche →
+e-mail de confirmation (jeton) → rien d'actif avant le clic. Alerte confirmée
+active 6 mois puis effacée automatiquement ; demande non confirmée effacée
+sous 7 jours ; lien de désinscription en un clic dans chaque e-mail ; plafonds
+anti-abus (20 alertes/adresse, 5 demandes/24h, 3 renvois max). Table
+`alerte_prix` (migration 028) : slug du produit et non son id (survit à un
+`mcpipe match --reset`, qui vide `product` avec `RESTART IDENTITY`).
+`mcpipe alertes` tourne chaque nuit après `freshness`, sans jamais faire
+échouer la chaîne. **Le formulaire reste invisible sur tout le site tant que
+`SMTP_PASS` est vide** (`mcpipe.courriel.configure()`).
+
+**La boîte mail.** La propriétaire a créé elle-même `hello@motocomparo.com`
+chez Hostinger (le mot de passe n'a jamais transité par l'assistant — règle
+dure, jamais de mot de passe tapé ni manipulé, même sur demande explicite).
+`.env` du serveur : `SMTP_USER=hello@motocomparo.com`, `SMTP_PASS=` (tapé par
+elle), `CONTACT_NOTIF_TO=contact@motocomparo.com` (sinon les messages du
+formulaire de contact partaient dans `hello@`, une boîte qu'elle ne lirait pas
+par réflexe). Testé en conditions réelles par la propriétaire le 15/10 :
+l'e-mail de confirmation part bien.
+
+**Le texte, repris TROIS fois le même jour** — chaque passage corrige le
+précédent, à retenir pour la suite :
+1. Premier jet (les deux agents) : fonctionnel mais « écrit par un
+   développeur ». Un consultant rédacteur (agent) l'a repris une première
+   fois, dans le ton déjà établi ailleurs sur le site (direct, honnête, jamais
+   commercial — voir les extraits cités dans le prompt de l'agent si besoin de
+   le refaire).
+2. « Ce qui manque c'est du visuel » : ajout d'une bannière fournie par la
+   propriétaire (casque/gants/blouson/flèche/étiquette, or sur fond nuit) —
+   sur la page `/alertes/*` en tête + une carte produit (photo/nom/prix) sur
+   les états utiles, et dans l'e-mail en HTML (alternative au texte, jamais à
+   sa place). **Point de vigilance réglé explicitement** : l'image de l'e-mail
+   est JOINTE au message (Content-ID, `mcpipe.courriel.cid_banniere`), jamais
+   chargée à une adresse distante — sinon elle aurait fonctionné comme un
+   pixel de suivi d'ouverture, l'inverse de ce que `/infos#donnees` promet.
+3. Reprise du ton, deux allers-retours :
+   - D'abord vers un registre trop sec, en fragments sans verbe
+     (« Adresse e-mail invalide. Réessai depuis la fiche produit. ») — demandé
+     explicitement par la propriétaire après avoir jugé le premier jet trop
+     bavard.
+   - Puis corrigé une seconde fois : « tu écris comme un robot, accorde au
+     moins tes phrases » — retour à des phrases complètes et correctement
+     conjuguées (« Sans confirmation sous 7 jours, la demande sera effacée
+     automatiquement et aucune alerte ne sera envoyée. »), toujours sans
+     bavardage « nous/vous ». **Ce dernier registre est la référence** pour
+     tout texte futur sur cette fonctionnalité : phrase complète, ton
+     factuel et impersonnel, jamais de fragment en style étiquette.
+
+**Reste ouvert / à surveiller :**
+- Aucun vrai e-mail de BAISSE DE PRIX envoyé en conditions (seule la
+  confirmation a été testée réellement) — à vérifier au premier passage de
+  `mcpipe alertes` qui trouve une alerte confirmée avec une offre fraîche.
+- Seuils anti-abus et durée de vie (6 mois) : à ajuster si besoin, aucun retour
+  d'usage encore.
+- Logo en SVG (demandé en passant par la propriétaire) : pas encore fait, le
+  fichier vectoriel source manque.
