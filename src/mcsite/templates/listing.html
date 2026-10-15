@@ -142,10 +142,6 @@
 <h1 class="visuellement-cache">{{ titre }}</h1>
 
 <div class="boutique">
-{# Colonne repliée la dernière fois ? Appliqué AVANT que la colonne soit
-   dessinée, sinon elle apparaît puis disparaît. Préférence propre au
-   navigateur, rien ne sort de lui. #}
-<script>try { if (localStorage.getItem('mc-filtres-masques') === '1') document.currentScript.parentElement.classList.add('boutique--sans-filtres'); } catch (e) {}</script>
 
   {% if facettes %}
   {# Le mécanisme de la v1 : une pastille flottante en bas d'écran, et un
@@ -193,8 +189,8 @@
     {# L'ordre est celui de la propriétaire : on choisit d'abord CE qu'on
        cherche (rayon, marque), puis les critères qui le restreignent (prix,
        taille, couleur). #}
-    <section class="facette">
-      <h3>Catégories</h3>
+    <details class="facette" data-facette="Catégories" open>
+      <summary class="facette__titre"><h3>Catégories</h3><span class="facette__chev" aria-hidden="true"></span></summary>
       {# La liste vient de la FACETTE, pas de l'arbre global : elle ne montre
          que les rayons où la sélection courante a quelque chose, avec le
          nombre qu'elle y a. #}
@@ -232,10 +228,10 @@
       {% endfor %}
       </div>
       <button type="button" class="facette__plus" data-facette-plus hidden></button>
-    </section>
+    </details>
 
-    <section class="facette">
-      <h3>Marques</h3>
+    <details class="facette" data-facette="Marques" open>
+      <summary class="facette__titre"><h3>Marques</h3><span class="facette__chev" aria-hidden="true"></span></summary>
       <div class="facette__liste" data-max="10">
       {% for x in facettes.marques %}
         {# Sur une page de marque (`/m/…`), le clic change de page : une seule
@@ -251,11 +247,11 @@
       {% endfor %}
       </div>
       <button type="button" class="facette__plus" data-facette-plus hidden></button>
-    </section>
+    </details>
 
     {% if facettes.prix_maxi %}
-    <section class="facette facette--jauge">
-      <h3>Prix</h3>
+    <details class="facette facette--jauge" data-facette="Prix"{% if (f.prix_min is not none or f.prix_max is not none) %} open{% endif %}>
+      <summary class="facette__titre"><h3>Prix</h3><span class="facette__chev" aria-hidden="true"></span></summary>
       {# Une jauge plutôt que cinq tranches : les bornes sont celles du rayon
          affiché, pas des valeurs choisies d'avance. Proposer « 400 € et + » sur
          un rayon de gants n'aide personne. #}
@@ -287,12 +283,12 @@
         </p>
         <button type="submit" class="jauge__ok">Appliquer</button>
       </form>
-    </section>
+    </details>
     {% endif %}
 
     {% if facettes.tailles %}
-    <section class="facette">
-      <h3>Taille</h3>
+    <details class="facette" data-facette="Taille"{% if f.taille %} open{% endif %}>
+      <summary class="facette__titre"><h3>Taille</h3><span class="facette__chev" aria-hidden="true"></span></summary>
       <div class="pastilles facette__liste facette__liste--pastilles" data-max="12">
         {% for x in facettes.tailles %}
           {% set actif = x.valeur in ((f.taille or []) if f else []) %}
@@ -303,12 +299,12 @@
         {% endfor %}
       </div>
       <button type="button" class="facette__plus" data-facette-plus hidden></button>
-    </section>
+    </details>
     {% endif %}
 
     {% if facettes.couleurs %}
-    <section class="facette">
-      <h3>Couleur</h3>
+    <details class="facette" data-facette="Couleur"{% if f.couleur %} open{% endif %}>
+      <summary class="facette__titre"><h3>Couleur</h3><span class="facette__chev" aria-hidden="true"></span></summary>
       <div class="facette__liste" data-max="10">
       {% for x in facettes.couleurs %}
         <a class="facette__ligne {{ 'est-actif' if f.couleur == x.valeur }}" {% if f.couleur == x.valeur %}aria-current="true"{% endif %}
@@ -318,7 +314,7 @@
       {% endfor %}
       </div>
       <button type="button" class="facette__plus" data-facette-plus hidden></button>
-    </section>
+    </details>
     {% endif %}
 
     {# Matière, Homologation, Saison : lues dans les caractéristiques
@@ -327,8 +323,8 @@
        la couverture mesurée sur CETTE liste est sous le seuil ; la section ne
        s'affiche pas plutôt que d'afficher un filtre presque toujours vide. #}
     {% if facettes.matiere %}
-    <section class="facette">
-      <h3>Matière</h3>
+    <details class="facette" data-facette="Matière"{% if f.matiere %} open{% endif %}>
+      <summary class="facette__titre"><h3>Matière</h3><span class="facette__chev" aria-hidden="true"></span></summary>
       <div class="facette__liste" data-max="10">
       {% for x in facettes.matiere %}
         <a class="facette__ligne {{ 'est-actif' if f.matiere == x.valeur }}" {% if f.matiere == x.valeur %}aria-current="true"{% endif %}
@@ -338,12 +334,12 @@
       {% endfor %}
       </div>
       <button type="button" class="facette__plus" data-facette-plus hidden></button>
-    </section>
+    </details>
     {% endif %}
 
     {% if facettes.homologation %}
-    <section class="facette">
-      <h3>Homologation</h3>
+    <details class="facette" data-facette="Homologation"{% if f.homologation %} open{% endif %}>
+      <summary class="facette__titre"><h3>Homologation</h3><span class="facette__chev" aria-hidden="true"></span></summary>
       <div class="facette__liste" data-max="10">
       {% for x in facettes.homologation %}
         <a class="facette__ligne {{ 'est-actif' if f.homologation == x.valeur }}" {% if f.homologation == x.valeur %}aria-current="true"{% endif %}
@@ -353,12 +349,12 @@
       {% endfor %}
       </div>
       <button type="button" class="facette__plus" data-facette-plus hidden></button>
-    </section>
+    </details>
     {% endif %}
 
     {% if facettes.saison %}
-    <section class="facette">
-      <h3>Saison</h3>
+    <details class="facette" data-facette="Saison"{% if f.saison %} open{% endif %}>
+      <summary class="facette__titre"><h3>Saison</h3><span class="facette__chev" aria-hidden="true"></span></summary>
       <div class="facette__liste" data-max="10">
       {% for x in facettes.saison %}
         <a class="facette__ligne {{ 'est-actif' if f.saison == x.valeur }}" {% if f.saison == x.valeur %}aria-current="true"{% endif %}
@@ -368,7 +364,7 @@
       {% endfor %}
       </div>
       <button type="button" class="facette__plus" data-facette-plus hidden></button>
-    </section>
+    </details>
     {% endif %}
     {# Le filtre « N marchands et + » a été retiré à la demande de la
        propriétaire (15/10/2026). Le paramètre `marchands` reste lu : une
@@ -401,22 +397,6 @@
                          'prix': 'Prix croissant',
                          'prix_desc': 'Prix décroissant', 'marchands': 'Plus de marchands'} %}
       {% set choisi = (f.tri if f else 'pertinence') %}
-      <div class="boutique__outils">
-      {# Replier la colonne de filtres, comme chez Speedway : un bouton sombre
-         à entonnoir juste avant le tri, « Fermer les filtres » / « Afficher
-         les filtres » (demandé par la propriétaire le 15/10/2026). Écran large
-         seulement : sur téléphone les filtres sont déjà dans un tiroir fermé.
-         Le nombre de filtres actifs reste affiché colonne repliée : une liste
-         filtrée sans le dire induirait en erreur. Pas d'`aria-controls` : le
-         script des tiroirs l'intercepterait et ouvrirait le tiroir. #}
-      {% if facettes %}
-        {% set n_actifs = (f.actifs() | length) if f else 0 %}
-        <button type="button" class="bascule-filtres" data-bascule-filtres aria-expanded="true">
-          <svg class="bascule-filtres__ico" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path d="M3 4h14l-5.5 6.5V16l-3 1.5v-7z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
-          <span data-bascule-filtres-texte>Fermer les filtres</span>
-          {% if n_actifs %}<span class="bascule-filtres__n" title="{{ n_actifs }} filtre{{ 's' if n_actifs > 1 }} actif{{ 's' if n_actifs > 1 }}">{{ n_actifs }}</span>{% endif %}
-        </button>
-      {% endif %}
       <details class="tri">
         <summary>
           <span class="tri__mot">Trier par</span>
@@ -429,7 +409,6 @@
           {% endfor %}
         </div>
       </details>
-      </div>
     </div>
 
     {# Mention obligatoire à un comparateur, sur la page de RÉSULTATS elle-même
@@ -641,51 +620,38 @@
     });
   }
 
-  /* Fermer / afficher la colonne de filtres (écran large). L'état vit sur
-     `.boutique`, hors de la zone remplacée par les filtres sans rechargement :
-     il survit donc aux clics. Le bouton, lui, est remplacé — d'où un
-     libellé recalculé à chaque fois et un écouteur posé sur le document. */
-  const CLE_MASQUES = 'mc-filtres-masques';
-  /* Écran étroit : les filtres sont un tiroir (position fixed). Le bouton
-     s'appelle alors « Filtrer » et ouvre ce tiroir — en passant par la
-     pastille flottante, qui porte déjà tout le mécanisme d'ouverture. */
-  const modeTiroir = () => {
-    const a = document.getElementById('tiroir-filtres');
-    return !!a && getComputedStyle(a).position === 'fixed';
-  };
-  function libelleBascule() {
-    const boutique = document.querySelector('.boutique');
-    const b = document.querySelector('[data-bascule-filtres]');
-    if (!boutique || !b) return;
-    const texte = b.querySelector('[data-bascule-filtres-texte]');
-    if (modeTiroir()) {
-      texte.textContent = 'Filtrer';
-      b.removeAttribute('aria-expanded');
-      return;
-    }
-    const masques = boutique.classList.contains('boutique--sans-filtres');
-    texte.textContent = masques ? 'Afficher les filtres' : 'Fermer les filtres';
-    b.setAttribute('aria-expanded', String(!masques));
+  /* Les rubriques du panneau (Taille, Couleur, Prix…) se replient comme chez
+     Speedway — demandé par la propriétaire le 15/10/2026. Le gabarit ouvre
+     Catégories, Marques et toute rubrique où un choix est actif ; ce que le
+     visiteur ouvre ou ferme ensuite est retenu pour l'onglet (sessionStorage)
+     et réappliqué quand la liste se met à jour ou qu'il change de rayon. */
+  const CLE_RUBRIQUES = 'mc-rubriques-filtres';
+  function lireRubriques() {
+    try { return JSON.parse(sessionStorage.getItem(CLE_RUBRIQUES) || '{}'); } catch (e) { return {}; }
   }
+  function rubriques() {
+    const memo = lireRubriques();
+    document.querySelectorAll('details.facette[data-facette]').forEach(function (d) {
+      const v = memo[d.dataset.facette];
+      if (typeof v === 'boolean' && d.open !== v) d.open = v;
+    });
+  }
+  /* Seul le geste du visiteur est retenu (clic ou clavier sur le titre), pas
+     l'ouverture automatique d'une rubrique où un choix est actif : sinon
+     « Taille » ouverte pour une pointure restait ouverte sur tous les rayons. */
   document.addEventListener('click', function (e) {
-    const b = e.target.closest('[data-bascule-filtres]');
-    if (!b) return;
-    if (modeTiroir()) {
-      const pastille = document.querySelector('.pastille-filtres');
-      if (pastille) pastille.click();
-      return;
-    }
-    const boutique = document.querySelector('.boutique');
-    const masques = boutique.classList.toggle('boutique--sans-filtres');
-    try { localStorage.setItem(CLE_MASQUES, masques ? '1' : '0'); } catch (err) {}
-    libelleBascule();
+    const titre = e.target.closest('.facette__titre');
+    if (!titre) return;
+    const d = titre.parentElement;
+    const memo = lireRubriques();
+    memo[d.dataset.facette] = !d.open;   /* l'état APRÈS ce clic */
+    try { sessionStorage.setItem(CLE_RUBRIQUES, JSON.stringify(memo)); } catch (err) {}
   });
-  window.addEventListener('resize', libelleBascule);
 
+  rubriques();
   replier(null);
   jauge();
   voirPlus();
-  libelleBascule();
 
   /* ------------------------------------------------- Filtres sans rechargement
      Chaque filtre était un lien : un clic rechargeait TOUTE la page — en-tête,
@@ -774,10 +740,10 @@
     const nh1 = doc.querySelector('#contenu h1.visuellement-cache');
     if (h1 && nh1) h1.textContent = nh1.textContent;
 
+    rubriques();
     replier(ouvertes);
     jauge();
     voirPlus();
-    libelleBascule();
     if (window.mcMarquerCartes) window.mcMarquerCartes();
     a.scrollTop = haut;
     const retour = reprise && a.querySelector(reprise);

@@ -764,6 +764,32 @@ h1, h2 { line-height: 1.2; }
   font-size: 12px; letter-spacing: .6px; text-transform: uppercase;
   color: var(--muted); margin: 0 0 8px;
 }
+/* Chaque rubrique se replie (comme chez Speedway) : le titre entier est la
+   zone à toucher, la flèche dit l'état. Repliée, la rubrique ne garde que son
+   titre — d'où le padding porté par le titre et non par la section. */
+details.facette { padding: 0 16px; }
+details.facette[open] { padding-bottom: 4px; }
+details.facette.facette--jauge[open] { padding-bottom: 16px; }
+.facette__titre {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  padding: 14px 0; cursor: pointer; list-style: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.facette__titre::-webkit-details-marker { display: none; }
+.facette__titre h3 { margin: 0; }
+details.facette[open] > .facette__titre { padding-bottom: 8px; }
+.facette__chev {
+  flex: none; width: 8px; height: 8px; margin-right: 3px;
+  border-right: 2px solid currentColor; border-bottom: 2px solid currentColor;
+  color: var(--muted); transform: rotate(45deg) translateY(-2px);
+  transition: transform .18s;
+}
+details.facette[open] > .facette__titre .facette__chev { transform: rotate(-135deg) translate(-2px, -1px); }
+@media (hover: hover) and (min-width: 901px) {
+  .facette__titre:hover h3, .facette__titre:hover .facette__chev { color: var(--ink); }
+}
+.facette__titre:focus-visible { outline: 2px solid var(--or); outline-offset: 2px; border-radius: 4px; }
+@media (prefers-reduced-motion: reduce) { .facette__chev { transition: none; } }
 .facette__ligne {
   display: flex; justify-content: space-between; align-items: center; gap: 8px;
   font-size: 13.5px; padding: 6px 8px; border-radius: 7px; margin: 0 -8px;
@@ -1783,39 +1809,6 @@ body:has(.banc:not([hidden])) { padding-bottom: var(--banc-h, 94px); }
   font-size: 14.5px;
 }
 .tri > summary::-webkit-details-marker { display: none; }
-
-/* « Fermer / Afficher les filtres », juste avant le tri, comme chez
-   Speedway. Même pavé sombre et même hauteur que « Trier par » : les deux
-   se lisent comme une seule barre d'outils. Écran large seulement. */
-.boutique__outils {
-  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
-  margin: 4px 0 16px;
-}
-.boutique__outils .tri { margin: 0; }
-/* Sur téléphone et tablette, le même bouton s'appelle « Filtrer » et ouvre le
-   tiroir (comme la barre « Filtrer | Trier par » de Speedway mobile) : il n'y
-   a pas de colonne à replier. */
-.bascule-filtres {
-  display: inline-flex; align-items: center; gap: 9px; cursor: pointer;
-  background: var(--nuit); color: #fff; border: 0;
-  border-radius: 10px; padding: 13px 16px;
-  font: inherit; font-size: 14.5px; font-weight: 600; white-space: nowrap;
-}
-.bascule-filtres__ico { color: var(--or); flex: none; }
-.bascule-filtres:hover .bascule-filtres__ico { transform: scale(1.08); }
-.bascule-filtres:focus-visible { outline: 2px solid var(--or); outline-offset: 2px; }
-.bascule-filtres__n {
-  background: var(--or); color: var(--nuit); border-radius: 20px;
-  padding: 1px 8px; font-size: 12px; font-weight: 800;
-}
-@media (min-width: 901px) {
-  .boutique.boutique--sans-filtres { grid-template-columns: minmax(0, 1fr); }
-  .boutique--sans-filtres > .filtres { display: none; }
-}
-@media (min-width: 1150px) {
-  /* colonne fermée : la place gagnée devient une cinquième carte par rangée */
-  .boutique--sans-filtres .boutique__corps .grille { grid-template-columns: repeat(5, minmax(0, 1fr)); }
-}
 .tri__mot { color: #a9b3cd; }
 .tri > summary b { flex: 1; color: var(--or); font-weight: 700; }
 .tri__chev { transition: transform .18s; font-size: 19px; color: var(--or); }
@@ -2736,12 +2729,7 @@ body:has(.banc:not([hidden])) { padding-bottom: var(--banc-h, 94px); }
      rétractait sur son contenu quelle que soit la largeur autorisée. Il faut
      le lui demander explicitement. */
   .boutique__tete { flex-wrap: wrap; }
-  .boutique__outils { flex: 1 0 100%; flex-wrap: nowrap; }
   .tri { max-width: none; width: 100%; flex: 1 0 100%; }
-  /* « Filtrer » et « Trier par » sur UNE ligne : le bouton à sa taille, le
-     tri prend le reste. */
-  .boutique__outils .tri { flex: 1 1 0; width: auto; min-width: 0; }
-  .boutique__outils .bascule-filtres { flex: none; padding: 13px 14px; }
 }
 
 /* --- la pastille de compteur, raccrochée au bouton ------------------------ */
