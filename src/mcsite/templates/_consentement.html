@@ -38,7 +38,7 @@
    aucun voile, aucune partie du site bloquée. #}
 <div class="consentement" id="consentement" role="dialog" aria-modal="false"
      aria-labelledby="consentement-titre" aria-describedby="consentement-texte" hidden>
-  <div class="consentement__carte">
+  <div class="consentement__carte" tabindex="-1">
     <img class="consentement__illu" src="/static/cookies-casques.webp?v={{ version_css() }}"
          alt="" width="805" height="475" loading="eager">
     <div class="consentement__haut">
@@ -130,15 +130,18 @@
       e.preventDefault();
       try { localStorage.removeItem(CLE); } catch (err) { /* tant pis */ }
       montrer();
-      bandeau.querySelector('[data-consentement]').focus();
+      bandeau.querySelector('.consentement__carte').focus();
     }
   });
 
   /* Le bandeau est en fin de page : sans ce focus, « Refuser » était le 116e
-     arrêt de tabulation. preventScroll : la page ne saute pas vers le bas. */
+     arrêt de tabulation. Le focus va sur la CARTE et non sur un bouton : le
+     premier Tab mène à « Continuer sans accepter », sans qu'un cadre jaune
+     n'entoure un bouton que personne n'a choisi (la propriétaire,
+     15/10/2026). preventScroll : la page ne saute pas vers le bas. */
   if (!lire()) {
     montrer();
-    try { bandeau.querySelector('[data-consentement]').focus({ preventScroll: true }); }
+    try { bandeau.querySelector('.consentement__carte').focus({ preventScroll: true }); }
     catch (e) { /* vieux navigateur : tant pis pour le focus */ }
   }
 })();

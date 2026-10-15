@@ -4008,6 +4008,7 @@ html, body { overflow-x: clip; }
   border-radius: 18px; padding: 14px 22px 16px 16px;
   box-shadow: 0 0 0 6px rgba(15, 21, 36, .82), 0 16px 40px rgba(8, 12, 26, .35);
 }
+.consentement__carte:focus { outline: none; }
 .consentement__illu { grid-area: illu; width: 132px; height: auto; display: block; }
 .consentement__haut {
   grid-area: haut;
