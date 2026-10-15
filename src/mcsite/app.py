@@ -1761,6 +1761,15 @@ def v1_rayon(chemin: str):
 @app.get("/shop")
 @app.get("/shop/{chemin:path}")
 def v1_boutique(request: Request, chemin: str = ""):
+    # Trois formes dans les journaux : `/shop/?mc_type=…` (filtres),
+    # `/shop/gants/` (un rayon) et `/shop/blousons/veste-de-pluie-…/` (une
+    # fiche rangée sous son rayon).
+    morceaux = [m for m in chemin.strip("/").split("/")
+                if m and m != "page" and not m.isdigit()]
+    if len(morceaux) >= 2:
+        return RedirectResponse(_cible_fiche_v1(morceaux[-1]), status_code=301)
+    if len(morceaux) == 1 and morceaux[0] in v1_mod.RAYONS_V1_CONNUS:
+        return RedirectResponse(v1_mod.cible_rayon_v1(morceaux[0]), status_code=301)
     cible = v1_mod.cible_boutique_v1(dict(request.query_params), _marques_v1()[1])
     return RedirectResponse(cible, status_code=301)
 
@@ -1829,6 +1838,15 @@ def robots(request: Request) -> str:
         "Disallow: /*?prix_max=",
         "Disallow: /*?taille=",
         "Disallow: /*?couleur=",
+        # Les anciennes adresses de la v1 restent ouvertes MÊME avec ces
+        # paramètres (`/product/…/?taille=171924`) : elles ne rendent qu'une
+        # redirection, et Google ne peut la suivre que s'il a le droit de la
+        # demander. 72 anciennes fiches étaient bloquées ainsi (Search
+        # Console, 15/10/2026). Règle plus longue que les Disallow ci-dessus :
+        # chez Google, la plus longue l'emporte.
+        "Allow: /product/*?taille=",
+        "Allow: /shop/*?taille=",
+        "Allow: /product-category/*?taille=",
         # La PAGINATION, elle, reste ouverte, et c'est volontaire. Les pages 2
         # et suivantes portent `noindex, follow` : « ne range pas cette page
         # dans l'index, mais suis les liens qu'elle contient ». Les fermer ici

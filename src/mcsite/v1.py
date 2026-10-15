@@ -75,6 +75,8 @@ _RAYONS_V1 = {
     "cross-tt-enduro": "jersey", "tout-terrain": "jersey",
 }
 
+RAYONS_V1_CONNUS = frozenset(_RAYONS_V1)
+
 # Le filtre `mc_type` de la boutique v1.
 _TYPES_V1 = {
     "ecran": "electronics", "bottes": "boots", "casquette": "apparel_casual",
@@ -155,8 +157,12 @@ def cible_rayon_v1(chemin: str) -> str:
 
 
 def cible_boutique_v1(params: dict[str, str], marques_listees: set[str]) -> str:
-    """`/shop/?mc_brand=Shad&mc_type=bagage` -> la page qui y répond aujourd'hui."""
-    code = _TYPES_V1.get((params.get("mc_type") or "").strip().lower())
+    """`/shop/?mc_brand=Shad&mc_type=bagage` -> la page qui y répond aujourd'hui.
+
+    `product_cat=protections` (pagination de la boutique v1) vaut le rayon.
+    """
+    code = (_TYPES_V1.get((params.get("mc_type") or "").strip().lower())
+            or _RAYONS_V1.get((params.get("product_cat") or "").strip().lower()))
     nom = re.sub(r"[^a-z0-9]", "", suggestions.sans_accent(params.get("mc_brand") or "").lower())
     marque = nom if nom in marques_listees else None
     if code and marque:

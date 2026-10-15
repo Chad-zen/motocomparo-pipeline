@@ -88,9 +88,17 @@ def client():
         yield c
 
 
+def test_robots_laisse_google_suivre_les_anciennes_fiches_a_taille(client):
+    texte = client.get("/robots.txt").text
+    assert "Allow: /product/*?taille=" in texte
+    assert "Disallow: /*?taille=" in texte   # les filtres du site actuel restent fermés
+
+
 @pytest.mark.parametrize("ancienne, cible", [
     ("/product-category/gants/", "/c/gloves"),
     ("/shop/?mc_type=echap", "/c/exhaust"),
+    ("/shop/page/84/?orderby=date&product_cat=protections", "/c/protection"),
+    ("/shop/gants/", "/c/gloves"),
     ("/2026/08/05/rouler-en-securite-les-reflexes-qui-sauvent-2/", "/guides"),
     ("/about-us/", "/infos"),
     ("/sitemap_index.xml", "/sitemap.xml"),
