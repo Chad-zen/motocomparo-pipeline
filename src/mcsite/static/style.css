@@ -2799,6 +2799,17 @@ body:has(.banc:not([hidden])) { padding-bottom: var(--banc-h, 94px); }
 @media (min-width: 901px) {
   .filtres { top: calc(var(--haut-tete, 78px) + 14px); }
   .filtres.tiroir { top: calc(var(--haut-tete, 78px) + 14px); }
+  /* Collée sans limite de hauteur, la colonne (près de 2 000 px sur les
+     bottes) gardait son bas hors de l'écran : il fallait descendre TOUTE la
+     page pour atteindre Couleur ou Saison (la propriétaire, 15/10/2026). Elle
+     tient désormais dans l'écran et défile seule ; arrivée en bout, la
+     molette continue sur la page. */
+  .filtres.tiroir {
+    max-height: calc(100vh - var(--haut-tete, 78px) - 28px);
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--line) transparent;
+  }
 }
 
 /* Les ancres (« Je compare » vers les écarts) doivent s'arrêter sous l'en-tête
