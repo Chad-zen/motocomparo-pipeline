@@ -1695,6 +1695,16 @@ def favicon() -> Response:
     return RedirectResponse("/static/favicon.ico", status_code=301)
 
 
+@app.get("/google91d87112b2771314.html", response_class=PlainTextResponse)
+def verification_google() -> str:
+    """Preuve de propriete pour Google Search Console.
+
+    Ne pas supprimer : Google revalide periodiquement ce fichier pour
+    conserver le statut de proprietaire confirme.
+    """
+    return "google-site-verification: google91d87112b2771314.html"
+
+
 @app.get("/robots.txt", response_class=PlainTextResponse)
 def robots(request: Request) -> str:
     """Ce qu'un robot a le droit de parcourir.
