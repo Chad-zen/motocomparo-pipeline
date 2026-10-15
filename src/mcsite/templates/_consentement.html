@@ -31,8 +31,10 @@
        doit peser autant que l'accord.
      * le texte ne parle que de ce que le site fait vraiment : mesurer son
        audience. Pas de « personnalisation du contenu », il n'y en a pas.
-   « Continuer sans accepter », en haut, est un refus de plus, pas un renvoi :
-   il enregistre le même choix que « Tout refuser ». #}
+   Le texte reprend celui de la maquette, moins ce qui serait faux ici : ni
+   « personnaliser le contenu », ni « personnaliser selon vos préférences »
+   (aucun écran de réglages). « Continuer sans accepter » a été retiré à sa
+   demande : « Tout refuser » suffit, à poids égal avec l'accord. #}
 {# Posée EN BAS et compacte (la propriétaire, 15/10/2026 : « trop grosse, en
    bas aussi ») : la page reste lisible et utilisable pendant qu'on choisit,
    aucun voile, aucune partie du site bloquée. #}
@@ -42,7 +44,6 @@
     <img class="consentement__illu" src="/static/cookies-casques.webp?v={{ version_css() }}"
          alt="" width="805" height="475" loading="eager">
     <div class="consentement__haut">
-      <button type="button" class="consentement__continuer" data-consentement="refuse">Continuer sans accepter</button>
       <span class="consentement__marque">
         <img src="/static/logo_mc_icon.webp?v={{ version_css() }}" alt="" width="22" height="22">
         motocomparo.com
@@ -50,8 +51,9 @@
     </div>
     <div class="consentement__texte">
       <h2 id="consentement-titre" class="consentement__titre">Salut c'est nous… les Cookies&nbsp;!</h2>
-      <p id="consentement-texte">Nous aimerions mesurer l'audience du site avec
-        Google Analytics pour l'améliorer. Refuser ne change rien à votre visite.
+      <p id="consentement-texte">Nous utilisons des cookies pour améliorer votre
+        expérience sur motocomparo.com et analyser le trafic. Vous pouvez les
+        accepter ou les refuser, et changer d'avis à tout moment.
         <a href="/infos#donnees">En savoir plus</a></p>
     </div>
     <div class="consentement__boutons">
@@ -136,9 +138,8 @@
 
   /* Le bandeau est en fin de page : sans ce focus, « Refuser » était le 116e
      arrêt de tabulation. Le focus va sur la CARTE et non sur un bouton : le
-     premier Tab mène à « Continuer sans accepter », sans qu'un cadre jaune
-     n'entoure un bouton que personne n'a choisi (la propriétaire,
-     15/10/2026). preventScroll : la page ne saute pas vers le bas. */
+     premier Tab mène au premier choix, sans qu'un cadre jaune n'entoure un
+     bouton que personne n'a choisi (la propriétaire, 15/10/2026). preventScroll : la page ne saute pas vers le bas. */
   if (!lire()) {
     montrer();
     try { bandeau.querySelector('.consentement__carte').focus({ preventScroll: true }); }

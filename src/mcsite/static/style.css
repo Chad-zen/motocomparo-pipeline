@@ -4001,7 +4001,7 @@ html, body { overflow-x: clip; }
   pointer-events: auto;
   width: min(1040px, 100%); margin: 0 auto;
   display: grid; align-items: center; gap: 4px 22px;
-  grid-template-columns: 132px minmax(0, 1fr) auto;
+  grid-template-columns: 190px minmax(0, 1fr) auto;
   grid-template-areas: "illu haut    haut"
                        "illu texte   boutons";
   background: #fff; color: var(--ink, #0f1524);
@@ -4009,17 +4009,11 @@ html, body { overflow-x: clip; }
   box-shadow: 0 0 0 6px rgba(15, 21, 36, .82), 0 16px 40px rgba(8, 12, 26, .35);
 }
 .consentement__carte:focus { outline: none; }
-.consentement__illu { grid-area: illu; width: 132px; height: auto; display: block; }
+.consentement__illu { grid-area: illu; width: 190px; height: auto; display: block; }
 .consentement__haut {
   grid-area: haut;
-  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  display: flex; align-items: center; justify-content: flex-end; gap: 12px;
 }
-.consentement__continuer {
-  background: none; border: 0; padding: 2px 0; cursor: pointer;
-  font: inherit; font-size: 13px; color: #6b7286; white-space: nowrap;
-  text-decoration: underline; text-underline-offset: 3px;
-}
-.consentement__continuer:hover { color: var(--ink, #0f1524); }
 .consentement__marque {
   display: inline-flex; align-items: center; gap: 6px;
   font-weight: 800; font-size: 13px; color: var(--ink, #0f1524); white-space: nowrap;
@@ -4056,10 +4050,10 @@ html, body { overflow-x: clip; }
 /* Écran moyen : les boutons passent sous le texte. */
 @media (max-width: 960px) {
   .consentement__carte {
-    grid-template-columns: 110px minmax(0, 1fr);
+    grid-template-columns: 160px minmax(0, 1fr);
     grid-template-areas: "illu haut" "illu texte" "boutons boutons";
   }
-  .consentement__illu { width: 110px; }
+  .consentement__illu { width: 160px; }
   .consentement__boutons { grid-template-columns: 1fr 1fr; margin-top: 8px; }
 }
 
@@ -4069,12 +4063,13 @@ html, body { overflow-x: clip; }
 @media (max-width: 600px) {
   .consentement { padding: 0 8px 8px; }
   .consentement__carte {
-    grid-template-columns: 74px minmax(0, 1fr); gap: 4px 12px;
+    grid-template-columns: 112px minmax(0, 1fr); gap: 4px 12px;
+    grid-template-areas: "illu texte" "boutons boutons";
     padding: 12px 14px 14px; border-radius: 16px;
     box-shadow: 0 0 0 4px rgba(15, 21, 36, .82), 0 10px 30px rgba(8, 12, 26, .35);
   }
-  .consentement__illu { width: 74px; align-self: start; margin-top: 4px; }
-  .consentement__marque { display: none; }
+  .consentement__illu { width: 112px; align-self: center; }
+  .consentement__haut { display: none; }
   .consentement__titre { font-size: 17px; }
   .consentement__texte p { font-size: 13px; line-height: 1.45; }
   .consentement__boutons .bouton { padding: 11px 6px; font-size: 14px; }
