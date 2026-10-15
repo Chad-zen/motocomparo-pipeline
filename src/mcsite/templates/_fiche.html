@@ -713,6 +713,27 @@
 </section>
 {% endif %}
 
+{% if codes_tailles %}
+{# Un EAN par taille, tous écrits en clair et rendus par le serveur : une
+   recherche Google sur n'importe lequel doit pouvoir tomber sur cette page.
+   Les mêmes codes sont déclarés taille par taille dans les données
+   structurées (`ProductGroup`). Gardé à côté de la réf. déroulante, à la
+   demande de la propriétaire (15/10/2026). #}
+<section class="offres__carte">
+<div class="offres__tete">
+  <h2 class="titre-section">Codes-barres par taille</h2>
+</div>
+<dl class="caracs">
+  {% for c in codes_tailles %}
+  <div class="carac">
+    <dt>{{ c.taille or 'Taille non précisée' }}</dt>
+    <dd>EAN {{ c.ean }}</dd>
+  </div>
+  {% endfor %}
+</dl>
+</section>
+{% endif %}
+
 {# Même encadré que « Comparer les N offres » : ce sont les deux blocs de
    preuve de la page — ce que les marchands demandent aujourd'hui, et ce qu'ils
    demandaient les jours d'avant. Posé sans contour, l'historique flottait au

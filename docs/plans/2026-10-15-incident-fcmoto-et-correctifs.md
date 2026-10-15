@@ -99,7 +99,7 @@ résultats enrichis de Google, puis surveiller la Search Console (rapport
   seule. La tâche ne tourne que si l'application Claude est ouverte (sinon au
   prochain lancement).
 - **Réf. déroulante** sur la fiche : EAN de la plus petite taille, liste de
-  tous les EAN au clic ; remplace le bloc « Codes-barres par taille ».
+  tous les EAN au clic ; le bloc « Codes-barres par taille » reste en plus.
 - **Voile de chargement** : badge rond seul, fond transparent, sans pastille.
 - Repéré par le premier relevé, non traité : Googlebot reçoit des erreurs 500
   sur d'anciennes adresses de la v1 (`/shop/…`, `/product/…`) ; la base fait
