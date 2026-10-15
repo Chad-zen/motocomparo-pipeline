@@ -8,13 +8,15 @@
    `/c/gants` tout nu : le compteur annonçait « Gants 2079 » (filtré à 200 €) et
    le clic en donnait 2 185 — le filtre prix sautait en route, et le compteur
    mentait donc à chaque fois qu'un critère était actif. #}
+{# Marque et taille acceptent plusieurs valeurs (cocher Alpinestars ET Shoei) :
+   ce sont des listes, portées sur l'URL en paramètres répétés
+   (`marque=a&marque=b`), jamais une chaîne unique. Les autres filtres
+   restent à valeur unique. #}
 {% macro lien_rayon(code_cible) -%}
   {%- set p = {
        'q':            (f.texte if f else '') or '',
-       'marque':       (f.marque if f else '') or '',
        'prix_min':     (f.prix_min | round | int) if (f and f.prix_min is not none) else '',
        'prix_max':     (f.prix_max | round | int) if (f and f.prix_max is not none) else '',
-       'taille':       (f.taille if f else '') or '',
        'couleur':      (f.couleur if f else '') or '',
        'matiere':      (f.matiere if f else '') or '',
        'homologation': (f.homologation if f else '') or '',
@@ -22,7 +24,7 @@
        'marchands':    (f.marchands if f else 2) | string,
        'tri':          f.tri if f else 'pertinence',
   } -%}
-  /c/{{ code_cible }}?{% for k, v in p.items() if v != '' and not (k == 'marchands' and v == '2') and not (k == 'tri' and v == 'pertinence') %}{{ k }}={{ v }}&amp;{% endfor %}
+  /c/{{ code_cible }}?{% for k, v in p.items() if v != '' and not (k == 'marchands' and v == '2') and not (k == 'tri' and v == 'pertinence') %}{{ k }}={{ v }}&amp;{% endfor %}{% for v in (f.marque if f else []) %}marque={{ v }}&amp;{% endfor %}{% for v in (f.taille if f else []) %}taille={{ v }}&amp;{% endfor %}
 {%- endmacro %}
 
 {# Sur une page de marque, `?marque=…` est IGNORÉ : la route `/m/{marque}` fixe
@@ -33,7 +35,6 @@
   {%- set p = {
        'prix_min':     (f.prix_min | round | int) if (f and f.prix_min is not none) else '',
        'prix_max':     (f.prix_max | round | int) if (f and f.prix_max is not none) else '',
-       'taille':       (f.taille if f else '') or '',
        'couleur':      (f.couleur if f else '') or '',
        'matiere':      (f.matiere if f else '') or '',
        'homologation': (f.homologation if f else '') or '',
@@ -41,31 +42,50 @@
        'marchands':    (f.marchands if f else 2) | string,
        'tri':          f.tri if f else 'pertinence',
   } -%}
-  /m/{{ code_cible }}?{% for k, v in p.items() if v != '' and not (k == 'marchands' and v == '2') and not (k == 'tri' and v == 'pertinence') %}{{ k }}={{ v }}&amp;{% endfor %}
+  /m/{{ code_cible }}?{% for k, v in p.items() if v != '' and not (k == 'marchands' and v == '2') and not (k == 'tri' and v == 'pertinence') %}{{ k }}={{ v }}&amp;{% endfor %}{% for v in (f.taille if f else []) %}taille={{ v }}&amp;{% endfor %}
 {%- endmacro %}
 
+{# `valeur` est une chaîne pour un filtre à choix unique, une LISTE pour
+   marque/taille — le visiteur qui en coche une deuxième garde la première. #}
 {% macro lien(param, valeur) -%}
   {%- set f = f or none -%}
   {%- set p = {
-       'marque':       (f.marque if f else '') or '',
        'prix_min':     (f.prix_min | round | int) if (f and f.prix_min is not none) else '',
        'prix_max':     (f.prix_max | round | int) if (f and f.prix_max is not none) else '',
-       'taille':       (f.taille if f else '') or '',
        'couleur':      (f.couleur if f else '') or '',
        'matiere':      (f.matiere if f else '') or '',
        'homologation': (f.homologation if f else '') or '',
        'saison':       (f.saison if f else '') or '',
        'marchands':    (f.marchands if f else 2) | string,
        'tri':          f.tri if f else 'pertinence',
+  } -%}
+  {%- set m = {
+       'marque': (f.marque if f else []) or [],
+       'taille': (f.taille if f else []) or [],
   } -%}
   {%- if param == 'prix' -%}
     {#- le prix est un intervalle : le retirer efface ses deux bornes -#}
     {%- set _ = p.update({'prix_min': '', 'prix_max': ''}) -%}
+  {%- elif param in m -%}
+    {%- set _ = m.update({param: valeur}) -%}
   {%- else -%}
     {%- set _ = p.update({param: valeur}) -%}
   {%- endif -%}
   {#- `base` porte déjà `?q=…` pour la recherche : on enchaîne avec `&` -#}
-  {{ base }}{{ '&' if '?' in base else '?' }}{% for k, v in p.items() if v != '' and not (k == 'marchands' and v == '2') and not (k == 'tri' and v == 'pertinence') %}{{ k }}={{ v }}&amp;{% endfor %}
+  {{ base }}{{ '&' if '?' in base else '?' }}{% for k, v in p.items() if v != '' and not (k == 'marchands' and v == '2') and not (k == 'tri' and v == 'pertinence') %}{{ k }}={{ v }}&amp;{% endfor %}{% for k, vs in m.items() %}{% for v in vs %}{{ k }}={{ v }}&amp;{% endfor %}{% endfor %}
+{%- endmacro %}
+
+{# Bascule une valeur dans/hors un filtre multiple : déjà cochée -> retirée,
+   sinon ajoutée. Une seule logique sert les pastilles ET la croix d'un choix
+   actif (un choix actif n'est jamais qu'une valeur déjà cochée). #}
+{% macro bascule(param, valeur) -%}
+  {%- set courant = (f.marque if param == 'marque' else f.taille) if f else [] -%}
+  {%- set courant = courant or [] -%}
+  {%- if valeur in courant -%}
+    {{ lien(param, courant | reject('equalto', valeur) | list) }}
+  {%- else -%}
+    {{ lien(param, courant + [valeur]) }}
+  {%- endif -%}
 {%- endmacro %}
 
 {# Une page de résultats filtrée ne doit PAS être indexée séparément : le même
@@ -155,7 +175,9 @@
     {% set actifs = f.actifs() if f else [] %}
     {% if actifs %}
       {% for a in actifs %}
-        <a class="choix__puce" href="{{ lien(a.cle, '2' if a.cle == 'marchands' else '') }}">
+        {# marque/taille : la croix ne retire QUE cette valeur-là, les autres
+           valeurs cochées du même filtre restent. #}
+        <a class="choix__puce" href="{{ bascule(a.cle, a.valeur) if a.cle in ('marque', 'taille') else lien(a.cle, '2' if a.cle == 'marchands' else '') }}">
           {{ a.texte }} <b aria-hidden="true">✕</b>
         </a>
       {% endfor %}
@@ -212,9 +234,13 @@
       <h3>Marques</h3>
       <div class="facette__liste" data-max="10">
       {% for x in facettes.marques %}
-        <a class="facette__ligne {{ 'est-actif' if f.marque == x.valeur }}" {% if f.marque == x.valeur %}aria-current="true"{% endif %}
+        {# Sur une page de marque (`/m/…`), le clic change de page : une seule
+           marque possible, c'est l'objet même de l'URL. Ailleurs, coche
+           plusieurs marques sans perdre les autres. #}
+        {% set actif = x.valeur in ((f.marque or []) if f else []) %}
+        <a class="facette__ligne {{ 'est-actif' if actif }}" {% if actif %}aria-current="true"{% endif %}
            href="{{ lien_marque(x.valeur) if base.startswith('/m/')
-                    else lien('marque', '' if f.marque == x.valeur else x.valeur) }}">
+                    else bascule('marque', x.valeur) }}">
           <span>{{ x.valeur | marque }}</span><span class="facette__n">{{ x.n }}</span>
         </a>
       {% endfor %}
@@ -229,9 +255,11 @@
          affiché, pas des valeurs choisies d'avance. Proposer « 400 € et + » sur
          un rayon de gants n'aide personne. #}
       <form class="jauge" method="get" action="{{ base }}">
-        {% for k, v in {'marque': f.marque, 'taille': f.taille, 'couleur': f.couleur,
-                        'matiere': f.matiere, 'homologation': f.homologation,
-                        'saison': f.saison} .items() if v %}
+        {# marque/taille : un champ caché par valeur cochée, pas un seul -#}
+        {% for v in (f.marque or []) %}<input type="hidden" name="marque" value="{{ v }}">{% endfor %}
+        {% for v in (f.taille or []) %}<input type="hidden" name="taille" value="{{ v }}">{% endfor %}
+        {% for k, v in {'couleur': f.couleur, 'matiere': f.matiere,
+                        'homologation': f.homologation, 'saison': f.saison}.items() if v %}
           <input type="hidden" name="{{ k }}" value="{{ v }}">
         {% endfor %}
         {% if f.marchands > 2 %}<input type="hidden" name="marchands" value="{{ f.marchands }}">{% endif %}
@@ -262,8 +290,9 @@
       <h3>Taille</h3>
       <div class="pastilles facette__liste facette__liste--pastilles" data-max="12">
         {% for x in facettes.tailles %}
-          <a class="pastille-taille {{ 'est-actif' if f.taille == x.valeur }}" {% if f.taille == x.valeur %}aria-current="true"{% endif %}
-             href="{{ lien('taille', '' if f.taille == x.valeur else x.valeur) }}"
+          {% set actif = x.valeur in ((f.taille or []) if f else []) %}
+          <a class="pastille-taille {{ 'est-actif' if actif }}" {% if actif %}aria-current="true"{% endif %}
+             href="{{ bascule('taille', x.valeur) }}"
              title="{{ x.n }} produits">{{ x.valeur | taille }}</a>
         {% endfor %}
       </div>

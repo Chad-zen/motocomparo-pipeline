@@ -1339,10 +1339,10 @@ class Filtres:
 
     categories: list[int] | None = None
     texte: str | None = None
-    marque: str | None = None
+    marque: list[str] | None = None
     prix_min: float | None = None
     prix_max: float | None = None
-    taille: str | None = None
+    taille: list[str] | None = None
     couleur: str | None = None
     # Codes écrits par `_CARAC_SQL` (« cuir », « ece-22.06 », « ete »).
     matiere: str | None = None
@@ -1361,14 +1361,14 @@ class Filtres:
         out: list[dict[str, str]] = []
         if self.texte:
             out.append({"cle": "q", "texte": f"« {self.texte} »"})
-        if self.marque:
-            out.append({"cle": "marque", "texte": self.marque.upper()})
+        for m in self.marque or []:
+            out.append({"cle": "marque", "texte": m.upper(), "valeur": m})
         if self.prix_min is not None or self.prix_max is not None:
             bas = f"{self.prix_min:.0f}" if self.prix_min is not None else "0"
             haut = f"{self.prix_max:.0f} €" if self.prix_max is not None else "et +"
             out.append({"cle": "prix", "texte": f"{bas} à {haut}"})
-        if self.taille:
-            out.append({"cle": "taille", "texte": f"Taille {self.taille}"})
+        for t in self.taille or []:
+            out.append({"cle": "taille", "texte": f"Taille {t}", "valeur": t})
         if self.couleur:
             out.append({"cle": "couleur", "texte": self.couleur})
         for param in FILTRES_CARACTERISTIQUES:
@@ -1386,14 +1386,17 @@ _OU = """
     WHERE s.merchant_count >= %(m)s AND s.cheapest IS NOT NULL
       AND p.status <> 'merged'
       AND (%(c)s::smallint[] IS NULL OR p.category_id = ANY(%(c)s::smallint[]))
-      AND (%(b)s::text IS NULL OR p.brand_code = %(b)s::text)
+      AND (%(b)s::text[] IS NULL OR p.brand_code = ANY(%(b)s::text[]))
       AND (%(lo)s::numeric IS NULL OR s.cheapest >= %(lo)s::numeric)
       AND (%(hi)s::numeric IS NULL OR s.cheapest <= %(hi)s::numeric)
       AND (%(co)s::text IS NULL OR p.colour_code = %(co)s::text)
-      AND (%(ta)s::text IS NULL OR EXISTS (
+      -- Plusieurs tailles cochees = UN produit qui a L'UNE D'ELLES (pas
+      -- toutes) : un visiteur qui coche 42 et 43 veut les deux pointures, pas
+      -- l'improbable botte vendue dans les deux a la fois.
+      AND (%(ta)s::text[] IS NULL OR EXISTS (
             SELECT 1 FROM variant v
             WHERE v.product_id = p.id
-              AND """ + _taille_norm("v.size_code") + """ = """ + _taille_norm("%(ta)s::text") + """))
+              AND """ + _taille_norm("v.size_code") + """ = ANY(%(ta)s::text[])))
       -- Matière, homologation, saison : lues dans `product_caracteristique`,
       -- jamais devinées. Un IN non corrélé, calculé une fois et haché.
       AND (%(mat)s::text IS NULL OR p.id IN (
