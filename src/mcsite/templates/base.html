@@ -670,6 +670,39 @@ function propre(u) {
 
   voile.addEventListener('click', fermer);
   document.addEventListener('keydown', e => { if (e.key === 'Escape') fermer(); });
+
+  /* Le tiroir des filtres RESTE OUVERT d'un choix à l'autre. Chaque filtre est
+     un lien : la page se recharge et le tiroir se refermait, il fallait le
+     rouvrir et retrouver sa place à chaque clic (la propriétaire, 15/10/2026).
+     On note, juste avant de quitter, qu'il était ouvert et où il en était ; la
+     page suivante le rouvre au même endroit, sans glissement. sessionStorage :
+     propre à l'onglet, rien ne sort du navigateur. La note expire en 30 s pour
+     qu'une page rouverte plus tard n'arrive pas tiroir ouvert. */
+  const CLE = 'mc-filtres-ouverts';
+  const filtres = document.getElementById('tiroir-filtres');
+  if (filtres) {
+    const noter = function () {
+      if (ouvert !== filtres) return;
+      try {
+        sessionStorage.setItem(CLE, JSON.stringify({ haut: filtres.scrollTop, t: Date.now() }));
+      } catch (err) {}
+    };
+    filtres.addEventListener('click', function (e) {
+      if (e.target.closest('a[href]')) noter();
+    });
+    filtres.addEventListener('submit', noter);
+
+    let note = null;
+    try { note = JSON.parse(sessionStorage.getItem(CLE) || 'null'); sessionStorage.removeItem(CLE); }
+    catch (err) {}
+    const estTiroir = getComputedStyle(filtres).position !== 'static';
+    if (note && estTiroir && Date.now() - note.t < 30000) {
+      filtres.style.transition = 'none';
+      ouvrir(filtres, document.querySelector('[aria-controls="tiroir-filtres"]'));
+      filtres.scrollTop = note.haut || 0;
+      requestAnimationFrame(function () { filtres.style.transition = ''; });
+    }
+  }
 })();
 </script>
 

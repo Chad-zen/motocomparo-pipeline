@@ -193,7 +193,7 @@
         {% endif %}
       {% endfor %}
       </div>
-      <button type="button" class="facette__plus" data-plus hidden></button>
+      <button type="button" class="facette__plus" data-facette-plus hidden></button>
     </section>
 
     <section class="facette">
@@ -207,7 +207,7 @@
         </a>
       {% endfor %}
       </div>
-      <button type="button" class="facette__plus" data-plus hidden></button>
+      <button type="button" class="facette__plus" data-facette-plus hidden></button>
     </section>
 
     {% if facettes.prix_maxi %}
@@ -253,7 +253,7 @@
              title="{{ x.n }} produits">{{ x.valeur | taille }}</a>
         {% endfor %}
       </div>
-      <button type="button" class="facette__plus" data-plus hidden></button>
+      <button type="button" class="facette__plus" data-facette-plus hidden></button>
     </section>
     {% endif %}
 
@@ -268,7 +268,7 @@
         </a>
       {% endfor %}
       </div>
-      <button type="button" class="facette__plus" data-plus hidden></button>
+      <button type="button" class="facette__plus" data-facette-plus hidden></button>
     </section>
     {% endif %}
 
@@ -289,7 +289,7 @@
       document.querySelectorAll('.facette__liste[data-max]').forEach(function (l) {
         var max = +l.dataset.max, items = l.children, caches = items.length - max;
         var bouton = l.nextElementSibling;
-        if (caches <= 0 || !bouton || !bouton.hasAttribute('data-plus')) return;
+        if (caches <= 0 || !bouton || !bouton.hasAttribute('data-facette-plus')) return;
         var actif = l.querySelector('.est-actif');
         var rang = actif ? Array.prototype.indexOf.call(items, actif) : -1;
         var libelle = function () {
