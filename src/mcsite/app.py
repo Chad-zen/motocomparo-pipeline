@@ -1411,8 +1411,9 @@ def article(request: Request, slug: str):
 _GTM_ID = os.environ.get("GTM_ID", "").strip()
 _GA4_ID = os.environ.get("GA4_ID", "").strip()
 # Le chat d'assistance Crisp : un identifiant de site (UUID), public par nature
-# (il figure dans le code que Crisp fournit). Chargé comme la mesure d'audience :
-# APRÈS le consentement, jamais avant.
+# (il figure dans le code que Crisp fournit). Chargé dès l'ouverture de toute
+# page, indépendamment du bandeau de cookies : décision de la propriétaire
+# (16/10/2026). La page de confidentialité le dit.
 _CRISP_ID = os.environ.get("CRISP_WEBSITE_ID", "").strip().lower()
 
 # Des identifiants, et rien d'autre. Ces champs finissent dans une balise
@@ -1438,7 +1439,7 @@ for _cfg_nom, _cfg_valeur, _cfg_motif, _cfg_exemple in (
 # Le bandeau de consentement n'a de raison d'être que s'il y a quelque chose à
 # faire consentir. Sans identifiant, il ne s'affiche pas — et la phrase de la
 # page Confidentialité qui promet l'absence de mesure reste vraie.
-_MESURE_ACTIVE = bool(_GTM_ID or _GA4_ID or _CRISP_ID)
+_MESURE_ACTIVE = bool(_GTM_ID or _GA4_ID)
 
 
 # Mentions légales : l'éditeur et le directeur de la publication ne peuvent pas

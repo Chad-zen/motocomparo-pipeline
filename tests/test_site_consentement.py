@@ -158,17 +158,20 @@ def test_l_identifiant_crisp_doit_etre_un_uuid(monkeypatch):
     importlib.reload(application)
 
 
-def test_crisp_n_est_charge_qu_apres_le_consentement():
-    """La fonction existe dans la page mais n'est appelée que par `mcChargerMesure`."""
+def test_crisp_se_charge_des_l_ouverture_hors_administration():
+    """Décision de la propriétaire (16/10/2026) : le chat ne dépend pas du bandeau.
+
+    Le script est posé à l'événement `load` (il ne passe pas devant le contenu),
+    jamais appelé par `mcChargerMesure`, et absent des pages /admin.
+    """
     s = open("src/mcsite/templates/base.html", encoding="utf-8").read()
-    assert "function mcChargerCrisp" in s
-    assert s.count("mcChargerCrisp();") == 1                 # un seul appel
-    bloc = s[s.index("function mcChargerMesure"):s.index("if (mcMesureAutorisee) mcChargerMesure();")]
-    assert "mcChargerCrisp" in bloc
-    # aucune balise client.crisp.chat posée en dur dans la page
     assert "client.crisp.chat" in s and s.count("client.crisp.chat") == 1
+    assert "request.url.path.startswith('/admin')" in s
+    bloc = s[s.index("function mcChargerMesure"):s.index("if (mcMesureAutorisee) mcChargerMesure();")]
+    assert "Crisp" not in bloc
 
 
-def test_la_page_de_confidentialite_ne_cite_que_ce_qui_est_charge():
-    s = open("src/mcsite/templates/infos.html", encoding="utf-8").read()
-    assert "{% if crisp_id %}" in s and "{% if ga4_id or gtm_id %}" in s
+def test_la_page_ne_pretend_pas_l_absence_de_cookie_quand_le_chat_est_charge():
+    s = open('src/mcsite/templates/infos.html', encoding='utf-8').read()
+    assert '{% elif not crisp_id %}' in s
+    assert '{% if ga4_id or gtm_id %}' in s

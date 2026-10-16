@@ -153,21 +153,7 @@ function mcChargerGA4(){
 }
 </script>
 {% endif %}
-{% if crisp_id %}
-{# Le chat Crisp, chargé comme la mesure d'audience : seulement une fois le
-   consentement donné (un visiteur qui refuse ne télécharge rien de Crisp).
-   L'identifiant est validé côté Python (`_CRISP_ID`) contre le format UUID. #}
-<script>
-function mcChargerCrisp(){
-  window.$crisp = [];
-  window.CRISP_WEBSITE_ID = {{ crisp_id | tojson }};
-  var s = document.createElement('script');
-  s.src = 'https://client.crisp.chat/l.js';
-  s.async = 1;
-  document.head.appendChild(s);
-}
-</script>
-{% endif %}
+
 <script>
 /* CE QUI CHANGE VRAIMENT : jusqu'ici les deux scripts ci-dessus se
    téléchargeaient sur CHAQUE page, pour CHAQUE visiteur — le Consent Mode
@@ -184,9 +170,27 @@ function mcChargerMesure() {
   window.mcMesureChargee = true;
   if (typeof mcChargerGTM === 'function') mcChargerGTM();
   if (typeof mcChargerGA4 === 'function') mcChargerGA4();
-  if (typeof mcChargerCrisp === 'function') mcChargerCrisp();
 }
 if (mcMesureAutorisee) mcChargerMesure();
+</script>
+{% endif %}
+
+{% if crisp_id and not request.url.path.startswith('/admin') %}
+{# Le chat Crisp, chargé DÈS L'OUVERTURE de la page, sans attendre le bandeau de
+   cookies : décision de la propriétaire (16/10/2026). Conséquence, écrite dans
+   la page de confidentialité : Crisp reçoit l'adresse IP de tout visiteur, qu'il
+   accepte ou refuse les cookies. Attendre l'événement `load` évite que ses
+   ~150 Ko passent devant le contenu de la page. L'identifiant est validé côté
+   Python (`_CRISP_ID`) contre le format UUID. #}
+<script>
+window.addEventListener('load', function () {
+  window.$crisp = [];
+  window.CRISP_WEBSITE_ID = {{ crisp_id | tojson }};
+  var s = document.createElement('script');
+  s.src = 'https://client.crisp.chat/l.js';
+  s.async = 1;
+  document.head.appendChild(s);
+});
 </script>
 {% endif %}
 </head>
