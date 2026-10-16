@@ -1693,7 +1693,12 @@ def api_suggestions(request: Request, q: str = "") -> Response:
                                 homologation=filtres.get("homologation"),
                                 saison=filtres.get("saison"),
                                 genre=filtres.get("genre"))
-            fiches, n = queries.listing_filtre(conn, f, 40, 0)
+            # Gardé par COMBINAISON et non par texte tapé : « gant hiver »,
+            # « gants hiver » et « Gant Hiver » sont la même liste, et son
+            # compte coûte 0,6 à 1,5 s à froid en production (16/10/2026).
+            fiches, n = cache.au_chaud(f"suggestions-rayon|{f}",
+                                       lambda: queries.listing_filtre(conn, f, 40, 0),
+                                       ttl=3600)
             if n or not filtres:
                 break
             # Un filtre que le rayon n'a pas (« casque cuir ») : le mot
