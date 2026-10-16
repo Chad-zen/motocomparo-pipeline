@@ -38,3 +38,31 @@ def test_le_calcul_de_couverture_ne_compte_que_ce_qui_a_un_sens():
 def test_les_valeurs_proposees_sont_celles_que_les_filtres_savent_nommer():
     ok = set(queries._LIBELLES_FILTRE["saison"]) | {"ete"}
     assert {v for v, _ in admin.SAISONS} <= ok | {"mi-saison", "toutes-saisons"}
+
+
+# --- corrections de fiche à la main : masquer, rayon (16/10/2026) --------------
+
+def test_une_fiche_masquee_n_existe_plus_pour_le_visiteur():
+    """`merged` sans fiche d'arrivée : 404 ; avec une fiche d'arrivée : 301."""
+    import inspect
+
+    from mcsite import app
+    src = inspect.getsource(app.product)
+    assert 'p["status"] == "merged"' in src
+    assert "raise HTTPException(404" in src and "status_code=301" in src
+
+
+def test_masquer_garde_l_ancien_statut_pour_reafficher():
+    import inspect
+
+    src = inspect.getsource(admin.masquer) + inspect.getsource(admin.reafficher)
+    assert "ancien_statut" in src and "status = 'merged', merged_into = NULL" in src
+
+
+def test_le_calcul_de_nuit_ne_reveille_pas_une_fiche_masquee():
+    """freshness ne touche que draft / published / stale."""
+    import inspect
+
+    from mcpipe import freshness
+    src = inspect.getsource(freshness)
+    assert "p.status IN ('draft', 'published')" in src and "p.status = 'stale'" in src

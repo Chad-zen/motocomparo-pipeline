@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}Corriger un produit — MotoComparo{% endblock %}
+{% block contenu %}
+<nav class="fil" aria-label="Fil d'Ariane"><a href="/admin">Tableau de bord</a> › <span>Produits</span></nav>
+<h1 class="titre-page">Corriger un produit</h1>
+<p class="sous-titre">Tape le nom d'un produit (ou colle l'adresse de sa fiche). Tu peux le ranger
+dans un autre rayon, ou le <strong>masquer</strong> : il disparaît alors des listes, de la recherche
+et du plan du site, et son adresse affiche « page introuvable ». Rien n'est effacé, tu peux le
+réafficher. Le changement est visible tout de suite.</p>
+
+<form method="get" class="alias-form">
+  <label>Produit <input name="q" value="{{ q }}" size="38" placeholder="ex. Shark i3, ou https://motocomparo.com/p/…" autofocus></label>
+  <button class="bouton bouton--or" type="submit">Chercher</button>
+</form>
+
+{% if q and not trouves %}
+  <p class="avertissement">Aucun produit trouvé pour « {{ q }} ». Seuls les produits comparés par au moins deux marchands se trouvent ici.</p>
+{% endif %}
+
+{% for p in trouves %}
+<div class="couv__fiche">
+  <a class="couv__produit" href="/p/{{ p.slug }}" target="_blank" rel="noopener">
+    {% if p.image_url %}<img src="{{ p.image_url }}" alt="" loading="lazy" width="56" height="56">{% else %}<span class="regroup__noimg"></span>{% endif %}
+    <span class="couv__txt"><b>{{ p.marque }}</b> {{ (p.best_title or '') | truncate(80) }}
+      <small>{{ p.rayon }} · {{ p.merchant_count or 0 }} marchands{% if p.cheapest %} · dès {{ p.cheapest | prix }}{% endif %}{% if p.status == 'merged' %} · <b>masquée</b>{% endif %}</small></span>
+  </a>
+  <div class="couv__champs">
+    <form method="post" action="/admin/produits/action" class="couv__champs">
+      <input type="hidden" name="action" value="rayon"><input type="hidden" name="product_id" value="{{ p.id }}">
+      <input type="hidden" name="retour" value="/admin/produits?q={{ q | urlencode }}">
+      <label>Rayon
+        <select name="rayon">
+          {% for r in rayons %}<option value="{{ r.id }}"{{ ' selected' if r.id == p.category_id }}>{{ r.label }}</option>{% endfor %}
+        </select>
+      </label>
+      <button class="bouton bouton--contour" type="submit">Changer de rayon</button>
+    </form>
+    <form method="post" action="/admin/produits/action" class="couv__champs"
+          onsubmit="return confirm('Masquer ce produit du site ?');">
+      <input type="hidden" name="action" value="masquer"><input type="hidden" name="product_id" value="{{ p.id }}">
+      <input type="hidden" name="retour" value="/admin/produits?q={{ q | urlencode }}">
+      <label>Raison (facultatif) <input name="motif" maxlength="200" placeholder="ex. pas un produit moto"></label>
+      <button class="bouton bouton--contour" type="submit"{% if p.status == 'merged' %} disabled{% endif %}>Masquer</button>
+    </form>
+  </div>
+</div>
+{% endfor %}
+
+<h2 class="titre-section">Produits masqués ({{ masques | length }})</h2>
+{% if masques %}
+<table class="offres promo-table">
+  <thead><tr><th>Produit</th><th>Raison</th><th></th></tr></thead>
+  <tbody>
+  {% for m in masques %}
+    <tr><td><b>{{ m.marque }}</b> {{ (m.titre or '') | truncate(70) }}<br><small>{{ m.slug }}</small></td>
+        <td>{{ m.motif or '—' }}</td>
+        <td><form method="post" action="/admin/produits/action">
+              <input type="hidden" name="action" value="reafficher"><input type="hidden" name="slug" value="{{ m.slug }}">
+              <button class="bouton bouton--or" type="submit">Réafficher</button></form></td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}
+  <p class="avertissement">Aucun produit masqué.</p>
+{% endif %}
+{% endblock %}

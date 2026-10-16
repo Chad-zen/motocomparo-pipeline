@@ -447,3 +447,82 @@ def enregistrer_caracteristiques(conn: psycopg.Connection, product_id: int,
     conn.execute("DELETE FROM fiche_incomplete WHERE product_id = %s AND cardinality(manque) = 0",
                  (product_id,))
     return ecrites
+
+
+# --- corrections de fiche à la main : rayon, masquer (16/10/2026) --------------
+
+def rayons_choix(conn: psycopg.Connection) -> list[dict[str, Any]]:
+    """Tous les rayons, sous-rayons indentés sous leur parent."""
+    lignes = _rows(conn, "SELECT id, parent_id, code, label_fr FROM category "
+                         "WHERE code <> 'unknown' ORDER BY coalesce(parent_id, id), parent_id NULLS FIRST, label_fr")
+    return [{"id": r["id"], "label": ("   ↳ " if r["parent_id"] else "") + r["label_fr"]}
+            for r in lignes]
+
+
+def produits_trouves(conn: psycopg.Connection, q: str, limite: int = 20) -> list[dict[str, Any]]:
+    """Les fiches qui correspondent à ce qui est tapé (mêmes mots que la recherche
+    du site). Une adresse de fiche collée en entier est reconnue aussi."""
+    from . import queries, suggestions
+
+    q = (q or "").strip()
+    if "/p/" in q:
+        q = q.split("/p/", 1)[1].split("?", 1)[0].strip("/")
+        fiches = _rows(conn, "SELECT p.slug FROM product p WHERE p.slug = %s", (q,))
+        slugs = [f["slug"] for f in fiches]
+    else:
+        mots = suggestions.mots(q)
+        trouves = queries.produits_suggeres(conn, mots, limite) if mots else []
+        slugs = [t["slug"] for t in trouves]
+    if not slugs:
+        return []
+    return _rows(conn, """
+        SELECT p.id, p.slug, upper(p.brand_code) AS marque, p.status, p.category_id,
+               c.label_fr AS rayon, s.best_title, s.image_url, s.cheapest, s.merchant_count
+        FROM product p JOIN category c ON c.id = p.category_id
+        LEFT JOIN product_stats s ON s.product_id = p.id
+        WHERE p.slug = ANY(%s) ORDER BY s.merchant_count DESC NULLS LAST""", (slugs,))
+
+
+def produits_masques(conn: psycopg.Connection) -> list[dict[str, Any]]:
+    return _rows(conn, """
+        SELECT m.slug, m.product_id, m.motif, m.cree_le, upper(p.brand_code) AS marque,
+               coalesce(s.best_title, p.model_display) AS titre
+        FROM produit_masque m JOIN product p ON p.id = m.product_id
+        LEFT JOIN product_stats s ON s.product_id = p.id
+        ORDER BY m.cree_le DESC""")
+
+
+def masquer(conn: psycopg.Connection, product_id: int, motif: str = "") -> bool:
+    """Retire la fiche du site (statut `merged`, sans fiche d'arrivée)."""
+    p = _row(conn, "SELECT slug, status FROM product WHERE id = %s", (product_id,))
+    if not p or p["status"] == "merged":
+        return False
+    conn.execute("INSERT INTO produit_masque (slug, product_id, ancien_statut, motif) "
+                 "VALUES (%s, %s, %s, %s) ON CONFLICT (slug) DO NOTHING",
+                 (p["slug"], product_id, p["status"], motif[:200] or None))
+    conn.execute("UPDATE product SET status = 'merged', merged_into = NULL WHERE id = %s",
+                 (product_id,))
+    return True
+
+
+def reafficher(conn: psycopg.Connection, slug: str) -> bool:
+    m = _row(conn, "SELECT product_id, ancien_statut FROM produit_masque WHERE slug = %s", (slug,))
+    if not m:
+        return False
+    conn.execute("UPDATE product SET status = %s, merged_into = NULL WHERE id = %s",
+                 (m["ancien_statut"], m["product_id"]))
+    conn.execute("DELETE FROM produit_masque WHERE slug = %s", (slug,))
+    return True
+
+
+def changer_rayon(conn: psycopg.Connection, product_id: int, rayon: int) -> bool:
+    """Range la fiche dans un autre rayon ; l'ancien est gardé pour revenir."""
+    p = _row(conn, "SELECT slug, category_id FROM product WHERE id = %s AND status <> 'merged'",
+             (product_id,))
+    existe = _row(conn, "SELECT id FROM category WHERE id = %s AND code <> 'unknown'", (rayon,))
+    if not p or not existe or p["category_id"] == rayon:
+        return False
+    conn.execute("INSERT INTO produit_rayon_corrige (slug, ancien_rayon, nouveau_rayon) "
+                 "VALUES (%s, %s, %s)", (p["slug"], p["category_id"], rayon))
+    conn.execute("UPDATE product SET category_id = %s WHERE id = %s", (rayon, product_id))
+    return True

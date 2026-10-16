@@ -569,9 +569,12 @@ def product(request: Request, slug: str):
         # Une fiche regroupée avec une autre (`mcpipe consolider`) garde son
         # adresse : elle renvoie, en 301, vers la fiche qui l'a absorbée. Sans
         # cela, chaque regroupement perdait une page déjà connue de Google.
-        if p["status"] == "merged" and p.get("merged_into"):
-            cible = conn.execute("SELECT slug FROM product WHERE id = %s",
-                                 (p["merged_into"],)).fetchone()
+        # Une fiche MASQUÉE à la main (`merged` sans fiche d'arrivée) n'existe plus
+        # pour le visiteur : 404, comme une adresse inconnue.
+        if p["status"] == "merged":
+            cible = (conn.execute("SELECT slug FROM product WHERE id = %s",
+                                  (p["merged_into"],)).fetchone()
+                     if p.get("merged_into") else None)
             if cible:
                 return RedirectResponse(f"/p/{cible[0]}", status_code=301)
             raise HTTPException(404, "Produit inconnu")
@@ -1136,6 +1139,40 @@ async def admin_caracteristiques_enregistrer(request: Request):
     retour = champs.get("retour", "")
     if not retour.startswith("/admin/caracteristiques"):
         retour = "/admin/caracteristiques"
+    return RedirectResponse(retour, status_code=303, headers=_SANS_CACHE)
+
+
+@app.get("/admin/produits", response_class=HTMLResponse)
+def admin_produits(request: Request, q: str = ""):
+    refus = _admin_autorise(request)
+    if refus is not None:
+        return refus
+    with pool.connection() as conn:  # type: ignore[union-attr]
+        contexte = {"q": q, "trouves": admin.produits_trouves(conn, q) if q.strip() else [],
+                    "rayons": admin.rayons_choix(conn), "masques": admin.produits_masques(conn)}
+    return templates.TemplateResponse(request, "admin_produits.html",
+                                      _ctx(request, **contexte), headers=_SANS_CACHE)
+
+
+@app.post("/admin/produits/action")
+async def admin_produits_action(request: Request):
+    champs, refus = await _admin_formulaire(request)
+    if refus is not None:
+        return refus
+    action = champs.get("action", "")
+    with pool.connection() as conn:  # type: ignore[union-attr]
+        if action == "masquer" and champs.get("product_id", "").isdigit():
+            admin.masquer(conn, int(champs["product_id"]), champs.get("motif", ""))
+        elif action == "reafficher" and champs.get("slug"):
+            admin.reafficher(conn, champs["slug"])
+        elif (action == "rayon" and champs.get("product_id", "").isdigit()
+              and champs.get("rayon", "").isdigit()):
+            admin.changer_rayon(conn, int(champs["product_id"]), int(champs["rayon"]))
+    # le site garde ses listes trois heures : une correction doit se voir tout de suite
+    cache.vider()
+    retour = champs.get("retour", "")
+    if not retour.startswith("/admin/produits"):
+        retour = "/admin/produits"
     return RedirectResponse(retour, status_code=303, headers=_SANS_CACHE)
 
 
