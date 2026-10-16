@@ -351,20 +351,49 @@ if (mcMesureAutorisee) mcChargerMesure();
     </form>
 
     <div class="tiroir__section">Rayons</div>
+    {# Les sous-rayons sont REPLIÉS : « Casques » les déplie, et le premier
+       lien du dépli mène au rayon entier. Dépliés d'office, les quatre types
+       de casques repoussaient tous les autres rayons sous l'écran
+       (demandé par la propriétaire, 16/10/2026). #}
     {% for c in nav %}
-      <a class="tiroir__item" href="/c/{{ c.code }}">
+      {% if c.enfants %}
+      <button type="button" class="tiroir__item tiroir__item--parent"
+              aria-expanded="false" aria-controls="tiroir-sous-{{ c.code }}">
         {{ cat.picto(c.code, 'ico') }}
         <span class="tiroir__lbl">{{ c.label_fr }}</span>
-        <span class="tiroir__chev" aria-hidden="true">›</span>
-      </a>
-      {% for e in c.enfants %}
+        <span class="tiroir__chev tiroir__chev--bas" aria-hidden="true">›</span>
+      </button>
+      <div class="tiroir__sous" id="tiroir-sous-{{ c.code }}" hidden>
+        <a class="tiroir__item tiroir__item--fille" href="/c/{{ c.code }}">
+          {{ cat.picto(c.code, 'ico') }}
+          <span class="tiroir__lbl">{{ "Toutes les" if c.code == "protection" else "Tous les" }} {{ c.label_fr | lower }}</span>
+          <span class="tiroir__chev" aria-hidden="true">›</span>
+        </a>
+        {% for e in c.enfants %}
         <a class="tiroir__item tiroir__item--fille" href="/c/{{ e.code }}">
           {{ cat.picto(e.code, 'ico') }}
           <span class="tiroir__lbl">{{ e.label_fr }}</span>
           <span class="tiroir__chev" aria-hidden="true">›</span>
         </a>
-      {% endfor %}
+        {% endfor %}
+      </div>
+      {% else %}
+      <a class="tiroir__item" href="/c/{{ c.code }}">
+        {{ cat.picto(c.code, 'ico') }}
+        <span class="tiroir__lbl">{{ c.label_fr }}</span>
+        <span class="tiroir__chev" aria-hidden="true">›</span>
+      </a>
+      {% endif %}
     {% endfor %}
+    <script>
+      document.querySelectorAll('.tiroir__item--parent').forEach(function (b) {
+        b.addEventListener('click', function () {
+          var ouvert = b.getAttribute('aria-expanded') === 'true';
+          b.setAttribute('aria-expanded', String(!ouvert));
+          document.getElementById(b.getAttribute('aria-controls')).hidden = ouvert;
+        });
+      });
+    </script>
 
     {% if marques %}
     <div class="tiroir__section">Marques</div>

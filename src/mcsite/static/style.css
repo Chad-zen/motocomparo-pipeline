@@ -1488,6 +1488,16 @@ body:has(.banc:not([hidden])) { padding-bottom: var(--banc-h, 94px); }
 .tiroir__item--fille .ico { flex-basis: 28px; width: 28px; height: 28px; opacity: .78; }
 .tiroir__item--fille .tiroir__lbl { font-size: 12.5px; font-weight: 600; color: #b6c0d6; }
 .tiroir__chev { color: var(--or); font-size: 20px; line-height: 1; opacity: .65; }
+/* Le rayon qui déplie ses sous-rayons : un bouton habillé comme un lien. */
+.tiroir__item--parent {
+  width: 100%; background: none; border: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, .07);
+  font: inherit; text-align: left; cursor: pointer;
+}
+.tiroir__chev--bas { transition: transform .2s; }
+.tiroir__item--parent[aria-expanded="true"] .tiroir__chev--bas { transform: rotate(90deg); }
+.tiroir__sous { background: rgba(255, 255, 255, .03); }
+.tiroir__sous[hidden] { display: none; }
 .tiroir__n { font-variant-numeric: tabular-nums; }
 .tiroir__item--marque .tiroir__lbl { letter-spacing: .06em; }
 
