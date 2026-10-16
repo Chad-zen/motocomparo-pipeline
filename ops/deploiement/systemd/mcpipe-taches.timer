@@ -1,0 +1,10 @@
+[Unit]
+Description=MotoComparo — regarder chaque minute si un calcul est demandé
+
+[Timer]
+OnCalendar=*:0/1
+AccuracySec=10s
+Persistent=false
+
+[Install]
+WantedBy=timers.target

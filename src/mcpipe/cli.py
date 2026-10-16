@@ -751,3 +751,15 @@ def couverture() -> None:
     r = recalculer()
     console.print(f"[green]ok[/] {r['fiches_incompletes']:,} fiches comparables "
                   f"avec au moins une caracteristique manquante")
+
+
+@app.command()
+def taches() -> None:
+    """Execute la plus ancienne demande de calcul faite dans l'administration.
+
+    Lance chaque minute par un minuteur systeme ; une seule tache a la fois, et
+    jamais pendant le releve de nuit.
+    """
+    from .taches import executer_une
+
+    console.print(executer_une())

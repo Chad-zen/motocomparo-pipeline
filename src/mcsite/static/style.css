@@ -4336,3 +4336,4 @@ body.a-consentement .banc { display: none; }
 .couv__txt small { color: var(--muted, #5f6880); font-size: 12px; }
 .couv__champs { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; }
 .couv__na { color: var(--muted, #8a91a6); font-size: 12px; }
+.calcul__sortie { white-space: pre-wrap; font-size: 12px; max-height: 220px; overflow: auto; background: #f4f6fa; padding: 8px; border-radius: 8px; }

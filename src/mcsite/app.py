@@ -1176,6 +1176,30 @@ async def admin_produits_action(request: Request):
     return RedirectResponse(retour, status_code=303, headers=_SANS_CACHE)
 
 
+@app.get("/admin/calculs", response_class=HTMLResponse)
+def admin_calculs(request: Request):
+    refus = _admin_autorise(request)
+    if refus is not None:
+        return refus
+    with pool.connection() as conn:  # type: ignore[union-attr]
+        contexte = {"calculs": admin.calculs(conn), "historique": admin.calculs_historique(conn)}
+    return templates.TemplateResponse(request, "admin_calculs.html",
+                                      _ctx(request, **contexte), headers=_SANS_CACHE)
+
+
+@app.post("/admin/calculs/lancer")
+async def admin_calculs_lancer(request: Request):
+    champs, refus = await _admin_formulaire(request)
+    if refus is not None:
+        return refus
+    if champs.get("tache") == "cache":
+        cache.vider()           # instantané : pas de file d'attente
+    else:
+        with pool.connection() as conn:  # type: ignore[union-attr]
+            admin.demander_calcul(conn, champs.get("tache", ""))
+    return RedirectResponse("/admin/calculs", status_code=303, headers=_SANS_CACHE)
+
+
 @app.get("/favoris", response_class=HTMLResponse)
 def favoris(request: Request, p: str = ""):
     """The shortlist. Empty until the page's own script fills the URL from the

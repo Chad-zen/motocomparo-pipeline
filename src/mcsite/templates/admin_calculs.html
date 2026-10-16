@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}Lancer un calcul — MotoComparo{% endblock %}
+{% block contenu %}
+<nav class="fil" aria-label="Fil d'Ariane"><a href="/admin">Tableau de bord</a> › <span>Calculs</span></nav>
+<h1 class="titre-page">Lancer un calcul</h1>
+<p class="sous-titre">Le site se met à jour tout seul chaque nuit. Ces boutons servent quand tu veux voir
+un changement <strong>tout de suite</strong>, sans attendre. Un calcul demandé démarre dans la minute, un
+seul à la fois, et jamais pendant la mise à jour de nuit (vers 6 h). Le site se rafraîchit à la fin.</p>
+
+<table class="offres promo-table">
+  <thead><tr><th>Calcul</th><th>Durée</th><th>Dernière demande</th><th></th></tr></thead>
+  <tbody>
+  {% for c in calculs %}
+    <tr>
+      <td><strong>{{ c.libelle }}</strong><br><small>{{ c.aide }}</small></td>
+      <td>{{ c.duree }}</td>
+      <td>
+        {% if c.derniere %}
+          <span class="etat etat--{{ 'ok' if c.derniere.statut == 'terminee' else ('na' if c.derniere.statut == 'echec' else '') }}">
+            {{ {'demandee': 'en attente', 'en_cours': 'en cours', 'terminee': 'terminé', 'echec': 'échec'}[c.derniere.statut] }}</span>
+          <br><small>{{ c.derniere.demandee_le.strftime('%d/%m %H:%M') }}</small>
+        {% else %}—{% endif %}
+      </td>
+      <td>
+        <form method="post" action="/admin/calculs/lancer">
+          <input type="hidden" name="tache" value="{{ c.cle }}">
+          <button class="bouton bouton--or" type="submit"
+                  {% if c.derniere and c.derniere.statut in ('demandee', 'en_cours') %}disabled{% endif %}>Lancer</button>
+        </form>
+      </td>
+    </tr>
+  {% endfor %}
+    <tr>
+      <td><strong>Vider la mémoire du site</strong><br><small>Les listes sont gardées 3 heures : ce bouton les refait à la prochaine visite.</small></td>
+      <td>instantané</td><td>—</td>
+      <td><form method="post" action="/admin/calculs/lancer"><input type="hidden" name="tache" value="cache"><button class="bouton bouton--contour" type="submit">Vider</button></form></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 class="titre-section">Historique</h2>
+{% if historique %}
+<table class="offres promo-table">
+  <thead><tr><th>Quand</th><th>Calcul</th><th>Résultat</th></tr></thead>
+  <tbody>
+  {% for h in historique %}
+    <tr>
+      <td>{{ h.demandee_le.strftime('%d/%m %H:%M') }}</td>
+      <td>{{ h.tache }}</td>
+      <td>
+        {{ {'demandee': 'en attente', 'en_cours': 'en cours', 'terminee': 'terminé', 'echec': 'échec'}[h.statut] }}
+        {% if h.fin_le and h.debut_le %}<small>({{ ((h.fin_le - h.debut_le).total_seconds() / 60) | round(1) }} min)</small>{% endif %}
+        {% if h.sortie %}<details><summary>détail</summary><pre class="calcul__sortie">{{ h.sortie }}</pre></details>{% endif %}
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}
+  <p class="avertissement">Aucun calcul demandé pour l'instant.</p>
+{% endif %}
+{% endblock %}

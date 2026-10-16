@@ -526,3 +526,33 @@ def changer_rayon(conn: psycopg.Connection, product_id: int, rayon: int) -> bool
                  "VALUES (%s, %s, %s)", (p["slug"], p["category_id"], rayon))
     conn.execute("UPDATE product SET category_id = %s WHERE id = %s", (rayon, product_id))
     return True
+
+
+# --- les calculs lancés depuis l'écran (16/10/2026) ---------------------------
+
+def calculs(conn: psycopg.Connection) -> list[dict[str, Any]]:
+    """Les calculs possibles, avec l'état de leur dernière demande."""
+    from mcpipe.taches import TACHES
+
+    derniere = {r["tache"]: r for r in _rows(conn, """
+        SELECT DISTINCT ON (tache) tache, statut, demandee_le, fin_le
+        FROM tache_demandee ORDER BY tache, id DESC""")}
+    return [{"cle": k, "libelle": t.libelle, "aide": t.aide, "duree": t.duree,
+             "derniere": derniere.get(k)} for k, t in TACHES.items()]
+
+
+def calculs_historique(conn: psycopg.Connection, limite: int = 12) -> list[dict[str, Any]]:
+    return _rows(conn, "SELECT id, tache, statut, demandee_le, debut_le, fin_le, sortie "
+                       "FROM tache_demandee ORDER BY id DESC LIMIT %s", (limite,))
+
+
+def demander_calcul(conn: psycopg.Connection, cle: str) -> bool:
+    from mcpipe.taches import TACHES
+
+    if cle not in TACHES:
+        return False
+    if _row(conn, "SELECT 1 AS x FROM tache_demandee WHERE tache = %s "
+                  "AND statut IN ('demandee', 'en_cours')", (cle,)):
+        return False
+    conn.execute("INSERT INTO tache_demandee (tache) VALUES (%s)", (cle,))
+    return True
