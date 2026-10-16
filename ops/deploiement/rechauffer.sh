@@ -22,7 +22,11 @@ for i in $(seq 1 30); do
 done
 # séquentiel exprès : une seule requête lourde à la fois sur le cœur unique
 pages="/ /produits /bons-plans /marques"
-rayons=$(curl -s --max-time 120 "$B/" | grep -o 'href="/c/[a-z_]*"' | sort -u | cut -d'"' -f2)
-for u in $pages $rayons; do
+accueil=$(curl -s --max-time 120 "$B/")
+rayons=$(echo "$accueil" | grep -o 'href="/c/[a-z_.]*"' | sort -u | cut -d'"' -f2)
+# Les 12 marques de l'accueil : la recherche « shoei » mène à /m/shoei depuis
+# le 16/10/2026, et une page de marque froide coûte 5 s (mesuré sur dainese).
+marques=$(echo "$accueil" | grep -o 'href="/m/[a-z0-9_-]*"' | sort -u | cut -d'"' -f2)
+for u in $pages $rayons $marques; do
     curl -s -o /dev/null --max-time 120 "$B$u"
 done
