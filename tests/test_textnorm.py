@@ -120,6 +120,15 @@ def test_size_code_mpn_fallback_needs_a_boundary():
     assert tn.size_code("", None, None, "168075199XL") == ("XL", "mpn")
 
 
+def test_la_couleur_d_une_reference_de_piece_n_est_pas_une_taille():
+    """« LEH.07.039.12200/S » : /S est l'argent chez SW-Motech (16/10/2026)."""
+    assert tn.size_code("", None, None, "LEH.07.039.12200/S") == ("", "")
+    assert tn.size_code("", None, None, "KFT.07.976.70100/B") == ("", "")
+    # une vraie taille après une barre reste lue
+    assert tn.size_code("", None, None, "3301520/S") == ("S", "mpn")
+    assert tn.size_code("", None, None, "168075199-XL") == ("XL", "mpn")
+
+
 def test_size_code_5xl_6xl():
     assert tn.size_code("5XL", None, None, None) == ("5XL", "feed")
     assert tn.size_code("XXXXXXL", None, None, None) == ("6XL", "feed")

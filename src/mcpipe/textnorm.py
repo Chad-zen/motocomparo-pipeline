@@ -185,6 +185,12 @@ _SIZE_URL_RE = re.compile(r"taille[-/ ]([a-z0-9]{1,4})", re.I)
 _SIZE_MPN_RE = re.compile(
     r"(?:[-_ /]|(?<=\d))(xxs|xs|s|m|l|xl|xxl|xxxl|2xl|3xl|4xl|tu|t\d{1,2})$", re.I
 )
+# La référence d'une pièce SW-Motech (« LEH.07.039.12200/S ») se termine par la
+# COULEUR : /S argent, /B noir. Lue comme une taille, elle donnait « S » à 382
+# offres, soit environ 250 valises, repose-pieds et rehausseurs (relevé du
+# 16/10/2026, vu sur /m/swmotech?taille=S). Une référence à quatre groupes
+# séparés par des points n'est jamais celle d'un vêtement.
+_MPN_PIECE_RE = re.compile(r"^[A-Za-z]{2,4}\.\d{2}\.\d{3}\.\d{4,5}/[A-Za-z]{1,3}$")
 # A leg-length word glued to a letter size: "Short XL", "M court", "LONGM".
 # `size_code` has already stripped spaces by the time this runs, so both orders
 # have to be matched. The size is what survives; the cut is dropped.
@@ -365,7 +371,7 @@ def size_code(raw_size: str | None, title: str | None, link: str | None,
         m = _SIZE_TITLE_RE.search(title)
         if m:
             cand, src = m.group(1), "title"
-    if not cand and mpn:
+    if not cand and mpn and not _MPN_PIECE_RE.match(mpn.strip()):
         m = _SIZE_MPN_RE.search(mpn)
         if m:
             cand, src = m.group(1), "mpn"
