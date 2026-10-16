@@ -442,13 +442,22 @@ def _seo_liste(base, code, courante, f, page, total) -> dict[str, Any] | None:
         return None
     _rayons()   # garde « nav » au chaud : la ligne suivante ne fait que le lire
     marchands = len(cache.au_chaud("nav", lambda: (None, None, []))[2] or [])
+    def _saisis() -> dict[str, dict[str, Any]]:
+        with pool.connection() as conn:  # type: ignore[union-attr]
+            return admin.textes_saisis(conn)
+
+    # Une minute de mémoire : un texte saisi dans l'administration se voit vite.
+    saisis = cache.au_chaud("textes-saisis", _saisis, ttl=60)
     if code and courante:
-        return seo.rayon(code, courante["label_fr"], total, marchands)
+        return seo.avec_textes_saisis(
+            seo.rayon(code, courante["label_fr"], total, marchands), saisis.get(f"rayon:{code}"))
     if marque_fixee and f.marque:
         lignes = sorted((x for x in _marques_par_rayon()
                          if x["marque"] == f.marque[0].lower()), key=lambda x: -x["n"])
-        return seo.marque(labels.brand(f.marque[0]), total, marchands,
-                          [x["rayon"] for x in lignes])
+        return seo.avec_textes_saisis(
+            seo.marque(labels.brand(f.marque[0]), total, marchands,
+                       [x["rayon"] for x in lignes]),
+            saisis.get(f"marque:{f.marque[0].lower()}"))
     return None
 
 
@@ -1198,6 +1207,31 @@ async def admin_calculs_lancer(request: Request):
         with pool.connection() as conn:  # type: ignore[union-attr]
             admin.demander_calcul(conn, champs.get("tache", ""))
     return RedirectResponse("/admin/calculs", status_code=303, headers=_SANS_CACHE)
+
+
+@app.get("/admin/textes", response_class=HTMLResponse)
+def admin_textes(request: Request, marque: str = ""):
+    refus = _admin_autorise(request)
+    if refus is not None:
+        return refus
+    with pool.connection() as conn:  # type: ignore[union-attr]
+        contexte = {"rayons": admin.textes_rayons(conn), "marque": marque.strip().lower(),
+                    "marques_saisies": [v for k, v in admin.textes_saisis(conn).items()
+                                        if k.startswith("marque:")]}
+    return templates.TemplateResponse(request, "admin_textes.html",
+                                      _ctx(request, **contexte), headers=_SANS_CACHE)
+
+
+@app.post("/admin/textes/enregistrer")
+async def admin_textes_enregistrer(request: Request):
+    champs, refus = await _admin_formulaire(request)
+    if refus is not None:
+        return refus
+    with pool.connection() as conn:  # type: ignore[union-attr]
+        admin.enregistrer_texte(conn, champs.get("cle", ""), champs.get("titre", ""),
+                                champs.get("description", ""), champs.get("intro", ""))
+    cache.vider()
+    return RedirectResponse("/admin/textes", status_code=303, headers=_SANS_CACHE)
 
 
 @app.get("/favoris", response_class=HTMLResponse)

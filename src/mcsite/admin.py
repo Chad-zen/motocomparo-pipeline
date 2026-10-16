@@ -556,3 +556,45 @@ def demander_calcul(conn: psycopg.Connection, cle: str) -> bool:
         return False
     conn.execute("INSERT INTO tache_demandee (tache) VALUES (%s)", (cle,))
     return True
+
+
+# --- textes des pages rayon et marque (16/10/2026) ----------------------------
+
+def textes_saisis(conn: psycopg.Connection) -> dict[str, dict[str, Any]]:
+    return {r["cle"]: r for r in _rows(conn, "SELECT cle, titre, description, intro FROM texte_site")}
+
+
+def textes_rayons(conn: psycopg.Connection) -> list[dict[str, Any]]:
+    """Chaque rayon : le texte automatique, et celui que tu as saisi."""
+    from . import seo
+
+    saisis = textes_saisis(conn)
+    lignes = _rows(conn, """
+        SELECT c.code, c.label_fr, count(*) AS n
+        FROM product p JOIN product_stats s ON s.product_id = p.id
+        JOIN category c ON c.id = p.category_id
+        WHERE s.merchant_count >= 2 AND s.cheapest IS NOT NULL AND p.status <> 'merged'
+        GROUP BY c.code, c.label_fr ORDER BY count(*) DESC""")
+    marchands = _row(conn, "SELECT count(DISTINCT m.id) AS n FROM merchant m WHERE m.affiche").get("n", 0)
+    return [{"cle": f"rayon:{l['code']}", "libelle": l["label_fr"], "n": l["n"],
+             "auto": seo.rayon(l["code"], l["label_fr"], l["n"], marchands),
+             "saisi": saisis.get(f"rayon:{l['code']}") or {}} for l in lignes]
+
+
+def enregistrer_texte(conn: psycopg.Connection, cle: str, titre: str, description: str,
+                      intro: str) -> bool:
+    """Écrit les trois textes d'une page ; trois champs vides = retour à l'automatique."""
+    import re
+
+    if not re.fullmatch(r"(rayon|marque):[a-z0-9._-]{1,60}", cle):
+        return False
+    titre, description, intro = titre.strip()[:120], description.strip()[:320], intro.strip()[:1200]
+    if not (titre or description or intro):
+        conn.execute("DELETE FROM texte_site WHERE cle = %s", (cle,))
+        return True
+    conn.execute("""
+        INSERT INTO texte_site (cle, titre, description, intro) VALUES (%s, %s, %s, %s)
+        ON CONFLICT (cle) DO UPDATE SET titre = excluded.titre,
+            description = excluded.description, intro = excluded.intro, modifie_le = now()""",
+                 (cle, titre or None, description or None, intro or None))
+    return True

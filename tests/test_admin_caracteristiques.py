@@ -66,3 +66,21 @@ def test_le_calcul_de_nuit_ne_reveille_pas_une_fiche_masquee():
     from mcpipe import freshness
     src = inspect.getsource(freshness)
     assert "p.status IN ('draft', 'published')" in src and "p.status = 'stale'" in src
+
+
+# --- textes des pages rayon et marque saisis dans l'administration -------------
+
+def test_un_texte_saisi_remplace_l_automatique_champ_par_champ():
+    from mcsite import seo
+    auto = {"titre": "auto", "description": "auto", "intro": "auto"}
+    assert seo.avec_textes_saisis(auto, None) == auto
+    assert seo.avec_textes_saisis(auto, {"titre": "À moi", "description": "", "intro": None}) == \
+        {"titre": "À moi", "description": "auto", "intro": "auto"}
+    assert seo.avec_textes_saisis(auto, {"titre": "  ", "description": "", "intro": ""}) == auto
+
+
+def test_une_cle_de_texte_hors_format_est_refusee():
+    import inspect
+
+    src = inspect.getsource(admin.enregistrer_texte)
+    assert "(rayon|marque):" in src and "return False" in src

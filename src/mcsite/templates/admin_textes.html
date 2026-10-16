@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Textes des pages — MotoComparo{% endblock %}
+{% block contenu %}
+<nav class="fil" aria-label="Fil d'Ariane"><a href="/admin">Tableau de bord</a> › <span>Textes</span></nav>
+<h1 class="titre-page">Textes des pages rayon et marque</h1>
+<p class="sous-titre">Pour chaque page, trois textes : le <strong>titre</strong> (onglet du navigateur et
+résultat Google), la <strong>description</strong> (la phrase sous le titre dans Google) et le
+<strong>texte d'ouverture</strong> (affiché sous le titre de la page). Laisse un champ vide pour garder
+le texte automatique, qui apparaît en grisé. Vide les trois pour tout remettre en automatique.
+Google met plusieurs jours à reprendre un nouveau titre.</p>
+
+<h2 class="titre-section">Une page de marque</h2>
+<form method="get" class="alias-form">
+  <label>Code de la marque <input name="marque" value="{{ marque }}" pattern="[a-z0-9]+" placeholder="ex. shoei"></label>
+  <button class="bouton bouton--contour" type="submit">Afficher</button>
+</form>
+{% if marque %}
+<form method="post" action="/admin/textes/enregistrer" class="texte-form">
+  <input type="hidden" name="cle" value="marque:{{ marque }}">
+  <b>Marque « {{ marque }} »</b>
+  <label>Titre <input name="titre" maxlength="120" size="70"></label>
+  <label>Description <textarea name="description" maxlength="320" rows="2"></textarea></label>
+  <label>Texte d'ouverture <textarea name="intro" maxlength="1200" rows="3"></textarea></label>
+  <button class="bouton bouton--or" type="submit">Enregistrer</button>
+</form>
+{% endif %}
+{% for s in marques_saisies %}
+<form method="post" action="/admin/textes/enregistrer" class="texte-form">
+  <input type="hidden" name="cle" value="{{ s.cle }}">
+  <b>{{ s.cle }}</b>
+  <label>Titre <input name="titre" maxlength="120" size="70" value="{{ s.titre or '' }}"></label>
+  <label>Description <textarea name="description" maxlength="320" rows="2">{{ s.description or '' }}</textarea></label>
+  <label>Texte d'ouverture <textarea name="intro" maxlength="1200" rows="3">{{ s.intro or '' }}</textarea></label>
+  <button class="bouton bouton--or" type="submit">Enregistrer</button>
+</form>
+{% endfor %}
+
+<h2 class="titre-section">Les rayons ({{ rayons | length }})</h2>
+{% for r in rayons %}
+<form method="post" action="/admin/textes/enregistrer" class="texte-form">
+  <input type="hidden" name="cle" value="{{ r.cle }}">
+  <b>{{ r.libelle }}</b> <small>{{ r.n }} produits comparés · <a href="/c/{{ r.cle.split(':')[1] }}" target="_blank" rel="noopener">voir la page</a></small>
+  <label>Titre <input name="titre" maxlength="120" size="70" value="{{ r.saisi.titre or '' }}" placeholder="{{ r.auto.titre }}"></label>
+  <label>Description <textarea name="description" maxlength="320" rows="2" placeholder="{{ r.auto.description }}">{{ r.saisi.description or '' }}</textarea></label>
+  <label>Texte d'ouverture <textarea name="intro" maxlength="1200" rows="3" placeholder="{{ r.auto.intro }}">{{ r.saisi.intro or '' }}</textarea></label>
+  <button class="bouton bouton--or" type="submit">Enregistrer</button>
+</form>
+{% endfor %}
+{% endblock %}

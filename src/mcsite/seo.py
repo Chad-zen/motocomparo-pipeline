@@ -105,3 +105,12 @@ def marque(nom: str, total: int, marchands: int,
                   f"{(', surtout en ' + rayons_txt) if rayons_txt else ''}. "
                   "Les prix sont relevés chaque jour."),
     }
+
+
+def avec_textes_saisis(auto: dict[str, Any], saisi: dict[str, Any] | None) -> dict[str, Any]:
+    """Le texte automatique, champ par champ remplacé par celui que la
+    propriétaire a saisi dans l'administration (un champ vide = l'automatique)."""
+    if not saisi:
+        return auto
+    return {**auto, **{k: saisi[k].strip() for k in ("titre", "description", "intro")
+                       if (saisi.get(k) or "").strip()}}

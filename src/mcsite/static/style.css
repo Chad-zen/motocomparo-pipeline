@@ -4337,3 +4337,9 @@ body.a-consentement .banc { display: none; }
 .couv__champs { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; }
 .couv__na { color: var(--muted, #8a91a6); font-size: 12px; }
 .calcul__sortie { white-space: pre-wrap; font-size: 12px; max-height: 220px; overflow: auto; background: #f4f6fa; padding: 8px; border-radius: 8px; }
+.texte-form { display: flex; flex-direction: column; gap: 8px; margin: 12px 0; padding: 12px 14px; max-width: 760px;
+  background: var(--card, #fff); border: 1px solid var(--ligne-carte, #e3e8f1); border-radius: 12px; }
+.texte-form label { display: flex; flex-direction: column; gap: 4px; font-size: 13px; }
+.texte-form input, .texte-form textarea { padding: 8px 10px; border: 1px solid #d5d9e3; border-radius: 8px; font: inherit; width: 100%; box-sizing: border-box; }
+.texte-form input::placeholder, .texte-form textarea::placeholder { color: #9aa1b4; }
+.texte-form button { align-self: flex-start; }
