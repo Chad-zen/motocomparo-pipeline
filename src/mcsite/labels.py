@@ -53,6 +53,9 @@ def size_key(code: str) -> tuple[int, str]:
     letters = code.strip().upper().split()[0] if code.strip() else ""
     if letters in _SIZE_ORDER:
         return (_SIZE_ORDER.index(letters), "")
+    # « 4-5ANS », « 10-11ANS » : dans l'ordre des âges, pas l'ordre alphabétique.
+    if m := re.fullmatch(r"(\d{1,2})-\d{1,2}ANS", code.strip().upper()):
+        return (len(_SIZE_ORDER), f"{int(m.group(1)):02d}")
     return (len(_SIZE_ORDER), code)
 
 

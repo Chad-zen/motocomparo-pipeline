@@ -182,6 +182,7 @@ _SIZE_URL_RE = re.compile(r"taille[-/ ]([a-z0-9]{1,4})", re.I)
 # offers carry one. Reading those needs a per-category range (gloves 6-11, boots
 # 36-48, nothing elsewhere) and is a separate, measured piece of work — inventing
 # sizes is the mistake this pipeline spent 2026-09-13 undoing.
+_AGE_RE = re.compile(r"\s*(\d{1,2})\s*[/-]\s*(\d{1,2})\s*(?:ans?)?\s*", re.I)
 _SIZE_MPN_RE = re.compile(
     r"(?:[-_ /]|(?<=\d))(xxs|xs|s|m|l|xl|xxl|xxxl|2xl|3xl|4xl|tu|t\d{1,2})$", re.I
 )
@@ -380,6 +381,15 @@ def size_code(raw_size: str | None, title: str | None, link: str | None,
     if not cand:
         return "", ""
 
+    # UNE TRANCHE D'ÂGE n'est pas une pointure : « 4/5 » (ans) devenait « 45 »,
+    # donc EU45, sur des gants enfant Shot (signalé par la propriétaire,
+    # 16/10/2026) ; « 6/7 » devenait 67, « 10/11 » 1011. Deux nombres
+    # consécutifs sous 16, c'est un âge ; « 34/32 » (tour de taille / longueur
+    # de jambe) et « 39/41 » (pointures) restent ce qu'ils étaient.
+    if m_age := _AGE_RE.fullmatch(cand):
+        bas, haut = int(m_age.group(1)), int(m_age.group(2))
+        if 1 <= bas < haut <= 16 and haut - bas <= 2:
+            return f"{bas}-{haut}ANS", src
     c = re.sub(r"[^a-z0-9]", "", cand, flags=re.I).upper()
     c = _SIZE_ALPHA_MAP.get(c, c)
     if _SIZE_LETTER_RE.match(c):

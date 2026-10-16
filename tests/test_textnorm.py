@@ -133,6 +133,17 @@ def test_la_couleur_d_une_reference_de_piece_n_est_pas_une_taille():
     assert tn.size_code("", None, None, "168075199-XL") == ("XL", "mpn")
 
 
+def test_une_tranche_d_age_n_est_pas_une_pointure():
+    """« 4/5 » ans donnait EU45 sur des gants enfant (16/10/2026)."""
+    assert tn.size_code("4/5", None, None, None) == ("4-5ANS", "feed")
+    assert tn.size_code("6/7", None, None, None) == ("6-7ANS", "feed")
+    assert tn.size_code("10/11", None, None, None) == ("10-11ANS", "feed")
+    assert tn.size_code("12/13", None, None, None) == ("12-13ANS", "feed")
+    # un tour de taille / longueur de jambe et une fourchette de pointures non
+    assert tn.size_code("34/32", None, None, None)[0] == "3432"
+    assert tn.size_code("39/41", None, None, None)[0] == "3941"
+
+
 def test_size_code_5xl_6xl():
     assert tn.size_code("5XL", None, None, None) == ("5XL", "feed")
     assert tn.size_code("XXXXXXL", None, None, None) == ("6XL", "feed")
