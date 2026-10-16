@@ -1034,7 +1034,7 @@ def facets(conn: psycopg.Connection, f: Filtres) -> dict[str, Any]:
           -- (signalé par la propriétaire le 15/10/2026). Ailleurs (gants,
           -- blousons...) ce même chiffre brut EST la taille : la restriction
           -- ne vaut que pour les bottes.
-          AND (v.size_code ~ '^([2-6]X[SL]|X{{1,3}}[SL]|[SML])$'
+          AND (v.size_code ~ '^([2-4]XS|[2-6]XL|X{{1,3}}[SL]|[SML])$'
                OR v.size_code ~ '^EU[0-9]{{2}}$'
                OR (c.code <> 'boots' AND v.size_code ~ '^[0-9]{{1,2}}$'))
           -- 65, 75, 85, 95 : des demi-pointures US (7,5 -> 75) dont le point
