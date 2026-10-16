@@ -936,6 +936,19 @@ def brands(conn: psycopg.Connection, limit: int = 12) -> list[dict[str, Any]]:
 
 # --------------------------------------------------------------------- facettes
 
+# LES RAYONS OÙ UNE TAILLE SMLXL A UN SENS (16/10/2026). Un valise, un
+# repose-pieds, une batterie n'ont pas de taille : le flux n'en déclare pas, et
+# celles qu'on y lisait venaient de références (SW-Motech « …12200/S » = argent,
+# batterie « YTZ12S ») ou de mots du titre. Vu sur /m/swmotech?taille=S, qui
+# proposait 78 pièces. Le filtre et les pastilles Taille ne portent donc que sur
+# l'équipement du motard ; « non classé » en est exclu, mélange de pièces et de
+# vêtements pas encore rangés.
+_RAYONS_A_TAILLES = ("helmet", "helmet.integral", "helmet.jet", "helmet.modular",
+                     "helmet.cross", "jacket", "gloves", "pants", "boots", "suit",
+                     "jersey", "apparel_casual", "protection", "protection.pilote")
+_IN_RAYONS_A_TAILLES = ("(" + ", ".join(f"'{c}'" for c in _RAYONS_A_TAILLES) + ")")
+
+
 def _taille_norm(expr: str) -> str:
     """Une seule écriture par taille : les marchands écrivent XXL ou 2XL, XXS
     ou 2XS, pour la même chose. Le filtre proposait les deux pastilles côte à
@@ -998,6 +1011,7 @@ def facets(conn: psycopg.Connection, f: Filtres) -> dict[str, Any]:
         JOIN variant v ON v.product_id = p.id
         JOIN category c ON c.id = p.category_id
         {_OU} AND v.size_code <> 'TU'
+          AND c.code IN {_IN_RAYONS_A_TAILLES}
           -- Seulement ce qui EST une taille. Le champ en contient d'autres
           -- choses, héritées des flux : des mots du modèle (MONO, PURE, TECH,
           -- VIB), des finitions (MATT), des références marchand (YM5051), et
@@ -1426,6 +1440,8 @@ _OU = """
       AND (%(ta)s::text[] IS NULL OR EXISTS (
             SELECT 1 FROM variant v
             WHERE v.product_id = p.id
+              AND p.category_id IN (SELECT id FROM category
+                                    WHERE code IN """ + _IN_RAYONS_A_TAILLES + """)
               AND """ + _taille_norm("v.size_code") + """ = ANY(%(ta)s::text[])))
       -- Matière, homologation, saison : lues dans `product_caracteristique`,
       -- jamais devinées. Un IN non corrélé, calculé une fois et haché.
