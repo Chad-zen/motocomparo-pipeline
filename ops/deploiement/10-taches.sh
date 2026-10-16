@@ -3,6 +3,7 @@
 # À lancer en root sur le serveur, APRÈS avoir appliqué sql/034_taches.sql.
 set -euo pipefail
 d="$(cd "$(dirname "$0")" && pwd)/systemd"
+install -m 755 "$d/../mcpipe-taches-attente.sh" /usr/local/bin/mcpipe-taches-attente
 install -m 644 "$d/mcpipe-taches.service" /etc/systemd/system/
 install -m 644 "$d/mcpipe-taches.timer" /etc/systemd/system/
 systemctl daemon-reload

@@ -9,6 +9,12 @@ Group=motocomparo
 EnvironmentFile=/srv/motocomparo/.env
 Environment=PATH=/srv/motocomparo/venv/bin:/usr/local/bin:/usr/bin:/bin
 WorkingDirectory=/srv/motocomparo/app
+# Le minuteur passe chaque minute : charger Python et ses bibliothèques coûte
+# 12 secondes de processeur (mesuré le 16/10/2026), soit un cinquième d'un cœur
+# en permanence pour ne rien faire. Cette condition, une requête `psql` de
+# quelques millisecondes, ne laisse démarrer le vrai travail que s'il y a une
+# demande en attente.
+ExecCondition=/usr/local/bin/mcpipe-taches-attente
 ExecStart=/srv/motocomparo/venv/bin/mcpipe taches
 Nice=10
 TimeoutStartSec=1h
