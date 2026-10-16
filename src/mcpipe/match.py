@@ -904,7 +904,17 @@ WHERE s.raw_offer_id = o.id
 # this line had until 2026-09-13 — meant a borrowed value would keep masking a
 # real one for ever, silently, the day the merchant started sending it.
 # `TU` is the last resort and means "could not be read", not "one size".
-_DECLARED_SIZE = "coalesce(nullif(s.size_code, ''), ovr.size_code, 'TU')"
+#
+# UNE EXCEPTION, ECRITE LE 16/10/2026 : une taille lue dans un titre, une URL ou
+# une REFERENCE est une supposition ; quand les flux la contredisent sur le meme
+# code-barres (`donor_source = 'feed'`, unanimes), c'est la declaration qui
+# l'emporte. Sans elle, les blousons Bering portaient « 0, 1, 2, 4, 5 » (T0..T5
+# lus dans la reference Motoblouz) a cote de « EU36 ... EU46 » (FC-Moto) : le
+# meme article en deux jeux de tailles, et des pastilles 0 a 6 sans sens.
+_DECLARED_SIZE = """coalesce(
+    CASE WHEN s.size_source IN ('title', 'url', 'mpn')
+              AND ovr.donor_source = 'feed' THEN ovr.size_code END,
+    nullif(s.size_code, ''), ovr.size_code, 'TU')"""
 
 # One size, one variant. Merchants write the same size several ways: FC-Moto
 # ships "M5758" and "XS (55/56)" — a letter plus a head circumference in

@@ -68,3 +68,9 @@ def test_une_pointure_eu_declaree_est_empruntee_au_meme_code_barres():
 def test_une_taille_de_reference_cede_devant_une_taille_declaree():
     from mcpipe import enrich
     assert "s.size_source = 'mpn' AND a.origine = 'feed'" in enrich._BORROW_SIZE
+
+
+def test_une_taille_declaree_par_les_flux_l_emporte_sur_une_taille_lue():
+    from mcpipe import match
+    assert "ovr.donor_source = 'feed'" in match._DECLARED_SIZE
+    assert match._DECLARED_SIZE.index("ovr.size_code END") < match._DECLARED_SIZE.index("nullif")
