@@ -44,6 +44,8 @@ ExecStart=/usr/local/bin/mcpipe-promo
 # Un code retiré ou renouvelé doit se voir sans attendre l'heure de cache
 # restante — même geste que `mcpipe-prix.service`, même raison.
 ExecStartPost=+/usr/bin/find /var/cache/nginx/motocomparo -type f -delete
+# Même raison pour le cache de l'application (voir 07-planification.sh).
+ExecStartPost=+/usr/bin/systemctl restart mcsite.service
 
 # Cinq requêtes HTTP et quelques upserts : rien qui justifie de déranger le
 # relevé de prix. Même traitement de politesse envers les visiteurs que lui.

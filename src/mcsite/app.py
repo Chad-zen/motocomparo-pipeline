@@ -34,7 +34,7 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from functools import lru_cache
 
-from . import admin, cache, labels, partenaires, queries, suggestions
+from . import admin, cache, labels, partenaires, queries, seo, suggestions
 from . import v1 as v1_mod
 from . import articles as articles_mod
 from . import courbe as courbe_mod
@@ -417,8 +417,34 @@ def _liste(request, titre, base, f, page, code="", courante=None):
         request, "listing.html",
         _ctx(request, titre=titre, code=code, items=items, total=total,
              page=page, pages=max(1, -(-total // PER_PAGE)), base=base,
-             courante=courante, facettes=facettes, f=f, releve_jour=releve),
+             courante=courante, facettes=facettes, f=f, releve_jour=releve,
+             seo=_seo_liste(base, code, courante, f, page, total)),
     )
+
+
+def _seo_liste(base, code, courante, f, page, total) -> dict[str, Any] | None:
+    """Titre, description et texte d'ouverture d'un rayon ou d'une marque nus.
+
+    Seulement sans filtre, en page 1 et au tri par défaut : ce sont les pages
+    indexées. Une page filtrée garde son titre court — elle est en `noindex`.
+    """
+    marque_fixee = base.startswith("/m/")
+    filtres = [a for a in f.actifs() if not (marque_fixee and a["cle"] == "marque")]
+    if filtres or page > 1 or f.tri != "pertinence" or not total:
+        return None
+    _rayons()   # garde « nav » au chaud : la ligne suivante ne fait que le lire
+    marchands = len(cache.au_chaud("nav", lambda: (None, None, []))[2] or [])
+    if code and courante:
+        return seo.rayon(code, courante["label_fr"], total, marchands)
+    if marque_fixee and f.marque:
+        def _matrice() -> list[dict[str, Any]]:
+            with pool.connection() as conn:  # type: ignore[union-attr]
+                return queries.marques_par_rayon(conn)
+        lignes = sorted((x for x in cache.au_chaud("seo|marques-rayons", _matrice)
+                         if x["marque"] == f.marque[0].lower()), key=lambda x: -x["n"])
+        return seo.marque(labels.brand(f.marque[0]), total, marchands,
+                          [x["rayon"] for x in lignes])
+    return None
 
 
 @app.get("/produits", response_class=HTMLResponse)
@@ -1887,7 +1913,12 @@ def _disparu():
 
 for _motif in ("/wp-{reste:path}", "/xmlrpc.php", "/feed", "/feed/",
                "/comments/feed", "/comments/feed/", "/my-account",
-               "/my-account/{reste:path}"):
+               "/my-account/{reste:path}",
+               # Les plans du site de WordPress/Yoast : Googlebot en redemande
+               # encore (product-sitemap84.xml, le 16/10/2026). Le nôtre est
+               # /sitemap.xml, annoncé dans robots.txt.
+               "/sitemap_index.xml", "/{type}-sitemap.xml",
+               "/{type}-sitemap{n}.xml", "/{type}-sitemap{n}.xml/"):
     app.add_api_route(_motif, _disparu, methods=["GET", "POST"])
 
 

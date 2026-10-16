@@ -89,6 +89,12 @@ ExecStart=/usr/local/bin/mcpipe-prix
 # ci-dessus : c'est le seul moyen pour que le compte applicatif, qui n'a aucun
 # droit sur /var/cache/nginx, déclenche quand même le vidage.
 ExecStartPost=+/usr/bin/find /var/cache/nginx/motocomparo -type f -delete
+# Le cache de l'APPLICATION (SITE_CACHE_TTL, 3 h depuis le 16/10/2026) garde
+# aussi les listes : on redémarre le site pour qu'il reparte des nouveaux prix,
+# et son ExecStartPost (mcsite-rechauffer) reconstruit le cache aussitôt. Avant,
+# le cache expirait toutes les 10 min et le visiteur suivant attendait 6 à 7 s
+# sur /bons-plans ou la recherche (audit du 16/10/2026).
+ExecStartPost=+/usr/bin/systemctl restart mcsite.service
 
 # Le VPS a UN cœur, partagé avec le site. On met le pipeline derrière les
 # visiteurs : il ira un peu moins vite, personne ne verra la différence, et une

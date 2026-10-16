@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}{{ titre }} — MotoComparo{% endblock %}
+{% block title %}{{ seo.titre if seo else titre }} — MotoComparo{% endblock %}
 
 {# Un lien qui garde tous les filtres en place et n'en change qu'un. Sans cela,
    choisir une taille effacerait la marque — le visiteur croit affiner, il
@@ -105,7 +105,7 @@
    un filtre posé dessus : le compter excluait de Google toutes les pages
    marques (`noindex` constaté le 15/10/2026 sur /m/alpinestars). #}
 {% block robots %}{% if (f.marque and not base.startswith('/m/')) or f.taille or f.couleur or f.matiere or f.homologation or f.saison or f.genre or f.prix_min or f.prix_max or f.texte or page > 1 %}<meta name="robots" content="noindex, follow">{% endif %}{% endblock %}
-{% block description %}{{ titre }} — {{ total }} produit{{ 's' if total > 1 }} comparé{{ 's' if total > 1 }} chez {{ marchands_actifs | length }} marchands. Prix relevés chaque jour.{% endblock %}
+{% block description %}{% if seo %}{{ seo.description }}{% else %}{{ titre }} — {{ total }} produit{{ 's' if total > 1 }} comparé{{ 's' if total > 1 }} chez {{ marchands_actifs | length }} marchands. Prix relevés chaque jour.{% endif %}{% endblock %}
 
 {# Le fil d'Ariane, redit aux moteurs. Il pointe vers `base`, l'adresse SANS
    filtre : sur une page filtrée, un fil qui se désignerait lui-même
@@ -384,6 +384,9 @@
            l'œil voit, avec la même classe `titre-page` : seul le niveau
            change, pas le style. #}
         <h2 class="titre-page">{{ titre }}</h2>
+        {# Le texte d'ouverture des rayons et marques nus (seo.py) : ce que
+           le moteur lit en premier, et ce que le visiteur sait en arrivant. #}
+        {% if seo %}<p class="boutique__intro">{{ seo.intro }}</p>{% endif %}
         {# Le nombre est déjà dans la barre de filtres (« N produits ») : le
            répéter sous le titre pousse le premier article vers le bas sans rien
            apprendre. #}
