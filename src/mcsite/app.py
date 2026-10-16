@@ -422,6 +422,14 @@ def _liste(request, titre, base, f, page, code="", courante=None):
     )
 
 
+def _marques_par_rayon() -> list[dict[str, Any]]:
+    """La ventilation marque x rayon (711 lignes), gardée au chaud."""
+    def _calcul() -> list[dict[str, Any]]:
+        with pool.connection() as conn:  # type: ignore[union-attr]
+            return queries.marques_par_rayon(conn)
+    return cache.au_chaud("marques-par-rayon", _calcul)
+
+
 def _seo_liste(base, code, courante, f, page, total) -> dict[str, Any] | None:
     """Titre, description et texte d'ouverture d'un rayon ou d'une marque nus.
 
@@ -437,10 +445,7 @@ def _seo_liste(base, code, courante, f, page, total) -> dict[str, Any] | None:
     if code and courante:
         return seo.rayon(code, courante["label_fr"], total, marchands)
     if marque_fixee and f.marque:
-        def _matrice() -> list[dict[str, Any]]:
-            with pool.connection() as conn:  # type: ignore[union-attr]
-                return queries.marques_par_rayon(conn)
-        lignes = sorted((x for x in cache.au_chaud("seo|marques-rayons", _matrice)
+        lignes = sorted((x for x in _marques_par_rayon()
                          if x["marque"] == f.marque[0].lower()), key=lambda x: -x["n"])
         return seo.marque(labels.brand(f.marque[0]), total, marchands,
                           [x["rayon"] for x in lignes])
@@ -2112,6 +2117,18 @@ def search(
         if slug:
             return RedirectResponse(f"/p/{slug}", status_code=302)
 
+    # UNE MARQUE OU UN RAYON TAPÉS, ET RIEN D'AUTRE : on y va directement.
+    # « shoei » + Entrée coûtait 9,3 s à froid (liste ET panneau de filtres
+    # recalculés sur un filtre texte), pour montrer moins bien ce que
+    # /m/shoei montre déjà, avec son titre et ses filtres (16/10/2026). Même
+    # lecture que les suggestions : « gant hiver » mène à Gants, saison hiver.
+    # Seulement depuis la barre (q seul) : un filtre déjà posé dans le
+    # panneau de la recherche ne doit pas être perdu.
+    if set(request.query_params) == {"q"} and code:
+        cible = _cible_recherche(code)
+        if cible:
+            return RedirectResponse(cible, status_code=302)
+
     f = queries.Filtres(texte=q.strip() or None, marque=marque,
                         prix_min=prix_min, prix_max=prix_max, taille=taille,
                         couleur=queries.couleur_simple(couleur),
@@ -2122,6 +2139,23 @@ def search(
                         marchands=marchands, tri=tri)
     titre = f"Recherche : {q}" if q.strip() else "Recherche"
     return _liste(request, titre, f"/recherche?q={quote_plus(q)}", f, page)
+
+def _cible_recherche(texte: str) -> str | None:
+    """La page de marque ou de rayon que désigne entièrement `texte`, ou rien."""
+    matrice = _marques_par_rayon()
+    noms = sorted({x["marque"] for x in matrice})
+    marque, restants = suggestions.reconnaitre_marque(suggestions.mots(texte), noms)
+    lu = suggestions.comprendre(restants)
+    if lu["restants"]:
+        return None
+    if not lu["rayon"]:
+        return f"/m/{marque}" if marque else None
+    noeud = queries.find_category(_rayons(), lu["rayon"])
+    if not noeud:
+        return None
+    params = {**({"marque": marque} if marque else {}), **lu["filtres"]}
+    return f"/c/{noeud['code']}" + (f"?{urlencode(params)}" if params else "")
+
 
 # --- ce que voit un visiteur quand quelque chose n'existe pas ----------------
 #
