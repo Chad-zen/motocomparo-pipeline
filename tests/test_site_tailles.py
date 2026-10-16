@@ -50,3 +50,16 @@ def test_les_pastilles_de_lettres_n_acceptent_que_de_vraies_tailles():
         assert motif.match(ok), ok
     for faux in ("5S", "6M", "6XS", "4M", "XM", "X", "SS", "XXXXL"):
         assert not motif.match(faux), faux
+
+
+def test_toutes_les_pastilles_de_taille_sont_proposees():
+    """Plus de plafond à 24 : « Tous les produits » perdait 5XL, 2XS, EU50."""
+    import inspect
+    src = inspect.getsource(queries.facets)
+    assert "LIMIT 24" not in src
+
+
+def test_une_pointure_eu_declaree_est_empruntee_au_meme_code_barres():
+    """Bering/Segura T0..T6 dans le titre, 36..46 dans le flux FC-Moto."""
+    from mcpipe import enrich
+    assert "^EU[0-9]{2}$" in enrich._BORROW_SIZE

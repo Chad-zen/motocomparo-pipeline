@@ -383,13 +383,20 @@ donors AS (
            -- same spelling the rest of the pipeline uses: textnorm folds XXL
            -- into 2XL, so a borrowed 'XXL' would create a second variant for a
            -- size the product already has
+           -- Une pointure EU DÉCLARÉE (EU36..EU52) se prête telle quelle : Bering
+           -- et Segura écrivent T0..T6 dans leurs titres, FC-Moto déclare 36..46
+           -- sur le MÊME code-barres. Sans cela la fiche gardait les deux
+           -- (« 0 » et « EU36 ») et le filtre proposait des tailles 0, 1, 2, 3
+           -- sans aucun sens (signalé par la propriétaire, 16/10/2026).
+           CASE WHEN s.size_code ~ '^EU[0-9]{{2}}$' THEN s.size_code
+                ELSE
            CASE upper(substring(upper(s.size_code) from '{_SIZE_LETTERS}'))
                WHEN 'XXS' THEN 'XXS'
                WHEN 'XXL' THEN '2XL'
                WHEN 'XXXL' THEN '3XL'
                WHEN 'XXXXL' THEN '4XL'
                ELSE upper(substring(upper(s.size_code) from '{_SIZE_LETTERS}'))
-           END AS taille,
+           END END AS taille,
            m.code AS merchant,
            s.size_source AS origine
     FROM raw_offer o
@@ -416,7 +423,7 @@ donors AS (
       -- inference, and an inference passed on twice stops being evidence
       AND s.size_source IN ('feed', 'mpn')
       AND s.size_code IS NOT NULL AND s.size_code <> '' AND s.size_code <> 'TU'
-      AND upper(s.size_code) ~ '{_SIZE_LETTERS}'
+      AND (upper(s.size_code) ~ '{_SIZE_LETTERS}' OR s.size_code ~ '^EU[0-9]{{2}}$')
 ),
 agreed AS (
     SELECT gtin,

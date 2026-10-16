@@ -1042,7 +1042,12 @@ def facets(conn: psycopg.Connection, f: Filtres) -> dict[str, Any]:
           AND v.size_code NOT IN ('65', '75', '85', '95')
         GROUP BY 1
         HAVING count(DISTINCT p.id) >= 3
-        ORDER BY count(DISTINCT p.id) DESC LIMIT 24
+        -- TOUTES les tailles, pas les 24 plus courantes : « Tous les produits »
+        -- en gardait 24 sur l'ensemble du catalogue (28, 30, 32, EU39… des
+        -- jeans et des chaussures) et perdait 5XL, 2XS, EU50 que la page d'un
+        -- rayon montrait — « pas les mêmes résultats en entrant dans une
+        -- catégorie » (16/10/2026). Le plafond n'est plus qu'un garde-fou.
+        ORDER BY count(DISTINCT p.id) DESC LIMIT 120
     """, "taille")
 
     # UNE COULEUR PAR LIGNE, pas une par combinaison. « noir, gris et rouge
