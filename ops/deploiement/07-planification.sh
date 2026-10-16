@@ -67,6 +67,9 @@ mcpipe caracteristiques  # relit les descriptions du jour, remplit product_carac
                          # tant qu'ils n'ont pas ete ecrases par le prochain fetch.
                          # Travaille par fiche deja appariee : linked_status = 'linked'
                          # est pose par match, pas remis a zero chaque nuit.
+# Quelles fiches n'ont pas de matière, de saison ou d'homologation : alimente
+# l'écran « Fiches sans caractéristiques » de l'administration.
+mcpipe couverture || echo "!!! mcpipe couverture en echec, chaine poursuivie"
 
 # Le vidage du cache est fait par systemd APRÈS cette chaîne, voir
 # `ExecStartPost` dans l'unité. Il était ici, et il ne faisait RIEN : le cache

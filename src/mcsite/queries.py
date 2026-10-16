@@ -1149,8 +1149,9 @@ def facets(conn: psycopg.Connection, f: Filtres) -> dict[str, Any]:
 # Hiver »), derrière une saison lue dans une description.
 # `attribut` : une colonne structurée du flux (la matière FC-Moto).
 # `obligation` : l'homologation que la loi impose (casques), dernière de la liste.
-_SOURCE_PRIORITE = {"sharp": 0, "revendeur": 1, "flux": 2, "attribut": 3,
-                    "categorie": 4, "obligation": 5}
+# `manuel` : saisi par la propriétaire dans l'administration, la plus fiable.
+_SOURCE_PRIORITE = {"manuel": -1, "sharp": 0, "revendeur": 1, "flux": 2,
+                    "attribut": 3, "categorie": 4, "obligation": 5}
 
 # Les rayons, par identifiant — ce sont ceux de `mcpipe.caracteristiques._RAYONS`,
 # la seule liste de rayons dont les caractéristiques sont lues.

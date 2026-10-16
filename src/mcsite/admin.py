@@ -304,3 +304,146 @@ def marques_propositions(conn: psycopg.Connection, limite: int = 30) -> list[dic
                           WHERE (x.alias = p.a AND x.marque = p.b)
                              OR (x.alias = p.b AND x.marque = p.a))
         ORDER BY p.codes_barres DESC LIMIT %s""", (limite,))
+
+
+# --- fiches sans matière, saison ou homologation (16/10/2026) ------------------
+#
+# Calculées chaque nuit par `mcpipe couverture`. La propriétaire peut y écrire
+# la valeur qu'elle connaît : source `manuel`, la première dans l'ordre de
+# confiance, jamais effacée par le recalcul de nuit.
+
+_CASQUES = (1, 2, 3, 4, 5)
+_BLOUSONS = (6, 10)
+
+# Ce qu'on peut saisir, par famille de rayon : (nom stocké, valeurs proposées).
+# Les noms stockés sont ceux que lisent les filtres du site (`_CARAC_SQL`).
+SAISONS = [("ete", "Été"), ("mi-saison", "Mi-saison"), ("hiver", "Hiver"),
+           ("toutes-saisons", "Toutes saisons")]
+MATIERES_TEXTILE = [("textile", "Textile"), ("cuir", "Cuir"),
+                    ("cuir et textile", "Cuir et textile"),
+                    ("synthétique", "Synthétique"), ("denim", "Denim")]
+MATIERES_CALOTTE = [("polycarbonate", "Polycarbonate"), ("composite", "Composite"),
+                    ("carbone", "Carbone"), ("thermoplastique", "Thermoplastique"),
+                    ("fibre", "Fibre")]
+CLASSES = [("AAA", "Classe AAA"), ("AA", "Classe AA"), ("A", "Classe A"),
+           ("B", "Classe B"), ("C", "Classe C")]
+
+
+def choix_pour(categorie: int) -> dict[str, dict[str, Any]]:
+    """Les champs saisissables pour une fiche de ce rayon, et où les écrire."""
+    if categorie in _CASQUES:
+        return {"matiere": {"nom": "calotte", "choix": MATIERES_CALOTTE},
+                "homologation": {"nom": "homologation",
+                                 "choix": [("22.06", "ECE 22.06"), ("22.05", "ECE 22.05")]}}
+    out: dict[str, dict[str, Any]] = {}
+    if categorie in (6, 7, 8, 10):
+        out["saison"] = {"nom": "saison", "choix": SAISONS}
+    if categorie in _BLOUSONS:
+        out["matiere"] = {"nom": "matiere_coque",
+                          "choix": [("textile", "Textile"), ("cuir", "Cuir"),
+                                    ("cuir-textile", "Cuir et textile")]}
+        out["homologation"] = {"nom": "classe_protection", "choix": CLASSES}
+    elif categorie == 7:
+        out["matiere"] = {"nom": "matiere", "choix": MATIERES_TEXTILE}
+        out["homologation"] = {"nom": "homologation", "choix": CLASSES}
+    elif categorie == 8:
+        out["matiere"] = {"nom": "matiere", "choix": MATIERES_TEXTILE[:4]}
+        out["homologation"] = {"nom": "homologation",
+                               "choix": [("EN 13594", "EN 13594"), ("CE", "CE")]}
+    elif categorie == 9:
+        out["matiere"] = {"nom": "matiere", "choix": MATIERES_TEXTILE[:4]}
+        out["homologation"] = {"nom": "homologation",
+                               "choix": [("EN 13634", "EN 13634"), ("CE", "CE")]}
+    return out
+
+
+_RAYONS_SAISON = {"Blousons & vestes", "Gants", "Pantalons", "Combinaisons"}
+
+
+def couverture_par_rayon(conn: psycopg.Connection) -> list[dict[str, Any]]:
+    """Le pourcentage renseigné, rayon par rayon ; `None` quand la caractéristique
+    n'a pas de sens pour le rayon (saison d'un casque, matière d'une pièce)."""
+    lignes = _rows(conn, "SELECT rayon, produits, saison, matiere, homologation, calcule_le "
+                         "FROM couverture_caracteristique ORDER BY produits DESC")
+    sortie = []
+    for l in lignes:
+        if not (l["matiere"] or l["homologation"] or l["saison"]):
+            continue                      # aucun extracteur ne lit ce rayon
+        n = l["produits"] or 1
+        sortie.append({
+            "rayon": l["rayon"], "produits": l["produits"],
+            "saison": round(100 * l["saison"] / n) if l["rayon"] in _RAYONS_SAISON else None,
+            "matiere": round(100 * l["matiere"] / n),
+            "homologation": round(100 * l["homologation"] / n),
+        })
+    return sortie
+
+
+def incompletes_rayons(conn: psycopg.Connection) -> list[dict[str, Any]]:
+    """Les rayons qui ont des fiches incomplètes, avec leur nombre."""
+    return _rows(conn, """
+        SELECT c.id, c.label_fr AS rayon, count(*) AS n
+        FROM fiche_incomplete f JOIN category c ON c.id = f.categorie
+        GROUP BY c.id, c.label_fr ORDER BY count(*) DESC""")
+
+
+def incompletes(conn: psycopg.Connection, rayon: int | None, manque: str | None,
+                page: int = 1, par_page: int = 25) -> tuple[list[dict[str, Any]], int]:
+    """Les fiches sans caractéristiques, les plus comparées d'abord : ce sont
+    celles que le plus de visiteurs voient."""
+    args: dict[str, Any] = {"lim": par_page, "off": (page - 1) * par_page}
+    ou = "TRUE"
+    if rayon:
+        ou += " AND f.categorie = %(rayon)s"
+        args["rayon"] = rayon
+    if manque in ("saison", "matiere", "homologation"):
+        ou += " AND %(manque)s = ANY(f.manque)"
+        args["manque"] = manque
+    total = _row(conn, f"SELECT count(*) AS n FROM fiche_incomplete f WHERE {ou}", args).get("n", 0)
+    lignes = _rows(conn, f"""
+        SELECT f.product_id, f.categorie, f.manque, f.marchands,
+               p.slug, upper(p.brand_code) AS marque, s.best_title, s.image_url,
+               s.cheapest, c.label_fr AS rayon
+        FROM fiche_incomplete f
+        JOIN product p ON p.id = f.product_id AND p.status <> 'merged'
+        JOIN category c ON c.id = f.categorie
+        LEFT JOIN product_stats s ON s.product_id = f.product_id
+        WHERE {ou}
+        ORDER BY f.marchands DESC, f.product_id
+        LIMIT %(lim)s OFFSET %(off)s""", args)
+    for ligne in lignes:
+        ligne["champs"] = {k: v for k, v in choix_pour(ligne["categorie"]).items()
+                           if k in ligne["manque"]}
+    return lignes, int(total)
+
+
+def enregistrer_caracteristiques(conn: psycopg.Connection, product_id: int,
+                                 valeurs: dict[str, str]) -> int:
+    """Écrit les valeurs saisies pour UNE fiche (source `manuel`).
+
+    Seules les valeurs proposées pour le rayon de la fiche sont acceptées : un
+    formulaire détourné ne peut pas écrire autre chose. Rend le nombre de
+    caractéristiques écrites ; la fiche sort de la liste des incomplètes.
+    """
+    fiche = _row(conn, "SELECT category_id FROM product WHERE id = %s AND status <> 'merged'",
+                 (product_id,))
+    if not fiche:
+        return 0
+    champs = choix_pour(fiche["category_id"])
+    ecrites = 0
+    for champ, valeur in valeurs.items():
+        spec = champs.get(champ)
+        if not spec or valeur not in {v for v, _ in spec["choix"]}:
+            continue
+        conn.execute("""
+            INSERT INTO product_caracteristique (product_id, nom, valeur, source, confiance)
+            VALUES (%s, %s, %s, 'manuel', 'saisie')
+            ON CONFLICT (product_id, nom, source) DO UPDATE
+               SET valeur = excluded.valeur, calcule_le = now()""",
+                     (product_id, spec["nom"], valeur))
+        conn.execute("UPDATE fiche_incomplete SET manque = array_remove(manque, %s) "
+                     "WHERE product_id = %s", (champ, product_id))
+        ecrites += 1
+    conn.execute("DELETE FROM fiche_incomplete WHERE product_id = %s AND cardinality(manque) = 0",
+                 (product_id,))
+    return ecrites

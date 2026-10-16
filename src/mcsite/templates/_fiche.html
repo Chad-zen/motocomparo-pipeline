@@ -654,7 +654,11 @@
       // retrouver les deux bornes en descendant d'un écran.
       const mini = prixTous.length ? Math.min(...prixTous) : 0;
       const maxi = prixTous.length ? Math.max(...prixTous) : 0;
-      const montrer = prixTous.length > 1 && maxi > mini;
+      // Une remise qui s'arrondit à 0 % n'est pas une remise : 79,00 € contre
+      // 79,20 € ne se barre pas (« −0 % » à côté d'un prix barré, relevé le
+      // 16/10/2026).
+      const montrer = prixTous.length > 1 && maxi > mini
+                      && Math.round((1 - mini / maxi) * 100) >= 1;
       refEl.hidden = !montrer;
       if (montrer) {
         const pct = Math.round((1 - mini / maxi) * 100);

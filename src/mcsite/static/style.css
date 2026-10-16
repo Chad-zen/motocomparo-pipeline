@@ -4309,3 +4309,30 @@ body.a-consentement .banc { display: none; }
 .alias-form { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; margin: 6px 0 14px; }
 .alias-form label { display: flex; flex-direction: column; gap: 4px; font-size: 13px; }
 .alias-form input { padding: 8px 10px; border: 1px solid #d5d9e3; border-radius: 8px; }
+
+/* Le prix barré et la remise de la fiche, quand tous les marchands vendent au
+   même prix (ex. écran HJC HJ-34P, cinq offres à 79,00 €) : le gabarit pose
+   `hidden`, mais `display: inline-flex` de `.meilleur__reference` l'emportait et
+   la page barrait 79,00 € à côté de « −0 % » (signalé par la propriétaire,
+   16/10/2026). */
+.meilleur__reference[hidden] { display: none !important; }
+
+/* --- l'administration : fiches sans caractéristiques ------------------------ */
+.couv__pct { font-weight: 700; padding: 2px 8px; border-radius: 999px; font-variant-numeric: tabular-nums; }
+.couv__pct--ok { background: #e6f5ea; color: #1d6b34; }
+.couv__pct--moyen { background: #fff3da; color: #8a5a00; }
+.couv__pct--bas { background: #fde4e1; color: #a1281c; }
+.couv__filtres { display: flex; flex-wrap: wrap; gap: 12px; margin: 6px 0 12px; }
+.couv__filtres label, .couv__champs label { display: flex; flex-direction: column; gap: 4px; font-size: 13px; }
+.couv__filtres select, .couv__champs select { padding: 7px 9px; border: 1px solid #d5d9e3; border-radius: 8px; background: #fff; }
+.couv__fiche {
+  display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; justify-content: space-between;
+  margin: 8px 0; padding: 10px 12px; background: var(--card, #fff);
+  border: 1px solid var(--ligne-carte, #e3e8f1); border-radius: 12px;
+}
+.couv__produit { display: flex; gap: 10px; align-items: center; text-decoration: none; color: inherit; min-width: 0; flex: 1 1 320px; }
+.couv__produit img, .couv__produit .regroup__noimg { width: 56px; height: 56px; object-fit: contain; flex: none; background: #f4f6fa; border-radius: 8px; }
+.couv__txt { display: flex; flex-direction: column; gap: 2px; font-size: 13px; min-width: 0; }
+.couv__txt small { color: var(--muted, #5f6880); font-size: 12px; }
+.couv__champs { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; }
+.couv__na { color: var(--muted, #8a91a6); font-size: 12px; }

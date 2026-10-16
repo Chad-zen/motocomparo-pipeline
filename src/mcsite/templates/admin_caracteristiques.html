@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block title %}Caractéristiques manquantes — MotoComparo{% endblock %}
+{% block contenu %}
+<nav class="fil" aria-label="Fil d'Ariane"><a href="/admin">Tableau de bord</a> › <span>Caractéristiques</span></nav>
+<h1 class="titre-page">Fiches sans caractéristiques</h1>
+<p class="sous-titre">Matière, saison et homologation alimentent les filtres du site : une fiche qui
+n'en a pas disparaît dès qu'on filtre. Les fiches les plus comparées sont en premier, ce sont
+celles que le plus de visiteurs voient. Ce que tu saisis ici passe avant tout le reste et n'est
+jamais effacé par la mise à jour de nuit. Les listes sont recalculées chaque nuit.</p>
+
+<h2 class="titre-section">Où en est-on, rayon par rayon</h2>
+<table class="offres couv">
+  <thead><tr><th>Rayon</th><th class="num">Fiches comparées</th><th class="num">Saison</th><th class="num">Matière</th><th class="num">Homologation</th></tr></thead>
+  <tbody>
+  {% for c in couverture %}
+    <tr>
+      <td>{{ c.rayon }}</td>
+      <td class="num">{{ "{:,}".format(c.produits).replace(",", " ") }}</td>
+      {% for pct in (c.saison, c.matiere, c.homologation) %}
+        <td class="num">{% if pct is none %}<span class="couv__na">sans objet</span>{% else %}<span class="couv__pct couv__pct--{{ 'ok' if pct >= 80 else ('moyen' if pct >= 40 else 'bas') }}">{{ pct }} %</span>{% endif %}</td>
+      {% endfor %}
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+<p class="avertissement">« Saison » n'a pas de sens pour les casques et les bottes : ce n'est compté que pour les blousons, pantalons et gants. Les gants de cross n'ont pas de saison chez les marchands.</p>
+
+<h2 class="titre-section">Les fiches à compléter ({{ "{:,}".format(total).replace(",", " ") }})</h2>
+<form method="get" class="couv__filtres">
+  <label>Rayon
+    <select name="rayon" onchange="this.form.submit()">
+      <option value="0">Tous</option>
+      {% for r in rayons %}<option value="{{ r.id }}"{{ ' selected' if r.id == rayon }}>{{ r.rayon }} ({{ r.n }})</option>{% endfor %}
+    </select>
+  </label>
+  <label>Il manque
+    <select name="manque" onchange="this.form.submit()">
+      <option value="">N'importe quoi</option>
+      <option value="matiere"{{ ' selected' if manque == 'matiere' }}>La matière</option>
+      <option value="saison"{{ ' selected' if manque == 'saison' }}>La saison</option>
+      <option value="homologation"{{ ' selected' if manque == 'homologation' }}>L'homologation</option>
+    </select>
+  </label>
+</form>
+
+{% for l in lignes %}
+<form class="couv__fiche" method="post" action="/admin/caracteristiques/enregistrer">
+  <input type="hidden" name="product_id" value="{{ l.product_id }}">
+  <input type="hidden" name="retour" value="/admin/caracteristiques?rayon={{ rayon }}&manque={{ manque }}&page={{ page }}">
+  <a class="couv__produit" href="/p/{{ l.slug }}" target="_blank" rel="noopener">
+    {% if l.image_url %}<img src="{{ l.image_url }}" alt="" loading="lazy" width="64" height="64">{% else %}<span class="regroup__noimg"></span>{% endif %}
+    <span class="couv__txt"><b>{{ l.marque }}</b> {{ (l.best_title or '') | truncate(80) }}
+      <small>{{ l.rayon }} · {{ l.marchands }} marchands{% if l.cheapest %} · dès {{ l.cheapest | prix }}{% endif %}</small></span>
+  </a>
+  <div class="couv__champs">
+    {% for nom, spec in l.champs.items() %}
+    <label>{{ {'matiere': 'Matière', 'saison': 'Saison', 'homologation': 'Homologation'}[nom] }}
+      <select name="{{ nom }}">
+        <option value="">—</option>
+        {% for val, lib in spec.choix %}<option value="{{ val }}">{{ lib }}</option>{% endfor %}
+      </select>
+    </label>
+    {% endfor %}
+    <button class="bouton bouton--or" type="submit">Enregistrer</button>
+  </div>
+</form>
+{% else %}
+  <p class="avertissement">Aucune fiche à compléter avec ce filtre.</p>
+{% endfor %}
+
+{% if pages > 1 %}
+<nav class="pagination" aria-label="Pages">
+  {% if page > 1 %}<a href="?rayon={{ rayon }}&manque={{ manque }}&page={{ page - 1 }}">← Précédente</a>{% endif %}
+  <span>Page {{ page }} sur {{ pages }}</span>
+  {% if page < pages %}<a href="?rayon={{ rayon }}&manque={{ manque }}&page={{ page + 1 }}">Suivante →</a>{% endif %}
+</nav>
+{% endif %}
+{% endblock %}

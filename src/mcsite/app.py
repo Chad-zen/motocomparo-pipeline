@@ -1107,6 +1107,38 @@ async def admin_marques_supprimer(request: Request):
     return RedirectResponse("/admin/marques", status_code=303, headers=_SANS_CACHE)
 
 
+@app.get("/admin/caracteristiques", response_class=HTMLResponse)
+def admin_caracteristiques(request: Request, rayon: int = 0, manque: str = "",
+                           page: int = Query(1, ge=1, le=400)):
+    refus = _admin_autorise(request)
+    if refus is not None:
+        return refus
+    with pool.connection() as conn:  # type: ignore[union-attr]
+        lignes, total = admin.incompletes(conn, rayon or None, manque or None, page)
+        contexte = {"couverture": admin.couverture_par_rayon(conn),
+                    "rayons": admin.incompletes_rayons(conn),
+                    "lignes": lignes, "total": total, "page": page,
+                    "pages": max(1, -(-total // 25)), "rayon": rayon, "manque": manque}
+    return templates.TemplateResponse(request, "admin_caracteristiques.html",
+                                      _ctx(request, **contexte), headers=_SANS_CACHE)
+
+
+@app.post("/admin/caracteristiques/enregistrer")
+async def admin_caracteristiques_enregistrer(request: Request):
+    champs, refus = await _admin_formulaire(request)
+    if refus is not None:
+        return refus
+    if champs.get("product_id", "").isdigit():
+        with pool.connection() as conn:  # type: ignore[union-attr]
+            admin.enregistrer_caracteristiques(
+                conn, int(champs["product_id"]),
+                {k: champs.get(k, "") for k in ("saison", "matiere", "homologation")})
+    retour = champs.get("retour", "")
+    if not retour.startswith("/admin/caracteristiques"):
+        retour = "/admin/caracteristiques"
+    return RedirectResponse(retour, status_code=303, headers=_SANS_CACHE)
+
+
 @app.get("/favoris", response_class=HTMLResponse)
 def favoris(request: Request, p: str = ""):
     """The shortlist. Empty until the page's own script fills the URL from the

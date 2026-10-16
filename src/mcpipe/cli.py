@@ -737,3 +737,17 @@ def consolider(
         r = c.appliquer()
         console.print(f"[green]ok[/] {r['groupes']:,} groupes appliques, "
                       f"{r['fiches_fusionnees']:,} fiches fusionnees")
+
+
+@app.command()
+def couverture() -> None:
+    """Recalcule quelles fiches n'ont pas de matiere, de saison ou d'homologation.
+
+    Alimente l'ecran « Caracteristiques » de l'administration. A lancer apres
+    `caracteristiques`.
+    """
+    from .couverture import recalculer
+
+    r = recalculer()
+    console.print(f"[green]ok[/] {r['fiches_incompletes']:,} fiches comparables "
+                  f"avec au moins une caracteristique manquante")
