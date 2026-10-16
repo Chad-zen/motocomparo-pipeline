@@ -15,13 +15,19 @@ from mcpipe.caracteristiques import saison_de_la_categorie as saison
     ("Equipement du motard > Gants moto > Gants moto mi-saison", "mi-saison"),
     ("Équipement route > Vêtement hiver > Sous gant", "hiver"),
     ("Gants moto ete", "ete"),
+    # un gant chauffant ou « Froid et pluie » est un gant d'hiver par sa fonction
+    ("Gants Moto Chauffants", "hiver"),
+    ("Froid et Pluie", "hiver"),
+    # une saison écrite l'emporte sur la fonction
+    ("Gants Moto Été chauffants", "ete"),
 ])
 def test_la_saison_ecrite_dans_la_categorie_est_lue(categorie, attendu):
     assert saison(categorie) == attendu
 
 
 @pytest.mark.parametrize("categorie", [
-    "Gants Motocross", "Gants Moto Chauffants", "gloves", "Gants Moto Femme",
+    "Gants Motocross", "Cross / TT / Enduro > Gants Cross", "gloves",
+    "Gants Moto Femme", "Sous-gants et sur-gants",
     "Pneu hivernal", "Blouson cadette", "", None,
 ])
 def test_une_categorie_muette_ne_donne_rien(categorie):

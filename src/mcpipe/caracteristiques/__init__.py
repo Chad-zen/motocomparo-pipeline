@@ -262,6 +262,7 @@ def _homologation_obligatoire(conn) -> int:
 
 _SAISON_MI = re.compile(r"mi[\s-]?saison", re.I)
 _SAISON_HIVER = re.compile(r"(?<![^\W\d_])hiver(?![^\W\d_])", re.I)
+_SAISON_FROID = re.compile(r"chauffant|(?<![^\W\d_])froid(?![^\W\d_])", re.I)
 _SAISON_ETE = re.compile(r"(?<![^\W\d_])(?:été|ete)(?![^\W\d_])", re.I)
 
 
@@ -283,6 +284,10 @@ def saison_de_la_categorie(categorie: str | None) -> str | None:
         return "hiver"
     if _SAISON_ETE.search(categorie):
         return "ete"
+    # Un gant CHAUFFANT ou rangé sous « Froid et pluie » est, par sa fonction,
+    # un gant d'hiver ; une saison écrite explicitement l'emporte (plus haut).
+    if _SAISON_FROID.search(categorie):
+        return "hiver"
     return None
 
 
