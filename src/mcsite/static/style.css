@@ -4267,3 +4267,16 @@ body.a-consentement .banc { display: none; }
   margin: 4px 0 0; max-width: 68ch;
   font-size: 13.5px; line-height: 1.5; color: var(--muted, #5f6880);
 }
+
+/* L'en-tête du menu : une croix seule, sur le fond du tiroir. */
+.tiroir__tete--menu {
+  justify-content: flex-end; padding: 10px 12px 4px;
+  background: transparent; position: static;
+}
+.tiroir__tete--menu .tiroir__x {
+  width: 40px; height: 40px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--or); background: rgba(255, 255, 255, .06);
+}
+.tiroir__tete--menu .tiroir__x:hover,
+.tiroir__tete--menu .tiroir__x:focus-visible { background: rgba(255, 255, 255, .14); }

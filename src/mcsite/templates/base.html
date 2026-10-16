@@ -340,15 +340,16 @@ if (mcMesureAutorisee) mcChargerMesure();
 <div class="voile" id="voile" hidden></div>
 
 <nav class="tiroir" id="tiroir-menu" aria-label="Menu" aria-hidden="true">
-  <div class="tiroir__tete">
-    <b>MENU</b>
-    <button type="button" class="tiroir__x" id="btn-fermer-menu">FERMER</button>
+  {# Ni titre « MENU » ni champ de recherche : la barre de recherche reste
+     visible en haut de chaque page, la redire ici poussait les rayons vers le
+     bas (demandé par la propriétaire, 16/10/2026). #}
+  <div class="tiroir__tete tiroir__tete--menu">
+    <button type="button" class="tiroir__x" id="btn-fermer-menu" aria-label="Fermer le menu">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor"
+           stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
   </div>
   <div class="tiroir__corps">
-    <form class="tiroir__quete" action="/recherche" method="get" role="search" aria-label="Recherche du menu">
-      <input name="q" type="search" placeholder="Rechercher&hellip;" aria-label="Rechercher un produit, depuis le menu">
-      <button type="submit" aria-label="Chercher">⌕</button>
-    </form>
 
     <div class="tiroir__section">Rayons</div>
     {# Les sous-rayons sont REPLIÉS : « Casques » les déplie, et le premier
