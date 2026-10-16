@@ -352,7 +352,8 @@ def relier_tailles() -> None:
     console.print(
         f"[green]ok[/] {r['delies']:,} lien(s) périmé(s) retiré(s), "
         f"{r['variantes_creees']:,} variante(s) créée(s), "
-        f"{r['liens_crees']:,} lien(s) posé(s)"
+        f"{r['liens_crees']:,} lien(s) posé(s), "
+        f"{r['variantes_elaguees']:,} variante(s) sans offre élaguée(s)"
     )
 
 

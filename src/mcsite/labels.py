@@ -27,7 +27,7 @@ _GENRE: dict[str, str] = {
 }
 
 # S < M < L reads naturally; "S 55/56" and "XXL" do not sort as text.
-_SIZE_ORDER = "3XS 2XS XXS XS S M L XL XXL 2XL 3XL 4XL".split()
+_SIZE_ORDER = "3XS 2XS XXS XS S M L XL XXL 2XL 3XL 4XL 5XL 6XL".split()
 
 
 def colour(code: str | None) -> str:
@@ -46,6 +46,27 @@ def colour(code: str | None) -> str:
 
 def genre(code: str | None) -> str:
     return _GENRE.get((code or "").lower(), "")
+
+
+def ordre_taille(code: str) -> tuple[int, float, str]:
+    """L'ordre des tailles, du plus petit au plus grand, partout (16/10/2026).
+
+    1. les LETTRES, de XS à 5XL ;
+    2. les NOMBRES (6, 7, 8… tailles de gants, pointures sans préfixe) ;
+    3. le reste (EU42, 4-5ANS, tailles composées), par ordre naturel.
+
+    Une taille qu'on ne sait pas ranger tombe dans la dernière famille au lieu
+    de s'intercaler entre deux autres : l'ordre ne dépend plus du nombre de
+    fiches qui la portent, seul critère utilisé avant.
+    """
+    c = (code or "").strip().upper()
+    c = {"XXL": "2XL", "XXXL": "3XL", "XXXXL": "4XL", "XXS": "2XS", "XXXS": "3XS"}.get(c, c)
+    if c in _SIZE_ORDER:
+        return (0, _SIZE_ORDER.index(c), "")
+    if re.fullmatch(r"\d+(?:[.,]\d+)?", c):
+        return (1, float(c.replace(",", ".")), "")
+    m = re.match(r"[A-Z]*?(\d+)", c)
+    return (2, float(m.group(1)) if m else 0.0, c)
 
 
 def size_key(code: str) -> tuple[int, str]:

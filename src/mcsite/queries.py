@@ -1103,6 +1103,10 @@ def facets(conn: psycopg.Connection, f: Filtres) -> dict[str, Any]:
     # Plus de facette « N marchands et + » : retirée du panneau à la demande de
     # la propriétaire (15/10/2026), sa requête l'est aussi — une de moins par
     # combinaison de filtres. Le paramètre `marchands` reste appliqué par `_OU`.
+    # Les pastilles de taille : la sélection se fait par nombre de fiches (les
+    # 24 plus courantes), l'AFFICHAGE par taille croissante — lettres, puis
+    # nombres, puis le reste (`labels.ordre_taille`).
+    tailles = sorted(tailles, key=lambda t: labels.ordre_taille(t["valeur"]))
     return {
         "categories": categories,
         "marques": marques,

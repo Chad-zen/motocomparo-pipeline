@@ -23,3 +23,20 @@ def test_filtre_et_pastilles_portent_la_meme_restriction():
     import inspect
     assert queries._IN_RAYONS_A_TAILLES in queries._OU
     assert "_IN_RAYONS_A_TAILLES" in inspect.getsource(queries.facets)
+
+
+def test_les_tailles_se_rangent_du_plus_petit_au_plus_grand():
+    """Lettres de XS à 5XL, puis les nombres, puis le reste (16/10/2026)."""
+    from mcsite import labels
+    vu = ["XL", "S", "13", "EU45", "2XL", "5", "M", "XS", "10", "4-5ANS",
+          "L", "9", "3XL", "XXL", "6"]
+    assert sorted(vu, key=labels.ordre_taille) == [
+        "XS", "S", "M", "L", "XL", "2XL", "XXL", "3XL",
+        "5", "6", "9", "10", "13", "4-5ANS", "EU45"]
+
+
+def test_une_variante_sans_offre_est_elaguee_chaque_nuit():
+    """Une règle de taille corrigée ne laisse plus d'ancienne pastille."""
+    from mcpipe import match
+    assert "NOT EXISTS" in match._ELAGUER_VARIANTES
+    assert "offer_variant_link" in match._ELAGUER_VARIANTES

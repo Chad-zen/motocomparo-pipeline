@@ -1131,6 +1131,17 @@ WHERE l.raw_offer_id = o.id
 """
 
 
+# Une variante que plus aucune offre ne porte est une taille que personne ne
+# vend : elle restait en base après la correction d'une règle (EU45 pour « 4/5
+# ans », S pour « /S » = argent) et le filtre Taille, qui regarde les variantes,
+# continuait de la proposer. Élaguée à la fin de chaque recalcul des tailles,
+# donc chaque nuit : une règle corrigée n'a plus de nettoyage à la main.
+_ELAGUER_VARIANTES = """
+DELETE FROM variant v
+WHERE NOT EXISTS (SELECT 1 FROM offer_variant_link l WHERE l.variant_id = v.id)
+"""
+
+
 def relink_sizes() -> dict[str, int]:
     """Recalculer les VARIANTES seules, sans refaire tout l'appariement.
 
@@ -1158,6 +1169,8 @@ def relink_sizes() -> dict[str, int]:
             creees = cur.rowcount
             cur.execute(_LINK_VARIANTS)
             liees = cur.rowcount
+            cur.execute(_ELAGUER_VARIANTES)
+            elaguees = cur.rowcount
         conn.commit()
         # Trois tables réécrites en masse : sans ANALYZE, le planificateur
         # garde les statistiques d'avant et choisit des plans faux sur les
@@ -1166,7 +1179,8 @@ def relink_sizes() -> dict[str, int]:
         with conn.cursor() as cur:
             cur.execute("ANALYZE variant")
             cur.execute("ANALYZE offer_variant_link")
-        return {"delies": delies, "variantes_creees": creees, "liens_crees": liees}
+        return {"delies": delies, "variantes_creees": creees, "liens_crees": liees,
+                "variantes_elaguees": elaguees}
     except Exception:
         conn.rollback()
         raise
