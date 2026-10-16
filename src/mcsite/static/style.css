@@ -4269,8 +4269,11 @@ body.a-consentement .banc { display: none; }
 }
 
 /* L'en-tête du menu : une croix seule, sur le fond du tiroir. */
+.tiroir__logo { display: block; padding: 4px 6px; }
+.tiroir__logo img { display: block; height: 34px; width: auto; }
 .tiroir__tete--menu {
-  justify-content: flex-end; padding: 10px 12px 4px;
+  justify-content: space-between; padding: 10px 12px 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, .07);
   background: transparent; position: static;
 }
 .tiroir__tete--menu .tiroir__x {

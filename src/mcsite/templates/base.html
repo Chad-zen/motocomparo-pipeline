@@ -342,8 +342,12 @@ if (mcMesureAutorisee) mcChargerMesure();
 <nav class="tiroir" id="tiroir-menu" aria-label="Menu" aria-hidden="true">
   {# Ni titre « MENU » ni champ de recherche : la barre de recherche reste
      visible en haut de chaque page, la redire ici poussait les rayons vers le
-     bas (demandé par la propriétaire, 16/10/2026). #}
+     bas. Le logo (qui porte déjà le nom) remplit le haut, à gauche de la
+     croix (demandé par la propriétaire, 16/10/2026). #}
   <div class="tiroir__tete tiroir__tete--menu">
+    <a class="tiroir__logo" href="/" aria-label="MotoComparo, accueil">
+      <img src="/static/logo_mc.webp?v={{ version_css() }}" alt="" width="497" height="117">
+    </a>
     <button type="button" class="tiroir__x" id="btn-fermer-menu" aria-label="Fermer le menu">
       <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor"
            stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
