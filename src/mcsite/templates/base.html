@@ -6,7 +6,7 @@
    (`/v1/...`) with it. `v1.css` was folded into `style.css` at the same time —
    a second stylesheet loaded on top only made sense while there were two.
 #}
-{% import "_icones.html" as ic %}
+{% import "_categories.html" as cat %}
 {% import "_actions.html" as act %}
 <!doctype html>
 <html lang="fr">
@@ -353,13 +353,13 @@ if (mcMesureAutorisee) mcChargerMesure();
     <div class="tiroir__section">Rayons</div>
     {% for c in nav %}
       <a class="tiroir__item" href="/c/{{ c.code }}">
-        {{ ic.icone(c.code) }}
+        {{ cat.picto(c.code, 'ico') }}
         <span class="tiroir__lbl">{{ c.label_fr }}</span>
         <span class="tiroir__chev" aria-hidden="true">›</span>
       </a>
       {% for e in c.enfants %}
         <a class="tiroir__item tiroir__item--fille" href="/c/{{ e.code }}">
-          {{ ic.icone(e.code) }}
+          {{ cat.picto(e.code, 'ico') }}
           <span class="tiroir__lbl">{{ e.label_fr }}</span>
           <span class="tiroir__chev" aria-hidden="true">›</span>
         </a>

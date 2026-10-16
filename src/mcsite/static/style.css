@@ -1477,7 +1477,9 @@ body:has(.banc:not([hidden])) { padding-bottom: var(--banc-h, 94px); }
 }
 .tiroir__item .ico {
   flex: 0 0 40px; width: 40px; height: 40px;
-  color: var(--or);           /* une seule couleur, comme chez les trois */
+  /* Les pictos à deux tons de la bande d'accueil (16/10/2026) : trait clair
+     sur le fond nuit du tiroir, accent or. */
+  color: #e6eaf3;
 }
 .tiroir__lbl {
   font-size: 13.5px; font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
@@ -3842,7 +3844,7 @@ html, body { overflow-x: clip; }
    retrouver invisible sur son fond. */
 .bande__picto { width: 36px; height: 36px; flex: none; color: #2b2f38; }
 /* L'accent or des pictos à deux tons ; le trait sombre reste `currentColor`. */
-.bande__accent { stroke: var(--or, #f5b301); }
+.bande__accent, .ico .bande__accent { stroke: var(--or, #f5b301); }
 .bande__case:hover .bande__picto { color: var(--nuit); }
 .bande__case--tout .bande__picto { color: var(--muted); }
 .bande__nom {

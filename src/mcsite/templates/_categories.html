@@ -22,7 +22,7 @@
    sur 48 et non 24 : il fallait la place des protections, des boucles, des
    dents de pignon — ce qui fait qu'un gant moto n'est pas un gant de ménage.
    Le trait sombre suit `currentColor` (survol, thème) ; l'accent, `--or`. #}
-{% macro picto(code) %}
+{% macro picto(code, classe='bande__picto') %}
 {% set traits = {
   'helmet': ['M24 6c8.5 0 14 8 14 18v4c0 8-6.5 14-14 14s-14-6-14-14v-4c0-10 5.5-18 14-18z M12.5 20c7.5-2.2 15.5-2.2 23 0l-1 9c-7 2.6-14 2.6-21 0z M18.5 9.5l1.5 4 M29.5 9.5l-1.5 4',
              'M13 33.5c7 3.6 15 3.6 22 0'],
@@ -68,11 +68,21 @@
                   'M24 19v7'],
   'apparel_casual': ['M17 7l-9 4-3.5 10 6.5 2.5 2-4.5V42h22V19l2 4.5 6.5-2.5L40 11l-9-4',
                      'M17 7c1 4 4 6 7 6s6-2 7-6'],
+  'helmet.integral': ['M24 6c8.5 0 14 8 14 18v4c0 8-6.5 14-14 14s-14-6-14-14v-4c0-10 5.5-18 14-18z M12.5 20c7.5-2.2 15.5-2.2 23 0l-1 9c-7 2.6-14 2.6-21 0z M18.5 9.5l1.5 4 M29.5 9.5l-1.5 4',
+                      'M13 33.5c7 3.6 15 3.6 22 0'],
+  'helmet.jet': ['M10 33V24c0-10 5.5-18 14-18s14 8 14 18v9c0 3.5-2 6-5 7V24H15v16c-3-1-5-3.5-5-7z',
+                 'M14.5 19.5h19'],
+  'helmet.modular': ['M24 12c8 0 13 6.5 13 15v3c0 7-6 12-13 12s-13-5-13-12v-3c0-8.5 5-15 13-15z M15 25h18',
+                     'M9 25C9 13 15.5 5 24 5s15 8 15 20'],
+  'helmet.cross': ['M24 9c8 0 13 6.5 13 14.5v5c0 8-6 13.5-13 13.5s-13-5.5-13-13.5v-5C11 15.5 16 9 24 9z M16 21h16l-2.5 8h-11z M21 36h6',
+                   'M7 15l17-7 17 7'],
+  'helmet.accessory': ['M7 19c11-6.5 23-6.5 34 0l-3.5 12c-8.5 4-18.5 4-27 0z',
+                       'M12 21.5c8-3 16-3 24 0'],
   'tout':   ['M8 8h13v13H8z M27 27h13v13H27z',
              'M27 8h13v13H27z M8 27h13v13H8z']
 } %}
-{% set t = traits.get(code) %}
-<svg class="bande__picto" viewBox="0 0 48 48" fill="none" stroke="currentColor"
+{% set t = traits.get(code) or traits.get(code.split('.')[0]) %}
+<svg class="{{ classe }}" viewBox="0 0 48 48" fill="none" stroke="currentColor"
      stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"
      aria-hidden="true" focusable="false">
   {# Le losange est le repli : un rayon sans picto reste cliquable et gardé, il
