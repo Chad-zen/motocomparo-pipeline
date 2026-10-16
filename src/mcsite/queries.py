@@ -1142,7 +1142,9 @@ def facets(conn: psycopg.Connection, f: Filtres) -> dict[str, Any]:
 # désaccord dans la base locale le 15/10/2026.
 # `categorie` : la saison que le marchand écrit dans sa catégorie (« Gants Moto
 # Hiver »), derrière une saison lue dans une description.
-_SOURCE_PRIORITE = {"sharp": 0, "revendeur": 1, "flux": 2, "categorie": 3}
+# `attribut` : une colonne structurée du flux (la matière FC-Moto).
+_SOURCE_PRIORITE = {"sharp": 0, "revendeur": 1, "flux": 2, "attribut": 3,
+                    "categorie": 4}
 
 # Les rayons, par identifiant — ce sont ceux de `mcpipe.caracteristiques._RAYONS`,
 # la seule liste de rayons dont les caractéristiques sont lues.

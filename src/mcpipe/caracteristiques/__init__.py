@@ -140,6 +140,95 @@ def _references(conn, cats: tuple[int, ...]) -> dict[tuple[str, str], int]:
         return {(c, s): pid for c, s, pid in cur}
 
 
+# LA MATIÈRE QUE LE MARCHAND DÉCLARE DANS UNE COLONNE (16/10/2026).
+#
+# Le flux FC-Moto porte une colonne `material` remplie sur 85 % de ses lignes
+# (« Textile », « Cuir », « Cuir|Textile », « Thermoplastique »…), que le
+# pipeline ne lisait pas : seules les descriptions l'étaient. Mesuré sur la base
+# de production : la matière des gants passe de 20 % à environ 89 % des fiches,
+# celle des pantalons de 65 % à 95 %. C'est une donnée structurée, déclarée par
+# le marchand — plus sûre qu'une phrase lue dans un paragraphe.
+#
+# Une valeur qui ne se range pas dans le vocabulaire du rayon (« Aluminium »
+# sur un blouson mal classé, « Plastique » sur un casque) est écartée, jamais
+# devinée.
+_MATIERE_TEXTILE_CUIR = {
+    "textile": "textile", "polyester": "textile", "cuir": "cuir",
+    "cuir|textile": "cuir et textile", "textile|cuir": "cuir et textile",
+    "en faux cuir": "synthétique",
+}
+_MATIERE_BLOUSON = {**_MATIERE_TEXTILE_CUIR, "cuir|textile": "cuir-textile",
+                    "textile|cuir": "cuir-textile"}
+_MATIERE_CALOTTE = {
+    "thermoplastique": "thermoplastique", "fibre de verre": "fibre",
+    "carbone": "carbone", "carbone|fibre de verre": "composite",
+    "fibre de verre|carbone": "composite",
+}
+# (rayons, nom écrit, vocabulaire) — les noms sont ceux que `_CARAC_SQL` lit.
+_MATIERES_PAR_RAYON = (
+    ((8, 7, 9), "matiere", _MATIERE_TEXTILE_CUIR),     # gants, pantalons, bottes
+    ((6, 10), "matiere_coque", _MATIERE_BLOUSON),      # blousons, combinaisons
+    ((1, 2, 3, 4, 5), "calotte", _MATIERE_CALOTTE),    # casques
+)
+
+
+def matiere_declaree(valeur: str | None, vocabulaire: dict[str, str]) -> str | None:
+    """Le code de matière d'une valeur de colonne, ou rien si elle n'est pas
+    dans le vocabulaire du rayon."""
+    return vocabulaire.get((valeur or "").strip().lower())
+
+
+def _matieres_declarees(conn) -> int:
+    """Pose la matière déclarée par les flux dans une colonne `material`.
+
+    Source `attribut`, derrière `flux` : une matière lue dans une description
+    l'emporte. Une fiche dont les marchands se contredisent n'en reçoit aucune.
+    Rejouée entièrement à chaque passage, donc appliquée aux produits à venir.
+    """
+    cible: dict[int, tuple[str, dict[str, str]]] = {}
+    refs: dict[tuple[str, str], int] = {}
+    for cats, nom, vocab in _MATIERES_PAR_RAYON:
+        for k, pid in _references(conn, cats).items():
+            refs[k] = pid
+            cible[pid] = (nom, vocab)
+    valeurs: dict[int, set[str]] = {}
+    for marchand, feed in FEEDS.items():
+        chemin = _dossier_flux() / f"{marchand}.csv"
+        if not chemin.exists():
+            continue
+        with open(chemin, newline="", encoding="utf-8", errors="ignore") as f:
+            for ligne in csv.DictReader(f, delimiter=feed.delimiter):
+                brute = _ci_get(ligne, ["material"])
+                if not brute:
+                    continue
+                deeplink = _ci_get(ligne, feed.columns.get("link", []))
+                if not deeplink:
+                    continue
+                sku = _merchant_sku(feed, ligne, deeplink)
+                pid = refs.get((marchand, sku)) if sku else None
+                if pid is None:
+                    continue
+                v = matiere_declaree(brute, cible[pid][1])
+                if v:
+                    valeurs.setdefault(pid, set()).add(v)
+    posees = 0
+    with conn.cursor() as cur:
+        cur.execute("DELETE FROM product_caracteristique "
+                    "WHERE source = 'attribut' AND nom IN "
+                    "('matiere', 'matiere_coque', 'calotte')")
+        for pid, vs in valeurs.items():
+            if len(vs) != 1:
+                continue
+            cur.execute("INSERT INTO product_caracteristique "
+                        "(product_id, nom, valeur, source, confiance) "
+                        "VALUES (%s, %s, %s, 'attribut', 'lue') "
+                        "ON CONFLICT (product_id, nom, source) DO UPDATE SET "
+                        "valeur = EXCLUDED.valeur, calcule_le = now()",
+                        (pid, cible[pid][0], next(iter(vs))))
+            posees += 1
+    return posees
+
+
 _SAISON_MI = re.compile(r"mi[\s-]?saison", re.I)
 _SAISON_HIVER = re.compile(r"(?<![^\W\d_])hiver(?![^\W\d_])", re.I)
 _SAISON_ETE = re.compile(r"(?<![^\W\d_])(?:été|ete)(?![^\W\d_])", re.I)
@@ -236,6 +325,7 @@ def calculer(rayon: str = "casque") -> tuple[int, int]:
                     total_fiches += 1
                 total_lignes += n
         total_lignes += _saisons_des_categories(conn)
+        total_lignes += _matieres_declarees(conn)
         conn.commit()
         return total_fiches, total_lignes
     except Exception:
