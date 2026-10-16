@@ -57,6 +57,12 @@
    (14/10/2026). Trois tailles PNG générées directement depuis la source,
    chacune servie telle quelle plutôt que redimensionnée par le navigateur. #}
 <link rel="icon" href="/static/favicon.ico?v={{ version_css() }}" sizes="any">
+{# Google exige une icône dont le côté est un MULTIPLE DE 48 px : avec le seul
+   16 et 32 px déclarés, il gardait l'ancien « C » jaune dans ses résultats
+   (signalé par la propriétaire, 16/10/2026). Le 48 existait sur le serveur sans
+   être déclaré ; le 96 est posé pour les écrans à forte densité. #}
+<link rel="icon" href="/static/favicon-48.png?v={{ version_css() }}" type="image/png" sizes="48x48">
+<link rel="icon" href="/static/favicon-96.png?v={{ version_css() }}" type="image/png" sizes="96x96">
 <link rel="icon" href="/static/favicon-32.png?v={{ version_css() }}" type="image/png" sizes="32x32">
 <link rel="icon" href="/static/favicon-16.png?v={{ version_css() }}" type="image/png" sizes="16x16">
 <link rel="apple-touch-icon" href="/static/apple-touch-icon.png">
