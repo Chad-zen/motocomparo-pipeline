@@ -4215,8 +4215,12 @@ body.a-consentement .banc { display: none; }
 @media (max-width: 760px) {
   .sugg, .sugg:not(.sugg--accueil) {
     position: fixed; left: 0 !important; right: 0; width: auto;
-    top: var(--sugg-haut, 120px); bottom: 0;
-    max-height: none; border-radius: 0; border-width: 1px 0 0;
+    /* Haut comme son contenu, pas comme l'écran : collé en bas, le panneau
+       des rayons laissait deux tiers d'écran blanc sous sept puces
+       (signalé par la propriétaire, 16/10/2026). Il défile au-delà. */
+    top: var(--sugg-haut, 120px); bottom: auto;
+    max-height: calc(100dvh - var(--sugg-haut, 120px));
+    border-radius: 0 0 14px 14px; border-width: 1px 0;
     display: block; min-width: 0;
   }
   .sugg__chemins { border-right: 0; border-bottom: 1px solid var(--ligne-carte, #eef1f6); }
