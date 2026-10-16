@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}Regroupements de fiches — MotoComparo{% endblock %}
+{% block contenu %}
+<nav class="fil" aria-label="Fil d'Ariane"><a href="/admin">Tableau de bord</a> › <span>Regroupements</span></nav>
+<h1 class="titre-page">Regroupements de fiches</h1>
+<p class="sous-titre">Un même produit existe parfois en deux fiches : chaque fiche n'a alors que
+quelques marchands, et le visiteur ne voit jamais tous les prix ensemble. Ces fiches portent
+les <strong>mêmes codes-barres</strong>. Si c'est bien le même produit, on les regroupe : les prix
+se retrouvent sur une seule page, et l'ancienne adresse renvoie vers elle.</p>
+
+<div class="tuiles">
+  <div class="tuile tuile--phare"><span class="tuile__n">{{ "{:,}".format(compte.proposees).replace(",", " ") }}</span>à décider</div>
+  <div class="tuile"><span class="tuile__n">{{ "{:,}".format(compte.fiches_proposees).replace(",", " ") }}</span>fiches concernées</div>
+  <div class="tuile"><span class="tuile__n">{{ "{:,}".format(compte.validees).replace(",", " ") }}</span>validés, appliqués cette nuit</div>
+  <div class="tuile"><span class="tuile__n">{{ "{:,}".format(compte.appliquees).replace(",", " ") }}</span>déjà appliqués</div>
+  <div class="tuile"><span class="tuile__n">{{ "{:,}".format(compte.refusees).replace(",", " ") }}</span>refusés</div>
+</div>
+
+<h2 class="titre-section">Comment décider</h2>
+<p class="texte-regroup">Voici <strong>8 regroupements tirés au hasard</strong>. Regarde si les fiches de chaque
+groupe sont bien le même produit (même modèle, même couleur). Les marques, le rayon, l'âge,
+l'année et la couleur ont déjà été vérifiés par le site. Quand l'échantillon te convient,
+« Tout valider » applique le reste cette nuit. <em>Rien ne change avant la nuit : tu peux
+encore refuser.</em></p>
+
+<div class="regroup-actions">
+  <form method="post" action="/admin/regroupements/tout-valider"
+        onsubmit="return confirm('Valider tous les regroupements restants ?');">
+    <button class="bouton bouton--or" type="submit"{% if not compte.proposees %} disabled{% endif %}>Tout valider ({{ compte.proposees }})</button>
+  </form>
+  <form method="post" action="/admin/regroupements/auto" class="regroup-auto">
+    <input type="hidden" name="valeur" value="{{ 'non' if compte.auto else 'oui' }}">
+    <button class="bouton bouton--contour" type="submit">
+      {% if compte.auto %}Validation automatique : <b>activée</b> — la désactiver{% else %}Validation automatique : <b>désactivée</b> — l'activer{% endif %}
+    </button>
+  </form>
+</div>
+<p class="avertissement">Validation automatique : les nouveaux regroupements qui passent les mêmes vérifications
+sont appliqués chaque nuit sans te demander. À activer seulement quand tu as vu l'échantillon.</p>
+
+{% if not groupes %}
+  <p class="avertissement">Plus rien à décider pour l'instant.</p>
+{% endif %}
+{% for g in groupes %}
+<section class="regroup">
+  <header class="regroup__tete">
+    <b>Groupe de {{ g.nb_fiches }} fiches</b> · {{ g.nb_marchands }} marchands au total
+    <span class="regroup__aide">la première fiche est celle qui est conservée</span>
+  </header>
+  <div class="regroup__fiches">
+    {% for f in g.fiches %}
+    <a class="regroup__fiche{{ ' regroup__fiche--garde' if f.id == g.survivant }}" href="/p/{{ f.slug }}" target="_blank" rel="noopener">
+      {% if f.image_url %}<img src="{{ f.image_url }}" alt="" loading="lazy" width="72" height="72">{% else %}<span class="regroup__noimg"></span>{% endif %}
+      <span class="regroup__txt">
+        <b>{{ f.marque }}</b> {{ (f.best_title or f.model_display) | truncate(70) }}
+        <small>{{ f.rayon }} · couleur {{ (f.colour_code | couleur) if f.colour_code else '—' }} · genre {{ f.genre_age }}{% if f.model_year %} · {{ f.model_year }}{% endif %}</small>
+        <small>{{ f.marchands or 'aucun marchand en vente' }} · {{ f.codes_barres }} code(s)-barres{% if f.cheapest %} · dès {{ f.cheapest | prix }}{% endif %}</small>
+      </span>
+    </a>
+    {% endfor %}
+  </div>
+  <div class="regroup__boutons">
+    <form method="post" action="/admin/regroupements/decider"><input type="hidden" name="id" value="{{ g.id }}"><input type="hidden" name="decision" value="valider"><button class="bouton bouton--or" type="submit">Même produit : regrouper</button></form>
+    <form method="post" action="/admin/regroupements/decider"><input type="hidden" name="id" value="{{ g.id }}"><input type="hidden" name="decision" value="refuser"><button class="bouton bouton--contour" type="submit">Produits différents</button></form>
+  </div>
+</section>
+{% endfor %}
+{% endblock %}

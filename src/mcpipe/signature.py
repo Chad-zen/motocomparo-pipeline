@@ -42,9 +42,29 @@ class SignatureResult:
     seconds: float
 
 
-def _signature_row(o: dict) -> tuple:
+def _alias_marques(conn) -> dict[str, str]:
+    """Les alias de marque VALIDÉS par la propriétaire (écran « Marques »).
+
+    Lus à chaque calcul des signatures : une décision prise dans l'écran
+    d'administration s'applique la nuit suivante, sans toucher au code. Absents
+    (table pas encore créée), on rend un dictionnaire vide plutôt que d'arrêter
+    la chaîne.
+    """
+    try:
+        with conn.cursor() as cur:
+            cur.execute("SELECT alias, marque FROM marque_alias WHERE statut = 'valide'")
+            return {a.lower(): m.lower() for a, m in cur.fetchall()}
+    except Exception:  # noqa: BLE001 — table absente : pas d'alias
+        conn.rollback()
+        return {}
+
+
+def _signature_row(o: dict, alias: dict[str, str] | None = None) -> tuple:
     title = o["raw_title"]
     brand_code, brand_known = tn.brand(o["raw_brand"])
+    # un alias décidé par un humain l'emporte, et vaut « marque connue »
+    if alias and brand_code in alias:
+        brand_code, brand_known = alias[brand_code], True
 
     # colour: trust the feed's own field first, fall back to the title
     canon, _bucket, _ = tn.colour(o["raw_color"])
@@ -136,6 +156,7 @@ def compute_signatures(only_merchant: int | None = None) -> SignatureResult:
     write = connect()
     read = connect()
     try:
+        alias = _alias_marques(write)
         with write.cursor() as cur:
             cur.execute(_CREATE_TEMP)
 
@@ -160,7 +181,7 @@ def compute_signatures(only_merchant: int | None = None) -> SignatureResult:
                 )
                 for row in src:
                     o = dict(zip(_OFFER_FIELDS, row, strict=True))
-                    cp.write_row(_signature_row(o))
+                    cp.write_row(_signature_row(o, alias))
                     n += 1
 
         with write.cursor() as cur:

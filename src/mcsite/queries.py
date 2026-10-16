@@ -818,7 +818,7 @@ def slug_par_gtin(conn: psycopg.Connection, gtin: str) -> str | None:
 def product(conn: psycopg.Connection, slug: str) -> dict[str, Any] | None:
     return _row(conn, """
         SELECT p.id, p.brand_code, p.model_display, p.colour_code, p.genre_age,
-               p.model_year, p.min_price, p.status, p.slug,
+               p.model_year, p.min_price, p.status, p.slug, p.merged_into,
                c.id AS category_id, c.code AS category_code, c.label_fr AS category_label,
                coalesce(c.parent_id, c.id) AS famille_id,
                s.merchant_count, s.offer_count, s.cheapest, s.dearest, s.image_url,

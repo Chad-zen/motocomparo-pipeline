@@ -234,3 +234,73 @@ def messages(conn: psycopg.Connection, limit: int = 30) -> list[dict[str, Any]]:
         ORDER BY (traite_le IS NOT NULL), recu_le DESC
         LIMIT %s
     """, (limit,))
+
+
+# --- regroupements de fiches et alias de marque (16/10/2026) -------------------
+#
+# Premiers écrans où la propriétaire DÉCIDE au lieu de lire : ce qui s'y écrit
+# (`fusion_proposee`, `marque_alias`, `reglage`) est lu par le pipeline de nuit.
+# Rien ici ne touche directement une fiche : la fusion se fait la nuit suivante,
+# `mcpipe consolider --appliquer`, après la décision.
+
+def regroupements_compte(conn: psycopg.Connection) -> dict[str, Any]:
+    lignes = _rows(conn, "SELECT statut, count(*) AS n, coalesce(sum(nb_fiches), 0) AS fiches "
+                         "FROM fusion_proposee GROUP BY statut")
+    par = {r["statut"]: r for r in lignes}
+    auto = _row(conn, "SELECT valeur FROM reglage WHERE cle = 'fusion_auto'")
+    return {
+        "proposees": int(par.get("proposee", {}).get("n", 0)),
+        "fiches_proposees": int(par.get("proposee", {}).get("fiches", 0)),
+        "validees": int(par.get("validee", {}).get("n", 0)),
+        "refusees": int(par.get("refusee", {}).get("n", 0)),
+        "appliquees": int(par.get("appliquee", {}).get("n", 0)),
+        "auto": auto.get("valeur") == "oui",
+    }
+
+
+def regroupements_echantillon(conn: psycopg.Connection, limite: int = 8) -> list[dict[str, Any]]:
+    """Des groupes tirés AU HASARD, pas les premiers : relire un échantillon
+    aléatoire est ce qui a permis de mesurer « 0 fausse fusion sur 25 »."""
+    groupes = _rows(conn, """
+        SELECT id, produit_ids, survivant, nb_fiches, nb_marchands
+        FROM fusion_proposee WHERE statut = 'proposee'
+        ORDER BY random() LIMIT %s""", (limite,))
+    for g in groupes:
+        g["fiches"] = _rows(conn, """
+            SELECT p.id, p.slug, upper(p.brand_code) AS marque, p.model_display,
+                   p.colour_code, p.genre_age, p.model_year, c.label_fr AS rayon,
+                   s.image_url, s.best_title, s.cheapest,
+                   (SELECT string_agg(DISTINCT m.code, ', ')
+                    FROM raw_offer o JOIN merchant m ON m.id = o.merchant_id
+                    WHERE o.product_id = p.id AND o.is_live) AS marchands,
+                   (SELECT count(DISTINCT o.gtin) FROM raw_offer o
+                    WHERE o.product_id = p.id AND o.is_live) AS codes_barres
+            FROM product p
+            JOIN category c ON c.id = p.category_id
+            LEFT JOIN product_stats s ON s.product_id = p.id
+            WHERE p.id = ANY(%s)
+            ORDER BY (p.id = %s) DESC, p.id""", (g["produit_ids"], g["survivant"]))
+    return groupes
+
+
+def marques_alias(conn: psycopg.Connection) -> list[dict[str, Any]]:
+    return _rows(conn, "SELECT alias, marque, statut, cree_le FROM marque_alias "
+                       "ORDER BY statut, marque, alias")
+
+
+def marques_propositions(conn: psycopg.Connection, limite: int = 30) -> list[dict[str, Any]]:
+    """Les paires de marques écrites différemment pour un MÊME code-barres.
+
+    Un code-barres est un identifiant d'article : s'il porte « rg » chez un
+    marchand et « rgracing » chez un autre, c'est presque toujours la même
+    marque. Calculées chaque nuit par `mcpipe consolider` (le calcul balaie
+    toutes les offres, trop long pour une page) ; celles déjà décidées (alias
+    validé ou refusé) ne reviennent pas.
+    """
+    return _rows(conn, """
+        SELECT p.a, p.b, p.codes_barres, p.fiches_a, p.fiches_b, p.titre_a, p.titre_b
+        FROM marque_proposition p
+        WHERE NOT EXISTS (SELECT 1 FROM marque_alias x
+                          WHERE (x.alias = p.a AND x.marque = p.b)
+                             OR (x.alias = p.b AND x.marque = p.a))
+        ORDER BY p.codes_barres DESC LIMIT %s""", (limite,))

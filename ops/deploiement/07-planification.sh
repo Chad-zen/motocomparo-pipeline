@@ -40,6 +40,17 @@ mcpipe load
 mcpipe normalize
 mcpipe signature      # porte les tailles ; doit précéder enrich
 mcpipe enrich         # catégories + emprunt des tailles au code-barres
+# Le rapprochement INCRÉMENTAL (6 minutes le 16/10/2026, site en ligne) : il ne
+# traite que les offres neuves, les fiches existantes ne bougent pas. Sans lui,
+# plus aucun produit nouveau n'entrait au catalogue depuis le 1er octobre. Le
+# `||` est voulu, comme pour les alertes : un échec s'écrit dans le journal et
+# la chaîne des prix continue.
+nice -n 10 mcpipe match --sans-mpn || echo "!!! mcpipe match en echec, chaine poursuivie"
+# Les fiches qui se dédoublent pour un même code-barres : fusionne ce que la
+# propriétaire a VALIDÉ dans /admin/regroupements (et, si elle l'a activée, ce
+# que le site juge sûr), puis recalcule les propositions et les alias de marque
+# à lui soumettre. Doit précéder `relier-tailles` et `freshness`.
+nice -n 10 mcpipe consolider --appliquer || echo "!!! mcpipe consolider en echec, chaine poursuivie"
 mcpipe relier-tailles # relit les overrides de taille issus de l'emprunt
                       # et rattache chaque offre a la bonne variante —
                       # sans cela, les tailles empruntees depuis fcmoto ne

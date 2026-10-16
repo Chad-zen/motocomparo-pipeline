@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Marques — MotoComparo{% endblock %}
+{% block contenu %}
+<nav class="fil" aria-label="Fil d'Ariane"><a href="/admin">Tableau de bord</a> › <span>Marques</span></nav>
+<h1 class="titre-page">Marques écrites de plusieurs façons</h1>
+<p class="sous-titre">Quand deux marchands écrivent une marque différemment pour le <strong>même
+code-barres</strong> (« RG » et « RG Racing »), le site croit à deux marques et ne regroupe pas
+les produits. Dis-lui lesquelles sont la même marque : le choix s'applique à la prochaine mise à jour
+de nuit.</p>
+
+<h2 class="titre-section">Propositions ({{ propositions | length }})</h2>
+{% if propositions %}
+<table class="offres promo-table">
+  <thead><tr><th>Écriture A</th><th>Écriture B</th><th class="num">Codes-barres</th><th>Décision</th></tr></thead>
+  <tbody>
+  {% for p in propositions %}
+    <tr>
+      <td><strong>{{ p.a }}</strong><br><small>{{ p.fiches_a }} fiches · {{ p.titre_a or '' }}</small></td>
+      <td><strong>{{ p.b }}</strong><br><small>{{ p.fiches_b }} fiches · {{ p.titre_b or '' }}</small></td>
+      <td class="num">{{ p.codes_barres }}</td>
+      <td class="alias-actions">
+        <form method="post" action="/admin/marques/alias"><input type="hidden" name="alias" value="{{ p.b }}"><input type="hidden" name="marque" value="{{ p.a }}"><button class="bouton bouton--or" type="submit">Même marque : garder « {{ p.a }} »</button></form>
+        <form method="post" action="/admin/marques/alias"><input type="hidden" name="alias" value="{{ p.a }}"><input type="hidden" name="marque" value="{{ p.b }}"><button class="bouton bouton--or" type="submit">Même marque : garder « {{ p.b }} »</button></form>
+        <form method="post" action="/admin/marques/alias"><input type="hidden" name="alias" value="{{ p.a }}"><input type="hidden" name="marque" value="{{ p.b }}"><input type="hidden" name="statut" value="refuse"><button class="bouton bouton--contour" type="submit">Marques différentes</button></form>
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}
+  <p class="avertissement">Aucune proposition en attente.</p>
+{% endif %}
+
+<h2 class="titre-section">Ajouter un alias à la main</h2>
+<form method="post" action="/admin/marques/alias" class="alias-form">
+  <label>Écriture à remplacer <input name="alias" required pattern="[a-z0-9]+" placeholder="ex. rg"></label>
+  <label>Marque à garder <input name="marque" required pattern="[a-z0-9]+" placeholder="ex. rgracing"></label>
+  <button class="bouton bouton--or" type="submit">Ajouter</button>
+</form>
+
+<h2 class="titre-section">Décisions prises ({{ alias | length }})</h2>
+{% if alias %}
+<table class="offres promo-table">
+  <thead><tr><th>Écriture</th><th>Marque gardée</th><th>Décision</th><th></th></tr></thead>
+  <tbody>
+  {% for a in alias %}
+    <tr><td>{{ a.alias }}</td><td>{{ a.marque }}</td>
+        <td>{{ 'même marque' if a.statut == 'valide' else 'marques différentes' }}</td>
+        <td><form method="post" action="/admin/marques/supprimer"><input type="hidden" name="alias" value="{{ a.alias }}"><button class="bouton bouton--contour" type="submit">Annuler</button></form></td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}
+  <p class="avertissement">Aucune décision pour l'instant.</p>
+{% endif %}
+{% endblock %}

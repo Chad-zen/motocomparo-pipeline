@@ -4283,3 +4283,29 @@ body.a-consentement .banc { display: none; }
 }
 .tiroir__tete--menu .tiroir__x:hover,
 .tiroir__tete--menu .tiroir__x:focus-visible { background: rgba(255, 255, 255, .14); }
+
+/* --- l'administration : regroupements de fiches et alias de marque ---------- */
+.admin-nav { display: flex; flex-wrap: wrap; gap: 10px; margin: 8px 0 14px; }
+.regroup-actions { display: flex; flex-wrap: wrap; gap: 10px; margin: 6px 0 10px; }
+.texte-regroup { max-width: 70ch; line-height: 1.55; }
+.regroup {
+  margin: 14px 0; padding: 14px; background: var(--card, #fff);
+  border: 1px solid var(--ligne-carte, #e3e8f1); border-radius: 12px;
+}
+.regroup__tete { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: baseline; margin-bottom: 10px; }
+.regroup__aide { font-size: 12px; color: var(--muted, #5f6880); }
+.regroup__fiches { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 8px; }
+.regroup__fiche {
+  display: flex; gap: 10px; padding: 8px; text-decoration: none; color: inherit;
+  border: 1px solid var(--ligne-carte, #e3e8f1); border-radius: 10px;
+}
+.regroup__fiche--garde { border-color: var(--or, #f5b301); background: #fffaf0; }
+.regroup__fiche img, .regroup__noimg { width: 72px; height: 72px; object-fit: contain; flex: none; background: #f4f6fa; border-radius: 8px; }
+.regroup__txt { display: flex; flex-direction: column; gap: 2px; font-size: 13px; min-width: 0; }
+.regroup__txt small { color: var(--muted, #5f6880); font-size: 12px; }
+.regroup__boutons { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.alias-actions { display: flex; flex-direction: column; gap: 6px; }
+.alias-actions .bouton, .regroup__boutons .bouton { font-size: 13px; }
+.alias-form { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; margin: 6px 0 14px; }
+.alias-form label { display: flex; flex-direction: column; gap: 4px; font-size: 13px; }
+.alias-form input { padding: 8px 10px; border: 1px solid #d5d9e3; border-radius: 8px; }

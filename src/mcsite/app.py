@@ -566,6 +566,15 @@ def product(request: Request, slug: str):
         p = queries.product(conn, slug)
         if p is None:
             raise HTTPException(404, "Produit inconnu")
+        # Une fiche regroupée avec une autre (`mcpipe consolider`) garde son
+        # adresse : elle renvoie, en 301, vers la fiche qui l'a absorbée. Sans
+        # cela, chaque regroupement perdait une page déjà connue de Google.
+        if p["status"] == "merged" and p.get("merged_into"):
+            cible = conn.execute("SELECT slug FROM product WHERE id = %s",
+                                 (p["merged_into"],)).fetchone()
+            if cible:
+                return RedirectResponse(f"/p/{cible[0]}", status_code=301)
+            raise HTTPException(404, "Produit inconnu")
         rows = queries.offers(conn, p["id"])
         courbe = queries.price_curve(conn, p["id"])
         graphe = courbe_mod.graphique(courbe)
@@ -982,6 +991,120 @@ async def admin_code_promo(request: Request):
             """, (int(prendre("merchant_id")), prendre("code").upper(),
                   prendre("libelle"), prendre("url"), prendre("fin_le")))
     return RedirectResponse("/admin#promos", status_code=303, headers=_SANS_CACHE)
+
+
+# --- l'administration : regroupements de fiches et alias de marque ----------
+#
+# La propriétaire décide ici ; le pipeline de nuit applique (`mcpipe consolider
+# --appliquer`, et la lecture des alias par `signature`). Rien ne modifie une
+# fiche sur-le-champ : une erreur de clic se rattrape avant la nuit.
+
+async def _admin_formulaire(request: Request):
+    """(champs, None) si la requête est permise, sinon (None, réponse de refus)."""
+    refus = _admin_autorise(request)
+    if refus is not None:
+        return None, refus
+    origine = request.headers.get("origin") or ""
+    if origine and not origine.startswith(("https://motocomparo.com",
+                                           "http://127.0.0.1", "http://localhost")):
+        return None, PlainTextResponse("Origine refusée.", status_code=403,
+                                       headers=_SANS_CACHE)
+    d = parse_qs((await request.body()).decode("utf-8", "replace"))
+    return {k: (v[0] or "").strip() for k, v in d.items()}, None
+
+
+@app.get("/admin/regroupements", response_class=HTMLResponse)
+def admin_regroupements(request: Request):
+    refus = _admin_autorise(request)
+    if refus is not None:
+        return refus
+    with pool.connection() as conn:  # type: ignore[union-attr]
+        contexte = {"compte": admin.regroupements_compte(conn),
+                    "groupes": admin.regroupements_echantillon(conn)}
+    return templates.TemplateResponse(request, "admin_regroupements.html",
+                                      _ctx(request, **contexte), headers=_SANS_CACHE)
+
+
+@app.post("/admin/regroupements/decider")
+async def admin_regroupements_decider(request: Request):
+    champs, refus = await _admin_formulaire(request)
+    if refus is not None:
+        return refus
+    decision = {"valider": "validee", "refuser": "refusee"}.get(champs.get("decision", ""))
+    if decision and champs.get("id", "").isdigit():
+        with pool.connection() as conn:  # type: ignore[union-attr]
+            conn.execute("UPDATE fusion_proposee SET statut = %s, decide_le = now() "
+                         "WHERE id = %s AND statut = 'proposee'",
+                         (decision, int(champs["id"])))
+    return RedirectResponse("/admin/regroupements", status_code=303, headers=_SANS_CACHE)
+
+
+@app.post("/admin/regroupements/tout-valider")
+async def admin_regroupements_tout_valider(request: Request):
+    champs, refus = await _admin_formulaire(request)
+    if refus is not None:
+        return refus
+    with pool.connection() as conn:  # type: ignore[union-attr]
+        conn.execute("UPDATE fusion_proposee SET statut = 'validee', decide_le = now() "
+                     "WHERE statut = 'proposee'")
+    return RedirectResponse("/admin/regroupements", status_code=303, headers=_SANS_CACHE)
+
+
+@app.post("/admin/regroupements/auto")
+async def admin_regroupements_auto(request: Request):
+    champs, refus = await _admin_formulaire(request)
+    if refus is not None:
+        return refus
+    valeur = "oui" if champs.get("valeur") == "oui" else "non"
+    with pool.connection() as conn:  # type: ignore[union-attr]
+        conn.execute("INSERT INTO reglage (cle, valeur) VALUES ('fusion_auto', %s) "
+                     "ON CONFLICT (cle) DO UPDATE SET valeur = excluded.valeur, "
+                     "modifie_le = now()", (valeur,))
+    return RedirectResponse("/admin/regroupements", status_code=303, headers=_SANS_CACHE)
+
+
+@app.get("/admin/marques", response_class=HTMLResponse)
+def admin_marques(request: Request):
+    refus = _admin_autorise(request)
+    if refus is not None:
+        return refus
+    with pool.connection() as conn:  # type: ignore[union-attr]
+        contexte = {"alias": admin.marques_alias(conn),
+                    "propositions": cache.au_chaud("admin|marques-propositions",
+                                                   lambda: admin.marques_propositions(conn),
+                                                   ttl=0)}
+    return templates.TemplateResponse(request, "admin_marques.html",
+                                      _ctx(request, **contexte), headers=_SANS_CACHE)
+
+
+_CODE_MARQUE = re.compile(r"^[a-z0-9]{1,40}$")
+
+
+@app.post("/admin/marques/alias")
+async def admin_marques_alias(request: Request):
+    champs, refus = await _admin_formulaire(request)
+    if refus is not None:
+        return refus
+    alias = champs.get("alias", "").lower()
+    marque = champs.get("marque", "").lower()
+    statut = "refuse" if champs.get("statut") == "refuse" else "valide"
+    if _CODE_MARQUE.match(alias) and _CODE_MARQUE.match(marque) and alias != marque:
+        with pool.connection() as conn:  # type: ignore[union-attr]
+            conn.execute("INSERT INTO marque_alias (alias, marque, statut) VALUES (%s, %s, %s) "
+                         "ON CONFLICT (alias) DO UPDATE SET marque = excluded.marque, "
+                         "statut = excluded.statut", (alias, marque, statut))
+    return RedirectResponse("/admin/marques", status_code=303, headers=_SANS_CACHE)
+
+
+@app.post("/admin/marques/supprimer")
+async def admin_marques_supprimer(request: Request):
+    champs, refus = await _admin_formulaire(request)
+    if refus is not None:
+        return refus
+    if champs.get("alias"):
+        with pool.connection() as conn:  # type: ignore[union-attr]
+            conn.execute("DELETE FROM marque_alias WHERE alias = %s", (champs["alias"],))
+    return RedirectResponse("/admin/marques", status_code=303, headers=_SANS_CACHE)
 
 
 @app.get("/favoris", response_class=HTMLResponse)

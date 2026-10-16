@@ -65,3 +65,23 @@ def test_le_survivant_est_la_fiche_aux_plus_d_offres_puis_la_plus_ancienne():
 def test_la_cle_d_un_groupe_ne_depend_pas_de_l_ordre():
     assert c.cle_groupe([3, 1, 2]) == c.cle_groupe({1, 2, 3})
     assert c.cle_groupe([1, 2]) != c.cle_groupe([1, 2, 3])
+
+
+def test_une_fiche_regroupee_redirige_vers_la_survivante():
+    """Chaque regroupement garde l'ancienne adresse : 301, jamais 404."""
+    import inspect
+
+    from mcsite import app
+    src = inspect.getsource(app.product)
+    assert "merged_into" in src and "status_code=301" in src
+
+
+def test_un_alias_valide_remplace_la_marque_dans_la_signature():
+    from mcpipe import signature
+    base = {"id": 1, "raw_title": "Casque Test", "raw_brand": "RG", "raw_color": None,
+            "raw_size": None, "deeplink": "https://x/y", "raw_mpn": None,
+            "raw_category": None, "raw_gender": None, "raw_age_group": None}
+    sans = signature._signature_row(dict(base))
+    avec = signature._signature_row(dict(base), {"rg": "rgracing"})
+    assert sans[1] == "rg" and avec[1] == "rgracing"
+    assert avec[2] is True          # un alias décidé par un humain vaut « marque connue »

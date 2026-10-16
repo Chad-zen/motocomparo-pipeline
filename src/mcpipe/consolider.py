@@ -158,6 +158,32 @@ def charger_alias(conn) -> dict[str, str]:
         return {a.lower(): m.lower() for a, m in cur.fetchall()}
 
 
+_PROPOSITIONS_MARQUES = """
+INSERT INTO marque_proposition (a, b, codes_barres, fiches_a, fiches_b, titre_a, titre_b)
+WITH g AS (
+    SELECT o.gtin, array_agg(DISTINCT sg.brand_code ORDER BY sg.brand_code) AS bs
+    FROM raw_offer o
+    JOIN merchant m ON m.id = o.merchant_id AND m.gtin_trust = 'trusted'
+    JOIN offer_signature sg ON sg.raw_offer_id = o.id
+    WHERE o.is_live AND o.gtin IS NOT NULL AND sg.brand_code IS NOT NULL
+      AND sg.brand_code <> ''
+    GROUP BY o.gtin HAVING count(DISTINCT sg.brand_code) = 2
+), paires AS (
+    SELECT bs[1] AS a, bs[2] AS b, count(*) AS codes_barres, min(gtin) AS exemple
+    FROM g GROUP BY 1, 2 HAVING count(*) >= 3
+)
+SELECT p.a, p.b, p.codes_barres,
+       (SELECT count(*) FROM product WHERE brand_code = p.a AND status <> 'merged'),
+       (SELECT count(*) FROM product WHERE brand_code = p.b AND status <> 'merged'),
+       (SELECT left(o.raw_title, 60) FROM raw_offer o JOIN offer_signature sg
+          ON sg.raw_offer_id = o.id WHERE o.gtin = p.exemple AND sg.brand_code = p.a LIMIT 1),
+       (SELECT left(o.raw_title, 60) FROM raw_offer o JOIN offer_signature sg
+          ON sg.raw_offer_id = o.id WHERE o.gtin = p.exemple AND sg.brand_code = p.b LIMIT 1)
+FROM paires p
+ORDER BY p.codes_barres DESC LIMIT 200
+"""
+
+
 def proposer(max_groupes: int | None = None) -> dict[str, int]:
     """Calcule les groupes et les écrit dans `fusion_proposee` (statut proposee).
 
@@ -208,6 +234,9 @@ def proposer(max_groupes: int | None = None) -> dict[str, int]:
                             (cle_groupe(g), sorted(g), choisir_survivant(fs),
                              len(g), marchands))
                 nouveaux += cur.rowcount
+        with conn.cursor() as cur:
+            cur.execute("DELETE FROM marque_proposition")
+            cur.execute(_PROPOSITIONS_MARQUES)
         conn.commit()
         return {"gtins_eclates": len(gtins), "groupes": len(groupes),
                 "retenus": len(retenus), "ecartes_trop_gros": ecartes,

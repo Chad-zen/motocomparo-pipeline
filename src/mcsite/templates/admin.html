@@ -15,6 +15,11 @@
   {% endfor %}
 </div>
 
+<nav class="admin-nav" aria-label="Gérer le site">
+  <a class="bouton bouton--or" href="/admin/regroupements">Regroupements de fiches</a>
+  <a class="bouton bouton--contour" href="/admin/marques">Marques</a>
+</nav>
+
 <h2 class="titre-section">Catalogue</h2>
 <div class="tuiles">
   <div class="tuile"><span class="tuile__n">{{ "{:,}".format(cat.fiches).replace(",", " ") }}</span>fiches</div>
