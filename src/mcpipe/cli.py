@@ -763,3 +763,18 @@ def taches() -> None:
     from .taches import executer_une
 
     console.print(executer_une())
+
+
+@app.command("importer-web")
+def importer_web(
+    extraction: str = typer.Argument(..., help="JSON de l'agent qui extrait"),
+    verification: str = typer.Argument(..., help="JSON de l'agent qui reverifie"),
+    exclure: str = typer.Option("", help="product_id a ecarter, separes par des virgules"),
+) -> None:
+    """Ecrit les caracteristiques lues sur le web ET confirmees par un second agent."""
+    from .importer_web import importer
+
+    ids = {int(x) for x in exclure.split(",") if x.strip().isdigit()}
+    r = importer(extraction, verification, ids)
+    console.print(f"[green]ok[/] {r['retenues']} valeurs retenues, {r['ecrites']} ecrites, "
+                  f"{r['refusees']} refusees")

@@ -418,7 +418,7 @@ def incompletes(conn: psycopg.Connection, rayon: int | None, manque: str | None,
 
 
 def enregistrer_caracteristiques(conn: psycopg.Connection, product_id: int,
-                                 valeurs: dict[str, str]) -> int:
+                                 valeurs: dict[str, str], source: str = "manuel") -> int:
     """Écrit les valeurs saisies pour UNE fiche (source `manuel`).
 
     Seules les valeurs proposées pour le rayon de la fiche sont acceptées : un
@@ -437,10 +437,11 @@ def enregistrer_caracteristiques(conn: psycopg.Connection, product_id: int,
             continue
         conn.execute("""
             INSERT INTO product_caracteristique (product_id, nom, valeur, source, confiance)
-            VALUES (%s, %s, %s, 'manuel', 'saisie')
+            VALUES (%s, %s, %s, %s, %s)
             ON CONFLICT (product_id, nom, source) DO UPDATE
                SET valeur = excluded.valeur, calcule_le = now()""",
-                     (product_id, spec["nom"], valeur))
+                     (product_id, spec["nom"], valeur, source,
+                      "saisie" if source == "manuel" else "verifiee"))
         conn.execute("UPDATE fiche_incomplete SET manque = array_remove(manque, %s) "
                      "WHERE product_id = %s", (champ, product_id))
         ecrites += 1
