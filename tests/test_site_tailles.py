@@ -40,3 +40,13 @@ def test_une_variante_sans_offre_est_elaguee_chaque_nuit():
     from mcpipe import match
     assert "NOT EXISTS" in match._ELAGUER_VARIANTES
     assert "offer_variant_link" in match._ELAGUER_VARIANTES
+
+
+def test_les_pastilles_de_lettres_n_acceptent_que_de_vraies_tailles():
+    """« 5S », « 6M », « 6XS » passaient le motif [2-6]?X{0,3}[SML] (16/10/2026)."""
+    import re
+    motif = re.compile(r"^([2-6]X[SL]|X{1,3}[SL]|[SML])$")
+    for ok in ("S", "M", "L", "XS", "XL", "XXL", "XXXL", "2XS", "2XL", "3XL", "5XL", "6XL"):
+        assert motif.match(ok), ok
+    for faux in ("5S", "6M", "6XS", "4M", "XM", "X", "SS", "XXXXL"):
+        assert not motif.match(faux), faux
