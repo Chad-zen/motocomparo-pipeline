@@ -708,3 +708,32 @@ def _todo(stage: str) -> int:
 
 if __name__ == "__main__":
     app()
+
+
+@app.command()
+def consolider(
+    proposer: bool = typer.Option(True, "--proposer/--pas-proposer",
+                                  help="calculer les groupes de fiches a regrouper"),
+    appliquer: bool = typer.Option(False, "--appliquer",
+                                   help="fusionner les groupes valides (et les proposes si fusion_auto=oui)"),
+) -> None:
+    """Regrouper les fiches qui se dedoublent pour un meme code-barres.
+
+    `--proposer` (defaut) ne modifie rien : il ecrit les groupes dans
+    `fusion_proposee`, que la proprietaire valide dans l'ecran d'administration.
+    `--appliquer` fusionne ce qui est valide. A lancer AVANT `relier-tailles` et
+    `freshness`, qui recreent les variantes et recalculent les prix.
+    """
+    from . import consolider as c
+
+    if proposer:
+        r = c.proposer()
+        console.print(
+            f"[green]ok[/] {r['gtins_eclates']:,} codes-barres eclates sur plusieurs "
+            f"fiches, {r['groupes']:,} groupes, {r['retenus']:,} retenus "
+            f"({r['ecartes_trop_gros']:,} ecartes car trop gros), "
+            f"{r['nouveaux']:,} nouveaux")
+    if appliquer:
+        r = c.appliquer()
+        console.print(f"[green]ok[/] {r['groupes']:,} groupes appliques, "
+                      f"{r['fiches_fusionnees']:,} fiches fusionnees")
