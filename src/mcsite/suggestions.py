@@ -156,6 +156,151 @@ def reconnaitre_marque(mots_tapes: list[str],
     return None, mots_tapes
 
 
+# LE RAYON ET LE FILTRE ÉCRITS DANS LA PHRASE.
+#
+# « gant hiver », « blouson cuir », « casque integral » : la phrase nomme un
+# rayon et souvent un filtre que le site a déjà. Cherchés comme du texte, ces
+# mots ne trouvaient aucun rayon (le libellé entier devait contenir la phrase
+# entière) et ramenaient un gant de nettoyage en tête de « gant ». Audit du
+# 16/10/2026, comparé à Speedway, qui répond « Gants moto hiver (307) ».
+#
+# Le mot est ramené au singulier avant d'être lu : « intégraux », « bottes ».
+_RAYON_MOTS = {
+    "casque": "helmet", "integral": "helmet.integral", "jet": "helmet.jet",
+    "modulable": "helmet.modular", "gant": "gloves", "blouson": "jacket",
+    "veste": "jacket", "parka": "jacket", "pantalon": "pants", "jean": "pants",
+    "botte": "boots", "chaussure": "boots", "basket": "boots",
+    "combinaison": "suit", "dorsale": "protection.pilote",
+    "airbag": "protection.pilote", "masque": "goggles", "lunette": "goggles",
+    "maillot": "jersey", "ecran": "helmet.accessory",
+    "visiere": "helmet.accessory", "pinlock": "helmet.accessory",
+}
+# Un mot qui ne désigne un sous-rayon qu'à côté de son parent : « cross » seul
+# peut être un maillot, une botte ou un masque ; « casque cross » ne l'est pas.
+_SOUS_RAYON = {("helmet", "cross"): "helmet.cross"}
+
+# Les filtres de liste que la phrase peut nommer (`mots()` a déjà recollé
+# « mi-saison » en « misaison »).
+_FILTRE_MOTS = {
+    "hiver": ("saison", "hiver"), "ete": ("saison", "ete"),
+    "misaison": ("saison", "mi-saison"),
+    "cuir": ("matiere", "cuir"), "textile": ("matiere", "textile"),
+    "denim": ("matiere", "denim"),
+    "femme": ("genre", "femme"), "lady": ("genre", "femme"),
+    "women": ("genre", "femme"), "homme": ("genre", "homme"),
+    "enfant": ("genre", "enfant"), "kid": ("genre", "enfant"),
+}
+
+# Les mots qui mènent au rayon SANS en épuiser le sens : « dorsale » ouvre
+# les Protections du pilote, mais un short de protection n'y répond pas. Le
+# mot reste donc aussi cherché dans le titre.
+_MOT_GARDE = {"dorsale", "airbag", "basket", "jean", "parka", "visiere",
+              "pinlock", "masque", "lunette", "ecran"}
+
+# Ce qu'un titre nomme en premier quand la fiche accompagne un produit au lieu
+# d'en être un. Lu dans le titre et pas seulement dans le rayon : des visières
+# Shoei sont rangées dans « Casques » (relevé du 16/10/2026).
+_ACCESSOIRE_TITRE = {"visiere", "ecran", "bavette", "pinlock", "mousse",
+                     "mousses", "joue", "joues", "coussinet", "coussinets",
+                     "kit", "piece", "pieces", "housse", "sac", "support",
+                     "interieur", "spoiler", "nez", "platine", "vis"}
+
+
+def est_accessoire(titre: str | None) -> bool:
+    premiers = mots(titre or "")[:1]
+    return bool(premiers) and premiers[0] in _ACCESSOIRE_TITRE
+
+
+def singulier(mot: str) -> str:
+    """« integraux » -> « integral », « bottes » -> « botte » ; court, inchangé."""
+    if len(mot) >= 5 and mot.endswith("aux"):
+        return mot[:-3] + "al"
+    if len(mot) >= 4 and mot[-1] in "sx":
+        return mot[:-1]
+    return mot
+
+
+def comprendre(mots_tapes: list[str]) -> dict[str, Any]:
+    """Le rayon et les filtres nommés dans la phrase, et les mots qui restent.
+
+    Le rayon le plus précis l'emporte : « casque integral » est le rayon
+    Casques intégraux, pas Casques. Un filtre n'est retenu qu'avec un rayon :
+    « cuir » seul reste un mot cherché, « blouson cuir » devient Blousons,
+    matière cuir.
+    """
+    rayon: str | None = None
+    restants: list[str] = []
+    filtres_vus: list[tuple[str, str, str]] = []
+    for mot in mots_tapes:
+        s = singulier(mot)
+        code = _RAYON_MOTS.get(s)
+        if code and (rayon is None or code.startswith(rayon + ".")):
+            rayon = code
+            if s in _MOT_GARDE:
+                restants.append(mot)
+        elif code and rayon and rayon.startswith(code + "."):
+            pass                      # « integral casque » : déjà plus précis
+        elif s in _FILTRE_MOTS or mot in _FILTRE_MOTS:
+            param, valeur = _FILTRE_MOTS.get(s) or _FILTRE_MOTS[mot]
+            filtres_vus.append((param, valeur, mot))
+        else:
+            restants.append(mot)
+    if rayon:
+        for mot in list(restants):
+            sous = _SOUS_RAYON.get((rayon, mot))
+            if sous:
+                rayon = sous
+                restants.remove(mot)
+    filtres: dict[str, str] = {}
+    for param, valeur, mot in filtres_vus:
+        if rayon and param not in filtres:
+            filtres[param] = valeur
+        else:
+            restants.append(mot)
+    return {"rayon": rayon, "filtres": filtres, "restants": restants}
+
+
+def regrouper(fiches: list[dict[str, Any]], limite: int) -> list[dict[str, Any]]:
+    """Une ligne par modèle, au prix le plus bas de ses coloris.
+
+    Les fiches d'un même titre ne diffèrent que par la couleur : « Helstons ACE
+    - cuir RAG » deux fois, l'écran Shoei CNS-3 trois fois, le LS2 FF818
+    KOMAI deux fois. On garde la première (la mieux classée), au prix le plus
+    bas des jumelles, avec leur nombre — affiché « 3 coloris ».
+    """
+    vues: dict[tuple, dict[str, Any]] = {}
+    for f in fiches:
+        cle = (f.get("brand_code"),
+               (f.get("best_title") or f.get("model_display") or "").strip().lower())
+        deja = vues.get(cle)
+        if deja is None:
+            vues[cle] = dict(f, jumelles=1)
+            continue
+        deja["jumelles"] += 1
+        if f.get("cheapest") is not None and (deja.get("cheapest") is None
+                                               or f["cheapest"] < deja["cheapest"]):
+            deja["cheapest"] = f["cheapest"]
+    return list(vues.values())[:limite]
+
+
+def varier(fiches: list[dict[str, Any]], par_marque: int = 2) -> list[dict[str, Any]]:
+    """Pas plus de `par_marque` fiches d'une même marque en tête de liste.
+
+    « gant hiver » rendait trois Helstons d'affilée : le classement par nombre
+    de marchands favorise la marque la mieux couverte, et la liste ressemblait
+    à un catalogue de marque. Les fiches en trop sont repoussées, pas retirées.
+    """
+    tete, reste, compte = [], [], {}
+    for f in fiches:
+        m = f.get("brand_code")
+        if compte.get(m, 0) < par_marque:
+            compte[m] = compte.get(m, 0) + 1
+            tete.append(f)
+        else:
+            reste.append(f)
+    return tete + reste
+
+
 def _marques(matrice: list[dict[str, Any]], q: str) -> list[dict[str, Any]]:
     """Les marques dont le nom COMMENCE par ce qui est tapé, puis les autres.
 
@@ -189,7 +334,8 @@ def construire(texte: str, matrice: list[dict[str, Any]],
                rayons: list[dict[str, Any]],
                produits: list[dict[str, Any]],
                nom, marque_reconnue: str | None = None,
-               mots_restants: list[str] | None = None) -> dict[str, Any]:
+               mots_restants: list[str] | None = None,
+               compris: dict[str, Any] | None = None) -> dict[str, Any]:
     """Assemble la réponse. Aucune requête ici : tout est déjà là.
 
     `nom` est la fonction qui fabrique le nom affichable d'une fiche — la même
@@ -240,7 +386,7 @@ def construire(texte: str, matrice: list[dict[str, Any]],
     # Dès qu'un mot accompagne la marque — « arai szr » — il cherche un produit,
     # et les mises en avant reprennent leur sens.
     marque_seule = None
-    if marque_reconnue and not (mots_restants or []):
+    if marque_reconnue and not (mots_restants or []) and not compris:
         total = sum(x["n"] for x in matrice if x["marque"] == marque_reconnue)
         marque_seule = {
             "marque": marque_reconnue,
@@ -262,7 +408,15 @@ def construire(texte: str, matrice: list[dict[str, Any]],
     # cette barre de recherche.
     meilleurs = [] if marque_seule else liste[:3]
 
+    # Le rayon compris passe aussi dans la liste des rayons, en tête : le
+    # libellé seul (« Gants ») y figurait déjà quand la phrase se réduisait à
+    # lui, et il ne doit pas apparaître deux fois.
+    if compris:
+        rayons_trouves = [r for r in rayons_trouves if r["code"] != compris.get("code")
+                          or compris.get("filtres")]
+
     return {
+        "rayon_compris": compris,
         "marque_seule": marque_seule,
         "meilleurs": meilleurs,
         "marque_reconnue": marque_reconnue,
@@ -297,6 +451,7 @@ def _produits(produits: list[dict[str, Any]], nom) -> list[dict[str, Any]]:
             "prix": float(p["cheapest"]) if p.get("cheapest") is not None else None,
             "marchands": p.get("merchant_count"),
             "image": p.get("image_url"),
+            "coloris": p.get("jumelles") or 1,
         }
         for p in produits
     ]

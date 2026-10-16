@@ -4162,3 +4162,73 @@ body.a-consentement .banc { display: none; }
   .etapes__liste li h3 { margin: 0 0 2px; font-size: 16px; }
   .etapes__liste li p { margin: 0; }
 }
+
+/* --- le panneau de recherche à deux colonnes (16/10/2026) ------------------
+   À gauche les chemins (rayon compris, marques, rayons), à droite les
+   produits. Plus large que le champ : `recherche.js` le recale dans la
+   fenêtre. Sur téléphone, il prend l'écran sous la barre de recherche. */
+.sugg:not(.sugg--accueil) {
+  right: auto;
+  width: min(860px, calc(100vw - 32px));
+  max-height: min(78vh, 620px);
+  display: grid;
+  grid-template-columns: 250px minmax(0, 1fr);
+  align-content: start;
+}
+.sugg:not(.sugg--accueil) .sugg__ligne--tout { grid-column: 1 / -1; }
+.sugg__chemins {
+  border-right: 1px solid var(--ligne-carte, #eef1f6);
+  background: #fafbfd;
+  padding-bottom: 8px;
+}
+.sugg__chemins:only-of-type, .sugg__produits:only-of-type { grid-column: 1 / -1; border-right: 0; }
+.sugg__chemins .sugg__titre:not(:first-child) { border-top: 0; }
+.sugg__chemins .sugg__ligne { padding: 7px 14px; }
+.sugg__ligne--rayon { background: #eef2fb; margin: 2px 8px; border-radius: 8px; }
+.sugg__ligne--rayon .sugg__quoi { color: var(--marque-encre, #26355a); }
+.sugg__produits { padding-bottom: 8px; min-width: 0; }
+.sugg__grille {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px; padding: 4px 10px;
+}
+.sugg__carte {
+  align-items: center; justify-content: flex-start;
+  border: 1px solid var(--ligne-carte, #e8eaf1); border-radius: 10px;
+  padding: 8px 10px; gap: 10px;
+}
+.sugg__carte .sugg__vignette { width: 56px; height: 56px; background: #fff; }
+.sugg__carte .sugg__nom {
+  white-space: normal; font-weight: 600; line-height: 1.25;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.sugg__carte .sugg__marchands { font-size: 11.5px; }
+.sugg__carte .sugg__prix { margin-top: 2px; font-size: 13.5px; }
+
+.sugg--accueil { min-width: 320px; }
+.sugg__puces { display: flex; flex-wrap: wrap; gap: 6px; padding: 4px 14px 12px; }
+.sugg__puce {
+  padding: 6px 12px; font-size: 13px; font-weight: 600;
+  border: 1px solid var(--ligne-carte, #e2e6ef); border-radius: 999px;
+}
+
+@media (max-width: 760px) {
+  .sugg, .sugg:not(.sugg--accueil) {
+    position: fixed; left: 0 !important; right: 0; width: auto;
+    top: var(--sugg-haut, 120px); bottom: 0;
+    max-height: none; border-radius: 0; border-width: 1px 0 0;
+    display: block; min-width: 0;
+  }
+  .sugg__chemins { border-right: 0; border-bottom: 1px solid var(--ligne-carte, #eef1f6); }
+  .sugg__grille { grid-template-columns: minmax(0, 1fr); }
+  .sugg.sugg--modele { display: flex; flex-direction: column; }
+  .sugg--modele .sugg__produits { order: -1; border-bottom: 1px solid var(--ligne-carte, #eef1f6); }
+  .sugg--modele .sugg__ligne--tout { order: 2; }
+}
+
+/* La source des caractéristiques, alignée sur les lignes du tableau. */
+.caracs__source {
+  margin: -4px 0 0; padding: 0 16px 14px;
+  font-size: 12px; color: var(--doux, #5f6880);
+}
+.caracs__source a { color: inherit; text-decoration: underline; }

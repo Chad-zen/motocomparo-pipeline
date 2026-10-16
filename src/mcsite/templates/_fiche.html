@@ -742,9 +742,11 @@
   </div>
   {% endfor %}
 </dl>
-<p class="sous-titre">
-  D'après les fiches marchands{% if caracteristiques | selectattr('source', 'equalto', 'sharp') | list %}
-  et les essais <a href="https://sharp.dft.gov.uk/" target="_blank" rel="noopener">SHARP</a>{% endif %}.
+{# Aligné sur les lignes du tableau : collé au bord de la carte, il semblait
+   égaré (signalé par la propriétaire, 16/10/2026). #}
+<p class="caracs__source">
+  Source&nbsp;: marchands partenaires{% if caracteristiques | selectattr('source', 'equalto', 'sharp') | list %}
+  et essais <a href="https://sharp.dft.gov.uk/" target="_blank" rel="noopener">SHARP</a>{% endif %}
 </p>
 </section>
 {% endif %}

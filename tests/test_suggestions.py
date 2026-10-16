@@ -236,3 +236,62 @@ def test_la_couleur_departage_deux_fiches_du_meme_modele():
     d = suggestions.construire("arai szr", MATRICE, RAYONS, _FICHES, _nom,
                                "arai", ["szr"])
     assert d["meilleurs"][0]["couleur"] == "noir"
+
+
+# --- le rayon et les filtres compris dans la phrase (16/10/2026) -------------
+
+def _lu(texte):
+    return suggestions.comprendre(suggestions.mots(texte))
+
+
+def test_gant_hiver_est_le_rayon_gants_saison_hiver():
+    assert _lu("gant hiver") == {"rayon": "gloves", "filtres": {"saison": "hiver"},
+                                 "restants": []}
+
+
+def test_le_rayon_le_plus_precis_l_emporte_et_le_pluriel_est_lu():
+    assert _lu("casque integral")["rayon"] == "helmet.integral"
+    assert _lu("integraux casques")["rayon"] == "helmet.integral"
+    assert _lu("casques jet")["rayon"] == "helmet.jet"
+
+
+def test_cross_ne_designe_le_sous_rayon_qu_a_cote_de_casque():
+    assert _lu("casque cross")["rayon"] == "helmet.cross"
+    assert _lu("cross")["rayon"] is None
+
+
+def test_un_filtre_sans_rayon_reste_un_mot_cherche():
+    assert _lu("cuir") == {"rayon": None, "filtres": {}, "restants": ["cuir"]}
+
+
+def test_femme_lady_et_mi_saison_deviennent_des_filtres():
+    assert _lu("blouson lady")["filtres"] == {"genre": "femme"}
+    assert _lu("bottes mi-saison")["filtres"] == {"saison": "mi-saison"}
+
+
+def test_dorsale_ouvre_le_rayon_et_reste_cherchee():
+    assert _lu("dorsale") == {"rayon": "protection.pilote", "filtres": {},
+                              "restants": ["dorsale"]}
+
+
+def test_les_coloris_d_un_meme_titre_tiennent_sur_une_ligne():
+    fiches = [
+        {"brand_code": "ls2", "best_title": "LS2 FF818 KOMAI", "cheapest": 164.2},
+        {"brand_code": "ls2", "best_title": "LS2 FF818 KOMAI", "cheapest": 150.0},
+        {"brand_code": "ls2", "best_title": "LS2 FF818 SOLID", "cheapest": 149.2},
+    ]
+    lignes = suggestions.regrouper(fiches, 8)
+    assert len(lignes) == 2
+    assert lignes[0]["jumelles"] == 2 and lignes[0]["cheapest"] == 150.0
+
+
+def test_pas_plus_de_deux_fiches_d_une_marque_en_tete():
+    fiches = [{"brand_code": m} for m in ["helstons"] * 3 + ["ixon", "revit"]]
+    assert [f["brand_code"] for f in suggestions.varier(fiches)] == \
+        ["helstons", "helstons", "ixon", "revit", "helstons"]
+
+
+def test_un_accessoire_se_reconnait_a_son_titre():
+    assert suggestions.est_accessoire("Visière Shoei CNS-1 GT-Air / Neotec")
+    assert suggestions.est_accessoire("Bavette anti-remous Shoei NEOTEC")
+    assert not suggestions.est_accessoire("Casque modulable Shoei NEOTEC 3")

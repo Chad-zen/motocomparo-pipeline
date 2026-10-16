@@ -18,6 +18,8 @@ from typing import Any
 import psycopg
 from psycopg.rows import dict_row
 
+from . import labels
+
 # An offer worth showing. Kept as one string so no query can disagree with another.
 # 9 999,00 € pile n'est pas un prix : c'est la valeur que FC-Moto met quand son
 # flux n'a pas de prix (6 offres le 14/09/2026, toutes des supports SW-Motech).
@@ -1029,11 +1031,19 @@ def facets(conn: psycopg.Connection, f: Filtres) -> dict[str, Any]:
         ORDER BY count(DISTINCT p.id) DESC LIMIT 24
     """, "taille")
 
+    # UNE COULEUR PAR LIGNE, pas une par combinaison. « noir, gris et rouge
+    # mat » occupait sa propre ligne à côté de « noir et rouge » et de « noir
+    # mat » : la liste était illisible (signalé par la propriétaire,
+    # 16/10/2026). Chaque fiche compte dans chacune de ses couleurs, la
+    # finition (mat, brillant) est ignorée.
     couleurs = compte(f"""
-        SELECT p.colour_code AS valeur, count(*) AS n
+        SELECT c.valeur, count(*) AS n
         FROM product p JOIN product_stats s ON s.product_id = p.id
+        CROSS JOIN LATERAL unnest(string_to_array(
+            split_part(p.colour_code, '|', 1), '-')) AS c(valeur)
         {_OU} AND p.colour_code IS NOT NULL AND p.colour_code <> 'unknown'
-        GROUP BY p.colour_code ORDER BY count(*) DESC LIMIT 16
+          AND c.valeur <> ''
+        GROUP BY c.valeur ORDER BY count(*) DESC LIMIT 16
     """, "couleur")
 
     # Les catégories : une VRAIE facette, pas l'arbre global.
@@ -1317,6 +1327,20 @@ def _facettes_caracteristiques(conn: psycopg.Connection, f: Filtres,
     return out
 
 
+def couleur_simple(code: str | None) -> str | None:
+    """La première couleur d'un code : « BK-WH|MAT » -> « BK ».
+
+    Les anciennes adresses portaient la combinaison entière ; le filtre ne
+    connaît plus qu'une couleur à la fois.
+    """
+    if not code:
+        return None
+    return code.partition("|")[0].split("-")[0].strip().upper() or None
+
+
+GENRES = {"femme": "Femme", "homme": "Homme", "enfant": "Enfant"}
+
+
 @dataclass(frozen=True, kw_only=True)
 class Filtres:
     """Everything a visitor can narrow a listing by.
@@ -1344,6 +1368,10 @@ class Filtres:
     matiere: str | None = None
     homologation: str | None = None
     saison: str | None = None
+    # « femme », « homme » ou « enfant », lu dans `product.genre_age` : un
+    # blouson femme s'appelle « LADY », « WOMEN » ou « FEMME » selon la
+    # marque, et le mot seul n'en trouvait que 9 sur plusieurs centaines.
+    genre: str | None = None
     marchands: int = 2
     tri: str = "pertinence"
 
@@ -1366,11 +1394,14 @@ class Filtres:
         for t in self.taille or []:
             out.append({"cle": "taille", "texte": f"Taille {t}", "valeur": t})
         if self.couleur:
-            out.append({"cle": "couleur", "texte": self.couleur})
+            out.append({"cle": "couleur",
+                        "texte": labels.colour(couleur_simple(self.couleur)).capitalize()})
         for param in FILTRES_CARACTERISTIQUES:
             code = getattr(self, param)
             if code:
                 out.append({"cle": param, "texte": libelle_filtre(param, code)})
+        if self.genre in GENRES:
+            out.append({"cle": "genre", "texte": GENRES[self.genre]})
         if self.marchands > 2:
             out.append({"cle": "marchands", "texte": f"{self.marchands} marchands et +"})
         return out
@@ -1385,7 +1416,10 @@ _OU = """
       AND (%(b)s::text[] IS NULL OR p.brand_code = ANY(%(b)s::text[]))
       AND (%(lo)s::numeric IS NULL OR s.cheapest >= %(lo)s::numeric)
       AND (%(hi)s::numeric IS NULL OR s.cheapest <= %(hi)s::numeric)
-      AND (%(co)s::text IS NULL OR p.colour_code = %(co)s::text)
+      -- une couleur, trouvée parmi celles de la fiche (« noir » trouve
+      -- « noir et rouge mat »)
+      AND (%(co)s::text IS NULL OR %(co)s::text = ANY(string_to_array(
+            split_part(p.colour_code, '|', 1), '-')))
       -- Plusieurs tailles cochees = UN produit qui a L'UNE D'ELLES (pas
       -- toutes) : un visiteur qui coche 42 et 43 veut les deux pointures, pas
       -- l'improbable botte vendue dans les deux a la fois.
@@ -1404,6 +1438,12 @@ _OU = """
       AND (%(sai)s::text IS NULL OR p.id IN (
             SELECT fc.product_id FROM (""" + _CARAC_SQL["saison"] + """) fc
             WHERE fc.valeur = %(sai)s::text))
+      -- « homme » garde le mixte (U-A) : la plupart des blousons pour homme
+      -- ne sont déclarés ni homme ni femme.
+      AND (%(ge)s::text IS NULL
+           OR (%(ge)s::text = 'femme' AND p.genre_age LIKE 'F-%%')
+           OR (%(ge)s::text = 'homme' AND p.genre_age IN ('H-A', 'U-A'))
+           OR (%(ge)s::text = 'enfant' AND p.genre_age LIKE '%%-E'))
       -- La recherche est un filtre comme les autres, et pas une page à part :
       -- c'est ce qui lui donne le même panneau, les mêmes compteurs et le même
       -- tri que le reste du site. Chaque mot doit se trouver quelque part — un
@@ -1443,9 +1483,10 @@ def _args(f: Filtres) -> dict[str, Any]:
     return {
         "c": f.categories, "b": f.marque or None, "m": f.marchands,
         "lo": f.prix_min, "hi": f.prix_max,
-        "ta": f.taille or None, "co": f.couleur or None,
+        "ta": f.taille or None, "co": couleur_simple(f.couleur),
         "mat": f.matiere or None, "hom": f.homologation or None,
         "sai": f.saison or None,
+        "ge": f.genre if f.genre in GENRES else None,
         "q": _mots(f.texte),
     }
 
@@ -1683,7 +1724,8 @@ _MAX_MOTS = 4
 _EXPRESSION = "f_recherche(s.best_title)"
 
 _CHAMPS = """p.slug, p.model_display, s.best_title, p.brand_code,
-             p.colour_code, s.image_url, s.cheapest, s.merchant_count"""
+             p.colour_code, s.image_url, s.cheapest, s.merchant_count,
+             p.category_id"""
 
 _FILTRE = """s.merchant_count >= 2 AND s.cheapest IS NOT NULL
              AND p.status <> 'merged'"""

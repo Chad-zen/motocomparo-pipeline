@@ -41,10 +41,11 @@ def test_les_quatre_routes_acceptent_les_trois_filtres():
     """`produits`, `/c/{code}`, `/m/{marque}` et `/recherche` construisent
     chacune un `Filtres(...)` : les trois nouveaux paramètres doivent être lus
     par les quatre, ou un clic dans le panneau perd le critère selon la page
-    d'où l'on part."""
+    d'où l'on part. Le cinquième appel est celui des suggestions de
+    recherche (« gant hiver » -> Gants, saison hiver), tenu à la même règle."""
     s = open(APP, encoding="utf-8").read()
     appels = [m.end() for m in re.finditer(r"queries\.Filtres\(", s)]
-    assert len(appels) == 4, f"{len(appels)} appels à Filtres(), 4 attendus"
+    assert len(appels) == 5, f"{len(appels)} appels à Filtres(), 5 attendus"
     for debut in appels:
         # Parenthèses comptées une à une : l'appel contient lui-même des
         # appels imbriqués (`code_filtre(...)`), et le premier « ) » fermerait

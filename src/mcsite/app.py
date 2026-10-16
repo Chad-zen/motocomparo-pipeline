@@ -15,7 +15,7 @@ from datetime import date
 from decimal import Decimal, InvalidOperation
 from pathlib import Path
 from typing import Any
-from urllib.parse import parse_qs, quote_plus
+from urllib.parse import parse_qs, quote_plus, urlencode
 
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Query, Request
@@ -433,6 +433,7 @@ def produits(
     matiere: str | None = None,
     homologation: str | None = None,
     saison: str | None = None,
+    genre: str | None = None,
     marchands: int = Query(2, ge=2, le=6),
     tri: str = "pertinence",
 ):
@@ -440,10 +441,11 @@ def produits(
     leads. No category is fixed, so the visitor narrows down from the whole
     shelf instead of having to pick a department before seeing anything."""
     f = queries.Filtres(marque=marque, prix_min=prix_min, prix_max=prix_max,
-                        taille=taille, couleur=couleur,
+                        taille=taille, couleur=queries.couleur_simple(couleur),
                         matiere=queries.code_filtre(matiere),
                         homologation=queries.code_filtre(homologation),
                         saison=queries.code_filtre(saison),
+                        genre=queries.code_filtre(genre),
                         marchands=marchands, tri=tri)
     return _liste(request, "Tous les produits", "/produits", f, page)
 
@@ -462,6 +464,7 @@ def category(
     matiere: str | None = None,
     homologation: str | None = None,
     saison: str | None = None,
+    genre: str | None = None,
     marchands: int = Query(2, ge=2, le=6),
     tri: str = "pertinence",
 ):
@@ -479,10 +482,11 @@ def category(
     # Signalé par la propriétaire (14/10/2026).
     f = queries.Filtres(categories=courante["ids"], texte=q.strip() or None,
                         marque=marque, prix_min=prix_min, prix_max=prix_max,
-                        taille=taille, couleur=couleur,
+                        taille=taille, couleur=queries.couleur_simple(couleur),
                         matiere=queries.code_filtre(matiere),
                         homologation=queries.code_filtre(homologation),
                         saison=queries.code_filtre(saison),
+                        genre=queries.code_filtre(genre),
                         marchands=marchands,
                         tri=tri)
     return _liste(request, courante["label_fr"], f"/c/{code}", f, page,
@@ -501,6 +505,7 @@ def marque_page(
     matiere: str | None = None,
     homologation: str | None = None,
     saison: str | None = None,
+    genre: str | None = None,
     marchands: int = Query(2, ge=2, le=6),
     tri: str = "pertinence",
 ):
@@ -511,10 +516,11 @@ def marque_page(
     offers nothing to narrow once you land.
     """
     f = queries.Filtres(marque=[marque], prix_min=prix_min, prix_max=prix_max,
-                        taille=taille, couleur=couleur,
+                        taille=taille, couleur=queries.couleur_simple(couleur),
                         matiere=queries.code_filtre(matiere),
                         homologation=queries.code_filtre(homologation),
                         saison=queries.code_filtre(saison),
+                        genre=queries.code_filtre(genre),
                         marchands=marchands, tri=tri)
     with pool.connection() as conn:  # type: ignore[union-attr]
         _, total = queries.listing_filtre(conn, f, 1, 0)
@@ -1668,21 +1674,90 @@ def api_suggestions(request: Request, q: str = "") -> Response:
     tapes = suggestions.mots(texte)
     marque, restants = suggestions.reconnaitre_marque(tapes, noms)
 
-    def _produits() -> list[dict[str, Any]]:
-        with pool.connection() as conn:  # type: ignore[union-attr]
-            # Huit et non six : trois partent en grand format, il doit rester
-            # de quoi remplir « Autres produits ».
-            if marque:
-                return queries.produits_dans_la_marque(conn, marque, restants, 8)
-            return queries.produits_suggeres(conn, tapes, 8)
+    # PUIS LE RAYON ET SES FILTRES : « gant hiver » est le rayon Gants, saison
+    # hiver — une liste qui existe déjà, avec son compte. On y cherche les
+    # produits au lieu de chercher les mots dans les titres.
+    lu = suggestions.comprendre(restants)
+    noeud = queries.find_category(arbre, lu["rayon"]) if lu["rayon"] else None
+    ids_par_code = {r["code"]: r["id"] for r in plats}
+    accessoires = {ids_par_code[c] for c in _RAYONS_ACCESSOIRES if c in ids_par_code}
 
-    trouves = cache.au_chaud(f"suggestions|{texte.lower()}", _produits, ttl=300)
+    def _dans_le_rayon(conn) -> tuple[list[dict[str, Any]], dict[str, Any]] | None:
+        filtres = dict(lu["filtres"])
+        restes = list(lu["restants"])
+        for essai in range(2):
+            f = queries.Filtres(categories=noeud["ids"],
+                                marque=[marque] if marque else None,
+                                texte=" ".join(restes) or None,
+                                matiere=filtres.get("matiere"),
+                                homologation=filtres.get("homologation"),
+                                saison=filtres.get("saison"),
+                                genre=filtres.get("genre"))
+            fiches, n = queries.listing_filtre(conn, f, 40, 0)
+            if n or not filtres:
+                break
+            # Un filtre que le rayon n'a pas (« casque cuir ») : le mot
+            # redevient un mot cherché, plutôt qu'une liste vide.
+            restes += list(filtres.values())
+            filtres = {}
+        if not n:
+            return None
+        morceaux = [noeud["label_fr"]]
+        morceaux += [queries.GENRES[v] if p == "genre" else queries.libelle_filtre(p, v)
+                     for p, v in filtres.items()]
+        if marque:
+            morceaux.append(marque.upper())
+        params = {**({"marque": marque} if marque else {}), **filtres}
+        if restes:
+            params["q"] = " ".join(restes)
+        url = f"/c/{noeud['code']}" + (f"?{urlencode(params)}" if params else "")
+        compris = {"code": noeud["code"], "label": " · ".join(morceaux),
+                   "filtres": filtres, "url": url, "n": n}
+        return fiches, compris
+
+    def _produits() -> tuple[list[dict[str, Any]], dict[str, Any] | None]:
+        with pool.connection() as conn:  # type: ignore[union-attr]
+            if noeud:
+                dedans = _dans_le_rayon(conn)
+                if dedans:
+                    fiches, compris = dedans
+                    if not marque:
+                        fiches = suggestions.varier(fiches)
+                    return suggestions.regrouper(fiches, 8), compris
+            # Vingt-quatre, regroupées ensuite en huit : trois partent en grand
+            # format, il doit rester de quoi remplir « Autres produits ».
+            # Rayon compris mais vide (« casque bluetooth » : aucun casque ne
+            # s'appelle ainsi) : on cherche les mots qui restent, sans le mot
+            # du rayon — c'est un intercom qu'on veut, pas un casque.
+            hors_rayon = (lu["restants"] + list(lu["filtres"].values())) if noeud else []
+            if marque:
+                fiches = queries.produits_dans_la_marque(conn, marque, restants, 24)
+            else:
+                fiches = queries.produits_suggeres(conn, hors_rayon or tapes, 24)
+            # L'ACCESSOIRE APRÈS LE PRODUIT. « shoei neotec » mettait une
+            # bavette et trois écrans devant le casque : à ressemblance égale,
+            # le nom du modèle est dans les deux titres. Pénalité d'un
+            # demi-mot seulement : qui tape « ecran » est déjà conduit au
+            # rayon des pièces de casque par `comprendre`.
+            fiches.sort(key=lambda p: -(float(p.get("score") or 0) - (
+                0.5 if (p.get("category_id") in accessoires
+                        or suggestions.est_accessoire(p.get("best_title"))) else 0)))
+            if not marque:
+                fiches = suggestions.varier(fiches)
+            return suggestions.regrouper(fiches, 8), None
+
+    trouves, compris = cache.au_chaud(f"suggestions|{texte.lower()}", _produits, ttl=300)
 
     return JSONResponse(
         suggestions.construire(texte, matrice, plats, trouves, _nom,
-                               marque, restants),
+                               marque, restants, compris),
         headers={"Cache-Control": "no-store"},
     )
+
+
+# Les rayons dont un produit accompagne un autre : passés après les produits
+# principaux dans les suggestions, à ressemblance égale.
+_RAYONS_ACCESSOIRES = ("helmet.accessory", "accessories", "maintenance")
 
 
 @app.get("/favicon.ico", include_in_schema=False)
@@ -1978,6 +2053,7 @@ def search(
     matiere: str | None = None,
     homologation: str | None = None,
     saison: str | None = None,
+    genre: str | None = None,
     marchands: int = Query(2, ge=2, le=6),
     tri: str = "pertinence",
 ):
@@ -2002,10 +2078,11 @@ def search(
 
     f = queries.Filtres(texte=q.strip() or None, marque=marque,
                         prix_min=prix_min, prix_max=prix_max, taille=taille,
-                        couleur=couleur,
+                        couleur=queries.couleur_simple(couleur),
                         matiere=queries.code_filtre(matiere),
                         homologation=queries.code_filtre(homologation),
                         saison=queries.code_filtre(saison),
+                        genre=queries.code_filtre(genre),
                         marchands=marchands, tri=tri)
     titre = f"Recherche : {q}" if q.strip() else "Recherche"
     return _liste(request, titre, f"/recherche?q={quote_plus(q)}", f, page)
