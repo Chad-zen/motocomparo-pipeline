@@ -1140,7 +1140,9 @@ def facets(conn: psycopg.Connection, f: Filtres) -> dict[str, Any]:
 # (`caracteristiques()`), pour qu'une fiche filtrée « carbone » ne s'ouvre
 # jamais sur « fibre » — 360 couples (fiche, nom) ont deux sources en
 # désaccord dans la base locale le 15/10/2026.
-_SOURCE_PRIORITE = {"sharp": 0, "revendeur": 1, "flux": 2}
+# `categorie` : la saison que le marchand écrit dans sa catégorie (« Gants Moto
+# Hiver »), derrière une saison lue dans une description.
+_SOURCE_PRIORITE = {"sharp": 0, "revendeur": 1, "flux": 2, "categorie": 3}
 
 # Les rayons, par identifiant — ce sont ceux de `mcpipe.caracteristiques._RAYONS`,
 # la seule liste de rayons dont les caractéristiques sont lues.

@@ -30,6 +30,7 @@ from __future__ import annotations
 import csv
 import html
 import os
+import re
 from dataclasses import asdict
 from pathlib import Path
 
@@ -139,6 +140,69 @@ def _references(conn, cats: tuple[int, ...]) -> dict[tuple[str, str], int]:
         return {(c, s): pid for c, s, pid in cur}
 
 
+_SAISON_MI = re.compile(r"mi[\s-]?saison", re.I)
+_SAISON_HIVER = re.compile(r"(?<![^\W\d_])hiver(?![^\W\d_])", re.I)
+_SAISON_ETE = re.compile(r"(?<![^\W\d_])(?:été|ete)(?![^\W\d_])", re.I)
+
+
+def saison_de_la_categorie(categorie: str | None) -> str | None:
+    """La saison que le MARCHAND écrit dans sa propre catégorie, ou rien.
+
+    « Gants Moto Hiver » (Motoblouz), « Gants moto été » (Moto-Axxe, Maxxess) :
+    c'est une classification qu'ils font eux-mêmes, pas une devinette. Elle
+    manquait à 924 fiches de gants sur les 1 349 sans saison (16/10/2026), parce
+    que seules les descriptions étaient lues — et FC-Moto, qui a le plus de
+    fiches, écrit en moyenne 148 signes. « Chauffants », « Motocross » ou
+    « Femme » ne disent rien de la saison : on rend `None`.
+    """
+    if not categorie:
+        return None
+    if _SAISON_MI.search(categorie):
+        return "mi-saison"
+    if _SAISON_HIVER.search(categorie):
+        return "hiver"
+    if _SAISON_ETE.search(categorie):
+        return "ete"
+    return None
+
+
+def _saisons_des_categories(conn) -> int:
+    """Pose la saison des fiches dont les marchands l'écrivent dans la catégorie.
+
+    Source `categorie`, derrière `flux` dans l'ordre de confiance : une saison
+    lue dans une description l'emporte. Une fiche dont les marchands se
+    contredisent (l'un « été », l'autre « hiver ») n'en reçoit aucune. Rejouée
+    entièrement à chaque passage, comme le reste de l'étape : une catégorie qui
+    change chez le marchand change sur la fiche dès la nuit suivante, et les
+    produits nouveaux la reçoivent sans autre geste.
+    """
+    ids = sorted({i for cats in _RAYONS if cats != (1, 2, 3, 4, 5) for i in cats})
+    par_fiche: dict[int, set[str]] = {}
+    with conn.cursor() as cur:
+        cur.execute("DELETE FROM product_caracteristique "
+                    "WHERE nom = 'saison' AND source = 'categorie'")
+        cur.execute("SELECT DISTINCT o.product_id, o.raw_category "
+                    "FROM raw_offer o JOIN product p ON p.id = o.product_id "
+                    "WHERE o.is_live AND p.category_id = ANY(%s) "
+                    "AND o.raw_category IS NOT NULL", (ids,))
+        for pid, cat in cur.fetchall():
+            v = saison_de_la_categorie(cat)
+            if v:
+                par_fiche.setdefault(pid, set()).add(v)
+        posees = 0
+        for pid, valeurs in par_fiche.items():
+            if len(valeurs) != 1:
+                continue
+            cur.execute("INSERT INTO product_caracteristique "
+                        "(product_id, nom, valeur, source, confiance) "
+                        "VALUES (%s, 'saison', %s, 'categorie', 'lue') "
+                        "ON CONFLICT (product_id, nom, source) DO UPDATE SET "
+                        "valeur = EXCLUDED.valeur, calcule_le = now()",
+                        (pid, next(iter(valeurs))))
+            posees += 1
+    return posees
+
+
 def calculer(rayon: str = "casque") -> tuple[int, int]:
     """Relit les descriptions du jour et réécrit les caractéristiques.
 
@@ -171,6 +235,7 @@ def calculer(rayon: str = "casque") -> tuple[int, int]:
                 if n:
                     total_fiches += 1
                 total_lignes += n
+        total_lignes += _saisons_des_categories(conn)
         conn.commit()
         return total_fiches, total_lignes
     except Exception:
