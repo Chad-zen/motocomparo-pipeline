@@ -108,10 +108,22 @@
      (`mesure_active`, côté Python) qui décide laquelle s'affiche et si les
      scripts se chargent. Les deux ne peuvent plus diverger. #}
   {% if mesure_active %}
+  {% if ga4_id or gtm_id %}
   <p><strong>Mesure d'audience.</strong> Nous utilisons Google Analytics pour
   compter les visites et voir quelles pages servent. Il ne se déclenche
   qu'après votre accord, et vous pouvez en changer à tout moment par
   «&nbsp;Gérer les cookies&nbsp;», en bas de page.</p>
+  {% endif %}
+  {# Le chat suit la même règle que la mesure d'audience et la phrase ne
+     s'écrit que si le chat est réellement chargé (`crisp_id`). #}
+  {% if crisp_id %}
+  <p><strong>Chat d'assistance.</strong> Pour répondre à vos questions, le site
+  propose un chat fourni par Crisp. Il ne se charge qu'après votre accord (même
+  choix que pour la mesure d'audience, modifiable par «&nbsp;Gérer les
+  cookies&nbsp;»). Si vous écrivez, Crisp enregistre votre message, et votre
+  adresse e-mail si vous la donnez, pour que nous puissions vous répondre&nbsp;;
+  Crisp dépose un cookie pour retrouver votre conversation.</p>
+  {% endif %}
   <p>Nous ne cherchons pas à vous identifier et nous ne revendons rien.</p>
   {% else %}
   <p>Le site ne dépose aucun cookie et n'utilise aucun outil de mesure
@@ -154,9 +166,14 @@
           <td>Votre consentement</td>
           <td>7&nbsp;jours sans confirmation, 6&nbsp;mois une fois confirmée</td></tr>
       {% endif %}
-      {% if mesure_active %}
+      {% if ga4_id or gtm_id %}
       <tr><td>Cookies de mesure (_ga)</td><td>Compter les visites</td>
           <td>Votre consentement</td><td>13&nbsp;mois au plus</td></tr>
+      {% endif %}
+      {% if crisp_id %}
+      <tr><td>Messages du chat, cookie de conversation (Crisp)</td>
+          <td>Vous répondre dans le chat</td>
+          <td>Votre consentement</td><td>Le temps de traiter votre demande, puis effacement sur demande</td></tr>
       {% endif %}
       <tr><td>Journaux du serveur (adresse IP, page demandée)</td><td>Sécurité, diagnostic</td>
           <td>Intérêt légitime</td><td>14&nbsp;jours</td></tr>
@@ -164,9 +181,11 @@
   </table>
   </div>
   <p><strong>Destinataires&nbsp;:</strong> notre hébergeur (serveurs en France)
-  {%- if mesure_active %}, et Google Ireland Ltd pour la mesure d'audience si
+  {%- if ga4_id or gtm_id %}, et Google Ireland Ltd pour la mesure d'audience si
   vous l'acceptez&nbsp;; ses données peuvent être transférées aux États-Unis,
-  dans le cadre du Data Privacy Framework{% endif %}. Rien n'est vendu ni
+  dans le cadre du Data Privacy Framework{% endif %}
+  {%- if crisp_id %}{{ ', et ' if not (ga4_id or gtm_id) else ' ; ' }}Crisp (Crisp IM SAS)
+  pour le chat d'assistance si vous l'acceptez{% endif %}. Rien n'est vendu ni
   cédé à qui que ce soit.</p>
   <p>Vous disposez d'un droit d'accès, de rectification et d'effacement de vos
   données, d'un droit à la portabilité et à la limitation du traitement, et d'un

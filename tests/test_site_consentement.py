@@ -141,3 +141,34 @@ def test_un_identifiant_fantaisiste_arrete_le_site(monkeypatch):
     import mcsite.app as app_module
     with pytest.raises(RuntimeError, match="GTM_ID"):
         importlib.reload(app_module)
+
+
+# --- le chat Crisp suit la règle de la mesure d'audience (16/10/2026) ----------
+
+def test_l_identifiant_crisp_doit_etre_un_uuid(monkeypatch):
+    import importlib
+
+    monkeypatch.setenv("CRISP_WEBSITE_ID", "pas-un-uuid")
+    import pytest
+
+    from mcsite import app as application
+    with pytest.raises(RuntimeError):
+        importlib.reload(application)
+    monkeypatch.delenv("CRISP_WEBSITE_ID")
+    importlib.reload(application)
+
+
+def test_crisp_n_est_charge_qu_apres_le_consentement():
+    """La fonction existe dans la page mais n'est appelée que par `mcChargerMesure`."""
+    s = open("src/mcsite/templates/base.html", encoding="utf-8").read()
+    assert "function mcChargerCrisp" in s
+    assert s.count("mcChargerCrisp();") == 1                 # un seul appel
+    bloc = s[s.index("function mcChargerMesure"):s.index("if (mcMesureAutorisee) mcChargerMesure();")]
+    assert "mcChargerCrisp" in bloc
+    # aucune balise client.crisp.chat posée en dur dans la page
+    assert "client.crisp.chat" in s and s.count("client.crisp.chat") == 1
+
+
+def test_la_page_de_confidentialite_ne_cite_que_ce_qui_est_charge():
+    s = open("src/mcsite/templates/infos.html", encoding="utf-8").read()
+    assert "{% if crisp_id %}" in s and "{% if ga4_id or gtm_id %}" in s

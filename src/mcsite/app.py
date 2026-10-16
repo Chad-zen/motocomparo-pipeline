@@ -310,7 +310,7 @@ def _ctx(request: Request, **extra: Any) -> dict[str, Any]:
             "bandeaux_larges": partenaires.bandeaux("large"),
             # Vides tant que les comptes n'existent pas : le gabarit n'écrit
             # alors ni script Google ni bandeau de consentement.
-            "gtm_id": _GTM_ID, "ga4_id": _GA4_ID,
+            "gtm_id": _GTM_ID, "ga4_id": _GA4_ID, "crisp_id": _CRISP_ID,
             "mesure_active": _MESURE_ACTIVE,
             # Les alertes de prix n'existent pour le visiteur que si un e-mail
             # peut partir : sans SMTP complet (SMTP_PASS vide en production au
@@ -1410,6 +1410,10 @@ def article(request: Request, slug: str):
 # pas lisible d'ici — donc c'est écrit là où on le lira : dans `.env.example`.
 _GTM_ID = os.environ.get("GTM_ID", "").strip()
 _GA4_ID = os.environ.get("GA4_ID", "").strip()
+# Le chat d'assistance Crisp : un identifiant de site (UUID), public par nature
+# (il figure dans le code que Crisp fournit). Chargé comme la mesure d'audience :
+# APRÈS le consentement, jamais avant.
+_CRISP_ID = os.environ.get("CRISP_WEBSITE_ID", "").strip().lower()
 
 # Des identifiants, et rien d'autre. Ces champs finissent dans une balise
 # `<script>` : une valeur fantaisiste venue d'un `.env` mal recopié y serait
@@ -1422,7 +1426,10 @@ _GA4_ID = os.environ.get("GA4_ID", "").strip()
 # vérifications sont tombées sur `'str' object is not callable`.
 for _cfg_nom, _cfg_valeur, _cfg_motif, _cfg_exemple in (
         ("GTM_ID", _GTM_ID, r"GTM-[A-Z0-9]{4,10}", "GTM-XXXXXXX"),
-        ("GA4_ID", _GA4_ID, r"G-[A-Z0-9]{4,12}", "G-XXXXXXXXXX")):
+        ("GA4_ID", _GA4_ID, r"G-[A-Z0-9]{4,12}", "G-XXXXXXXXXX"),
+        ("CRISP_WEBSITE_ID", _CRISP_ID,
+         r"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+         "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx")):
     if _cfg_valeur and not re.fullmatch(_cfg_motif, _cfg_valeur):
         raise RuntimeError(
             f"{_cfg_nom} ne ressemble pas à un identifiant : {_cfg_valeur!r}. "
@@ -1431,7 +1438,7 @@ for _cfg_nom, _cfg_valeur, _cfg_motif, _cfg_exemple in (
 # Le bandeau de consentement n'a de raison d'être que s'il y a quelque chose à
 # faire consentir. Sans identifiant, il ne s'affiche pas — et la phrase de la
 # page Confidentialité qui promet l'absence de mesure reste vraie.
-_MESURE_ACTIVE = bool(_GTM_ID or _GA4_ID)
+_MESURE_ACTIVE = bool(_GTM_ID or _GA4_ID or _CRISP_ID)
 
 
 # Mentions légales : l'éditeur et le directeur de la publication ne peuvent pas
