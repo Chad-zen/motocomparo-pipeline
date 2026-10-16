@@ -124,6 +124,8 @@ def test_la_couleur_d_une_reference_de_piece_n_est_pas_une_taille():
     """« LEH.07.039.12200/S » : /S est l'argent chez SW-Motech (16/10/2026)."""
     assert tn.size_code("", None, None, "LEH.07.039.12200/S") == ("", "")
     assert tn.size_code("", None, None, "KFT.07.976.70100/B") == ("", "")
+    assert tn.size_code("", None, None, "LEH.06.039.114/S") == ("", "")
+    assert tn.size_code("", None, None, "LEH.00.039.22001.30/S") == ("", "")
     # une vraie taille après une barre reste lue
     assert tn.size_code("", None, None, "3301520/S") == ("S", "mpn")
     assert tn.size_code("", None, None, "168075199-XL") == ("XL", "mpn")
