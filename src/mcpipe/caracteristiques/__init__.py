@@ -229,6 +229,37 @@ def _matieres_declarees(conn) -> int:
     return posees
 
 
+# L'HOMOLOGATION QUE LA LOI IMPOSE (16/10/2026).
+#
+# Un casque ne se vend pas dans l'Union européenne sans homologation ECE (22.05
+# ou 22.06) : l'absence de mention dans une fiche marchande n'est donc pas
+# l'absence d'homologation, seulement celle de la VERSION. Quand aucune source
+# n'a lu la version, la fiche reçoit « version non précisée » : vrai pour tous
+# les casques, sans prêter une norme que le texte ne nomme pas. Source
+# `obligation`, la dernière dans l'ordre de confiance.
+#
+# Les gants, bottes et blousons n'ont pas droit à ce traitement : seuls les
+# gants de route sont soumis à une obligation, et les gants cross, les bottes
+# de ville ou les blousons n'en ont aucune — rien n'y est présumé.
+_HOMOLOGATION_CASQUE_NON_PRECISEE = "version non précisée"
+
+
+def _homologation_obligatoire(conn) -> int:
+    with conn.cursor() as cur:
+        cur.execute("DELETE FROM product_caracteristique "
+                    "WHERE source = 'obligation' AND nom = 'homologation'")
+        cur.execute("""
+            INSERT INTO product_caracteristique (product_id, nom, valeur, source, confiance)
+            SELECT p.id, 'homologation', %s, 'obligation', 'regle'
+            FROM product p
+            WHERE p.category_id = ANY(%s) AND p.status <> 'merged'
+              AND NOT EXISTS (SELECT 1 FROM product_caracteristique pc
+                              WHERE pc.product_id = p.id AND pc.nom = 'homologation'
+                                AND pc.source <> 'obligation')
+        """, (_HOMOLOGATION_CASQUE_NON_PRECISEE, [1, 2, 3, 4, 5]))
+        return cur.rowcount
+
+
 _SAISON_MI = re.compile(r"mi[\s-]?saison", re.I)
 _SAISON_HIVER = re.compile(r"(?<![^\W\d_])hiver(?![^\W\d_])", re.I)
 _SAISON_ETE = re.compile(r"(?<![^\W\d_])(?:été|ete)(?![^\W\d_])", re.I)
@@ -326,6 +357,7 @@ def calculer(rayon: str = "casque") -> tuple[int, int]:
                 total_lignes += n
         total_lignes += _saisons_des_categories(conn)
         total_lignes += _matieres_declarees(conn)
+        total_lignes += _homologation_obligatoire(conn)
         conn.commit()
         return total_fiches, total_lignes
     except Exception:

@@ -1143,8 +1143,9 @@ def facets(conn: psycopg.Connection, f: Filtres) -> dict[str, Any]:
 # `categorie` : la saison que le marchand écrit dans sa catégorie (« Gants Moto
 # Hiver »), derrière une saison lue dans une description.
 # `attribut` : une colonne structurée du flux (la matière FC-Moto).
+# `obligation` : l'homologation que la loi impose (casques), dernière de la liste.
 _SOURCE_PRIORITE = {"sharp": 0, "revendeur": 1, "flux": 2, "attribut": 3,
-                    "categorie": 4}
+                    "categorie": 4, "obligation": 5}
 
 # Les rayons, par identifiant — ce sont ceux de `mcpipe.caracteristiques._RAYONS`,
 # la seule liste de rayons dont les caractéristiques sont lues.
@@ -1207,7 +1208,9 @@ _CARAC_SQL: dict[str, str] = {
                AND pp.category_id IN ({_ids(_PANTALONS + _GANTS + _BOTTES)}))""",
     "homologation": f"""
         SELECT k.product_id, CASE
-            WHEN pp.category_id IN ({_ids(_CASQUES)}) THEN 'ece-' || k.homologation
+            WHEN pp.category_id IN ({_ids(_CASQUES)}) THEN
+                CASE WHEN k.homologation ~ '^22[.]0[56]$' THEN 'ece-' || k.homologation
+                     ELSE 'ece' END
             WHEN pp.category_id IN ({_ids(_BLOUSONS)}) THEN coalesce(
                 'classe-' || lower(k.classe_protection),
                 CASE WHEN k.norme_en17092 = 'True' THEN 'en17092' END)
@@ -1251,6 +1254,7 @@ _LIBELLES_FILTRE: dict[str, dict[str, str]] = {
     },
     "homologation": {
         "ece-22.06": "ECE 22.06", "ece-22.05": "ECE 22.05",
+        "ece": "ECE, version non précisée",
         "classe-aaa": "Classe AAA (EN 17092)", "classe-aa": "Classe AA (EN 17092)",
         "classe-a": "Classe A (EN 17092)", "classe-b": "Classe B (EN 17092)",
         "classe-c": "Classe C (EN 17092)",

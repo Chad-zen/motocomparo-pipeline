@@ -454,7 +454,8 @@ _EN13634 = re.compile(r"(?<![0-9])13634(?![0-9])")
 # chose : la norme n'est pas nommée. On la garde — moins précise, vraie — comme
 # `thermoplastique` avait été gardé face à `polycarbonate` chez les casques.
 _CE = re.compile(
-    r"(?:homologu[ée]e?s?|certifi[ée]e?s?|conformes?)[^.]{0,25}\bCE\b|"
+    r"(?:homologu[ée]e?s?|homologation|certifi[ée]e?s?|certification|conformes?)"
+    r"[^.]{0,25}\bCE\b|"
     r"\bCE\b[^.]{0,15}(?:EPI|niveau)",
     re.I,
 )

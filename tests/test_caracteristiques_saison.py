@@ -57,3 +57,31 @@ def test_un_blouson_et_un_casque_ont_leur_propre_vocabulaire():
 def test_une_valeur_hors_vocabulaire_est_ecartee(valeur):
     for vocab in (_MATIERE_TEXTILE_CUIR, _MATIERE_BLOUSON, _MATIERE_CALOTTE):
         assert matiere_declaree(valeur, vocab) is None
+
+
+# --- l'homologation écrite « Homologation CE » et l'obligation des casques ------
+
+def test_homologation_ce_forme_nominale_est_lue_sur_les_gants_et_les_bottes():
+    """« Homologation CE. » (Maxxess, Moto-Axxe) n'était pas reconnue : 49 gants."""
+    from mcpipe.caracteristiques import botte, gant
+    assert gant.lire("Gants", "Gants hiver. Homologation CE. Membrane étanche.").homologation == "CE"
+    assert gant.lire("Gants", "Paume renforcée. Marquage CE niveau 2").homologation == "CE"
+    assert botte.lire("Bottes", "Bottes route. Homologation CE. Semelle.").homologation == "CE"
+
+
+def test_un_niveau_de_confort_n_est_pas_une_homologation():
+    from mcpipe.caracteristiques import botte, gant
+    assert gant.lire("Gants", "Un haut niveau de protection et de confort.").homologation is None
+    assert gant.lire("Gants", "Coque au niveau des phalanges.").homologation is None
+    assert botte.lire("Bottes", "Un haut niveau de confort.").homologation is None
+
+
+def test_la_version_ece_non_precisee_ne_prete_pas_de_norme():
+    from mcpipe import caracteristiques as c
+    from mcsite import queries
+    assert c._HOMOLOGATION_CASQUE_NON_PRECISEE == "version non précisée"
+    # la requête de filtre range tout ce qui n'est pas 22.05 / 22.06 sous « ece »
+    assert "'22[.]0[56]$'" in queries._CARAC_SQL["homologation"].replace("^", "")  \
+        or "22[.]0[56]" in queries._CARAC_SQL["homologation"]
+    assert queries._LIBELLES_FILTRE["homologation"]["ece"] == "ECE, version non précisée"
+    assert queries._SOURCE_PRIORITE["obligation"] > queries._SOURCE_PRIORITE["flux"]

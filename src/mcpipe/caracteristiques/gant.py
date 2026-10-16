@@ -158,7 +158,11 @@ _EN13594 = re.compile(r"\b(?:EN|FR|NF)?[\s.\-:]?13[\s.]?594\b", re.I)
 # est un des mots les plus fréquents du français. Une recherche insensible à la
 # casse aurait homologué le rayon entier.
 _CE = re.compile(r"\bCE\b")
-_AUTOUR_DE_CE = r"homologu|certifi|conform|norme|approuv|\bEPI\b|13[\s.]?594|niveau|level"
+# « Homologation CE. » (Maxxess, Moto-Axxe) est la forme NOMINALE : « homologu »
+# ne la reconnaissait pas (homolog-a-tion), et 49 gants qui l'écrivent restaient
+# sans homologation (relevé du 16/10/2026).
+_AUTOUR_DE_CE = (r"homologu|homologat|certifi|certificat|conform|norme|approuv|"
+                 r"marquage|\bEPI\b|13[\s.]?594|niveau|level")
 
 # Le niveau (1 ou 2) et la mention KP. Les formes réelles :
 #   « niveau 1 KP », « niveau 1KP », « Niveau 2 », « level 1 KP », « EPI 1KP »,
@@ -186,7 +190,8 @@ _KP = re.compile(r"\b[12]?KP\b")   # sans re.I : « kp » minuscule n'existe pas
 # du rayon à une norme imaginaire, et la garde n'aurait plus rien gardé — en
 # silence, en faisant monter la couverture. Le « CE » des marchands est donc
 # cherché à part, avec `_CE`, sensible à la casse.
-_ADOSSE_A_UNE_NORME = r"13[\s.]?594|homologu|certifi|conform|norme|\bEPI\b|\bKP\b"
+_ADOSSE_A_UNE_NORME = (r"13[\s.]?594|homologu|homologat|certifi|certificat|conform|"
+                       r"norme|\bEPI\b|\bKP\b")
 
 # ET il doit parler DU GANT, pas d'une de ses pièces. C'est le piège du rayon
 # appliqué à la donnée la plus regardée de la fiche :
