@@ -191,7 +191,8 @@ _SIZE_MPN_RE = re.compile(
 # 16/10/2026, vu sur /m/swmotech?taille=S). Une référence à quatre groupes
 # séparés par des points (trois ou quatre chiffres au dernier, « LEH.06.039.114/S »,
 # ou un groupe de plus, « LEH.00.039.22001.30/S ») n'est jamais celle d'un vêtement.
-_MPN_PIECE_RE = re.compile(r"^[A-Za-z]{2,4}(?:\.\d+){2,}/[A-Za-z]{1,3}$")
+_MPN_PIECE_RE = re.compile(
+    r"^[A-Za-z]{2,4}(?:\.[A-Za-z0-9]+){2,}(?:/\d+)?/[A-Za-z]{1,3}$")
 # A leg-length word glued to a letter size: "Short XL", "M court", "LONGM".
 # `size_code` has already stripped spaces by the time this runs, so both orders
 # have to be matched. The size is what survives; the cut is dropped.
