@@ -462,7 +462,12 @@ WHERE o.is_live AND o.gtin IS NOT NULL AND pe.gtin IS NULL
   -- « BNS TECH-2 » — alors que six marchands déclaraient XS/M et L/XL sur les
   -- mêmes codes-barres. Signalé par la propriétaire le 14/09/2026.
   AND (s.size_code IS NULL OR s.size_code = '' OR s.size_code = 'TU'
-       OR s.size_source IN ('title', 'url'))
+       OR s.size_source IN ('title', 'url')
+       -- Une taille lue dans la REFERENCE (Motoblouz : « ...-T0 », « ...-T5 »,
+       -- l'echelle Bering) est une supposition elle aussi : quand tous les
+       -- donneurs l'ont DECLAREE dans leur flux sur le meme code-barres, la
+       -- declaration l'emporte (16/10/2026, blousons Bering et Segura).
+       OR (s.size_source = 'mpn' AND a.origine = 'feed'))
 ON CONFLICT (raw_offer_id) DO UPDATE SET
     size_code    = EXCLUDED.size_code,
     donor_count  = EXCLUDED.donor_count,

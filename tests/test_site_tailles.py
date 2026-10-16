@@ -63,3 +63,8 @@ def test_une_pointure_eu_declaree_est_empruntee_au_meme_code_barres():
     """Bering/Segura T0..T6 dans le titre, 36..46 dans le flux FC-Moto."""
     from mcpipe import enrich
     assert "^EU[0-9]{2}$" in enrich._BORROW_SIZE
+
+
+def test_une_taille_de_reference_cede_devant_une_taille_declaree():
+    from mcpipe import enrich
+    assert "s.size_source = 'mpn' AND a.origine = 'feed'" in enrich._BORROW_SIZE
