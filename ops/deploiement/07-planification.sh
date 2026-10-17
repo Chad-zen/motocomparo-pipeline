@@ -35,31 +35,56 @@ echo "=== $(date '+%F %T') début ==="
 # `fetch` ne retélécharge que ce qui a changé : il joint l'empreinte de la copie
 # qu'on a déjà, et cinq marchands sur six répondent « rien de neuf » sans
 # envoyer un octet. Mesuré le 2026-09-14 : 926 Mo → 270 Mo.
-mcpipe fetch
-mcpipe load
-mcpipe normalize
-mcpipe signature      # porte les tailles ; doit précéder enrich
-mcpipe enrich         # catégories + emprunt des tailles au code-barres
-# Le rapprochement INCRÉMENTAL (6 minutes le 16/10/2026, site en ligne) : il ne
-# traite que les offres neuves, les fiches existantes ne bougent pas. Sans lui,
-# plus aucun produit nouveau n'entrait au catalogue depuis le 1er octobre. Le
-# `||` est voulu, comme pour les alertes : un échec s'écrit dans le journal et
-# la chaîne des prix continue.
-nice -n 10 mcpipe match --sans-mpn || echo "!!! mcpipe match en echec, chaine poursuivie"
-# Les pieces de casque (coussinets, pare-soleil, pics...) qui viennent d'etre rattachees a
-# une fiche casque : `enrich` ne corrige que les offres, pas les fiches deja creees.
-mcpipe accessoires-casque --appliquer || echo "!!! mcpipe accessoires-casque en echec, chaine poursuivie"
-# Les fiches qui se dédoublent pour un même code-barres : fusionne ce que la
-# propriétaire a VALIDÉ dans /admin/regroupements (et, si elle l'a activée, ce
-# que le site juge sûr), puis recalcule les propositions et les alias de marque
-# à lui soumettre. Doit précéder `relier-tailles` et `freshness`.
-nice -n 10 mcpipe consolider --appliquer || echo "!!! mcpipe consolider en echec, chaine poursuivie"
-mcpipe relier-tailles # relit les overrides de taille issus de l'emprunt
-                      # et rattache chaque offre a la bonne variante —
-                      # sans cela, les tailles empruntees depuis fcmoto ne
-                      # s'affichent jamais : l'emprunt ecrit dans offer_size_override,
-                      # mais le site lit variant.size_code, pose par cette etape.
-mcpipe freshness      # recalcule les prix affichés — jamais optionnel
+# FC-Moto est telecharge A PART. Son serveur met de 4 minutes a plus d'une
+# heure et demie selon les nuits (95 min le 15/10, 99 min le 17/10) et a coupe la
+# connexion le 16/10 : la chaine, qui attendait chaque fichier l'un apres
+# l'autre, laissait les prix des CINQ autres marchands vieillir de deux heures
+# de plus. Les cinq autres sont donc traites d'abord ; FC-Moto repart derriere,
+# quand son fichier est la, avec la meme suite d'etapes (`traiter`). Coupure a
+# 2 h 20 : au-dela, la copie de la veille reste, comme avant.
+AUTRES="speedway labecanerie motoblouz maxxess motoaxxe"
+FC_LOG=/var/tmp/mcpipe-fetch-fcmoto.log
+( timeout 8400 mcpipe fetch --only fcmoto >"$FC_LOG" 2>&1     || echo "!!! fetch fcmoto en echec ou trop long, copie de la veille gardee" >>"$FC_LOG" ) &
+FC_PID=$!
+for c in $AUTRES; do
+  mcpipe fetch --only "$c" || echo "!!! fetch $c en echec, chaine poursuivie"
+done
+
+traiter() {   # $1 : les marchands a charger
+  local c
+  for c in $1; do
+    mcpipe load --only "$c"
+    mcpipe normalize --only "$c"
+    mcpipe signature --only "$c"   # porte les tailles ; doit précéder enrich
+  done
+  mcpipe enrich         # catégories + emprunt des tailles au code-barres
+  # Le rapprochement INCRÉMENTAL (6 minutes le 16/10/2026, site en ligne) : il ne
+  # traite que les offres neuves, les fiches existantes ne bougent pas. Sans lui,
+  # plus aucun produit nouveau n'entrait au catalogue depuis le 1er octobre. Le
+  # `||` est voulu, comme pour les alertes : un échec s'écrit dans le journal et
+  # la chaîne des prix continue.
+  nice -n 10 mcpipe match --sans-mpn || echo "!!! mcpipe match en echec, chaine poursuivie"
+  # Les pieces de casque (coussinets, pare-soleil, pics...) qui viennent d'etre rattachees a
+  # une fiche casque : `enrich` ne corrige que les offres, pas les fiches deja creees.
+  mcpipe accessoires-casque --appliquer || echo "!!! mcpipe accessoires-casque en echec, chaine poursuivie"
+  # Les fiches qui se dédoublent pour un même code-barres : fusionne ce que la
+  # propriétaire a VALIDÉ dans /admin/regroupements (et, si elle l'a activée, ce
+  # que le site juge sûr), puis recalcule les propositions et les alias de marque
+  # à lui soumettre. Doit précéder `relier-tailles` et `freshness`.
+  nice -n 10 mcpipe consolider --appliquer || echo "!!! mcpipe consolider en echec, chaine poursuivie"
+  mcpipe relier-tailles # relit les overrides de taille issus de l'emprunt
+                        # et rattache chaque offre a la bonne variante —
+                        # sans cela, les tailles empruntees depuis fcmoto ne
+                        # s'affichent jamais : l'emprunt ecrit dans offer_size_override,
+                        # mais le site lit variant.size_code, pose par cette etape.
+  mcpipe freshness      # recalcule les prix affichés — jamais optionnel
+
+}
+
+traiter "$AUTRES"
+wait "$FC_PID" || true
+cat "$FC_LOG"
+traiter fcmoto
 # Les alertes de prix lisent les prix que freshness vient de poser. Le `||` est
 # voulu : un serveur d'envoi en panne ne doit pas priver le site des
 # caracteristiques du jour. La commande elle-meme ne sort en erreur que sur une
