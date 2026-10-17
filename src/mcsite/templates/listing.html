@@ -25,7 +25,7 @@
        'marchands':    (f.marchands if f else 2) | string,
        'tri':          f.tri if f else 'pertinence',
   } -%}
-  /c/{{ code_cible }}?{% for k, v in p.items() if v != '' and not (k == 'marchands' and v == '2') and not (k == 'tri' and v == 'pertinence') %}{{ k }}={{ v }}&amp;{% endfor %}{% for v in (f.marque if f else []) %}marque={{ v }}&amp;{% endfor %}{% for v in (f.taille if f else []) %}taille={{ v }}&amp;{% endfor %}
+  {% if code_cible %}/c/{{ code_cible }}{% elif f and f.texte %}/recherche{% else %}/produits{% endif %}?{% for k, v in p.items() if v != '' and not (k == 'marchands' and v == '2') and not (k == 'tri' and v == 'pertinence') %}{{ k }}={{ v }}&amp;{% endfor %}{% for v in (f.marque if f else []) %}marque={{ v }}&amp;{% endfor %}{% for v in (f.taille if f else []) %}taille={{ v }}&amp;{% endfor %}
 {%- endmacro %}
 
 {# Sur une page de marque, `?marque=…` est IGNORÉ : la route `/m/{marque}` fixe
@@ -206,8 +206,11 @@
          catégorie active se lisait comme si le choix n'avait rien fait —
          « c'est débile », la propriétaire, 15/10/2026. #}
       {% if code %}
+        {# « Toutes les catégories » GARDE les critères en cours (taille, marque, prix...) :
+           le lien pointait vers `/produits` tout nu, et choisir une taille puis revenir a
+           toutes les categories effacait la taille (17/10/2026). #}
         <a class="facette__ligne facette__retour"
-           href="{{ '/recherche?q=' ~ (f.texte | urlencode) if f and f.texte else '/produits' }}">
+           href="{{ lien_rayon('') }}">
           <span>← Toutes les catégories</span></a>
       {% endif %}
       {# Dix lignes visibles, les autres derrière « Voir les N autres » — voir le

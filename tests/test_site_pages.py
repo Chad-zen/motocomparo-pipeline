@@ -134,3 +134,16 @@ def test_la_remise_d_une_carte_suit_la_formule_et_les_paliers_de_la_fiche():
     assert _remise_carte({"cheapest": Decimal("80"), "dearest": Decimal("80"), "merchant_count": 2}) is None
     assert _remise_carte({"cheapest": Decimal("79"), "dearest": Decimal("79.2"), "merchant_count": 2}) is None
     assert _remise_carte({"cheapest": None, "dearest": None, "merchant_count": 2}) is None
+
+
+def test_toutes_les_categories_garde_la_taille_et_la_marque(client):
+    """17/10/2026 : « Toutes les categories » pointait vers `/produits` tout nu ;
+    choisir une taille puis revenir a toutes les categories l'effacait."""
+    import re
+
+    h = client.get("/c/jacket?taille=M&marque=alpinestars").text
+    m = re.search(r'facette__retour"\s*href="([^"]*)"', h)
+    assert m, "le lien de retour a disparu"
+    lien = m.group(1).replace("&amp;", "&")
+    assert lien.startswith("/produits?"), lien
+    assert "taille=M" in lien and "marque=alpinestars" in lien, lien
