@@ -4686,3 +4686,6 @@ html:has(.accueil-test), body:has(.accueil-test) { overflow-x: clip; }
 .mc-chat[hidden] { display: none; }
 .mc-chat:hover { background: #26335a; }
 .mc-chat:focus-visible { outline: 2px solid var(--or); outline-offset: 3px; }
+
+/* bouton de chat : la forme de la bulle d'origine de Crisp (rond, bulle pleine et blanche) */
+.mc-chat { width: 52px; height: 52px; right: 20px; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); color: #fff; box-shadow: 0 3px 10px rgba(15, 21, 36, .3); }
