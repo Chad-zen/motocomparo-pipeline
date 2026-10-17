@@ -288,3 +288,19 @@ def test_un_vrai_casque_n_est_pas_pris_pour_une_piece():
                   "Fox Racing V3 Seventy4 white- L", "FOX V3 Seventy4 MIPS Casque de motocross",
                   "Casque jet LS2 Airflow avec pare-soleil intégré", "Shoei NXR2 Casque intégral"):
         assert is_helmet_accessory(titre) is False, titre
+
+
+def test_deuxieme_tour_de_mots_de_pieces():
+    for titre in ("Bell 3Snap 510 Flat Bouclier", "Caberg Ghost Masque", "Scorpion Covert-X Masque",
+                  "Peroz Sommet casque à réaction / Sommet universel casque",
+                  "Leatt DBX/GPR Pro/Pro Lite Bolt Kit", "Acerbis Airstrike Kit d’accessoires",
+                  "Oneal Airflaps EX-SRS Système de ventilation", "Bell Broozer Menton",
+                  "Icon Airform Speedfin de remplacement", "Scorpion DKS541 Objectif à épingle XLT",
+                  "Oxford Ultra Clear Pro Feuille anti-brouillard", "Sena Impulse Protège-nez et menton",
+                  "Alpinestars Yamaha S-M3 Casque Enfant Peak", "Bell MX-10 MIPS Protections pour les joues jeunesse"):
+        assert is_helmet_accessory(titre) is True, titre
+    # des casques, eux, restent des casques
+    for titre in ("Casque cross Leatt 8.5 avec masque 5.5 2025", "Oneal 7Series Strain Casque",
+                  "Oneal 5Series Rider Casque", "Casque intégral Arai Quantic Peak rouge- S",
+                  "Casque modulable Shark Evo-One 2 à mentonnière relevable"):
+        assert is_helmet_accessory(titre) is False, titre

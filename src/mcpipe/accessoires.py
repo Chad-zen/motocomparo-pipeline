@@ -23,9 +23,10 @@ _RAYONS_CASQUE = (1, 2, 3, 4, 5)
 _ACCESSOIRE = 30
 
 _SQL = """
-SELECT p.id, o.id, o.raw_title, o.raw_category
+SELECT p.id, o.id, o.raw_title, o.raw_category, s.cheapest
 FROM product p
 JOIN raw_offer o ON o.product_id = p.id AND o.linked_status = 'linked' AND o.is_live
+LEFT JOIN product_stats s ON s.product_id = p.id
 WHERE p.category_id = ANY(%s) AND p.status <> 'merged'
 """
 
@@ -37,6 +38,9 @@ class Resultat:
     mixtes: int = 0
     rangees: int = 0
     exemples: list[str] = field(default_factory=list)
+    # les plus CHERS : une vraie piece coute peu, un casque pris pour une piece
+    # ressort ici (c'est ainsi que « Arai Quantic Peak », 720 EUR, aurait ete vu)
+    plus_chers: list[str] = field(default_factory=list)
 
 
 def est_une_piece(titre: str | None, categorie_marchand: str | None) -> bool:
@@ -56,8 +60,10 @@ def ranger_accessoires_casque(appliquer: bool = False) -> Resultat:
         with conn.cursor() as cur:
             cur.execute(_SQL, (list(_RAYONS_CASQUE),))
             par_fiche: dict[int, list[tuple[int, str, bool]]] = {}
-            for pid, oid, titre, cat in cur.fetchall():
+            prix: dict[int, float] = {}
+            for pid, oid, titre, cat, cheapest in cur.fetchall():
                 par_fiche.setdefault(pid, []).append((oid, titre, est_une_piece(titre, cat)))
+                prix[pid] = float(cheapest or 0)
             res.fiches_casque = len(par_fiche)
             a_ranger: list[int] = []
             offres: list[int] = []
@@ -71,6 +77,8 @@ def ranger_accessoires_casque(appliquer: bool = False) -> Resultat:
                 elif nb:
                     res.mixtes += 1
             res.a_ranger = len(a_ranger)
+            res.plus_chers = [f"{prix[pid]:.0f} EUR  {par_fiche[pid][0][1]}"
+                              for pid in sorted(a_ranger, key=lambda i: -prix[i])[:12]]
             if appliquer and a_ranger:
                 cur.execute("UPDATE product SET category_id = %s WHERE id = ANY(%s)",
                             (_ACCESSOIRE, a_ranger))

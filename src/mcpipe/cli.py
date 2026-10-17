@@ -792,6 +792,9 @@ def accessoires_casque(
                   f"{r.mixtes:,} melangent pieces et casques (laissees telles quelles)")
     for titre in r.exemples:
         console.print(f"  - {titre}")
+    console.print("les plus chers (a relire : une piece coute peu) :")
+    for ligne in r.plus_chers:
+        console.print(f"  - {ligne}")
     if appliquer:
         console.print(f"[green]ok[/] {r.rangees:,} fiches rangees en categorie 30")
     else:

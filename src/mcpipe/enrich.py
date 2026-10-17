@@ -137,7 +137,14 @@ _ACCESSOIRE_FORT = re.compile(
     r"|\bdeflecteur\b|\bevents?\b|ensemble de vis|protege ?dents|hydratation"
     r"|sac a casque|bonnet sous casque|boite a haleine|ventilation superieure"
     r"|base d ?aeration|\bcouvrir\b"
+    # deuxieme tour, relu sur ce qui restait en tete des pages triees par prix
+    r"|\bbouclier\b|\bsommet\b|\bspeedfin\b|\bventilation\b|\bobjectifs?\b|\bjoues?\b"
+    r"|\bmenton\b|anti ?brouillard|anti ?buee|protege ?(?:nez|menton)|\bpeak$"
 )
+# Mots de piece qui valent seulement quand le titre ne parle pas d'un casque :
+# « Scorpion Covert-X Masque » (des lunettes), « Leatt DBX Bolt Kit », mais pas
+# « Casque Leatt 8.5 avec masque 5.5 » (un casque vendu avec ses lunettes).
+_ACCESSOIRE_SANS_CASQUE = re.compile(r"(?<!avec )\bmasques?\b|\bkit\b")
 _COMMENCE_PAR_CASQUE = re.compile(r"^(?:casque|helmet)\b")
 
 
@@ -168,6 +175,9 @@ def is_helmet_accessory(title: str | None) -> bool:
     opposed to a helmet whose model name merely contains one of those words."""
     blob = tn.norm_txt(title)
     if blob and _ACCESSOIRE_FORT.search(blob) and not _COMMENCE_PAR_CASQUE.search(blob):
+        return True
+    if (blob and _ACCESSOIRE_SANS_CASQUE.search(blob)
+            and not re.search(r"\bcasques?\b|\bhelmets?\b", blob)):
         return True
     if not blob or not _HELMET_ACCESSORY.search(blob):
         return False
