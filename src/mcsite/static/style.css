@@ -4540,9 +4540,11 @@ html:has(.accueil-test), body:has(.accueil-test) { overflow-x: clip; }
 .budget__piste input[type=range]::-webkit-slider-thumb {
   -webkit-appearance: none; width: 26px; height: 26px; margin-top: 24px; border-radius: 50%;
   background: #fff; border: 5px solid var(--or); box-shadow: 0 2px 8px rgba(0,0,0,.4);
+  transform: translateY(var(--dy, 0px)); transition: transform .12s ease-out;
 }
 .budget__piste input[type=range]::-moz-range-thumb {
   box-sizing: border-box; width: 26px; height: 26px; border-radius: 50%; background: #fff; border: 5px solid var(--or);
+  transform: translateY(var(--dy, 0px)); transition: transform .12s ease-out;
 }
 .budget__piste input[type=range]:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
 .budget__actions { margin-top: 20px; }

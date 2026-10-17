@@ -81,6 +81,11 @@
     bulle.style.setProperty('--pointe', (x - gauche) + 'px');
     var bs = barres.children;
     for (var i = 0; i < bs.length; i++) bs[i].className = i < v ? 'dedans' : '';
+    // le rond monte et descend avec le sommet de la barre qu'il vient d'allumer
+    // (centre du rond au sommet ; il reste dans la piste, 74 px, rond de 26 px)
+    var H = piste.clientHeight, sommet = H - bs[v - 1].offsetHeight;
+    var dy = Math.max(13, Math.min(H - 13, sommet)) - H / 2;
+    rg.style.setProperty('--dy', dy + 'px');
   }
   rg.addEventListener('input', maj);
   window.addEventListener('resize', maj);
