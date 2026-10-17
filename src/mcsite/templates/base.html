@@ -184,7 +184,7 @@ if (mcMesureAutorisee) mcChargerMesure();
    Python (`_CRISP_ID`) contre le format UUID. #}
 <script>
 window.addEventListener('load', function () {
-  window.$crisp = [];
+  window.$crisp = [["config", "color:theme", ["amber"]]];   /* bulle jaune MotoComparo */
   window.CRISP_WEBSITE_ID = {{ crisp_id | tojson }};
   var s = document.createElement('script');
   s.src = 'https://client.crisp.chat/l.js';

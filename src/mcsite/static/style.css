@@ -4667,3 +4667,11 @@ html:has(.accueil-test), body:has(.accueil-test) { overflow-x: clip; }
 @media (max-width: 760px) { .budget__filigrane { right: -90px; height: 80%; top: 62%; opacity: .08; } }
 .budget__filigrane { height: 92%; right: 10px; }
 @media (max-width: 760px) { .budget__filigrane { height: 62%; right: -60px; } }
+
+/* « Prix comparés chez » : tous les logos sur UNE ligne, répartis sur la largeur (écran large) */
+@media (min-width: 761px) {
+  .accueil-test > .marchands-bandeau { flex-wrap: nowrap; justify-content: space-between; gap: clamp(10px, 2vw, 28px); }
+  .marchands-bandeau__titre { flex: none; }
+  .marchands-bandeau__liste { flex: 1; flex-wrap: nowrap; justify-content: space-between; gap: clamp(8px, 1.6vw, 26px); }
+  .marchands-bandeau__liste img { height: clamp(15px, 2.3vw, 24px); }
+}
