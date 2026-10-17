@@ -134,6 +134,8 @@ def test_la_remise_d_une_carte_suit_la_formule_et_les_paliers_de_la_fiche():
     assert _remise_carte({"cheapest": Decimal("80"), "dearest": Decimal("80"), "merchant_count": 2}) is None
     assert _remise_carte({"cheapest": Decimal("79"), "dearest": Decimal("79.2"), "merchant_count": 2}) is None
     assert _remise_carte({"cheapest": None, "dearest": None, "merchant_count": 2}) is None
+    # plus de plafond (17/10/2026) : -59 % s'affiche
+    assert _remise_carte({"cheapest": Decimal("53.99"), "dearest": Decimal("132.90"), "merchant_count": 3})         == {"pct": 59, "niveau": "rouge"}
 
 
 def test_toutes_les_categories_garde_la_taille_et_la_marque(client):

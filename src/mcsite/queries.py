@@ -1614,6 +1614,10 @@ def listing_filtre(
         "prix":       "s.cheapest",
         "prix_desc":  "s.cheapest DESC",
         "marchands":  "s.merchant_count DESC, s.cheapest",
+        # Meme formule que la pastille des cartes : 1 - moins cher / plus cher,
+        # pour les fiches comparees chez au moins deux marchands.
+        "remise":     "CASE WHEN s.merchant_count >= 2 AND s.dearest > s.cheapest "
+                      "THEN (s.dearest - s.cheapest) / s.dearest ELSE 0 END DESC, s.merchant_count DESC",
         # `vu_le` est la date de la première offre vue, portée par
         # `product_stats` (migration 020) — jamais `product.created_at`, qui
         # vaut le jour de reconstruction de la table pour tout le catalogue.

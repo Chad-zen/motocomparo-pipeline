@@ -408,7 +408,7 @@
          du site, se ferme avec Échap, et fonctionne sans une ligne de script. #}
       {% set libelles = {'pertinence': 'Pertinence', 'nouveautes': 'Nouveautés',
                          'prix': 'Prix croissant',
-                         'prix_desc': 'Prix décroissant', 'marchands': 'Plus de marchands'} %}
+                         'prix_desc': 'Prix décroissant', 'remise': 'Plus forte réduction'} %}
       {% set choisi = (f.tri if f else 'pertinence') %}
       <details class="tri">
         <summary>
@@ -478,7 +478,7 @@
          croissant » alors que le tri par défaut met d'abord les fiches
          comparées chez le plus de marchands (audit du 30/09/2026). #}
       {% set t = f.tri or "pertinence" %}
-      <summary>{% if t == "prix" %}Classement par prix croissant{% elif t == "prix_desc" %}Classement par prix décroissant{% elif t == "nouveautes" %}Classement par nouveauté{% else %}Classement&nbsp;: fiches comparées chez le plus de marchands d'abord, puis prix le plus bas{% endif %}&nbsp;; aucun marchand ne paie pour
+      <summary>{% if t == "prix" %}Classement par prix croissant{% elif t == "prix_desc" %}Classement par prix décroissant{% elif t == "remise" %}Classement par écart de prix entre marchands, le plus fort d'abord{% elif t == "nouveautes" %}Classement par nouveauté{% else %}Classement&nbsp;: fiches comparées chez le plus de marchands d'abord, puis prix le plus bas{% endif %}&nbsp;; aucun marchand ne paie pour
         sa place.</summary>
       <p>Certains liens sont rémunérés — cela ne change ni le prix que vous
         payez, ni l'ordre de cette page. Le référencement n'est pas exhaustif&nbsp;:
