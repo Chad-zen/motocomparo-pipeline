@@ -47,7 +47,13 @@
    Google Fonts imposait une deuxième connexion — googleapis.com pour ce CSS,
    puis gstatic.com pour les fichiers eux-mêmes — mesurée à 750 ms sur
    PageSpeed Insights avant qu'une seule lettre ne s'affiche. #}
-<link rel="stylesheet" href="/static/polices.css?v={{ version_css() }}">
+<style>{{ polices_en_ligne() | safe }}</style>
+{# Prechargements : l'image du fond de l'en-tete n'etait decouverte qu'une fois
+   la feuille de style lue (« LCP request discovery », PageSpeed 17/10/2026), et
+   les deux polices du haut de page qu'une fois le texte pose. #}
+<link rel="preload" as="image" href="/static/header_moto.webp" fetchpriority="high">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="/static/polices/barlow-condensed-700.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="/static/polices/KFO7CnqEu92Fr1ME7kSn66aGLdTylUAMa3yUBA.woff2">
 {# Sans icône déclarée, le navigateur demande /favicon.ico à chaque page et
    récolte un 404 — visible dans les journaux, et un onglet sans repère.
 

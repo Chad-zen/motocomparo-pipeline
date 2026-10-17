@@ -98,3 +98,19 @@ def test_l_accueil_ouvre_sur_le_budget_et_ses_images_existent(client):
     assert images, "aucune image propre a l'accueil n'est referencee"
     for nom in images:
         assert (Path(mod.HERE) / "static" / nom).is_file(), nom
+
+
+def test_les_images_de_l_accueil_declarent_leur_taille(client):
+    """PageSpeed du 17/10/2026 : CLS 0,104 pour un seuil a 0,1, des images sans
+    `width` ni `height` -- le navigateur ne reserve pas leur place et la page
+    bouge quand elles arrivent. Les photos des marchands, les logos de marques
+    et les logos marchands doivent tous declarer leur taille."""
+    import re
+
+    h = client.get("/").text
+    balises = re.findall(r"<img\b[^>]*>", h)
+    assert balises, "aucune image dans l'accueil"
+    sans = [b for b in balises
+            if ("marques-logos/" in b or "marchands/" in b or 'src="http' in b)
+            and "width=" not in b]
+    assert not sans, f"{len(sans)} image(s) sans largeur : {sans[:2]}"

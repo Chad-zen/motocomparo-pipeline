@@ -274,6 +274,43 @@ def _logo_marchand(code: str) -> str:
 
 templates.env.globals["logo_marchand"] = _logo_marchand
 
+# Largeur / hauteur de chaque logo marchand : sans `width` et `height`, le
+# navigateur ne reserve pas la place et la page bouge quand l'image arrive
+# (PageSpeed, 17/10/2026 : CLS 0,104 pour un seuil a 0,1). Mesures sur les
+# fichiers de `static/marchands/` ; un marchand absent d'ici n'a pas de
+# largeur declaree, rien ne casse.
+_RATIO_LOGOS = {"fcmoto": 3.75, "motoblouz": 4.22, "speedway": 5.817,
+                "motoaxxe": 8.824, "labecanerie": 5.437, "maxxess": 6.915}
+
+
+def _logo_largeur(code: str, hauteur: int = 26) -> int:
+    """Largeur en px d'un logo marchand affiche a `hauteur` px de haut, ou 0."""
+    ratio = _RATIO_LOGOS.get(code)
+    return round(hauteur * ratio) if ratio else 0
+
+
+templates.env.globals["logo_largeur"] = _logo_largeur
+
+
+@lru_cache(maxsize=4)
+def _polices_en_ligne(mtime: float) -> str:
+    """`polices.css` sans commentaires ni espaces, pour l'ecrire dans le <head>.
+
+    Le fichier etait une feuille de plus a recuperer avant de pouvoir choisir
+    une police : PageSpeed comptait 580 ms de requetes bloquantes. En ligne, il
+    n'y a plus d'aller-retour. Relu quand le fichier change (`mtime`).
+    """
+    css = (HERE / "static" / "polices.css").read_text(encoding="utf-8")
+    css = re.sub(r"/\*.*?\*/", "", css, flags=re.S)
+    return re.sub(r"\s+", " ", css).replace(" {", "{").replace("{ ", "{").replace("; ", ";").strip()
+
+
+def _polices_css_en_ligne() -> str:
+    return _polices_en_ligne((HERE / "static" / "polices.css").stat().st_mtime)
+
+
+templates.env.globals["polices_en_ligne"] = _polices_css_en_ligne
+
 
 def _rayons() -> list[dict[str, Any]]:
     """Le menu des rayons, pris dans le cache de navigation.

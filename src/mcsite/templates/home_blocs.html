@@ -18,7 +18,7 @@
 {% if budget %}
 <section class="budget" id="budget" aria-labelledby="budget-titre"
          data-budget='{{ budget | tojson }}'>
-  <img class="budget__filigrane" src="/static/logo_filigrane.webp?v={{ version_css() }}" alt="" width="333" height="330" aria-hidden="true">
+  <img class="budget__filigrane" src="/static/logo_filigrane.webp?v={{ version_css() }}" alt="" width="333" height="330" aria-hidden="true" fetchpriority="low" decoding="async">
   <h2 id="budget-titre">Combien veux-tu investir dans <span class="budget__mot" id="budget-phrase">{{ budget[0].phrase }}</span>&nbsp;?</h2>
   <p class="budget__sous">Nous comparons les prix de <b id="budget-total">{{ budget[0].total }}</b> produits
      chez {{ marchands_actifs | length }} marchands</p>
@@ -91,7 +91,7 @@
   <ul class="marchands-bandeau__liste">
     {% for m in marchands_actifs %}
     {% set fichier = logo_marchand(m.code) %}
-    <li>{% if fichier %}<img src="/static/{{ fichier }}?v={{ version_css() }}" alt="{{ m.code | marchand }}" height="26">
+    <li>{% if fichier %}<img src="/static/{{ fichier }}?v={{ version_css() }}" alt="{{ m.code | marchand }}" height="26"{% if logo_largeur(m.code) %} width="{{ logo_largeur(m.code) }}"{% endif %}>
         {% else %}<span>{{ m.code | marchand }}</span>{% endif %}</li>
     {% endfor %}
   </ul>
@@ -123,7 +123,7 @@
       {{ actions(it) }}
       <span class="pastille">−{{ it.remise | int }}&nbsp;%</span>
       <div class="carte__img">
-        {% if it.image_url %}<img src="{{ it.image_url }}" alt="" loading="lazy">
+        {% if it.image_url %}<img src="{{ it.image_url }}" alt="" width="170" height="170" loading="lazy">
         {% else %}<span class="carte__sansimg">pas de visuel</span>{% endif %}
       </div>
       <div class="carte__corps">
@@ -170,7 +170,7 @@
       {{ actions(it) }}
       {% if loop.index <= 3 %}<span class="pastille pastille--neuf">Nouveau</span>{% endif %}
       <div class="carte__img">
-        {% if it.image_url %}<img src="{{ it.image_url }}" alt="" loading="lazy">
+        {% if it.image_url %}<img src="{{ it.image_url }}" alt="" width="170" height="170" loading="lazy">
         {% else %}<span class="carte__sansimg">pas de visuel</span>{% endif %}
       </div>
       <div class="carte__corps">
@@ -199,7 +199,7 @@
       {{ actions(it) }}
       <span class="pastille">−{{ it.baisse | int }}&nbsp;%</span>
       <div class="carte__img">
-        {% if it.image_url %}<img src="{{ it.image_url }}" alt="" loading="lazy">
+        {% if it.image_url %}<img src="{{ it.image_url }}" alt="" width="170" height="170" loading="lazy">
         {% else %}<span class="carte__sansimg">pas de visuel</span>{% endif %}
       </div>
       <div class="carte__corps">
@@ -245,10 +245,10 @@
 {# --- 5. Marques populaires : logos ----------------------------------------- #}
 {# Seules les marques dont le fichier est déposé dans static/marques-logos/
    apparaissent : un logo manquant ne laisse pas de trou. #}
-{% set vitrine = [("alpinestars", "Alpinestars", "svg"), ("dainese", "Dainese", "png"),
-                  ("arai", "Arai", "svg"), ("shoei", "Shoei", "svg"),
-                  ("schuberth", "Schuberth", "svg"), ("agv", "AGV", "svg"),
-                  ("hjc", "HJC", "svg"), ("sidi", "Sidi", "svg")] %}
+{% set vitrine = [("alpinestars", "Alpinestars", "svg", 242, 52), ("dainese", "Dainese", "png", 1575, 1125),
+                  ("arai", "Arai", "svg", 616, 291), ("shoei", "Shoei", "svg", 244, 88),
+                  ("schuberth", "Schuberth", "svg", 594, 431), ("agv", "AGV", "svg", 372, 374),
+                  ("hjc", "HJC", "svg", 120, 42), ("sidi", "Sidi", "svg", 240, 90)] %}
 <section class="marques-accueil" aria-labelledby="marques-titre">
   <div class="rayon__tete">
     <div>
@@ -257,11 +257,11 @@
     </div>
   </div>
   <ul class="rayon__piste marques-logos">
-    {% for code, nom_marque, ext in vitrine %}
+    {% for code, nom_marque, ext, larg, haut in vitrine %}
     {% if statique_existe('marques-logos/' ~ code ~ '.' ~ ext) %}
     <li><a href="/m/{{ code }}" aria-label="{{ nom_marque }}">
       <img src="/static/marques-logos/{{ code }}.{{ ext }}?v={{ version_css() }}"
-           alt="{{ nom_marque }}" loading="lazy"></a></li>
+           alt="{{ nom_marque }}" width="{{ larg }}" height="{{ haut }}" loading="lazy"></a></li>
     {% endif %}
     {% endfor %}
   </ul>
