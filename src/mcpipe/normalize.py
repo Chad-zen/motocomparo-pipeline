@@ -99,6 +99,20 @@ _FILTRE_TITRE: dict[str, re.Pattern] = {
 }
 
 
+# LES LIGNES AUTODOC DANS LE FLUX FC-MOTO (17/10/2026). Le flux FC-Moto porte
+# 790 lignes qui ne sont pas des produits FC-Moto : leur lien d'affiliation mene
+# a un autre site (AutoDoc), et leur categorie suit le format de ce site --
+# un numero entre parentheses (« Support moteur (247) », « Casques integraux
+# (100265) ») ou un chemin « Pieces de rechange > ... ». Ce sont, pour
+# l'essentiel, des pieces auto (condenseur de clim, bras d'essuie-glace, cle a
+# douille) : 442 d'entre elles etaient rattachees a des vestes et des bottes de
+# pluie, sous le nom de FC-Moto. Un visiteur qui cliquait sur « FC-Moto »
+# arrivait chez AutoDoc, sur un produit sans rapport.
+_FILTRE_CATEGORIE: dict[str, re.Pattern] = {
+    "fcmoto": re.compile(r"\(\d+\)\s*$|^Pi[èe]ces\b|\bcamions\b", re.IGNORECASE),
+}
+
+
 class RetirementGuardError(RuntimeError):
     """Raised when a run would retire an implausible share of a merchant's offers."""
 
@@ -225,6 +239,9 @@ def hors_perimetre(
     pure and offline-testable, see `_HORS_PERIMETRE` et `_FILTRE_TITRE`."""
     exclus = _HORS_PERIMETRE.get(feed_code)
     if exclus and category_level1 and category_level1.strip() in exclus:
+        return True
+    motif_categorie = _FILTRE_CATEGORIE.get(feed_code)
+    if motif_categorie and category_level1 and motif_categorie.search(category_level1.strip()):
         return True
     motif = _FILTRE_TITRE.get(feed_code)
     return bool(motif and title and motif.search(title))

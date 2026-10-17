@@ -72,3 +72,22 @@ def test_le_titre_epargne_le_cyclomoteur_et_le_nom_propre():
 
 def test_le_titre_n_ecarte_rien_chez_les_autres_marchands():
     assert not hors_perimetre("speedway", "Partie cycle", "Démonte pneu vélo Michelin")
+
+
+def test_les_lignes_autodoc_du_flux_fcmoto_sont_ecartees():
+    """17/10/2026 : le flux FC-Moto porte des lignes AutoDoc (lien d'affiliation
+    vers un autre site, categorie au format `Nom (numero)` ou `Pieces de
+    rechange > ...`). Les garder, c'etait afficher « FC-Moto » sur un produit
+    vendu ailleurs -- et l'attacher a des vestes."""
+    for categorie in ("Support moteur (247)", "Casques intégraux (100265)",
+                      "Clé à douille (2368)", "Pièces de rechange > Refroidissement moteur > Radiateur moteur",
+                      "Pièces détachées pour camions > Essieux > Corps de l'essieu"):
+        assert hors_perimetre("fcmoto", categorie), categorie
+
+
+def test_les_vraies_categories_fcmoto_restent():
+    for categorie in ("tops", "pants", "helmets", "gloves", "boots", "protectors", "suits",
+                      "bikeparts_swmotech", "Casque moto intégral"):
+        assert not hors_perimetre("fcmoto", categorie), categorie
+    # et le filtre ne vaut que pour FC-Moto
+    assert not hors_perimetre("motoblouz", "Casques intégraux (100265)")
