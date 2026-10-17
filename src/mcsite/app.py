@@ -8,6 +8,7 @@ the two and no window during which the site shows yesterday's data.
 
 from __future__ import annotations
 
+import logging
 import os
 import re
 from contextlib import asynccontextmanager
@@ -17,6 +18,7 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import parse_qs, quote_plus, urlencode
 
+import psycopg
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Query, Request
 from fastapi.exceptions import RequestValidationError
@@ -38,6 +40,8 @@ from . import admin, cache, labels, partenaires, queries, seo, suggestions
 from . import v1 as v1_mod
 from . import articles as articles_mod
 from . import courbe as courbe_mod
+
+log = logging.getLogger("mcsite")
 
 load_dotenv()
 
@@ -390,34 +394,66 @@ def _nouveautes_variees(conn) -> list[dict]:
     return retenues
 
 
-def _baisses_accueil() -> dict:
-    def _baisses() -> dict:
-        with pool.connection() as conn:  # type: ignore[union-attr]
-            return {"baisses": queries.baisses(conn, 12, min_marchands=2)}
+def _section_accueil(cle: str, fabrique, defaut):
+    """Un bloc de l'accueil, garde au chaud, et qui ne peut pas faire tomber la page.
 
-    return cache.au_chaud("accueil_baisses_v2", _baisses, ttl=_TTL_ACCUEIL)
+    Le 17/10/2026, au premier demarrage en production, la requete des baisses a
+    depasse le delai de 5 s des requetes du site (le reechauffement en lancait
+    d'autres au meme moment, sur un seul coeur) : l'accueil entier rendait un
+    500. Un bloc trop lent doit s'afficher VIDE, pas emporter la page ; et ce
+    vide n'est pas garde -- `au_chaud` ne memorise rien quand la fabrique leve --
+    donc le visiteur suivant retente le calcul.
+    """
+    try:
+        return cache.au_chaud(cle, fabrique, ttl=_TTL_ACCUEIL)
+    except (psycopg.errors.QueryCanceled, PoolTimeout):
+        log.warning("accueil : le bloc %s est trop lent, affiche vide", cle)
+        return defaut
+
+
+def _onglets_accueil() -> list:
+    with pool.connection() as conn:  # type: ignore[union-attr]
+        onglets = []
+        for code, titre in _ONGLETS_ACCUEIL:
+            rayon = queries.find_category(_rayons(), code)
+            items = (queries.ecarts(conn, 6, min_marchands=2, ids=rayon["ids"])
+                     if rayon else [])
+            if items:
+                onglets.append({"code": code, "titre": titre, "produits": items})
+        return onglets
+
+
+def _budget_accueil() -> list:
+    with pool.connection() as conn:  # type: ignore[union-attr]
+        budget = []
+        for code, _titre, phrase in _BUDGETS_ACCUEIL:
+            rayon = queries.find_category(_rayons(), code)
+            h = queries.histo_prix(conn, rayon["ids"]) if rayon else None
+            if h and h["max"]:
+                budget.append({"code": code, "phrase": phrase, "label": rayon["label_fr"], **h})
+        return budget
+
+
+def _baisses_accueil() -> dict:
+    def _baisses() -> list:
+        with pool.connection() as conn:  # type: ignore[union-attr]
+            return queries.baisses(conn, 12, min_marchands=2)
+
+    return {"baisses": _section_accueil("accueil_baisses_v3", _baisses, [])}
+
+
+def _nouveautes_accueil() -> list:
+    def _nouveautes() -> list:
+        with pool.connection() as conn:  # type: ignore[union-attr]
+            return _nouveautes_variees(conn)
+
+    return _section_accueil("accueil_nouveautes_v1", _nouveautes, [])
 
 
 def _page_accueil(request: Request, gabarit: str, **extra: Any):
-    def _bloc() -> dict:
-        with pool.connection() as conn:  # type: ignore[union-attr]
-            onglets = []
-            for code, titre in _ONGLETS_ACCUEIL:
-                rayon = queries.find_category(_rayons(), code)
-                items = (queries.ecarts(conn, 6, min_marchands=2, ids=rayon["ids"])
-                         if rayon else [])
-                if items:
-                    onglets.append({"code": code, "titre": titre, "produits": items})
-            budget = []
-            for code, _titre, phrase in _BUDGETS_ACCUEIL:
-                rayon = queries.find_category(_rayons(), code)
-                h = queries.histo_prix(conn, rayon["ids"]) if rayon else None
-                if h and h["max"]:
-                    budget.append({"code": code, "phrase": phrase, "label": rayon["label_fr"], **h})
-            return {"onglets": onglets, "budget": budget,
-                    "nouveautes": _nouveautes_variees(conn)}
-
-    bloc = cache.au_chaud("accueil_v2", _bloc, ttl=_TTL_ACCUEIL)
+    bloc = {"onglets": _section_accueil("accueil_onglets_v1", _onglets_accueil, []),
+            "budget": _section_accueil("accueil_budget_v1", _budget_accueil, []),
+            "nouveautes": _nouveautes_accueil()}
     phares = {c: i for i, c in enumerate(_RAYONS_PHARES)}
     nav_accueil = sorted(_rayons(), key=lambda r: (phares.get(r["code"], 99), -r["n"]))
     return templates.TemplateResponse(

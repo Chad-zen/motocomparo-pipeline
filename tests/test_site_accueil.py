@@ -207,3 +207,24 @@ def test_un_marchand_ecarte_n_apparait_nulle_part(conn):
     assert obtenu == attendu, (
         f"product_stats compte {obtenu} fiches, "
         f"{attendu} attendues en écartant les marchands mis de côté")
+
+
+def test_un_bloc_trop_lent_s_affiche_vide_sans_faire_tomber_l_accueil():
+    """Le 17/10/2026, la requete des baisses a depasse le delai de 5 s en
+    production et l'accueil entier a rendu un 500. Un bloc trop lent doit etre
+    vide, et ce vide ne doit PAS etre garde : le visiteur suivant retente."""
+    import psycopg
+
+    from mcsite import app as mod
+    from mcsite import cache
+
+    appels = []
+
+    def lent():
+        appels.append(1)
+        raise psycopg.errors.QueryCanceled("delai depasse")
+
+    cache.vider()
+    assert mod._section_accueil("test_bloc_lent", lent, ["vide"]) == ["vide"]
+    assert mod._section_accueil("test_bloc_lent", lent, ["vide"]) == ["vide"]
+    assert len(appels) == 2, "l'echec a ete garde au lieu d'etre retente"
