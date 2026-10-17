@@ -1415,20 +1415,11 @@ async def admin_textes_enregistrer(request: Request):
     return RedirectResponse("/admin/textes", status_code=303, headers=_SANS_CACHE)
 
 
-@app.get("/favoris", response_class=HTMLResponse)
-def favoris(request: Request, p: str = ""):
-    """The shortlist. Empty until the page's own script fills the URL from the
-    browser's store — see `templates/liste.html` for why that hop exists."""
-    slugs = [x for x in p.split(",") if x][:40]
-    with pool.connection() as conn:  # type: ignore[union-attr]
-        items = queries.par_slugs(conn, slugs)
-    return templates.TemplateResponse(
-        request, "liste.html",
-        _ctx(request, titre="Mes favoris", cle="favoris", items=items,
-             vide="Vous n'avez encore rien mis de côté.",
-             aide="Le cœur sur une image met le produit ici. La liste reste sur "
-                  "cet appareil : le site ne vous demande aucun compte."),
-    )
+@app.get("/favoris")
+def favoris():
+    """Les favoris ont rejoint le comparatif (17/10/2026) : une seule liste, une
+    seule page. L'ancienne adresse y renvoie, pour les liens deja partages."""
+    return RedirectResponse("/comparer", status_code=301)
 
 
 def _noter(items: list[dict[str, Any]]) -> None:
@@ -2384,7 +2375,6 @@ def robots(request: Request) -> str:
         "User-agent: *",
         "Disallow: /admin",
         "Disallow: /comparer",
-        "Disallow: /favoris",
         "Disallow: /fragment/",
         # Les FILTRES sont fermés : ils se combinent sans fin, et un robot qui
         # explore mille fourchettes de prix n'a plus le temps de voir les

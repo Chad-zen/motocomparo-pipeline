@@ -6,15 +6,6 @@
 <nav class="fil" aria-label="Fil d'Ariane"><a href="/">Accueil</a> › <span>{{ titre }}</span></nav>
 <h1 class="titre-page">{{ titre }}</h1>
 
-{# Sur téléphone, le cœur a quitté l'en-tête pour l'alléger : les favoris
-   se rejoignent d'ici, par le bouton Comparatif. Sur ordinateur l'en-tête
-   les garde, et ce lien est masqué (style.css). #}
-<a class="comparer__favoris" href="/favoris">
-  {{ act.ico_favori() }}<span>Mes favoris</span>
-  <span class="comparer__favoris-n" data-compteur="favoris" hidden></span>
-  <span class="comparer__favoris-fleche" aria-hidden="true">→</span>
-</a>
-
 <div id="comparateur-corps" data-cle="comparer">
   {% if items %}
     <p class="sous-titre">
@@ -36,10 +27,9 @@
 </div>
 
 <script>
-/* Même pont que la liste de favoris : le comparateur vit dans le navigateur,
-   la page est rendue par le serveur. Au premier affichage sans paramètre, on
-   remet les identifiants stockés dans l'URL et on recharge — voir liste.html
-   pour le détail de ce choix. */
+/* Le comparateur (et les favoris, qui l'ont rejoint le 17/10/2026) vit dans le
+   navigateur, la page est rendue par le serveur. Au premier affichage sans
+   paramètre, on remet les identifiants stockés dans l'URL et on recharge. */
 (function () {
   const cle = document.getElementById('comparateur-corps').dataset.cle;
   const url = new URL(location.href);

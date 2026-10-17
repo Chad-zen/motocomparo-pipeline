@@ -2135,30 +2135,7 @@ body:has(.banc:not([hidden])) { padding-bottom: var(--banc-h, 94px); }
     box-shadow: 0 4px 14px rgba(0, 0, 0, .35);
   }
   .tete__action--or { background: var(--or-logo); border-color: var(--or-logo); }
-  /* Le cœur quitte l'en-tête mobile (demande de la propriétaire,
-     28/09/2026) : les favoris se rejoignent depuis la page Comparateur. */
-  .tete__action--favoris { display: none; }
 }
-
-/* L'accès aux favoris depuis le comparateur — téléphone seulement. */
-.comparer__favoris { display: none; }
-@media (max-width: 899px) {
-  .comparer__favoris {
-    display: flex; align-items: center; gap: 10px;
-    margin: 0 0 18px; padding: 13px 16px;
-    border: 1px solid var(--line); border-radius: 12px;
-    background: var(--card); color: var(--ink);
-    font-weight: 700; text-decoration: none;
-  }
-  .comparer__favoris .ico-action { width: 20px; height: 20px; color: var(--ko); }
-  .comparer__favoris-n {
-    min-width: 22px; padding: 1px 7px; border-radius: 999px;
-    background: var(--nuit); color: #fff;
-    font-size: 12.5px; text-align: center; font-variant-numeric: tabular-nums;
-  }
-  .comparer__favoris-fleche { margin-left: auto; color: var(--muted); }
-}
-
 /* --- la recherche du mockup ----------------------------------------------
    Une seule pilule blanche : loupe grise, filet, texte, puis le bouton jaune
    collé à droite. La loupe de tête ne sert que sur téléphone ; sur ordinateur

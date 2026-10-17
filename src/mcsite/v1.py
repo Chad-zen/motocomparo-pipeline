@@ -215,7 +215,7 @@ REDIRECTIONS_FIXES = {
     "/blog": "/guides", "/about": "/infos", "/about-us": "/infos",
     "/terms": "/infos", "/terms-conditions": "/infos",
     "/privacy-policy": "/infos#donnees", "/privacy-policy-2": "/infos#donnees",
-    "/favorites": "/favoris", "/compare-products": "/comparer",
+    "/favorites": "/comparer", "/compare-products": "/comparer",
     "/comparateur": "/comparer",
     "/sitemap_index.xml": "/sitemap.xml", "/wp-sitemap.xml": "/sitemap.xml",
 }
