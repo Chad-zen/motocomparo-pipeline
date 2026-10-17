@@ -46,6 +46,9 @@ mcpipe enrich         # catégories + emprunt des tailles au code-barres
 # `||` est voulu, comme pour les alertes : un échec s'écrit dans le journal et
 # la chaîne des prix continue.
 nice -n 10 mcpipe match --sans-mpn || echo "!!! mcpipe match en echec, chaine poursuivie"
+# Les pieces de casque (coussinets, pare-soleil, pics...) qui viennent d'etre rattachees a
+# une fiche casque : `enrich` ne corrige que les offres, pas les fiches deja creees.
+mcpipe accessoires-casque --appliquer || echo "!!! mcpipe accessoires-casque en echec, chaine poursuivie"
 # Les fiches qui se dédoublent pour un même code-barres : fusionne ce que la
 # propriétaire a VALIDÉ dans /admin/regroupements (et, si elle l'a activée, ce
 # que le site juge sûr), puis recalcule les propositions et les alias de marque
