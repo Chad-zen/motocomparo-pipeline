@@ -206,6 +206,25 @@ window.addEventListener('load', function () {
       if (o) document.body.appendChild(bouton);   /* apres le DOM de Crisp, donc au-dessus */
     };
     bouton.hidden = false;
+    /* Le bouton ne doit jamais recouvrir le bandeau de cookies (il cachait « Accepter et
+       fermer » sur mobile, 17/10/2026) : tant que le bandeau est affiche, le bouton se
+       pose juste au-dessus de sa carte, et retrouve sa place quand il disparait. */
+    var bandeau = document.getElementById('consentement');
+    var carte = bandeau && bandeau.querySelector('.consentement__carte');
+    var poser = function () {
+      var bas = '';
+      if (carte && bandeau && !bandeau.hidden) {
+        var haut = carte.getBoundingClientRect().top;
+        if (haut > 0) bas = Math.round(window.innerHeight - haut + 12) + 'px';
+      }
+      document.documentElement.style.setProperty('--mc-chat-bas', bas || '');
+    };
+    if (bandeau && carte) {
+      new MutationObserver(poser).observe(bandeau, {attributes: true, attributeFilter: ['hidden']});
+      if (window.ResizeObserver) new ResizeObserver(poser).observe(carte);
+      window.addEventListener('resize', poser);
+      poser();
+    }
     bouton.addEventListener('click', function () {
       if (ouvert) {
         window.$crisp.push(["do", "chat:close"]);

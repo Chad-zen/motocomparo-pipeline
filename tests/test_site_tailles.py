@@ -74,3 +74,37 @@ def test_une_taille_declaree_par_les_flux_l_emporte_sur_une_taille_lue():
     from mcpipe import match
     assert "ovr.donor_source = 'feed'" in match._DECLARED_SIZE
     assert match._DECLARED_SIZE.index("ovr.size_code END") < match._DECLARED_SIZE.index("nullif")
+
+
+def test_filtre_et_pastilles_ne_gardent_que_les_tailles_achetables():
+    """17/10/2026 : /c/gloves?taille=S montrait des gants dont le S n'est plus en
+    stock nulle part -- le filtre voulait seulement qu'une variante S existe."""
+    import inspect
+    assert queries._VARIANTE_ACHETABLE in queries._OU
+    assert "_VARIANTE_ACHETABLE" in inspect.getsource(queries.facets)
+    for condition in ("o.is_live", "o.in_stock IS NOT FALSE", "o.price > 0", "mm.affiche"):
+        assert condition in queries._VARIANTE_ACHETABLE, condition
+
+
+def test_chaque_gant_liste_en_s_a_un_s_en_stock():
+    """Sur les donnees reelles : aucune fiche listee en taille S sans offre S achetable."""
+    import os
+
+    import psycopg
+    with psycopg.connect(os.environ["DATABASE_URL"]) as conn:
+        _verifier_gants_en_s(conn)
+
+
+def _verifier_gants_en_s(conn):
+    cats = queries.categories(conn)
+    gants = queries.find_category(cats, "gloves")
+    f = queries.Filtres(categories=gants["ids"], taille=["S"], marchands=2, tri="prix")
+    fiches, _n = queries.listing_filtre(conn, f, 60, 0)
+    assert fiches, "aucun gant en S : le test ne prouve rien"
+    slugs = [x["slug"] for x in fiches]
+    sans = conn.execute(f"""
+        SELECT p.slug FROM product p WHERE p.slug = ANY(%s) AND NOT EXISTS (
+            SELECT 1 FROM variant v WHERE v.product_id = p.id
+              AND {queries._taille_norm('v.size_code')} = 'S' AND {queries._VARIANTE_ACHETABLE})
+    """, (slugs,)).fetchall()
+    assert not sans, f"{len(sans)} fiche(s) sans S achetable : {sans[:3]}"

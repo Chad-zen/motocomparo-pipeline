@@ -4716,3 +4716,6 @@ html:has(.accueil-test), body:has(.accueil-test) { overflow-x: clip; }
 
 /* pastille d'ecart des cartes : plus petite, coins legerement arrondis */
 .carte__remise { border-radius: 5px; font-size: 11px; padding: 2px 6px; top: 8px; left: 8px; }
+
+/* le bouton de chat se pose au-dessus du bandeau de cookies quand il est la (valeur posee par le script) */
+.mc-chat { bottom: var(--mc-chat-bas, calc(20px + env(safe-area-inset-bottom, 0px))); }

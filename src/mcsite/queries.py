@@ -998,6 +998,20 @@ _RAYONS_A_TAILLES = ("helmet", "helmet.integral", "helmet.jet", "helmet.modular"
 _IN_RAYONS_A_TAILLES = ("(" + ", ".join(f"'{c}'" for c in _RAYONS_A_TAILLES) + ")")
 
 
+# UNE TAILLE QU'ON PEUT ACHETER (17/10/2026). Le filtre disait seulement « la fiche a
+# une variante de cette taille » : une variante existe des qu'un marchand a UN JOUR
+# propose la taille. Sur /c/gloves?taille=S, des gants dont le S est epuise partout
+# sortaient donc dans la liste. La variante doit porter au moins une offre vivante,
+# en stock (ou de stock inconnu, comme `product_stats.cheapest`), avec un prix, d'un
+# marchand affiche.
+_VARIANTE_ACHETABLE = """EXISTS (
+    SELECT 1 FROM offer_variant_link l
+    JOIN raw_offer o ON o.id = l.raw_offer_id
+    JOIN merchant mm ON mm.id = o.merchant_id
+    WHERE l.variant_id = v.id AND o.linked_status = 'linked' AND o.is_live
+      AND o.price > 0 AND o.in_stock IS NOT FALSE AND mm.affiche)"""
+
+
 def _taille_norm(expr: str) -> str:
     """Une seule écriture par taille : les marchands écrivent XXL ou 2XL, XXS
     ou 2XS, pour la même chose. Le filtre proposait les deux pastilles côte à
@@ -1061,6 +1075,9 @@ def facets(conn: psycopg.Connection, f: Filtres) -> dict[str, Any]:
         JOIN category c ON c.id = p.category_id
         {_OU} AND v.size_code <> 'TU'
           AND c.code IN {_IN_RAYONS_A_TAILLES}
+          -- seulement les tailles qu'on peut acheter : le compteur doit annoncer
+          -- ce que la liste montrera
+          AND {_VARIANTE_ACHETABLE}
           -- Seulement ce qui EST une taille. Le champ en contient d'autres
           -- choses, héritées des flux : des mots du modèle (MONO, PURE, TECH,
           -- VIB), des finitions (MATT), des références marchand (YM5051), et
@@ -1511,7 +1528,8 @@ _OU = """
             WHERE v.product_id = p.id
               AND p.category_id IN (SELECT id FROM category
                                     WHERE code IN """ + _IN_RAYONS_A_TAILLES + """)
-              AND """ + _taille_norm("v.size_code") + """ = ANY(%(ta)s::text[])))
+              AND """ + _taille_norm("v.size_code") + """ = ANY(%(ta)s::text[])
+              AND """ + _VARIANTE_ACHETABLE + """))
       -- Matière, homologation, saison : lues dans `product_caracteristique`,
       -- jamais devinées. Un IN non corrélé, calculé une fois et haché.
       AND (%(mat)s::text IS NULL OR p.id IN (
