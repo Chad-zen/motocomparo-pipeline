@@ -1,0 +1,302 @@
+{% extends "home_base.html" %}
+{# L'accueil (publie le 17/10/2026, variante C validee par la proprietaire). Il
+   herite des donnees structurees et du bas de page de home_base.html. #}
+
+{% block pleine_largeur %}
+<h1 class="visuellement-cache">Comparateur de prix d'équipement moto : casques, blousons, gants, bottes</h1>
+{% endblock %}
+
+{% block contenu %}
+{% import "_categories.html" as cat %}
+{% from "_grille.html" import actions %}
+{% import "_pub.html" as pub %}
+<div class="accueil-test">
+
+{# --- 1. Combien veux-tu investir ? ------------------------------------------ #}
+{# Curseur de budget : l'histogramme est la répartition réelle des prix du
+   rayon (queries.histo_prix), le lien mène au rayon déjà filtré. #}
+{% if budget %}
+<section class="budget" id="budget" aria-labelledby="budget-titre"
+         data-budget='{{ budget | tojson }}'>
+  <img class="budget__filigrane" src="/static/logo_filigrane.webp?v={{ version_css() }}" alt="" width="333" height="330" aria-hidden="true">
+  <h2 id="budget-titre">Combien veux-tu investir dans <span class="budget__mot" id="budget-phrase">{{ budget[0].phrase }}</span>&nbsp;?</h2>
+  <p class="budget__sous">Nous comparons les prix de <b id="budget-total">{{ budget[0].total }}</b> produits
+     chez {{ marchands_actifs | length }} marchands</p>
+  <div class="budget__pills" role="tablist" aria-label="Équipement">
+    {% for b in budget %}
+    <button type="button" class="budget__pill" role="tab" data-rayon="{{ loop.index0 }}"
+            aria-selected="{{ 'true' if loop.first else 'false' }}">{{ b.label }}</button>
+    {% endfor %}
+    <a class="budget__btn" id="budget-tout" href="/c/{{ budget[0].code }}">Voir tout <svg viewBox="0 0 12 12" width="12" height="12" aria-hidden="true"><path d="M4 1.5 8.5 6 4 10.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+  </div>
+  <div class="budget__zone">
+    <a class="budget__bulle" id="budget-lien" href="/c/{{ budget[0].code }}">
+      <span><b id="budget-prix">…</b><small id="budget-voir">Voir les produits</small></span>
+      <svg viewBox="0 0 12 12" width="14" height="14" aria-hidden="true"><path d="M4 1.5 8.5 6 4 10.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+    <div class="budget__piste" id="budget-piste">
+      <div class="budget__barres" id="budget-barres" aria-hidden="true"></div>
+      <input type="range" id="budget-curseur" min="1" max="24" value="12" step="1" aria-label="Budget maximum">
+    </div>
+  </div>
+</section>
+<script>
+(function () {
+  var hote = document.getElementById('budget');
+  if (!hote) return;
+  var D = JSON.parse(hote.dataset.budget), cur = 0;
+  var barres = document.getElementById('budget-barres'), rg = document.getElementById('budget-curseur'),
+      bulle = document.getElementById('budget-lien'), piste = document.getElementById('budget-piste');
+  function eur(n) { return n.toLocaleString('fr-FR') + ' €'; }
+  function trace() {
+    var d = D[cur], n = d.cumul.length,
+        par = d.cumul.map(function (c, i) { return c - (i ? d.cumul[i - 1] : 0); }),
+        m = Math.max.apply(null, par);
+    barres.innerHTML = par.map(function (v) {
+      return '<i style="height:' + Math.max(6, Math.round(v / m * 100)) + '%"></i>';
+    }).join('');
+    rg.max = n;
+    var mediane = d.cumul.findIndex(function (c) { return c >= d.cumul[n - 1] * 0.4; });
+    rg.value = mediane < 0 ? Math.round(n / 2) : mediane + 1;
+    document.getElementById('budget-phrase').textContent = d.phrase;
+    document.getElementById('budget-total').textContent = d.total.toLocaleString('fr-FR');
+    maj();
+  }
+  function maj() {
+    var d = D[cur], v = +rg.value, n = d.cumul.length, prix = Math.round(v * d.pas),
+        nb = d.cumul[v - 1], pct = (v - 0.5) / n * 100;
+    document.getElementById('budget-prix').textContent = 'Moins de ' + eur(prix);
+    document.getElementById('budget-voir').textContent = 'Voir les ' + nb.toLocaleString('fr-FR') + ' produits';
+    bulle.href = '/c/' + d.code + '?prix_max=' + prix;
+    bulle.style.left = 'clamp(0px, calc(' + pct + '% - 110px), calc(100% - 220px))';
+    var bs = barres.children;
+    for (var i = 0; i < bs.length; i++) bs[i].className = i < v ? 'dedans' : '';
+  }
+  rg.addEventListener('input', maj);
+  hote.querySelectorAll('[data-rayon]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      cur = +b.dataset.rayon;
+      hote.querySelectorAll('[data-rayon]').forEach(function (x) { x.setAttribute('aria-selected', x === b ? 'true' : 'false'); });
+      document.getElementById('budget-tout').href = '/c/' + D[cur].code;
+      trace();
+    });
+  });
+  trace();
+})();
+</script>
+{% endif %}
+
+<section class="marchands-bandeau" aria-label="Marchands comparés">
+  <span class="marchands-bandeau__titre">Prix comparés chez</span>
+  <ul class="marchands-bandeau__liste">
+    {% for m in marchands_actifs %}
+    {% set fichier = logo_marchand(m.code) %}
+    <li>{% if fichier %}<img src="/static/{{ fichier }}?v={{ version_css() }}" alt="{{ m.code | marchand }}" height="26">
+        {% else %}<span>{{ m.code | marchand }}</span>{% endif %}</li>
+    {% endfor %}
+  </ul>
+</section>
+
+
+{# --- 3. Catégories populaires ---------------------------------------------- #}
+{{ cat.bande(nav | rejectattr('code', 'in', ['exhaust', 'electronics']) | list, 12) }}
+
+{# --- 4. Bons plans par rayon ------------------------------------------------ #}
+{% if onglets %}
+<section class="rayon rayon--phare" id="bons-plans-onglets">
+  <div class="rayon__tete">
+    <div>
+      <h2>Les bons plans du moment</h2>
+    </div>
+    <a class="rayon__plus" href="/bons-plans">Tous les bons plans →</a>
+  </div>
+  <div class="onglets" role="tablist" aria-label="Rayon">
+    {% for o in onglets %}
+    <button class="onglets__bouton" role="tab" type="button" data-onglet="{{ o.code }}"
+            aria-selected="{{ 'true' if loop.first else 'false' }}">{{ o.titre }}</button>
+    {% endfor %}
+  </div>
+  {% for o in onglets %}
+  <div class="rayon__piste" role="tabpanel" data-panneau="{{ o.code }}">
+    {% for it in o.produits %}
+    <a class="carte carte--rayon" href="/p/{{ it.slug }}">
+      {{ actions(it) }}
+      <span class="pastille">−{{ it.remise | int }}&nbsp;%</span>
+      <div class="carte__img">
+        {% if it.image_url %}<img src="{{ it.image_url }}" alt="" loading="lazy">
+        {% else %}<span class="carte__sansimg">pas de visuel</span>{% endif %}
+      </div>
+      <div class="carte__corps">
+        <span class="carte__marque">{{ it.brand_code | marque }}</span>
+        <span class="carte__nom">{{ nom(it) }}</span>
+        <div class="carte__bas">
+          <span class="carte__prix">dès {{ it.cheapest | prix }}</span>
+          <span class="carte__barre">{{ it.dearest | prix }}</span>
+        </div>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+  {% endfor %}
+</section>
+<script>
+(function () {
+  var hote = document.getElementById('bons-plans-onglets');
+  if (!hote) return;
+  var boutons = hote.querySelectorAll('[data-onglet]'), panneaux = hote.querySelectorAll('[data-panneau]');
+  function montrer(code) {
+    boutons.forEach(function (b) { b.setAttribute('aria-selected', b.dataset.onglet === code ? 'true' : 'false'); });
+    panneaux.forEach(function (p) { p.hidden = p.dataset.panneau !== code; });
+  }
+  boutons.forEach(function (b) { b.addEventListener('click', function () { montrer(b.dataset.onglet); }); });
+  montrer(boutons[0].dataset.onglet);
+})();
+</script>
+{% endif %}
+
+{# --- Bannière d'un marchand, entre les bons plans et les nouveautés --- #}
+{{ pub.emplacement(bandeaux_larges) }}
+
+{# --- 4 bis. Nouveautés -------------------------------------------------------- #}
+{% if nouveautes %}
+<section class="rayon" id="nouveautes">
+  <div class="rayon__tete">
+    <div><h2>Nouveautés</h2></div>
+    <a class="rayon__plus" href="/produits?tri=nouveautes">Voir tout →</a>
+  </div>
+  <div class="rayon__piste">
+    {% for it in nouveautes %}
+    <a class="carte carte--rayon" href="/p/{{ it.slug }}">
+      {{ actions(it) }}
+      {% if loop.index <= 3 %}<span class="pastille pastille--neuf">Nouveau</span>{% endif %}
+      <div class="carte__img">
+        {% if it.image_url %}<img src="{{ it.image_url }}" alt="" loading="lazy">
+        {% else %}<span class="carte__sansimg">pas de visuel</span>{% endif %}
+      </div>
+      <div class="carte__corps">
+        <span class="carte__marque">{{ it.brand_code | marque }}</span>
+        <span class="carte__nom">{{ nom(it) }}</span>
+        <div class="carte__bas">
+          <span class="carte__prix">dès {{ it.cheapest | prix }}</span>
+          <span class="puce">{{ it.merchant_count }} marchand{{ 's' if it.merchant_count > 1 }}</span>
+        </div>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+{% if baisses %}
+<section class="rayon" id="baisses">
+  <div class="rayon__tete">
+    <div><h2>Ça a baissé cette semaine</h2></div>
+    <a class="rayon__plus" href="/bons-plans">Tous les bons plans →</a>
+  </div>
+  <div class="rayon__piste">
+    {% for it in baisses %}
+    <a class="carte carte--rayon" href="/p/{{ it.slug }}">
+      {{ actions(it) }}
+      <span class="pastille">−{{ it.baisse | int }}&nbsp;%</span>
+      <div class="carte__img">
+        {% if it.image_url %}<img src="{{ it.image_url }}" alt="" loading="lazy">
+        {% else %}<span class="carte__sansimg">pas de visuel</span>{% endif %}
+      </div>
+      <div class="carte__corps">
+        <span class="carte__marque">{{ it.brand_code | marque }}</span>
+        <span class="carte__nom">{{ nom(it) }}</span>
+        <div class="carte__bas">
+          <span class="carte__prix">{{ it.maintenant | prix }}</span>
+          <span class="carte__barre">{{ it.avant | prix }}</span>
+        </div>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+
+{# --- 2. Réassurance --------------------------------------------------------- #}
+<section class="rassure" aria-label="Nos engagements">
+  <ul class="rayon__piste">
+    <li><img src="/static/reassurance/prix-jour.webp?v={{ version_css() }}" alt="" width="46" height="41"><b>Prix relevés chaque jour</b></li>
+    <li><img src="/static/reassurance/taille.webp?v={{ version_css() }}" alt="" width="46" height="44"><b>Taille par taille</b></li>
+    <li><img src="/static/reassurance/marchands.webp?v={{ version_css() }}" alt="" width="40" height="38"><b>{{ marchands_actifs | length }} marchands nommés</b></li>
+    <li><img src="/static/reassurance/gratuit.webp?v={{ version_css() }}" alt="" width="33" height="44"><b>Gratuit, sans compte</b></li>
+  </ul>
+</section>
+
+{# --- Vus récemment (inchangé) ----------------------------------------------- #}
+<section class="rayon" id="rayon-vus" hidden></section>
+<script>
+(function () {
+  var hote = document.getElementById('rayon-vus'), vus = [];
+  if (!hote) return;
+  try { vus = JSON.parse(localStorage.getItem('mc-vus') || '[]'); } catch (e) { return; }
+  if (!vus.length) return;
+  fetch('/fragment/vus?ids=' + encodeURIComponent(vus.join(',')))
+    .then(function (r) { return r.ok ? r.text() : ''; })
+    .then(function (html) { if (html.trim()) { hote.innerHTML = html; hote.hidden = false; } })
+    .catch(function () {});
+})();
+</script>
+
+{# --- 5. Marques populaires : logos ----------------------------------------- #}
+{# Seules les marques dont le fichier est déposé dans static/marques-logos/
+   apparaissent : un logo manquant ne laisse pas de trou. #}
+{% set vitrine = [("alpinestars", "Alpinestars", "svg"), ("dainese", "Dainese", "png"),
+                  ("arai", "Arai", "svg"), ("shoei", "Shoei", "svg"),
+                  ("schuberth", "Schuberth", "svg"), ("agv", "AGV", "svg"),
+                  ("hjc", "HJC", "svg"), ("sidi", "Sidi", "svg")] %}
+<section class="marques-accueil" aria-labelledby="marques-titre">
+  <div class="rayon__tete">
+    <div>
+      <span class="rayon__oeil">Cherchez par marque</span>
+      <h2 id="marques-titre"><a class="titre-lien" href="/marques">Marques populaires</a></h2>
+    </div>
+  </div>
+  <ul class="rayon__piste marques-logos">
+    {% for code, nom_marque, ext in vitrine %}
+    {% if statique_existe('marques-logos/' ~ code ~ '.' ~ ext) %}
+    <li><a href="/m/{{ code }}" aria-label="{{ nom_marque }}">
+      <img src="/static/marques-logos/{{ code }}.{{ ext }}?v={{ version_css() }}"
+           alt="{{ nom_marque }}" loading="lazy"></a></li>
+    {% endif %}
+    {% endfor %}
+  </ul>
+</section>
+
+{# --- 6. Guides d'achat ------------------------------------------------------ #}
+<section class="guides-accueil" aria-labelledby="guides-titre">
+  <div class="rayon__tete">
+    <div>
+      <span class="rayon__oeil">Pour bien choisir</span>
+      <h2 id="guides-titre">Guides d'achat &amp; conseils</h2>
+    </div>
+    <a class="rayon__plus" href="/guides">Tous les guides →</a>
+  </div>
+  <div class="guides-accueil__grille">
+    {% for a in articles %}
+    <a class="guides-accueil__carte" href="/guides/{{ a.slug }}">
+      <b>{{ a.titre }}</b><span>{{ a.description }}</span>
+    </a>
+    {% endfor %}
+    {# trois cartes en tout : les articles d'abord, les repères complètent #}
+    {% if articles | length < 3 %}
+    <a class="guides-accueil__carte" href="/guides#guide-taille-casque">
+      <b>Trouver sa taille de casque</b><span>Mesurer son tour de tête et lire le tableau des tailles.</span>
+    </a>
+    {% endif %}
+    {% if articles | length < 2 %}
+    <a class="guides-accueil__carte" href="/guides#guide-ece2206">
+      <b>La norme ECE 22.06, en clair</b><span>Ce que change la nouvelle homologation des casques.</span>
+    </a>
+    {% endif %}
+  </div>
+</section>
+
+{# --- 7. Comment ça marche, marchands, pourquoi, FAQ : blocs d'origine ------- #}
+{{ self.fin_accueil() }}
+</div>
+{% endblock %}

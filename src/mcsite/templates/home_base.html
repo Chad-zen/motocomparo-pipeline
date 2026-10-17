@@ -331,6 +331,7 @@
 {{ cat.mosaique(nav, 9) }}
 
 
+{% block fin_accueil %}
 {# --- Comment ça marche ---------------------------------------------------- #}
 <section class="etapes">
   <h2 class="titre-centre">Comment ça marche&nbsp;?</h2>
@@ -415,5 +416,6 @@
      inscription.</p>
   <a class="bouton bouton--or" href="/c/{{ nav[0].code if nav else 'gloves' }}">Commencer à comparer</a>
 </section>
+{% endblock fin_accueil %}
 
 {% endblock %}

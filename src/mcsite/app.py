@@ -256,7 +256,7 @@ def _logo_marchand(code: str) -> str:
     """`static/marchands/<code>.<ext>` s'il existe, chemin relatif ou "".
 
     Reprend la boucle d'extensions écrite pour la bande de logos de l'accueil
-    (`home.html`) au lieu de la copier une troisième fois dans `_fiche.html` —
+    (`home_base.html`) au lieu de la copier une troisième fois dans `_fiche.html` —
     le bandeau « meilleur prix », le tableau des offres et les blocs code
     promo en avaient chacun besoin. Le fichier est pris TEL QUE le marchand le
     publie, sans conversion : trois de ces logos n'existent qu'en WebP.
@@ -321,55 +321,108 @@ def _ctx(request: Request, **extra: Any) -> dict[str, Any]:
 
 @app.get("/", response_class=HTMLResponse)
 def home(request: Request):
-    # Tout l'accueil est le MÊME pour chaque visiteur et ne change qu'au passage
-    # du pipeline. Mesuré le 2026-09-14 : 2,4 s de requêtes par visite, dont
-    # 1,77 s pour `categories()` — une requête que le cache de navigation
-    # détenait déjà et que cette page relançait pour rien.
-    def _bloc() -> dict:
-        with pool.connection() as conn:  # type: ignore[union-attr]
-            # the shelves ARE the home page (the v1 shape), so the old flat grid
-            # of 12 products is gone rather than kept above them: two answers to
-            # the same question stacked on one page is how a home page stops
-            # reading.
-            #
-            # `totals`, `rayons`, `affiche` et `vitrine` étaient encore calculés
-            # ici alors que la page ne les lit plus depuis la mosaïque : quatre
-            # requêtes de catalogue pour rien à chaque cache froid (audit de
-            # l'accueil, 01/10/2026).
-            # Les casques, avec leurs sous-rayons — `ids` porte le parent ET ses
-            # enfants, sinon « Nouveautés casque » ne verrait que les 79 casques
-            # dont aucun sous-type n'a pu être lu, et non le rayon entier.
-            casques = queries.find_category(_rayons(), "helmet")
-            ecarts = queries.ecarts(conn, 12)
-            # Un produit déjà dans « Là où comparer rapporte le plus » ne
-            # revient pas dans « Ça a baissé » avec un autre prix barré.
-            deja = {it["slug"] for it in ecarts}
-            baisses = [it for it in queries.baisses(conn, 20)
-                       if it["slug"] not in deja][:12]
-            return {
-                "ecarts": ecarts,
-                # min_marchands=2, pas 3 (le défaut) : mesuré le 04/10/2026,
-                # 47 casques recents a 2 marchands contre 2 seulement a 3 — a
-                # 3 la rangee affichait deux cartes et un grand vide a cote,
-                # signale par la proprietaire comme un bug visuel.
-                "nouveautes": queries.nouveautes(
-                    conn, casques["ids"] if casques else [], 12,
-                    min_marchands=2),
-                "nouveautes_rayon": casques,
-                "baisses": baisses,
-            }
+    """L'accueil : curseur de budget, bons plans par rayon, nouveautes, baisses.
 
-    bloc = cache.au_chaud("accueil", _bloc)
-    # Les rayons d'équipement en tête de la bande et de la mosaïque : classés
-    # au seul volume, les bottes passaient 8e, derrière la bagagerie et les
-    # échappements. Le menu, lui, garde le classement par volume.
-    phares = {c: i for i, c in enumerate(_RAYONS_PHARES)}
-    nav_accueil = sorted(_rayons(), key=lambda r: (phares.get(r["code"], 99), -r["n"]))
-    return templates.TemplateResponse(
-        request, "home.html", _ctx(request, **bloc, nav=nav_accueil))
+    Tout est le MEME pour chaque visiteur et ne change qu'au passage du
+    pipeline : le bloc est garde au chaud (voir `cache.py`). Mesure le
+    2026-09-14 : 2,4 s de requetes par visite avant ce cache.
+    """
+    return _page_accueil(request, "home_blocs.html", **_baisses_accueil())
 
 
 _RAYONS_PHARES = ("helmet", "jacket", "gloves", "boots", "pants", "protection")
+
+# L'accueil ne change qu'au passage du pipeline, qui redemarre le site et le
+# rechauffe aussitot (`rechauffer.sh`) : on le garde donc au chaud toute la
+# journee. A froid il coute ~20 s (mesure le 17/10/2026 : 4 ecarts, 4 histogrammes,
+# 5 nouveautes, les baisses) -- un visiteur ne doit jamais payer ca. Sans cache
+# (SITE_CACHE_TTL=0, en developpement) il reste sans cache.
+_TTL_ACCUEIL = 86400 if cache.duree() > 0 else 0
+
+# Les quatre onglets des bons plans de l'accueil.
+_ONGLETS_ACCUEIL = (("helmet", "Casques"), ("jacket", "Blousons"),
+                    ("gloves", "Gants"), ("boots", "Bottes"))
+
+
+# (code, onglet, « ton prochain … ») pour le curseur de budget
+_BUDGETS_ACCUEIL = (("helmet", "Casque", "ton prochain casque"),
+                    ("jacket", "Blouson", "ton prochain blouson"),
+                    ("gloves", "Gants", "tes prochains gants"),
+                    ("boots", "Bottes", "tes prochaines bottes"))
+
+
+# Rayons mélangés dans « Nouveautés » de l'accueil de test, et taille de la rangée.
+_RAYONS_NOUVEAUTES = ("helmet", "jacket", "gloves", "boots", "pants")
+_NOUVEAUTES_TOTAL = 18
+_NOUVEAUTES_PAR_MARQUE = 2
+
+
+def _nouveautes_variees(conn) -> list[dict]:
+    """Des nouveautés de tous les rayons, pas plus de deux par marque.
+
+    Priorité aux fiches déjà comparées (2 marchands ou plus) ; une rangée qui
+    n'aurait que celles-là n'en compterait que quelques-unes (une fiche neuve
+    est chez UN marchand par construction), donc on complète avec les fiches à
+    un seul marchand. Les rayons passent à tour de rôle pour que la rangée ne
+    soit pas faite de dix paires de bottes d'une même marque.
+    """
+    par_rayon = []
+    for code in _RAYONS_NOUVEAUTES:
+        rayon = queries.find_category(_rayons(), code)
+        if not rayon:
+            continue
+        # UN seul appel par rayon : chacun coute 1,6 s (mesure le 17/10/2026),
+        # et deux appels par rayon faisaient 16 s a froid. Les fiches deja
+        # comparees passent devant par un tri stable, l'ordre du tour de role
+        # par marque est conserve a l'interieur de chaque groupe.
+        toutes = queries.nouveautes(conn, rayon["ids"], 40, min_marchands=1)
+        par_rayon.append(sorted(toutes, key=lambda it: it["merchant_count"] < 2))
+    retenues, par_marque = [], {}
+    rang = 0
+    while len(retenues) < _NOUVEAUTES_TOTAL and any(rang < len(l) for l in par_rayon):
+        for liste in par_rayon:
+            if rang < len(liste) and len(retenues) < _NOUVEAUTES_TOTAL:
+                it = liste[rang]
+                if par_marque.get(it["brand_code"], 0) < _NOUVEAUTES_PAR_MARQUE:
+                    par_marque[it["brand_code"]] = par_marque.get(it["brand_code"], 0) + 1
+                    retenues.append(it)
+        rang += 1
+    return retenues
+
+
+def _baisses_accueil() -> dict:
+    def _baisses() -> dict:
+        with pool.connection() as conn:  # type: ignore[union-attr]
+            return {"baisses": queries.baisses(conn, 12, min_marchands=2)}
+
+    return cache.au_chaud("accueil_baisses_v2", _baisses, ttl=_TTL_ACCUEIL)
+
+
+def _page_accueil(request: Request, gabarit: str, **extra: Any):
+    def _bloc() -> dict:
+        with pool.connection() as conn:  # type: ignore[union-attr]
+            onglets = []
+            for code, titre in _ONGLETS_ACCUEIL:
+                rayon = queries.find_category(_rayons(), code)
+                items = (queries.ecarts(conn, 6, min_marchands=2, ids=rayon["ids"])
+                         if rayon else [])
+                if items:
+                    onglets.append({"code": code, "titre": titre, "produits": items})
+            budget = []
+            for code, _titre, phrase in _BUDGETS_ACCUEIL:
+                rayon = queries.find_category(_rayons(), code)
+                h = queries.histo_prix(conn, rayon["ids"]) if rayon else None
+                if h and h["max"]:
+                    budget.append({"code": code, "phrase": phrase, "label": rayon["label_fr"], **h})
+            return {"onglets": onglets, "budget": budget,
+                    "nouveautes": _nouveautes_variees(conn)}
+
+    bloc = cache.au_chaud("accueil_v2", _bloc, ttl=_TTL_ACCUEIL)
+    phares = {c: i for i, c in enumerate(_RAYONS_PHARES)}
+    nav_accueil = sorted(_rayons(), key=lambda r: (phares.get(r["code"], 99), -r["n"]))
+    return templates.TemplateResponse(
+        request, gabarit,
+        _ctx(request, **bloc, **extra, nav=nav_accueil, articles=articles_mod.publies()[:3]))
 
 
 def _releve_jour() -> str:

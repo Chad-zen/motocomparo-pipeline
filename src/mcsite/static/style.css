@@ -603,12 +603,12 @@ h1, h2 { line-height: 1.2; }
 .quete { display: flex; flex: 1; min-width: 240px; }
 .quete input {
   flex: 1; border: 0; font-size: 15px; padding: 14px 20px;
-  border-radius: 44px 0 0 44px;
+  border-radius: 12px 0 0 12px;
 }
 .quete input:focus { outline: 2px solid var(--or); outline-offset: -2px; }
 .quete button {
   border: 0; background: var(--or-vif); color: var(--ink);
-  padding: 0 26px; border-radius: 0 44px 44px 0; cursor: pointer;
+  padding: 0 26px; border-radius: 0 12px 12px 0; cursor: pointer;
   font-size: 22px; line-height: 1;
   display: flex; align-items: center; gap: 9px;
 }
@@ -1077,11 +1077,11 @@ details.facette[open] > .facette__titre .facette__chev { transform: rotate(-135d
   background: var(--nuit); color: #e8ecf4;
   z-index: 999;
   transform: translateX(-102%);
-  transition: transform .26s cubic-bezier(.4, 0, .2, 1);
+  transition: transform .26s cubic-bezier(.4, 0, .2, 1), box-shadow .26s;
   display: flex; flex-direction: column;
-  box-shadow: 4px 0 30px rgba(0, 0, 0, .4);
+  box-shadow: none;   /* fermé : l'ombre débordait en bande sombre sur le bord gauche de la page */
 }
-.tiroir.est-ouvert { transform: translateX(0); }
+.tiroir.est-ouvert { transform: translateX(0); box-shadow: 4px 0 30px rgba(0, 0, 0, .4); }
 @media (prefers-reduced-motion: reduce) { .tiroir { transition: none; } }
 
 .tiroir__tete {
@@ -2171,21 +2171,21 @@ body:has(.banc:not([hidden])) { padding-bottom: var(--banc-h, 94px); }
 
 @media (max-width: 899px) {
   .quete {
-    align-items: center; background: #fff; border-radius: 999px;
+    align-items: center; background: #fff; border-radius: 12px;
     /* pas d'overflow: hidden non plus : même rognage des suggestions. Le
        bouton porte déjà ses propres coins arrondis. */
     box-shadow: 0 6px 18px rgba(0, 0, 0, .35);
   }
   .quete__loupe {
-    display: block; flex: none; width: 20px; height: 20px;
+    display: none; flex: none; width: 20px; height: 20px;
     margin-left: 16px; padding-right: 12px; box-sizing: content-box;
     color: #6b7280; border-right: 1px solid #d9dde5;
   }
-  .quete input { border-radius: 0; padding: 14px 12px; background: transparent; min-width: 0; }
+  .quete input { border-radius: 12px 0 0 12px; padding: 14px 16px; background: transparent; min-width: 0; }
   .quete input:focus { outline: none; }
   .quete:focus-within { outline: 2px solid var(--or-logo); outline-offset: 2px; }
   .quete button {
-    flex: none; align-self: stretch; border-radius: 0 999px 999px 0;
+    flex: none; align-self: stretch; border-radius: 0 12px 12px 0;
     background: var(--or-logo); color: #0f1524; padding: 0 20px;
   }
 }
@@ -3438,7 +3438,7 @@ select:focus-visible, textarea:focus-visible, summary:focus-visible,
 /* Filet de sécurité : un élément qui déborde ne doit plus jamais élargir la
    page entière. `clip` et non `hidden` : pas de conteneur de défilement créé,
    les en-têtes collants (position: sticky) continuent de fonctionner. */
-html, body { overflow-x: clip; }
+html:has(.accueil-test), body:has(.accueil-test) { overflow-x: clip; }
 
 /* La sortie en bas de fiche — voir _fiche.html.
    Pleine largeur et en contour : c'est une porte, pas l'action principale de
@@ -4343,3 +4343,327 @@ body.a-consentement .banc { display: none; }
 .texte-form input, .texte-form textarea { padding: 8px 10px; border: 1px solid #d5d9e3; border-radius: 8px; font: inherit; width: 100%; box-sizing: border-box; }
 .texte-form input::placeholder, .texte-form textarea::placeholder { color: #9aa1b4; }
 .texte-form button { align-self: flex-start; }
+
+/* --- accueil de test : recherche par taille, réassurance, onglets, marques, guides --- */
+.trouve {
+  background: var(--nuit); color: #fff; border-radius: 14px;
+  padding: 20px 22px; margin: 18px 0;
+}
+.trouve h2 { margin: 0 0 12px; font-size: 20px; }
+.trouve__form { display: grid; gap: 12px; grid-template-columns: repeat(3, 1fr) auto; align-items: end; }
+.trouve__form label { display: flex; flex-direction: column; gap: 5px; font-size: 13px; color: var(--sur-nuit); }
+.trouve__form select {
+  height: 44px; border-radius: 8px; border: 0; padding: 0 10px;
+  font-size: 15px; background: #fff; color: var(--ink);
+}
+.trouve__form .bouton { height: 44px; }
+.rassure ul {
+  list-style: none; margin: 0 0 22px; padding: 0; display: grid; gap: 12px;
+  grid-template-columns: repeat(4, 1fr);
+}
+.rassure li {
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 14px 16px; display: flex; flex-direction: column; gap: 3px;
+}
+.rassure li b { font-size: 15px; }
+.rassure li span { font-size: 13px; color: var(--muted); }
+.onglets { display: flex; gap: 8px; margin: 0 0 14px; overflow-x: auto; }
+.onglets__bouton {
+  border: 1px solid var(--line); background: var(--card); color: var(--ink);
+  border-radius: 999px; padding: 8px 18px; font-size: 14.5px; font-weight: 600;
+  cursor: pointer; white-space: nowrap;
+}
+.onglets__bouton[aria-selected="true"] { background: var(--nuit); color: #fff; border-color: var(--nuit); }
+[data-panneau][hidden] { display: none !important; }
+.marques-accueil, .guides-accueil { margin: 34px 0; }
+.marques-accueil__liste {
+  list-style: none; margin: 0; padding: 0; display: grid; gap: 10px;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+}
+.marques-accueil__liste a {
+  display: block; text-align: center; padding: 16px 10px; font-weight: 700;
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+  color: var(--nuit); text-decoration: none;
+}
+.marques-accueil__liste a:hover { border-color: var(--or); }
+.guides-accueil__grille { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+.guides-accueil__carte {
+  display: flex; flex-direction: column; gap: 6px; padding: 16px 18px;
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+  color: var(--ink); text-decoration: none;
+}
+.guides-accueil__carte:hover { border-color: var(--or); }
+.guides-accueil__carte span { font-size: 13.5px; color: var(--muted); line-height: 1.5; }
+@media (max-width: 760px) {
+  .trouve__form { grid-template-columns: 1fr 1fr; }
+  .trouve__form .bouton { grid-column: 1 / -1; }
+  .rassure ul { grid-template-columns: 1fr 1fr; }
+}
+
+/* accueil de test : des bandes pleine largeur qui alternent blanc / gris, sans ombre */
+.accueil-test { --bande-a: #fff; --bande-b: #eceef3; }
+.accueil-test > section, .accueil-test > nav.bande {
+  margin: 0; padding: 38px 0; border-radius: 0;
+  clip-path: inset(0 -100vmax);   /* la teinte déborde sur toute la largeur de l'écran */
+}
+.accueil-test > .trouve { background: var(--nuit); box-shadow: 0 0 0 100vmax var(--nuit); margin-top: 0; }
+.accueil-test > .rassure { background: var(--bande-a); box-shadow: 0 0 0 100vmax var(--bande-a); padding: 24px 0; }
+.accueil-test > nav.bande { background: var(--bande-b); box-shadow: 0 0 0 100vmax var(--bande-b); }
+.accueil-test > #bons-plans-onglets { background: var(--bande-a); box-shadow: 0 0 0 100vmax var(--bande-a); }
+.accueil-test > .marques-accueil { background: var(--bande-b); box-shadow: 0 0 0 100vmax var(--bande-b); }
+.accueil-test > .guides-accueil { background: var(--bande-a); box-shadow: 0 0 0 100vmax var(--bande-a); }
+.accueil-test > .etapes { background: var(--bande-b); box-shadow: 0 0 0 100vmax var(--bande-b); }
+.accueil-test > .pourquoi { background: var(--bande-a); box-shadow: 0 0 0 100vmax var(--bande-a); }
+.accueil-test > .faq { background: var(--bande-b); box-shadow: 0 0 0 100vmax var(--bande-b); }
+.accueil-test > .appel { background: var(--nuit); box-shadow: 0 0 0 100vmax var(--nuit); border-radius: 0; margin: 0; }
+.accueil-test > .rayon[hidden] { display: none; }
+/* cartes plates et carrées, posées sur la bande : un filet, pas d'ombre */
+.accueil-test .rassure li, .accueil-test .carte, .accueil-test .guides-accueil__carte,
+.accueil-test .marques-accueil__liste a, .accueil-test .etapes__liste li,
+.accueil-test .faq__item { border-radius: 0; box-shadow: none; border: 1px solid #d9dce4; background: #fff; }
+.accueil-test .rassure li { border-top: 1px solid #d9dce4; }
+.accueil-test .marques-accueil__liste a, .accueil-test .guides-accueil__carte { border-left-width: 1px; border-bottom-width: 1px; }
+.accueil-test .trouve__form select, .accueil-test .trouve__form .bouton { border-radius: 0; }
+.accueil-test > .trouve { border-bottom: 0; }
+html:has(.accueil-test), body:has(.accueil-test) { overflow-x: clip; }
+@media (max-width: 760px) { .accueil-test > section, .accueil-test > nav.bande { padding: 28px 0; } }
+/* « Comment ça marche » : les cartes d'origine (arrondies), avec leur ombre */
+.accueil-test .etapes__liste li {
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+  box-shadow: 0 1px 3px rgba(15, 21, 36, .06), 0 10px 26px rgba(15, 21, 36, .08);
+}
+@media (max-width: 600px) {
+  /* les cartes d'origine, en ligne : le numéro ne colle plus au bord de la carte */
+  .accueil-test .etapes__liste { gap: 10px; }
+  .accueil-test .etapes__liste li { padding: 14px 16px; column-gap: 14px; align-items: start; }
+  .accueil-test .etapes__liste li .etapes__n { margin-top: 1px; }
+}
+
+/* accueil de test : les logos de marques, en grille de cases égales */
+.marques-logos {
+  list-style: none; margin: 0; padding: 0; display: grid; gap: 12px;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+}
+.marques-logos a {
+  display: flex; align-items: center; justify-content: center; height: 84px;
+  background: #fff; border: 1px solid #d9dce4; padding: 14px 18px;
+}
+.marques-logos img {
+  max-width: 100%; max-height: 100%; object-fit: contain;
+  filter: grayscale(1); opacity: .8; transition: filter .15s, opacity .15s;
+}
+.marques-logos a:hover { border-color: var(--or); }
+.marques-logos a:hover img { filter: none; opacity: 1; }
+@media (max-width: 600px) { .marques-logos { grid-template-columns: repeat(2, 1fr); } }
+/* les logos défilent sur le côté, comme les rangées de produits */
+.rayon__piste.marques-logos { grid-template-columns: none; grid-auto-columns: 170px; gap: 12px; }
+@media (max-width: 600px) { .rayon__piste.marques-logos { grid-template-columns: none; grid-auto-columns: 140px; } }
+/* logos de marques : posés directement sur la bande, sans cadre ni séparateur */
+.marques-logos a { background: transparent; border: 0; }
+.marques-logos a:hover { border: 0; }
+.titre-lien { color: inherit; text-decoration: none; }
+.titre-lien:hover { text-decoration: underline; text-decoration-color: var(--or); text-underline-offset: 4px; }
+/* accueil de test : bandes plus serrées */
+.accueil-test > section, .accueil-test > nav.bande { padding: 22px 0; }
+.accueil-test > .rassure { padding: 16px 0; }
+.accueil-test > .appel { padding-top: 28px; padding-bottom: 28px; }
+.accueil-test .titre-centre { margin-bottom: 16px; }
+@media (max-width: 760px) { .accueil-test > section, .accueil-test > nav.bande { padding: 18px 0; } }
+.accueil-test > section, .accueil-test > nav.bande { padding-bottom: 12px; }
+.accueil-test > .rassure { padding-bottom: 10px; }
+.accueil-test > .appel { padding-bottom: 20px; }
+@media (max-width: 760px) { .accueil-test > section, .accueil-test > nav.bande { padding-bottom: 10px; } }
+.accueil-test > .pub { margin: 18px 0; }
+.accueil-test > .pub .pub__mention { display: none; }
+.accueil-test > .pub .pub__cadre img { border-radius: 3px; }
+/* bannière plus large que la colonne : jusqu'à 1280 px, ou bord à bord sur mobile */
+.accueil-test > .pub { width: min(100vw, 1280px); margin-left: calc(50% - min(50vw, 640px)); max-width: none; }
+.accueil-test > .pub .pub__cadre img { border: 0; }
+/* plus de barre de défilement grise sous les onglets */
+.onglets { scrollbar-width: none; -ms-overflow-style: none; }
+.onglets::-webkit-scrollbar { display: none; }
+/* sur mobile, les rangées qui défilent vont jusqu'au bord de l'écran au lieu d'être coupées net à la marge */
+@media (max-width: 760px) {
+  .accueil-test .rayon__piste, .accueil-test .onglets, .accueil-test .bande__piste {
+    margin-right: -20px; padding-right: 20px; scroll-padding-right: 20px;
+  }
+}
+/* pictos du bandeau d'engagements : même hauteur utile, alignés à gauche */
+.accueil-test .rassure li img { display: block; height: 44px; width: auto; max-width: 100%; margin-bottom: 8px; align-self: flex-start; }
+.accueil-test .rassure li img[src*="marchands"] { height: 36px; margin-top: 4px; margin-bottom: 12px; }
+.accueil-test > #nouveautes { background: var(--bande-b); box-shadow: 0 0 0 100vmax var(--bande-b); }
+/* engagements : titres seuls, en rangée qui défile */
+.accueil-test .rassure ul.rayon__piste { display: grid; grid-auto-flow: column; grid-template-columns: none; grid-auto-columns: minmax(220px, 1fr); gap: 12px; margin: 0; }
+.accueil-test .rassure li { justify-content: center; min-height: 96px; }
+.accueil-test .rassure li b { font-size: 15.5px; }
+@media (max-width: 760px) { .accueil-test .rassure ul.rayon__piste { grid-auto-columns: 200px; margin-right: -20px; padding-right: 20px; } }
+/* engagements : le picto à gauche, le texte à droite */
+.accueil-test .rassure li { flex-direction: row; align-items: center; gap: 14px; }
+.accueil-test .rassure li img, .accueil-test .rassure li img[src*="marchands"] {
+  flex: none; height: 44px; width: auto; max-width: 60px; margin: 0; align-self: center;
+}
+/* bannière du marchand : plus modeste sur ordinateur (le mobile ne change pas) */
+@media (min-width: 761px) {
+  .accueil-test > .pub { width: min(100%, 860px); max-width: 860px; margin: 18px auto; }
+}
+
+/* --- accueil de test : le curseur « combien investir » --------------------- */
+.accueil-test > .budget {
+  background: var(--nuit); box-shadow: 0 0 0 100vmax var(--nuit); color: #fff; padding: 30px 0 32px;
+}
+.budget h2 { margin: 0 0 6px; font-size: 30px; line-height: 1.15; max-width: 760px; }
+.budget__mot { color: var(--or); font-style: italic; font-weight: 500; }
+.budget__sous { margin: 0 0 18px; color: var(--sur-nuit); font-size: 15px; }
+.budget__sous b { color: #fff; }
+.budget__pills { display: flex; gap: 8px; flex-wrap: wrap; margin: 0 0 20px; }
+.budget__pill {
+  border: 1px solid rgba(255,255,255,.28); background: transparent; color: #fff;
+  border-radius: 0; padding: 8px 18px; font-size: 14.5px; font-weight: 600; cursor: pointer;
+}
+.budget__pill[aria-selected="true"] { background: var(--or); border-color: var(--or); color: #14181f; }
+.budget__zone { position: relative; max-width: 760px; padding-top: 70px; }
+.budget__bulle {
+  position: absolute; top: 0; width: 220px; display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  background: var(--or); color: #14181f; text-decoration: none; padding: 9px 14px; border-radius: 6px;
+}
+.budget__bulle span { display: flex; flex-direction: column; line-height: 1.2; }
+.budget__bulle b { font-size: 17px; }
+.budget__bulle small { font-size: 12.5px; }
+.budget__bulle::after {   /* la queue qui descend vers le curseur */
+  content: ""; position: absolute; left: 50%; bottom: -7px; width: 14px; height: 14px; background: var(--or);
+  transform: translateX(-50%) rotate(45deg);
+}
+.budget__piste { position: relative; height: 74px; }
+.budget__barres { position: absolute; inset: 0; display: flex; align-items: flex-end; gap: 3px; }
+.budget__barres i { flex: 1; background: rgba(255,255,255,.18); border-radius: 1px 1px 0 0; }
+.budget__barres i.dedans { background: rgba(245,179,1,.75); }
+.budget__piste input[type=range] {
+  position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; background: transparent;
+  -webkit-appearance: none; appearance: none; cursor: pointer;
+}
+.budget__piste input[type=range]::-webkit-slider-runnable-track { height: 74px; background: transparent; }
+.budget__piste input[type=range]::-moz-range-track { height: 74px; background: transparent; }
+.budget__piste input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 26px; height: 26px; margin-top: 24px; border-radius: 50%;
+  background: #fff; border: 5px solid var(--or); box-shadow: 0 2px 8px rgba(0,0,0,.4);
+}
+.budget__piste input[type=range]::-moz-range-thumb {
+  width: 16px; height: 16px; border-radius: 50%; background: #fff; border: 5px solid var(--or);
+}
+.budget__piste input[type=range]:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
+.budget__actions { margin-top: 20px; }
+.budget__btn {
+  display: inline-flex; align-items: center; gap: 8px; background: #fff; color: #14181f;
+  padding: 11px 22px; font-weight: 700; font-size: 15px; text-decoration: none; border-radius: 4px;
+}
+.budget__btn:hover { background: var(--or); }
+@media (max-width: 760px) {
+  .budget h2 { font-size: 23px; }
+  .budget__bulle { width: 200px; }
+}
+
+/* budget : pastilles + « Voir tout » sur la même ligne, curseur sur toute la largeur */
+.budget__pills { align-items: center; margin-bottom: 8px; }
+.budget__pills .budget__btn { margin-left: 6px; padding: 9px 20px; }
+.budget__zone { max-width: none; padding-top: 74px; }
+.accueil-test > .budget { padding-bottom: 26px; }
+
+/* accueil de test : Barlow Condensed pour les titres, Barlow pour les repères */
+.accueil-test h2, .accueil-test h3, .accueil-test .rassure li b, .accueil-test .guides-accueil__carte b {
+  font-family: "Barlow Condensed", "Source Sans 3", system-ui, sans-serif;
+  font-weight: 700; text-transform: uppercase; letter-spacing: .02em;
+}
+.accueil-test h2 { font-size: 30px; line-height: 1.1; }
+.accueil-test .budget h2 { font-size: 36px; }
+.accueil-test .budget__mot { font-weight: 600; text-transform: none; }
+.accueil-test h3 { font-size: 20px; }
+.accueil-test .rassure li b { font-size: 17px; }
+.accueil-test .guides-accueil__carte b { font-size: 19px; line-height: 1.15; }
+.accueil-test .rayon__oeil, .accueil-test .rayon__plus, .accueil-test .onglets__bouton,
+.accueil-test .budget__pill, .accueil-test .budget__btn, .accueil-test .bande__nom {
+  font-family: Barlow, Roboto, system-ui, sans-serif; font-weight: 600;
+  letter-spacing: .04em; text-transform: uppercase;
+}
+.accueil-test .rayon__plus, .accueil-test .onglets__bouton, .accueil-test .budget__pill, .accueil-test .budget__btn { font-size: 14px; }
+@media (max-width: 760px) { .accueil-test h2 { font-size: 25px; } .accueil-test .budget h2 { font-size: 28px; } }
+.accueil-test .budget h2 { font-size: 33px; max-width: none; }
+
+/* essai : barre jaune et bleue sous le titre, sur « Nouveautés » seulement */
+.accueil-test #nouveautes h2::after {
+  content: ""; display: block; width: 72px; height: 5px; margin-top: 8px;
+  background: linear-gradient(90deg, var(--or) 0 62%, #1f3a8a 62% 100%);
+}
+/* engagements : cartes moins hautes */
+.accueil-test .rassure li { min-height: 0; padding: 7px 16px; }
+.accueil-test .rassure li img, .accueil-test .rassure li img[src*="marchands"] { height: 38px; }
+.accueil-test > .rassure { padding-top: 12px; padding-bottom: 8px; }
+/* engagements : le picto commence toujours au bord gauche, dans une colonne de largeur fixe */
+.accueil-test .rassure li img, .accueil-test .rassure li img[src*="marchands"] {
+  width: 52px; height: 38px; max-width: none; object-fit: contain; object-position: left center;
+}
+.accueil-test .rassure li { justify-content: flex-start; }
+
+/* budget sur mobile : titre plus compact, pastilles sur UNE ligne qui défile */
+@media (max-width: 760px) {
+  .accueil-test .budget h2 { font-size: 26px; line-height: 1.08; }
+  .accueil-test > .budget { padding-top: 22px; }
+  .budget__sous { font-size: 13.5px; margin-bottom: 14px; }
+  .budget__pills { flex-wrap: nowrap; overflow-x: auto; margin-right: -20px; padding-right: 20px; scrollbar-width: none; }
+  .budget__pills::-webkit-scrollbar { display: none; }
+  .budget__pill, .budget__pills .budget__btn { flex: none; white-space: nowrap; padding: 8px 14px; font-size: 13px; }
+  .budget__zone { padding-top: 66px; }
+}
+.accueil-test .appel .bouton { border-radius: 12px; }
+
+/* mobile : plus de bouton « Comparatif » dans l'en-tête (comparer et favoris vont fusionner) */
+@media (max-width: 760px) { .tete__action--or { display: none; } }
+/* accueil de test : plus de pastille « N marchands » sur les cartes produit */
+.accueil-test .carte .puce { display: none; }
+/* pastilles « Nouveau » et « −N % » : en haut à gauche de l'image, sur la ligne de l'icône comparer */
+.accueil-test .carte .pastille { top: 10px; left: 10px; }
+
+/* cartes de l'accueil de test : le prix d'abord, puis le nom, la marque en repère */
+.accueil-test .carte__marque { font-size: 12px; letter-spacing: .06em; }
+.accueil-test .carte__nom { font-size: 15px; line-height: 1.3; }
+.accueil-test .carte__prix { font-size: 19px; }
+.accueil-test .carte__barre { font-size: 13px; }
+
+/* variante B : bandeau des marchands sous le budget, rangée des baisses */
+.accueil-test > .marchands-bandeau {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px 28px;
+  background: var(--bande-a); box-shadow: 0 0 0 100vmax var(--bande-a); padding: 14px 0;
+}
+.marchands-bandeau__titre { font-family: Barlow, Roboto, sans-serif; font-weight: 600; font-size: 13px;
+  letter-spacing: .06em; text-transform: uppercase; color: var(--doux); }
+.marchands-bandeau__liste { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap;
+  align-items: center; justify-content: center; gap: 10px 26px; }
+.marchands-bandeau__liste img { display: block; height: 26px; width: auto; }
+.accueil-test > #baisses { background: var(--bande-a); box-shadow: 0 0 0 100vmax var(--bande-a); }
+@media (max-width: 760px) {
+  .accueil-test > .marchands-bandeau { padding: 12px 0; gap: 8px 18px; }
+  .marchands-bandeau__liste { gap: 8px 18px; }
+  .marchands-bandeau__liste img { height: 22px; }
+}
+@media (max-width: 760px) {
+  /* marchands : une seule ligne qui défile, plus une pile de logos */
+  .accueil-test > .marchands-bandeau { flex-wrap: nowrap; justify-content: flex-start; gap: 16px; overflow-x: auto; scrollbar-width: none; }
+  .accueil-test > .marchands-bandeau::-webkit-scrollbar { display: none; }
+  .marchands-bandeau__titre { flex: none; }
+  .marchands-bandeau__liste { flex-wrap: nowrap; flex: none; justify-content: flex-start; }
+  .marchands-bandeau__liste li { flex: none; }
+  .marchands-bandeau__liste img { height: 20px; }
+}
+
+/* variante C : sans affiche, le budget colle l'en-tête (pas de marge au-dessus) */
+.accueil-test > .budget:first-child { margin-top: 0; }
+
+/* le logo MC en filigrane dans le bloc budget : grand, à droite, rogné par les bords */
+.accueil-test > .budget { position: relative; }
+.budget__filigrane {
+  position: absolute; right: -40px; top: 50%; transform: translateY(-50%);
+  height: 125%; width: auto; max-width: none; opacity: .11; pointer-events: none; z-index: 0;
+}
+.budget > *:not(.budget__filigrane) { position: relative; z-index: 1; }
+@media (max-width: 760px) { .budget__filigrane { right: -90px; height: 80%; top: 62%; opacity: .08; } }
+.budget__filigrane { height: 92%; right: 10px; }
+@media (max-width: 760px) { .budget__filigrane { height: 62%; right: -60px; } }

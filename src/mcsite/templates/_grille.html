@@ -9,8 +9,6 @@
 #}
 {% macro actions(it) -%}
 <span class="actions-carte">
-  <button type="button" class="action-carte" data-favori="{{ it.slug }}"
-          aria-label="Mettre de côté" title="Mettre de côté">{{ act.ico_favori() }}</button>
   <button type="button" class="action-carte" data-comparer="{{ it.slug }}"
           data-vignette="{{ it.image_url or '' }}"
           aria-label="Ajouter au comparateur" title="Ajouter au comparateur">{{ act.ico_comparer() }}</button>

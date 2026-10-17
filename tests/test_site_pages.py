@@ -79,18 +79,22 @@ def test_une_fiche_inconnue_est_un_404_pas_un_500(client):
     assert client.get("/p/ce-slug-n-existe-pas-du-tout").status_code == 404
 
 
-def test_l_affiche_est_toujours_servie(client):
-    """Un `<source>` retenu mais introuvable n'affiche pas l'image de repli : il
-    n'affiche rien. L'affiche disparaîtrait de l'accueil sans qu'aucune erreur
-    ne soit levée — c'est pourquoi la présence du fichier est vérifiée ici, et
-    pas seulement celle de la balise."""
+def test_l_accueil_ouvre_sur_le_budget_et_ses_images_existent(client):
+    """L'accueil n'a plus d'affiche (retiree le 17/10/2026 : elle repoussait le
+    curseur de budget sous la ligne de flottaison, 665 px sur mobile). Il garde
+    un <h1> masque a l'oeil, et chaque image qu'il reference doit exister : un
+    logo de marque ou un picto manquant ne leve aucune erreur, il s'affiche
+    casse."""
     import re
     from pathlib import Path
 
     from mcsite import app as mod
     h = client.get("/").text
-    sources = re.findall(r'srcset="/static/([^"?]+)', h) + \
-              re.findall(r'<img src="/static/(affiche[^"?]+)', h)
-    assert sources, "aucune affiche dans l'accueil"
-    for nom in sources:
+    assert "<h1" in h, "l'accueil n'a plus de titre de page"
+    assert 'id="budget"' in h, "le curseur de budget a disparu de l'accueil"
+    assert "affiche-portrait" not in h, "l'affiche est revenue sans qu'on l'ait decide"
+    assert 'name="robots" content="noindex' not in h, "l'accueil est en noindex"
+    images = re.findall(r'src="/static/((?:marques-logos|reassurance|logo_filigrane)[^"?]*)', h)
+    assert images, "aucune image propre a l'accueil n'est referencee"
+    for nom in images:
         assert (Path(mod.HERE) / "static" / nom).is_file(), nom

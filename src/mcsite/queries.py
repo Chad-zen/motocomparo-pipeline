@@ -245,7 +245,8 @@ def rayons(
 
 def ecarts(conn: psycopg.Connection, limit: int = 12,
            jour: str | None = None,
-           min_marchands: int = 3) -> list[dict[str, Any]]:
+           min_marchands: int = 3,
+           ids: list[int] | None = None) -> list[dict[str, Any]]:
     """Where choosing the right merchant saves the most.
 
     A price comparison site's equivalent of a deals row — and the honest one.
@@ -300,6 +301,8 @@ def ecarts(conn: psycopg.Connection, limit: int = 12,
             -- candidats à deux marchands, 2 389 à trois, de quoi remplir
             -- largement une rangée de douze.
             WHERE s.merchant_count >= %s AND p.status <> 'merged'
+              -- `ids` : un rayon (onglets de l'accueil) ; None = tout le catalogue
+              AND (%s::smallint[] IS NULL OR p.category_id = ANY(%s::smallint[]))
               -- Pas de photo, pas de place sur l'accueil. Regle de la
               -- proprietaire, 18/09/2026 : une carte « pas de visuel » posee au
               -- milieu de onze photos ne se lit pas comme une fiche sans image,
@@ -362,7 +365,41 @@ def ecarts(conn: psycopg.Connection, limit: int = 12,
             FROM unique_marque WHERE r_marque = 1
         )
         SELECT * FROM choix ORDER BY rang, bande LIMIT %s
-    """, (min_marchands, jour, jour, limit))
+    """, (min_marchands, ids, ids, jour, jour, limit))
+
+
+def histo_prix(conn: psycopg.Connection, ids: list[int], tranches: int = 24) -> dict[str, Any]:
+    """La répartition des prix d'un rayon, pour le curseur « combien investir ».
+
+    Le haut de l'échelle est le 95e centile arrondi à un palier lisible : un
+    seul casque à 1 500 € ne doit pas écraser tout l'histogramme. Le bas est 0.
+    En dessous de 15 € ce sont des accessoires (visières, vis), écartés.
+    `cumul[i]` = nombre de fiches à `(i + 1) * pas` euros ou moins.
+    """
+    r = _row(conn, """
+        SELECT count(*) AS n,
+               percentile_cont(0.95) WITHIN GROUP (ORDER BY s.cheapest) AS p95
+        FROM product p JOIN product_stats s ON s.product_id = p.id
+        WHERE p.category_id = ANY(%s::smallint[]) AND p.status <> 'merged'
+          AND s.merchant_count >= 2 AND s.cheapest >= 15""", (ids,))
+    if not r or not r["n"]:
+        return {"max": 0, "pas": 0, "cumul": [], "total": 0}
+    haut = float(r["p95"])
+    palier = 50 if haut > 300 else 25 if haut > 120 else 10
+    maxi = int(-(-haut // palier) * palier)
+    pas = maxi / tranches
+    lignes = _rows(conn, """
+        SELECT width_bucket(s.cheapest, 0, %s, %s) AS t, count(*) AS n
+        FROM product p JOIN product_stats s ON s.product_id = p.id
+        WHERE p.category_id = ANY(%s::smallint[]) AND p.status <> 'merged'
+          AND s.merchant_count >= 2 AND s.cheapest >= 15 AND s.cheapest < %s
+        GROUP BY 1""", (maxi, tranches, ids, maxi))
+    par = {l["t"]: l["n"] for l in lignes}
+    cumul, tot = [], 0
+    for i in range(1, tranches + 1):
+        tot += par.get(i, 0)
+        cumul.append(tot)
+    return {"max": maxi, "pas": pas, "cumul": cumul, "total": int(r["n"])}
 
 
 def nouveautes(conn: psycopg.Connection, ids: list[int],
