@@ -1642,8 +1642,10 @@ body:has(.banc:not([hidden])) { padding-bottom: var(--banc-h, 94px); }
      14/09/2026. */
   .tete__menu   { order: 1; }
   .marque       { order: 2; }
-  .quete        { order: 3; flex: 1; min-width: 0; }
-  .tete__actions { order: 4; }
+  /* Ordinateur : plus de bouton Comparatif en tete (17/10/2026), et la
+     recherche se pose a droite, a largeur mesuree. Sous 900 px rien ne change. */
+  .quete        { order: 3; flex: 1; min-width: 0; max-width: 680px; margin-left: auto; }
+  .tete__actions { display: none; }
 }
 
 
