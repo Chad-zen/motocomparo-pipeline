@@ -4709,3 +4709,7 @@ html:has(.accueil-test), body:has(.accueil-test) { overflow-x: clip; }
 .remise--sobre  { --remise-fond: #e8ebf3; --remise-encre: #26355a; }
 .remise--orange { --remise-fond: #f59410; --remise-encre: #2a1800; }
 .remise--rouge  { --remise-fond: #e02424; --remise-encre: #fff; }
+
+/* boutique : le prix barre se pose a droite du prix, sur sa ligne de base */
+.grille .carte__bas, .boutique__corps .carte__bas { align-items: flex-end; column-gap: 8px; }
+.grille .carte__bas > .carte__barre, .boutique__corps .carte__bas > .carte__barre { margin-bottom: 3px; }

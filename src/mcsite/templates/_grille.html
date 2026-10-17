@@ -43,6 +43,9 @@
         <span class="carte__prix">
           <small>à partir de</small>{{ it.cheapest | prix }}
         </span>
+        {# Le prix le plus haut releve chez un marchand, barre, a droite du meilleur prix :
+           c'est la reference de la pastille d'ecart, et elle n'existe que si la pastille existe. #}
+        {% if remise %}<s class="carte__barre">{{ it.dearest | prix }}</s>{% endif %}
       </div>
       {# Une carte sans bouton ne se lit pas comme cliquable — la v1 en met un
          sur chacune, et c'est la différence entre une vignette et une offre. #}
