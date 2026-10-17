@@ -698,7 +698,10 @@ def category(
     # de facettes perdait le mot tapé — `lien_rayon` dans listing.html porte
     # maintenant le même paramètre, mais la route doit aussi savoir le lire.
     # Signalé par la propriétaire (14/10/2026).
-    f = queries.Filtres(categories=courante["ids"], texte=q.strip() or None,
+    # Les pieces et accessoires d'un rayon (`helmet.accessory`) restent des enfants
+    # pour la navigation, mais « Casques » ne les liste plus : ils faussaient le
+    # curseur de budget de l'accueil, dont le lien menait ici (17/10/2026).
+    f = queries.Filtres(categories=_ids_equipement(courante), texte=q.strip() or None,
                         marque=marque, prix_min=prix_min, prix_max=prix_max,
                         taille=taille, couleur=queries.couleur_simple(couleur),
                         matiere=queries.code_filtre(matiere),

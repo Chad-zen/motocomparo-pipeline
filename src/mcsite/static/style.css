@@ -4037,7 +4037,17 @@ html:has(.accueil-test), body:has(.accueil-test) { overflow-x: clip; }
                        "illu texte   boutons";
   background: #fff; color: var(--ink, #0f1524);
   border-radius: 18px; padding: 14px 22px 16px 16px;
-  box-shadow: 0 0 0 6px rgba(15, 21, 36, .82), 0 16px 40px rgba(8, 12, 26, .35);
+  box-shadow: 0 16px 40px rgba(8, 12, 26, .28);
+  position: relative; isolation: isolate;
+}
+/* Plus de cadre noir (la propriétaire, 17/10/2026) : un halo de verre dépoli
+   derrière la carte, la page reste devinée à travers. */
+.consentement__carte::before {
+  content: ""; position: absolute; inset: -10px; z-index: -1;
+  border-radius: 28px; pointer-events: none;
+  background: rgba(255, 255, 255, .22);
+  -webkit-backdrop-filter: blur(10px) saturate(1.2); backdrop-filter: blur(10px) saturate(1.2);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .35);
 }
 .consentement__carte:focus { outline: none; }
 .consentement__illu { grid-area: illu; width: 190px; height: auto; display: block; }
@@ -4101,8 +4111,9 @@ html:has(.accueil-test), body:has(.accueil-test) { overflow-x: clip; }
     grid-template-columns: 112px minmax(0, 1fr); gap: 4px 12px;
     grid-template-areas: "illu texte" "boutons boutons";
     padding: 12px 14px 14px; border-radius: 16px;
-    box-shadow: 0 0 0 4px rgba(15, 21, 36, .82), 0 10px 30px rgba(8, 12, 26, .35);
+    box-shadow: 0 10px 30px rgba(8, 12, 26, .28);
   }
+  .consentement__carte::before { inset: -6px; border-radius: 22px; }
   .consentement__illu { width: 112px; align-self: center; }
   .consentement__haut { display: none; }
   .consentement__titre { font-size: 17px; }
@@ -4530,11 +4541,13 @@ html:has(.accueil-test), body:has(.accueil-test) { overflow-x: clip; }
 .budget__bulle b { font-size: 17px; }
 .budget__bulle small { font-size: 12.5px; }
 .budget__bulle::after {   /* la queue qui descend vers le curseur */
-  content: ""; position: absolute; left: 50%; bottom: -7px; width: 14px; height: 14px; background: var(--or);
+  content: ""; position: absolute; left: var(--pointe, 50%); bottom: -7px; width: 14px; height: 14px; background: var(--or);
   transform: translateX(-50%) rotate(45deg);
 }
 .budget__piste { position: relative; height: 74px; }
-.budget__barres { position: absolute; inset: 0; display: flex; align-items: flex-end; gap: 3px; }
+/* 13 px de chaque côté = la moitié du rond : le rond va de 13 px à (largeur - 13 px),
+   donc il se pose exactement sur le bord droit de la dernière barre allumée. */
+.budget__barres { position: absolute; inset: 0; padding: 0 13px; display: flex; align-items: flex-end; gap: 3px; }
 .budget__barres i { flex: 1; background: rgba(255,255,255,.18); border-radius: 1px 1px 0 0; }
 .budget__barres i.dedans { background: rgba(245,179,1,.75); }
 .budget__piste input[type=range] {
@@ -4548,7 +4561,7 @@ html:has(.accueil-test), body:has(.accueil-test) { overflow-x: clip; }
   background: #fff; border: 5px solid var(--or); box-shadow: 0 2px 8px rgba(0,0,0,.4);
 }
 .budget__piste input[type=range]::-moz-range-thumb {
-  width: 16px; height: 16px; border-radius: 50%; background: #fff; border: 5px solid var(--or);
+  box-sizing: border-box; width: 26px; height: 26px; border-radius: 50%; background: #fff; border: 5px solid var(--or);
 }
 .budget__piste input[type=range]:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
 .budget__actions { margin-top: 20px; }

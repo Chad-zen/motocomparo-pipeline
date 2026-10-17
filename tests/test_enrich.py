@@ -314,6 +314,8 @@ def test_les_accessoires_des_rayons_de_vetements_sont_reconnus():
                          (9, "Sangle et boucle Alpinestars New Tech 10 Blanc"),
                          (9, "Semelles SRS Sidi SEMELLE CROSS POUR CROSSFIRE 2 SRS"),
                          (9, "Lenz Heat Sock 5.1 Toe Cap Chaussettes chauffantes"),
+                         (9, "Jambières Acerbis X-LEG PRO"), (9, "Sur-bottes Ixon YORK"),
+                         (9, "Sur-bottes Macna LAIR OVERBOOT"),
                          (8, "Sous-gants Bering ZIRTEX"), (8, "Knox Cold Killers, sous-gants , couleur: Noir"),
                          (8, "Batterie Vêtement Chauffant DXR KIT BATTERIES + CHARGEUR"),
                          (6, "Dorsale PMJ NIVEAU 1"), (6, "Doublure thermique femme Spidi THERMO LINER LADY"),

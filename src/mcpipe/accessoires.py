@@ -38,6 +38,7 @@ _ACCESSOIRES = 24
 _REGLES: dict[int, dict[str, re.Pattern]] = {
     9: {  # bottes & chaussures
         "fort": re.compile(r"\bchaussettes?\b|\bsliders?\b|\bsemelles?\b|\bcirage\b|\bnettoyant\b"
+                           r"|\bjambieres?\b|\bsur ?bottes?\b|\bgenouilleres?\b|\bprotege ?tibias?\b"
                            r"|\bgraisse\b|\bimpermeabilisant\b|\bpieces? detachees?\b|\bde remplacement\b"),
         "faible": re.compile(r"\bsangles?\b|\bboucles?\b|\blacets?\b|\bembouts?\b|\bkit\b|\bsac\b"),
         "vetement": re.compile(r"\b(?:bottes?|bottines?|chaussures?|baskets?|boots?|sneakers?|brodequins?)\b"),

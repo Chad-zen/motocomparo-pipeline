@@ -64,15 +64,20 @@
   }
   function maj() {
     var d = D[cur], v = +rg.value, n = d.cumul.length, prix = Math.round(v * d.pas),
-        nb = d.cumul[v - 1], pct = (v - 0.5) / n * 100;
+        nb = d.cumul[v - 1];
     document.getElementById('budget-prix').textContent = 'Moins de ' + eur(prix);
     document.getElementById('budget-voir').textContent = 'Voir les ' + nb.toLocaleString('fr-FR') + ' produits';
     bulle.href = '/c/' + d.code + '?prix_max=' + prix;
-    bulle.style.left = 'clamp(0px, calc(' + pct + '% - 110px), calc(100% - 220px))';
+    // le rond est au bord droit de la v-ième barre ; la bulle s'y accroche
+    var L = piste.clientWidth, x = 13 + v / n * (L - 26), lb = bulle.offsetWidth || 220,
+        gauche = Math.max(0, Math.min(x - lb / 2, L - lb));
+    bulle.style.left = gauche + 'px';
+    bulle.style.setProperty('--pointe', (x - gauche) + 'px');
     var bs = barres.children;
     for (var i = 0; i < bs.length; i++) bs[i].className = i < v ? 'dedans' : '';
   }
   rg.addEventListener('input', maj);
+  window.addEventListener('resize', maj);
   hote.querySelectorAll('[data-rayon]').forEach(function (b) {
     b.addEventListener('click', function () {
       cur = +b.dataset.rayon;
