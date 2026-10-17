@@ -304,3 +304,33 @@ def test_deuxieme_tour_de_mots_de_pieces():
                   "Oneal 5Series Rider Casque", "Casque intégral Arai Quantic Peak rouge- S",
                   "Casque modulable Shark Evo-One 2 à mentonnière relevable"):
         assert is_helmet_accessory(titre) is False, titre
+
+
+# --- accessoires des rayons de vetements (17/10/2026) -----------------------------
+def test_les_accessoires_des_rayons_de_vetements_sont_reconnus():
+    from mcpipe.accessoires import est_un_accessoire_vetement as piece
+
+    for rayon, titre in ((9, "Chaussettes Alpinestars Mx Plus-1 jaune fluo cool/gris- S"),
+                         (9, "Sangle et boucle Alpinestars New Tech 10 Blanc"),
+                         (9, "Semelles SRS Sidi SEMELLE CROSS POUR CROSSFIRE 2 SRS"),
+                         (9, "Lenz Heat Sock 5.1 Toe Cap Chaussettes chauffantes"),
+                         (8, "Sous-gants Bering ZIRTEX"), (8, "Knox Cold Killers, sous-gants , couleur: Noir"),
+                         (8, "Batterie Vêtement Chauffant DXR KIT BATTERIES + CHARGEUR"),
+                         (6, "Dorsale PMJ NIVEAU 1"), (6, "Doublure thermique femme Spidi THERMO LINER LADY"),
+                         (7, "Rokker Oakland Ceinture"), (7, "Sliders Genoux Alpinestars GP SPORT EVO"),
+                         (7, "Klim Deluxe Bretelles")):
+        assert piece(rayon, titre) is True, titre
+
+
+def test_un_vrai_vetement_n_est_pas_pris_pour_un_accessoire():
+    from mcpipe.accessoires import est_un_accessoire_vetement as piece
+
+    for rayon, titre in ((9, "Bottes Alpinestars Tech 10 à boucle de serrage"),
+                         (9, "Baskets moto Ixon Bull 2 WP noir"),
+                         (8, "Gants cross O'Neal MATRIX YOUTH - VILLAIN"),
+                         (8, "Gants Dane JURS avec doublure thermique"),
+                         (6, "Veste de pluie Macna SPRAY FEMME"),     # « Spray » est le nom de la gamme
+                         (6, "Blouson Dainese Tempest 4 avec protections et doublure"),
+                         (7, "FXR Ridge Pro Trilaminate Cuissard à bretelles pour motoneige"),
+                         (7, "Pantalon Rev'it Cayenne avec ceinture et genouillères")):
+        assert piece(rayon, titre) is False, titre

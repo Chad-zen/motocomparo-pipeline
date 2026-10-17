@@ -784,18 +784,20 @@ def importer_web(
 def accessoires_casque(
     appliquer: bool = typer.Option(False, "--appliquer", help="ecrire ; sans cela, on compte seulement"),
 ) -> None:
-    """Range en « Pieces et accessoires casque » les fiches casque qui n'en sont pas."""
-    from .accessoires import ranger_accessoires_casque
+    """Range en accessoires les fiches casque, bottes, gants, blousons et pantalons qui n'en sont pas."""
+    from .accessoires import ranger_accessoires
 
-    r = ranger_accessoires_casque(appliquer)
-    console.print(f"{r.fiches_casque:,} fiches casque examinees, {r.a_ranger:,} ne sont que des pieces, "
-                  f"{r.mixtes:,} melangent pieces et casques (laissees telles quelles)")
-    for titre in r.exemples:
-        console.print(f"  - {titre}")
-    console.print("les plus chers (a relire : une piece coute peu) :")
-    for ligne in r.plus_chers:
-        console.print(f"  - {ligne}")
+    res = ranger_accessoires(appliquer)
+    for nom, r in res.rayons.items():
+        console.print(f"[bold]{nom}[/] : {r.fiches:,} fiches examinees, {r.a_ranger:,} ne sont que des pieces, "
+                      f"{r.mixtes:,} melangent pieces et vrais produits (laissees)")
+        for titre in r.exemples[:6]:
+            console.print(f"    - {titre}")
+        if r.plus_chers:
+            console.print("    les plus chers (a relire : une piece coute peu) :")
+            for ligne in r.plus_chers[:6]:
+                console.print(f"    - {ligne}")
     if appliquer:
-        console.print(f"[green]ok[/] {r.rangees:,} fiches rangees en categorie 30")
+        console.print(f"[green]ok[/] {res.rangees:,} fiches rangees")
     else:
         console.print("[dim]rien d'ecrit : relancer avec --appliquer[/]")

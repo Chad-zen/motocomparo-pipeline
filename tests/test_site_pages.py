@@ -147,3 +147,16 @@ def test_toutes_les_categories_garde_la_taille_et_la_marque(client):
     lien = m.group(1).replace("&amp;", "&")
     assert lien.startswith("/produits?"), lien
     assert "taille=M" in lien and "marque=alpinestars" in lien, lien
+
+
+def test_la_courbe_de_budget_ignore_les_accessoires_du_rayon():
+    """17/10/2026 : « un casque a moins de 27 euros, ca n'existe pas » -- la courbe
+    comptait les visieres, ecrans et pare-soleil de `helmet.accessory`, enfant du rayon."""
+    from mcsite.app import _ids_equipement
+
+    rayon = {"ids": [1, 2, 3, 5, 30, 4],
+             "enfants": [{"id": 2, "code": "helmet.integral"}, {"id": 30, "code": "helmet.accessory"},
+                         {"id": 3, "code": "helmet.jet"}]}
+    assert _ids_equipement(rayon) == [1, 2, 3, 5, 4]
+    # un rayon sans enfants (gants, bottes) ne change pas
+    assert _ids_equipement({"ids": [8], "enfants": []}) == [8]

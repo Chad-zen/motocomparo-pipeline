@@ -442,7 +442,7 @@ def _nouveautes_variees(conn) -> list[dict]:
         # et deux appels par rayon faisaient 16 s a froid. Les fiches deja
         # comparees passent devant par un tri stable, l'ordre du tour de role
         # par marque est conserve a l'interieur de chaque groupe.
-        toutes = queries.nouveautes(conn, rayon["ids"], 40, min_marchands=1)
+        toutes = queries.nouveautes(conn, _ids_equipement(rayon), 40, min_marchands=1)
         par_rayon.append(sorted(toutes, key=lambda it: it["merchant_count"] < 2))
     retenues, par_marque = [], {}
     rang = 0
@@ -455,6 +455,20 @@ def _nouveautes_variees(conn) -> list[dict]:
                     retenues.append(it)
         rang += 1
     return retenues
+
+
+def _ids_equipement(rayon: dict) -> list[int]:
+    """Les categories d'un rayon SANS ses pieces et accessoires (`*.accessory`).
+
+    La courbe de budget, les bons plans et les nouveautes de l'accueil parlent de
+    ce qu'on achete pour rouler : un visiteur qui cherche « combien pour mon
+    prochain casque » ne veut pas voir une visiere a 16 EUR dans la courbe (« un
+    casque a moins de 27 euros, ca n'existe pas », 17/10/2026). Les categories
+    d'accessoires restent des enfants du rayon pour la navigation ; elles ne
+    comptent simplement pas ici.
+    """
+    pieces = {e["id"] for e in rayon.get("enfants", []) if e["code"].endswith(".accessory")}
+    return [i for i in rayon["ids"] if i not in pieces]
 
 
 def _section_accueil(cle: str, fabrique, defaut):
@@ -494,7 +508,7 @@ def _onglets_accueil() -> list:
         onglets = []
         for code, titre in _ONGLETS_ACCUEIL:
             rayon = queries.find_category(_rayons(), code)
-            items = (queries.ecarts(conn, 6, min_marchands=2, ids=rayon["ids"])
+            items = (queries.ecarts(conn, 6, min_marchands=2, ids=_ids_equipement(rayon))
                      if rayon else [])
             if items:
                 onglets.append({"code": code, "titre": titre, "produits": items})
@@ -506,7 +520,7 @@ def _budget_accueil() -> list:
         budget = []
         for code, _titre, phrase in _BUDGETS_ACCUEIL:
             rayon = queries.find_category(_rayons(), code)
-            h = queries.histo_prix(conn, rayon["ids"]) if rayon else None
+            h = queries.histo_prix(conn, _ids_equipement(rayon)) if rayon else None
             if h and h["max"]:
                 budget.append({"code": code, "phrase": phrase, "label": rayon["label_fr"], **h})
         return budget
