@@ -778,3 +778,21 @@ def importer_web(
     r = importer(extraction, verification, ids)
     console.print(f"[green]ok[/] {r['retenues']} valeurs retenues, {r['ecrites']} ecrites, "
                   f"{r['refusees']} refusees")
+
+
+@app.command("accessoires-casque")
+def accessoires_casque(
+    appliquer: bool = typer.Option(False, "--appliquer", help="ecrire ; sans cela, on compte seulement"),
+) -> None:
+    """Range en « Pieces et accessoires casque » les fiches casque qui n'en sont pas."""
+    from .accessoires import ranger_accessoires_casque
+
+    r = ranger_accessoires_casque(appliquer)
+    console.print(f"{r.fiches_casque:,} fiches casque examinees, {r.a_ranger:,} ne sont que des pieces, "
+                  f"{r.mixtes:,} melangent pieces et casques (laissees telles quelles)")
+    for titre in r.exemples:
+        console.print(f"  - {titre}")
+    if appliquer:
+        console.print(f"[green]ok[/] {r.rangees:,} fiches rangees en categorie 30")
+    else:
+        console.print("[dim]rien d'ecrit : relancer avec --appliquer[/]")

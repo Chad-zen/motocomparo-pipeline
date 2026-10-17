@@ -134,7 +134,9 @@ def test_a_helmet_whose_model_name_contains_visor_is_not_an_accessory():
 
 def test_accessories_outrank_borrowing():
     # whatever a neighbour calls it, a visor is not a helmet
-    assert decide_helmet_category("Shark RS Jet Visière", [JET], None) == UNKNOWN
+    # 17/10/2026 : une piece de casque va en categorie 30, pas en « non classe »
+    # (25), pour qu'elle retrouve son rayon plutot que de disparaitre
+    assert decide_helmet_category("Shark RS Jet Visière", [JET], None) == 30
 
 
 def test_flip_is_not_a_modular_keyword():
@@ -261,3 +263,28 @@ def test_la_garde_contre_le_code_barres_reutilise_ignore_la_vente():
     réutilisation reste un fait : restreindre la garde aux offres vivantes
     l'affaiblirait au moment précis où elle sert."""
     assert "is_live" not in _sans_commentaires(_bloc("WITH parent_ean AS ("))
+
+
+# 17/10/2026 : lunettes, casquettes, coussinets et pare-soleil dans les pages casque
+# integral et casque cross. Le titre d'une piece FC-Moto finit par son type.
+def test_les_pieces_sans_mot_visiere_sont_des_accessoires():
+    for titre in ("MOMO Hornet Coussinets de joue", "GIVI 10.8 / HX05 Pare-soleil",
+                  "Scott 550 Series Ensemble de vis", "Suomy 3Logy Couvrir",
+                  "Bogotto V587 / Casque universel Peak", "Redbike Hip Casque Peak",
+                  "FOX V2 Voke Helmet Peak", "Oneal Volt V1 Pic casque",
+                  "Scorpion Lunettes Lentilles", "Nolan N70-2 X Rideau de menton",
+                  "Alpinestars Supertech R7 Déflecteur de souffle",
+                  "Oxford Message Pare-chocs casque", "Nolan N80-8 Clima Comfort Doublure intérieure",
+                  "Sac à casque Alpinestars S-M8 SOFT", "Bonnet sous casque Shot FILET"):
+        assert is_helmet_accessory(titre) is True, titre
+
+
+def test_un_vrai_casque_n_est_pas_pris_pour_une_piece():
+    # « Peak » est une version (720 EUR) ; « avec lunettes » / « avec masque » un lot
+    # vendu avec le casque ; « Seventy4 » contient « event » ; un casque s'ecrit
+    # en commencant par « Casque ».
+    for titre in ("Casque intégral Arai Quantic Peak rouge- S", "Casque cross Arai MX-V Evo Peak jaune- XS",
+                  "Leatt ADV 8.5 Casque avec lunettes", "Casque cross Leatt 8.5 avec masque 5.5 2025",
+                  "Fox Racing V3 Seventy4 white- L", "FOX V3 Seventy4 MIPS Casque de motocross",
+                  "Casque jet LS2 Airflow avec pare-soleil intégré", "Shoei NXR2 Casque intégral"):
+        assert is_helmet_accessory(titre) is False, titre

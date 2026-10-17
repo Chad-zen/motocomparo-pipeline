@@ -115,6 +115,30 @@ _FITS_A_HELMET = re.compile(r"(?:du|de|pour)\s+(?:le\s+)?(?:casque|helmet)"
 # or "de casque" to overrule the word "casque" in the title, and "Pièces
 # détachées casque" has neither.
 _IS_A_SPARE_PART = re.compile(r"pieces? detachees?|spare parts?")
+# LES PIECES QUI NE DISENT NI « VISIERE » NI « PIECE DETACHEE » (17/10/2026). La
+# proprietaire a trouve des lunettes et des casquettes dans les pages casque
+# integral et casque cross, triees par prix : coussinets de joue a 5 EUR,
+# pare-soleil a 7 EUR, « Ensemble de vis » a 3 EUR, pics de casque cross... Le
+# flux FC-Moto range toutes ces pieces dans « helmets » et leur titre se
+# termine par le type de la piece (« Suomy Rumble Coussinets de joue »). Mesure
+# sur 17 000 fiches casque : 500 environ.
+#
+# Le garde-fou est le DEBUT du titre : un casque s'ecrit « Casque cross Arai
+# MX-V Evo Peak », une piece « Oxford Message Pare-chocs casque ». `peak` seul
+# n'est donc pas un mot de piece (« Arai Quantic Peak » est un casque a 720 EUR),
+# pas plus que `lunettes` ni `masque` (« Casque Leatt 8.5 avec lunettes » est un
+# casque a 530 EUR livre avec ses lunettes) : seules les tournures « Casque
+# Peak » / « Pic casque » en sont.
+_ACCESSOIRE_FORT = re.compile(
+    r"\bpare ?(?:soleil|brise|chocs)\b|\bcoussinets?\b|\bdoublures?\b|\bliner\b"
+    r"|\blentilles?\b|objectif de remplacement|\bpic (?:du |de )?casque\b"
+    r"|\bcasque (?:universel )?peak\b|\bhelmet peak\b|\bpic casque\b|\bvisolieres?\b|\bvisier\b|\bviseur\b"
+    r"|tear ?off|feuilles? detachables?|\baileron\b|\bbecquet\b|rideau de menton"
+    r"|\bdeflecteur\b|\bevents?\b|ensemble de vis|protege ?dents|hydratation"
+    r"|sac a casque|bonnet sous casque|boite a haleine|ventilation superieure"
+    r"|base d ?aeration|\bcouvrir\b"
+)
+_COMMENCE_PAR_CASQUE = re.compile(r"^(?:casque|helmet)\b")
 
 
 # --- pure decisions (offline-testable) -------------------------------------
@@ -143,6 +167,8 @@ def is_helmet_accessory(title: str | None) -> bool:
     """True for a spare part sold in the helmet bucket (a visor, a liner…), as
     opposed to a helmet whose model name merely contains one of those words."""
     blob = tn.norm_txt(title)
+    if blob and _ACCESSOIRE_FORT.search(blob) and not _COMMENCE_PAR_CASQUE.search(blob):
+        return True
     if not blob or not _HELMET_ACCESSORY.search(blob):
         return False
     if _IS_A_SPARE_PART.search(blob):
@@ -162,7 +188,7 @@ def decide_helmet_category(
     # a visor is not a helmet whatever the neighbours call it, so this outranks
     # borrowing too
     if is_helmet_accessory(title):
-        return _UNKNOWN_ID
+        return _ACCESSOIRE_CASQUE_ID
 
     lendable = {c for c in neighbour_category_ids if c in _HELMET_SUBTYPE_IDS}
     if len(lendable) == 1:
@@ -296,12 +322,10 @@ def enrich_categories() -> EnrichResult:
                     # which step of the cascade decided, in its own order —
                     # stored per row so a suspect correction can be traced back
                     # to the rule that produced it
-                    if new_id == _UNKNOWN_ID:
-                        rule = (
-                            "not_a_moto_helmet"
-                            if google_cat and _NOT_A_MOTO_HELMET.search(google_cat)
-                            else "helmet_accessory"
-                        )
+                    if new_id == _ACCESSOIRE_CASQUE_ID:
+                        rule = "helmet_accessory"
+                    elif new_id == _UNKNOWN_ID:
+                        rule = "not_a_moto_helmet"
                     elif {c for c in (cats or []) if c in _HELMET_SUBTYPE_IDS}:
                         rule = "helmet_borrowed"
                     else:
