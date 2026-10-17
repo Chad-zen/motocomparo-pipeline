@@ -4689,3 +4689,9 @@ html:has(.accueil-test), body:has(.accueil-test) { overflow-x: clip; }
 
 /* bouton de chat : la forme de la bulle d'origine de Crisp (rond, bulle pleine et blanche) */
 .mc-chat { width: 52px; height: 52px; right: 20px; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); color: #fff; box-shadow: 0 3px 10px rgba(15, 21, 36, .3); }
+
+/* chat ouvert : notre bouton couvre celui de Crisp et devient une croix */
+.mc-chat { z-index: 2147483647; }
+.mc-chat__croix { display: none; }
+.mc-chat.est-ouvert .mc-chat__bulle { display: none; }
+.mc-chat.est-ouvert .mc-chat__croix { display: block; }

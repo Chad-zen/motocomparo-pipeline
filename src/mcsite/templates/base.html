@@ -185,20 +185,34 @@ if (mcMesureAutorisee) mcChargerMesure();
 <script>
 window.addEventListener('load', function () {
   /* Crisp ne propose que des teintes toutes faites : on masque sa bulle et on
-     pose la notre, bleu nuit du site (#1d2742), qui ouvre le meme chat. */
-  window.$crisp = [["do", "chat:hide"]];
+     pose la notre, bleu nuit du site (#1d2742). Elle reste a l'ecran quand le
+     chat est ouvert, par-dessus le bouton de fermeture de Crisp, et devient
+     une croix : le visiteur ne voit jamais le bouton d'origine. */
+  window.$crisp = [["do", "chat:hide"], ["config", "color:theme", ["blue_ocean"]]];
   window.CRISP_WEBSITE_ID = {{ crisp_id | tojson }};
   var bouton = document.getElementById('mc-chat');
   if (bouton) {
+    var ouvert = false;
+    var etat = function (o) {
+      ouvert = o;
+      bouton.classList.toggle('est-ouvert', o);
+      bouton.setAttribute('aria-label', o ? 'Fermer le chat' : 'Discuter avec nous');
+      if (o) document.body.appendChild(bouton);   /* apres le DOM de Crisp, donc au-dessus */
+    };
     bouton.hidden = false;
     bouton.addEventListener('click', function () {
-      window.$crisp.push(["do", "chat:show"]);
-      window.$crisp.push(["do", "chat:open"]);
-      bouton.hidden = true;
+      if (ouvert) {
+        window.$crisp.push(["do", "chat:close"]);
+      } else {
+        window.$crisp.push(["do", "chat:show"]);
+        window.$crisp.push(["do", "chat:open"]);
+        etat(true);
+      }
     });
+    window.$crisp.push(["on", "chat:opened", function () { etat(true); }]);
     window.$crisp.push(["on", "chat:closed", function () {
       window.$crisp.push(["do", "chat:hide"]);
-      bouton.hidden = false;
+      etat(false);
     }]);
   }
   var s = document.createElement('script');
@@ -895,9 +909,11 @@ function propre(u) {
 
 {% if crisp_id and not request.url.path.startswith('/admin') %}
 <button type="button" id="mc-chat" class="mc-chat" aria-label="Discuter avec nous" hidden>
-  <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true" fill="currentColor">
-    <path d="M12 3C6.8 3 2.6 6.6 2.6 11c0 2.3 1.1 4.3 2.9 5.8-.2 1.4-.8 2.7-1.8 3.9a.5.5 0 0 0 .5.8c2.1-.3 3.9-1.1 5.1-2A11 11 0 0 0 12 19c5.2 0 9.4-3.6 9.4-8S17.200 3 12 3z"/>
+  <svg class="mc-chat__bulle" viewBox="0 0 24 24" width="26" height="26" aria-hidden="true" fill="currentColor">
+    <path d="M12 3C6.8 3 2.6 6.6 2.6 11c0 2.3 1.1 4.3 2.9 5.8-.2 1.4-.8 2.7-1.8 3.9a.5.5 0 0 0 .5.8c2.1-.3 3.9-1.1 5.1-2A11 11 0 0 0 12 19c5.2 0 9.4-3.6 9.4-8S17.2 3 12 3z"/>
   </svg>
+  <svg class="mc-chat__croix" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" fill="none"
+       stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
 </button>
 {% endif %}
 </body>
