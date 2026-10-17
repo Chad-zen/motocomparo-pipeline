@@ -114,3 +114,23 @@ def test_les_images_de_l_accueil_declarent_leur_taille(client):
             if ("marques-logos/" in b or "marchands/" in b or 'src="http' in b)
             and "width=" not in b]
     assert not sans, f"{len(sans)} image(s) sans largeur : {sans[:2]}"
+
+
+def test_la_remise_d_une_carte_suit_la_formule_et_les_paliers_de_la_fiche():
+    """Une carte qui annoncerait -30 % pendant que la fiche en dit -25 serait une
+    promesse que la page suivante dement : meme formule, memes seuils."""
+    from decimal import Decimal
+
+    from mcsite.app import _remise_carte
+
+    assert _remise_carte({"cheapest": Decimal("75"), "dearest": Decimal("100"), "merchant_count": 3}) \
+        == {"pct": 25, "niveau": "orange"}
+    assert _remise_carte({"cheapest": Decimal("50"), "dearest": Decimal("100"), "merchant_count": 2}) \
+        == {"pct": 50, "niveau": "rouge"}
+    assert _remise_carte({"cheapest": Decimal("90"), "dearest": Decimal("100"), "merchant_count": 2}) \
+        == {"pct": 10, "niveau": "sobre"}
+    # rien a annoncer : un seul marchand, pas d'ecart, ou un ecart qui s'arrondit a 0
+    assert _remise_carte({"cheapest": Decimal("50"), "dearest": Decimal("100"), "merchant_count": 1}) is None
+    assert _remise_carte({"cheapest": Decimal("80"), "dearest": Decimal("80"), "merchant_count": 2}) is None
+    assert _remise_carte({"cheapest": Decimal("79"), "dearest": Decimal("79.2"), "merchant_count": 2}) is None
+    assert _remise_carte({"cheapest": None, "dearest": None, "merchant_count": 2}) is None

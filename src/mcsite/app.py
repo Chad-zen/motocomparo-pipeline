@@ -292,6 +292,32 @@ def _logo_largeur(code: str, hauteur: int = 26) -> int:
 templates.env.globals["logo_largeur"] = _logo_largeur
 
 
+def _remise_carte(it: dict) -> dict | None:
+    """L'ecart en pourcentage entre le marchand le moins cher et le plus cher, pour
+    une carte de la boutique, avec le palier de couleur de la fiche.
+
+    MEME formule que la fiche produit (`round((1 - min / max) * 100)`) et memes
+    seuils (`labels.SEUILS_REMISE`) : une carte qui annoncerait −30 % pendant que
+    la fiche en dit −25 serait une promesse que la page suivante dement. Rien
+    n'est annonce sous 1 % (« −0 % » a cote d'un prix, releve le 16/10/2026) ni
+    pour une fiche qui n'a qu'un marchand : il n'y a alors rien a comparer, ni au-dela
+    de 50 %, qui sent la fusion de deux articles.
+    """
+    bas, haut = it.get("cheapest"), it.get("dearest")
+    if not bas or not haut or (it.get("merchant_count") or 0) < 2 or haut <= bas:
+        return None
+    pct = round((1 - bas / haut) * 100)
+    # Au-dela de 50 %, c'est plus souvent deux articles differents fusionnes qu'une
+    # affaire -- meme plafond que la rangee des ecarts de l'accueil (`queries.ecarts`,
+    # « hi <= lo * 2 ») : annoncer moins 88 % sur une carte, c'est annoncer le defaut.
+    if pct < 1 or pct > 50:
+        return None
+    return {"pct": pct, "niveau": labels.niveau_remise(pct)}
+
+
+templates.env.globals["remise_carte"] = _remise_carte
+
+
 @lru_cache(maxsize=4)
 def _polices_en_ligne(mtime: float) -> str:
     """`polices.css` sans commentaires ni espaces, pour l'ecrire dans le <head>.

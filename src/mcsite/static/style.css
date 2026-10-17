@@ -4695,3 +4695,17 @@ html:has(.accueil-test), body:has(.accueil-test) { overflow-x: clip; }
 .mc-chat__croix { display: none; }
 .mc-chat.est-ouvert .mc-chat__bulle { display: none; }
 .mc-chat.est-ouvert .mc-chat__croix { display: block; }
+
+/* cartes de la boutique : mêmes tailles que l'accueil -- le prix d'abord, puis le nom,
+   la marque en repère. Les règles « mobile » de .boutique__corps (nom 13 px, prix 15 px)
+   sont reprises ici avec la même spécificité, placées après. */
+.carte .carte__marque, .boutique__corps .carte__marque { font-size: 12px; letter-spacing: .06em; }
+.carte .carte__nom, .boutique__corps .carte__nom { font-size: 15px; line-height: 1.3; }
+.carte .carte__prix, .boutique__corps .carte__prix { font-size: 19px; }
+.carte .carte__barre { font-size: 13px; }
+
+/* le pourcentage d'ecart sur les cartes de la boutique : memes paliers que la fiche */
+.carte__remise { position: absolute; top: 10px; left: 10px; z-index: 1; font-size: 12px; padding: 3px 8px; }
+.remise--sobre  { --remise-fond: #e8ebf3; --remise-encre: #26355a; }
+.remise--orange { --remise-fond: #f59410; --remise-encre: #2a1800; }
+.remise--rouge  { --remise-fond: #e02424; --remise-encre: #fff; }
