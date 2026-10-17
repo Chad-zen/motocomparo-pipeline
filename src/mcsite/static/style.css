@@ -1643,8 +1643,10 @@ body:has(.banc:not([hidden])) { padding-bottom: var(--banc-h, 94px); }
   .tete__menu   { order: 1; }
   .marque       { order: 2; }
   /* Ordinateur : plus de bouton Comparatif en tete (17/10/2026), et la
-     recherche se pose a droite, a largeur mesuree. Sous 900 px rien ne change. */
-  .quete        { order: 3; flex: 1; min-width: 0; max-width: 680px; margin-left: auto; }
+     recherche gardee a sa largeur d'avant, decalee a droite. Sous 900 px rien ne change. */
+  .quete        { order: 3; flex: 1; min-width: 0; }
+  /* meme largeur qu'avant le retrait du bouton (127 px + 18 px d'ecart), poussee a droite */
+  .tete__bas .quete { margin-left: 145px; }
   .tete__actions { display: none; }
 }
 
