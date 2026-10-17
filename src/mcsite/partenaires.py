@@ -91,6 +91,10 @@ PARTENAIRES: list[dict[str, str]] = [
         "regie": "https://track.effiliation.com/servlet/effi.show?id_compteur=23313070",
         "image": "https://media.moto-axxe.fr/communication/motoaxxe/Effinity/2026/LE-MOIS-DU-CASQUES/300x250.gif",
         "large": "https://media.moto-axxe.fr/communication/motoaxxe/Effinity/2026/LE-MOIS-DU-CASQUES/728x90.gif",
+        # « Le mois du casque, jusqu'au 12 octobre » — lu sur le visuel le
+        # 17/10/2026, encore en ligne cinq jours apres. A remettre en rotation
+        # avec un visuel a jour.
+        "expire_le": "2026-10-12",
     },
     {
         "code": "motoblouz",
