@@ -552,6 +552,18 @@ def baisses(conn: psycopg.Connection, limit: int = 12,
               -- passe de 15,00 € à 4,53 € affiche un beau pourcentage et ne
               -- mérite pas la page d'accueil.
               AND d.avant - o.price >= 20
+              -- UNE BAISSE EST UN PRIX QU'ON N'AVAIT JAMAIS VU. Si le prix
+              -- d'aujourd'hui est deja apparu AVANT la fenetre, l'offre n'a pas
+              -- baisse : elle est revenue a son niveau habituel apres un releve
+              -- faux ou une remontee d'un jour. Cas du 17/10/2026 : un casque
+              -- Schuberth a 448,14 EUR du 5 au 16, sauf 699,00 le 10 (releve
+              -- Speedway) ; le 10 etant le premier jour de la fenetre, la
+              -- rangee annoncait « moins 36 pour cent » sur un prix qui n'avait pas bouge.
+              AND NOT EXISTS (
+                  SELECT 1 FROM price_history h2
+                  WHERE h2.raw_offer_id = o.id AND h2.price = o.price
+                    AND h2.observed_on < (SELECT debut FROM borne)
+              )
         ),
         -- l'offre qui a baissé doit être celle qui FAIT le prix affiché :
         -- sinon la rangée annonce une baisse que la fiche ne montre pas.

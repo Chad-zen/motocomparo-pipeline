@@ -4675,3 +4675,14 @@ html:has(.accueil-test), body:has(.accueil-test) { overflow-x: clip; }
   .marchands-bandeau__liste { flex: 1; flex-wrap: nowrap; justify-content: space-between; gap: clamp(8px, 1.6vw, 26px); }
   .marchands-bandeau__liste img { height: clamp(15px, 2.3vw, 24px); }
 }
+
+/* le bouton de chat : bleu nuit du site, picto or, a la place de la bulle de Crisp */
+.mc-chat {
+  position: fixed; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 950;
+  width: 56px; height: 56px; border-radius: 50%; border: 0; cursor: pointer;
+  background: #1d2742; color: var(--or); display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 14px rgba(15, 21, 36, .35);
+}
+.mc-chat[hidden] { display: none; }
+.mc-chat:hover { background: #26335a; }
+.mc-chat:focus-visible { outline: 2px solid var(--or); outline-offset: 3px; }

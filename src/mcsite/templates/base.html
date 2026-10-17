@@ -184,8 +184,23 @@ if (mcMesureAutorisee) mcChargerMesure();
    Python (`_CRISP_ID`) contre le format UUID. #}
 <script>
 window.addEventListener('load', function () {
-  window.$crisp = [["config", "color:theme", ["amber"]]];   /* bulle jaune MotoComparo */
+  /* Crisp ne propose que des teintes toutes faites : on masque sa bulle et on
+     pose la notre, bleu nuit du site (#1d2742), qui ouvre le meme chat. */
+  window.$crisp = [["do", "chat:hide"]];
   window.CRISP_WEBSITE_ID = {{ crisp_id | tojson }};
+  var bouton = document.getElementById('mc-chat');
+  if (bouton) {
+    bouton.hidden = false;
+    bouton.addEventListener('click', function () {
+      window.$crisp.push(["do", "chat:show"]);
+      window.$crisp.push(["do", "chat:open"]);
+      bouton.hidden = true;
+    });
+    window.$crisp.push(["on", "chat:closed", function () {
+      window.$crisp.push(["do", "chat:hide"]);
+      bouton.hidden = false;
+    }]);
+  }
   var s = document.createElement('script');
   s.src = 'https://client.crisp.chat/l.js';
   s.async = 1;
@@ -878,5 +893,13 @@ function propre(u) {
 
 {% if mesure_active %}{% include "_consentement.html" %}{% endif %}
 
+{% if crisp_id and not request.url.path.startswith('/admin') %}
+<button type="button" id="mc-chat" class="mc-chat" aria-label="Discuter avec nous" hidden>
+  <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true" fill="none" stroke="currentColor"
+       stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 11.5a8.5 8.5 0 0 1-12.4 7.6L3 20.5l1.5-4.9A8.5 8.5 0 1 1 21 11.5z"/>
+  </svg>
+</button>
+{% endif %}
 </body>
 </html>
