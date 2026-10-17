@@ -11,7 +11,7 @@ from __future__ import annotations
 import logging
 import os
 import re
-from contextlib import asynccontextmanager
+from contextlib import asynccontextmanager, contextmanager
 from datetime import date
 from decimal import Decimal, InvalidOperation
 from pathlib import Path
@@ -411,8 +411,23 @@ def _section_accueil(cle: str, fabrique, defaut):
         return defaut
 
 
+@contextmanager
+def _longue_requete(conn):
+    """Delai de 30 s pour les blocs de l'accueil, le temps de leur transaction.
+
+    Ils sont calcules UNE fois par jour puis gardes 24 h, et non par visiteur :
+    le delai de 5 s des requetes du site est fait pour les pages qu'on calcule a
+    chaque visite. En production (un coeur) la requete des baisses ne tient pas
+    dans 5 s, et un bloc qui n'aboutit jamais est recalcule a chaque visite
+    sans jamais etre garde (17/10/2026).
+    """
+    with conn.transaction():
+        conn.execute("SET LOCAL statement_timeout = '30s'")
+        yield
+
+
 def _onglets_accueil() -> list:
-    with pool.connection() as conn:  # type: ignore[union-attr]
+    with pool.connection() as conn, _longue_requete(conn):  # type: ignore[union-attr]
         onglets = []
         for code, titre in _ONGLETS_ACCUEIL:
             rayon = queries.find_category(_rayons(), code)
@@ -424,7 +439,7 @@ def _onglets_accueil() -> list:
 
 
 def _budget_accueil() -> list:
-    with pool.connection() as conn:  # type: ignore[union-attr]
+    with pool.connection() as conn, _longue_requete(conn):  # type: ignore[union-attr]
         budget = []
         for code, _titre, phrase in _BUDGETS_ACCUEIL:
             rayon = queries.find_category(_rayons(), code)
@@ -436,7 +451,7 @@ def _budget_accueil() -> list:
 
 def _baisses_accueil() -> dict:
     def _baisses() -> list:
-        with pool.connection() as conn:  # type: ignore[union-attr]
+        with pool.connection() as conn, _longue_requete(conn):  # type: ignore[union-attr]
             return queries.baisses(conn, 12, min_marchands=2)
 
     return {"baisses": _section_accueil("accueil_baisses_v3", _baisses, [])}
@@ -444,7 +459,7 @@ def _baisses_accueil() -> dict:
 
 def _nouveautes_accueil() -> list:
     def _nouveautes() -> list:
-        with pool.connection() as conn:  # type: ignore[union-attr]
+        with pool.connection() as conn, _longue_requete(conn):  # type: ignore[union-attr]
             return _nouveautes_variees(conn)
 
     return _section_accueil("accueil_nouveautes_v1", _nouveautes, [])
