@@ -91,3 +91,20 @@ def test_les_vraies_categories_fcmoto_restent():
         assert not hors_perimetre("fcmoto", categorie), categorie
     # et le filtre ne vaut que pour FC-Moto
     assert not hors_perimetre("motoblouz", "Casques intégraux (100265)")
+
+
+def test_le_velo_electrique_vae_est_ecarte_par_le_chemin_complet():
+    """Le niveau 1 de ses articles est « Electrique », comme celui de la moto :
+    seul le niveau 2 dit VAE (batteries, compteurs, pedaliers, moteurs)."""
+    for chemin in ("Électrique > Batterie VAE > Batterie VAE",
+                   "Électrique > Compteur VAE > Accessoire écran VAE",
+                   "Électrique > Pédalier VAE > Manivelle VAE"):
+        assert hors_perimetre("labecanerie", "Électrique", "Batterie", chemin), chemin
+
+
+def test_la_batterie_de_moto_reste():
+    for chemin in ("Électrique > Batterie > Batterie",
+                   "Atelier & Stand > Chargeur de batterie > Chargeur de batterie"):
+        assert not hors_perimetre("labecanerie", chemin.split(" > ")[0], "Batterie", chemin)
+    # et le filtre ne vaut que pour La Becanerie
+    assert not hors_perimetre("motoblouz", "Electrique", "Batterie", "Batterie VAE")

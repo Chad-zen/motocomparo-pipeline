@@ -66,6 +66,12 @@ CATEGORIES: list[tuple[int, int | None, str, str]] = [
     # les recevoir — signalé par la propriétaire sur deux fiches précises
     # (un écran solaire O'Neal, un pinlock HJC), généralisé après coup.
     (30, 1, "helmet.accessory", "Pièces & accessoires casque"),
+    # Ajouté le 18/10/2026 : les batteries n'avaient pas de rayon et tombaient
+    # en « non classé » (1 182 offres vivantes), signalé par la propriétaire sur
+    # une fiche BS Battery. Chargeurs, testeurs et câbles de batterie y sont
+    # rangés aussi ; les batteries de vélo électrique (VAE) sont écartées à
+    # l'entrée, voir normalize.py.
+    (31, None, "battery", "Batteries & chargeurs"),
 ]
 
 _UNKNOWN_ID = 25
@@ -129,6 +135,10 @@ _RULES: list[tuple[re.Pattern, int]] = [
     (re.compile(r"\bsuspension\b|\bamortisseur\b|\bfourche\b"), 16),
     (re.compile(r"\bpneu\b|\btyre\b|\btire\b"), 17),
     (re.compile(r"\bcarenage\b|\bcarrosserie\b|\bplaque\b|\bbodywork\b|\bfairing\b"), 18),
+    # Après les gants et les casques : « gants chauffants à batterie » reste
+    # des gants, une « batterie pour intercom » est bien une batterie.
+    (re.compile(r"\bbatteries?\b|\bchargeurs? de batterie\b|\btesteurs? de batterie\b"
+                r"|\bbattery\b"), 31),
     (re.compile(
         r"\bintercom\b|\bgps\b|\btelephone\b|\belectronique\b|\bmultimedia\b|\bcommunication\b"
     ), 19),

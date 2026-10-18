@@ -40,7 +40,7 @@ _MOTS_RAYON = {
     "bulle": "bodywork", "carenage": "bodywork", "phare": "bodywork",
     "casquette": "apparel_casual", "sweat": "apparel_casual", "cagoule": "apparel_casual",
     "housse": "seat", "selle": "seat",
-    "outil": "maintenance", "batterie": "maintenance", "chargeur": "maintenance",
+    "outil": "maintenance", "batterie": "battery", "chargeur": "battery",
     "nettoyant": "maintenance", "pneu": "maintenance", "gicleur": "maintenance",
     "carburateur": "maintenance", "bequille": "maintenance", "graisse": "maintenance",
     "cable": "maintenance",
@@ -87,7 +87,7 @@ _TYPES_V1 = {
     "combi": "suit", "transmi": "transmission", "casque": "helmet", "huile": "engine",
     "filtre": "engine", "eclair": "bodywork", "casque_mod": "helmet.modular",
     "antivol": "accessories", "bulle": "bodywork", "frein": "brakes",
-    "support": "luggage", "batterie": "maintenance", "nettoy": "maintenance",
+    "support": "luggage", "batterie": "battery", "nettoy": "maintenance",
     "echap": "exhaust",
 }
 

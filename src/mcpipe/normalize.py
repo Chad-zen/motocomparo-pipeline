@@ -232,11 +232,25 @@ ON CONFLICT (merchant_id, merchant_sku) DO UPDATE SET
 """
 
 
+# LE VAE, VELO A ASSISTANCE ELECTRIQUE (18/10/2026). Le rayon « Électrique » de
+# La Bécanerie est presque entièrement du vélo électrique : batteries, compteurs,
+# pédaliers, moteurs, câbles. Leur catégorie de niveau 1 est « Électrique », la
+# même que celle de la moto, et c'est le niveau 2 qui dit « VAE ». D'où un
+# filtre sur le chemin complet (niveaux 1 > 2 > 3), et non sur le niveau 1.
+_FILTRE_CHEMIN: dict[str, re.Pattern] = {
+    "labecanerie": re.compile(r"\bVAE\b"),
+}
+
+
 def hors_perimetre(
-    feed_code: str, category_level1: str | None, title: str | None = None
+    feed_code: str, category_level1: str | None, title: str | None = None,
+    chemin: str | None = None,
 ) -> bool:
     """True when a row is outside what this site compares for that merchant —
     pure and offline-testable, see `_HORS_PERIMETRE` et `_FILTRE_TITRE`."""
+    motif_chemin = _FILTRE_CHEMIN.get(feed_code)
+    if motif_chemin and chemin and motif_chemin.search(chemin):
+        return True
     exclus = _HORS_PERIMETRE.get(feed_code)
     if exclus and category_level1 and category_level1.strip() in exclus:
         return True
@@ -272,7 +286,8 @@ def normalize_feed(feed: FeedSpec, *, force: bool = False) -> NormalizeResult:
                 for (row,) in src:
                     title = _ci_get(row, cols.get("title", []))
                     if hors_perimetre(
-                        feed.code, _ci_get(row, cols.get("category", [])), title
+                        feed.code, _ci_get(row, cols.get("category", [])), title,
+                        _category(feed, row),
                     ):
                         n_hors_perimetre += 1
                         continue
