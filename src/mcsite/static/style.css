@@ -2276,6 +2276,11 @@ body:has(.banc:not([hidden])) { padding-bottom: var(--banc-h, 94px); }
     grid-column: 1 / -1; grid-row: 1;
     border-bottom: 1px solid #eef1f6;   /* volontairement plus clair que --ligne-offre */
     display: flex; align-items: center; gap: 8px;
+    /* `flex-wrap` : sans lui, le `flex-basis: 100%` de « N offres a ce prix »
+       ci-dessous ne passe pas a la ligne, il RETRECIT et le texte s'ecrase a
+       cote de « Meilleur prix » sur trois lignes (constate sur mobile le
+       19/10/2026, fiche a quatre offres Motoblouz au meme prix). */
+    flex-wrap: wrap;
     padding-bottom: 10px; margin-bottom: 10px;
   }
   /* « Meilleur prix » file au bout de la ligne : c'est une decoration du rang,
