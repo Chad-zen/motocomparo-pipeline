@@ -424,10 +424,11 @@ _NOUVEAUTES_PAR_MARQUE = 2
 def _nouveautes_variees(conn) -> list[dict]:
     """Des nouveautés de tous les rayons, pas plus de deux par marque.
 
-    Priorité aux fiches déjà comparées (2 marchands ou plus) ; une rangée qui
-    n'aurait que celles-là n'en compterait que quelques-unes (une fiche neuve
-    est chez UN marchand par construction), donc on complète avec les fiches à
-    un seul marchand. Les rayons passent à tour de rôle pour que la rangée ne
+    Uniquement des fiches COMPARÉES (2 marchands ou plus). Jusqu'au 18/10/2026
+    la rangée se complétait avec des fiches à un seul marchand pour rester
+    pleine : 14 cartes sur 18 étaient « 1 marchand » sur un site de comparaison.
+    Choix de la propriétaire : une rangée plus courte vaut mieux qu'une rangée
+    qui ne compare rien. Les rayons passent à tour de rôle pour que la rangée ne
     soit pas faite de dix paires de bottes d'une même marque.
     """
     par_rayon = []
@@ -435,12 +436,9 @@ def _nouveautes_variees(conn) -> list[dict]:
         rayon = queries.find_category(_rayons(), code)
         if not rayon:
             continue
-        # UN seul appel par rayon : chacun coute 1,6 s (mesure le 17/10/2026),
-        # et deux appels par rayon faisaient 16 s a froid. Les fiches deja
-        # comparees passent devant par un tri stable, l'ordre du tour de role
-        # par marque est conserve a l'interieur de chaque groupe.
-        toutes = queries.nouveautes(conn, _ids_equipement(rayon), 40, min_marchands=1)
-        par_rayon.append(sorted(toutes, key=lambda it: it["merchant_count"] < 2))
+        # UN seul appel par rayon : chacun coute 1,6 s (mesure le 17/10/2026).
+        par_rayon.append(
+            queries.nouveautes(conn, _ids_equipement(rayon), 40, min_marchands=2))
     retenues, par_marque = [], {}
     rang = 0
     while len(retenues) < _NOUVEAUTES_TOTAL and any(rang < len(l) for l in par_rayon):
