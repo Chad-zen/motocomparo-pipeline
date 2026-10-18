@@ -22,11 +22,16 @@
   <h2 id="budget-titre">Combien veux-tu investir dans <span class="budget__mot" id="budget-phrase">{{ budget[0].phrase }}</span>&nbsp;?</h2>
   <p class="budget__sous">Nous comparons les prix de <b id="budget-total">{{ budget[0].total }}</b> produits
      chez {{ marchands_actifs | length }} marchands</p>
-  <div class="budget__pills" role="tablist" aria-label="Équipement">
+  <div class="budget__pills">
+    {# Le lien « Voir tout » n'est pas un onglet : hors du tablist, sinon Lighthouse
+       (« Agentic browsing », 1/2) refuse l'arbre d'accessibilité. `display: contents`
+       garde la mise en page d'avant. #}
+    <div class="budget__onglets" role="tablist" aria-label="Équipement">
     {% for b in budget %}
     <button type="button" class="budget__pill" role="tab" data-rayon="{{ loop.index0 }}"
             aria-selected="{{ 'true' if loop.first else 'false' }}">{{ b.label }}</button>
     {% endfor %}
+    </div>
     <a class="budget__btn" id="budget-tout" href="/c/{{ budget[0].code }}">Voir tout <svg viewBox="0 0 12 12" width="12" height="12" aria-hidden="true"><path d="M4 1.5 8.5 6 4 10.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
   </div>
   <div class="budget__zone">

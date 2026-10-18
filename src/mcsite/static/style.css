@@ -4811,3 +4811,6 @@ html { overflow-x: clip; }
 .facette__recherche:focus { outline: 2px solid var(--or); outline-offset: 1px; border-color: transparent; }
 .facette__ligne[hidden] { display: none; }
 .facette__vide { margin: 4px 0 8px; font-size: 13px; color: var(--muted); }
+
+/* le tablist des pastilles du budget ne change rien a la mise en page (il sert l'arbre d'accessibilite) */
+.budget__onglets { display: contents; }
