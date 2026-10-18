@@ -4781,3 +4781,17 @@ html:has(.accueil-test), body:has(.accueil-test) { overflow-x: clip; }
 .budget__piste.glisse::after { transition: width .08s linear; }
 .budget__barres { z-index: 1; top: 7px; bottom: 7px; border-radius: 12px; overflow: hidden; }   /* les barres restent à l'intérieur du trait blanc */
 .budget__piste input[type=range] { z-index: 3; }
+
+/* ligne grise pleine largeur entre « Prix compares chez » et les bons plans */
+.accueil-test > #bons-plans-onglets { position: relative; }
+.accueil-test > #bons-plans-onglets::before {
+  content: ""; position: absolute; top: 0; height: 1px; background: #c4c9d4; pointer-events: none;
+  left: 50%; width: 100vw; transform: translateX(-50%);
+}
+html { overflow-x: clip; }
+
+/* « Prix compares chez » : Inter, la plus proche de la police d'Apple ; SF Pro prend le relais sur Mac si Inter manque */
+.accueil-test .marchands-bandeau__titre {
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 600; letter-spacing: .03em;
+}

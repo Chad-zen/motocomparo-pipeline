@@ -154,9 +154,6 @@
 </section>
 
 
-{# --- 3. Catégories populaires ---------------------------------------------- #}
-{{ cat.bande(nav | rejectattr('code', 'in', ['exhaust', 'electronics']) | list, 12) }}
-
 {# --- 4. Bons plans par rayon ------------------------------------------------ #}
 {% if onglets %}
 <section class="rayon rayon--phare" id="bons-plans-onglets">
@@ -210,9 +207,6 @@
 </script>
 {% endif %}
 
-{# --- Bannière d'un marchand, entre les bons plans et les nouveautés --- #}
-{{ pub.emplacement(bandeaux_larges) }}
-
 {# --- 4 bis. Nouveautés -------------------------------------------------------- #}
 {% if nouveautes %}
 <section class="rayon" id="nouveautes">
@@ -242,6 +236,9 @@
   </div>
 </section>
 {% endif %}
+
+{# --- 3. Catégories populaires, entre les nouveautés et les baisses ------------ #}
+{{ cat.bande(nav | rejectattr('code', 'in', ['exhaust', 'electronics']) | list, 12) }}
 
 {% if baisses %}
 <section class="rayon" id="baisses">
@@ -356,3 +353,6 @@
 {{ self.fin_accueil() }}
 </div>
 {% endblock %}
+
+{# Bannière d'un marchand, juste avant les questions fréquentes (crochet `avant_faq` de home_base.html) #}
+{% block avant_faq %}{% import "_pub.html" as pub %}{{ pub.emplacement(bandeaux_larges) }}{% endblock %}
