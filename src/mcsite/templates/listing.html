@@ -242,6 +242,12 @@
 
     <details class="facette" data-facette="Marques" open>
       <summary class="facette__titre"><h3>Marques</h3><span class="facette__chev" aria-hidden="true"></span></summary>
+      {# Au-delà de dix marques, une recherche : la liste est triée par nombre de
+         produits, une marque moins fournie (Shoei en gants) est tout en bas. #}
+      {% if facettes.marques | length > 10 %}
+      <input type="search" class="facette__recherche" placeholder="Chercher une marque" aria-label="Chercher une marque"
+             autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="search">
+      {% endif %}
       <div class="facette__liste" data-max="10">
       {% for x in facettes.marques %}
         {# Sur une page de marque (`/m/…`), le clic change de page : une seule
@@ -256,7 +262,9 @@
         </a>
       {% endfor %}
       </div>
+      {# le bouton doit suivre la liste immédiatement (replier() le cherche par nextElementSibling) #}
       <button type="button" class="facette__plus" data-facette-plus hidden></button>
+      <p class="facette__vide" hidden>Aucune marque ne correspond.</p>
     </details>
 
     {% if facettes.prix_maxi %}
@@ -523,6 +531,40 @@
       });
     });
   }
+  /* Recherche dans les marques : sans accent ni majuscule (« o'neal », « oneal »).
+     Pendant la recherche la liste se déplie et le bouton « Voir les N autres »
+     disparaît ; effacée, elle reprend l'état qu'elle avait. */
+  function sansAccent(t) {
+    return t.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]/g, '');
+  }
+  function chercherMarque(champ) {
+    const bloc = champ.closest('.facette');
+    const liste = bloc && bloc.querySelector('.facette__liste');
+    if (!liste) return;
+    const bouton = bloc.querySelector('[data-facette-plus]'), vide = bloc.querySelector('.facette__vide');
+    const q = sansAccent(champ.value);
+    if (q && liste.dataset.avant === undefined) {
+      liste.dataset.avant = liste.classList.contains('est-repliee') ? '1' : '0';
+    }
+    let trouvees = 0;
+    Array.prototype.forEach.call(liste.children, function (ligne) {
+      const garde = !q || sansAccent(ligne.textContent.replace(/\d+\s*$/, '')).indexOf(q) !== -1;
+      ligne.hidden = !garde;
+      if (garde) trouvees++;
+    });
+    if (q) {
+      liste.classList.remove('est-repliee');
+      if (bouton) bouton.hidden = true;
+    } else if (liste.dataset.avant !== undefined) {
+      if (liste.dataset.avant === '1') liste.classList.add('est-repliee');
+      delete liste.dataset.avant;
+      if (bouton) bouton.hidden = liste.children.length <= +liste.dataset.max;
+    }
+    if (vide) vide.hidden = !q || trouvees > 0;
+  }
+  document.addEventListener('input', function (e) {
+    if (e.target.matches && e.target.matches('.facette__recherche')) chercherMarque(e.target);
+  });
   function titreDe(liste) {
     const h = liste.closest('.facette') && liste.closest('.facette').querySelector('h3');
     return h ? h.textContent.trim() : '';
@@ -730,6 +772,7 @@
     if (!a || !c || !na || !nc) return false;
 
     const haut = a.scrollTop;
+    const champ = a.querySelector('.facette__recherche'), saisie = champ ? champ.value : '';
     const ouvertes = new Set();
     a.querySelectorAll('.facette__liste[data-max]:not(.est-repliee)').forEach(l => ouvertes.add(titreDe(l)));
     const f = document.activeElement;
@@ -755,6 +798,8 @@
 
     rubriques();
     replier(ouvertes);
+    const nouveauChamp = saisie && a.querySelector('.facette__recherche');
+    if (nouveauChamp) { nouveauChamp.value = saisie; chercherMarque(nouveauChamp); }
     jauge();
     voirPlus();
     if (window.mcMarquerCartes) window.mcMarquerCartes();

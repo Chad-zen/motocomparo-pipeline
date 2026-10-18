@@ -1056,7 +1056,7 @@ def facets(conn: psycopg.Connection, f: Filtres) -> dict[str, Any]:
         SELECT p.brand_code AS valeur, count(*) AS n
         FROM product p JOIN product_stats s ON s.product_id = p.id
         {_OU} AND p.brand_code IS NOT NULL AND p.brand_code <> ''
-        GROUP BY p.brand_code ORDER BY count(*) DESC, p.brand_code LIMIT 18
+        GROUP BY p.brand_code ORDER BY count(*) DESC, p.brand_code LIMIT 300
     """, "marque")
 
     # La jauge de prix a besoin des bornes réelles de ce que le visiteur voit :

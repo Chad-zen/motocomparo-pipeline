@@ -4795,3 +4795,16 @@ html { overflow-x: clip; }
   font-family: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 600; letter-spacing: .03em;
 }
+
+/* filtre Marques : mini barre de recherche */
+.facette__recherche {
+  width: 100%; margin: 2px 0 8px; padding: 8px 10px 8px 32px; font: inherit; font-size: 13.5px; color: inherit;
+  border: 1px solid #d5dbe6; border-radius: 8px; background: #fff
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%236b7385' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='8.5' cy='8.5' r='5.5'/%3E%3Cpath d='m13 13 4 4'/%3E%3C/svg%3E")
+    no-repeat 10px 50% / 15px;
+  -webkit-appearance: none; appearance: none;
+}
+.facette__recherche::placeholder { color: #8a93a6; }
+.facette__recherche:focus { outline: 2px solid var(--or); outline-offset: 1px; border-color: transparent; }
+.facette__ligne[hidden] { display: none; }
+.facette__vide { margin: 4px 0 8px; font-size: 13px; color: var(--muted); }
