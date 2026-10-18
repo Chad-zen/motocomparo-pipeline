@@ -4715,3 +4715,69 @@ html:has(.accueil-test), body:has(.accueil-test) { overflow-x: clip; }
 
 /* le bouton de chat se pose au-dessus du bandeau de cookies quand il est la (valeur posee par le script) */
 .mc-chat { bottom: var(--mc-chat-bas, calc(20px + env(safe-area-inset-bottom, 0px))); }
+
+/* --- budget v2 : mouvement (barres qui montent, rond qui s'ancre, bulle qui suit) ---------- */
+.budget { --expo: cubic-bezier(0, 0, 0, 1); }
+.budget__mot { display: inline-block; transition: opacity .18s linear, transform .35s var(--expo); }
+.budget__mot.sort { opacity: 0; transform: translateY(8px); }
+.budget__pill { position: relative; overflow: hidden; z-index: 0; isolation: isolate; transition: color .2s linear, border-color .2s linear; }
+.budget__pill::before {   /* le jaune entre de la gauche au lieu d'apparaître d'un coup */
+  content: ""; position: absolute; inset: 0; background: var(--or); z-index: -1;
+  transform: scaleX(0); transform-origin: left; transition: transform .45s var(--expo);
+}
+.budget__pill:hover { border-color: var(--or); }
+.budget__pill[aria-selected="true"], .accueil-test .budget__pill[aria-selected="true"] { background: transparent; color: #14181f; border-color: var(--or); }
+.budget__pill[aria-selected="true"]::before { transform: scaleX(1); }
+.budget__btn svg { transition: transform .3s var(--expo); }
+.budget__btn:hover svg { transform: translateX(4px); }
+.budget__piste { height: 110px; }
+.budget__barres i {
+  height: 0; border-radius: 2px 2px 0 0; transform-origin: bottom;
+  transition: height 1s var(--expo), background-color .15s linear, transform .25s var(--expo), box-shadow .25s linear;
+}
+.budget__barres i.vague { transform: scaleY(1.07); box-shadow: 0 0 14px rgba(245,179,1,.45); background: rgba(245,179,1,.95); }
+.budget__barres i.survol:not(.dedans) { background: rgba(255,255,255,.34); }
+.budget__bulle { transition: left .28s var(--expo), box-shadow .2s linear; box-shadow: 0 6px 20px rgba(245,179,1,0); will-change: left; }
+.budget__bulle::after { transition: left .28s var(--expo); }
+.budget__bulle.glisse { transition: left .08s linear, box-shadow .2s linear; box-shadow: 0 8px 26px rgba(245,179,1,.35); }
+.budget__bulle.glisse::after { transition: left .08s linear; }
+.budget__bulle b { font-variant-numeric: tabular-nums; }
+.budget__bulle svg { transition: transform .3s var(--expo); }
+.budget__bulle:hover svg { transform: translateX(4px); }
+.budget__bulle.pop { animation: budget-pop .35s var(--expo); }
+@keyframes budget-pop { 0% { transform: scale(1); } 35% { transform: translateY(-4px) scale(1.03); } 100% { transform: scale(1); } }
+.budget__sous b { font-variant-numeric: tabular-nums; }
+.budget__piste input[type=range] { cursor: grab; }
+.budget__piste input[type=range]:active { cursor: grabbing; }
+.budget__piste input[type=range]::-webkit-slider-runnable-track { height: 110px; }
+.budget__piste input[type=range]::-moz-range-track { height: 110px; }
+.budget__piste input[type=range]::-webkit-slider-thumb {
+  margin-top: 42px; box-shadow: 0 2px 8px rgba(0,0,0,.4), 0 0 0 0 rgba(245,179,1,.5);
+  transition: transform .28s var(--expo), box-shadow .3s var(--expo); animation: budget-appel 2.4s ease-out 1.4s 2;
+}
+.budget__piste input[type=range]:active::-webkit-slider-thumb {
+  transform: translateY(var(--dy, 0px)) scale(1.18); box-shadow: 0 2px 10px rgba(0,0,0,.5), 0 0 0 10px rgba(245,179,1,.22); animation: none;
+}
+.budget__piste input[type=range]::-moz-range-thumb { transition: transform .28s var(--expo); }
+@keyframes budget-appel {
+  0%   { box-shadow: 0 2px 8px rgba(0,0,0,.4), 0 0 0 0 rgba(245,179,1,.55); }
+  100% { box-shadow: 0 2px 8px rgba(0,0,0,.4), 0 0 0 18px rgba(245,179,1,0); }
+}
+/* arrivée du bloc : titre, sous-titre et pastilles en cascade */
+.budget h2, .budget__sous, .budget__pills { animation: budget-entre .7s var(--expo) backwards; }
+.budget__sous { animation-delay: .08s; }
+.budget__pills { animation-delay: .16s; }
+@keyframes budget-entre { from { opacity: 0; transform: translateY(14px); } }
+@media (prefers-reduced-motion: reduce) {
+  .budget *, .budget *::before, .budget *::after, .budget { animation: none !important; transition: none !important; }
+}
+
+/* budget v2 : l'encadré — un simple contour blanc qui suit le rond */
+.budget__piste::after {
+  content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: var(--x, 0px); z-index: 2; pointer-events: none;
+  border: 3px solid #fff; border-radius: 18px;
+  transition: width .28s var(--expo);
+}
+.budget__piste.glisse::after { transition: width .08s linear; }
+.budget__barres { z-index: 1; top: 7px; bottom: 7px; border-radius: 12px; overflow: hidden; }   /* les barres restent à l'intérieur du trait blanc */
+.budget__piste input[type=range] { z-index: 3; }

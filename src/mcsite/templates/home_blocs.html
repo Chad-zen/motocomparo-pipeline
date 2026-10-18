@@ -54,24 +54,50 @@
     var i = d.cumul.findIndex(function (c) { return c > 0; });
     return i < 0 ? 0 : i;
   }
-  function trace() {
+  var reduit = matchMedia('(prefers-reduced-motion: reduce)').matches, compteur = null, avant = -1, calme;
+  // les barres sont créées une fois et réutilisées : c'est ce qui laisse leur hauteur s'animer
+  var bs = barres.children;
+  for (var k = 0; k < D.reduce(function (a, d) { return Math.max(a, d.cumul.length); }, 0); k++)
+    barres.appendChild(document.createElement('i'));
+  function trace(premiere) {
     var d = D[cur], dec = debut(d), n = d.cumul.length - dec,
         par = d.cumul.slice(dec).map(function (c, i) { return c - (i + dec ? d.cumul[i + dec - 1] : 0); }),
         m = Math.max.apply(null, par);
-    barres.innerHTML = par.map(function (v) {
-      return '<i style="height:' + Math.max(6, Math.round(v / m * 100)) + '%"></i>';
-    }).join('');
+    for (var i = 0; i < bs.length; i++) {
+      bs[i].style.display = i < n ? '' : 'none';
+      // cascade de gauche à droite : chaque barre part un peu après sa voisine
+      bs[i].style.transitionDelay = reduit ? '0s' : ((premiere ? 350 : 0) + i * 22) + 'ms, 0s, 0s, 0s';
+      bs[i].style.height = i < n ? Math.max(6, Math.round(par[i] / m * 100)) + '%' : '0%';
+    }
     rg.max = n;
     var mediane = d.cumul.slice(dec).findIndex(function (c) { return c >= d.cumul[d.cumul.length - 1] * 0.4; });
     rg.value = mediane < 0 ? Math.round(n / 2) : mediane + 1;
-    document.getElementById('budget-phrase').textContent = d.phrase;
+    var mot = document.getElementById('budget-phrase');
+    if (premiere) mot.textContent = d.phrase;
+    else {
+      mot.classList.add('sort');
+      setTimeout(function () { mot.textContent = d.phrase; mot.classList.remove('sort'); }, 180);
+    }
     document.getElementById('budget-total').textContent = d.total.toLocaleString('fr-FR');
-    maj();
+    maj(false);
   }
-  function maj() {
+  function compte(vers) {
+    var el = document.getElementById('budget-prix'), de = compteur ? compteur.val : vers;
+    if (!compteur) compteur = {val: vers};
+    if (compteur.raf) cancelAnimationFrame(compteur.raf);
+    if (reduit || de === vers) { compteur.val = vers; el.textContent = 'Moins de ' + eur(vers); return; }
+    var t0 = performance.now();
+    (function pas(t) {
+      var p = Math.min(1, (t - t0) / 380);
+      compteur.val = Math.round(de + (vers - de) * (1 - Math.pow(1 - p, 3)));
+      el.textContent = 'Moins de ' + eur(compteur.val);
+      if (p < 1) compteur.raf = requestAnimationFrame(pas);
+    })(t0);
+  }
+  function maj(vivant) {
     var d = D[cur], dec = debut(d), v = +rg.value, n = d.cumul.length - dec,
         prix = Math.round((v + dec) * d.pas), nb = d.cumul[v - 1 + dec];
-    document.getElementById('budget-prix').textContent = 'Moins de ' + eur(prix);
+    compte(prix);
     document.getElementById('budget-voir').textContent = (nb > 1 ? 'Voir les ' + nb.toLocaleString('fr-FR') + ' produits' : 'Voir le produit');
     bulle.href = '/c/' + d.code + '?prix_max=' + prix;
     // le rond est au bord droit de la v-ième barre ; la bulle s'y accroche
@@ -79,25 +105,39 @@
         gauche = Math.max(0, Math.min(x - lb / 2, L - lb));
     bulle.style.left = gauche + 'px';
     bulle.style.setProperty('--pointe', (x - gauche) + 'px');
-    var bs = barres.children;
-    for (var i = 0; i < bs.length; i++) bs[i].className = i < v ? 'dedans' : '';
-    // le rond monte et descend avec le sommet de la barre qu'il vient d'allumer
-    // (centre du rond au sommet ; il reste dans la piste, 74 px, rond de 26 px)
-    var H = piste.clientHeight, sommet = H - bs[v - 1].offsetHeight;
-    var dy = Math.max(13, Math.min(H - 13, sommet)) - H / 2;
-    rg.style.setProperty('--dy', dy + 'px');
+    piste.style.setProperty('--x', (x + 2) + 'px');
+    // le rond se pose pile sur le trait droit de l'encadré (milieu de la piste) : on décale l'entrée
+    // pour que sa course aille du bord droit de la 1re barre à celui de la dernière
+    var pas = (L - 26) / n;
+    rg.style.left = pas + 'px'; rg.style.width = (L - pas) + 'px';
+    // les deux barres voisines du rond se soulèvent pendant qu'on glisse
+    for (var i = 0; i < n; i++) {
+      bs[i].classList.toggle('dedans', i < v);
+      bs[i].classList.toggle('vague', vivant === true && Math.abs(i - (v - 1)) <= 1);
+    }
+    if (vivant === true && v !== avant) { bulle.classList.remove('pop'); void bulle.offsetWidth; bulle.classList.add('pop'); }
+    avant = v;
   }
-  rg.addEventListener('input', maj);
-  window.addEventListener('resize', maj);
+  rg.addEventListener('input', function () {
+    bulle.classList.add('glisse'); piste.classList.add('glisse'); maj(true);
+    clearTimeout(calme);
+    calme = setTimeout(function () { bulle.classList.remove('glisse'); piste.classList.remove('glisse'); maj(false); }, 160);
+  });
+  window.addEventListener('resize', function () { maj(false); });
+  piste.addEventListener('pointermove', function (e) {
+    var r = barres.getBoundingClientRect(), i = Math.floor((e.clientX - r.left - 13) / ((r.width - 26) / (+rg.max)));
+    for (var j = 0; j < bs.length; j++) bs[j].classList.toggle('survol', j === i);
+  });
+  piste.addEventListener('pointerleave', function () { for (var j = 0; j < bs.length; j++) bs[j].classList.remove('survol'); });
   hote.querySelectorAll('[data-rayon]').forEach(function (b) {
     b.addEventListener('click', function () {
       cur = +b.dataset.rayon;
       hote.querySelectorAll('[data-rayon]').forEach(function (x) { x.setAttribute('aria-selected', x === b ? 'true' : 'false'); });
       document.getElementById('budget-tout').href = '/c/' + D[cur].code;
-      trace();
+      trace(false);
     });
   });
-  trace();
+  trace(true);
 })();
 </script>
 {% endif %}
