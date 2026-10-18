@@ -35,20 +35,25 @@ class LoadResult:
 
 
 def _ensure_merchants(conn: psycopg.Connection) -> None:
-    """Keep the `merchant` table in sync with feeds.py (the single source)."""
+    """Keep the `merchant` table in sync with feeds.py (the single source).
+
+    `affiche` n'est fixe qu'a la CREATION : un marchand existant garde le drapeau
+    qu'on lui a donne (le bascule se fait en base, jamais ici), et un nouveau
+    marchand peut naitre masque (`FeedSpec.affiche_au_depart`)."""
     with conn.cursor() as cur:
         for f in FEEDS.values():
             cur.execute(
                 """
-                INSERT INTO merchant (id, code, platform, gtin_trust, reliability_rank)
-                VALUES (%s, %s, %s, %s, %s)
+                INSERT INTO merchant (id, code, platform, gtin_trust, reliability_rank, affiche)
+                VALUES (%s, %s, %s, %s, %s, %s)
                 ON CONFLICT (id) DO UPDATE SET
                     code = EXCLUDED.code,
                     platform = EXCLUDED.platform,
                     gtin_trust = EXCLUDED.gtin_trust,
                     reliability_rank = EXCLUDED.reliability_rank
                 """,
-                (f.merchant_id, f.code, f.platform, f.gtin_trust, f.reliability_rank),
+                (f.merchant_id, f.code, f.platform, f.gtin_trust, f.reliability_rank,
+                 f.affiche_au_depart),
             )
     conn.commit()
 

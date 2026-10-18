@@ -26,7 +26,7 @@ from dotenv import load_dotenv
 from rich.console import Console
 
 from . import __version__
-from .feeds import FEEDS, configured_feeds
+from .feeds import FEEDS, configured_feeds, masquer_secrets
 
 load_dotenv()  # read .env into the environment before anything looks at it
 
@@ -103,11 +103,53 @@ def fetch(
             # le dit, plutôt que de vider le marchand en silence.
             if not connues:
                 console.print("[yellow]aucune offre connue, filtre ignoré[/]", end=" ")
+        eans_connus = None
+        prix_ref = None
+        marques_ref = None
+        if f.perimetre:
+            from .db import connect
+            from .perimetre import cle_gtin
+            with connect() as conn:
+                # les codes-barres des AUTRES marchands, vivants seulement
+                eans_connus = {k for (g,) in conn.execute(
+                    "SELECT DISTINCT raw_gtin FROM raw_offer WHERE merchant_id <> %s"
+                    " AND is_live AND raw_gtin IS NOT NULL", (f.merchant_id,))
+                    if (k := cle_gtin(g))}
+                # leur prix median par code-barres, pour le garde-fou de prix
+                prix_ref = {}
+                for g, med in conn.execute(
+                        "SELECT ro.raw_gtin, percentile_cont(0.5) WITHIN GROUP (ORDER BY ph.price)"
+                        " FROM raw_offer ro JOIN LATERAL ("
+                        "   SELECT price FROM price_history WHERE raw_offer_id = ro.id"
+                        "   AND in_stock ORDER BY observed_on DESC LIMIT 1) ph ON true"
+                        " WHERE ro.merchant_id <> %s AND ro.is_live AND ro.raw_gtin IS NOT NULL"
+                        " AND ph.price > 0 GROUP BY ro.raw_gtin", (f.merchant_id,)):
+                    if (k := cle_gtin(g)):
+                        prix_ref[k] = float(med)
+                # les marques sous lesquelles les autres marchands vendent chaque
+                # code-barres, pour ecarter une offre en desaccord (`perimetre.decision`)
+                marques_ref = {}
+                for g, marques in conn.execute(
+                        "SELECT o.gtin, array_agg(DISTINCT sg.brand_code)"
+                        " FROM raw_offer o JOIN offer_signature sg ON sg.raw_offer_id = o.id"
+                        " WHERE o.merchant_id <> %s AND o.is_live AND o.gtin IS NOT NULL"
+                        " AND sg.brand_code IS NOT NULL AND sg.brand_code <> '' GROUP BY o.gtin",
+                        (f.merchant_id,)):
+                    if (k := cle_gtin(g)):
+                        marques_ref[k] = frozenset(marques)
+                # le perimetre est monotone : une offre deja admise le reste
+                connues = {r[0] for r in conn.execute(
+                    "SELECT merchant_sku FROM raw_offer WHERE merchant_id = %s",
+                    (f.merchant_id,))}
+            console.print(f"[dim]{len(eans_connus):,} codes-barres connus, "
+                          f"{len(connues):,} offres déjà admises[/]", end=" ")
         try:
             res = fetch_feed(f, dest, max_age_seconds=max_age, on_progress=progress,
-                             connues=connues)
+                             connues=connues, eans_connus=eans_connus,
+                             prix_ref=prix_ref if f.perimetre else None,
+                             marques_ref=marques_ref if f.perimetre else None)
         except Exception as exc:  # noqa: BLE001 — report and keep going
-            console.print(f"[red]FAILED[/] {exc}")
+            console.print(f"[red]FAILED[/] {masquer_secrets(exc)}")
             continue
 
         # Ce qui est compté, c'est ce qui a VRAIMENT transité. Un flux revalidé
@@ -124,8 +166,11 @@ def fetch(
             console.print(f"[green]ok[/] {_mb(res.bytes)} in {res.seconds:.0f}s")
             if res.filtre:
                 lues, gardees = res.filtre
-                console.print(f"  offres connues seulement : {gardees:,} gardées"
+                console.print(f"  périmètre : {gardees:,} gardées"
                               f" sur {lues:,} lues")
+            if res.raisons:
+                console.print("  par raison : " + ", ".join(
+                    f"{k} {v:,}" for k, v in sorted(res.raisons.items(), key=lambda x: -x[1])))
 
     console.print(f"\n{_mb(total_bytes)} téléchargés dans {dest}/")
     if economise:
@@ -154,7 +199,7 @@ def load(
         try:
             res = load_feed(f, dest / f"{f.code}.csv")
         except Exception as exc:  # noqa: BLE001
-            console.print(f"[red]FAILED[/] {exc}")
+            console.print(f"[red]FAILED[/] {masquer_secrets(exc)}")
             continue
         total += res.rows
         console.print(f"[green]ok[/] {res.rows:,} rows in {res.seconds:.0f}s")
@@ -184,7 +229,7 @@ def normalize(
         try:
             res = normalize_feed(f, force=force)
         except Exception as exc:  # noqa: BLE001
-            console.print(f"[red]FAILED[/] {exc}")
+            console.print(f"[red]FAILED[/] {masquer_secrets(exc)}")
             continue
         extra = f", {res.gtin_rejected:,} bad GTINs dropped" if res.gtin_rejected else ""
         if res.hors_perimetre:
@@ -317,6 +362,11 @@ def match(
         f"  pièces séparées d'une fiche fourre-tout : "
         f"{res.pieces_decoupees:,} unité(s)"
     )
+    if res.offres_ecartees:
+        console.print(
+            f"  offres d'un marchand neuf écartées (en désaccord avec les autres) : "
+            f"{res.offres_ecartees:,}"
+        )
 
     # Advisory only: never let a verify-side bug or a real violation turn a
     # successful match run into a failure the user can't unblock. `mcpipe

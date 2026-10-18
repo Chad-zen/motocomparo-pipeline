@@ -27,6 +27,7 @@ Header quirks verified against the live feeds (2026-09-10):
 from __future__ import annotations
 
 import os
+import re
 from dataclasses import dataclass, field
 
 
@@ -45,6 +46,23 @@ class FeedSpec:
     # Ne garder, au téléchargement, que les offres déjà connues en base — voir
     # `fetch._filtrer_connues`. Aucune offre nouvelle n'entre tant que c'est vrai.
     connus_seulement: bool = False
+    # Flux livre en archive (`zip`) : Awin n'offre que gzip ou zip, jamais « rien ».
+    compression: str | None = None
+    # Perimetre applique AU TELECHARGEMENT, avant que la moindre ligne n'entre en
+    # base — voir `fetch._filtrer_perimetre`. None = tout garder.
+    perimetre: str | None = None
+    # Colonnes sans lesquelles le flux n'est pas importable. Si l'une manque (un
+    # marchand renomme, un utilisateur decoche une case sur la plateforme), on
+    # s'arrete plutot que d'importer sans taille ni code-barres.
+    colonnes_requises: tuple[str, ...] = ()
+    # Le marchand est-il montre sur le site des sa creation en base ? Faux pour un
+    # nouveau marchand tant qu'il n'a pas ete valide (`merchant.affiche`, sql/021).
+    affiche_au_depart: bool = True
+    # Ses offres EN DESACCORD avec celles des autres marchands sur un meme code-barres
+    # (marque, rayon, couleur, genre/age, lot, annee) sont ecartees (`rejected`) avant le
+    # `match`, au lieu de mettre le code-barres entier en quarantaine — voir
+    # `match._ECARTER_DESACCORDS`. Pour un marchand neuf et non eprouve.
+    ecarte_desaccords: bool = False
 
     @property
     def url(self) -> str | None:
@@ -123,6 +141,36 @@ _WEBGAINS_COLUMNS = {
     "availability":   ["availability"],
 }
 
+# Awin (Le Motard Bleu, 18/10/2026). Le flux est ce que l'utilisateur coche sur
+# « Create-a-Feed » : seules les colonnes cochees existent. La TAILLE n'est pas une
+# colonne a part, elle est dans `custom_1` (S, M, L, XL, 2XL... et « TU » pour une
+# taille unique), le genre dans `custom_2` (Unisex / Male / Female), l'age dans
+# `custom_3` (Adulte / Junior / Baby, rempli a 61 %). `product_GTIN` est VIDE : le
+# code-barres est dans `ean`. Le lien tracke est `aw_deep_link` ; `merchant_deep_link`
+# ne rapporterait aucune commission. `rrp_price` est un prix conseille, jamais un
+# ancien prix : il n'est pas lu, il ne doit jamais s'afficher comme une remise.
+# `mpn` n'est PAS lu : 4 806 valeurs sont partagees entre variantes (22 111 lignes),
+# dont 149 entre rayons differents (une housse Bagster et un tube Brazoline), et
+# Motard Bleu etant `trusted`, `match._LINK_MPN_PREFIXE` s'en serait servi comme cible.
+_AWIN_COLUMNS = {
+    "merchant_ref":   ["merchant_product_id"],
+    "gtin":           ["ean"],
+    "title":          ["product_name"],
+    "brand":          ["brand_name"],
+    "color":          ["colour"],
+    "size":           ["custom_1"],
+    "gender":         ["custom_2"],
+    "age_group":      ["custom_3"],
+    "item_group_id":  ["parent_product_id"],
+    "description":    ["description"],
+    "category":       ["merchant_category"],
+    "link":           ["aw_deep_link"],
+    "image":          ["merchant_image_url"],
+    "price":          ["search_price"],
+    "currency":       ["currency"],
+    "availability":   ["in_stock"],
+}
+
 
 FEEDS: dict[str, FeedSpec] = {
     "speedway": FeedSpec(
@@ -155,7 +203,41 @@ FEEDS: dict[str, FeedSpec] = {
         # quand le flux redevient normal — de nouveaux produits entreront alors.
         connus_seulement=True,
     ),
+    # Le Motard Bleu : 130 143 lignes, 223 Mo une fois le zip ouvert. On ne charge
+    # que l'equipement du pilote (voir `perimetre`) ; les pieces viendront apres, une
+    # fois `mcpipe verify` propre. Masque du site tant qu'il n'est pas valide.
+    "motardbleu": FeedSpec(
+        code="motardbleu", merchant_id=7, platform="awin", delimiter=",",
+        gtin_trust="trusted", reliability_rank=3, columns=_AWIN_COLUMNS,
+        compression="zip", perimetre="equipement_pilote",
+        colonnes_requises=("merchant_product_id", "ean", "product_name", "brand_name",
+                           "aw_deep_link", "search_price", "merchant_category", "custom_1"),
+        affiche_au_depart=False,
+        ecarte_desaccords=True,
+    ),
 }
+
+
+# LA CLE D'UN FLUX EST UN SECRET (18/10/2026). L'URL du flux Awin porte la cle API
+# dans son chemin (`/apikey/<32 caracteres>/`), et `httpx` recopie l'URL entiere dans
+# le message de ses erreurs : une coupure reseau l'aurait ecrite dans le journal de
+# la chaine de nuit (`07-planification.sh` redirige la sortie vers des fichiers).
+# Tout message d'erreur de flux passe par ici avant d'etre affiche ou journalise.
+_CLE_AWIN = re.compile(r"(apikey/)[^/\s'\"]+", re.IGNORECASE)
+_PARAM_SECRET = re.compile(r"([?&](?:token|key|apikey|api_key|secret)=)[^&\s'\"]+", re.IGNORECASE)
+
+
+def masquer_secrets(texte: object) -> str:
+    """Le texte d'une erreur, sans l'URL d'un flux ni son jeton.
+
+    Remplace les URL et jetons connus de l'environnement (`FEED_*_URL`,
+    `FEED_*_TOKEN`) puis les formes courantes (`apikey/...`, `?token=...`)."""
+    out = str(texte)
+    for nom, valeur in os.environ.items():
+        if nom.startswith("FEED_") and (nom.endswith("_URL") or nom.endswith("_TOKEN")) and valeur:
+            out = out.replace(valeur, f"<{nom}>")
+    out = _CLE_AWIN.sub(r"\1***", out)
+    return _PARAM_SECRET.sub(r"\1***", out)
 
 
 def configured_feeds() -> list[FeedSpec]:

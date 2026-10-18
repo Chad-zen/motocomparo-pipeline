@@ -11,6 +11,7 @@ def test_feeds_defined():
         "maxxess",
         "motoaxxe",
         "fcmoto",
+        "motardbleu",
     }
 
 
@@ -22,7 +23,7 @@ def test_merchant_ids_are_unique():
 def test_gtin_trust_split():
     trusted = {c for c, f in FEEDS.items() if f.gtin_trust == "trusted"}
     synthetic = {c for c, f in FEEDS.items() if f.gtin_trust == "synthetic"}
-    assert trusted == {"speedway", "labecanerie", "motoblouz", "fcmoto"}
+    assert trusted == {"speedway", "labecanerie", "motoblouz", "fcmoto", "motardbleu"}
     assert synthetic == {"maxxess", "motoaxxe"}
 
 
@@ -39,6 +40,21 @@ def test_every_feed_maps_gtin_and_title():
 
 
 def test_delimiter_matches_platform():
-    expected = {"effinity": ";", "netaffiliation": "|", "webgains": ","}
+    expected = {"effinity": ";", "netaffiliation": "|", "webgains": ",", "awin": ","}
     for f in FEEDS.values():
         assert f.delimiter == expected[f.platform]
+
+
+def test_motard_bleu_est_masque_et_lit_la_taille_dans_custom_1():
+    f = FEEDS["motardbleu"]
+    assert f.affiche_au_depart is False          # pas sur le site avant validation
+    assert f.columns["size"] == ["custom_1"]
+    assert f.columns["gtin"] == ["ean"]           # product_GTIN est vide chez Awin
+    assert f.columns["link"] == ["aw_deep_link"]  # le lien tracke, pas merchant_deep_link
+    assert "rrp_price" not in sum(f.columns.values(), [])  # un prix conseille n'est pas une remise
+    assert f.compression == "zip"
+    assert "custom_1" in f.colonnes_requises and "ean" in f.colonnes_requises
+
+
+def test_les_autres_marchands_restent_affiches_des_leur_creation():
+    assert all(f.affiche_au_depart for c, f in FEEDS.items() if c != "motardbleu")

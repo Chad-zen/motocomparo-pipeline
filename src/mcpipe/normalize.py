@@ -176,6 +176,35 @@ def _category(feed: FeedSpec, row: dict) -> str | None:
     return _ci_get(row, feed.columns.get("category", []))
 
 
+# LE COLORIS COMPLET DE MOTARD BLEU (18/10/2026). Son champ `colour` n'a que 17
+# valeurs et UNE couleur par ligne : le gant 4Square Pulsar noir/rouge, noir/jaune
+# et noir/gris sont tous « Noir ». Rapproches par identite, ces trois coloris
+# deviendraient une seule fiche (1 401 cles d'identite reunissaient plusieurs
+# parents). Le coloris entier est dans le nom du fichier image :
+# `..._noir-rouge_1.jpg`. On le retient seulement quand il PRECISE la couleur
+# declaree (noir -> noir + rouge) ou quand le champ n'est pas lisible
+# (« Turquoise »). Jamais quand il la contredit : le champ reste la parole du marchand.
+_COLORIS_IMAGE_RE = re.compile(r"_([a-z][a-z\-]*)_\d+\.(?:jpe?g|png|webp)(?:\?.*)?$", re.IGNORECASE)
+
+
+def _couleur(feed: FeedSpec, row: dict) -> str | None:
+    brute = _ci_get(row, feed.columns.get("color", []))
+    if feed.platform != "awin":
+        return brute
+    m = _COLORIS_IMAGE_RE.search(_ci_get(row, feed.columns.get("image", [])) or "")
+    if not m:
+        return brute
+    mots = m.group(1).replace("-", " ")
+    canon_image = tn.colour(mots)[0]
+    if not canon_image:
+        return brute
+    canon_champ = tn.colour(brute)[0] if brute else ""
+    if not canon_champ:
+        return mots
+    base = lambda c: set(c.split("|")[0].split("-"))  # noqa: E731 — sans le fini
+    return mots if base(canon_champ) < base(canon_image) else brute
+
+
 _CREATE_TEMP = """
 CREATE TEMP TABLE _norm (
     merchant_id    smallint,
@@ -345,7 +374,7 @@ def normalize_feed(feed: FeedSpec, *, force: bool = False) -> NormalizeResult:
                             gtin,
                             title,
                             _ci_get(row, cols.get("brand", [])),
-                            _ci_get(row, cols.get("color", [])),
+                            _couleur(feed, row),
                             _ci_get(row, cols.get("gender", [])),
                             _ci_get(row, cols.get("age_group", [])),
                             _ci_get(row, cols.get("size", [])),

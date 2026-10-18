@@ -64,6 +64,21 @@ _BRAND_ALIAS: dict[str, str] = {
     "mooseracing": "mooseracing", "moose": "mooseracing",
     "allballs": "allballs", "allballsracing": "allballs",
     "motoaxxe": "maxxe", "maxxe": "maxxe",
+    # LES NOMS DE MARQUE DE MOTARD BLEU (18/10/2026). Il ecrit « GPR Exhaust » la ou
+    # tous les autres ecrivent « GPR » : un meme code-barres portait deux marques, le
+    # conflit de marque mettait en quarantaine TOUTES ses offres, y compris celles de
+    # Speedway, Motoblouz et FC-Moto (+20 800 offres au premier essai complet). Chaque
+    # entree ci-dessous a ete choisie parce que sa cle n'existe chez AUCUN autre
+    # marchand (mesure) : l'alias ne change donc le code d'aucune offre existante, donc
+    # aucune adresse de fiche. Les cas qui changeraient des codes existants
+    # (blackbirdracing, samcosport, seven, ngbrakedisc...) ne sont pas ici : le garde-fou
+    # a la porte (`perimetre.decision`) ecarte l'offre Motard Bleu en desaccord, seule.
+    "gprexhaust": "gpr", "nexxhelmets": "nexx", "shotracegear": "shot",
+    "pullinmoto": "pullin", "sbsgoahead": "sbs", "mefosportgmbh": "mefo",
+    "kappamoto": "kappa", "miw": "meiwa", "miwfilters": "meiwa",
+    "hitairequestrian": "hitair", "proxracingparts": "prox", "tigra": "tigrasport",
+    "circuitequipment": "circuitequipement", "furukawa": "furukawabattery",
+    "kyb": "kayaba", "blackdiamond": "blackdiamonds",
 }
 
 # base colour token -> 2-letter code
@@ -108,6 +123,10 @@ _COLOUR_BASE: dict[str, str] = {
 _COLOUR_FALLBACK: dict[str, str] = {
     "noire": "BK", "blanche": "WH", "verte": "GN", "grise": "GY",
     "bleue": "BL", "violette": "PU", "doree": "GD", "argentee": "SI",
+    # « Argenté » (masculin) manquait : le flux Motard Bleu l'ecrit sur 17 767
+    # lignes sur 130 143, FC-Moto sur 1 625, Maxxess et Moto-Axxe sur 364 — toutes
+    # sans couleur lue. Le code SI existe deja, donc rien ne se desaccorde.
+    "argente": "SI",
 }
 
 # finish modifier -> code (a matte helmet is NOT a glossy helmet: kept separate
@@ -394,6 +413,16 @@ def size_code(raw_size: str | None, title: str | None, link: str | None,
     c = _SIZE_ALPHA_MAP.get(c, c)
     if _SIZE_LETTER_RE.match(c):
         return c, src
+    # « Taille 8 » (Motard Bleu, ~2 300 lignes de gants) : le mot « taille » ne
+    # fait pas partie de la pointure, `8` et `T8` existent deja chez les autres.
+    if m_taille := re.fullmatch(r"TAILLE(\d{1,2})", c):
+        return m_taille.group(1), src
+    # « S (55/56 cm) » (Motard Bleu, ~8 800 casques) : FC-Moto ecrit « S (55/56) »
+    # et obtient `S5556` ; le « cm » en plus donnait `S5556CM`, donc deux libelles
+    # pour une meme taille. Seulement deux tours de tete a deux chiffres : la
+    # taille d'enfant « L (152cm) » de La Becanerie n'en est pas une et reste telle quelle.
+    if m_tete := re.fullmatch(r"((?:XXS|XS|S|M|L|XL|2XL|3XL|4XL)\d{4})CM", c):
+        return m_tete.group(1), src
     if re.fullmatch(r"5[3-9]|6[0-5]", c):
         return c + "CM", src
     if re.fullmatch(r"3[5-9]|4[0-9]|5[0-2]", c):

@@ -81,6 +81,7 @@ from dataclasses import dataclass
 from psycopg.types.json import Jsonb
 
 from .db import connect
+from .feeds import FEEDS
 
 
 @dataclass
@@ -102,6 +103,91 @@ class MatchResult:
     offers_linked_mpn: int = 0
     # unités de pièces séparées d'une fiche fourre-tout
     pieces_decoupees: int = 0
+    # offres d'un marchand neuf écartées parce qu'elles contredisent les autres
+    offres_ecartees: int = 0
+
+
+# --- LES DESACCORDS D'UN MARCHAND NEUF (18/10/2026) --------------------------------------
+#
+# Au premier essai complet avec Motard Bleu, 19 860 codes-barres sont partis en
+# quarantaine — et avec eux TOUTES leurs offres : Speedway +7 557, Motoblouz +10 813,
+# FC-Moto +2 520. Le defaut n'etait pas chez eux. Une quarantaine de code-barres est
+# collective : une seule offre en desaccord (une marque ecrite autrement, un coloris
+# que le dictionnaire ne sait pas lire) y entraine les autres.
+#
+# Pour un marchand qui n'a pas encore fait ses preuves (`FeedSpec.ecarte_desaccords`),
+# on inverse la charge : son offre en desaccord avec UNE offre vivante d'un autre
+# marchand, sur un des champs qui gouvernent la fusion (marque, rayon, couleur — au
+# sens d'inclusion, comme `conflicts` —, genre/age, lot, annee), est ECARTEE seule
+# (`rejected`). Les autres marchands ne sont jamais touches. `reset_match_state`
+# remet tout a `unresolved`, donc l'examen est refait a chaque match complet.
+_ECARTER_DESACCORDS = """
+UPDATE raw_offer o
+SET linked_status = 'rejected', link_method = 'desaccord', link_confidence = NULL
+FROM offer_signature s
+WHERE s.raw_offer_id = o.id
+  AND o.merchant_id IN ({ids})
+  AND o.linked_status = 'unresolved'
+  AND o.gtin IS NOT NULL
+  AND EXISTS (
+      SELECT 1
+      FROM raw_offer p
+      JOIN offer_signature t ON t.raw_offer_id = p.id
+      WHERE p.gtin = o.gtin
+        AND p.merchant_id NOT IN ({ids})
+        AND p.is_live
+        AND (
+              (s.brand_code IS NOT NULL AND t.brand_code IS NOT NULL
+               AND s.brand_code <> t.brand_code)
+           OR (s.category_id IS NOT NULL AND t.category_id IS NOT NULL
+               AND s.category_id <> 25 AND t.category_id <> 25
+               AND s.category_id <> t.category_id)
+           OR (left(s.genre_age, 1) <> 'U' AND left(t.genre_age, 1) <> 'U'
+               AND left(s.genre_age, 1) <> left(t.genre_age, 1))
+           OR right(s.genre_age, 1) <> right(t.genre_age, 1)
+           OR s.is_pack IS DISTINCT FROM t.is_pack
+           OR (s.model_year IS NOT NULL AND t.model_year IS NOT NULL
+               AND s.model_year <> t.model_year)
+           OR (s.primary_colour IS NOT NULL AND t.primary_colour IS NOT NULL
+               AND NOT (
+                    string_to_array(replace(s.primary_colour, '|', '-'), '-')
+                      @> string_to_array(replace(t.primary_colour, '|', '-'), '-')
+                 OR string_to_array(replace(t.primary_colour, '|', '-'), '-')
+                      @> string_to_array(replace(s.primary_colour, '|', '-'), '-')))
+        )
+  )
+"""
+
+# Le second filet. `_ECARTER_DESACCORDS` attrape les desaccords qu'on sait ecrire en une
+# phrase ; il en reste que seul le calcul des unites voit (le « pont » de couleurs :
+# BK et RD sont chacun inclus dans BK-RD sans etre compatibles entre eux, ou une
+# combinaison de trois offres). Au 2e essai complet, 911 codes-barres etaient encore en
+# conflit avec une offre de Motard Bleu, et 2 230 offres des AUTRES marchands tombaient
+# en quarantaine avec elles. Regle : un marchand neuf n'est JAMAIS la cause d'une
+# quarantaine. Toute offre neuve sur un code-barres en conflit est ecartee, puis les
+# unites sont recalculees SANS elle ; si les autres marchands se contredisent entre eux,
+# le conflit reste (c'est le leur, il existait deja).
+_ECARTER_CONFLITS_NEUFS = """
+UPDATE raw_offer o
+SET linked_status = 'rejected', link_method = 'conflit', link_confidence = NULL
+FROM _gtin_unit gu
+WHERE gu.gtin = o.gtin AND gu.conflict
+  AND o.merchant_id IN ({ids})
+  AND o.linked_status = 'unresolved'
+"""
+
+
+def sql_ecarter_conflits_neufs(marchands: list[int]) -> str:
+    ids = ", ".join(str(int(m)) for m in marchands)
+    return _ECARTER_CONFLITS_NEUFS.replace("{ids}", ids)
+
+
+def sql_ecarter_desaccords(marchands: list[int]) -> str:
+    """Le SQL ci-dessus pour ces marchands. Des entiers venus de `feeds.py`, jamais
+    d'une saisie : l'interpolation est sans danger, et `valide_sql.py` peut ainsi
+    analyser la requete telle quelle (pas de parametre nomme a lui fournir)."""
+    ids = ", ".join(str(int(m)) for m in marchands)
+    return _ECARTER_DESACCORDS.replace("{ids}", ids)
 
 
 # informational identity per offer: category + a hash of the fields that
@@ -165,6 +251,14 @@ couleurs_par_gtin AS (
     WHERE primary_colour IS NOT NULL
     GROUP BY gtin
     HAVING count(DISTINCT primary_colour) > 1
+),
+codes_multicolores AS (
+    SELECT DISTINCT gtin FROM (
+        SELECT gtin FROM members
+        WHERE primary_colour IS NOT NULL
+        GROUP BY gtin, merchant_id
+        HAVING count(DISTINCT primary_colour) > 1
+    ) x
 ),
 conflicts AS (
     -- genre_age is '{gender}-{age}' (textnorm.genre_age): gender is 'F'/'H'/
@@ -235,12 +329,14 @@ conflicts AS (
     -- code covering a range, so its own colour is not evidence about that
     -- barcode. Rare — 17 of 426,782, none on helmets — but it is exactly the
     -- case where inclusion would merge a gloss helmet with a matte one.
-    OR EXISTS (
-        SELECT 1 FROM members m2
-        WHERE m2.gtin = c.gtin AND m2.primary_colour IS NOT NULL
-        GROUP BY m2.merchant_id
-        HAVING count(DISTINCT m2.primary_colour) > 1
-    )
+    --
+    -- Calculé UNE FOIS (`codes_multicolores`), puis rejoint. Ecrit en EXISTS
+    -- correle, il relisait toute la table `members` (640 000 lignes) pour chacun
+    -- des 54 000 codes-barres a couleurs multiples : ~35 milliards de lectures,
+    -- une premiere requete qui a tourne plus d'une heure sans finir le
+    -- 18/10/2026 (ajout de Motard Bleu, dont la couleur unique « Noir » cotoie
+    -- les « noir-rouge » des autres marchands). Meme resultat, mesure.
+    OR c.gtin IN (SELECT gtin FROM codes_multicolores)
 ),
 -- The gated fields (colour/genre/year/pack/category/brand) are NOT taken
 -- from one "representative" row — the `conflicts` gate above already
@@ -1307,8 +1403,24 @@ def run_match(*, avec_mpn: bool = True) -> MatchResult:
         with conn.cursor() as cur:
             cur.execute(_COMPUTE_OFFER_IDENTITY)
 
+            # Les marchands neufs d'abord : leurs offres en desaccord sortent AVANT que
+            # `_BUILD_GTIN_UNITS` ne les regarde (voir `_ECARTER_DESACCORDS`).
+            nouveaux = [f.merchant_id for f in FEEDS.values() if f.ecarte_desaccords]
+            offres_ecartees = 0
+            if nouveaux:
+                cur.execute(sql_ecarter_desaccords(nouveaux))
+                offres_ecartees = cur.rowcount
+
             # --- GTIN pass ---
             cur.execute(_BUILD_GTIN_UNITS)
+
+            # Second filet pour les marchands neufs : voir `_ECARTER_CONFLITS_NEUFS`.
+            if nouveaux:
+                cur.execute(sql_ecarter_conflits_neufs(nouveaux))
+                if cur.rowcount:
+                    offres_ecartees += cur.rowcount
+                    cur.execute("DROP TABLE _gtin_unit")
+                    cur.execute(_BUILD_GTIN_UNITS)
 
             # Indexée et analysée avant toute chose : une table temporaire n'a ni
             # statistiques ni index, et les replis la mettent à jour en la
@@ -1459,6 +1571,7 @@ def run_match(*, avec_mpn: bool = True) -> MatchResult:
             offers_linked_identite=offers_linked_identite,
             offers_linked_mpn=offers_linked_mpn,
             pieces_decoupees=pieces_decoupees,
+            offres_ecartees=offres_ecartees,
         )
     except Exception:
         conn.rollback()

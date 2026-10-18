@@ -50,6 +50,8 @@ FROM raw_offer o JOIN offer_signature s ON s.raw_offer_id = o.id WHERE false;
 # (nom, sql, paramètres) — les requêtes paramétrées sont analysées telles quelles.
 A_VERIFIER = [
     ("_COMPUTE_OFFER_IDENTITY", match._COMPUTE_OFFER_IDENTITY),
+    ("_ECARTER_DESACCORDS", match.sql_ecarter_desaccords([7])),
+    ("_ECARTER_CONFLITS_NEUFS", match.sql_ecarter_conflits_neufs([7])),
     ("_BUILD_GTIN_UNITS", None),          # CREATE TABLE : vérifié par la copie
     ("_PREP_REPLI_GENRE", match._PREP_REPLI_GENRE),
     ("_FOLD_GENRE", match._FOLD_GENRE),
