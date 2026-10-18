@@ -69,7 +69,9 @@ _COARSE_BUCKETS: dict[str, set[str]] = {
 
 # buckets corrected by the helmet cascade (rule 2), keyed by merchant code
 _HELMET_BUCKETS: dict[str, set[str]] = {
-    "fcmoto": {"helmets"},
+    # deux ecritures du meme rayon dans le flux : 3 014 offres vivantes etaient
+    # sous « Helmets » et jamais corrigees (18/10/2026)
+    "fcmoto": {"helmets", "Helmets"},
 }
 
 # the specific helmet subtypes; `helmet` (1, the generic parent) is excluded on
@@ -90,9 +92,14 @@ _NOT_A_MOTO_HELMET = re.compile(
 # but in this catalogue "Flip" is a product line ("Acerbis Flip FS-606"), and it
 # only ever fired on visors — 27 of them.
 _HELMET_TITLE_RULES: list[tuple[re.Pattern, int]] = [
-    (re.compile(r"modulable|modular"), 4),
-    (re.compile(r"cross"), 5),
-    (re.compile(r"\bjet\b|demi ?jet|\bbol\b"), 3),
+    # FC-Moto ecrit « Helmets » (titre a virgules, traduit) autrement que
+    # « helmets » : casque modulaire / rabattable / a bascule / a visiere
+    # relevable, casque ouvert / a reaction / a jet, casque a croix / croise.
+    (re.compile(r"modulable|modular|modulaire|rabattable|\ba bascule\b"
+                r"|visiere relevable"), 4),
+    # aventure et enduro rangent avec le cross (choix de Sofia, 18/10/2026)
+    (re.compile(r"cross|\bcroix\b|\bcroise\b|\baventure\b|\benduro\b"), 5),
+    (re.compile(r"\bjet\b|demi ?jet|\bbol\b|\bouverts?\b|\breaction\b"), 3),
     (re.compile(r"integral|full ?face"), 2),
 ]
 

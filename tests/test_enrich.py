@@ -65,6 +65,23 @@ def test_title_names_one_subtype():
     assert helmet_subtype_from_title("Casque intégral AGV K6") == INTEGRAL
 
 
+def test_title_in_the_translated_fcmoto_wording():
+    """Rayon « Helmets » de FC-Moto (3 014 offres le 18/10) : titre a virgules,
+    type du casque traduit. Rattachees a des fiches deja corrigees ailleurs, ces
+    offres restaient en integral et melangeaient ~500 fiches."""
+    t = "KYT D-City Plain, {}, couleur: Bleu Mat , taille: M"
+    assert helmet_subtype_from_title(t.format("casque à réaction")) == JET
+    assert helmet_subtype_from_title(t.format("casque ouvert")) == JET
+    assert helmet_subtype_from_title(t.format("casque modulaire")) == MODULAR
+    assert helmet_subtype_from_title(t.format("casque rabattable")) == MODULAR
+    assert helmet_subtype_from_title(t.format("casque à bascule")) == MODULAR
+    assert helmet_subtype_from_title(t.format("casque à croix")) == CROSS
+    assert helmet_subtype_from_title(t.format("casque intégral")) == INTEGRAL
+    # aventure et enduro rangent avec le cross
+    assert helmet_subtype_from_title(t.format("casque d aventure")) == CROSS
+    assert helmet_subtype_from_title(t.format("casque enduro")) == CROSS
+
+
 def test_title_naming_two_subtypes_is_ambiguous():
     # the real trap: a modular helmet described by its integral chin bar
     assert helmet_subtype_from_title("Casque modulable à mentonnière intégrale") is None
