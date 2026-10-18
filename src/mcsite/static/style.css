@@ -4819,3 +4819,25 @@ html { overflow-x: clip; }
 
 /* le tablist des pastilles du budget ne change rien a la mise en page (il sert l'arbre d'accessibilite) */
 .budget__onglets { display: contents; }
+
+/* Fiche produit : « Ces produits pourraient vous interesser » et « Dans la meme
+   gamme de prix » reprennent les codes de l'accueil (19/10/2026). Le trait jaune
+   a gauche du titre n'existait que sur ces blocs ; l'accueil, lui, met un titre
+   en Barlow Condensed majuscules, une barre jaune et bleue dessous, et separe ses
+   bandes par une ligne grise pleine largeur (voir `#bons-plans-onglets::before`). */
+.proches { position: relative; margin: 34px 0 0; padding-top: 30px; }
+.proches::before {
+  content: ""; position: absolute; top: 0; height: 1px; background: #c4c9d4;
+  pointer-events: none; left: 50%; width: 100vw; transform: translateX(-50%);
+}
+.theme-v1 .proches .titre-section {
+  font-family: "Barlow Condensed", "Source Sans 3", system-ui, sans-serif;
+  font-weight: 700; text-transform: uppercase; letter-spacing: .02em;
+  font-size: 25px; line-height: 1.1; border-left: 0; padding-left: 0; margin: 0;
+}
+.proches .titre-section::after {
+  content: ""; display: block; width: 72px; height: 5px; margin-top: 8px;
+  background: linear-gradient(90deg, var(--or) 0 62%, #1f3a8a 62% 100%);
+}
+.proches .sous-titre { margin-top: 10px; }
+@media (min-width: 900px) { .theme-v1 .proches .titre-section { font-size: 30px; } }
