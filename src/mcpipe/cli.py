@@ -326,9 +326,10 @@ def match(
 
         violations = check_match_invariants()
         if violations:
+            vivantes = sum(1 for v in violations if v.vivante)
             console.print(
                 f"[yellow]verify: {len(violations)} invariant violation(s) found "
-                f"— run `mcpipe verify` for details[/]"
+                f"({vivantes} sur offres vivantes) — run `mcpipe verify` for details[/]"
             )
         else:
             console.print("verify: [green]0 invariant violations[/]")
@@ -370,16 +371,25 @@ def verify() -> None:
         console.print("[green]ok[/] 0 violations")
         return
 
-    console.print(f"[red]{len(violations)} violation(s)[/]")
-    by_field: dict[str, int] = {}
+    vivantes = [v for v in violations if v.vivante]
+    console.print(
+        f"[red]{len(violations)} violation(s)[/] dont {len(vivantes)} sur offres "
+        f"vivantes ({len(violations) - len(vivantes)} latentes : offres retirées "
+        f"encore liées)"
+    )
+    by_field: dict[str, list[int]] = {}
     for v in violations:
-        by_field[v.field] = by_field.get(v.field, 0) + 1
-    for field, n in sorted(by_field.items(), key=lambda kv: -kv[1]):
-        console.print(f"  {field}: {n}")
-    for v in violations[:10]:
+        n = by_field.setdefault(v.field, [0, 0])
+        n[0] += 1
+        n[1] += v.vivante
+    for field, (n, nv) in sorted(by_field.items(), key=lambda kv: -kv[1][0]):
+        console.print(f"  {field}: {n} (vivantes {nv})")
+    # les vivantes d'abord : ce sont elles que le site affiche
+    for v in sorted(violations, key=lambda v: not v.vivante)[:10]:
         console.print(
             f"  product {v.product_id} / {v.field}: {v.distinct_values} "
             f"(offers {v.example_offer_ids[:5]})"
+            + ("" if v.vivante else " [latente]")
         )
     raise typer.Exit(1)
 

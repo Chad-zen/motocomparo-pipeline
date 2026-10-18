@@ -114,6 +114,31 @@ def test_category_mix_is_caught(db):
     assert any(v.field == "category_id" for v in violations)
 
 
+def test_retired_offer_mix_is_latent_not_hidden(db):
+    """Une offre retirée garde son lien à la fiche et peut redevenir vivante :
+    le désaccord reste COMPTÉ, mais marqué non vivant (415 fiches le 18/10)."""
+    with db.cursor() as cur:
+        mid = _merchant_id(cur)
+        pid = _make_product(cur, category_id=11)
+        _make_offer(cur, mid, pid, category_id=28)
+        vieille = _make_offer(cur, mid, pid, category_id=11)
+        cur.execute("UPDATE raw_offer SET is_live = false WHERE id = %s", (vieille,))
+
+    violations = check_match_invariants(conn=db, product_ids=[pid])
+    assert [(v.field, v.vivante) for v in violations] == [("category_id", False)]
+
+
+def test_live_offer_mix_is_flagged_live(db):
+    with db.cursor() as cur:
+        mid = _merchant_id(cur)
+        pid = _make_product(cur, category_id=11)
+        _make_offer(cur, mid, pid, category_id=28)
+        _make_offer(cur, mid, pid, category_id=11)
+
+    violations = check_match_invariants(conn=db, product_ids=[pid])
+    assert [(v.field, v.vivante) for v in violations] == [("category_id", True)]
+
+
 def test_gender_mix_is_caught(db):
     """Bug #3: a men's and a women's item merged under one item_group_id."""
     with db.cursor() as cur:

@@ -89,13 +89,20 @@ class Violation:
     field: str
     distinct_values: list
     example_offer_ids: list[int]
+    # Vrai quand le désaccord existe entre offres VIVANTES. Faux : il ne tient
+    # qu'à des offres retirées, encore liées à la fiche avec leur ancien
+    # rayon. Latent, pas invisible : une offre retirée peut redevenir vivante
+    # au relevé suivant (normalize.py la remet à is_live) et personne ne la
+    # revérifie alors. Le total reste donc compté ; seul le tri change.
+    vivante: bool = True
 
 
-def _query(inv: Invariant) -> str:
+def _query(inv: Invariant, seulement_vivantes: bool = False) -> str:
     filt = f" FILTER (WHERE {inv.filter_clause})" if inv.filter_clause else ""
     # the tolerance needs the aggregate, so it is applied one level out rather
     # than in HAVING, where `distinct_values` does not exist yet
     garde = f"WHERE NOT coalesce({inv.tolerance}, false)" if inv.tolerance else ""
+    vivantes = "AND o.is_live" if seulement_vivantes else ""
     return f"""
         SELECT v.product_id, v.distinct_values, v.example_offer_ids
         FROM (
@@ -105,6 +112,7 @@ def _query(inv: Invariant) -> str:
             FROM raw_offer o
             JOIN offer_signature s ON s.raw_offer_id = o.id
             WHERE o.product_id IS NOT NULL
+              {vivantes}
               AND (%(product_ids)s::bigint[] IS NULL
                    OR o.product_id = ANY(%(product_ids)s))
             GROUP BY o.product_id
@@ -134,11 +142,15 @@ def check_match_invariants(
         violations = []
         with conn.cursor() as cur:
             for inv in _INVARIANTS:
+                cur.execute(_query(inv, seulement_vivantes=True),
+                            {"product_ids": product_ids})
+                vivantes = {pid for pid, _v, _o in cur.fetchall()}
                 cur.execute(_query(inv), {"product_ids": product_ids})
                 for product_id, distinct_values, example_offer_ids in cur.fetchall():
                     violations.append(
                         Violation(product_id, inv.field, distinct_values,
-                                  example_offer_ids)
+                                  example_offer_ids,
+                                  vivante=product_id in vivantes)
                     )
         return violations
     finally:
