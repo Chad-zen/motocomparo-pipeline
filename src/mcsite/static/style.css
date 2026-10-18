@@ -4730,7 +4730,7 @@ html:has(.accueil-test), body:has(.accueil-test) { overflow-x: clip; }
 .budget__pill[aria-selected="true"]::before { transform: scaleX(1); }
 .budget__btn svg { transition: transform .3s var(--expo); }
 .budget__btn:hover svg { transform: translateX(4px); }
-.budget__piste { height: 110px; }
+.budget__piste { height: 74px; }
 .budget__barres i {
   height: 0; border-radius: 2px 2px 0 0; transform-origin: bottom;
   transition: height 1s var(--expo), background-color .15s linear, transform .25s var(--expo), box-shadow .25s linear;
@@ -4749,10 +4749,10 @@ html:has(.accueil-test), body:has(.accueil-test) { overflow-x: clip; }
 .budget__sous b { font-variant-numeric: tabular-nums; }
 .budget__piste input[type=range] { cursor: grab; }
 .budget__piste input[type=range]:active { cursor: grabbing; }
-.budget__piste input[type=range]::-webkit-slider-runnable-track { height: 110px; }
-.budget__piste input[type=range]::-moz-range-track { height: 110px; }
+.budget__piste input[type=range]::-webkit-slider-runnable-track { height: 74px; }
+.budget__piste input[type=range]::-moz-range-track { height: 74px; }
 .budget__piste input[type=range]::-webkit-slider-thumb {
-  margin-top: 42px; box-shadow: 0 2px 8px rgba(0,0,0,.4), 0 0 0 0 rgba(245,179,1,.5);
+  margin-top: 24px; box-shadow: 0 2px 8px rgba(0,0,0,.4), 0 0 0 0 rgba(245,179,1,.5);
   transition: transform .28s var(--expo), box-shadow .3s var(--expo); animation: budget-appel 2.4s ease-out 1.4s 2;
 }
 .budget__piste input[type=range]:active::-webkit-slider-thumb {
@@ -4779,7 +4779,7 @@ html:has(.accueil-test), body:has(.accueil-test) { overflow-x: clip; }
   transition: width .28s var(--expo);
 }
 .budget__piste.glisse::after { transition: width .08s linear; }
-.budget__barres { z-index: 1; top: 7px; bottom: 7px; border-radius: 12px; overflow: hidden; }   /* les barres restent à l'intérieur du trait blanc */
+.budget__barres { z-index: 1; top: 5px; bottom: 5px; border-radius: 12px; overflow: hidden; }   /* les barres restent à l'intérieur du trait blanc */
 .budget__piste input[type=range] { z-index: 3; }
 
 /* ligne grise pleine largeur entre « Prix compares chez » et les bons plans */
