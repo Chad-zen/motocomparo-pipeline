@@ -51,6 +51,13 @@
 {# Prechargements : l'image du fond de l'en-tete n'etait decouverte qu'une fois
    la feuille de style lue (« LCP request discovery », PageSpeed 17/10/2026), et
    les deux polices du haut de page qu'une fois le texte pose. #}
+{# Les photos des cartes de l'accueil viennent des serveurs des quatre marchands :
+   connexion ouverte d'avance, ~210 a 220 ms de LCP chacun (PageSpeed 18/10/2026).
+   Quatre au plus, sinon les connexions se disputent la bande passante. #}
+<link rel="preconnect" href="https://medias.speedway.fr">
+<link rel="preconnect" href="https://media.motoblouz.com">
+<link rel="preconnect" href="https://medias.la-becanerie.com">
+<link rel="preconnect" href="https://www.fc-moto.com">
 <link rel="preload" as="image" href="/static/header_moto.webp" fetchpriority="high">
 <link rel="preload" as="font" type="font/woff2" crossorigin href="/static/polices/barlow-condensed-700.woff2">
 <link rel="preload" as="font" type="font/woff2" crossorigin href="/static/polices/KFO7CnqEu92Fr1ME7kSn66aGLdTylUAMa3yUBA.woff2">

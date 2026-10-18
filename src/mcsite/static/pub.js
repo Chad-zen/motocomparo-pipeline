@@ -37,6 +37,10 @@
     // du regard quand on y arrive. En `lazy`, la bannière se chargeait au
     // moment précis où le visiteur la regardait, et il voyait le trou.
     img.loading = 'eager';
+    // Le format large est un 728x90 : on le dit au navigateur (PageSpeed
+    // 18/10/2026 : « image sans largeur ni hauteur »). Les autres formats
+    // gardent leurs dimensions naturelles.
+    if (bloc.classList.contains('pub--large')) { img.width = 728; img.height = 90; }
     img.alt = 'Publicité ' + (p.nom || '');
     img.addEventListener('error', function () { bloc.hidden = true; });
     img.src = p.image;
