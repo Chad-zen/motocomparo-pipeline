@@ -157,9 +157,11 @@ ExecStartPost=+/usr/bin/systemctl restart mcsite.service
 Nice=10
 IOSchedulingClass=idle
 
-# Une chaîne qui dépasse trois heures est une chaîne en panne. On la coupe
-# plutôt que de la laisser tenir la machine jusqu'au lendemain.
-TimeoutStartSec=3h
+# Une chaîne qui dépasse quatre heures et demie est une chaîne en panne. On la
+# coupe plutôt que de la laisser tenir la machine jusqu'au lendemain. (Trois
+# heures jusqu'au 19/10/2026 : ce jour-là, FC-Moto 82 min + emprunt des tailles
+# 28 min + match 20 min + contrôle 13 min ont fait couper la chaîne à 07h04.)
+TimeoutStartSec=4h30min
 UNIT
 
 cat > /etc/systemd/system/mcpipe-prix.timer <<'UNIT'
