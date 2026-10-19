@@ -833,7 +833,9 @@ ON CONFLICT (identity_hash) DO NOTHING
 
 _LINK_GTIN_OFFERS = """
 UPDATE raw_offer o SET
-    product_id = p.id, linked_status = 'linked',
+    -- une fiche fusionnee (`consolider`) garde son empreinte : l'offre neuve qui
+    -- tombe dessus va sur la SURVIVANTE, pas sur une fiche invisible (19/10/2026)
+    product_id = coalesce(p.merged_into, p.id), linked_status = 'linked',
     link_method = 'gtin', link_confidence = 1.00
 FROM _gtin_unit gu
 JOIN product p ON p.identity_hash = gu.identity_hash

@@ -834,6 +834,42 @@ def consolider(
                       f"{r['fiches_fusionnees']:,} fiches fusionnees")
 
 
+@app.command("fusion-repli")
+def fusion_repli(
+    appliquer: str = typer.Option("", "--appliquer",
+                                  help="paires a fusionner, 'courte:longue,courte:longue' (ids de fiches)"),
+) -> None:
+    """Les fiches d'un meme casque que le nom du modele a coupees en deux (finition...).
+
+    Sans option : imprime les paires SURES (rien n'est modifie). Avec `--appliquer`,
+    fusionne uniquement les paires nommees, apres les avoir re-verifiees ; l'etat
+    d'avant est garde dans `fusion_trace`. Voir `repli_fiches.py`. A lancer AVANT
+    `relier-tailles` et `freshness`.
+    """
+    from . import consolider as c
+    from . import repli_fiches as r
+    from .db import connect
+
+    conn = connect()
+    try:
+        if appliquer:
+            demandees = [tuple(int(x) for x in p.split(":")) for p in appliquer.split(",") if p]
+            res = r.appliquer_paires(conn, demandees)  # type: ignore[arg-type]
+            console.print(f"[green]ok[/] {res['groupes']} groupes appliques, "
+                          f"{res['fiches_fusionnees']} fiches fusionnees")
+            return
+        alias = c.charger_alias(conn)
+        paires = r.paires_de_la_base(conn, alias)
+        console.print(f"{len(paires)} paire(s) sure(s) (courte -> longue) :")
+        for a, b in paires:
+            en_plus = ",".join(sorted(b.jetons - a.jetons))
+            console.print(f"{a.id}:{b.id} | {a.marque} r{a.rayon} {a.couleur} | "
+                          f"'{' '.join(sorted(a.jetons))}' ({a.nb_offres} offres, {a.prix_median:.0f} EUR) <- "
+                          f"'{' '.join(sorted(b.jetons))}' ({b.nb_offres} offres, {b.prix_median:.0f} EUR) | en plus: {en_plus}")
+    finally:
+        conn.close()
+
+
 @app.command()
 def couverture() -> None:
     """Recalcule quelles fiches n'ont pas de matiere, de saison ou d'homologation.

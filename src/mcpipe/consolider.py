@@ -346,8 +346,38 @@ WHERE l.raw_offer_id = o.id AND v.id = l.variant_id AND v.product_id <> o.produc
 """
 
 
-def appliquer() -> dict[str, int]:
+_TRACE = """
+CREATE TABLE IF NOT EXISTS fusion_trace (
+    fusion_id          bigint NOT NULL,
+    genre              text   NOT NULL CHECK (genre IN ('offre', 'fiche')),
+    ref_id             bigint NOT NULL,
+    ancien_product_id  bigint,
+    ancien_status      text,
+    ancienne_marque    text,
+    ancien_merged_into bigint,
+    trace_le           timestamptz NOT NULL DEFAULT now(),
+    PRIMARY KEY (fusion_id, genre, ref_id)
+)"""
+
+_TRACER_OFFRES = """
+INSERT INTO fusion_trace (fusion_id, genre, ref_id, ancien_product_id)
+SELECT %(f)s, 'offre', id, product_id FROM raw_offer WHERE product_id = ANY(%(autres)s)
+ON CONFLICT DO NOTHING"""
+
+_TRACER_FICHES = """
+INSERT INTO fusion_trace (fusion_id, genre, ref_id, ancien_status, ancienne_marque, ancien_merged_into)
+SELECT %(f)s, 'fiche', id, status, brand_code, merged_into FROM product WHERE id = ANY(%(toutes)s)
+ON CONFLICT DO NOTHING"""
+
+
+def appliquer(cles: list[str] | None = None) -> dict[str, int]:
     """Fusionne les groupes validés (et les proposés si `fusion_auto = oui`).
+
+    `cles` : ne traiter QUE ces groupes (par `cle`), jamais les autres validés ni
+    la file automatique. C'est ce qu'utilise `fusion-repli`.
+
+    Avant de toucher une fiche, l'état d'avant est écrit dans `fusion_trace` (offres
+    et fiches) : sans cette trace, une fausse fusion ne se défait pas. Voir `defusionner`.
 
     Les offres passent sur la fiche survivante ; les autres fiches deviennent
     `merged` avec `merged_into` : elles disparaissent des listes et leur adresse
@@ -358,12 +388,17 @@ def appliquer() -> dict[str, int]:
     try:
         alias = charger_alias(conn)
         with conn.cursor() as cur:
-            cur.execute("SELECT valeur FROM reglage WHERE cle = 'fusion_auto'")
-            r = cur.fetchone()
-            auto = bool(r and r[0] == "oui")
-            cur.execute(
-                "SELECT id, produit_ids, survivant FROM fusion_proposee "
-                "WHERE statut = 'validee'" + (" OR statut = 'proposee'" if auto else ""))
+            cur.execute(_TRACE)
+            if cles is not None:
+                cur.execute("SELECT id, produit_ids, survivant FROM fusion_proposee "
+                            "WHERE statut = 'validee' AND cle = ANY(%s)", (list(cles),))
+            else:
+                cur.execute("SELECT valeur FROM reglage WHERE cle = 'fusion_auto'")
+                r = cur.fetchone()
+                auto = bool(r and r[0] == "oui")
+                cur.execute(
+                    "SELECT id, produit_ids, survivant FROM fusion_proposee "
+                    "WHERE statut = 'validee'" + (" OR statut = 'proposee'" if auto else ""))
             a_faire = cur.fetchall()
         fusionnees = 0
         for fid, pids, survivant in a_faire:
@@ -382,6 +417,8 @@ def appliquer() -> dict[str, int]:
                     cur.execute("UPDATE fusion_proposee SET statut = 'appliquee', decide_le = now() "
                                 "WHERE id = %s", (fid,))
                     continue
+                cur.execute(_TRACER_OFFRES, {"f": fid, "autres": autres})
+                cur.execute(_TRACER_FICHES, {"f": fid, "toutes": [survivant, *autres]})
                 cur.execute(_FUSIONNER, {"s": survivant, "autres": autres})
                 cur.execute(_DELIER_VARIANTES_DE_L_AUTRE, {"s": survivant})
                 cur.execute("UPDATE product SET status = 'merged', merged_into = %s "
@@ -396,6 +433,40 @@ def appliquer() -> dict[str, int]:
                 fusionnees += len(autres)
             conn.commit()
         return {"groupes": len(a_faire), "fiches_fusionnees": fusionnees}
+    except Exception:
+        conn.rollback()
+        raise
+    finally:
+        conn.close()
+
+
+def defusionner(fusion_id: int) -> dict[str, int]:
+    """Défait une fusion appliquée, d'après `fusion_trace`.
+
+    Remet chaque offre tracée sur son ancienne fiche, redonne aux fiches leur statut,
+    leur marque et leur `merged_into` d'avant, puis marque la fusion `refusee` (la même
+    clé ne sera donc jamais reproposée). Les offres ARRIVÉES depuis la fusion ne sont pas
+    tracées : elles restent sur la survivante. Lancer ensuite `relier-tailles` et `freshness`.
+    """
+    conn = connect()
+    try:
+        with conn.cursor() as cur:
+            cur.execute("UPDATE raw_offer o SET product_id = t.ancien_product_id "
+                        "FROM fusion_trace t WHERE t.fusion_id = %s AND t.genre = 'offre' "
+                        "AND t.ref_id = o.id", (fusion_id,))
+            offres = cur.rowcount
+            cur.execute("UPDATE product p SET status = t.ancien_status, brand_code = t.ancienne_marque, "
+                        "merged_into = t.ancien_merged_into FROM fusion_trace t "
+                        "WHERE t.fusion_id = %s AND t.genre = 'fiche' AND t.ref_id = p.id", (fusion_id,))
+            fiches = cur.rowcount
+            cur.execute("DELETE FROM offer_variant_link l USING raw_offer o, variant v "
+                        "WHERE l.raw_offer_id = o.id AND v.id = l.variant_id AND v.product_id <> o.product_id "
+                        "AND o.id IN (SELECT ref_id FROM fusion_trace WHERE fusion_id = %s AND genre = 'offre')",
+                        (fusion_id,))
+            cur.execute("UPDATE fusion_proposee SET statut = 'refusee', decide_le = now() WHERE id = %s",
+                        (fusion_id,))
+        conn.commit()
+        return {"offres": offres, "fiches": fiches}
     except Exception:
         conn.rollback()
         raise
