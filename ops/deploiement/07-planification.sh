@@ -43,19 +43,32 @@ echo "=== $(date '+%F %T') début ==="
 # quand son fichier est la, avec la meme suite d'etapes (`traiter`). Coupure a
 # 2 h 20 : au-dela, la copie de la veille reste, comme avant.
 AUTRES="speedway labecanerie motoblouz maxxess motoaxxe"
+# LES MARCHANDS NEUFS (19/10/2026). Motard Bleu n'a pas encore de nuits a son actif : il est
+# traite avec les autres, mais ISOLE. Un echec de son telechargement, de son chargement ou de
+# sa normalisation s'ecrit dans le journal et la chaine continue, alors que `set -e` arrete
+# tout pour les marchands eprouves. Sa cle de flux vient d'un fichier a part, charge par un
+# drop-in de l'unite (`ops/deploiement/11-motardbleu.sh`) : jamais dans le `.env` principal,
+# sinon un `mcpipe fetch` lance sans `--only` le telechargerait aussi.
+NEUFS="motardbleu"
 FC_LOG=/var/tmp/mcpipe-fetch-fcmoto.log
 ( timeout 8400 mcpipe fetch --only fcmoto >"$FC_LOG" 2>&1     || echo "!!! fetch fcmoto en echec ou trop long, copie de la veille gardee" >>"$FC_LOG" ) &
 FC_PID=$!
-for c in $AUTRES; do
+for c in $AUTRES $NEUFS; do
   mcpipe fetch --only "$c" || echo "!!! fetch $c en echec, chaine poursuivie"
 done
 
-traiter() {   # $1 : les marchands a charger
+traiter() {   # $1 : les marchands a charger ; $2 : les marchands neufs, isoles
   local c
   for c in $1; do
     mcpipe load --only "$c"
     mcpipe normalize --only "$c"
     mcpipe signature --only "$c"   # porte les tailles ; doit précéder enrich
+  done
+  # Un marchand neuf qui echoue garde l'etat de la veille (ses offres ne sont pas retirees :
+  # `normalize` n'a pas tourne) et la chaine des autres continue.
+  for c in ${2:-}; do
+    ( mcpipe load --only "$c" && mcpipe normalize --only "$c" && mcpipe signature --only "$c" ) \
+      || echo "!!! $c en echec (chargement, normalisation ou signature), chaine poursuivie"
   done
   mcpipe enrich         # catégories + emprunt des tailles au code-barres
   # Le rapprochement INCRÉMENTAL (6 minutes le 16/10/2026, site en ligne) : il ne
@@ -81,7 +94,7 @@ traiter() {   # $1 : les marchands a charger
 
 }
 
-traiter "$AUTRES"
+traiter "$AUTRES" "$NEUFS"
 wait "$FC_PID" || true
 cat "$FC_LOG"
 traiter fcmoto
