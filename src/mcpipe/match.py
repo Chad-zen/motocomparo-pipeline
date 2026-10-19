@@ -1294,6 +1294,73 @@ def relink_sizes() -> dict[str, int]:
         conn.close()
 
 
+# Le troisieme filet. Les deux premiers regardent une offre neuve face a UNE offre d'un autre
+# marchand, puis face a un code-barres. Ils ne voient pas ce que `verify` voit : une FICHE
+# dont les offres, prises ensemble, se contredisent (noir, noir/gris et gris ne sont jamais
+# deux a deux en conflit avec une troisieme offre « noir/gris »). Au premier passage en
+# production, 127 fiches de ce genre touchaient Motard Bleu (110 de couleur, 10 de rayon,
+# 7 de genre) contre 35 en local. On retire de ces fiches les offres du marchand neuf, et
+# elles seules : elles repassent `rejected`, sans fiche ni variante. Les autres marchands ne
+# sont pas touches, et la fiche garde ce qu'elle avait avant.
+_ECARTER_VIOLATIONS_NEUFS = """
+WITH touchees AS (
+    UPDATE raw_offer
+    SET linked_status = 'rejected', link_method = 'violation', link_confidence = NULL,
+        product_id = NULL
+    WHERE merchant_id IN ({ids}) AND product_id = ANY(%(produits)s)
+    RETURNING id
+)
+DELETE FROM offer_variant_link l USING touchees t WHERE l.raw_offer_id = t.id
+RETURNING l.raw_offer_id
+"""
+
+
+def ecarter_violations_neuves(produits: list[int], marchands: list[int], conn=None) -> int:
+    """Retire des fiches `produits` les offres de ces `marchands`. Rend le nombre d'offres
+    ecartees. `conn` : une connexion deja ouverte (les tests), sinon une neuve, validee."""
+    if not produits or not marchands:
+        return 0
+    ids = ", ".join(str(int(m)) for m in marchands)
+    sql = _ECARTER_VIOLATIONS_NEUFS.replace("{ids}", ids)
+    propre = conn is None
+    c = conn or connect()
+    try:
+        # le DELETE ne renvoie que les liens ; le nombre d'offres vient d'un second comptage
+        n = c.execute(
+            "SELECT count(*) FROM raw_offer WHERE merchant_id IN (" + ids + ") "
+            "AND product_id = ANY(%(p)s)", {"p": produits}).fetchone()[0]
+        c.execute(sql, {"produits": produits})
+        if propre:
+            c.commit()
+        return n
+    except Exception:
+        if propre:
+            c.rollback()
+        raise
+    finally:
+        if propre:
+            c.close()
+
+
+def ecarter_violations_des_marchands_neufs() -> tuple[int, int]:
+    """(fiches en violation touchant un marchand neuf, offres ecartees). A lancer apres
+    `run_match`, avant le `verify` qui conclut."""
+    from .verify import check_match_invariants
+
+    nouveaux = [f.merchant_id for f in FEEDS.values() if f.ecarte_desaccords]
+    if not nouveaux:
+        return 0, 0
+    produits = sorted({v.product_id for v in check_match_invariants()})
+    if not produits:
+        return 0, 0
+    with connect() as c:
+        concernes = [r[0] for r in c.execute(
+            "SELECT DISTINCT product_id FROM raw_offer WHERE merchant_id IN ("
+            + ", ".join(str(int(m)) for m in nouveaux) + ") AND product_id = ANY(%s)",
+            (produits,))]
+    return len(concernes), ecarter_violations_neuves(concernes, nouveaux)
+
+
 def reset_match_state() -> None:
     """Undo every side effect of a previous `match` run — for re-runs during
     development, or if a run needs to be redone with different logic.

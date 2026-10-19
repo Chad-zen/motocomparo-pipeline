@@ -368,6 +368,18 @@ def match(
             f"{res.offres_ecartees:,}"
         )
 
+    # Troisieme filet pour les marchands neufs : voir `match._ECARTER_VIOLATIONS_NEUFS`.
+    try:
+        from .match import ecarter_violations_des_marchands_neufs
+
+        fiches, offres = ecarter_violations_des_marchands_neufs()
+        if offres:
+            console.print(
+                f"  fiches en violation touchant un marchand neuf : {fiches:,} ; "
+                f"ses offres en sont retirees : {offres:,}")
+    except Exception as exc:  # noqa: BLE001 — le match est fait, on le dit
+        console.print(f"[yellow]nettoyage des violations des marchands neufs : echec ({exc})[/]")
+
     # Advisory only: never let a verify-side bug or a real violation turn a
     # successful match run into a failure the user can't unblock. `mcpipe
     # verify` is the command that actually exits non-zero.
@@ -385,6 +397,19 @@ def match(
             console.print("verify: [green]0 invariant violations[/]")
     except Exception as exc:  # noqa: BLE001 — reporting only, must not fail the run
         console.print(f"[yellow]verify: skipped ({exc})[/]")
+
+
+@app.command("ecarter-violations")
+def ecarter_violations() -> None:
+    """Retire des fiches en violation les offres des marchands neufs (voir `match`).
+
+    A lancer sur une base deja appariee, sans refaire le `match` ; suivre de
+    `relier-tailles` puis `freshness`."""
+    from .match import ecarter_violations_des_marchands_neufs
+
+    console.print("fiches en violation touchant un marchand neuf ...", end=" ")
+    fiches, offres = ecarter_violations_des_marchands_neufs()
+    console.print(f"[green]ok[/] {fiches:,} fiche(s), {offres:,} offre(s) retiree(s)")
 
 
 @app.command("relier-tailles")

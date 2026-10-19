@@ -139,3 +139,52 @@ def test_le_second_filet_est_branche_dans_run_match():
     src = inspect.getsource(m.run_match)
     assert "sql_ecarter_conflits_neufs" in src
     assert src.index("_BUILD_GTIN_UNITS") < src.index("sql_ecarter_conflits_neufs") < src.index("CREATE INDEX ON _gtin_unit")
+
+
+# --- le troisieme filet : retirer d'une fiche en violation les offres du marchand neuf ---------
+
+
+def _fiche(c):
+    n = next(_cpt)
+    return c.execute(
+        "INSERT INTO product (brand_code, category_id, model_display, identity_hash, slug) "
+        "VALUES ('essai', 6, 'essai', %s, %s) RETURNING id", (f"hash-essai-{n}", f"slug-essai-{n}")).fetchone()[0]
+
+
+def _rattacher(c, oid, pid):
+    c.execute("UPDATE raw_offer SET product_id = %s, linked_status = 'linked' WHERE id = %s", (pid, oid))
+    vid = c.execute("INSERT INTO variant (product_id, size_code) VALUES (%s, %s) "
+                    "ON CONFLICT (product_id, size_code) DO UPDATE SET size_code = EXCLUDED.size_code RETURNING id",
+                    (pid, "M")).fetchone()[0]
+    c.execute("INSERT INTO offer_variant_link (raw_offer_id, variant_id) VALUES (%s, %s)", (oid, vid))
+
+
+def test_les_offres_du_marchand_neuf_quittent_la_fiche_en_violation_les_autres_restent(conn):
+    f_mauvaise, f_saine = _fiche(conn), _fiche(conn)
+    g = lambda: f"9{next(_cpt):012d}"  # noqa: E731
+    neuf_m, ancien_m = _offre(conn, NEUF, g()), _offre(conn, ANCIEN, g())
+    neuf_s, ancien_s = _offre(conn, NEUF, g()), _offre(conn, ANCIEN, g())
+    for oid, pid in ((neuf_m, f_mauvaise), (ancien_m, f_mauvaise), (neuf_s, f_saine), (ancien_s, f_saine)):
+        _rattacher(conn, oid, pid)
+
+    n = m.ecarter_violations_neuves([f_mauvaise], [NEUF], conn=conn)
+    assert n == 1
+    ligne = lambda oid: conn.execute("SELECT linked_status, product_id, link_method FROM raw_offer WHERE id = %s", (oid,)).fetchone()  # noqa: E731
+    assert ligne(neuf_m) == ("rejected", None, "violation")        # retiree de la fiche
+    assert ligne(ancien_m) == ("linked", f_mauvaise, None)         # l'ancien marchand ne bouge pas
+    assert ligne(neuf_s)[0] == "linked" and ligne(ancien_s)[0] == "linked"   # fiche saine intacte
+    liens = lambda oid: conn.execute("SELECT count(*) FROM offer_variant_link WHERE raw_offer_id = %s", (oid,)).fetchone()[0]  # noqa: E731
+    assert (liens(neuf_m), liens(ancien_m), liens(neuf_s)) == (0, 1, 1)   # plus de lien de taille pour l'offre retiree
+
+
+def test_sans_fiche_ou_sans_marchand_neuf_rien_n_est_fait(conn):
+    assert m.ecarter_violations_neuves([], [NEUF], conn=conn) == 0
+    assert m.ecarter_violations_neuves([123], [], conn=conn) == 0
+
+
+def test_le_nettoyage_est_branche_dans_la_commande_match():
+    import inspect
+    from mcpipe import cli
+    src = inspect.getsource(cli.match)
+    assert "ecarter_violations_des_marchands_neufs" in src
+    assert src.index("ecarter_violations_des_marchands_neufs") < src.index("check_match_invariants")
