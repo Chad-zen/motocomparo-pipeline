@@ -834,6 +834,29 @@ def consolider(
                       f"{r['fiches_fusionnees']:,} fiches fusionnees")
 
 
+@app.command("bons-plans")
+def bons_plans_cmd() -> None:
+    """Calcule les bons plans une fois et les range dans `bons_plans_precalcules`.
+
+    A lancer apres `freshness` (les prix) : la page /bons-plans ne fait plus que lire ces
+    lignes au lieu de parcourir 640 000 offres a chaque visite (30 s sur le serveur).
+    """
+    import time
+
+    from mcsite import queries
+
+    from .db import connect
+
+    t0 = time.time()
+    conn = connect()
+    try:
+        console.print("bons plans precalcules ...", end=" ")
+        n = queries.precalculer_bons_plans(conn)
+        console.print(f"[green]ok[/] {n} lignes en {time.time() - t0:.0f}s")
+    finally:
+        conn.close()
+
+
 @app.command("fusion-rapport")
 def fusion_rapport(
     csv: str = typer.Option("", "--csv", help="ecrire le detail groupe par groupe dans ce fichier"),

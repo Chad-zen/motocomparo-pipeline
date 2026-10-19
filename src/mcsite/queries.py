@@ -1736,7 +1736,7 @@ def toutes_marques(conn: psycopg.Connection) -> list[dict[str, Any]]:
     """)
 
 
-def bons_plans(conn: psycopg.Connection, limit: int = 48) -> list[dict[str, Any]]:
+def bons_plans_calculer(conn: psycopg.Connection, limit: int = 48) -> list[dict[str, Any]]:
     """Les vraies affaires : le même CODE-BARRES, deux marchands, deux prix.
 
     Première version écrite sur l'écart de la fiche, comme la rangée de
@@ -1814,6 +1814,73 @@ def bons_plans(conn: psycopg.Connection, limit: int = 48) -> list[dict[str, Any]
         ORDER BY remise DESC, (dearest - cheapest) DESC
         LIMIT %s
     """, (limit,))
+
+
+# LES BONS PLANS, CALCULES UNE FOIS PAR NUIT (19/10/2026). `bons_plans_calculer` lit les
+# 640 000 offres liees, les trie trois fois (30 Mo sur disque a chaque tri), les regroupe
+# par code-barres puis par marchand (124 000 groupes) et retrouve la fiche de chacun, pour
+# n'en garder que 48 : 14 s sur une machine rapide, 30 s sur le serveur a un coeur. Les
+# bons plans ne changent qu'avec le releve de la nuit : la chaine de nuit les calcule UNE
+# fois (`mcpipe bons-plans`, apres les prix) et les range ici ; la page ne lit que ces lignes.
+_TABLE_BONS_PLANS = """
+CREATE TABLE IF NOT EXISTS bons_plans_precalcules (
+    rang           integer PRIMARY KEY,
+    gtin           text,
+    cheapest       numeric,
+    dearest        numeric,
+    merchant_count integer,
+    product_id     bigint,
+    image_url      text,
+    slug           text,
+    brand_code     text,
+    model_display  text,
+    colour_code    text,
+    remise         numeric,
+    calcule_le     timestamptz NOT NULL DEFAULT now()
+)
+"""
+
+_COLONNES_BONS_PLANS = ("gtin", "cheapest", "dearest", "merchant_count", "product_id",
+                        "image_url", "slug", "brand_code", "model_display", "colour_code",
+                        "remise")
+
+
+def precalculer_bons_plans(conn: psycopg.Connection, limit: int = 48) -> int:
+    """Calcule les bons plans et remplace le contenu de `bons_plans_precalcules`.
+
+    Rend le nombre de lignes ecrites. Rien n'est efface si le calcul echoue : la table
+    n'est videe et remplie que dans la transaction qui suit, une fois les lignes en main.
+    """
+    lignes = bons_plans_calculer(conn, limit)
+    # la lecture ci-dessus a ouvert une transaction implicite (connexion sans
+    # autocommit) : on la termine, sinon le bloc suivant n'est qu'un point de reprise
+    # a l'interieur d'elle, et rien n'est ecrit pour de bon
+    conn.commit()
+    with conn.transaction():
+        conn.execute(_TABLE_BONS_PLANS)
+        conn.execute("DELETE FROM bons_plans_precalcules")
+        for rang, ligne in enumerate(lignes, start=1):
+            conn.execute(
+                "INSERT INTO bons_plans_precalcules (rang, " + ", ".join(_COLONNES_BONS_PLANS)
+                + ") VALUES (%s" + ", %s" * len(_COLONNES_BONS_PLANS) + ")",
+                (rang, *[ligne.get(c) for c in _COLONNES_BONS_PLANS]))
+    return len(lignes)
+
+
+def bons_plans(conn: psycopg.Connection, limit: int = 48) -> list[dict[str, Any]]:
+    """Les bons plans, lus dans la table precalculee ; calcules a la demande si elle manque.
+
+    Le calcul a la demande est l'ancien comportement (30 s sur le serveur) : il ne sert
+    que tant que la chaine de nuit n'a pas encore rempli la table, ou si elle est vide.
+    """
+    try:
+        lignes = _rows(conn, "SELECT " + ", ".join(_COLONNES_BONS_PLANS)
+                       + " FROM bons_plans_precalcules ORDER BY rang LIMIT %s", (limit,))
+    except psycopg.errors.UndefinedTable:
+        # hors autocommit, l'erreur a abandonne la transaction : on la termine
+        conn.rollback()
+        lignes = []
+    return lignes or bons_plans_calculer(conn, limit)
 
 
 def marchands_actifs(conn: psycopg.Connection) -> list[dict[str, Any]]:

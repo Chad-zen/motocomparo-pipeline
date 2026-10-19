@@ -91,6 +91,9 @@ traiter() {   # $1 : les marchands a charger ; $2 : les marchands neufs, isoles
                         # s'affichent jamais : l'emprunt ecrit dans offer_size_override,
                         # mais le site lit variant.size_code, pose par cette etape.
   mcpipe freshness      # recalcule les prix affichés — jamais optionnel
+  # Les bons plans, calcules UNE fois ici (14 a 30 s) et ranges dans une table : la page
+  # /bons-plans ne fait plus que lire 48 lignes. A lancer apres `freshness` (les prix).
+  mcpipe bons-plans || echo "!!! mcpipe bons-plans en echec, la page calcule alors a la demande"
 
 }
 
