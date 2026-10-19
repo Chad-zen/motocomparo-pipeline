@@ -864,6 +864,26 @@ def slug_par_gtin(conn: psycopg.Connection, gtin: str) -> str | None:
     return row["slug"] if row else None
 
 
+def fiche_par_gtin(conn: psycopg.Connection, gtin: str) -> dict[str, Any] | None:
+    """La fiche qui porte CE code-barres, au format des suggestions de la barre.
+
+    `slug_par_gtin` suffit pour « Entree » (on saute a la fiche) ; la liste
+    deroulante, elle, a besoin du nom, de la photo et du prix (19/10/2026 : un
+    code-barres tape ne montrait aucun apercu). Meme choix de fiche que
+    `slug_par_gtin` : la plus recemment vue, jamais une fiche absorbee.
+    """
+    return _row(conn, """
+        SELECT p.slug, p.model_display, s.best_title, p.brand_code, p.colour_code,
+               s.image_url, s.cheapest, s.merchant_count, p.category_id, 1.0 AS score
+        FROM raw_offer o
+        JOIN product p ON p.id = o.product_id
+        JOIN product_stats s ON s.product_id = p.id
+        WHERE o.gtin = %s AND p.status <> 'merged' AND s.cheapest IS NOT NULL
+        ORDER BY o.is_live DESC, o.last_seen DESC
+        LIMIT 1
+    """, (gtin,))
+
+
 def product(conn: psycopg.Connection, slug: str) -> dict[str, Any] | None:
     return _row(conn, """
         SELECT p.id, p.brand_code, p.model_display, p.colour_code, p.genre_age,

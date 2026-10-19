@@ -2142,6 +2142,20 @@ def api_suggestions(request: Request, q: str = "") -> Response:
         plats.append(parent)
         plats.extend(parent.get("enfants") or [])
 
+    # UN CODE-BARRES TAPE (8 a 14 chiffres) : un EAN ne ressemble a aucun titre, la
+    # recherche par texte ne le trouve jamais. « Entree » saute deja a la fiche
+    # (`search`) ; la liste deroulante montre ici cette meme fiche.
+    if texte.isdigit() and 8 <= len(texte) <= 14:
+        def _par_code() -> tuple[list[dict[str, Any]], None]:
+            with pool.connection() as conn:  # type: ignore[union-attr]
+                fiche = queries.fiche_par_gtin(conn, texte)
+            return ([dict(fiche, jumelles=1)] if fiche else []), None
+
+        trouves, compris = cache.au_chaud(f"suggestions|gtin|{texte}", _par_code, ttl=300)
+        return JSONResponse(
+            suggestions.construire(texte, matrice, plats, trouves, _nom, None, [], compris),
+            headers={"Cache-Control": "no-store"})
+
     # LA MARQUE D'ABORD. La reconnaître change tout ce qui suit : on ne cherche
     # plus dans 313 000 fiches mais dans les quelques centaines de cette marque,
     # et on peut donc y classer par ressemblance SANS seuil. C'est ce qui permet
