@@ -4841,3 +4841,46 @@ html { overflow-x: clip; }
 }
 .proches .sous-titre { margin-top: 10px; }
 @media (min-width: 900px) { .theme-v1 .proches .titre-section { font-size: 30px; } }
+
+/* La barre de recherche et ses suggestions : un seul anneau fin au focus et
+   quelques mouvements discrets (19/10/2026). Avant : contour jaune decale de 2 px
+   avec un vide blanc entre le champ et le trait, plus l'ombre noire -- « too much »
+   selon la proprietaire. Les mouvements sont courts (0,12 a 0,24 s) et coupes
+   pour qui a demande moins d'animation. */
+.quete { transition: box-shadow .2s ease; }
+.quete input { transition: background-color .2s ease; }
+.quete button { transition: background-color .15s ease, transform .12s ease; }
+.quete button:active { transform: scale(.95); }
+.quete .quete__ico { transition: transform .2s ease; }
+.quete button:hover .quete__ico { transform: scale(1.1) rotate(-8deg); }
+@media (max-width: 899px) {
+  .quete:focus-within {
+    outline: none;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, .28), 0 0 0 2px var(--or-logo, #f8ca02);
+  }
+}
+/* la liste s'ouvre en glissant ; chaque ligne arrive une fraction de seconde apres la precedente */
+.sugg { transform-origin: top center; animation: sugg-entree .2s cubic-bezier(.2, .8, .3, 1) both; }
+@keyframes sugg-entree {
+  from { opacity: 0; transform: translateY(-8px) scale(.985); }
+  to   { opacity: 1; transform: none; }
+}
+.sugg__ligne, .sugg__carte, .sugg__titre { animation: sugg-ligne .24s ease both; }
+.sugg__ligne:nth-child(2), .sugg__carte:nth-child(2) { animation-delay: .02s; }
+.sugg__ligne:nth-child(3), .sugg__carte:nth-child(3) { animation-delay: .04s; }
+.sugg__ligne:nth-child(4), .sugg__carte:nth-child(4) { animation-delay: .06s; }
+.sugg__ligne:nth-child(5), .sugg__carte:nth-child(5) { animation-delay: .08s; }
+.sugg__ligne:nth-child(6), .sugg__carte:nth-child(6) { animation-delay: .10s; }
+.sugg__ligne:nth-child(n+7), .sugg__carte:nth-child(n+7) { animation-delay: .12s; }
+@keyframes sugg-ligne {
+  from { opacity: 0; transform: translateY(5px); }
+  to   { opacity: 1; transform: none; }
+}
+.sugg__ligne { transition: background-color .15s ease; }
+.sugg__vignette { transition: transform .2s ease; }
+.sugg__ligne:hover .sugg__vignette, .sugg__ligne.est-choisi .sugg__vignette,
+.sugg__carte:hover .sugg__vignette { transform: scale(1.06); }
+@media (prefers-reduced-motion: reduce) {
+  .sugg, .sugg__ligne, .sugg__carte, .sugg__titre { animation: none; }
+  .quete, .quete input, .quete button, .quete .quete__ico, .sugg__vignette { transition: none; }
+}
