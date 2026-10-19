@@ -11,6 +11,7 @@ from __future__ import annotations
 import logging
 import os
 import re
+import threading
 from contextlib import asynccontextmanager, contextmanager
 from datetime import date
 from decimal import Decimal, InvalidOperation
@@ -56,6 +57,13 @@ _PAGE_MAX = 15_000
 pool: ConnectionPool | None = None
 
 
+def _prechauffer_bons_plans() -> None:
+    try:
+        cache.au_chaud("bons_plans", _bons_plans_items, ttl=_TTL_ACCUEIL)
+    except Exception:  # le site ne doit pas tomber pour un prechauffage rate
+        log.warning("bons plans : prechauffage impossible", exc_info=True)
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     global pool
@@ -72,6 +80,9 @@ async def lifespan(app: FastAPI):
         url, min_size=1, max_size=6, timeout=5,
         kwargs={"autocommit": True, "options": "-c statement_timeout=15000"})
     pool.wait(timeout=10)
+    # Prechauffage : la page des bons plans met ~30 s a se calculer ; on le fait
+    # ici, hors de toute visite, pour que le premier visiteur trouve le cache plein.
+    threading.Thread(target=_prechauffer_bons_plans, daemon=True).start()
     yield
     pool.close()
 
@@ -499,7 +510,7 @@ def _section_accueil(cle: str, fabrique, defaut):
 
 
 @contextmanager
-def _longue_requete(conn):
+def _longue_requete(conn, delai: str = "30s"):
     """Delai de 30 s pour les blocs de l'accueil, le temps de leur transaction.
 
     Ils sont calcules UNE fois par jour puis gardes 24 h, et non par visiteur :
@@ -509,7 +520,7 @@ def _longue_requete(conn):
     sans jamais etre garde (17/10/2026).
     """
     with conn.transaction():
-        conn.execute("SET LOCAL statement_timeout = '30s'")
+        conn.execute(f"SET LOCAL statement_timeout = '{delai}'")
         yield
 
 
@@ -1575,6 +1586,16 @@ def fragment_vus(request: Request, ids: str = ""):
         request, "_rayon_vus.html", {"request": request, "items": items})
 
 
+def _bons_plans_items() -> list:
+    """Calcul des bons plans, avec un delai de 120 s (32 s mesures en prod, un coeur).
+
+    Au delai de 15 s du site, la requete n'aboutissait jamais : rien n'etait
+    garde, et la page restait en erreur apres chaque redemarrage (19/10/2026).
+    """
+    with pool.connection() as conn, _longue_requete(conn, "120s"):  # type: ignore[union-attr]
+        return queries.bons_plans(conn, 48)
+
+
 @app.get("/bons-plans", response_class=HTMLResponse)
 def bons_plans(request: Request):
     """« Meilleurs prix du moment » — la page de la v1, mesurée honnêtement.
@@ -1588,11 +1609,7 @@ def bons_plans(request: Request):
     """
     # Une agrégation sur tout le catalogue, identique pour tous les visiteurs
     # et qui ne bouge qu'au passage du pipeline : 17 s par visite sans cache.
-    def _items():
-        with pool.connection() as conn:  # type: ignore[union-attr]
-            return queries.bons_plans(conn, 48)
-
-    items = cache.au_chaud("bons_plans", _items)
+    items = cache.au_chaud("bons_plans", _bons_plans_items, ttl=_TTL_ACCUEIL)
     return templates.TemplateResponse(
         request, "bons-plans.html", _ctx(request, items=items))
 
