@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import logging
 import os
+import time
 import re
 from contextlib import asynccontextmanager, contextmanager
 from datetime import date
@@ -468,6 +469,14 @@ def _ids_equipement(rayon: dict) -> list[int]:
     return [i for i in rayon["ids"] if i not in pieces]
 
 
+# La derniere valeur correcte de chaque bloc de l'accueil, et jusqu'a quand on le
+# laisse tranquille apres un echec. En memoire du processus : un redemarrage les
+# vide, mais le cache de chaque bloc aussi.
+_DERNIERE_BONNE: dict[str, Any] = {}
+_ECHEC_ACCUEIL: dict[str, float] = {}
+_PAUSE_APRES_ECHEC = 120.0
+
+
 def _section_accueil(cle: str, fabrique, defaut):
     """Un bloc de l'accueil, garde au chaud, et qui ne peut pas faire tomber la page.
 
@@ -478,11 +487,22 @@ def _section_accueil(cle: str, fabrique, defaut):
     vide n'est pas garde -- `au_chaud` ne memorise rien quand la fabrique leve --
     donc le visiteur suivant retente le calcul.
     """
+    # Un echec recent : on ne relance pas un calcul de 30 s a chaque visite. Sur
+    # un seul coeur, c'est lui qui entretient la lenteur (19/10/2026, pendant un
+    # `match` en production : « Ca a baisse cette semaine » absente de l'accueil).
+    if time.monotonic() < _ECHEC_ACCUEIL.get(cle, 0.0):
+        return _DERNIERE_BONNE.get(cle, defaut)
     try:
-        return cache.au_chaud(cle, fabrique, ttl=_TTL_ACCUEIL)
+        valeur = cache.au_chaud(cle, fabrique, ttl=_TTL_ACCUEIL)
     except (psycopg.errors.QueryCanceled, PoolTimeout):
+        _ECHEC_ACCUEIL[cle] = time.monotonic() + _PAUSE_APRES_ECHEC
+        if cle in _DERNIERE_BONNE:
+            log.warning("accueil : le bloc %s est trop lent, derniere valeur connue gardee", cle)
+            return _DERNIERE_BONNE[cle]
         log.warning("accueil : le bloc %s est trop lent, affiche vide", cle)
         return defaut
+    _DERNIERE_BONNE[cle] = valeur
+    return valeur
 
 
 @contextmanager
