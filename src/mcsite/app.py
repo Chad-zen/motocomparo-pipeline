@@ -2402,6 +2402,14 @@ def robots(request: Request) -> str:
         "Disallow: /*?prix_max=",
         "Disallow: /*?taille=",
         "Disallow: /*?couleur=",
+        # ...et le meme filtre en DEUXIEME parametre ou plus (`/c/helmet?page=2&taille=L`) :
+        # `/*?taille=` ne le couvre pas, et c'est par la que passaient les robots
+        # qui saturaient le serveur (ClaudeBot, 19/10/2026).
+        "Disallow: /*&marque=",
+        "Disallow: /*&prix_min=",
+        "Disallow: /*&prix_max=",
+        "Disallow: /*&taille=",
+        "Disallow: /*&couleur=",
         # Les anciennes adresses de la v1 restent ouvertes MÊME avec ces
         # paramètres (`/product/…/?taille=171924`) : elles ne rendent qu'une
         # redirection, et Google ne peut la suivre que s'il a le droit de la
