@@ -11,6 +11,7 @@ Two rules these queries follow, both learned from v1:
 
 from __future__ import annotations
 
+import unicodedata
 from dataclasses import dataclass
 from datetime import date
 from typing import Any
@@ -18,7 +19,7 @@ from typing import Any
 import psycopg
 from psycopg.rows import dict_row
 
-from . import labels
+from . import cache, labels
 
 # An offer worth showing. Kept as one string so no query can disagree with another.
 # 9 999,00 € pile n'est pas un prix : c'est la valeur que FC-Moto met quand son
@@ -1067,7 +1068,7 @@ def facets(conn: psycopg.Connection, f: Filtres) -> dict[str, Any]:
     asking when they open that list.
     """
     def compte(sql: str, sans: str) -> list[dict[str, Any]]:
-        args = _args(f)
+        args = _args(f, conn)
         if sans == "marque":
             args["b"] = None
         elif sans == "prix":
@@ -1095,7 +1096,7 @@ def facets(conn: psycopg.Connection, f: Filtres) -> dict[str, Any]:
         SELECT max(s.cheapest) AS maxi, count(*) AS n
         FROM product p JOIN product_stats s ON s.product_id = p.id
         {_OU}
-    """, {**_args(f), "lo": None, "hi": None}) or {}
+    """, {**_args(f, conn), "lo": None, "hi": None}) or {}
 
     tailles = compte(f"""
         SELECT {_taille_norm('v.size_code')} AS valeur, count(DISTINCT p.id) AS n
@@ -1604,6 +1605,10 @@ _OU = """
       --   * la COULEUR : « blanc » n'est dans le titre d'aucun des deux
       --     marchands, il est dans le code couleur de la fiche (`qc`, un code
       --     par mot, vide quand le mot n'est pas une couleur).
+      -- Les fiches trouvees par les mots LONGS, calculees UNE fois par texte (`_ids_recherche`,
+      -- index trigramme) : ici un simple test d'appartenance. Les mots trop courts pour un
+      -- trigramme (`q`) passent par la clause ci-dessous, mais seulement sur ces fiches.
+      AND (%(qi)s::int[] IS NULL OR p.id = ANY(%(qi)s::int[]))
       AND (%(q)s::text[] IS NULL OR NOT EXISTS (
             SELECT 1 FROM unnest(%(q)s::text[], %(qc)s::text[]) AS t(mot, cod)
             WHERE unaccent(p.brand_code)    NOT ILIKE '%%' || unaccent(t.mot) || '%%'
@@ -1625,7 +1630,18 @@ _OU = """
 """
 
 
-def _args(f: Filtres) -> dict[str, Any]:
+def _args(f: Filtres, conn: psycopg.Connection | None = None) -> dict[str, Any]:
+    """Les parametres des requetes de liste. Avec `conn`, les mots de recherche assez longs
+    sont resolus UNE fois en une liste d'ids (`qi`) au lieu d'etre reevalues sur chaque fiche
+    par chacune des dizaines de requetes d'une page ; sans `conn`, ancien comportement."""
+    mots = _mots(f.texte)
+    q, qc, qi = mots, _couleurs_des_mots(mots), None
+    if mots and conn is not None:
+        ids, courts = _ids_recherche(conn, mots)
+        if ids is not None:
+            qi = ids
+            q = courts or None
+            qc = _couleurs_des_mots(courts) if courts else None
     return {
         "c": f.categories, "b": f.marque or None, "m": f.marchands,
         "lo": f.prix_min, "hi": f.prix_max,
@@ -1633,9 +1649,71 @@ def _args(f: Filtres) -> dict[str, Any]:
         "mat": f.matiere or None, "hom": f.homologation or None,
         "sai": f.saison or None,
         "ge": f.genre if f.genre in GENRES else None,
-        "q": _mots(f.texte),
-        "qc": _couleurs_des_mots(_mots(f.texte)),
+        "q": q, "qc": qc, "qi": qi,
     }
+
+
+def _f_recherche(texte: str) -> str:
+    """Le meme calcul que la fonction SQL `f_recherche` : minuscules, sans accent, ponctuation
+    recollee (« SZ-R » devient « szr »). Sert a savoir si un mot a assez de lettres pour un trigramme."""
+    t = unicodedata.normalize("NFKD", texte.lower())
+    t = "".join(c for c in t if not unicodedata.combining(c))
+    return t.translate(str.maketrans("", "", "-._/'\"()[]"))
+
+
+def _echapper_like(mot: str) -> str:
+    """`%` et `_` tapes par le visiteur ne sont pas des jokers."""
+    barre = chr(92)                      # la barre oblique inverse, qui echappe dans LIKE
+    return mot.replace(barre, barre * 2).replace("%", barre + "%").replace("_", barre + "_")
+
+
+# Les fiches ou UN mot se trouve quelque part : titre marchand, marque ou modele, nom du rayon,
+# couleur. Quatre blocs relies par UNION, chacun sur son index (`product_stats_titre_trgm`,
+# `product_recherche_trgm`). C'est la MEME regle que la clause `_OU`, mais calculee une fois.
+_BLOC_MOT = """(
+    SELECT s.product_id AS id FROM product_stats s
+     WHERE f_recherche(s.best_title) LIKE '%%' || f_recherche(%(w$i)s) || '%%'
+    UNION SELECT p.id FROM product p
+     WHERE f_unaccent(coalesce(p.model_display, '') || ' ' || coalesce(p.brand_code, ''))
+           ILIKE '%%' || f_unaccent(%(w$i)s) || '%%'
+    UNION SELECT p.id FROM product p
+     WHERE p.category_id IN (SELECT cc.id FROM category cc
+        WHERE unaccent(cc.label_fr) ILIKE '%%' || unaccent(
+              CASE WHEN length(%(w$i)s) >= 4 THEN rtrim(%(w$i)s, 'sx') ELSE %(w$i)s END) || '%%')
+    UNION SELECT s.product_id FROM product_stats s JOIN product p ON p.id = s.product_id
+     WHERE %(k$i)s <> '' AND s.merchant_count >= 2
+       AND %(k$i)s = ANY(string_to_array(split_part(p.colour_code, '|', 1), '-'))
+)"""
+
+
+def _ids_recherche(conn: psycopg.Connection, mots: list[str]) -> tuple[list[int] | None, list[str]]:
+    """(ids des fiches qui portent TOUS les mots longs, mots courts a traiter autrement).
+
+    Un mot de moins de trois lettres une fois la ponctuation recollee (« gt », « sz ») n'a pas de
+    trigramme : l'index serait balaye en entier. Ces mots-la restent dans la clause `_OU`, qui ne
+    les evalue plus que sur les fiches deja trouvees. Sans aucun mot long : (None, tous les mots).
+    Gardee par texte, comme les suggestions : deux visiteurs qui cherchent la meme chose ne la
+    font travailler qu'une fois.
+    """
+    longs = [m for m in mots if len(_f_recherche(m)) >= 3]
+    courts = [m for m in mots if m not in longs]
+    if not longs:
+        return None, mots
+    couleurs = _couleurs_des_mots(longs) or []
+
+    def calcul() -> list[int]:
+        args: dict[str, str] = {}
+        blocs = []
+        for i, m in enumerate(longs):
+            args[f"w{i}"] = _echapper_like(m)
+            args[f"k{i}"] = couleurs[i]
+            blocs.append(_BLOC_MOT.replace("$i", str(i)))
+        ligne = conn.execute(
+            "SELECT array_agg(id) FROM (" + " INTERSECT ".join(blocs) + ") t", args).fetchone()
+        return list(ligne[0] or [])
+
+    ids = cache.au_chaud("recherche-ids|" + "|".join(sorted(m.lower() for m in longs)), calcul)
+    return ids, courts
 
 
 def _couleurs_des_mots(mots: list[str] | None) -> list[str] | None:
@@ -1667,7 +1745,7 @@ def listing_filtre(
     conn: psycopg.Connection, f: Filtres, limit: int, offset: int
 ) -> tuple[list[dict[str, Any]], int]:
     """One page of a filtered listing, and how many rows the filter matches."""
-    args = {**_args(f), "lim": limit, "off": offset}
+    args = {**_args(f, conn), "lim": limit, "off": offset}
     ordres = {
         "pertinence": "s.merchant_count DESC, s.cheapest",
         "prix":       "s.cheapest",
