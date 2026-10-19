@@ -47,6 +47,27 @@
   /m/{{ code_cible }}?{% for k, v in p.items() if v != '' and not (k == 'marchands' and v == '2') and not (k == 'tri' and v == 'pertinence') %}{{ k }}={{ v }}&amp;{% endfor %}{% for v in (f.taille if f else []) %}taille={{ v }}&amp;{% endfor %}
 {%- endmacro %}
 
+{# Sur une page de marque (`/m/…`), cocher une AUTRE marque ouvre le listing
+   `/produits` avec les deux (`marque=nox&marque=alpinestars`) : la page de marque
+   n'en porte qu'une, le listing en accepte plusieurs. Décocher la marque de la
+   page ouvre `/produits` sans elle. Les autres critères suivent (19/10/2026). #}
+{% macro lien_marques_multiples(valeur) -%}
+  {%- set p = {
+       'prix_min':     (f.prix_min | round | int) if (f and f.prix_min is not none) else '',
+       'prix_max':     (f.prix_max | round | int) if (f and f.prix_max is not none) else '',
+       'couleur':      (f.couleur if f else '') or '',
+       'matiere':      (f.matiere if f else '') or '',
+       'homologation': (f.homologation if f else '') or '',
+       'saison':       (f.saison if f else '') or '',
+       'genre':        (f.genre if f else '') or '',
+       'marchands':    (f.marchands if f else 2) | string,
+       'tri':          f.tri if f else 'pertinence',
+  } -%}
+  {%- set choisies = (f.marque or []) if f else [] -%}
+  {%- set nouvelles = (choisies | reject('equalto', valeur) | list) if valeur in choisies else (choisies + [valeur]) -%}
+  /produits?{% for k, v in p.items() if v != '' and not (k == 'marchands' and v == '2') and not (k == 'tri' and v == 'pertinence') %}{{ k }}={{ v }}&amp;{% endfor %}{% for v in nouvelles %}marque={{ v }}&amp;{% endfor %}{% for v in (f.taille if f else []) %}taille={{ v }}&amp;{% endfor %}
+{%- endmacro %}
+
 {# `valeur` est une chaîne pour un filtre à choix unique, une LISTE pour
    marque/taille — le visiteur qui en coche une deuxième garde la première. #}
 {% macro lien(param, valeur) -%}
@@ -249,14 +270,19 @@
              autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="search">
       {% endif %}
       <div class="facette__liste" data-max="10">
-      {% for x in facettes.marques %}
-        {# Sur une page de marque (`/m/…`), le clic change de page : une seule
-           marque possible, c'est l'objet même de l'URL. Ailleurs, coche
-           plusieurs marques sans perdre les autres. #}
-        {% set actif = x.valeur in ((f.marque or []) if f else []) %}
+      {# Les marques COCHÉES d'abord : la liste est repliée à dix lignes, et une
+         marque cochée plus bas était invisible — on ne savait pas si le clic
+         avait pris (19/10/2026). L'ordre des autres ne change pas. #}
+      {% set choisies = (f.marque or []) if f else [] %}
+      {% set marques_ordonnees = (facettes.marques | selectattr('valeur', 'in', choisies) | list)
+                                 + (facettes.marques | rejectattr('valeur', 'in', choisies) | list) %}
+      {% for x in marques_ordonnees %}
+        {# Plusieurs marques se cochent partout. Sur une page de marque (`/m/…`),
+           cocher une autre marque ouvre le listing multi-marques. #}
+        {% set actif = x.valeur in choisies %}
         <a class="facette__ligne {{ 'est-actif' if actif }}" {% if actif %}aria-current="true"{% endif %}
            {% if not base.startswith('/m/') %}data-bascule="marque" data-valeur="{{ x.valeur }}"{% endif %}
-           href="{{ lien_marque(x.valeur) if base.startswith('/m/')
+           href="{{ lien_marques_multiples(x.valeur) if base.startswith('/m/')
                     else bascule('marque', x.valeur) }}">
           <span>{{ x.valeur | marque }}</span><span class="facette__n">{{ x.n }}</span>
         </a>
