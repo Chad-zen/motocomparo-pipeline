@@ -1564,10 +1564,23 @@ _OU = """
       -- puisque le rayon s'écrit « Casques intégraux » et que l'accent ne
       -- tombait pas au même endroit. Le suffixe est rogné à la comparaison
       -- (« casques » trouve « casque », et l'inverse).
+      --
+      -- Deux autres endroits sont lus, comme le font les suggestions (19/10/2026,
+      -- « szr blanc arai » trouvait des fiches dans la liste deroulante et zero
+      -- sur la page apres Entree) :
+      --   * le TITRE MARCHAND recolle (`f_recherche`, meme expression que l'index
+      --     trigramme) : `model_display` est un sac de jetons trie par ordre
+      --     alphabetique (« Evo R Sz Vas »), « szr » n'y est jamais ;
+      --   * la COULEUR : « blanc » n'est dans le titre d'aucun des deux
+      --     marchands, il est dans le code couleur de la fiche (`qc`, un code
+      --     par mot, vide quand le mot n'est pas une couleur).
       AND (%(q)s::text[] IS NULL OR NOT EXISTS (
-            SELECT 1 FROM unnest(%(q)s::text[]) AS mot
-            WHERE unaccent(p.brand_code)    NOT ILIKE '%%' || unaccent(mot) || '%%'
-              AND unaccent(p.model_display) NOT ILIKE '%%' || unaccent(mot) || '%%'
+            SELECT 1 FROM unnest(%(q)s::text[], %(qc)s::text[]) AS t(mot, cod)
+            WHERE unaccent(p.brand_code)    NOT ILIKE '%%' || unaccent(t.mot) || '%%'
+              AND unaccent(p.model_display) NOT ILIKE '%%' || unaccent(t.mot) || '%%'
+              AND f_recherche(s.best_title) NOT LIKE '%%' || f_recherche(t.mot) || '%%'
+              AND NOT (t.cod <> '' AND t.cod = ANY(string_to_array(
+                    split_part(p.colour_code, '|', 1), '-')))
               -- sous-requête et non `c.label_fr` : `_OU` est réutilisé par des
               -- requêtes de facettes qui ne joignent pas `category`.
               AND NOT EXISTS (
@@ -1577,8 +1590,8 @@ _OU = """
                       -- « sx » deviendrait sinon la chaîne vide, qui trouve
                       -- tous les rayons.
                       AND unaccent(cc.label_fr) ILIKE '%%' ||
-                          unaccent(CASE WHEN length(mot) >= 4
-                                        THEN rtrim(mot, 'sx') ELSE mot END) || '%%')))
+                          unaccent(CASE WHEN length(t.mot) >= 4
+                                        THEN rtrim(t.mot, 'sx') ELSE t.mot END) || '%%')))
 """
 
 
@@ -1591,7 +1604,23 @@ def _args(f: Filtres) -> dict[str, Any]:
         "sai": f.saison or None,
         "ge": f.genre if f.genre in GENRES else None,
         "q": _mots(f.texte),
+        "qc": _couleurs_des_mots(_mots(f.texte)),
     }
+
+
+def _couleurs_des_mots(mots: list[str] | None) -> list[str] | None:
+    """Un code couleur par mot tapé (« blanc » -> « WH »), chaine vide quand le
+    mot n'en est pas une. Meme vocabulaire que le pipeline, pour que la page de
+    resultats entende « blanche » ou « white » comme les fiches les ont rangees."""
+    if not mots:
+        return None
+    from mcpipe import textnorm as tn
+
+    def code(mot: str) -> str:
+        m = tn.norm_txt(mot).strip()
+        return tn._COLOUR_BASE.get(m) or tn._COLOUR_FALLBACK.get(m) or ""
+
+    return [code(m) for m in mots]
 
 
 def _mots(texte: str | None) -> list[str] | None:
