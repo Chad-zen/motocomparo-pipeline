@@ -4884,3 +4884,21 @@ html { overflow-x: clip; }
   .sugg, .sugg__ligne, .sugg__carte, .sugg__titre { animation: none; }
   .quete, .quete input, .quete button, .quete .quete__ico, .sugg__vignette { transition: none; }
 }
+
+/* Les rayons de l'entonnoir de la barre de recherche ont deux gestes (19/10/2026) :
+   le nom montre les produits a droite, la fleche ouvre la page du rayon (avec la
+   marque tapee). Le nom est le geste principal ; la fleche reste discrete. */
+.sugg__double { display: flex; align-items: stretch; margin: 2px 8px; border-radius: 8px; }
+.sugg__double .sugg__ligne { margin: 0; }
+.sugg__double .sugg__apercu { flex: 1 1 auto; min-width: 0; border-radius: 8px 0 0 8px; }
+.sugg__aller {
+  flex: none; display: flex; align-items: center; justify-content: center; width: 44px;
+  padding: 0; border-radius: 0 8px 8px 0; font-size: 17px; font-weight: 700;
+  color: var(--marque-encre, #26355a); border-left: 1px solid var(--ligne-carte, #e8eaf1);
+  transition: background-color .15s ease, color .15s ease;
+}
+.sugg__aller:hover, .sugg__aller.est-choisi { background: #e3e9f8; }
+.sugg__apercu.est-actif { background: #eef2fb; box-shadow: inset 3px 0 0 var(--or); }
+.sugg__apercu.est-actif .sugg__quoi { color: var(--marque-encre, #26355a); }
+.sugg__produits { transition: opacity .15s ease; }
+.sugg__produits.est-en-chargement { opacity: .5; }

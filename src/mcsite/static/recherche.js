@@ -67,6 +67,7 @@
     form.appendChild(dit);
 
     var minuteur = null, encours = null, choisi = -1, options = [];
+    var compteurOption = 0, encoursApercu = null;
 
     function fermer() {
       liste.hidden = true;
@@ -92,7 +93,7 @@
     function option(href, dedans, etiquette, conteneur) {
       var a = elem('a', 'sugg__ligne');
       a.href = href;
-      a.id = liste.id + '-o' + options.length;
+      a.id = liste.id + '-o' + (compteurOption++);
       a.setAttribute('role', 'option');
       a.setAttribute('aria-selected', 'false');
       if (etiquette) a.setAttribute('aria-label', etiquette);
@@ -162,6 +163,7 @@
       // avant l'entonnoir de la marque, qui prenait tout le premier écran.
       liste.classList.toggle('sugg--modele',
         !!(d.meilleurs && d.meilleurs.length && !d.rayon_compris));
+      var lignesRayon = [];
       var gauche = colonne('sugg__chemins');
       var droite = colonne('sugg__produits');
 
@@ -195,10 +197,29 @@
       if (d.entonnoir && d.entonnoir.length && !d.rayon_compris) {
         var marque = d.entonnoir[0].marque;
         rubriqueDans(gauche, marque.toUpperCase() + ', par rayon');
+        // DEUX GESTES PAR RAYON (19/10/2026) : le nom du rayon montre ses produits
+        // à droite, sans quitter la liste ni perdre la marque tapée ; la flèche
+        // ouvre la page du rayon, déjà filtrée sur cette marque.
         d.entonnoir.forEach(function (e) {
-          option('/c/' + e.rayon_code + '?marque=' + encodeURIComponent(marque),
+          var url = '/c/' + e.rayon_code + '?marque=' + encodeURIComponent(marque);
+          var rang = elem('div', 'sugg__double');
+          gauche.appendChild(rang);
+          var voir = option(url,
             [elem('span', 'sugg__quoi', e.rayon), elem('span', 'sugg__compte', e.n)],
-            marque.toUpperCase() + ' dans ' + e.rayon + ', ' + e.n + ' produits', gauche);
+            marque.toUpperCase() + ' dans ' + e.rayon + ', ' + e.n +
+              ' produits : voir les produits à droite', rang);
+          voir.classList.add('sugg__apercu');
+          lignesRayon.push(voir);
+          var aller = option(url, [elem('span', 'sugg__fleche', '→')],
+            'Ouvrir la page ' + e.rayon + ' ' + marque.toUpperCase(), rang);
+          aller.classList.add('sugg__aller');
+          voir.addEventListener('click', function (ev) {
+            // clic modifié (nouvel onglet) : le lien reste un lien
+            if (ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.button) return;
+            ev.preventDefault();
+            ev.stopPropagation();
+            apercu(voir, e, marque, url);
+          });
         });
       }
 
@@ -224,11 +245,49 @@
       }
 
       var produits = (d.meilleurs || []).concat(d.produits || []);
+      var grille = null, titreProduits = null, tout = null;
       if (produits.length) {
-        rubriqueDans(droite, 'Produits');
-        var grille = elem('div', 'sugg__grille');
+        titreProduits = elem('p', 'sugg__titre', 'Produits');
+        droite.appendChild(titreProduits);
+        grille = elem('div', 'sugg__grille');
         droite.appendChild(grille);
         produits.slice(0, 8).forEach(function (p) { carte(grille, p); });
+      }
+
+      // Les produits d'un rayon, à droite, sans quitter la liste. La réponse est
+      // celle de « marque + rayon » (« arai casques intégraux »), que l'API sait
+      // déjà lire ; si elle ne reconnaît pas ce rayon, on ouvre sa page.
+      function apercu(lien, e, marque, url) {
+        if (!grille) { window.location.href = url; return; }
+        if (encoursApercu) encoursApercu.abort();
+        encoursApercu = new AbortController();
+        (lignesRayon || []).forEach(function (l) { l.classList.remove('est-actif'); });
+        lien.classList.add('est-actif');
+        droite.classList.add('est-en-chargement');
+        fetch('/api/suggestions?q=' + encodeURIComponent(marque + ' ' + e.rayon),
+              { signal: encoursApercu.signal })
+          .then(function (r) { return r.ok ? r.json() : null; })
+          .then(function (r) {
+            droite.classList.remove('est-en-chargement');
+            if (!r || !r.rayon_compris || r.rayon_compris.code !== e.rayon_code) {
+              window.location.href = url;
+              return;
+            }
+            var lot = (r.meilleurs || []).concat(r.produits || []);
+            if (!lot.length) { window.location.href = url; return; }
+            // les anciennes cartes quittent la liste des options du clavier
+            options = options.filter(function (o) { return !grille.contains(o); });
+            grille.innerHTML = '';
+            titreProduits.textContent = 'Produits · ' + e.rayon;
+            lot.slice(0, 8).forEach(function (p) { carte(grille, p); });
+            if (tout) {
+              tout.href = r.rayon_compris.url;
+              var t = tout.querySelector('.sugg__tout');
+              if (t) t.textContent = 'Voir les ' + r.rayon_compris.n + ' produits';
+            }
+            dit.textContent = e.rayon + ' : ' + lot.length + ' produits affichés';
+          })
+          .catch(function () { droite.classList.remove('est-en-chargement'); });
       }
 
       if (!gauche.childNodes.length) gauche.remove();
@@ -238,7 +297,7 @@
       // les premiers résultats, et qui n'y trouve pas son bonheur ne doit pas
       // croire qu'il n'y a rien.
       if (options.length) {
-        var tout = option(d.rayon_compris ? d.rayon_compris.url
+        tout = option(d.rayon_compris ? d.rayon_compris.url
                                           : '/recherche?q=' + encodeURIComponent(texte),
           [elem('span', 'sugg__tout', d.rayon_compris
             ? 'Voir les ' + d.rayon_compris.n + ' produits'
