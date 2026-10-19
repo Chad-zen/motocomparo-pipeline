@@ -58,6 +58,33 @@ def au_chaud(cle: str, fabrique: Callable[[], Any], ttl: float | None = None) ->
         if entree is not None and maintenant - entree[0] < vie:
             return entree[1]
 
+    # Un seul calcul a la fois par cle : sur cache froid, plusieurs visiteurs (ou
+    # robots) lancaient chacun le meme calcul de 30 s sur un seul coeur, et la
+    # file s'allongeait plus vite qu'elle ne se vidait (19/10/2026). Les suivants
+    # attendent ici, puis trouvent la valeur toute prete. Si l'attente depasse
+    # `_ATTENTE_MAX`, on calcule quand meme : mieux vaut un doublon qu'une page
+    # qui ne repond jamais.
+    with _verrou:
+        if len(_verrous_cle) > 2000:  # les cles de filtres sont libres : on borne
+            _verrous_cle.clear()
+        verrou_cle = _verrous_cle.setdefault(cle, threading.Lock())
+    if verrou_cle.acquire(timeout=_ATTENTE_MAX):
+        try:
+            with _verrou:
+                entree = _boite.get(cle)
+                if entree is not None and time.monotonic() - entree[0] < vie:
+                    return entree[1]
+            return _calculer(cle, fabrique)
+        finally:
+            verrou_cle.release()
+    return _calculer(cle, fabrique)
+
+
+_verrous_cle: dict[str, threading.Lock] = {}
+_ATTENTE_MAX = 45.0
+
+
+def _calculer(cle: str, fabrique: Callable[[], Any]) -> Any:
     valeur = fabrique()
     with _verrou:
         _boite[cle] = (time.monotonic(), valeur)

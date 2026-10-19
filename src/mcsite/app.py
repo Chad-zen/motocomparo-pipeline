@@ -82,7 +82,11 @@ async def lifespan(app: FastAPI):
     pool.wait(timeout=10)
     # Prechauffage : la page des bons plans met ~30 s a se calculer ; on le fait
     # ici, hors de toute visite, pour que le premier visiteur trouve le cache plein.
-    threading.Thread(target=_prechauffer_bons_plans, daemon=True).start()
+    # Differe de 5 min : juste apres un redemarrage, le site relance deja les blocs
+    # de l'accueil et le trafic reprend ; tout lancer ensemble saturait le coeur.
+    _minuteur = threading.Timer(300, _prechauffer_bons_plans)
+    _minuteur.daemon = True
+    _minuteur.start()
     yield
     pool.close()
 
@@ -574,22 +578,6 @@ def _page_accueil(request: Request, gabarit: str, **extra: Any):
         _ctx(request, **bloc, **extra, nav=nav_accueil, articles=articles_mod.publies()[:3]))
 
 
-def _releve_jour() -> str:
-    """La date du dernier relevé de prix, pour la mention des pages de résultats.
-
-    Gardée au chaud sous sa propre clé : ce `max()` parcourt toute `raw_offer`
-    (1,26 Go), et il tournait jusqu'ici à chaque combinaison de filtres pas
-    encore en cache. La date ne change qu'une fois par jour.
-    """
-    def _calcul() -> str:
-        with pool.connection() as conn:  # type: ignore[union-attr]
-            r = conn.execute(
-                "SELECT max(last_seen)::date FROM raw_offer WHERE is_live").fetchone()
-        return r[0].strftime("%d/%m/%Y") if r and r[0] else ""
-
-    return cache.au_chaud("releve_jour", _calcul)
-
-
 def _liste(request, titre, base, f, page, code="", courante=None):
     """Render a listing.
 
@@ -614,12 +602,11 @@ def _liste(request, titre, base, f, page, code="", courante=None):
             return items, total, queries.facets(conn, f)
 
     items, total, facettes = cache.au_chaud(f"liste|{f}|{page}", _page)
-    releve = _releve_jour()
     return templates.TemplateResponse(
         request, "listing.html",
         _ctx(request, titre=titre, code=code, items=items, total=total,
              page=page, pages=max(1, -(-total // PER_PAGE)), base=base,
-             courante=courante, facettes=facettes, f=f, releve_jour=releve,
+             courante=courante, facettes=facettes, f=f,
              seo=_seo_liste(base, code, courante, f, page, total)),
     )
 
