@@ -874,14 +874,24 @@ def fiche_par_gtin(conn: psycopg.Connection, gtin: str) -> dict[str, Any] | None
     """
     return _row(conn, """
         SELECT p.slug, p.model_display, s.best_title, p.brand_code, p.colour_code,
-               s.image_url, s.cheapest, s.merchant_count, p.category_id, 1.0 AS score
+               s.image_url, s.cheapest, s.merchant_count, p.category_id, 1.0 AS score,
+               -- un code-barres est celui d'UNE TAILLE : on la montre, avec le prix de
+               -- cette taille et non celui du moins cher de la fiche (19/10/2026)
+               (SELECT v.size_code FROM raw_offer o2
+                  JOIN offer_variant_link l ON l.raw_offer_id = o2.id
+                  JOIN variant v ON v.id = l.variant_id
+                 WHERE o2.gtin = %(g)s AND o2.is_live AND v.size_code <> 'TU'
+                 LIMIT 1) AS taille,
+               (SELECT min(o2.price) FROM raw_offer o2
+                 WHERE o2.gtin = %(g)s AND o2.is_live AND o2.price > 0
+                   AND o2.in_stock IS NOT FALSE) AS prix_taille
         FROM raw_offer o
         JOIN product p ON p.id = o.product_id
         JOIN product_stats s ON s.product_id = p.id
-        WHERE o.gtin = %s AND p.status <> 'merged' AND s.cheapest IS NOT NULL
+        WHERE o.gtin = %(g)s AND p.status <> 'merged' AND s.cheapest IS NOT NULL
         ORDER BY o.is_live DESC, o.last_seen DESC
         LIMIT 1
-    """, (gtin,))
+    """, {"g": gtin})
 
 
 def product(conn: psycopg.Connection, slug: str) -> dict[str, Any] | None:

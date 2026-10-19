@@ -140,6 +140,8 @@
       // « 3 coloris » plutôt que trois lignes jumelles : les fiches d'un même
       // titre sont regroupées côté serveur.
       var dessous = [];
+      // un code-barres tape : on dit de QUELLE taille il s'agit
+      if (p.taille) dessous.push('Taille ' + p.taille);
       if (p.coloris > 1) dessous.push(p.coloris + ' coloris');
       else if (p.couleur) dessous.push(p.couleur);
       if (p.marchands) dessous.push(p.marchands + ' marchands');

@@ -448,10 +448,13 @@ def _produits(produits: list[dict[str, Any]], nom) -> list[dict[str, Any]]:
             "nom": nom(p),
             "couleur": _couleur(p.get("colour_code")),
             "marque": (p.get("brand_code") or "").upper(),
-            "prix": float(p["cheapest"]) if p.get("cheapest") is not None else None,
+            # un code-barres tape : le prix et la taille de CE code, pas de la fiche
+            "prix": (float(p["prix_taille"]) if p.get("prix_taille") is not None else
+                     float(p["cheapest"]) if p.get("cheapest") is not None else None),
             "marchands": p.get("merchant_count"),
             "image": p.get("image_url"),
             "coloris": p.get("jumelles") or 1,
+            "taille": p.get("taille"),
         }
         for p in produits
     ]

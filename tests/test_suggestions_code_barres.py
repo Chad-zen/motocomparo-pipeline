@@ -54,3 +54,28 @@ def test_l_api_montre_la_fiche_d_un_code_barres():
     donnees = r.json()
     slugs = [p["slug"] for p in donnees.get("produits", []) + donnees.get("meilleurs", [])]
     assert slug in slugs
+
+
+def test_un_code_barres_dit_de_quelle_taille_il_est():
+    """4530935604074 est la taille S de l'Arai Quantic Frost : la liste doit le dire
+    (19/10/2026), avec le prix de cette taille."""
+    from mcpipe.db import connect
+    from mcsite import queries
+
+    conn = connect()
+    try:
+        row = conn.execute(
+            "SELECT o.gtin, v.size_code FROM raw_offer o "
+            "JOIN offer_variant_link l ON l.raw_offer_id = o.id "
+            "JOIN variant v ON v.id = l.variant_id "
+            "JOIN product p ON p.id = o.product_id "
+            "JOIN product_stats s ON s.product_id = p.id "
+            "WHERE o.gtin ~ '^[0-9]{13}$' AND o.is_live AND v.size_code NOT IN ('TU') "
+            "AND p.status <> 'merged' AND s.cheapest IS NOT NULL LIMIT 1").fetchone()
+        if not row:
+            pytest.skip("aucun code-barres avec taille dans cette base")
+        fiche = queries.fiche_par_gtin(conn, row[0])
+    finally:
+        conn.close()
+    assert fiche["taille"] == row[1] or fiche["taille"]
+    assert fiche["prix_taille"] is not None
