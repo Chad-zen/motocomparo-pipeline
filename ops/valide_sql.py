@@ -41,10 +41,20 @@ SELECT o.gtin, s.brand_code, s.primary_colour, s.model_year, s.genre_age,
 FROM raw_offer o JOIN offer_signature s ON s.raw_offer_id = o.id WHERE false;
 
 CREATE TEMP TABLE _ig_unit AS
-SELECT o.merchant_id, o.raw_item_group, ''::text AS identity_hash,
+SELECT o.merchant_id, o.raw_item_group, ''::text AS identity_hash, ''::text AS hash_base,
        s.brand_code, s.primary_colour, s.model_year, s.genre_age, s.is_pack,
-       s.model_core_ref, s.model_tokens, s.category_id
+       s.model_core_ref, s.model_tokens, s.category_id,
+       0::bigint AS n, 0::numeric AS prix
 FROM raw_offer o JOIN offer_signature s ON s.raw_offer_id = o.id WHERE false;
+
+CREATE TEMP TABLE _ig_ref AS
+SELECT ''::text AS h, ''::text AS t, 0::bigint AS m, ''::text AS g, 0::numeric AS prix WHERE false;
+
+CREATE TABLE IF NOT EXISTS offre_detachee_prix (
+    raw_offer_id bigint PRIMARY KEY, ancien_product_id bigint, ancien_link_method text,
+    ancienne_confiance numeric, prix numeric, mediane_autres numeric,
+    detache_le timestamptz NOT NULL DEFAULT now()
+);
 """
 
 # (nom, sql, paramètres) — les requêtes paramétrées sont analysées telles quelles.
@@ -59,6 +69,11 @@ A_VERIFIER = [
     ("_FOLD_MODELE", match._FOLD_MODELE),
     ("_SPLIT_PIECES", match._SPLIT_PIECES),
     ("_SPLIT_PRIX", match._SPLIT_PRIX),
+    ("_SPLIT_PRIX_HABILLEMENT", match._SPLIT_PRIX_HABILLEMENT),
+    ("_BUILD_ITEM_GROUP_UNITS", None),    # CREATE TABLE AS : verifie par la copie
+    ("_IG_REF", None),                    # CREATE TABLE AS
+    ("_IG_SEPARER_PRIX", match._IG_SEPARER_PRIX),
+    ("_DETACHER_CANDIDATS", match._DETACHER_CANDIDATS),
     ("_FLAG_GTIN_CONFLICTS", match._FLAG_GTIN_CONFLICTS),
     ("_CREATE_PRODUCTS_FROM_GTIN", match._CREATE_PRODUCTS_FROM_GTIN),
     ("_LINK_GTIN_OFFERS", match._LINK_GTIN_OFFERS),

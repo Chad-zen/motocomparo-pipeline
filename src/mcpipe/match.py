@@ -75,6 +75,7 @@ never a silent split.
 
 from __future__ import annotations
 
+import os
 import time
 from dataclasses import dataclass
 
@@ -105,6 +106,11 @@ class MatchResult:
     pieces_decoupees: int = 0
     # offres d'un marchand neuf écartées parce qu'elles contredisent les autres
     offres_ecartees: int = 0
+    # offres rattachees par groupe a une fiche au prix sans rapport : detachees puis reclassees
+    offres_detachees: int = 0
+    detachement_refuse: int = 0
+    # unites item_group separees de leur fiche parce que leur prix en etait trop loin
+    groupes_separes: int = 0
 
 
 # --- LES DESACCORDS D'UN MARCHAND NEUF (18/10/2026) --------------------------------------
@@ -912,6 +918,7 @@ _BUILD_ITEM_GROUP_UNITS = """
 CREATE TEMP TABLE _ig_unit ON COMMIT DROP AS
 WITH members AS (
     SELECT o.id AS raw_offer_id, o.merchant_id, o.raw_item_group,
+           (o.is_live AND o.price > 0) AS pricable, o.price,
            s.brand_code, s.primary_colour, s.model_year, s.genre_age, s.is_pack,
            s.model_core_ref, s.model_tokens, s.model_strength, s.category_id,
            md5(
@@ -927,15 +934,28 @@ WITH members AS (
     WHERE o.linked_status = 'unresolved'
       AND o.raw_item_group IS NOT NULL
       AND s.model_strength IN ('strong', 'medium')
+),
+cumul AS (
+    -- le prix d'une unite = la mediane des prix de ses offres vivantes ; `n` = combien d'offres
+    SELECT merchant_id, raw_item_group, identity_hash, count(*) AS n,
+           round((percentile_cont(0.5) WITHIN GROUP (ORDER BY price)
+                  FILTER (WHERE pricable))::numeric, 2) AS prix
+    FROM members GROUP BY 1, 2, 3
 )
-SELECT DISTINCT ON (merchant_id, raw_item_group, identity_hash)
-    merchant_id, raw_item_group, identity_hash,
-    brand_code, primary_colour, model_year, genre_age, is_pack,
-    model_core_ref, model_tokens, category_id
-FROM members
-ORDER BY merchant_id, raw_item_group, identity_hash,
-         CASE model_strength WHEN 'strong' THEN 0 WHEN 'medium' THEN 1 ELSE 2 END,
-         raw_offer_id
+SELECT DISTINCT ON (m.merchant_id, m.raw_item_group, m.identity_hash)
+    m.merchant_id, m.raw_item_group, m.identity_hash,
+    -- `hash_base` ne bouge jamais : c'est l'identite calculee depuis la signature, celle que
+    -- `_LINK_ITEM_GROUP_OFFERS` recalcule pour retrouver l'unite. `identity_hash`, lui, peut etre
+    -- remplace par `_IG_SEPARER_PRIX` pour que l'unite forme sa propre fiche.
+    m.identity_hash AS hash_base,
+    m.brand_code, m.primary_colour, m.model_year, m.genre_age, m.is_pack,
+    m.model_core_ref, m.model_tokens, m.category_id, c.n, c.prix
+FROM members m
+JOIN cumul c ON c.merchant_id = m.merchant_id AND c.raw_item_group = m.raw_item_group
+            AND c.identity_hash = m.identity_hash
+ORDER BY m.merchant_id, m.raw_item_group, m.identity_hash,
+         CASE m.model_strength WHEN 'strong' THEN 0 WHEN 'medium' THEN 1 ELSE 2 END,
+         m.raw_offer_id
 """
 
 _CREATE_PRODUCTS_FROM_ITEM_GROUP = """
@@ -991,7 +1011,7 @@ WHERE s.raw_offer_id = o.id
           s.is_pack::int::text || '|' ||
           coalesce(s.model_core_ref, '') || ':' ||
           coalesce(array_to_string(s.model_tokens, '-'), '')
-      ) = iu.identity_hash
+      ) = iu.hash_base
   AND p.identity_hash = iu.identity_hash
 """
 
@@ -1190,6 +1210,178 @@ SET identity_hash = md5(u.identity_hash || '|' || u.gtin)
 FROM a_couper c
 WHERE c.identity_hash = u.identity_hash
 """
+
+# LES VETEMENTS A CODE-BARRES, A 5x (19/10/2026). `_SPLIT_PRIX` laisse l'habillement de cote : FC-Moto solde
+# une taille d'une veste a -60 %. Mais -80 % (cinq fois moins cher) n'est plus une solde : Troy Lee GP Pro
+# a 22,55 € et 170,76 € sur une meme fiche, Bell Custom 500 a 79,99 € contre 431 €. Meme geste, saut de 5.
+_SPLIT_PRIX_HABILLEMENT = f"""
+WITH prix_gtin AS (
+    SELECT u.gtin, u.identity_hash, max(o.price) AS prix
+    FROM _gtin_unit u
+    JOIN raw_offer o ON o.gtin = u.gtin
+    JOIN merchant m ON m.id = o.merchant_id
+    WHERE NOT u.conflict
+      AND u.category_id IN {_RAYONS_HABILLEMENT}
+      AND o.is_live AND m.affiche AND o.price > 0
+    GROUP BY u.gtin, u.identity_hash
+),
+sauts AS (
+    SELECT identity_hash,
+           prix / lag(prix) OVER (PARTITION BY identity_hash ORDER BY prix) AS saut
+    FROM prix_gtin
+),
+a_couper AS (
+    SELECT identity_hash FROM sauts GROUP BY 1 HAVING max(saut) >= 5
+)
+UPDATE _gtin_unit u
+SET identity_hash = md5(u.identity_hash || '|' || u.gtin)
+FROM a_couper c
+WHERE c.identity_hash = u.identity_hash
+"""
+
+# LA SEPARATION PAR LE PRIX DES GROUPES item_group (19/10/2026). La Becanerie vend sous un meme titre une
+# protection de levier en mousse (4,05 €) et une en aluminium (44,01 €), sans code-barres pour la seconde : leur
+# identite est la meme, donc la meme fiche. Une unite item_group dont le prix s'ecarte de 3x (5x pour
+# l'habillement, qui a de vraies soldes) de celui des AUTRES unites de meme identite, ou de la fiche deja
+# existante, forme sa propre fiche. Les unites a code-barres ne sont jamais modifiees.
+#
+# Quatre garde-fous, venus de deux relectures independantes :
+#  * les references sont calculees AVANT toute reecriture (`_ig_ref`), sinon le resultat depend de l'ordre ;
+#  * deux unites qui s'opposent s'ecartent mutuellement (rien ne dit laquelle est l'intruse) : on garde la plus
+#    fournie sur l'ancienne fiche, pour que son adresse, deja connue des moteurs de recherche, reste utile ;
+#  * un frere deja rattache a la fiche d'origine (meme marchand, meme groupe) empeche la separation : le groupe
+#    reste entier, ce qui tient le passage de 4,9x a 5,1x d'une nuit a l'autre ;
+#  * une fiche separee la veille reste separee (le hash est deterministe, la fiche existe).
+_IG_REF = """
+CREATE TEMP TABLE _ig_ref ON COMMIT DROP AS
+SELECT iu.hash_base AS h, 'i'::text AS t, iu.merchant_id::bigint AS m, iu.raw_item_group AS g, iu.prix
+FROM _ig_unit iu WHERE iu.prix IS NOT NULL
+UNION ALL
+SELECT p.identity_hash, 'p'::text, p.id, NULL::text,
+       round((percentile_cont(0.5) WITHIN GROUP (ORDER BY o.price))::numeric, 2)
+FROM product p
+JOIN raw_offer o ON o.product_id = p.id AND o.linked_status = 'linked' AND o.is_live AND o.price > 0
+WHERE p.status <> 'merged' AND p.identity_hash IN (SELECT hash_base FROM _ig_unit)
+GROUP BY p.id, p.identity_hash
+"""
+
+_IG_SEPARER_PRIX = f"""
+WITH base AS (
+    SELECT u.merchant_id, u.raw_item_group, u.hash_base, u.prix, u.n,
+           CASE WHEN u.category_id IN {_RAYONS_HABILLEMENT} THEN 5 ELSE 3 END AS k,
+           EXISTS (SELECT 1 FROM _ig_ref r WHERE r.h = u.hash_base AND r.t = 'p') AS fiche_existante
+    FROM _ig_unit u
+    WHERE u.prix IS NOT NULL
+),
+ref AS (
+    -- la reference : le prix de la fiche qui existe deja, s'il y en a une (c'est elle qui definit l'identite) ;
+    -- sinon la mediane des AUTRES unites. Melanger les deux faisait se « rassurer » deux groupes a 44 € face a
+    -- une fiche a 4 € : leur mediane commune tombait a mi-chemin.
+    SELECT b.*,
+           (SELECT round((percentile_cont(0.5) WITHIN GROUP (ORDER BY r.prix))::numeric, 2)
+            FROM _ig_ref r
+            WHERE r.h = b.hash_base
+              AND (r.t = 'p'
+                   OR (NOT b.fiche_existante
+                       AND NOT (r.t = 'i' AND r.m = b.merchant_id AND r.g = b.raw_item_group)))) AS med
+    FROM base b
+),
+juge AS (
+    SELECT *, (prix >= k * med OR prix <= med / k) AS ecarte FROM ref WHERE med IS NOT NULL
+),
+classe AS (
+    SELECT j.*,
+           count(*) FILTER (WHERE NOT j.ecarte) OVER (PARTITION BY j.hash_base) AS gardees,
+           row_number() OVER (PARTITION BY j.hash_base
+                              ORDER BY j.n DESC, j.prix, j.merchant_id, j.raw_item_group) AS rang
+    FROM juge j
+),
+final AS (
+    SELECT c.merchant_id, c.raw_item_group, c.hash_base
+    FROM classe c
+    WHERE (c.ecarte
+           AND NOT (c.gardees = 0 AND NOT c.fiche_existante AND c.rang = 1)
+           AND NOT EXISTS (SELECT 1 FROM raw_offer o2
+                           JOIN product p2 ON p2.id = o2.product_id
+                           WHERE o2.merchant_id = c.merchant_id
+                             AND o2.raw_item_group = c.raw_item_group
+                             AND p2.identity_hash = c.hash_base
+                             AND o2.linked_status = 'linked'))
+       OR EXISTS (SELECT 1 FROM product p3
+                  WHERE p3.identity_hash =
+                        md5(c.hash_base || '|prix|' || c.merchant_id || '|' || c.raw_item_group))
+)
+UPDATE _ig_unit u
+SET identity_hash = md5(u.hash_base || '|prix|' || u.merchant_id || '|' || u.raw_item_group)
+FROM final f
+WHERE f.merchant_id = u.merchant_id AND f.raw_item_group = u.raw_item_group
+  AND f.hash_base = u.hash_base
+"""
+
+# LE DETACHEMENT DES OFFRES DEJA MAL RATTACHEES. La regle ci-dessus ne voit que les offres NON rattachees ; la
+# fiche Voca existe deja, avec son offre a 44 €. Chaque nuit, avant tout, les offres rattachees par item_group
+# dont le prix s'ecarte de 3x (5x habillement) de la mediane des AUTRES offres vivantes de leur fiche sont
+# detachees ; le rapprochement du meme passage les reclasse avec la regle. Jamais un rattachement par code-barres
+# (une preuve), jamais un lien d'operateur. Plafond : au-dela, rien n'est detache et le passage le dit (un
+# flux casse ne doit pas defaire des milliers de fiches). Chaque offre detachee est journalisee, et une offre
+# deja detachee une fois ne l'est plus (pas d'aller-retour si la regle la laisse revenir).
+_DETACHER_LOG = """
+CREATE TABLE IF NOT EXISTS offre_detachee_prix (
+    raw_offer_id     bigint PRIMARY KEY,
+    ancien_product_id bigint,
+    ancien_link_method text,
+    ancienne_confiance numeric,
+    prix             numeric,
+    mediane_autres   numeric,
+    detache_le       timestamptz NOT NULL DEFAULT now()
+)
+"""
+
+_DETACHER_CANDIDATS = f"""
+SELECT o.id, o.product_id, o.link_method, o.link_confidence, o.price, e.med
+FROM raw_offer o
+JOIN product p ON p.id = o.product_id AND p.status <> 'merged'
+CROSS JOIN LATERAL (
+    SELECT round((percentile_cont(0.5) WITHIN GROUP (ORDER BY x.price))::numeric, 2) AS med
+    FROM raw_offer x
+    WHERE x.product_id = o.product_id AND x.id <> o.id
+      AND x.linked_status = 'linked' AND x.is_live AND x.price > 0
+) e
+WHERE o.linked_status = 'linked' AND o.link_method = 'item_group'
+  AND o.is_live AND o.price > 0 AND e.med IS NOT NULL
+  AND (o.price >= (CASE WHEN p.category_id IN {_RAYONS_HABILLEMENT} THEN 5 ELSE 3 END) * e.med
+    OR o.price <= e.med / (CASE WHEN p.category_id IN {_RAYONS_HABILLEMENT} THEN 5 ELSE 3 END))
+  AND NOT EXISTS (SELECT 1 FROM offre_detachee_prix d WHERE d.raw_offer_id = o.id)
+"""
+
+DETACHER_MAX_OFFRES = 150
+DETACHER_MAX_FICHES = 40
+
+
+def detacher_ecarts_de_prix(cur) -> tuple[int, int]:
+    """(offres detachees, offres refusees par le plafond). Dans la transaction de `run_match`."""
+    cur.execute(_DETACHER_LOG)
+    cur.execute(_DETACHER_CANDIDATS)
+    lignes = cur.fetchall()
+    if not lignes:
+        return 0, 0
+    # Plafonds reglables a la main pour un premier nettoyage connu et regarde (`MCPIPE_DETACHER_MAX_OFFRES`,
+    # `MCPIPE_DETACHER_MAX_FICHES`) ; par defaut ceux du module : un flux casse ne doit pas defaire des fiches.
+    max_offres = int(os.environ.get("MCPIPE_DETACHER_MAX_OFFRES", DETACHER_MAX_OFFRES))
+    max_fiches = int(os.environ.get("MCPIPE_DETACHER_MAX_FICHES", DETACHER_MAX_FICHES))
+    if len(lignes) > max_offres or len({l[1] for l in lignes}) > max_fiches:
+        return 0, len(lignes)
+    cur.executemany(
+        "INSERT INTO offre_detachee_prix (raw_offer_id, ancien_product_id, ancien_link_method, "
+        "ancienne_confiance, prix, mediane_autres) VALUES (%s, %s, %s, %s, %s, %s) "
+        "ON CONFLICT (raw_offer_id) DO NOTHING", lignes)
+    ids = [l[0] for l in lignes]
+    cur.execute(
+        "UPDATE raw_offer SET linked_status = 'unresolved', product_id = NULL, link_method = NULL, "
+        "link_confidence = NULL WHERE id = ANY(%s)", (ids,))
+    cur.execute("DELETE FROM offer_variant_link WHERE raw_offer_id = ANY(%s)", (ids,))
+    return len(ids), 0
+
 
 
 
@@ -1468,6 +1660,10 @@ def run_match(*, avec_mpn: bool = True) -> MatchResult:
     conn = connect()
     try:
         with conn.cursor() as cur:
+            # Les offres deja mal rattachees par leur groupe (prix sans rapport avec la fiche) sortent
+            # d'abord : le passage suivant les reclasse avec la regle de prix. Voir `_DETACHER_CANDIDATS`.
+            offres_detachees, detachement_refuse = detacher_ecarts_de_prix(cur)
+
             cur.execute(_COMPUTE_OFFER_IDENTITY)
 
             # Les marchands neufs d'abord : leurs offres en desaccord sortent AVANT que
@@ -1536,6 +1732,8 @@ def run_match(*, avec_mpn: bool = True) -> MatchResult:
             pieces_decoupees = cur.rowcount
             cur.execute(_SPLIT_PRIX)
             pieces_decoupees += cur.rowcount
+            cur.execute(_SPLIT_PRIX_HABILLEMENT)
+            pieces_decoupees += cur.rowcount
 
             cur.execute(_FLAG_GTIN_CONFLICTS)
             gtin_conflicts = 0
@@ -1563,6 +1761,12 @@ def run_match(*, avec_mpn: bool = True) -> MatchResult:
 
             # --- item_group_id pass (only offers the GTIN pass didn't claim) ---
             cur.execute(_BUILD_ITEM_GROUP_UNITS)
+            # la separation par le prix : references d'abord (indexees), reecriture ensuite
+            cur.execute(_IG_REF)
+            cur.execute("CREATE INDEX ON _ig_ref (h)")
+            cur.execute("ANALYZE _ig_ref")
+            cur.execute(_IG_SEPARER_PRIX)
+            groupes_separes = cur.rowcount
             cur.execute(_CREATE_PRODUCTS_FROM_ITEM_GROUP)
             products_from_ig = cur.rowcount
             cur.execute(_LINK_ITEM_GROUP_OFFERS)
@@ -1639,6 +1843,8 @@ def run_match(*, avec_mpn: bool = True) -> MatchResult:
             offers_linked_mpn=offers_linked_mpn,
             pieces_decoupees=pieces_decoupees,
             offres_ecartees=offres_ecartees,
+            offres_detachees=offres_detachees, detachement_refuse=detachement_refuse,
+            groupes_separes=groupes_separes,
         )
     except Exception:
         conn.rollback()

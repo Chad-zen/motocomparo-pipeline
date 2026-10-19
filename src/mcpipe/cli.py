@@ -367,6 +367,16 @@ def match(
             f"  offres d'un marchand neuf écartées (en désaccord avec les autres) : "
             f"{res.offres_ecartees:,}"
         )
+    if res.groupes_separes or res.offres_detachees:
+        console.print(
+            f"  prix sans rapport : {res.groupes_separes:,} groupe(s) séparé(s) de leur fiche, "
+            f"{res.offres_detachees:,} offre(s) déjà mal rattachée(s) détachée(s) puis reclassée(s)"
+        )
+    if res.detachement_refuse:
+        console.print(
+            f"[yellow]  {res.detachement_refuse:,} offre(s) à détacher : au-delà du plafond, "
+            f"rien n'a été détaché — à examiner à la main[/]"
+        )
 
     # Troisieme filet pour les marchands neufs : voir `match._ECARTER_VIOLATIONS_NEUFS`.
     try:
