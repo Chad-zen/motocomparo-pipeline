@@ -834,6 +834,35 @@ def consolider(
                       f"{r['fiches_fusionnees']:,} fiches fusionnees")
 
 
+@app.command("fusion-rapport")
+def fusion_rapport(
+    csv: str = typer.Option("", "--csv", help="ecrire le detail groupe par groupe dans ce fichier"),
+    statut: str = typer.Option("proposee", "--statut", help="statut des groupes a noter"),
+) -> None:
+    """Note chaque regroupement de fiches propose. LECTURE SEULE : ne fusionne rien.
+
+    Sur, probable, douteux ou a refuser, avec les raisons : de quoi relire un echantillon et
+    mesurer le taux d'erreur avant d'automatiser quoi que ce soit (voir fusion_rapport.py).
+    """
+    import csv as _csv
+    from collections import Counter
+
+    from .fusion_rapport import noter
+
+    lignes = noter((statut,))
+    c = Counter(x["note"] for x in lignes)
+    console.print(f"{len(lignes)} groupes notes ({statut}) :")
+    for note in ("sur", "probable", "douteux", "refuser"):
+        console.print(f"  {note:9s} {c.get(note, 0):4d}")
+    if csv:
+        with open(csv, "w", newline="", encoding="utf-8-sig") as f:
+            w = _csv.writer(f, delimiter=";")
+            w.writerow(["id", "note", "raisons", "fiches"])
+            for x in sorted(lignes, key=lambda x: ("sur", "probable", "douteux", "refuser").index(x["note"])):
+                w.writerow([x["id"], x["note"], " | ".join(x["raisons"]), " / ".join(x["fiches"])])
+        console.print(f"detail ecrit dans {csv}")
+
+
 @app.command("fusion-repli")
 def fusion_repli(
     appliquer: str = typer.Option("", "--appliquer",
