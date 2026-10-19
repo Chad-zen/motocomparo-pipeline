@@ -39,6 +39,10 @@ dev = [
     "ruff>=0.5",
     "mypy>=1.10",
 ]
+# controles de qualite des donnees (dossier validation/)
+validation = [
+    "pandas>=2.2",
+]
 
 [project.scripts]
 mcpipe = "mcpipe.cli:app"
