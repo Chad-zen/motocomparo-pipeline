@@ -290,8 +290,24 @@ conflicts AS (
         OR count(DISTINCT right(genre_age, 1)) > 1
         OR count(DISTINCT is_pack) > 1
         OR count(DISTINCT model_year) FILTER (WHERE model_year IS NOT NULL) > 1
-        OR count(DISTINCT category_id) FILTER (WHERE category_id != 25) > 1
         OR count(DISTINCT brand_code) FILTER (WHERE brand_code IS NOT NULL) > 1
+
+    UNION
+
+    -- Deux rayons en desaccord, SAUF parent et enfant : « Casques » et « Casques
+    -- integraux » decrivent le meme article, l'un plus precisement que l'autre (le
+    -- rayon parent est le repli du classement). Deux enfants differents (integral et
+    -- jet) ou deux rayons sans lien (casques et electronique) restent un conflit.
+    -- Mesure le 19/10/2026 sur les codes-barres en quarantaine de Motoblouz : environ
+    -- 800 etaient dans ce cas.
+    SELECT a.gtin
+    FROM (SELECT DISTINCT gtin, category_id FROM members WHERE category_id != 25) a
+    JOIN (SELECT DISTINCT gtin, category_id FROM members WHERE category_id != 25) b
+      ON b.gtin = a.gtin AND b.category_id > a.category_id
+    JOIN category ca ON ca.id = a.category_id
+    JOIN category cb ON cb.id = b.category_id
+    WHERE ca.parent_id IS DISTINCT FROM b.category_id
+      AND cb.parent_id IS DISTINCT FROM a.category_id
 
     UNION
 
@@ -385,7 +401,11 @@ gated AS (
         ) || '-' ||
         (array_agg(right(m.genre_age, 1)))[1] AS genre_age,
         bool_or(m.is_pack) AS is_pack,
-        coalesce((array_agg(m.category_id) FILTER (WHERE m.category_id != 25))[1], 25)
+        -- le rayon le plus PRECIS (un enfant avant son parent) : `array_agg` sans ordre en
+        -- prenait un au hasard des que parent et enfant pouvaient cohabiter
+        coalesce((array_agg(m.category_id ORDER BY
+                     (m.category_id IN (SELECT id FROM category WHERE parent_id IS NOT NULL)) DESC,
+                     m.category_id) FILTER (WHERE m.category_id != 25))[1], 25)
             AS category_id
     FROM members m
     GROUP BY m.gtin
