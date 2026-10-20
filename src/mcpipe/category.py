@@ -90,7 +90,17 @@ _UNKNOWN_ID = 25
 # une règle de SOUS-TYPE placée avant elle aurait fait pareil pour un "écran
 # teinté pour casque intégral". D'où sa position : tout en tête, avant même
 # les sous-types.
+# LES PLURIELS (Motoin, 19/10/2026). Son chemin de categorie est « Casques>Casques integraux »,
+# « Vetements>Vestes>Vestes en textile », « Vetements>Pantalons>Pantalons textile » : tout au pluriel,
+# et les regles du casque, du blouson, du pantalon et de la combinaison ne lisaient que le
+# singulier. 13 961 des 74 449 lignes tombaient en « non classe » et sortaient du perimetre.
+# Seuls les chemins JAMAIS VUS sont classes (`categorize` ne retouche pas ceux deja en cache) :
+# aucun chemin des marchands en place ne change sans `categorize --remap`.
 _RULES: list[tuple[re.Pattern, int]] = [
+    # Motoin range ses vetements de ville et de travail (Carhartt, Diadora Utility, Mil-Tec...) sous
+    # « Habits loisirs>Pantalons / Vestes / Chaussures » : meme mot que l'equipement, autre produit.
+    # Avant tout le reste, sinon « Pantalons » les prendrait pour des pantalons de pilote.
+    (re.compile(r"\bhabits? loisirs?\b"), 23),
     # `casques?`, pluriel compris : Speedway range ses pièces détachées sous
     # "Accessoires Casques" — pluriel — quatre marques différentes vues dans
     # la même mesure (AGV, Schuberth, Givi, Cardo), et le pluriel manquait à
@@ -103,11 +113,11 @@ _RULES: list[tuple[re.Pattern, int]] = [
         r".*\bcasques?\b"
         r"|pieces? detach.*casques?|casques?.*pieces? detach"
     ), 30),
-    (re.compile(r"\bcasque\b.*(integral|integrale)|full ?face|\bhelmets?\b"), 2),
-    (re.compile(r"\bcasque\b.*(jet|demi.?jet|bol)"), 3),
-    (re.compile(r"\bcasque\b.*(modulable|flip|modular)"), 4),
-    (re.compile(r"\bcasque\b.*cross|cross.*\bcasque\b"), 5),
-    (re.compile(r"\bcasque\b|\bhelmet\b"), 1),
+    (re.compile(r"\bcasques?\b.*(integral|integrale|integraux)|full ?face|\bhelmets?\b"), 2),
+    (re.compile(r"\bcasques?\b.*(jets?|demi.?jets?|bol)"), 3),
+    (re.compile(r"\bcasques?\b.*(modulables?|flip|modular)"), 4),
+    (re.compile(r"\bcasques?\b.*cross|cross.*\bcasques?\b"), 5),
+    (re.compile(r"\bcasques?\b|\bhelmets?\b"), 1),
     # Avant les vêtements : « maillot cross » n'est ni un blouson ni un
     # tee-shirt, et « masque » n'était attrapé par aucune règle. 7 293 et
     # 2 156 offres respectivement, toutes en « non classé » jusqu'ici.
@@ -120,11 +130,11 @@ _RULES: list[tuple[re.Pattern, int]] = [
     # pas un couvre-chef — trouvée dans la même mesure du 29/09/2026, sous
     # "Carénage > Carénage > Casquette de phare".
     (re.compile(r"\bcasquettes?\b(?!\s+de\s+phare)|\bcaps\b|\bbonnets?\b"), 23),
-    (re.compile(r"\bblouson\b|\bveste\b|\bjacket\b(?!.*helmet)"), 6),
-    (re.compile(r"\bpantalon\b|\bjean\b|\bpants\b"), 7),
+    (re.compile(r"\bblousons?\b|\bvestes?\b|\bjackets?\b(?!.*helmet)"), 6),
+    (re.compile(r"\bpantalons?\b|\bjeans?\b|\bpants\b"), 7),
     (re.compile(r"\bgants?\b|\bgloves?\b"), 8),
     (re.compile(r"\bbottes?\b|\bchaussures?\b|\bbaskets?\b|\bboots?\b"), 9),
-    (re.compile(r"\bcombinaison\b|\bsuits?\b"), 10),
+    (re.compile(r"\bcombinaisons?\b|\bsuits?\b"), 10),
     (re.compile(
         r"\bprotection\b|\bdorsale\b|\bplastron\b|genouill|\bcoude\b|\bairbag\b|\bprotector\b"
     ), 11),

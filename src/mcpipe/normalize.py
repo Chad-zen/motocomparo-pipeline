@@ -20,6 +20,7 @@ Freshness: every offer seen in this run gets `last_seen = <run start>` and
 
 from __future__ import annotations
 
+import json
 import hashlib
 import re
 import time
@@ -125,6 +126,21 @@ class NormalizeResult:
     gtin_rejected: int
     seconds: float
     hors_perimetre: int = 0
+
+
+def _prix_promo(brut: str | None) -> str | None:
+    """Le prix promotionnel lisible par `tn.price`. Motoin l'envoie en JSON PAR PAYS
+    (`{"AD":31.95,"FR":31.95,"DE":31.95,…}`) : on prend celui de la France, jamais le premier
+    nombre venu. Illisible ou sans France -> None (la promo est ignoree, le prix normal reste)."""
+    if not brut or not brut.lstrip().startswith("{"):
+        return brut
+    try:
+        valeur = json.loads(brut).get("FR")
+    except (ValueError, AttributeError):
+        return None
+    if isinstance(valeur, bool) or not isinstance(valeur, (int, float)) or valeur <= 0:
+        return None
+    return f"{valeur} EUR"
 
 
 def _ci_get(row: dict, names: list[str]) -> str | None:
@@ -353,7 +369,7 @@ def normalize_feed(feed: FeedSpec, *, force: bool = False) -> NormalizeResult:
                     # sends one — when today falls inside the advertised window.
                     # (FC-Moto leaves `sale_price_effective_date` empty on all
                     # 45,015 of its promos, so "no window" means "on now".)
-                    raw_sale = _ci_get(row, cols.get("sale_price", []))
+                    raw_sale = _prix_promo(_ci_get(row, cols.get("sale_price", [])))
                     if raw_sale:
                         sale_amount, sale_currency = tn.price(raw_sale)
                         window = _ci_get(row, cols.get("sale_price_window", []))

@@ -304,6 +304,17 @@ def fetch_feed(
                     written += len(chunk)
                     if on_progress is not None:
                         on_progress(feed.code, written)
+        elif feed.perimetre:
+            # UN FLUX A PERIMETRE QUI N'EST PAS UNE ARCHIVE (Motoin, 19/10/2026). Jusqu'ici seul le
+            # chemin du zip filtrait : un CSV simple avec `perimetre` etait telecharge ENTIER, sans
+            # un mot, et des la 2e nuit la branche `connues` ci-dessous (« seulement les offres
+            # deja connues », faite pour FC-Moto) prenait la place du perimetre et fermait la porte
+            # a tout produit nouveau. Meme filtre, lu a la volee.
+            with part.open("w", encoding="utf-8", newline="") as fh:
+                written, lues, gardees, raisons = _filtrer_perimetre(
+                    feed, r.iter_text(chunk_size=1 << 20), fh, eans_connus or set(),
+                    connues or set(), on_progress, prix_ref, marques_ref)
+            filtre = (lues, gardees)
         elif connues:
             with part.open("w", encoding="utf-8", newline="") as fh:
                 written, lues, gardees = _filtrer_connues(

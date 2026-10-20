@@ -49,7 +49,9 @@ AUTRES="speedway labecanerie motoblouz maxxess motoaxxe"
 # tout pour les marchands eprouves. Sa cle de flux vient d'un fichier a part, charge par un
 # drop-in de l'unite (`ops/deploiement/11-motardbleu.sh`) : jamais dans le `.env` principal,
 # sinon un `mcpipe fetch` lance sans `--only` le telechargerait aussi.
-NEUFS="motardbleu"
+# Motoin (20/10/2026) rejoint la liste : meme isolement. Son URL vient de `12-motoin.sh`
+# (fichier d'environnement a part, drop-in systemd), jamais du `.env` principal.
+NEUFS="motardbleu motoin"
 FC_LOG=/var/tmp/mcpipe-fetch-fcmoto.log
 ( timeout 8400 mcpipe fetch --only fcmoto >"$FC_LOG" 2>&1     || echo "!!! fetch fcmoto en echec ou trop long, copie de la veille gardee" >>"$FC_LOG" ) &
 FC_PID=$!

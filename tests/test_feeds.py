@@ -12,6 +12,7 @@ def test_feeds_defined():
         "motoaxxe",
         "fcmoto",
         "motardbleu",
+        "motoin",
     }
 
 
@@ -23,7 +24,7 @@ def test_merchant_ids_are_unique():
 def test_gtin_trust_split():
     trusted = {c for c, f in FEEDS.items() if f.gtin_trust == "trusted"}
     synthetic = {c for c, f in FEEDS.items() if f.gtin_trust == "synthetic"}
-    assert trusted == {"speedway", "labecanerie", "motoblouz", "fcmoto", "motardbleu"}
+    assert trusted == {"speedway", "labecanerie", "motoblouz", "fcmoto", "motardbleu", "motoin"}
     assert synthetic == {"maxxess", "motoaxxe"}
 
 
@@ -57,4 +58,4 @@ def test_motard_bleu_est_masque_et_lit_la_taille_dans_custom_1():
 
 
 def test_les_autres_marchands_restent_affiches_des_leur_creation():
-    assert all(f.affiche_au_depart for c, f in FEEDS.items() if c != "motardbleu")
+    assert all(f.affiche_au_depart for c, f in FEEDS.items() if c not in ("motardbleu", "motoin"))

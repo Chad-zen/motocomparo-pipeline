@@ -141,6 +141,36 @@ _WEBGAINS_COLUMNS = {
     "availability":   ["availability"],
 }
 
+# Motoin (Webgains, 19/10/2026) : meme schema Google-Shopping que FC-Moto, trois differences MESUREES
+# sur les 74 449 lignes du flux (voir tests/test_feeds.py) :
+#  * `merchant_ref` = `id` SEUL. `mpn` est partage entre les tailles d'un meme article
+#    (293 valeurs sur 1 635 lignes, ex. « 20160002 M » porte cinq tailles) : repli `mpn` puis
+#    `gtin` de FC-Moto en ferait UNE offre. `id` est unique sur 74 449 lignes.
+#  * `mpn` n'est PAS lu (meme raison que Motard Bleu) : marchand `trusted`, `match._LINK_MPN_PREFIXE`
+#    s'en serait servi comme cible.
+#  * `category` = `product_category` (« Vetements>Vestes>Vestes en textile », « Habits loisirs>… »),
+#    pas `product_type` (« Clothing », « Casual ») qui est trop grossier pour le perimetre.
+#  * `sale_price` est un objet JSON PAR PAYS (`{"FR":31.95,"DE":31.95,…}`), egal au prix pour la France
+#    sur 74 449 lignes sur 74 449 : lu par `normalize._prix_promo`, jamais comme un montant brut.
+_MOTOIN_COLUMNS = {
+    "gtin":           ["gtin"],
+    "sale_price":     ["sale_price"],
+    "title":          ["title"],
+    "brand":          ["brand"],
+    "color":          ["color"],
+    "gender":         ["gender"],
+    "age_group":      ["age_group"],
+    "size":           ["size"],
+    "item_group_id":  ["item_group_id"],
+    "merchant_ref":   ["id"],
+    "description":    ["description"],
+    "category":       ["product_category", "google_product_category_text"],
+    "link":           ["link"],
+    "image":          ["image_link"],
+    "price":          ["price"],
+    "availability":   ["availability"],
+}
+
 # Awin (Le Motard Bleu, 18/10/2026). Le flux est ce que l'utilisateur coche sur
 # « Create-a-Feed » : seules les colonnes cochees existent. La TAILLE n'est pas une
 # colonne a part, elle est dans `custom_1` (S, M, L, XL, 2XL... et « TU » pour une
@@ -212,6 +242,18 @@ FEEDS: dict[str, FeedSpec] = {
         compression="zip", perimetre="equipement_pilote",
         colonnes_requises=("merchant_product_id", "ean", "product_name", "brand_name",
                            "aw_deep_link", "search_price", "merchant_category", "custom_1"),
+        affiche_au_depart=False,
+        ecarte_desaccords=True,
+    ),
+    # Motoin (motoin.de via Webgains) : 74 449 lignes, 280 Mo, 96,5 % de codes-barres tous valides,
+    # 71 % deja vendus chez nous, prix a 1,00 de la mediane des autres marchands. Meme perimetre que
+    # Motard Bleu (l'equipement du pilote, pas le loisir ni les velos). Masque du site tant qu'il n'est
+    # pas valide. TOUT est « in stock » : aucune rupture ne sera jamais detectee par ce flux.
+    "motoin": FeedSpec(
+        code="motoin", merchant_id=8, platform="webgains", delimiter=",",
+        gtin_trust="trusted", reliability_rank=3, columns=_MOTOIN_COLUMNS,
+        perimetre="equipement_pilote",
+        colonnes_requises=("id", "gtin", "title", "brand", "link", "price", "product_category", "size"),
         affiche_au_depart=False,
         ecarte_desaccords=True,
     ),

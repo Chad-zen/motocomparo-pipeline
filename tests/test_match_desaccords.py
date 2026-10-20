@@ -109,7 +109,7 @@ def test_deux_offres_neuves_ne_s_ecartent_pas_entre_elles(conn):
 
 def test_seuls_les_marchands_declares_neufs_sont_examines():
     from mcpipe.feeds import FEEDS
-    assert [c for c, f in FEEDS.items() if f.ecarte_desaccords] == ["motardbleu"]
+    assert [c for c, f in FEEDS.items() if f.ecarte_desaccords] == ["motardbleu", "motoin"]
 
 
 # --- le second filet : un marchand neuf n'est jamais la cause d'une quarantaine -------------
