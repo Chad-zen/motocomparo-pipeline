@@ -1,23 +1,25 @@
 {% extends "base.html" %}
 {% block title %}À propos — MotoComparo, comparateur de prix d'équipement moto{% endblock %}
-{% block description %}MotoComparo compare chaque jour les prix d'un même article d'équipement moto chez {{ chiffres.marchands }} marchands. Comment les prix sont relevés, comment nous gagnons notre vie, et pourquoi cela ne change ni les prix ni le classement.{% endblock %}
+{% block description %}MotoComparo compare chaque jour les prix d'un même article d'équipement moto chez {{ chiffres.marchands or marchands_actifs | length }} marchands. Comment les prix sont relevés, comment nous gagnons notre vie, et pourquoi cela ne change ni les prix ni le classement.{% endblock %}
 
 {% block contenu %}
 <nav class="fil" aria-label="Fil d'Ariane"><a href="/">Accueil</a> › <span>À propos</span></nav>
 <h1 class="titre-page">À propos de MotoComparo</h1>
 
 <p class="apropos__chapeau">Acheter son équipement moto au meilleur prix, sans ouvrir vingt onglets.
-MotoComparo compare chaque jour le prix d'un même article chez {{ chiffres.marchands }} marchands,
+MotoComparo compare chaque jour le prix d'un même article chez {{ chiffres.marchands or marchands_actifs | length }} marchands,
 puis vous envoie acheter chez celui que vous choisissez. Nous ne vendons rien nous-mêmes.</p>
 
 {# Les chiffres sont lus en base (app.py, `_chiffres_apropos`), arrondis vers le bas : une page qui
    annonce « plus de 65 000 » quand il y en a 64 891 serait la première chose qu'un lecteur attentif
    releverait. #}
+{% if chiffres.fiches %}
 <ul class="apropos__chiffres" aria-label="MotoComparo en chiffres">
   <li><b data-compte="{{ chiffres.marchands }}">{{ chiffres.marchands }}</b><span>marchands comparés</span></li>
   <li><b data-compte="{{ chiffres.fiches_n }}" data-prefixe="plus de ">{{ chiffres.fiches }}</b><span>produits comparés chez au moins deux marchands</span></li>
   <li><b data-compte="{{ chiffres.offres_n }}" data-prefixe="plus de ">{{ chiffres.offres }}</b><span>prix suivis, relevés chaque jour</span></li>
 </ul>
+{% endif %}
 
 <nav class="apropos__nav" aria-label="Dans cette page">
   <a href="#engagements">Nos engagements</a>

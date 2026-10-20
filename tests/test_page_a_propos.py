@@ -52,3 +52,28 @@ def test_les_animations_sont_progressives():
     assert 'class="reveal' not in h                              # jamais cache par le HTML
     assert re.search(r'data-compte="\d+"[^>]*>plus de ', h)       # le chiffre definitif est deja la
     assert "prefers-reduced-motion" in js.text                    # le script respecte « moins d'animation »
+
+
+@pytest.mark.skipif(not os.environ.get("DATABASE_URL"), reason="needs DATABASE_URL")
+def test_la_page_ne_tombe_pas_si_les_chiffres_sont_trop_lents(monkeypatch):
+    """Apres un redemarrage, les comptages a froid peuvent depasser le delai de 15 s : la page garde sa
+    presentation et omet seulement les tuiles chiffrees, au lieu de repondre 500."""
+    import psycopg
+    from fastapi.testclient import TestClient
+
+    from mcsite import app as mod
+
+    reel = mod.cache.au_chaud
+
+    def coupe_les_chiffres(cle, fabrique, ttl=None):
+        if cle == "apropos-chiffres":
+            raise psycopg.errors.QueryCanceled("trop lent")
+        return reel(cle, fabrique, ttl=ttl)
+
+    monkeypatch.setattr(mod.cache, "au_chaud", coupe_les_chiffres)
+    with TestClient(mod.app, follow_redirects=True) as c:
+        r = c.get("/infos")
+    assert r.status_code == 200
+    assert "apropos__chiffres" not in r.text               # pas de tuiles sans chiffres
+    assert 'id="engagements' in r.text and 'id="cgu"' in r.text
+    assert "chez 7 marchands" in r.text or "chez 8 marchands" in r.text or " marchands," in r.text

@@ -2602,7 +2602,14 @@ def _chiffres_apropos() -> dict:
                 "fiches": _arrondi_bas(fiches), "fiches_n": _plancher(fiches),
                 "offres": _arrondi_bas(offres), "offres_n": _plancher(offres)}
 
-    return cache.au_chaud("apropos-chiffres", _calcul, ttl=6 * 3600)
+    # Un redemarrage vide le cache : le premier visiteur paie les comptages a froid (10 s mesures), et
+    # sous charge le delai de 15 s peut les couper. La page ne doit pas tomber pour des chiffres :
+    # sans eux, elle garde sa presentation et omet seulement les tuiles chiffrees.
+    try:
+        return cache.au_chaud("apropos-chiffres", _calcul, ttl=6 * 3600)
+    except (psycopg.errors.QueryCanceled, PoolTimeout):
+        log.warning("a propos : chiffres trop lents, page servie sans eux")
+        return {"marchands": None, "fiches": None, "fiches_n": None, "offres": None, "offres_n": None}
 
 
 @app.get("/infos", response_class=HTMLResponse)
