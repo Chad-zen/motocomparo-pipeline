@@ -47,6 +47,9 @@ SELECT o.merchant_id, o.raw_item_group, ''::text AS identity_hash, ''::text AS h
        0::bigint AS n, 0::numeric AS prix
 FROM raw_offer o JOIN offer_signature s ON s.raw_offer_id = o.id WHERE false;
 
+CREATE TEMP TABLE _hash_avant_decoupes AS
+SELECT ''::text AS gtin, ''::text AS identity_hash WHERE false;
+
 CREATE TEMP TABLE _ig_ref AS
 SELECT ''::text AS h, ''::text AS t, 0::bigint AS m, ''::text AS g, 0::numeric AS prix WHERE false;
 
@@ -74,6 +77,12 @@ A_VERIFIER = [
     ("_IG_REF", None),                    # CREATE TABLE AS
     ("_IG_SEPARER_PRIX", match._IG_SEPARER_PRIX),
     ("_DETACHER_CANDIDATS", match._DETACHER_CANDIDATS),
+    ("_RATTACHER_LOG", None),             # CREATE TABLE IF NOT EXISTS : execute avec les squelettes
+    ("_RATTACHER_CIBLES", None),          # CREATE TABLE AS : execute avec les squelettes
+    ("_RATTACHER_RETENUES", None),        # CREATE TABLE AS : execute avec les squelettes
+    ("_RATTACHER_COMPTER", match._RATTACHER_COMPTER),
+    ("_RATTACHER_JOURNAL", match._RATTACHER_JOURNAL),
+    ("_RATTACHER_APPLIQUER", match._RATTACHER_APPLIQUER),
     ("_FLAG_GTIN_CONFLICTS", match._FLAG_GTIN_CONFLICTS),
     ("_CREATE_PRODUCTS_FROM_GTIN", match._CREATE_PRODUCTS_FROM_GTIN),
     ("_LINK_GTIN_OFFERS", match._LINK_GTIN_OFFERS),
@@ -87,6 +96,16 @@ A_VERIFIER = [
 ]
 
 
+def _tables_du_rattachement(cur) -> None:
+    """Les trois CREATE du passage « rattacher a la fiche existante » : PREPARE ne sait pas
+    analyser un CREATE TABLE AS, on les EXECUTE donc sur les squelettes vides (instantane), ce
+    qui les valide et cree `_cibles` / `_rattache` pour les requetes qui les lisent."""
+    for sql in (match._RATTACHER_LOG,
+                match._RATTACHER_CIBLES.replace("ON COMMIT DROP", ""),
+                match._RATTACHER_RETENUES.replace("ON COMMIT DROP", "")):
+        cur.execute(sql)
+
+
 def main() -> int:
     conn = psycopg.connect(os.environ["DATABASE_URL"], autocommit=False)
     echecs = 0
@@ -96,6 +115,7 @@ def main() -> int:
             # les deux tables de repli, telles que `_PREP_REPLI_*` les crée
             cur.execute(match._PREP_REPLI_GENRE.replace("ON COMMIT DROP", ""))
             cur.execute(match._PREP_REPLI_MODELE.replace("ON COMMIT DROP", ""))
+            _tables_du_rattachement(cur)
 
             for nom, sql in A_VERIFIER:
                 if sql is None:
@@ -116,6 +136,7 @@ def main() -> int:
                     cur.execute(SQUELETTES)
                     cur.execute(match._PREP_REPLI_GENRE.replace("ON COMMIT DROP", ""))
                     cur.execute(match._PREP_REPLI_MODELE.replace("ON COMMIT DROP", ""))
+                    _tables_du_rattachement(cur)
     finally:
         conn.rollback()
         conn.close()

@@ -367,6 +367,12 @@ def match(
             f"  offres d'un marchand neuf écartées (en désaccord avec les autres) : "
             f"{res.offres_ecartees:,}"
         )
+    if res.offres_rattachees_existante or res.rattachement_refuse or res.rattachement_unites_ecartees:
+        console.print(
+            f"  codes-barres deja rattaches : {res.offres_rattachees_existante:,} offre(s) neuve(s) "
+            f"rattachee(s) a leur fiche, {res.rattachement_unites_ecartees:,} unite(s) laissee(s) de cote "
+            f"par un garde-fou" + (f", [bold red]{res.rattachement_refuse:,} offre(s) REFUSEES par le plafond "
+                                   f"(MCPIPE_RATTACHER_MAX)[/]" if res.rattachement_refuse else ""))
     if res.groupes_separes or res.offres_detachees:
         console.print(
             f"  prix sans rapport : {res.groupes_separes:,} groupe(s) séparé(s) de leur fiche, "

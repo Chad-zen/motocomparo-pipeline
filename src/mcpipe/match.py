@@ -111,6 +111,12 @@ class MatchResult:
     detachement_refuse: int = 0
     # unites item_group separees de leur fiche parce que leur prix en etait trop loin
     groupes_separes: int = 0
+    # offres neuves rattachees a la fiche DEJA portee par leur code-barres (au lieu de fabriquer
+    # leur propre empreinte) ; offres refusees par le plafond ; unites au code-barres deja
+    # rattache que les garde-fous ont laisse de cote
+    offres_rattachees_existante: int = 0
+    rattachement_refuse: int = 0
+    rattachement_unites_ecartees: int = 0
 
 
 # --- LES DESACCORDS D'UN MARCHAND NEUF (18/10/2026) --------------------------------------
@@ -147,7 +153,10 @@ WHERE s.raw_offer_id = o.id
                AND s.brand_code <> t.brand_code)
            OR (s.category_id IS NOT NULL AND t.category_id IS NOT NULL
                AND s.category_id <> 25 AND t.category_id <> 25
-               AND s.category_id <> t.category_id)
+               AND s.category_id <> t.category_id
+               AND NOT EXISTS (SELECT 1 FROM category k
+                               WHERE (k.id = s.category_id AND k.parent_id = t.category_id)
+                                  OR (k.id = t.category_id AND k.parent_id = s.category_id)))
            OR (left(s.genre_age, 1) <> 'U' AND left(t.genre_age, 1) <> 'U'
                AND left(s.genre_age, 1) <> left(t.genre_age, 1))
            OR right(s.genre_age, 1) <> right(t.genre_age, 1)
@@ -795,6 +804,173 @@ WHERE u.gtin = b.gtin
         )
   )
 """
+
+
+# --- UNE OFFRE NEUVE REJOINT LA FICHE QUE SON CODE-BARRES PORTE DEJA (20/10/2026) -----------
+#
+# Le `match` incremental ne construit ses unites (`_gtin_unit`) qu'avec les offres `unresolved`.
+# Une offre neuve dont le code-barres est deja rattache ailleurs fabriquait donc SON empreinte
+# (marque|rayon|couleur|annee|genre|lot|jetons du nom) au lieu de rejoindre la fiche existante,
+# et si le nom differait d'un mot elle creait une fiche isolee. Mesure sur la copie de la
+# production : Motoin (58 537 lignes gardees) a cree 15 298 fiches a un seul marchand dont les
+# codes-barres existaient chez les autres ; `consolider` en proposait 7 875 a valider a la main.
+#
+# Ce passage regle la cause. Pour chaque unite sans conflit dont le code-barres est porte par UNE
+# seule fiche (offres vivantes rattachees par `link_method = 'gtin'`, fiche fusionnee suivie
+# jusqu'a sa survivante), il remplace l'empreinte de l'unite par celle de la fiche — c'est tout :
+# `_CREATE_PRODUCTS_FROM_GTIN` (ON CONFLICT DO NOTHING) ne cree rien et `_LINK_GTIN_OFFERS` lie.
+#
+# GARDE-FOUS (relus par deux agents le 20/10/2026) :
+# * un code-barres deja ECLATE sur plusieurs fiches n'est jamais touche (c'est le travail de
+#   `consolider`) ;
+# * une fiche cible qui porte deja plus de `TAILLE_MAX_CIBLE` codes-barres est une fiche fourre-tout :
+#   on n'y ajoute rien ;
+# * AUCUNE offre neuve ne doit contredire une offre vivante deja rattachee au meme code-barres, sur
+#   les memes champs que `_ECARTER_DESACCORDS` (marque, rayon — parent et enfant compatibles —,
+#   genre, age, lot, annee, couleur par inclusion, mat != brillant) ni etre a 5x de son prix, y
+#   compris pour un marchand masque (son prix ne passe pas par `affiche` ici) ;
+# * une coupure posee a la main (`match_override`, `is_split`) sur ce code-barres l'ecarte ;
+# * une unite que les decoupes de pieces ou de prix viennent de separer d'une fiche n'y revient pas ;
+# * il n'y a PAS de condition sur les mots du modele : elle laissait passer les faux cas (un mot
+#   generique suffisait) et bloquait de vrais rapprochements (366 sur 366 mesures, 8 sur 8 relus).
+#
+# PLAFOND TOUT-OU-RIEN (`MCPIPE_RATTACHER_MAX`, 2 000 offres par passage) : au-dela, aucun
+# rattachement, le chiffre est remonte ; la propriétaire releve le plafond a la main. Le premier
+# passage en production portera ~35 000 offres. Chaque offre rattachee est journalisee AVANT
+# l'ecriture dans `rattachement_existant_log` (de quoi annuler).
+RATTACHER_MAX_OFFRES = 2000
+TAILLE_MAX_CIBLE = 25
+
+_RATTACHER_LOG = """
+CREATE TABLE IF NOT EXISTS rattachement_existant_log (
+    raw_offer_id bigint PRIMARY KEY,
+    gtin         text   NOT NULL,
+    product_id   bigint NOT NULL,
+    hash_propre  text   NOT NULL,
+    nuit         date   NOT NULL DEFAULT current_date
+)
+"""
+
+_HASH_AVANT_DECOUPES = """
+CREATE TEMP TABLE _hash_avant_decoupes ON COMMIT DROP AS
+SELECT gtin, identity_hash FROM _gtin_unit
+"""
+
+_RATTACHER_CIBLES = """
+CREATE TEMP TABLE _cibles ON COMMIT DROP AS
+WITH liees AS (
+    SELECT o.gtin, coalesce(p.merged_into, p.id) AS product_id
+    FROM raw_offer o
+    JOIN product p ON p.id = o.product_id
+    WHERE o.gtin IN (SELECT gtin FROM _gtin_unit WHERE NOT conflict)
+      AND o.linked_status = 'linked' AND o.link_method = 'gtin' AND o.is_live
+)
+SELECT gtin, min(product_id) AS product_id
+FROM liees GROUP BY gtin
+HAVING count(DISTINCT product_id) = 1
+"""
+
+_RATTACHER_RETENUES = f"""
+CREATE TEMP TABLE _rattache ON COMMIT DROP AS
+WITH taille AS (
+    -- les codes-barres de la fiche ET de celles qu'elle a absorbees (merged_into)
+    SELECT coalesce(px.merged_into, px.id) AS product_id, count(DISTINCT x.gtin) AS n
+    FROM raw_offer x
+    JOIN product px ON px.id = x.product_id
+    WHERE x.linked_status = 'linked' AND coalesce(px.merged_into, px.id) IN (SELECT product_id FROM _cibles)
+    GROUP BY 1
+)
+SELECT u.gtin, c.product_id, t.identity_hash AS hash_cible, u.identity_hash AS hash_propre
+FROM _gtin_unit u
+JOIN _cibles c ON c.gtin = u.gtin
+JOIN product t ON t.id = c.product_id AND t.status <> 'merged'
+JOIN taille z ON z.product_id = c.product_id AND z.n <= {TAILLE_MAX_CIBLE}
+JOIN _hash_avant_decoupes h ON h.gtin = u.gtin AND h.identity_hash = u.identity_hash
+WHERE NOT u.conflict
+  AND u.identity_hash <> t.identity_hash
+  AND NOT EXISTS (
+      SELECT 1 FROM match_override mo
+      WHERE mo.scope = 'gtin' AND mo.is_split AND mo.key_value = u.gtin
+  )
+  AND NOT EXISTS (
+      SELECT 1
+      FROM raw_offer m
+      JOIN offer_signature s ON s.raw_offer_id = m.id
+      JOIN raw_offer l ON l.gtin = m.gtin AND l.linked_status = 'linked' AND l.is_live
+      JOIN offer_signature q ON q.raw_offer_id = l.id
+      WHERE m.gtin = u.gtin AND m.linked_status = 'unresolved'
+        AND (
+              (s.brand_code IS NOT NULL AND q.brand_code IS NOT NULL AND s.brand_code <> q.brand_code)
+           OR (s.category_id IS NOT NULL AND q.category_id IS NOT NULL
+               AND s.category_id <> 25 AND q.category_id <> 25 AND s.category_id <> q.category_id
+               AND NOT EXISTS (SELECT 1 FROM category k
+                               WHERE (k.id = s.category_id AND k.parent_id = q.category_id)
+                                  OR (k.id = q.category_id AND k.parent_id = s.category_id)))
+           OR (left(s.genre_age, 1) <> 'U' AND left(q.genre_age, 1) <> 'U'
+               AND left(s.genre_age, 1) <> left(q.genre_age, 1))
+           OR right(s.genre_age, 1) <> right(q.genre_age, 1)
+           OR s.is_pack IS DISTINCT FROM q.is_pack
+           OR (s.model_year IS NOT NULL AND q.model_year IS NOT NULL AND s.model_year <> q.model_year)
+           OR (s.primary_colour IS NOT NULL AND q.primary_colour IS NOT NULL
+               AND NOT (
+                    string_to_array(replace(s.primary_colour, '|', '-'), '-')
+                      @> string_to_array(replace(q.primary_colour, '|', '-'), '-')
+                 OR string_to_array(replace(q.primary_colour, '|', '-'), '-')
+                      @> string_to_array(replace(s.primary_colour, '|', '-'), '-')))
+           OR (m.is_live AND l.is_live AND m.price > 0 AND l.price > 0
+               AND (m.price >= 5 * l.price OR 5 * m.price <= l.price))
+        )
+  )
+"""
+
+_RATTACHER_COMPTER = """
+SELECT count(*) FROM raw_offer o JOIN _rattache r ON r.gtin = o.gtin
+WHERE o.linked_status = 'unresolved'
+"""
+
+_RATTACHER_JOURNAL = """
+INSERT INTO rattachement_existant_log (raw_offer_id, gtin, product_id, hash_propre, nuit)
+SELECT o.id, r.gtin, r.product_id, r.hash_propre, current_date
+FROM raw_offer o JOIN _rattache r ON r.gtin = o.gtin
+WHERE o.linked_status = 'unresolved'
+ON CONFLICT (raw_offer_id) DO UPDATE SET
+    gtin = EXCLUDED.gtin, product_id = EXCLUDED.product_id,
+    hash_propre = EXCLUDED.hash_propre, nuit = EXCLUDED.nuit
+"""
+
+_RATTACHER_APPLIQUER = """
+UPDATE _gtin_unit u SET identity_hash = r.hash_cible
+FROM _rattache r WHERE u.gtin = r.gtin
+"""
+
+
+def rattacher_a_la_fiche_existante(cur) -> tuple[int, int, int]:
+    """Rend (offres rattachees, offres refusees par le plafond, unites ecartees par un garde-fou).
+
+    Idempotent : une offre rattachee n'est plus `unresolved`, un second passage n'en trouve plus.
+    Ne leve jamais pour un depassement du plafond (une erreur annulerait toute la transaction)."""
+    maximum = int(os.environ.get("MCPIPE_RATTACHER_MAX", RATTACHER_MAX_OFFRES))
+    cur.execute(_RATTACHER_LOG)
+    cur.execute("DROP TABLE IF EXISTS _cibles, _rattache")
+    cur.execute(_RATTACHER_CIBLES)
+    cur.execute("CREATE INDEX ON _cibles (gtin)")
+    cur.execute("ANALYZE _cibles")
+    cur.execute(_RATTACHER_RETENUES)
+    cur.execute("CREATE INDEX ON _rattache (gtin)")
+    cur.execute("ANALYZE _rattache")
+    cur.execute("SELECT count(*) FROM _cibles c JOIN _gtin_unit u ON u.gtin = c.gtin AND NOT u.conflict "
+                "WHERE u.identity_hash <> (SELECT identity_hash FROM product WHERE id = c.product_id)")
+    cibles = cur.fetchone()[0]
+    cur.execute("SELECT count(*) FROM _rattache")
+    retenues = cur.fetchone()[0]
+    ecartees = max(0, cibles - retenues)
+    cur.execute(_RATTACHER_COMPTER)
+    offres = cur.fetchone()[0]
+    if offres > maximum:
+        return 0, offres, ecartees
+    cur.execute(_RATTACHER_JOURNAL)
+    cur.execute(_RATTACHER_APPLIQUER)
+    return offres, 0, ecartees
 
 
 _FLAG_GTIN_CONFLICTS = """
@@ -1750,12 +1926,19 @@ def run_match(*, avec_mpn: bool = True) -> MatchResult:
             # La découpe passe APRÈS les replis (qui rassemblent) et AVANT la
             # création des fiches : elle ne défait donc rien, elle sépare ce qui
             # n'aurait jamais dû être ensemble.
+            cur.execute(_HASH_AVANT_DECOUPES)
+            cur.execute("CREATE INDEX ON _hash_avant_decoupes (gtin)")
             cur.execute(_SPLIT_PIECES)
             pieces_decoupees = cur.rowcount
             cur.execute(_SPLIT_PRIX)
             pieces_decoupees += cur.rowcount
             cur.execute(_SPLIT_PRIX_HABILLEMENT)
             pieces_decoupees += cur.rowcount
+
+            # Apres les decoupes (elles recalculent l'empreinte d'une unite et defont un rattachement
+            # posé avant elles) et avant la creation des fiches : voir `_RATTACHER_*`.
+            offres_rattachees_existante, rattachement_refuse, rattachement_unites_ecartees = (
+                rattacher_a_la_fiche_existante(cur))
 
             cur.execute(_FLAG_GTIN_CONFLICTS)
             gtin_conflicts = 0
@@ -1867,6 +2050,9 @@ def run_match(*, avec_mpn: bool = True) -> MatchResult:
             offres_ecartees=offres_ecartees,
             offres_detachees=offres_detachees, detachement_refuse=detachement_refuse,
             groupes_separes=groupes_separes,
+            offres_rattachees_existante=offres_rattachees_existante,
+            rattachement_refuse=rattachement_refuse,
+            rattachement_unites_ecartees=rattachement_unites_ecartees,
         )
     except Exception:
         conn.rollback()
