@@ -79,6 +79,23 @@ def test_une_fiche_inconnue_est_un_404_pas_un_500(client):
     assert client.get("/p/ce-slug-n-existe-pas-du-tout").status_code == 404
 
 
+def test_une_ancienne_fiche_est_un_410_pas_un_404(client):
+    """Une adresse en forme de fiche (`…-4b6a63c0`) qui n'existe plus ne reviendra pas : 410, que
+    Google retire plus vite de son index qu'un 404 (84 fiches mortes vues par Googlebot, 19-20/10)."""
+    assert client.get("/p/ancienne-fiche-disparue-4b6a63c0").status_code == 410
+
+
+def test_les_flux_de_l_ancien_site_sont_un_410(client):
+    for chemin in ("/product/casque-i30-dexta-hjc/feed/", "/shop/casques/antivol-clip/feed/",
+                   "/product-category/casques/feed/"):
+        assert client.get(chemin, follow_redirects=False).status_code == 410, chemin
+
+
+def test_le_sitemap_n_affirme_pas_une_date_de_modification_par_page(client):
+    r = client.get("/sitemap-1.xml")
+    assert r.status_code == 200 and "<loc>" in r.text and "<lastmod>" not in r.text
+
+
 def test_l_accueil_ouvre_sur_le_budget_et_ses_images_existent(client):
     """L'accueil n'a plus d'affiche (retiree le 17/10/2026 : elle repoussait le
     curseur de budget sous la ligne de flottaison, 665 px sur mobile). Il garde

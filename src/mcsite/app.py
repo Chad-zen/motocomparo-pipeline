@@ -804,6 +804,10 @@ def product(request: Request, slug: str):
     with pool.connection() as conn:  # type: ignore[union-attr]
         p = queries.product(conn, slug)
         if p is None:
+            # Une adresse qui a la forme d'une fiche (`…-4b6a63c0`) a existé : elle ne reviendra pas.
+            # 410 plutôt que 404, que Google retire plus vite de son index.
+            if re.search(r"-[0-9a-f]{8}$", slug):
+                return PlainTextResponse("Cette fiche n'existe plus.", status_code=410)
             raise HTTPException(404, "Produit inconnu")
         # Une fiche regroupée avec une autre (`mcpipe consolider`) garde son
         # adresse : elle renvoie, en 301, vers la fiche qui l'a absorbée. Sans
@@ -816,7 +820,7 @@ def product(request: Request, slug: str):
                      if p.get("merged_into") else None)
             if cible:
                 return RedirectResponse(f"/p/{cible[0]}", status_code=301)
-            raise HTTPException(404, "Produit inconnu")
+            return PlainTextResponse("Cette fiche n'existe plus.", status_code=410)
         rows = queries.offers(conn, p["id"])
         courbe = queries.price_curve(conn, p["id"])
         graphe = courbe_mod.graphique(courbe)
@@ -2377,13 +2381,22 @@ def _cible_fiche_v1(chemin: str) -> str:
     return v1_mod.cible_fiche_v1(chemin, toutes, listees, _candidates_v1)
 
 
+def _flux_v1(chemin: str) -> bool:
+    """`…/feed/` : le flux RSS d'une page de l'ancien site. Il n'a pas de remplaçant."""
+    return chemin.rstrip("/").endswith("/feed") or chemin.rstrip("/") == "feed"
+
+
 @app.get("/product/{chemin:path}")
 def v1_fiche(chemin: str):
+    if _flux_v1(chemin):
+        return _disparu()
     return RedirectResponse(_cible_fiche_v1(chemin), status_code=301)
 
 
 @app.get("/product-category/{chemin:path}")
 def v1_rayon(chemin: str):
+    if _flux_v1(chemin):
+        return _disparu()
     return RedirectResponse(v1_mod.cible_rayon_v1(chemin), status_code=301)
 
 
@@ -2393,6 +2406,8 @@ def v1_boutique(request: Request, chemin: str = ""):
     # Trois formes dans les journaux : `/shop/?mc_type=…` (filtres),
     # `/shop/gants/` (un rayon) et `/shop/blousons/veste-de-pluie-…/` (une
     # fiche rangée sous son rayon).
+    if _flux_v1(chemin):
+        return _disparu()
     morceaux = [m for m in chemin.strip("/").split("/")
                 if m and m != "page" and not m.isdigit()]
     if len(morceaux) >= 2:
@@ -2580,9 +2595,9 @@ def sitemap_page(request: Request, numero: int) -> Response:
     if not lot:
         raise HTTPException(404, "Ce fichier de plan n'existe pas")
     base = f"{request.url.scheme}://{request.url.netloc}"
-    jour = date.today().isoformat()
-    corps = "".join(
-        f"<url><loc>{base}{u}</loc><lastmod>{jour}</lastmod></url>" for u in lot)
+    # Pas de <lastmod> par adresse : « aujourd'hui » pour 72 000 pages qui n'ont pas changé
+    # apprend à Google à l'ignorer. Mieux vaut l'omettre que le mentir.
+    corps = "".join(f"<url><loc>{base}{u}</loc></url>" for u in lot)
     return Response(
         '<?xml version="1.0" encoding="UTF-8"?>'
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
