@@ -79,6 +79,18 @@ PAGES: dict[str, tuple[str, ...]] = {
     "fcmoto": (
         "https://www.fc-moto.com/fr-fr/",
     ),
+    # Motard Bleu (20/10/2026) : sa page dediee existe depuis toujours (lien « Codes promo » du pied de
+    # page) et dit « Aucun code promo disponible » ; sa banniere propose -5 % pour une inscription a la
+    # newsletter, ce qui n'est pas un code. Absent de cette liste jusque-la : jamais lu.
+    "motardbleu": (
+        "https://www.lemotardbleu.com/codes-promo",
+        "https://www.lemotardbleu.com/",
+    ),
+    # Motoin (20/10/2026) : aucune page de codes (« Gutschein » est en 404), ses « Promo » sont des soldes
+    # par categorie, pas des codes. On lit l'accueil au cas ou une banniere en annoncerait un.
+    "motoin": (
+        "https://www.motoin.de/",
+    ),
 }
 
 # A code with no readable end date is kept on a short leash: two weeks, pushed
