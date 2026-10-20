@@ -81,6 +81,8 @@ A_VERIFIER = [
     ("_RATTACHER_CIBLES", None),          # CREATE TABLE AS : execute avec les squelettes
     ("_RATTACHER_RETENUES", None),        # CREATE TABLE AS : execute avec les squelettes
     ("_RATTACHER_COMPTER", match._RATTACHER_COMPTER),
+    ("_DIAG_RAISONS", match._DIAG_RAISONS),
+    ("_DIAG_DESACCORDS", match._DIAG_DESACCORDS),
     ("_RATTACHER_JOURNAL", match._RATTACHER_JOURNAL),
     ("_RATTACHER_APPLIQUER", match._RATTACHER_APPLIQUER),
     ("_FLAG_GTIN_CONFLICTS", match._FLAG_GTIN_CONFLICTS),

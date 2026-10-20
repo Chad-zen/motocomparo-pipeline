@@ -206,6 +206,20 @@ def test_le_mode_apercu_compte_sans_rien_ecrire(cur, monkeypatch):
         m.rattacher_a_la_fiche_existante(cur)
 
 
+def test_l_apercu_dit_pourquoi_une_unite_est_ecartee(cur, monkeypatch):
+    for i, (gtin, champ) in enumerate([("T000000000001", {"brand": "arai"}), ("T000000000002", {"prix": 900.0})]):
+        p = _fiche(cur, f"H_CIBLE{i}")
+        _offre(cur, gtin, marchand=2, statut="linked", produit=p, methode="gtin", genre="H-A", annee=2019)
+        _offre(cur, gtin, marchand=1, **champ)
+        _unite(cur, gtin, f"H_PROPRE{i}")
+    monkeypatch.setenv("MCPIPE_RATTACHER_APERCU", "1")
+    with pytest.raises(m.ApercuRattachement) as e:
+        m.rattacher_a_la_fiche_existante(cur)
+    texte = str(e.value)
+    assert "desaccord_avec_une_offre_deja_rattachee : 2" in texte
+    assert "marque 1" in texte and "prix 1" in texte
+
+
 def test_le_passage_est_apres_les_decoupes_et_avant_la_creation_des_fiches():
     import inspect
     src = inspect.getsource(m.run_match)

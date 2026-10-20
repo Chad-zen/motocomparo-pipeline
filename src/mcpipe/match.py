@@ -944,6 +944,84 @@ FROM _rattache r WHERE u.gtin = r.gtin
 """
 
 
+# POURQUOI une unite au code-barres deja rattache n'est PAS rattachee (mode apercu seulement). Une raison
+# par unite, dans cet ordre : fiche fourre-tout, coupure manuelle, separee par une decoupe, sinon desaccord ;
+# pour les desaccords, le detail par champ (une unite peut cumuler plusieurs champs).
+_DIAG_RAISONS = f"""
+WITH taille AS (
+    SELECT coalesce(px.merged_into, px.id) AS product_id, count(DISTINCT x.gtin) AS n
+    FROM raw_offer x JOIN product px ON px.id = x.product_id
+    WHERE x.linked_status = 'linked' AND coalesce(px.merged_into, px.id) IN (SELECT product_id FROM _cibles)
+    GROUP BY 1
+), ecartees AS (
+    SELECT u.gtin, c.product_id, z.n,
+           (u.identity_hash IS DISTINCT FROM h.identity_hash) AS separee,
+           EXISTS (SELECT 1 FROM match_override mo
+                   WHERE mo.scope = 'gtin' AND mo.is_split AND mo.key_value = u.gtin) AS coupure
+    FROM _gtin_unit u
+    JOIN _cibles c ON c.gtin = u.gtin
+    JOIN product t ON t.id = c.product_id AND t.status <> 'merged'
+    LEFT JOIN taille z ON z.product_id = c.product_id
+    LEFT JOIN _hash_avant_decoupes h ON h.gtin = u.gtin
+    WHERE NOT u.conflict AND u.identity_hash <> t.identity_hash
+      AND u.gtin NOT IN (SELECT gtin FROM _rattache)
+)
+SELECT CASE WHEN n > {TAILLE_MAX_CIBLE} THEN 'fiche_fourre_tout (plus de {TAILLE_MAX_CIBLE} codes-barres)'
+            WHEN coupure THEN 'coupure_manuelle'
+            WHEN separee THEN 'separee_par_une_decoupe'
+            ELSE 'desaccord_avec_une_offre_deja_rattachee' END AS raison,
+       count(*) AS unites
+FROM ecartees GROUP BY 1 ORDER BY 2 DESC
+"""
+
+_DIAG_DESACCORDS = """
+SELECT count(*) AS unites,
+       count(*) FILTER (WHERE b_marque) AS marque, count(*) FILTER (WHERE b_rayon) AS rayon,
+       count(*) FILTER (WHERE b_genre) AS genre, count(*) FILTER (WHERE b_age) AS age,
+       count(*) FILTER (WHERE b_lot) AS lot, count(*) FILTER (WHERE b_annee) AS annee,
+       count(*) FILTER (WHERE b_couleur) AS couleur, count(*) FILTER (WHERE b_prix) AS prix
+FROM (
+    SELECT m.gtin,
+           bool_or(s.brand_code IS NOT NULL AND q.brand_code IS NOT NULL AND s.brand_code <> q.brand_code) AS b_marque,
+           bool_or(s.category_id IS NOT NULL AND q.category_id IS NOT NULL
+                   AND s.category_id <> 25 AND q.category_id <> 25 AND s.category_id <> q.category_id
+                   AND NOT EXISTS (SELECT 1 FROM category k
+                                   WHERE (k.id = s.category_id AND k.parent_id = q.category_id)
+                                      OR (k.id = q.category_id AND k.parent_id = s.category_id))) AS b_rayon,
+           bool_or(left(s.genre_age, 1) <> 'U' AND left(q.genre_age, 1) <> 'U'
+                   AND left(s.genre_age, 1) <> left(q.genre_age, 1)) AS b_genre,
+           bool_or(right(s.genre_age, 1) <> right(q.genre_age, 1)) AS b_age,
+           bool_or(s.is_pack IS DISTINCT FROM q.is_pack) AS b_lot,
+           bool_or(s.model_year IS NOT NULL AND q.model_year IS NOT NULL AND s.model_year <> q.model_year) AS b_annee,
+           bool_or(s.primary_colour IS NOT NULL AND q.primary_colour IS NOT NULL
+                   AND NOT (string_to_array(replace(s.primary_colour, '|', '-'), '-')
+                              @> string_to_array(replace(q.primary_colour, '|', '-'), '-')
+                         OR string_to_array(replace(q.primary_colour, '|', '-'), '-')
+                              @> string_to_array(replace(s.primary_colour, '|', '-'), '-'))) AS b_couleur,
+           bool_or(m.is_live AND l.is_live AND m.price > 0 AND l.price > 0
+                   AND (m.price >= 5 * l.price OR 5 * m.price <= l.price)) AS b_prix
+    FROM _gtin_unit u
+    JOIN _cibles c ON c.gtin = u.gtin
+    JOIN raw_offer m ON m.gtin = u.gtin AND m.linked_status = 'unresolved'
+    JOIN offer_signature s ON s.raw_offer_id = m.id
+    JOIN raw_offer l ON l.gtin = m.gtin AND l.linked_status = 'linked' AND l.is_live
+    JOIN offer_signature q ON q.raw_offer_id = l.id
+    WHERE NOT u.conflict AND u.gtin NOT IN (SELECT gtin FROM _rattache)
+    GROUP BY m.gtin
+) x
+"""
+
+
+def _diagnostic_ecartees(cur) -> str:
+    cur.execute(_DIAG_RAISONS)
+    raisons = ", ".join(f"{r[0]} : {r[1]:,}" for r in cur.fetchall()) or "aucune"
+    cur.execute(_DIAG_DESACCORDS)
+    d = cur.fetchone()
+    detail = (f"unites en desaccord (une unite peut cumuler) : marque {d[1]:,}, rayon {d[2]:,}, genre {d[3]:,}, "
+              f"age {d[4]:,}, lot {d[5]:,}, annee {d[6]:,}, couleur {d[7]:,}, prix {d[8]:,}")
+    return f"Raisons des unites ecartees -> {raisons}. Detail : {detail}."
+
+
 class ApercuRattachement(RuntimeError):
     """Leve par `MCPIPE_RATTACHER_APERCU=1` : le match annule alors toute sa transaction (RIEN n'est
     ecrit) apres avoir compte ce que le rattachement aurait fait. Sert a connaitre le nombre exact
@@ -975,7 +1053,8 @@ def rattacher_a_la_fiche_existante(cur) -> tuple[int, int, int]:
     if os.environ.get("MCPIPE_RATTACHER_APERCU"):
         raise ApercuRattachement(
             f"APERCU : {offres:,} offre(s) neuve(s) seraient rattachee(s) a leur fiche, {ecartees:,} unite(s) "
-            f"ecartee(s) par un garde-fou, plafond actuel {maximum:,}. RIEN n'a ete ecrit (transaction annulee).")
+            f"ecartee(s) par un garde-fou, plafond actuel {maximum:,}. {_diagnostic_ecartees(cur)} "
+            f"RIEN n'a ete ecrit (transaction annulee).")
     if offres > maximum:
         return 0, offres, ecartees
     cur.execute(_RATTACHER_JOURNAL)
