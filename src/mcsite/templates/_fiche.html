@@ -56,7 +56,7 @@
     {% if p.colour_code and p.colour_code != 'unknown' %}
       <p class="fiche__couleur">Couleur : <strong>{{ p.colour_code | couleur }}</strong></p>
     {% endif %}
-    {% set pour = p.genre_age | genre_age %}
+    {% set pour = p.genre_age | genre_fiche(p.category_code) %}
     {% if pour %}<p class="fiche__couleur fiche__genre">Pour : <strong>{{ pour }}</strong></p>{% endif %}
   </div>
 

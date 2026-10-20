@@ -497,3 +497,25 @@ def niveau_remise(pourcentage: float | None) -> str:
     if pourcentage >= bas:
         return "orange"
     return "sobre"
+
+
+# Les rayons ou « homme / femme » a un sens (20/10/2026). Pour les casques, le genre vient souvent du
+# titre ou du flux marchand et se trompe (un casque Klim d'expedition affiche « Femme ») : on n'en dit
+# rien. Les protections generales (11), les masques (26) et les protections de la moto (29) n'en ont pas non plus.
+RAYONS_AVEC_GENRE = frozenset({
+    "jacket", "pants", "gloves", "boots", "suit", "apparel_casual", "jersey", "protection.pilote",
+})
+
+
+def genre_fiche(code: str | None, rayon: str | None) -> str:
+    """Le genre a montrer sur la FICHE d'un produit de ce rayon.
+
+    Equipement du motard (vetements, gants, bottes, combinaisons...) : Homme, Femme ou Enfant.
+    Casques : jamais homme ni femme ; « Enfant » seulement quand l'age le dit. Ailleurs : rien.
+    """
+    rayon = rayon or ""
+    if rayon.startswith("helmet"):
+        return "Enfant" if (code or "").endswith("-E") else ""
+    if rayon in RAYONS_AVEC_GENRE:
+        return genre_age(code)
+    return ""
