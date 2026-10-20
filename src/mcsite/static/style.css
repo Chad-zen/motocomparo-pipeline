@@ -4902,3 +4902,12 @@ html { overflow-x: clip; }
 .sugg__apercu.est-actif .sugg__quoi { color: var(--marque-encre, #26355a); }
 .sugg__produits { transition: opacity .15s ease; }
 .sugg__produits.est-en-chargement { opacity: .5; }
+
+/* Pour qui est le produit (Homme / Femme / Enfant), sur les cartes et sur la fiche (19/10/2026) :
+   une pastille discrete, qui ne prend la place ni du nom ni du prix. */
+.carte__genre {
+  align-self: flex-start; margin: 2px 0 0; padding: 1px 8px; border-radius: 99px;
+  background: #eef1f9; color: #26355a; font-size: 11.5px; font-weight: 700;
+  letter-spacing: .02em; line-height: 1.6;
+}
+.fiche__genre { margin-top: 2px; }

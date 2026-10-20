@@ -179,7 +179,7 @@ def listing(
     24 rows that survived — not for the whole catalogue.
     """
     return _rows(conn, """
-        SELECT p.slug, p.brand_code, p.model_display, p.colour_code,
+        SELECT p.slug, p.brand_code, p.model_display, p.colour_code, p.genre_age,
                s.cheapest, s.dearest, s.merchant_count, s.image_url, s.best_title,
                c.label_fr AS category_label
         FROM product p
@@ -988,7 +988,7 @@ def search(conn: psycopg.Connection, term: str, limit: int = 40) -> list[dict[st
     for w in words:
         args += [f"%{w}%", f"%{w}%"]
     return _rows(conn, f"""
-        SELECT p.slug, p.brand_code, p.model_display, p.colour_code,
+        SELECT p.slug, p.brand_code, p.model_display, p.colour_code, p.genre_age,
                s.cheapest, s.merchant_count, s.image_url, s.best_title,
                c.label_fr AS category_label
         FROM product p
@@ -1788,7 +1788,7 @@ def listing_filtre(
     ordre = ordres.get(f.tri, ordres["pertinence"]) + ", p.slug"
 
     items = _rows(conn, f"""
-        SELECT p.slug, p.brand_code, p.model_display, p.colour_code,
+        SELECT p.slug, p.brand_code, p.model_display, p.colour_code, p.genre_age,
                s.cheapest, s.dearest, s.merchant_count, s.image_url, s.best_title,
                c.label_fr AS category_label
         FROM product p

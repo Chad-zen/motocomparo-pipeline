@@ -56,6 +56,8 @@
     {% if p.colour_code and p.colour_code != 'unknown' %}
       <p class="fiche__couleur">Couleur : <strong>{{ p.colour_code | couleur }}</strong></p>
     {% endif %}
+    {% set pour = p.genre_age | genre_age %}
+    {% if pour %}<p class="fiche__couleur fiche__genre">Pour : <strong>{{ pour }}</strong></p>{% endif %}
   </div>
 
   {# Tout ce qui suit passe en PLEINE LARGEUR sous les deux colonnes. À 375 px,

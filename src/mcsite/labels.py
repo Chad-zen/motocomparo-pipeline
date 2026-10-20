@@ -48,6 +48,22 @@ def genre(code: str | None) -> str:
     return _GENRE.get((code or "").lower(), "")
 
 
+def genre_age(code: str | None) -> str:
+    """Pour qui est le produit : « Homme », « Femme » ou « Enfant ». « » quand on ne le sait pas.
+
+    `product.genre_age` vaut H, F ou U (inconnu OU mixte : le pipeline ne les distingue pas) suivi de
+    A (adulte) ou E (enfant). On n'affiche que ce qui est connu : afficher « Mixte » pour un U-A
+    dirait vrai pour un gant qu'un marchand a écrit « unisexe », et faux pour un gant dont personne
+    n'a rien dit (19/10/2026, voir `product_stats` / la future étiquette « mixte »).
+    """
+    if not code or "-" not in code:
+        return ""
+    sexe, _, age = code.partition("-")
+    if age == "E":
+        return "Enfant"
+    return {"H": "Homme", "F": "Femme"}.get(sexe, "")
+
+
 def ordre_taille(code: str) -> tuple[int, float, str]:
     """L'ordre des tailles, du plus petit au plus grand, partout (16/10/2026).
 

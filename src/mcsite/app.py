@@ -102,6 +102,7 @@ templates = Jinja2Templates(directory=HERE / "templates")
 templates.env.filters["prix"] = labels.price
 templates.env.filters["couleur"] = labels.colour
 templates.env.filters["genre"] = labels.genre
+templates.env.filters["genre_age"] = labels.genre_age
 templates.env.filters["marchand"] = labels.merchant
 templates.env.filters["marque"] = labels.brand
 templates.env.filters["caracteristique"] = queries._valeur_lisible

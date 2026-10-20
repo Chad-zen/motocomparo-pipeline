@@ -30,6 +30,9 @@
     <div class="carte__corps">
       <span class="carte__marque">{{ it.brand_code | marque }}</span>
       <span class="carte__nom">{{ nom(it) }}</span>
+      {# Pour qui est le produit : seulement quand on le sait (voir labels.genre_age) #}
+      {% set pour = it.genre_age | genre_age %}
+      {% if pour %}<span class="carte__genre">{{ pour }}</span>{% endif %}
       {% if it.colour_code and it.colour_code != 'unknown' %}
         <span class="carte__couleur">{{ it.colour_code | couleur }}</span>
       {% endif %}
