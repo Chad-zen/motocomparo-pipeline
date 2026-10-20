@@ -199,6 +199,13 @@ def test_le_plafond_est_tout_ou_rien_et_ne_leve_pas(cur, monkeypatch):
     assert cur.fetchone()[0] == 0                    # rien n'est journalise quand rien n'est ecrit
 
 
+def test_le_mode_apercu_compte_sans_rien_ecrire(cur, monkeypatch):
+    _cas_simple(cur)
+    monkeypatch.setenv("MCPIPE_RATTACHER_APERCU", "1")
+    with pytest.raises(m.ApercuRattachement, match="1 offre"):
+        m.rattacher_a_la_fiche_existante(cur)
+
+
 def test_le_passage_est_apres_les_decoupes_et_avant_la_creation_des_fiches():
     import inspect
     src = inspect.getsource(m.run_match)

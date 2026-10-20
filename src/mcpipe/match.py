@@ -944,6 +944,12 @@ FROM _rattache r WHERE u.gtin = r.gtin
 """
 
 
+class ApercuRattachement(RuntimeError):
+    """Leve par `MCPIPE_RATTACHER_APERCU=1` : le match annule alors toute sa transaction (RIEN n'est
+    ecrit) apres avoir compte ce que le rattachement aurait fait. Sert a connaitre le nombre exact
+    d'offres du premier passage en production avant de relever le plafond."""
+
+
 def rattacher_a_la_fiche_existante(cur) -> tuple[int, int, int]:
     """Rend (offres rattachees, offres refusees par le plafond, unites ecartees par un garde-fou).
 
@@ -966,6 +972,10 @@ def rattacher_a_la_fiche_existante(cur) -> tuple[int, int, int]:
     ecartees = max(0, cibles - retenues)
     cur.execute(_RATTACHER_COMPTER)
     offres = cur.fetchone()[0]
+    if os.environ.get("MCPIPE_RATTACHER_APERCU"):
+        raise ApercuRattachement(
+            f"APERCU : {offres:,} offre(s) neuve(s) seraient rattachee(s) a leur fiche, {ecartees:,} unite(s) "
+            f"ecartee(s) par un garde-fou, plafond actuel {maximum:,}. RIEN n'a ete ecrit (transaction annulee).")
     if offres > maximum:
         return 0, offres, ecartees
     cur.execute(_RATTACHER_JOURNAL)
