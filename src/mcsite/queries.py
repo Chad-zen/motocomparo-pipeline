@@ -1159,7 +1159,7 @@ def facets(conn: psycopg.Connection, f: Filtres) -> dict[str, Any]:
             split_part(p.colour_code, '|', 1), '-')) AS c(valeur)
         {_OU} AND p.colour_code IS NOT NULL AND p.colour_code <> 'unknown'
           AND c.valeur <> ''
-        GROUP BY c.valeur ORDER BY count(*) DESC LIMIT 16
+        GROUP BY c.valeur ORDER BY count(*) DESC, c.valeur LIMIT 16
     """, "couleur")
 
     # Les catégories : une VRAIE facette, pas l'arbre global.
@@ -1435,14 +1435,27 @@ def _facettes_caracteristiques(conn: psycopg.Connection, f: Filtres,
         # délai de 15 s dépassé sur les bottes. Mesuré en production le
         # 15/10/2026 : mêmes résultats sur 18 cas, 0,06 s au lieu de 1,34 s
         # dans le pire, aucun cas ralenti.
+        # LES FICHES DU FILTRE D'ABORD (`f`), puis les valeurs de ces fiches seules (`cf`)
+        # (19/10/2026). La jointure directe de `carac` sur la liste filtree, le
+        # planificateur la croyait presque vide (6 fiches attendues, 1 540 reelles pour
+        # `couleur=BK`) et choisissait une boucle de 52,8 millions de comparaisons : 8,8 s
+        # pour la Matiere des bottes noires, 0,38 s apres. Meme resultat sur 15 cas : une
+        # ligne par valeur, plus une ligne « sans valeur » pour les fiches que l'extracteur
+        # n'a pas lues.
         lignes = compte(f"""
-            WITH carac AS MATERIALIZED ({_CARAC_SQL[param]})
-            SELECT carac.valeur, count(*) AS n
-            FROM product p
-            JOIN product_stats s ON s.product_id = p.id
-            LEFT JOIN carac ON carac.product_id = p.id
-            {_OU}
-            GROUP BY 1
+            WITH carac AS MATERIALIZED ({_CARAC_SQL[param]}),
+            f AS MATERIALIZED (
+                SELECT p.id FROM product p JOIN product_stats s ON s.product_id = p.id
+                {_OU}),
+            cf AS MATERIALIZED (
+                SELECT carac.product_id, carac.valeur FROM carac
+                WHERE carac.product_id IN (SELECT id FROM f))
+            SELECT valeur, count(*) AS n FROM cf WHERE valeur IS NOT NULL GROUP BY 1
+            UNION ALL
+            SELECT NULL, n FROM (
+                SELECT (SELECT count(*) FROM f) - (SELECT count(DISTINCT product_id) FROM cf)
+                       + (SELECT count(*) FROM cf WHERE valeur IS NULL) AS n) z
+            WHERE n > 0
         """, param)
         total = sum(ligne["n"] for ligne in lignes)
         couverts = [ligne for ligne in lignes if ligne["valeur"] is not None]
