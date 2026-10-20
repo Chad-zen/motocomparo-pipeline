@@ -140,7 +140,9 @@
      arrêt de tabulation. Le focus va sur la CARTE et non sur un bouton : le
      premier Tab mène au premier choix, sans qu'un cadre jaune n'entoure un
      bouton que personne n'a choisi (la propriétaire, 15/10/2026). preventScroll : la page ne saute pas vers le bas. */
-  if (!lire()) {
+  /* Pas de question sur la page qui explique les cookies : le bandeau en recouvrirait le texte. */
+  var sur_infos = location.pathname.replace(/\/$/, '') === '/infos';
+  if (!lire() && !sur_infos) {
     montrer();
     try { bandeau.querySelector('.consentement__carte').focus({ preventScroll: true }); }
     catch (e) { /* vieux navigateur : tant pis pour le focus */ }
