@@ -154,9 +154,8 @@ WHERE s.raw_offer_id = o.id
            OR (s.category_id IS NOT NULL AND t.category_id IS NOT NULL
                AND s.category_id <> 25 AND t.category_id <> 25
                AND s.category_id <> t.category_id
-               AND NOT EXISTS (SELECT 1 FROM category k
-                               WHERE (k.id = s.category_id AND k.parent_id = t.category_id)
-                                  OR (k.id = t.category_id AND k.parent_id = s.category_id)))
+               AND NOT ((s.category_id = 1 AND t.category_id IN (2, 3, 4, 5))
+                    OR (t.category_id = 1 AND s.category_id IN (2, 3, 4, 5))))
            OR (left(s.genre_age, 1) <> 'U' AND left(t.genre_age, 1) <> 'U'
                AND left(s.genre_age, 1) <> left(t.genre_age, 1))
            OR right(s.genre_age, 1) <> right(t.genre_age, 1)
@@ -303,20 +302,18 @@ conflicts AS (
 
     UNION
 
-    -- Deux rayons en desaccord, SAUF parent et enfant : « Casques » et « Casques
-    -- integraux » decrivent le meme article, l'un plus precisement que l'autre (le
-    -- rayon parent est le repli du classement). Deux enfants differents (integral et
-    -- jet) ou deux rayons sans lien (casques et electronique) restent un conflit.
+    -- Deux rayons en desaccord, SAUF « Casques » (1) et l'un de ses SOUS-TYPES (2 integral, 3 jet,
+    -- 4 modulable, 5 cross) : ils decrivent le meme article, l'un plus precisement que l'autre (le
+    -- rayon 1 est le repli du classement). PAS les autres enfants : 30 « pieces et accessoires casque »
+    -- n'est pas un casque (visiere, ecran, mousses), 28/29 separent les protections du pilote et de la
+    -- moto. Deux sous-types differents (integral et jet) ou deux rayons sans lien restent un conflit.
     -- Mesure le 19/10/2026 sur les codes-barres en quarantaine de Motoblouz : environ
     -- 800 etaient dans ce cas.
     SELECT a.gtin
     FROM (SELECT DISTINCT gtin, category_id FROM members WHERE category_id != 25) a
     JOIN (SELECT DISTINCT gtin, category_id FROM members WHERE category_id != 25) b
       ON b.gtin = a.gtin AND b.category_id > a.category_id
-    JOIN category ca ON ca.id = a.category_id
-    JOIN category cb ON cb.id = b.category_id
-    WHERE ca.parent_id IS DISTINCT FROM b.category_id
-      AND cb.parent_id IS DISTINCT FROM a.category_id
+    WHERE NOT (a.category_id = 1 AND b.category_id IN (2, 3, 4, 5))
 
     UNION
 
@@ -903,9 +900,8 @@ WHERE NOT u.conflict
               (s.brand_code IS NOT NULL AND q.brand_code IS NOT NULL AND s.brand_code <> q.brand_code)
            OR (s.category_id IS NOT NULL AND q.category_id IS NOT NULL
                AND s.category_id <> 25 AND q.category_id <> 25 AND s.category_id <> q.category_id
-               AND NOT EXISTS (SELECT 1 FROM category k
-                               WHERE (k.id = s.category_id AND k.parent_id = q.category_id)
-                                  OR (k.id = q.category_id AND k.parent_id = s.category_id)))
+               AND NOT ((s.category_id = 1 AND q.category_id IN (2, 3, 4, 5))
+                    OR (q.category_id = 1 AND s.category_id IN (2, 3, 4, 5))))
            OR (left(s.genre_age, 1) <> 'U' AND left(q.genre_age, 1) <> 'U'
                AND left(s.genre_age, 1) <> left(q.genre_age, 1))
            OR right(s.genre_age, 1) <> right(q.genre_age, 1)
@@ -985,9 +981,8 @@ FROM (
            bool_or(s.brand_code IS NOT NULL AND q.brand_code IS NOT NULL AND s.brand_code <> q.brand_code) AS b_marque,
            bool_or(s.category_id IS NOT NULL AND q.category_id IS NOT NULL
                    AND s.category_id <> 25 AND q.category_id <> 25 AND s.category_id <> q.category_id
-                   AND NOT EXISTS (SELECT 1 FROM category k
-                                   WHERE (k.id = s.category_id AND k.parent_id = q.category_id)
-                                      OR (k.id = q.category_id AND k.parent_id = s.category_id))) AS b_rayon,
+                   AND NOT ((s.category_id = 1 AND q.category_id IN (2, 3, 4, 5))
+                    OR (q.category_id = 1 AND s.category_id IN (2, 3, 4, 5)))) AS b_rayon,
            bool_or(left(s.genre_age, 1) <> 'U' AND left(q.genre_age, 1) <> 'U'
                    AND left(s.genre_age, 1) <> left(q.genre_age, 1)) AS b_genre,
            bool_or(right(s.genre_age, 1) <> right(q.genre_age, 1)) AS b_age,

@@ -220,6 +220,20 @@ def test_l_apercu_dit_pourquoi_une_unite_est_ecartee(cur, monkeypatch):
     assert "marque 1" in texte and "prix 1" in texte
 
 
+def test_le_controle_accepte_parent_et_enfant_de_rayon_mais_pas_deux_enfants(cur):
+    from mcpipe.verify import check_match_invariants
+    p1, p2, p3 = _fiche(cur, "V1"), _fiche(cur, "V2"), _fiche(cur, "V3")
+    _offre(cur, "T000000000201", statut="linked", produit=p1, methode="gtin", cat=1)
+    _offre(cur, "T000000000202", statut="linked", produit=p1, methode="gtin", cat=2)     # parent + enfant
+    _offre(cur, "T000000000203", statut="linked", produit=p2, methode="gtin", cat=2)
+    _offre(cur, "T000000000204", statut="linked", produit=p2, methode="gtin", cat=3)     # deux enfants
+    _offre(cur, "T000000000205", statut="linked", produit=p3, methode="gtin", cat=1)
+    _offre(cur, "T000000000206", statut="linked", produit=p3, methode="gtin", cat=6)     # rayons sans lien
+    en_anomalie = {v.product_id for v in check_match_invariants(cur.connection, product_ids=[p1, p2, p3])
+                   if v.field == "category_id"}
+    assert en_anomalie == {p2, p3}
+
+
 def test_le_passage_est_apres_les_decoupes_et_avant_la_creation_des_fiches():
     import inspect
     src = inspect.getsource(m.run_match)

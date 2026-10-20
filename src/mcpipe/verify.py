@@ -71,8 +71,15 @@ _COULEURS_COMPATIBLES = """
      FROM unnest(v.distinct_values) a, unnest(v.distinct_values) b)
 """
 
+# Le rayon : « Casques » (1) et l'un de ses sous-types (2 a 5) ne se contredisent pas, comme dans `match._BUILD_GTIN_UNITS` depuis le 19/10/2026. Sans cette tolerance le controle
+# comptait 212 fiches vivantes en anomalie le 20/10/2026, toutes parent/enfant, aucune reelle (il en restait 13).
+_RAYONS_COMPATIBLES = """
+    (SELECT bool_and(a = b OR (a = 1 AND b IN (2, 3, 4, 5)) OR (b = 1 AND a IN (2, 3, 4, 5)))
+     FROM unnest(v.distinct_values) a, unnest(v.distinct_values) b)
+"""
+
 _INVARIANTS: list[Invariant] = [
-    Invariant("category_id", "s.category_id", "s.category_id != 25"),
+    Invariant("category_id", "s.category_id", "s.category_id != 25", tolerance=_RAYONS_COMPATIBLES),
     Invariant("primary_colour", "s.primary_colour", "s.primary_colour IS NOT NULL",
               tolerance=_COULEURS_COMPATIBLES),
     Invariant("genre", "left(s.genre_age, 1)", "left(s.genre_age, 1) != 'U'"),
