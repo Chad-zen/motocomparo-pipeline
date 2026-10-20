@@ -2574,6 +2574,31 @@ def sitemap_page(request: Request, numero: int) -> Response:
         media_type="application/xml")
 
 
+def _arrondi_bas(n: int) -> str:
+    """« 64 891 » -> « plus de 60 000 » ; « 898 883 » -> « plus de 890 000 » : toujours vers le bas,
+    pour que le chiffre annonce reste vrai le lendemain d'une nuit ou une offre disparait."""
+    if n < 1000:
+        return str(n)
+    pas = 10 ** (len(str(n)) - 2)
+    bas = (n // pas) * pas
+    return "plus de " + f"{bas:,}".replace(",", "\u202f")
+
+
+def _chiffres_apropos() -> dict:
+    """Les chiffres de la page « A propos », lus en base (jamais ecrits en dur) et gardes six heures."""
+    def _calcul() -> dict:
+        with pool.connection() as conn:  # type: ignore[union-attr]
+            fiches = conn.execute(
+                "SELECT count(*) FROM product p JOIN product_stats s ON s.product_id = p.id "
+                "WHERE p.status <> 'merged' AND s.merchant_count >= 2 AND s.cheapest IS NOT NULL"
+            ).fetchone()[0]
+            offres = conn.execute("SELECT count(*) FROM raw_offer WHERE is_live").fetchone()[0]
+            marchands = len(queries.marchands_actifs(conn))
+        return {"marchands": marchands, "fiches": _arrondi_bas(fiches), "offres": _arrondi_bas(offres)}
+
+    return cache.au_chaud("apropos-chiffres", _calcul, ttl=6 * 3600)
+
+
 @app.get("/infos", response_class=HTMLResponse)
 def infos(request: Request):
     """What the site does, and how, in the visitor's words.
@@ -2585,7 +2610,8 @@ def infos(request: Request):
     pipeline does not keep.
     """
     return templates.TemplateResponse(request, "infos.html",
-                                      _ctx(request, mentions=_MENTIONS))
+                                      _ctx(request, mentions=_MENTIONS,
+                                           chiffres=_chiffres_apropos()))
 
 
 @app.get("/recherche", response_class=HTMLResponse)

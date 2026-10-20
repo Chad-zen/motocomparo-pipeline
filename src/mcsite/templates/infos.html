@@ -1,41 +1,97 @@
 {% extends "base.html" %}
-{% block title %}À propos — MotoComparo{% endblock %}
-{% block description %}Qui nous sommes, comment les prix sont relevés, comment MotoComparo gagne sa vie et pourquoi cela ne change ni les prix affichés ni l'ordre du classement.{% endblock %}
+{% block title %}À propos — MotoComparo, comparateur de prix d'équipement moto{% endblock %}
+{% block description %}MotoComparo compare chaque jour les prix d'un même article d'équipement moto chez {{ chiffres.marchands }} marchands. Comment les prix sont relevés, comment nous gagnons notre vie, et pourquoi cela ne change ni les prix ni le classement.{% endblock %}
 
 {% block contenu %}
 <nav class="fil" aria-label="Fil d'Ariane"><a href="/">Accueil</a> › <span>À propos</span></nav>
 <h1 class="titre-page">À propos de MotoComparo</h1>
 
-<div class="texte">
+<p class="apropos__chapeau">Acheter son équipement moto au meilleur prix, sans ouvrir vingt onglets.
+MotoComparo compare chaque jour le prix d'un même article chez {{ chiffres.marchands }} marchands,
+puis vous envoie acheter chez celui que vous choisissez. Nous ne vendons rien nous-mêmes.</p>
 
-  <p class="texte__chapeau">MotoComparo compare le prix d'un même article
-  d'équipement moto chez {{ marchands_actifs | length }} marchands. Le site ne vend rien&nbsp;:
-  il vous envoie chez le marchand.</p>
+{# Les chiffres sont lus en base (app.py, `_chiffres_apropos`), arrondis vers le bas : une page qui
+   annonce « plus de 65 000 » quand il y en a 64 891 serait la première chose qu'un lecteur attentif
+   releverait. #}
+<ul class="apropos__chiffres" aria-label="MotoComparo en chiffres">
+  <li><b>{{ chiffres.marchands }}</b><span>marchands comparés</span></li>
+  <li><b>{{ chiffres.fiches }}</b><span>produits comparés chez au moins deux marchands</span></li>
+  <li><b>{{ chiffres.offres }}</b><span>prix suivis, relevés chaque jour</span></li>
+</ul>
+
+<nav class="apropos__nav" aria-label="Dans cette page">
+  <a href="#engagements">Nos engagements</a>
+  <a href="#comment">Comment ça marche</a>
+  <a href="#liens">Comment nous gagnons notre vie</a>
+  <a href="#marchands">Les marchands</a>
+  <a href="#donnees">Données personnelles</a>
+  <a href="#cgu">Conditions d'utilisation</a>
+  <a href="#mentions">Mentions légales</a>
+  <a href="#contact">Contact</a>
+</nav>
+
+<section class="apropos__piliers" id="engagements" aria-labelledby="engagements-titre">
+  <h2 id="engagements-titre" class="titre-section">Trois engagements</h2>
+  <div class="apropos__cartes">
+    <article>
+      <h3>Le même produit, pas une ressemblance</h3>
+      <p>Deux offres sont réunies quand elles portent le même code-barres, pas parce que leurs titres se
+      ressemblent. En cas de doute, elles restent séparées : une offre absente vaut mieux qu'une offre
+      mal rangée.</p>
+    </article>
+    <article>
+      <h3>Des prix frais, et honnêtes sur leur âge</h3>
+      <p>Les prix viennent des catalogues des marchands, téléchargés chaque jour, jamais d'une saisie à
+      la main. Un prix de plus de 24 heures est signalé comme non rafraîchi.</p>
+    </article>
+    <article>
+      <h3>Un classement qu'on ne peut pas acheter</h3>
+      <p>Sur une fiche, les offres sont triées par prix, pas par commission. Aucun marchand ne paie pour sa
+      place. Les liens sont affiliés : c'est notre seule source de revenus, et elle ne change pas le prix
+      que vous payez.</p>
+    </article>
+  </div>
+</section>
+
+<section class="apropos__etapes" id="comment" aria-labelledby="comment-titre">
+  <h2 id="comment-titre" class="titre-section">Comment ça marche</h2>
+  <ol>
+    <li><b>Chaque nuit, nous lisons les catalogues.</b> Chaque marchand publie un fichier de ses produits
+        et de ses prix ; nous le téléchargeons et nous le remettons au même format.</li>
+    <li><b>Nous reconnaissons le même article d'un marchand à l'autre.</b> Grâce au code-barres (EAN),
+        puis en vérifiant que la marque, la couleur, le genre et la taille concordent.</li>
+    <li><b>Nous contrôlons.</b> Un prix qui n'a aucun rapport avec les autres, un article rangé dans
+        le mauvais rayon, une fiche en double : les écarts sont repérés par des contrôles automatiques
+        et relus.</li>
+    <li><b>Vous comparez, vous choisissez.</b> Vous filtrez par rayon, marque, taille, couleur, puis vous
+        allez acheter chez le marchand que vous avez retenu, sous ses conditions.</li>
+  </ol>
+</section>
+
+<div class="texte">
   {# Illustration générée par IA (Meta AI), étiquettes volontairement vierges :
-     la première version portait des prix en dollars. Chargée sans délai,
-     elle est en haut de page. #}
+     la première version portait des prix en dollars. #}
   <figure class="texte__illu">
-    <img src="/static/infos/comparer.webp" width="1280" height="720"
+    <img src="/static/infos/comparer.webp" width="1280" height="720" loading="lazy"
          alt="Un casque moto noir mat vu du dessus, entouré de six étiquettes de prix vierges.">
   </figure>
 
-  <h2 id="liens">Liens partenaires</h2>
-  <p>Les liens vers les marchands sont des liens affiliés&nbsp;: si vous achetez
-  après avoir cliqué, MotoComparo touche une commission de la part du marchand.
-  <strong>Cela ne change pas le prix que vous payez</strong>, et cela n'influence
-  pas le classement&nbsp;: les offres sont triées par prix, pas par commission.</p>
+  <h2 id="liens">Comment nous gagnons notre vie</h2>
+  <p>Les liens vers les marchands sont des liens affiliés&nbsp;: si vous achetez après avoir cliqué,
+  MotoComparo touche une commission de la part du marchand. <strong>Cela ne change pas le prix que
+  vous payez</strong>, et cela n'influence pas le classement&nbsp;: les offres sont triées par prix,
+  pas par commission. C'est ce qui nous permet de garder le site gratuit, sans compte à créer.</p>
 
   <h2 id="prix">Comment les prix sont relevés</h2>
   <figure class="texte__illu">
     <img src="/static/infos/releve.webp" width="1280" height="720" loading="lazy"
          alt="Un bloc de feuilles vierges dont la page du dessus se déchire, accroché au mur d'un atelier moto à côté d'une horloge.">
   </figure>
-  <p>Chaque marchand publie un catalogue que nous téléchargeons chaque jour.
-  Les prix affichés viennent de ces fichiers, jamais d'une saisie à la main.</p>
-  <p><strong>Un prix de plus de 24 heures est signalé comme non rafraîchi</strong>
-  sur la ligne concernée. Le prix qui fait foi reste celui du marchand au moment
-  de la commande.</p>
-  <p>Les prix sont hors frais de port.</p>
+  <p>Chaque marchand publie un catalogue que nous téléchargeons chaque jour. Les prix affichés
+  viennent de ces fichiers, jamais d'une saisie à la main.</p>
+  <p><strong>Un prix de plus de 24 heures est signalé comme non rafraîchi</strong> sur la ligne
+  concernée. Le prix qui fait foi reste celui du marchand au moment de la commande. Les prix sont
+  hors frais de port.</p>
 
   <h2 id="produits">Comment deux offres deviennent un même produit</h2>
   {# Illustrations générées par IA (Meta AI) à la demande de la propriétaire,
@@ -44,25 +100,29 @@
     <img src="/static/infos/code-barres.webp" width="1280" height="720" loading="lazy"
          alt="Étiquette à code-barres collée sur un carton d'équipement moto, dans un atelier.">
   </figure>
-  <p>Deux marchands parlent du même article quand ils publient le même
-  code-barres (EAN)&nbsp;: c'est ce code qui fait foi, pas la ressemblance des
-  titres. En cas de doute, les offres restent séparées.</p>
-  <p>Quand deux marchands nomment la même taille différemment, la page les
-  réunit&nbsp;: <em>«&nbsp;7&nbsp;/&nbsp;S&nbsp;»</em>.</p>
+  <p>Deux marchands parlent du même article quand ils publient le même code-barres (EAN)&nbsp;:
+  c'est ce code qui fait foi, pas la ressemblance des titres. Quand deux marchands nomment la même
+  taille différemment, la page les réunit&nbsp;: <em>«&nbsp;7&nbsp;/&nbsp;S&nbsp;»</em>.</p>
+  <p>Un même modèle peut exister en plusieurs coloris, tailles ou versions. Nous ne les mélangeons pas&nbsp;:
+  une veste noire et une veste grise sont deux fiches, un casque mat et un casque brillant aussi.</p>
 
   <h2 id="marchands">Les marchands</h2>
   {# Lus en base plutôt qu'écrits ici : la liste à la main citait Maxxess et
      Moto-Axxe, dont aucune offre n'arrivait jusqu'à une fiche faute de
      code-barres exploitable. Un visiteur pouvait le constater dans les
      filtres. #}
-  <p>{{ marchands_actifs | length }} marchands apparaissent aujourd'hui sur au
-  moins une fiche&nbsp;:
+  <p>{{ marchands_actifs | length }} marchands apparaissent aujourd'hui sur au moins une fiche&nbsp;:
   {% for m in marchands_actifs %}{{ m.code | marchand }}{{ ", " if not loop.last }}{% endfor %}.</p>
-  <p>Tous sont français sauf FC-Moto, qui est allemand et livre en France.
-  D'autres marchands sont dans notre catalogue sans être affichés&nbsp;: tant que
-  leurs offres ne peuvent pas être reliées de façon sûre à un article précis, ou
-  que leurs prix ne sont pas fiables, elles restent de côté. Une offre invisible
-  vaut mieux qu'une offre mal rangée.</p>
+  <p>Certains sont installés à l'étranger (FC-Moto et Motoin, en Allemagne) et livrent en France&nbsp;:
+  vérifiez les frais et les délais de livraison sur leur site avant de commander.</p>
+  <p>D'autres marchands sont dans notre catalogue sans être affichés&nbsp;: tant que leurs offres ne
+  peuvent pas être reliées de façon sûre à un article précis, ou que leurs prix ne sont pas fiables,
+  elles restent de côté.</p>
+
+  <h2 id="ce-que-nous-ne-faisons-pas">Ce que nous ne faisons pas</h2>
+  <p>Nous ne vendons rien et nous n'intervenons dans aucune commande. Nous ne vous demandons ni compte ni
+  mot de passe. Nous ne vendons aucune donnée. Et nous ne laissons aucun marchand acheter sa place dans
+  le classement.</p>
 
   <h2 id="donnees">Données personnelles</h2>
   <figure class="texte__illu">

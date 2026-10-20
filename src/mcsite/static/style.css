@@ -4905,3 +4905,43 @@ html { overflow-x: clip; }
 
 /* Pour qui est le produit : une ligne sur la fiche (jamais sur les cartes de liste), voir labels.genre_fiche. */
 .fiche__genre { margin-top: 2px; }
+
+
+/* Page « A propos » : une vraie presentation avant le juridique (20/10/2026). */
+.apropos__chapeau { font-size: 18px; line-height: 1.6; max-width: 62ch; color: var(--ink); margin: 6px 0 20px; }
+.apropos__chiffres {
+  list-style: none; margin: 0 0 18px; padding: 0;
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px;
+}
+.apropos__chiffres li {
+  background: var(--card, #fff); border: 1px solid var(--line, #e6eaf0); border-radius: 12px;
+  padding: 14px 16px; display: flex; flex-direction: column; gap: 4px;
+}
+.apropos__chiffres b { font-size: 26px; line-height: 1.1; color: var(--nuit, #1d2742); font-variant-numeric: tabular-nums; }
+.apropos__chiffres span { font-size: 13.5px; color: var(--doux, #5f6880); line-height: 1.35; }
+.apropos__nav { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 8px; }
+.apropos__nav a {
+  font-size: 13px; font-weight: 600; text-decoration: none; padding: 6px 12px; border-radius: 99px;
+  background: #eef1f9; color: #26355a; transition: background-color .15s ease;
+}
+.apropos__nav a:hover { background: #e3e9f8; }
+.apropos__cartes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-top: 10px; }
+.apropos__cartes article {
+  background: var(--card, #fff); border: 1px solid var(--line, #e6eaf0); border-radius: 12px; padding: 16px 18px;
+  border-top: 4px solid var(--or, #f8ca02);
+}
+.apropos__cartes h3 { font-size: 16px; margin: 0 0 8px; line-height: 1.3; }
+.apropos__cartes p { margin: 0; font-size: 14.5px; line-height: 1.6; color: #3d434f; }
+.apropos__etapes ol { counter-reset: etape; list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 10px; max-width: 68ch; }
+.apropos__etapes li {
+  counter-increment: etape; position: relative; padding: 2px 0 2px 46px; line-height: 1.6; color: #3d434f;
+}
+.apropos__etapes li::before {
+  content: counter(etape); position: absolute; left: 0; top: 0; width: 32px; height: 32px; border-radius: 50%;
+  background: var(--or, #f8ca02); color: #14181f; font-weight: 800; display: grid; place-items: center;
+}
+.apropos__etapes li b { color: var(--ink); }
+@media (max-width: 760px) {
+  .apropos__chiffres, .apropos__cartes { grid-template-columns: 1fr; }
+  .apropos__chapeau { font-size: 16.5px; }
+}
