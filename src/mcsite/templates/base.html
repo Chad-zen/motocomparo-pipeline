@@ -444,7 +444,9 @@ window.addEventListener('load', function () {
        lien du dépli mène au rayon entier. Dépliés d'office, les quatre types
        de casques repoussaient tous les autres rayons sous l'écran
        (demandé par la propriétaire, 16/10/2026). #}
-    {% for c in nav %}
+    {# Un rayon de moins de 600 fiches comparees n'est pas dans le menu (20/10/2026, demande de la
+       proprietaire) : Selles, Masques, Accessoires, Combinaisons, Batteries. Sa page /c/... reste en ligne. #}
+    {% for c in nav if c.n >= 600 %}
       {% if c.enfants %}
       <button type="button" class="tiroir__item tiroir__item--parent"
               aria-expanded="false" aria-controls="tiroir-sous-{{ c.code }}">
