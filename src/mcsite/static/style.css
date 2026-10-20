@@ -4945,3 +4945,35 @@ html { overflow-x: clip; }
   .apropos__chiffres, .apropos__cartes { grid-template-columns: 1fr; }
   .apropos__chapeau { font-size: 16.5px; }
 }
+
+/* Animations de la page « A propos » (20/10/2026) : sobres, et coupees pour qui a demande moins de mouvement.
+   `reveal` n'est pose que par apropos.js : sans le script, tout est visible. */
+.apropos__chapeau { animation: apropos-monte .7s cubic-bezier(.2, .8, .3, 1) both; }
+.apropos__nav a { animation: apropos-monte .5s ease both; }
+.apropos__nav a:nth-child(2) { animation-delay: .04s; } .apropos__nav a:nth-child(3) { animation-delay: .08s; }
+.apropos__nav a:nth-child(4) { animation-delay: .12s; } .apropos__nav a:nth-child(5) { animation-delay: .16s; }
+.apropos__nav a:nth-child(6) { animation-delay: .20s; } .apropos__nav a:nth-child(7) { animation-delay: .24s; }
+.apropos__nav a:nth-child(8) { animation-delay: .28s; }
+@keyframes apropos-monte { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+
+.reveal { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s cubic-bezier(.2, .8, .3, 1); }
+.reveal.est-visible { opacity: 1; transform: none; }
+
+.apropos__cartes article, .apropos__chiffres li { transition: transform .2s ease, box-shadow .2s ease, opacity .6s ease; }
+.apropos__cartes article:hover, .apropos__chiffres li:hover { transform: translateY(-3px); box-shadow: 0 10px 26px rgba(16, 26, 62, .12); }
+.apropos__cartes article { border-top-color: var(--or, #f8ca02); }
+.apropos__cartes article::before { content: ""; display: block; width: 0; height: 3px; margin: -16px 0 13px;
+  background: #1f3a8a; transition: width .5s .25s ease; }
+.apropos__cartes article.est-visible::before { width: 44px; }
+
+.apropos__etapes li::before { transform: scale(.4); transition: transform .45s .15s cubic-bezier(.3, 1.6, .5, 1); }
+.apropos__etapes li.est-visible::before { transform: none; }
+
+@media (prefers-reduced-motion: no-preference) { html:has(.apropos__nav) { scroll-behavior: smooth; } }
+.texte h2[id], .apropos__piliers[id], .apropos__etapes[id] { scroll-margin-top: 90px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .apropos__chapeau, .apropos__nav a { animation: none; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .apropos__cartes article, .apropos__chiffres li, .apropos__etapes li::before { transition: none; }
+}

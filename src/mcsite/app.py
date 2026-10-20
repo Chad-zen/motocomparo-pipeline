@@ -2574,14 +2574,18 @@ def sitemap_page(request: Request, numero: int) -> Response:
         media_type="application/xml")
 
 
-def _arrondi_bas(n: int) -> str:
-    """« 64 891 » -> « plus de 60 000 » ; « 898 883 » -> « plus de 890 000 » : toujours vers le bas,
-    pour que le chiffre annonce reste vrai le lendemain d'une nuit ou une offre disparait."""
+def _plancher(n: int) -> int:
+    """« 64 891 » -> 64 000 ; « 898 883 » -> 890 000 : toujours vers le bas, pour que le chiffre
+    annonce reste vrai le lendemain d'une nuit ou une offre disparait."""
     if n < 1000:
-        return str(n)
+        return n
     pas = 10 ** (len(str(n)) - 2)
-    bas = (n // pas) * pas
-    return "plus de " + f"{bas:,}".replace(",", "\u202f")
+    return (n // pas) * pas
+
+
+def _arrondi_bas(n: int) -> str:
+    bas = _plancher(n)
+    return str(bas) if n < 1000 else "plus de " + f"{bas:,}".replace(",", "\u202f")
 
 
 def _chiffres_apropos() -> dict:
@@ -2594,7 +2598,9 @@ def _chiffres_apropos() -> dict:
             ).fetchone()[0]
             offres = conn.execute("SELECT count(*) FROM raw_offer WHERE is_live").fetchone()[0]
             marchands = len(queries.marchands_actifs(conn))
-        return {"marchands": marchands, "fiches": _arrondi_bas(fiches), "offres": _arrondi_bas(offres)}
+        return {"marchands": marchands,
+                "fiches": _arrondi_bas(fiches), "fiches_n": _plancher(fiches),
+                "offres": _arrondi_bas(offres), "offres_n": _plancher(offres)}
 
     return cache.au_chaud("apropos-chiffres", _calcul, ttl=6 * 3600)
 
