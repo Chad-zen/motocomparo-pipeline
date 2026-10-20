@@ -299,7 +299,9 @@ templates.env.globals["logo_marchand"] = _logo_marchand
 _RATIO_LOGOS = {"fcmoto": 3.75, "motoblouz": 4.22, "speedway": 5.817,
                 "motoaxxe": 8.824, "labecanerie": 5.437, "maxxess": 6.915,
                 # 302 x 43 : le SVG officiel de lemotardbleu.com, recupere le 19/10/2026
-                "motardbleu": 7.023}
+                "motardbleu": 7.023,
+                # 300 x 75 : le PNG de motoin.de (templates/motoin_2017/img/logo.png), recupere le 20/10/2026
+                "motoin": 4.0}
 
 
 def _logo_largeur(code: str, hauteur: int = 26) -> int:

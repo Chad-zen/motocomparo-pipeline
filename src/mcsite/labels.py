@@ -215,6 +215,7 @@ _MERCHANT: dict[str, str] = {
     # Le Motard Bleu (18/10/2026) : masque du site (`merchant.affiche = false`) tant que la
     # proprietaire ne l'a pas valide ; le nom est pret pour ce jour-la.
     "motardbleu": "Le Motard Bleu",
+    "motoin": "Motoin",
 }
 
 
