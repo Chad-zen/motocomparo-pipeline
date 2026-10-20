@@ -8,6 +8,7 @@ the two and no window during which the site shows yesterday's data.
 
 from __future__ import annotations
 
+import dataclasses
 import logging
 import os
 import re
@@ -595,13 +596,22 @@ def _liste(request, titre, base, f, page, code="", courante=None):
     # rayon n'ont pas le même contenu. `cache.py` plafonne le nombre d'entrées,
     # sans quoi un robot essayant mille fourchettes de prix ferait gonfler la
     # mémoire indéfiniment.
-    def _page() -> tuple:
+    # LES FILTRES NE DEPENDENT NI DE LA PAGE NI DU TRI (19/10/2026). « Voir plus de produits »
+    # demande la page suivante au serveur : elle relancait les dix requetes du panneau de filtres
+    # (2,5 s sur les casques, 8 s avec une taille) pour retrouver exactement les memes comptes.
+    # Gardes a part, par filtres seuls : la page 2 ne paie plus que sa propre liste.
+    def _liste_page() -> tuple:
         with pool.connection() as conn:  # type: ignore[union-attr]
-            items, total = queries.listing_filtre(
-                conn, f, PER_PAGE, (page - 1) * PER_PAGE)
-            return items, total, queries.facets(conn, f)
+            return queries.listing_filtre(conn, f, PER_PAGE, (page - 1) * PER_PAGE)
 
-    items, total, facettes = cache.au_chaud(f"liste|{f}|{page}", _page)
+    sans_tri = dataclasses.replace(f, tri="pertinence")
+
+    def _panneau() -> dict:
+        with pool.connection() as conn:  # type: ignore[union-attr]
+            return queries.facets(conn, sans_tri)
+
+    items, total = cache.au_chaud(f"liste|{f}|{page}", _liste_page)
+    facettes = cache.au_chaud(f"facettes|{sans_tri}", _panneau)
     return templates.TemplateResponse(
         request, "listing.html",
         _ctx(request, titre=titre, code=code, items=items, total=total,
