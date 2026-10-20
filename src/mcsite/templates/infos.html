@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 {% block title %}À propos — MotoComparo, comparateur de prix d'équipement moto{% endblock %}
-{% block description %}MotoComparo compare chaque jour les prix d'un même article d'équipement moto chez {{ chiffres.marchands or marchands_actifs | length }} marchands. Comment les prix sont relevés, comment nous gagnons notre vie, et pourquoi cela ne change ni les prix ni le classement.{% endblock %}
+{% block description %}MotoComparo compare chaque jour le même équipement moto chez {{ chiffres.marchands or marchands_actifs | length }} marchands qui livrent en France. Le même produit, des prix à jour, un comparatif à votre main.{% endblock %}
 
 {% block contenu %}
 <nav class="fil" aria-label="Fil d'Ariane"><a href="/">Accueil</a> › <span>À propos</span></nav>
 <h1 class="titre-page">À propos de MotoComparo</h1>
 
-<p class="apropos__chapeau">Acheter son équipement moto au meilleur prix, sans ouvrir vingt onglets.
-MotoComparo compare chaque jour le prix d'un même article chez {{ chiffres.marchands or marchands_actifs | length }} marchands,
-puis vous envoie acheter chez celui que vous choisissez. Nous ne vendons rien nous-mêmes.</p>
+<p class="apropos__chapeau"><em>Trouver le bon équipement moto au meilleur prix, sans y passer la journée.</em></p>
+<p>MotoComparo compare chaque jour le même équipement chez {{ chiffres.marchands or marchands_actifs | length }} marchands qui livrent en France.
+Vous comparez, vous choisissez le marchand qui vous convient.</p>
 
 {# Les chiffres sont lus en base (app.py, `_chiffres_apropos`), arrondis vers le bas : une page qui
    annonce « plus de 65 000 » quand il y en a 64 891 serait la première chose qu'un lecteur attentif
@@ -16,15 +16,14 @@ puis vous envoie acheter chez celui que vous choisissez. Nous ne vendons rien no
 {% if chiffres.fiches %}
 <ul class="apropos__chiffres" aria-label="MotoComparo en chiffres">
   <li><b data-compte="{{ chiffres.marchands }}">{{ chiffres.marchands }}</b><span>marchands comparés</span></li>
-  <li><b data-compte="{{ chiffres.fiches_n }}" data-prefixe="plus de ">{{ chiffres.fiches }}</b><span>produits comparés chez au moins deux marchands</span></li>
-  <li><b data-compte="{{ chiffres.offres_n }}" data-prefixe="plus de ">{{ chiffres.offres }}</b><span>prix suivis, relevés chaque jour</span></li>
+  <li><b data-compte="{{ chiffres.fiches_n }}" data-prefixe="plus de ">{{ chiffres.fiches }}</b><span>produits suivis</span></li>
+  <li><b data-compte="{{ chiffres.offres_n }}" data-prefixe="plus de ">{{ chiffres.offres }}</b><span>prix vérifiés chaque jour</span></li>
 </ul>
 {% endif %}
 
 <nav class="apropos__nav" aria-label="Dans cette page">
   <a href="#engagements">Nos engagements</a>
   <a href="#comment">Comment ça marche</a>
-  <a href="#liens">Comment nous gagnons notre vie</a>
   <a href="#marchands">Les marchands</a>
   <a href="#donnees">Données personnelles</a>
   <a href="#cgu">Conditions d'utilisation</a>
@@ -36,21 +35,21 @@ puis vous envoie acheter chez celui que vous choisissez. Nous ne vendons rien no
   <h2 id="engagements-titre" class="titre-section">Trois engagements</h2>
   <div class="apropos__cartes">
     <article>
-      <h3>Le même produit, pas une ressemblance</h3>
-      <p>Deux offres sont réunies quand elles portent le même code-barres, pas parce que leurs titres se
-      ressemblent. En cas de doute, elles restent séparées : une offre absente vaut mieux qu'une offre
-      mal rangée.</p>
+      <h3>Le même produit, pas une ressemblance.</h3>
+      <p>On s'assure que c'est bien le même article d'un marchand à l'autre&nbsp;: même modèle, même couleur,
+      même taille. En cas de doute, les offres restent séparées&nbsp;: une offre absente vaut mieux qu'une
+      offre mal rangée.</p>
     </article>
     <article>
-      <h3>Des prix frais, et honnêtes sur leur âge</h3>
-      <p>Les prix viennent des catalogues des marchands, téléchargés chaque jour, jamais d'une saisie à
-      la main. Un prix de plus de 24 heures est signalé comme non rafraîchi.</p>
+      <h3>Des prix à jour.</h3>
+      <p>Tous les prix sont vérifiés quotidiennement. Si un prix n'a pas pu être vérifié depuis plus de
+      24&nbsp;heures, il est signalé sur le site automatiquement. Le prix qui fait foi reste celui du
+      marchand au moment de la commande. Prix hors frais de port.</p>
     </article>
     <article>
-      <h3>Un classement qu'on ne peut pas acheter</h3>
-      <p>Sur une fiche, les offres sont triées par prix, pas par commission. Aucun marchand ne paie pour sa
-      place. Les liens sont affiliés : c'est notre seule source de revenus, et elle ne change pas le prix
-      que vous payez.</p>
+      <h3>Un comparatif à votre main.</h3>
+      <p>Vous triez les résultats selon votre préférence&nbsp;: prix croissant, prix décroissant, nouveautés,
+      produits les plus comparés.</p>
     </article>
   </div>
 </section>
@@ -58,55 +57,21 @@ puis vous envoie acheter chez celui que vous choisissez. Nous ne vendons rien no
 <section class="apropos__etapes" id="comment" aria-labelledby="comment-titre">
   <h2 id="comment-titre" class="titre-section">Comment ça marche</h2>
   <ol>
-    <li><b>Chaque nuit, nous lisons les catalogues.</b> Chaque marchand publie un fichier de ses produits
-        et de ses prix ; nous le téléchargeons et nous le remettons au même format.</li>
-    <li><b>Nous reconnaissons le même article d'un marchand à l'autre.</b> Grâce au code-barres (EAN),
-        puis en vérifiant que la marque, la couleur, le genre et la taille concordent.</li>
-    <li><b>Nous contrôlons.</b> Un prix qui n'a aucun rapport avec les autres, un article rangé dans
-        le mauvais rayon, une fiche en double : les écarts sont repérés par des contrôles automatiques
-        et relus.</li>
+    <li><b>Chaque jour, nous relevons les prix</b> chez chaque marchand.</li>
+    <li><b>Nous réunissons le même article</b> d'un marchand à l'autre en vérifiant la marque, la couleur,
+        le genre et la taille.</li>
+    <li><b>Nous contrôlons.</b> Un prix qui n'a rien à voir, un article mal rangé, une fiche en double&nbsp;:
+        tout est vérifié automatiquement.</li>
     <li><b>Vous comparez, vous choisissez.</b> Vous filtrez par rayon, marque, taille, couleur, puis vous
-        allez acheter chez le marchand que vous avez retenu, sous ses conditions.</li>
+        allez acheter chez le marchand que vous avez retenu.</li>
   </ol>
 </section>
 
 <div class="texte">
-  {# Illustration générée par IA (Meta AI), étiquettes volontairement vierges :
-     la première version portait des prix en dollars. #}
-  <figure class="texte__illu">
-    <img src="/static/infos/comparer.webp" width="1280" height="720" loading="lazy"
-         alt="Un casque moto noir mat vu du dessus, entouré de six étiquettes de prix vierges.">
-  </figure>
-
-  <h2 id="liens">Comment nous gagnons notre vie</h2>
-  <p>Les liens vers les marchands sont des liens affiliés&nbsp;: si vous achetez après avoir cliqué,
-  MotoComparo touche une commission de la part du marchand. <strong>Cela ne change pas le prix que
-  vous payez</strong>, et cela n'influence pas le classement&nbsp;: les offres sont triées par prix,
-  pas par commission. C'est ce qui nous permet de garder le site gratuit, sans compte à créer.</p>
-
-  <h2 id="prix">Comment les prix sont relevés</h2>
-  <figure class="texte__illu">
-    <img src="/static/infos/releve.webp" width="1280" height="720" loading="lazy"
-         alt="Un bloc de feuilles vierges dont la page du dessus se déchire, accroché au mur d'un atelier moto à côté d'une horloge.">
-  </figure>
-  <p>Chaque marchand publie un catalogue que nous téléchargeons chaque jour. Les prix affichés
-  viennent de ces fichiers, jamais d'une saisie à la main.</p>
-  <p><strong>Un prix de plus de 24 heures est signalé comme non rafraîchi</strong> sur la ligne
-  concernée. Le prix qui fait foi reste celui du marchand au moment de la commande. Les prix sont
-  hors frais de port.</p>
-
   <h2 id="produits">Comment deux offres deviennent un même produit</h2>
-  {# Illustrations générées par IA (Meta AI) à la demande de la propriétaire,
-     16/10/2026 : des scènes, jamais un produit de marque. #}
-  <figure class="texte__illu">
-    <img src="/static/infos/code-barres.webp" width="1280" height="720" loading="lazy"
-         alt="Étiquette à code-barres collée sur un carton d'équipement moto, dans un atelier.">
-  </figure>
-  <p>Deux marchands parlent du même article quand ils publient le même code-barres (EAN)&nbsp;:
-  c'est ce code qui fait foi, pas la ressemblance des titres. Quand deux marchands nomment la même
-  taille différemment, la page les réunit&nbsp;: <em>«&nbsp;7&nbsp;/&nbsp;S&nbsp;»</em>.</p>
   <p>Un même modèle peut exister en plusieurs coloris, tailles ou versions. Nous ne les mélangeons pas&nbsp;:
-  une veste noire et une veste grise sont deux fiches, un casque mat et un casque brillant aussi.</p>
+  une veste noire et une veste grise sont deux fiches, un casque mat et un casque brillant aussi. Quand deux
+  marchands nomment la même taille différemment, la page les réunit&nbsp;: <em>«&nbsp;7&nbsp;/&nbsp;S&nbsp;»</em>.</p>
 
   <h2 id="marchands">Les marchands</h2>
   {# Lus en base plutôt qu'écrits ici : la liste à la main citait Maxxess et
@@ -118,27 +83,12 @@ puis vous envoie acheter chez celui que vous choisissez. Nous ne vendons rien no
   <p>Certains sont installés à l'étranger (FC-Moto et Motoin, en Allemagne) et livrent en France&nbsp;:
   vérifiez les frais et les délais de livraison sur leur site avant de commander.</p>
   <p>D'autres marchands sont dans notre catalogue sans être affichés&nbsp;: tant que leurs offres ne
-  peuvent pas être reliées de façon sûre à un article précis, ou que leurs prix ne sont pas fiables,
-  elles restent de côté.</p>
-
-  <h2 id="ce-que-nous-ne-faisons-pas">Ce que nous ne faisons pas</h2>
-  <p>Nous ne vendons rien et nous n'intervenons dans aucune commande. Nous ne vous demandons ni compte ni
-  mot de passe. Nous ne vendons aucune donnée. Et nous ne laissons aucun marchand acheter sa place dans
-  le classement.</p>
+  peuvent pas être reliées de façon sûre à un article précis, elles restent de côté.</p>
 
   <h2 id="donnees">Données personnelles</h2>
-  <figure class="texte__illu">
-    <img src="/static/infos/donnees.webp" width="1280" height="720" loading="lazy"
-         alt="Deux mains ouvertes au-dessus d'un téléphone posé sur une table, l'écran rempli de cœurs.">
-  </figure>
-  <p>MotoComparo ne demande aucun compte et aucun mot de passe. Vos favoris et
+  <p>MotoComparo ne demande aucun compte. Vos favoris et
   votre comparateur restent dans votre navigateur&nbsp;: ils ne nous parviennent
   jamais.</p>
-  <p>Ce que vous pouvez nous transmettre&nbsp;: un message via la page Contact,
-  avec l'adresse e-mail que vous y laissez si vous le souhaitez&nbsp;; et, sur
-  une fiche produit{% if not alertes_ouvertes %} — lorsque le bouton existe{% endif %},
-  une adresse e-mail pour être prévenu si le prix baisse. Chacune sert à cela et
-  à rien d'autre.</p>
   {# MÊME RÈGLE QUE POUR LA MESURE D'AUDIENCE PLUS BAS : cette page ne doit
      affirmer que ce que le code fait réellement. Le formulaire d'alerte
      n'existe sur les fiches QUE si l'envoi d'e-mails est configuré
@@ -146,15 +96,11 @@ puis vous envoie acheter chez celui que vous choisissez. Nous ne vendons rien no
      tant que ce n'est pas le cas (SMTP_PASS vide en production au
      15/10/2026), rien n'est collecté et le paragraphe le dit. #}
   {% if alertes_ouvertes %}
-  <p><strong>Alerte de baisse de prix.</strong> Si vous demandez à être prévenu
-  sur une fiche, nous enregistrons votre e-mail, la fiche, la taille et le prix
-  visé si vous en indiquez un. Rien n'est envoyé avant que vous ayez confirmé
-  par un lien reçu par e-mail (double consentement)&nbsp;: une demande non
-  confirmée sous 7&nbsp;jours est effacée. Une fois confirmée, l'alerte dure
-  6&nbsp;mois puis s'efface d'elle-même&nbsp;; chaque e-mail de baisse contient
-  un lien pour l'arrêter en un clic, et un lien pour effacer toutes vos alertes
-  et votre adresse d'un coup. Aucun pixel de suivi, aucune image distante dans
-  ces e-mails.</p>
+  <p><strong>Alerte de baisse de prix.</strong> Si vous demandez à être prévenu sur une fiche, nous
+  enregistrons votre e-mail, la fiche et la taille. Rien n'est envoyé avant que vous ayez confirmé par un
+  lien reçu par e-mail&nbsp;: une demande non confirmée sous 7&nbsp;jours est effacée. Une fois confirmée,
+  l'alerte dure 6&nbsp;mois puis s'efface d'elle-même. Chaque e-mail contient un lien pour l'arrêter en un
+  clic.</p>
   {% endif %}
   {# CE PARAGRAPHE SUIT LA CONFIGURATION, IL NE LA DEVANCE PAS.
 
@@ -171,12 +117,9 @@ puis vous envoie acheter chez celui que vous choisissez. Nous ne vendons rien no
      scripts se chargent. Les deux ne peuvent plus diverger. #}
   {% if mesure_active %}
   {% if ga4_id or gtm_id %}
-  <p><strong>Mesure d'audience.</strong> Nous utilisons Google Analytics pour
-  compter les visites et voir quelles pages servent. Il ne se déclenche
-  qu'après votre accord, et vous pouvez en changer à tout moment par
-  «&nbsp;Gérer les cookies&nbsp;», en bas de page.</p>
+  <p><strong>Mesure d'audience.</strong> Nous utilisons Google Analytics pour compter les visites. Il ne
+  se déclenche qu'après votre accord, modifiable à tout moment via «&nbsp;Gérer les cookies&nbsp;».</p>
   {% endif %}
-  <p>Nous ne cherchons pas à vous identifier et nous ne revendons rien.</p>
   {% elif not crisp_id %}
   <p>Le site ne dépose aucun cookie et n'utilise aucun outil de mesure
   d'audience.</p>
@@ -190,84 +133,37 @@ puis vous envoie acheter chez celui que vous choisissez. Nous ne vendons rien no
      été retiré le 26/09/2026 : neuf lignes pour expliquer ce qu'on ne fait
      PAS, sur une page que les visiteurs ouvrent déjà inquiets. Le fait tient
      en une phrase ; la démonstration appartenait au code, pas au site. #}
-  <p>Lorsque vous cliquez vers un marchand, ce sont ses règles qui s'appliquent,
-  pas les nôtres.</p>
-
-  {# Les droits RGPD manquaient : la v1 les listait, la v2 non. Repris d'elle.
-     Le reste de sa politique n'a pas été recopié mot pour mot, mais le
-     paragraphe sur les cookies l'a rejointe le 26/09/2026, quand la mesure
-     d'audience est devenue possible. #}
-  {# Ce que l'article 13 du RGPD demande de dire, et qui manquait : qui est
-     responsable, pour quoi, sur quelle base, combien de temps, à qui. Ajouté
-     après l'audit du 30/09/2026. #}
-  <p><strong>Responsable du traitement&nbsp;:</strong> l'éditeur du site
-  (voir les <a href="#mentions">mentions légales</a>).</p>
   <div class="texte__tableau">
   <table>
-    <thead><tr><th>Donnée</th><th>Pour quoi</th><th>Base légale</th><th>Durée</th></tr></thead>
+    <thead><tr><th>Donnée</th><th>Pour quoi</th><th>Durée</th></tr></thead>
     <tbody>
-      <tr><td>Message et e-mail (page Contact)</td><td>Vous répondre, corriger le site</td>
-          <td>Intérêt légitime</td><td>12&nbsp;mois après réception</td></tr>
+      <tr><td>Message (Contact)</td><td>Vous répondre</td><td>12&nbsp;mois</td></tr>
       {% if alertes_ouvertes %}
-      <tr><td>E-mail, fiche, taille, prix visé (alerte de prix)</td>
-          <td>Vous prévenir d'une baisse</td>
-          <td>Votre consentement</td>
-          <td>7&nbsp;jours sans confirmation, 6&nbsp;mois une fois confirmée</td></tr>
+      <tr><td>E-mail alerte prix</td><td>Vous prévenir</td>
+          <td>7&nbsp;jours sans confirmation, 6&nbsp;mois confirmée</td></tr>
       {% endif %}
       {% if ga4_id or gtm_id %}
-      <tr><td>Cookies de mesure (_ga)</td><td>Compter les visites</td>
-          <td>Votre consentement</td><td>13&nbsp;mois au plus</td></tr>
+      <tr><td>Cookies _ga</td><td>Compter les visites</td><td>13&nbsp;mois max</td></tr>
       {% endif %}
-      <tr><td>Journaux du serveur (adresse IP, page demandée)</td><td>Sécurité, diagnostic</td>
-          <td>Intérêt légitime</td><td>14&nbsp;jours</td></tr>
+      <tr><td>Journaux serveur (IP)</td><td>Sécurité</td><td>14&nbsp;jours</td></tr>
     </tbody>
   </table>
   </div>
-  <p><strong>Destinataires&nbsp;:</strong> notre hébergeur (serveurs en France)
-  {%- if ga4_id or gtm_id %}, et Google Ireland Ltd pour la mesure d'audience si
-  vous l'acceptez&nbsp;; ses données peuvent être transférées aux États-Unis,
-  dans le cadre du Data Privacy Framework{% endif %}. Rien n'est vendu ni
-  cédé à qui que ce soit.</p>
-  <p>Vous disposez d'un droit d'accès, de rectification et d'effacement de vos
-  données, d'un droit à la portabilité et à la limitation du traitement, et d'un
-  droit d'opposition. Pour les exercer, écrivez à
-  {% if mentions.contact %}<a href="mailto:{{ mentions.contact }}">{{ mentions.contact }}</a>{% else %}l'adresse indiquée ci-dessous{% endif %}&nbsp;:
-  ces demandes concernent en pratique le seul message que vous nous auriez
-  envoyé. Si notre réponse ne vous satisfait pas, vous pouvez saisir la CNIL
-  (<a href="https://www.cnil.fr" rel="noopener">cnil.fr</a>).</p>
+  <p>Hébergeur&nbsp;: serveurs en France. Rien n'est vendu.
+  {% if mentions.contact %}Contact&nbsp;: <a href="mailto:{{ mentions.contact }}">{{ mentions.contact }}</a> - {% endif %}Réclamation&nbsp;:
+  <a href="https://www.cnil.fr" rel="noopener">cnil.fr</a>.</p>
 
   {# --- CGU reprises de la v1 (/terms/, mise à jour du 03/01/2026), adaptées
      là où la v2 diffère : pas de compte, pas de cookie. --- #}
-  <h2 id="cgu">Conditions générales d'utilisation</h2>
-  <p>En utilisant MotoComparo, vous acceptez les conditions ci-dessous. Si elles
-  ne vous conviennent pas, n'utilisez pas le site.</p>
-  <p><strong>Ce que nous sommes.</strong> MotoComparo est un comparateur de
-  prix. Nous ne vendons rien&nbsp;: l'achat se fait toujours chez le marchand,
-  sous ses propres conditions.</p>
-  <p><strong>Usage du site.</strong> Un usage normal et légal. L'aspiration
-  automatisée du catalogue&nbsp;— robots, moissonneurs&nbsp;— n'est pas
-  autorisée sans accord préalable.</p>
-  <p><strong>Propriété intellectuelle.</strong> Les textes, la mise en forme et
-  la base de comparaison sont protégés. Les marques, visuels et descriptions
-  appartiennent à leurs titulaires respectifs.</p>
-  <p><strong>Ce que nous ne garantissons pas.</strong> Les prix sont relevés une
-  fois par jour chez les marchands et affichés en l'état. Un prix peut avoir
-  changé depuis le relevé&nbsp;; seul celui affiché par le marchand au moment de
-  votre commande fait foi. Les prix s'entendent hors frais de port.</p>
-  <p><strong>Liens rémunérés.</strong> Certains liens vers les marchands sont
-  des liens d'affiliation. Cela ne change ni le prix que vous payez, ni l'ordre
-  de classement, et aucun marchand ne paie pour sa place. Sur une fiche, les
-  offres sont classées au prix croissant. Dans les listes, le classement par
-  défaut place d'abord les produits comparés chez le plus de marchands, puis le
-  prix le plus bas&nbsp;; vous pouvez choisir un autre tri (prix, nouveautés).</p>
-  <p><strong>Publicité.</strong> La page d'accueil et les pages de résultats
-  affichent une bannière d'un marchand partenaire, signalée comme telle par la
-  mention «&nbsp;Publicité&nbsp;» placée au-dessus. Elle est choisie au hasard
-  parmi nos partenaires et n'a aucun effet sur le classement.
-  Aucune bannière n'apparaît sur une fiche produit&nbsp;: c'est là que vous
-  comparez, et rien n'y doit laisser croire qu'un marchand a payé son rang.</p>
-  <p><strong>Droit applicable.</strong> Droit français, juridictions
-  françaises.</p>
+  <h2 id="cgu">Conditions d'utilisation</h2>
+  <p>En utilisant MotoComparo, vous acceptez les conditions ci-dessous.</p>
+  <p>MotoComparo est un comparateur de prix. L'achat se fait toujours chez le marchand, sous ses propres
+  conditions.</p>
+  <p>Les prix sont relevés chaque jour et affichés en l'état. Seul celui affiché par le marchand au moment
+  de votre commande fait foi. Prix hors frais de port.</p>
+  <p>La page d'accueil et les pages de résultats affichent une bannière d'un marchand partenaire, signalée
+  comme telle par la mention «&nbsp;Publicité&nbsp;». Aucune bannière n'apparaît sur une fiche produit.</p>
+  <p>Droit applicable&nbsp;: droit français.</p>
 
   <h2 id="mentions">Mentions légales</h2>
   {# Éditeur et directeur de publication : à renseigner dans `.env`
@@ -276,29 +172,14 @@ puis vous envoie acheter chez celui que vous choisissez. Nous ne vendons rien no
      pas de ligne du tout, et inventer ces informations serait pire. #}
   {% if mentions.editeur %}<p><strong>Éditeur du site&nbsp;:</strong>
     {{ mentions.editeur }}</p>{% endif %}
-  {% if mentions.directeur %}<p><strong>Directeur de la publication&nbsp;:</strong>
-    {{ mentions.directeur }}</p>{% endif %}
   {% if mentions.hebergeur %}<p><strong>Hébergeur&nbsp;:</strong>
     {{ mentions.hebergeur }}</p>{% endif %}
   {% if mentions.contact %}<p><strong>Contact&nbsp;:</strong>
     <a href="mailto:{{ mentions.contact }}">{{ mentions.contact }}</a></p>{% endif %}
-  <p><strong>Nature du service&nbsp;:</strong> comparateur de prix en ligne, au
-  sens des articles L111-7 et D111-9 et suivants du code de la consommation.
-  MotoComparo n'est pas un vendeur et n'intervient dans aucune transaction.</p>
 
   <h2 id="contact">Contact</h2>
-  <p>Une erreur sur une fiche, un prix qui ne correspond pas, un produit mal
-  rangé&nbsp;? Signalez-le — c'est ce qui fait progresser le catalogue.</p>
-  {# La phrase disait « le formulaire ci-dessous » — il n'y en a pas sur
-     cette page, seulement sur /contact (signalé par la propriétaire,
-     29/09/2026, en le lisant en ligne). Un lien, pas une promesse fausse. #}
-  {% if mentions.contact %}
-  <p>Par courriel&nbsp;: <a href="mailto:{{ mentions.contact }}">{{ mentions.contact }}</a>,
-    ou par <a href="/contact">le formulaire de contact</a>.</p>
-  {% else %}
-  <p>Par <a href="/contact">le formulaire de contact</a>.</p>
-  {% endif %}
-
+  <p>Une erreur sur une fiche, un prix qui ne correspond pas&nbsp;? Signalez-le&nbsp;:
+  {% if mentions.contact %}<a href="mailto:{{ mentions.contact }}">{{ mentions.contact }}</a>{% else %}<a href="/contact">formulaire de contact</a>{% endif %}</p>
 </div>
 <script src="/static/apropos.js?v={{ version_css() }}" defer></script>
 {% endblock %}

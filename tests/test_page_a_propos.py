@@ -26,12 +26,12 @@ def test_la_page_presente_le_site_puis_garde_le_juridique():
 
     with TestClient(app, follow_redirects=True) as c:
         h = c.get("/infos").text
-    for ancre in ("engagements", "comment", "liens", "marchands", "donnees", "cgu", "mentions", "contact"):
+    for ancre in ("engagements", "comment", "marchands", "donnees", "cgu", "mentions", "contact"):
         assert f'id="{ancre}' in h, ancre                      # les ancres existent
     assert h.index('id="engagements') < h.index('id="donnees"') < h.index('id="cgu"')   # presentation d'abord
-    assert "marchands comparés" in h and "produits comparés" in h
+    assert "marchands comparés" in h and "produits suivis" in h
     assert "Tous sont français" not in h                       # faux depuis Motoin (Allemagne)
-    assert "Conditions générales d'utilisation" in h
+    assert "Conditions d'utilisation" in h
 
 
 @pytest.mark.skipif(not os.environ.get("DATABASE_URL"), reason="needs DATABASE_URL")

@@ -4253,15 +4253,6 @@ body.a-consentement .banc { display: none; }
 }
 .caracs__source a { color: inherit; text-decoration: underline; }
 
-/* Les illustrations de la page À propos : pleine largeur du texte, coins
-   arrondis comme les cartes, hauteur réservée (width/height) pour que la
-   page ne saute pas au chargement. */
-.texte__illu { margin: 6px 0 18px; }
-.texte__illu img {
-  display: block; width: 100%; height: auto; aspect-ratio: 16 / 9;
-  object-fit: cover; border-radius: 12px; background: #eef1f6;
-}
-
 /* Le texte d'ouverture d'un rayon ou d'une marque, sous le titre. */
 .boutique__intro {
   margin: 4px 0 0; max-width: 68ch;
