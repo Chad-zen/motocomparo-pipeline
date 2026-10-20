@@ -374,6 +374,22 @@ def _rayons() -> list[dict[str, Any]]:
     return cache.au_chaud("nav", _nav)[0]
 
 
+# Le menu burger (20/10/2026, demande de la proprietaire) : l'equipement du motard d'abord, dans l'ordre
+# ou on s'equipe, puis l'equipement de la moto au nombre de fiches. Un rayon de la moto sous 600 fiches
+# comparees n'y figure pas (Selles, Accessoires, Batteries) ; Combinaisons et Lunettes restent, ce sont
+# des equipements du motard. Leurs pages /c/... restent en ligne.
+_MENU_MOTARD = ("helmet", "jacket", "gloves", "boots", "pants", "suit", "protection", "jersey",
+                "goggles", "apparel_casual")
+_MENU_SEUIL = 600
+
+
+def _menu(nav: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    par_code = {c["code"]: c for c in nav}
+    motard = [par_code[k] for k in _MENU_MOTARD if k in par_code]
+    moto = [c for c in nav if c["code"] not in _MENU_MOTARD and c["n"] >= _MENU_SEUIL]
+    return motard + moto
+
+
 def _ctx(request: Request, **extra: Any) -> dict[str, Any]:
     # Le mobilier de navigation est le MÊME pour tout le monde et ne bouge
     # qu'après un passage du pipeline. Le recalculer par visiteur coûtait
@@ -390,7 +406,7 @@ def _ctx(request: Request, **extra: Any) -> dict[str, Any]:
     # Les bannières sont mises à disposition de TOUS les gabarits, mais posées
     # seulement là où un gabarit les demande explicitement. Aucune fiche produit
     # n'en affiche : voir le commentaire de `_pub.html`.
-    return {"request": request, "nav": nav, "marques": marques,
+    return {"request": request, "nav": nav, "nav_menu": _menu(nav), "marques": marques,
             "marchands_actifs": marchands,
             "bandeaux": partenaires.bandeaux(),
             "bandeaux_larges": partenaires.bandeaux("large"),
