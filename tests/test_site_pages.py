@@ -96,6 +96,11 @@ def test_le_sitemap_n_affirme_pas_une_date_de_modification_par_page(client):
     assert r.status_code == 200 and "<loc>" in r.text and "<lastmod>" not in r.text
 
 
+def test_l_ancien_parametre_de_graphique_renvoie_a_l_accueil(client):
+    r = client.get("/?mc_ph_chart=184693", follow_redirects=False)
+    assert r.status_code == 301 and r.headers["location"] == "/"
+
+
 def test_l_accueil_ouvre_sur_le_budget_et_ses_images_existent(client):
     """L'accueil n'a plus d'affiche (retiree le 17/10/2026 : elle repoussait le
     curseur de budget sous la ligne de flottaison, 665 px sur mobile). Il garde

@@ -429,6 +429,11 @@ def home(request: Request):
     pipeline : le bloc est garde au chaud (voir `cache.py`). Mesure le
     2026-09-14 : 2,4 s de requetes par visite avant ce cache.
     """
+    # `/?mc_ph_chart=184693` : un parametre de l'ancien site (graphique d'historique), encore redemande
+    # par Google (adresses « explorees, non indexees » dans la Search Console). Il sert l'accueil en double : on le
+    # renvoie vers l'accueil, en 301.
+    if "mc_ph_chart" in request.query_params:
+        return RedirectResponse("/", status_code=301)
     return _page_accueil(request, "home_blocs.html", **_baisses_accueil())
 
 
