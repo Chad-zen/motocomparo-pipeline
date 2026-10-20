@@ -1567,9 +1567,30 @@ class Filtres:
         return out
 
 
+# LA CLAUSE DE TAILLE, EN DEUX VERSIONS (20/10/2026). « Cette taille existe ET s'achete » etait
+# reverifiee, fiche par fiche, dans chacune des dix requetes d'une page filtree par taille
+# (~1 s chacune, 8 s la page sur les gants). `taille_achetable` (une ligne par fiche et par taille
+# achetable, preparee chaque nuit par `mcpipe tailles-achetables`) la remplace par une recherche sur
+# index. Tant que la table n'existe pas ou n'est plus fraiche, `_OU` reste la version calculee a la
+# demande : meme resultat, plus lente. `verifier_table_tailles` choisit.
+_TAILLE_LIVE = """      AND (%(ta)s::text[] IS NULL OR EXISTS (
+            SELECT 1 FROM variant v
+            WHERE v.product_id = p.id
+              AND p.category_id IN (SELECT id FROM category
+                                    WHERE code IN """ + _IN_RAYONS_A_TAILLES + """)
+              AND """ + _taille_norm("v.size_code") + """ = ANY(%(ta)s::text[])
+              AND """ + _VARIANTE_ACHETABLE + """))
+"""
+_TAILLE_TABLE = """      AND (%(ta)s::text[] IS NULL OR (
+            p.category_id IN (SELECT id FROM category
+                              WHERE code IN """ + _IN_RAYONS_A_TAILLES + """)
+            AND EXISTS (SELECT 1 FROM taille_achetable t
+                        WHERE t.product_id = p.id AND t.taille = ANY(%(ta)s::text[]))))
+"""
+
 # The WHERE every listing and every count share, so a facet can never promise a
 # result the listing would not show.
-_OU = """
+_OU_LIVE = """
     WHERE s.merchant_count >= %(m)s AND s.cheapest IS NOT NULL
       AND p.status <> 'merged'
       AND (%(c)s::smallint[] IS NULL OR p.category_id = ANY(%(c)s::smallint[]))
@@ -1583,13 +1604,7 @@ _OU = """
       -- Plusieurs tailles cochees = UN produit qui a L'UNE D'ELLES (pas
       -- toutes) : un visiteur qui coche 42 et 43 veut les deux pointures, pas
       -- l'improbable botte vendue dans les deux a la fois.
-      AND (%(ta)s::text[] IS NULL OR EXISTS (
-            SELECT 1 FROM variant v
-            WHERE v.product_id = p.id
-              AND p.category_id IN (SELECT id FROM category
-                                    WHERE code IN """ + _IN_RAYONS_A_TAILLES + """)
-              AND """ + _taille_norm("v.size_code") + """ = ANY(%(ta)s::text[])
-              AND """ + _VARIANTE_ACHETABLE + """))
+""" + _TAILLE_LIVE + """
       -- Matière, homologation, saison : lues dans `product_caracteristique`,
       -- jamais devinées. Un IN non corrélé, calculé une fois et haché.
       AND (%(mat)s::text IS NULL OR p.id IN (
@@ -1657,6 +1672,60 @@ _OU = """
                           unaccent(CASE WHEN length(t.mot) >= 4
                                         THEN rtrim(t.mot, 'sx') ELSE t.mot END) || '%%')))
 """
+
+
+_OU_TABLE = _OU_LIVE.replace(_TAILLE_LIVE, _TAILLE_TABLE)
+assert _OU_TABLE != _OU_LIVE, "la clause de taille n'a pas ete trouvee dans _OU"
+_OU = _OU_LIVE        # la version a la demande, jusqu'a ce que la table soit prete
+
+_TABLE_TAILLES = """
+CREATE TABLE IF NOT EXISTS taille_achetable (
+    product_id bigint NOT NULL,
+    taille     text   NOT NULL,
+    calcule_le timestamptz NOT NULL DEFAULT now(),
+    PRIMARY KEY (product_id, taille)
+)
+"""
+# Au-dela, la table est consideree perimee (la chaine de nuit ne l'a pas rafraichie) : on revient
+# a la version calculee a la demande plutot que de filtrer sur des tailles d'hier.
+AGE_MAX_TABLE_TAILLES = "36 hours"
+
+
+def precalculer_tailles_achetables(conn: psycopg.Connection) -> int:
+    """Remplace `taille_achetable` : les tailles qu'on peut acheter, par fiche.
+
+    Meme definition que `_VARIANTE_ACHETABLE` (offre vivante, en stock ou stock inconnu, avec un
+    prix, d'un marchand affiche), sur la taille normalisee. Une transaction : la table n'est
+    jamais vue a moitie remplie. Rend le nombre de lignes.
+    """
+    conn.commit()                       # voir `precalculer_bons_plans`
+    with conn.transaction():
+        conn.execute(_TABLE_TAILLES)
+        conn.execute("DELETE FROM taille_achetable")
+        conn.execute(f"""
+            INSERT INTO taille_achetable (product_id, taille)
+            SELECT DISTINCT v.product_id, {_taille_norm('v.size_code')}
+            FROM variant v
+            WHERE {_VARIANTE_ACHETABLE}
+        """)
+        n = conn.execute("SELECT count(*) FROM taille_achetable").fetchone()[0]
+        conn.execute("ANALYZE taille_achetable")
+    return n
+
+
+def verifier_table_tailles(conn: psycopg.Connection) -> bool:
+    """Choisit la clause de taille : la table si elle est remplie et recente, sinon le calcul a la demande."""
+    global _OU
+    try:
+        ligne = conn.execute(
+            "SELECT count(*), max(calcule_le) > now() - %s::interval FROM taille_achetable",
+            (AGE_MAX_TABLE_TAILLES,)).fetchone()
+        prete = bool(ligne and ligne[0] > 0 and ligne[1])
+    except psycopg.errors.UndefinedTable:
+        conn.rollback()                 # hors autocommit, l'erreur abandonne la transaction
+        prete = False
+    _OU = _OU_TABLE if prete else _OU_LIVE
+    return prete
 
 
 def _args(f: Filtres, conn: psycopg.Connection | None = None) -> dict[str, Any]:

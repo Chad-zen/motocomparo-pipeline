@@ -21,7 +21,7 @@ def test_les_rayons_a_tailles_sont_ceux_de_l_equipement():
 
 def test_filtre_et_pastilles_portent_la_meme_restriction():
     import inspect
-    assert queries._IN_RAYONS_A_TAILLES in queries._OU
+    assert queries._IN_RAYONS_A_TAILLES in queries._OU_LIVE
     assert "_IN_RAYONS_A_TAILLES" in inspect.getsource(queries.facets)
 
 
@@ -80,7 +80,7 @@ def test_filtre_et_pastilles_ne_gardent_que_les_tailles_achetables():
     """17/10/2026 : /c/gloves?taille=S montrait des gants dont le S n'est plus en
     stock nulle part -- le filtre voulait seulement qu'une variante S existe."""
     import inspect
-    assert queries._VARIANTE_ACHETABLE in queries._OU
+    assert queries._VARIANTE_ACHETABLE in queries._OU_LIVE
     assert "_VARIANTE_ACHETABLE" in inspect.getsource(queries.facets)
     for condition in ("o.is_live", "o.in_stock IS NOT FALSE", "o.price > 0", "mm.affiche"):
         assert condition in queries._VARIANTE_ACHETABLE, condition

@@ -604,6 +604,14 @@ def _liste(request, titre, base, f, page, code="", courante=None):
     # demande la page suivante au serveur : elle relancait les dix requetes du panneau de filtres
     # (2,5 s sur les casques, 8 s avec une taille) pour retrouver exactement les memes comptes.
     # Gardes a part, par filtres seuls : la page 2 ne paie plus que sa propre liste.
+    # La clause de taille : la table preparee la nuit si elle est prete, sinon le calcul a la demande
+    # (voir `queries._TAILLE_TABLE`). Verifiee toutes les cinq minutes, pas a chaque page.
+    def _tailles_pretes() -> bool:
+        with pool.connection() as conn:  # type: ignore[union-attr]
+            return queries.verifier_table_tailles(conn)
+
+    cache.au_chaud("table-tailles-prete", _tailles_pretes, ttl=300)
+
     def _liste_page() -> tuple:
         with pool.connection() as conn:  # type: ignore[union-attr]
             return queries.listing_filtre(conn, f, PER_PAGE, (page - 1) * PER_PAGE)

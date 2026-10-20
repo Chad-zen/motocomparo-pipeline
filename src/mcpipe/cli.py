@@ -863,6 +863,30 @@ def bons_plans_cmd() -> None:
         conn.close()
 
 
+@app.command("tailles-achetables")
+def tailles_achetables_cmd() -> None:
+    """Range dans `taille_achetable` les tailles qu'on peut acheter, fiche par fiche.
+
+    A lancer apres `freshness` : les pages filtrees par taille lisent cette table (une recherche sur
+    index) au lieu de reverifier chaque fiche dans chacune de leurs dix requetes (8 s sur les gants).
+    Sans elle, ou si elle a plus de 36 h, le site calcule a la demande, comme avant.
+    """
+    import time
+
+    from mcsite import queries
+
+    from .db import connect
+
+    t0 = time.time()
+    conn = connect()
+    try:
+        console.print("tailles achetables ...", end=" ")
+        n = queries.precalculer_tailles_achetables(conn)
+        console.print(f"[green]ok[/] {n:,} lignes en {time.time() - t0:.0f}s")
+    finally:
+        conn.close()
+
+
 @app.command("fusion-rapport")
 def fusion_rapport(
     csv: str = typer.Option("", "--csv", help="ecrire le detail groupe par groupe dans ce fichier"),

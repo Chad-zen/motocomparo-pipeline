@@ -96,6 +96,9 @@ traiter() {   # $1 : les marchands a charger ; $2 : les marchands neufs, isoles
   # Les bons plans, calcules UNE fois ici (14 a 30 s) et ranges dans une table : la page
   # /bons-plans ne fait plus que lire 48 lignes. A lancer apres `freshness` (les prix).
   mcpipe bons-plans || echo "!!! mcpipe bons-plans en echec, la page calcule alors a la demande"
+  # Les tailles achetables, rangees dans une table : les pages filtrees par taille la lisent. Apres
+  # `freshness` (elle depend des offres vivantes et de leurs prix). Sans elle : calcul a la demande.
+  mcpipe tailles-achetables || echo "!!! mcpipe tailles-achetables en echec, les filtres de taille calculent a la demande"
 
 }
 
