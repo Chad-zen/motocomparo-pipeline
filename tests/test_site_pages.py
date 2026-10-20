@@ -184,3 +184,25 @@ def test_la_courbe_de_budget_ignore_les_accessoires_du_rayon():
     assert _ids_equipement(rayon) == [1, 2, 3, 5, 4]
     # un rayon sans enfants (gants, bottes) ne change pas
     assert _ids_equipement({"ids": [8], "enfants": []}) == [8]
+
+
+def test_public_d_une_fiche_enfant_cross():
+    from mcsite.queries import _public
+    p = _public({"genre_age": "U-E", "best_title": "Gants moto cross enfant Troy Lee Designs GP Pro"})
+    assert p["enfant"] is True and p["est_cross"] is True
+    r = _public({"genre_age": "F-A", "best_title": "Gants Ixon RS4 AIR LADY - FEMME"})
+    assert r["enfant"] is False and r["est_cross"] is False
+
+
+def test_les_suggestions_visent_le_meme_public(client):
+    """Un gant cross enfant ne proposait que des gants route femme et cross adulte (21/10/2026)."""
+    from mcsite import queries
+    from mcsite.app import pool
+    with pool.connection() as conn:
+        p = queries.product(conn, "troyleedesigns-designs-gants-gp-lee-pro-troy-bk-ef20504f")
+        if p is None:
+            pytest.skip("fiche absente de cette base")
+        vues = queries.similaires(conn, p, 6) + queries.meme_gamme(conn, p, 8)
+        for v in vues:
+            autre = queries.product(conn, v["slug"])
+            assert autre["genre_age"].endswith("-E"), v["slug"]

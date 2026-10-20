@@ -11,6 +11,7 @@ Two rules these queries follow, both learned from v1:
 
 from __future__ import annotations
 
+import re
 import unicodedata
 from dataclasses import dataclass
 from datetime import date
@@ -705,6 +706,22 @@ def vitrine(conn: psycopg.Connection) -> list[dict[str, Any]]:
     """)
 
 
+_CROSS = r"\m(cross|enduro|mx|off-?road|trial|quad)\M"
+
+
+def _public(produit: dict[str, Any]) -> dict[str, Any]:
+    """A qui s'adresse la fiche : enfant ou adulte, cross/enduro ou route.
+
+    Une suggestion doit viser le meme public. Un gant cross ENFANT proposait des gants route pour
+    femme et des gants cross adulte, « sans rapport » (Sofia, 21/10/2026). Le rayon ne les separe
+    pas : « Gants » reunit tout. `genre_age` donne l'age (-E enfant), le titre donne l'usage.
+    """
+    return {"enfant": str(produit.get("genre_age") or "").endswith("-E"),
+            "cross": _CROSS,
+            "est_cross": bool(re.search(r"\b(cross|enduro|mx|off-?road|trial|quad)\b",
+                                        produit.get("best_title") or "", re.I))}
+
+
 def similaires(
     conn: psycopg.Connection, produit: dict[str, Any], limit: int = 6
 ) -> list[dict[str, Any]]:
@@ -735,6 +752,8 @@ def similaires(
               AND s.merchant_count >= 2 AND s.cheapest IS NOT NULL
               AND s.image_url IS NOT NULL AND s.image_url <> ''
               AND coalesce(c.parent_id, c.id) = %(famille)s
+              AND (p.genre_age LIKE '%%-E') = %(enfant)s
+              AND (s.best_title ~* %(cross)s) = %(est_cross)s
             ORDER BY p.brand_code, p.model_display, s.merchant_count DESC, s.cheapest
         )
         SELECT * FROM candidat
@@ -746,7 +765,7 @@ def similaires(
     """, {
         "id": produit["id"], "marque": produit["brand_code"],
         "prix": produit["cheapest"] or 1, "famille": produit["famille_id"],
-        "lim": limit,
+        "lim": limit, **_public(produit),
     })
 
 
@@ -789,6 +808,8 @@ def meme_gamme(
               -- proprietaire le 14/09/2026. Une alternative, c'est le meme
               -- objet chez quelqu'un d'autre — pas n'importe quoi au meme prix.
               AND p.category_id = %(rayon)s
+              AND (p.genre_age LIKE '%%-E') = %(enfant)s
+              AND (s.best_title ~* %(cross)s) = %(est_cross)s
               -- une "gamme de prix", c'est plus ou moins un quart du prix :
               -- au-dela on ne propose plus une alternative, on change de budget
               -- (pas de signe pourcent ici : psycopg le lit comme un parametre)
@@ -800,7 +821,7 @@ def meme_gamme(
         LIMIT %(lim)s
     """, {"id": produit["id"], "marque": produit["brand_code"],
           "prix": produit["cheapest"] or 1, "rayon": produit["category_id"],
-          "lim": limit})
+          "lim": limit, **_public(produit)})
 
 
 def codes_promo(conn: psycopg.Connection, marchands: list[str]) -> list[dict[str, Any]]:
