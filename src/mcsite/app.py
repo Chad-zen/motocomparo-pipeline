@@ -1627,6 +1627,23 @@ def marques(request: Request):
         request, "marques.html", _ctx(request, items=items, lettres=lettres))
 
 
+@app.get("/codes-promo", response_class=HTMLResponse)
+def codes_promo_page(request: Request):
+    """Les codes promo en cours chez les marchands compares (20/10/2026).
+
+    Seulement ceux qui sont encore valables : un code expire affiche est un code refuse au
+    panier. Un marchand sans code n'apparait pas (pas de ligne vide), et sans aucun code la
+    page le dit au lieu de montrer une liste creuse.
+    """
+    def _calcul() -> list:
+        with pool.connection() as conn:  # type: ignore[union-attr]
+            return queries.codes_promo_actifs(conn)
+
+    codes = cache.au_chaud("codes-promo-actifs", _calcul, ttl=600)
+    return templates.TemplateResponse(
+        request, "codes_promo.html", _ctx(request, promos=codes))
+
+
 @app.get("/guides", response_class=HTMLResponse)
 def guides(request: Request):
     """Tailles et normes — des faits vérifiables, pas des conseils de vendeur.
@@ -2498,7 +2515,7 @@ def _urls_sitemap() -> list[str]:
                 ORDER BY count(*) DESC
             """).fetchall()
         fixes = ["/", "/produits", "/bons-plans", "/marques", "/guides",
-                 "/infos", "/contact"]
+                 "/codes-promo", "/infos", "/contact"]
         # Les articles PUBLIÉS seulement : un brouillon répond 404 en
         # production, le proposer aux moteurs serait leur donner une erreur.
         fixes += [f"/guides/{a.slug}" for a in articles_mod.publies()]

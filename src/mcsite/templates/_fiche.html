@@ -859,7 +859,6 @@
 <section class="promos">
   <div class="promos__tete">
     <h2 class="titre-section">Codes promo en cours chez ces marchands</h2>
-    <span>Vérifiés chaque jour</span>
   </div>
   <div class="promos__liste">
     {% for c in promos %}
@@ -879,6 +878,7 @@
         <span class="promo__cond">
           {%- if c.conditions %}{{ c.conditions }} · {% endif -%}
           valable jusqu'au {{ c.fin_le.strftime('%d/%m/%Y') }}
+          {%- if c.vu_le %} · vérifié le {{ c.vu_le.strftime('%d/%m') }}{% endif %}
         </span>
       </span>
       <button type="button" class="promo__code" data-code="{{ c.code }}"

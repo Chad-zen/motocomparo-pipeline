@@ -153,11 +153,13 @@
     <tr>
       <td><strong>{{ c.marchand }}</strong> <code>{{ c.code }}</code>
         <span class="etat etat--na">{{ 'relevé' if c.source == 'site' else 'saisi' }}</span><br>
-        <span class="offres__titre">{{ c.libelle }}{% if c.conditions %} — {{ c.conditions }}{% endif %}</span></td>
+        <span class="offres__titre">{{ c.libelle }}{% if c.conditions %} — {{ c.conditions }}{% endif %}</span><br>
+        <span class="offres__titre">{% if c.vu_le %}vérifié le {{ c.vu_le.strftime('%d/%m/%Y') }}{% else %}jamais vérifié{% endif %}</span></td>
       <td>
         {% if c.retire_le %}<span class="etat etat--na">retiré</span>
         {% elif c.actif %}<span class="etat etat--ok">actif, {{ c.jours_restants }} j</span>
         {% else %}<span class="etat etat--ko">expiré</span>{% endif %}
+        {% if c.actif and c.a_reverifier %}<br><span class="etat etat--ko">à revérifier</span>{% endif %}
       </td>
       <td class="num">{{ c.fin_le }}</td>
       <td>

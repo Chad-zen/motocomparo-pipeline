@@ -209,6 +209,10 @@ def codes_promo(conn: psycopg.Connection) -> list[dict[str, Any]]:
         SELECT c.id, m.code AS marchand, c.code, c.libelle, c.url,
                c.debut_le, c.fin_le, c.retire_le, c.source, c.conditions,
                c.vu_le,
+               -- un code SAISI A LA MAIN n'est jamais relu par le programme : sans date de
+               -- derniere verification recente, personne ne sait s'il marche encore
+               (c.source <> 'site' AND (c.vu_le IS NULL
+                    OR c.vu_le < now() - interval '14 days'))  AS a_reverifier,
                (c.retire_le IS NULL AND c.debut_le <= current_date
                 AND c.fin_le >= current_date)                 AS actif,
                c.fin_le - current_date                        AS jours_restants

@@ -819,7 +819,7 @@ def codes_promo(conn: psycopg.Connection, marchands: list[str]) -> list[dict[str
         return []
     return _rows(conn, """
         SELECT m.code AS merchant, c.code, c.libelle, c.url, c.fin_le,
-               c.conditions, c.source
+               c.conditions, c.source, c.vu_le
         FROM code_promo c
         JOIN merchant m ON m.id = c.merchant_id
         WHERE m.code = ANY(%s)
@@ -828,6 +828,22 @@ def codes_promo(conn: psycopg.Connection, marchands: list[str]) -> list[dict[str
           AND c.fin_le >= current_date
         ORDER BY m.code, c.fin_le
     """, (marchands,))
+
+
+def codes_promo_actifs(conn: psycopg.Connection) -> list[dict[str, Any]]:
+    """Tous les codes promo en cours, pour la page /codes-promo.
+
+    Meme regle que sur la fiche : ni retire, ni pas commence, ni expire. En plus, un marchand
+    MASQUE (`affiche = false`) n'apparait pas : montrer son code reviendrait a le citer.
+    """
+    return _rows(conn, """
+        SELECT m.code AS merchant, c.code, c.libelle, c.url, c.fin_le,
+               c.conditions, c.source, c.vu_le
+        FROM code_promo c
+        JOIN merchant m ON m.id = c.merchant_id AND m.affiche
+        WHERE c.retire_le IS NULL AND c.debut_le <= current_date AND c.fin_le >= current_date
+        ORDER BY m.code, c.fin_le
+    """)
 
 
 def listing_count(

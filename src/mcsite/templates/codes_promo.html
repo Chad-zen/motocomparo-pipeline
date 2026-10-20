@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}Codes promo équipement moto en cours — MotoComparo{% endblock %}
+{% block description %}Les codes promo valables aujourd'hui chez les marchands que nous comparons : conditions, date de fin et date de dernière vérification.{% endblock %}
+
+{% block contenu %}
+<nav class="fil" aria-label="Fil d'Ariane"><a href="/">Accueil</a> › <span>Codes promo</span></nav>
+<h1 class="titre-page">Codes promo en cours</h1>
+<p class="sous-titre">
+  Les remises que les marchands proposent aujourd'hui, avec leurs conditions. Un code
+  expiré disparaît de cette page à sa date de fin. La remise s'applique dans le panier du
+  marchand, pas sur les prix affichés sur MotoComparo.
+</p>
+
+{% if promos %}
+<section class="promos">
+  <div class="promos__liste">
+    {% for c in promos %}
+    <div class="promo">
+      <span class="promo__point promo__point--{{ c.merchant }}" aria-hidden="true"></span>
+      {% set logo_promo = logo_marchand(c.merchant) %}
+      {% if logo_promo %}
+      <img class="promo__logo" src="/static/{{ logo_promo }}?v={{ version_css() }}"
+           alt="{{ c.merchant | marchand }}" loading="lazy">
+      {% else %}
+      <span class="promo__marchand">{{ c.merchant | marchand }}</span>
+      {% endif %}
+      <span class="promo__texte">{{ c.libelle }}
+        <span class="promo__cond">
+          {%- if c.conditions %}{{ c.conditions }} · {% endif -%}
+          valable jusqu'au {{ c.fin_le.strftime('%d/%m/%Y') }}
+          {%- if c.vu_le %} · vérifié le {{ c.vu_le.strftime('%d/%m/%Y') }}{% endif %}
+        </span>
+      </span>
+      <button type="button" class="promo__code" data-code="{{ c.code }}"
+              title="Copier le code">{{ c.code }}</button>
+      {% if c.url %}
+        <a class="promo__voir" href="{{ c.url }}" target="_blank"
+           rel="nofollow sponsored noopener">Voir chez {{ c.merchant | marchand }} →</a>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+</section>
+<script>
+/* Copier le code d'un clic ; si le presse-papier est refusé, le bouton montre le code. */
+document.addEventListener('click', function (e) {
+  const b = e.target.closest('.promo__code');
+  if (!b) return;
+  const code = b.dataset.code;
+  const dire = (mot) => {
+    b.textContent = mot;
+    clearTimeout(b._minuteur);
+    b._minuteur = setTimeout(() => { b.textContent = code; }, 1600);
+  };
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(code).then(() => dire('Copié !'), () => dire(code));
+  } else {
+    dire(code);
+  }
+});
+</script>
+{% else %}
+<p class="vide">Aucun code promo en cours pour le moment. Les prix affichés sur MotoComparo sont
+  déjà les meilleurs prix relevés chez chaque marchand.</p>
+{% endif %}
+{% endblock %}
