@@ -39,14 +39,27 @@
    bas aussi ») : la page reste lisible et utilisable pendant qu'on choisit,
    aucun voile, aucune partie du site bloquée. #}
 <div class="consentement" id="consentement" role="dialog" aria-modal="false"
-     aria-label="Cookies" aria-describedby="consentement-texte" hidden>
+     aria-labelledby="consentement-titre" aria-describedby="consentement-texte" hidden>
   <div class="consentement__carte" tabindex="-1">
-    <p id="consentement-texte" class="consentement__texte">Des cookies mesurent l'audience du site, rien de plus.
-      <a href="/infos#donnees" target="_blank" rel="noopener">En savoir plus</a></p>
+    <img class="consentement__illu" src="/static/cookies-casques.webp?v={{ version_css() }}"
+         alt="" width="805" height="475" loading="eager">
+    <div class="consentement__haut">
+      <span class="consentement__marque">
+        <img src="/static/logo_mc_icon.webp?v={{ version_css() }}" alt="" width="22" height="22">
+        motocomparo.com
+      </span>
+    </div>
+    <div class="consentement__texte">
+      <h2 id="consentement-titre" class="consentement__titre">Salut c'est nous… les Cookies&nbsp;!</h2>
+      <p id="consentement-texte">Nous utilisons des cookies pour améliorer votre
+        expérience sur motocomparo.com et analyser le trafic. Vous pouvez les
+        accepter ou les refuser, et changer d'avis à tout moment.
+        <a href="/infos#donnees">En savoir plus</a></p>
+    </div>
     <div class="consentement__boutons">
       {# L'ordre place le refus EN PREMIER, à la lecture comme au clavier. #}
       <button type="button" class="bouton bouton--contour" data-consentement="refuse">Tout refuser</button>
-      <button type="button" class="bouton bouton--or" data-consentement="accepte">Accepter</button>
+      <button type="button" class="bouton bouton--or" data-consentement="accepte">Accepter et fermer</button>
     </div>
   </div>
 </div>
@@ -127,9 +140,7 @@
      arrêt de tabulation. Le focus va sur la CARTE et non sur un bouton : le
      premier Tab mène au premier choix, sans qu'un cadre jaune n'entoure un
      bouton que personne n'a choisi (la propriétaire, 15/10/2026). preventScroll : la page ne saute pas vers le bas. */
-  /* Pas de question sur la page qui explique les cookies : la barre en recouvrirait le texte. */
-  var sur_infos = location.pathname.replace(/\/$/, '') === '/infos';
-  if (!lire() && !sur_infos) {
+  if (!lire()) {
     montrer();
     try { bandeau.querySelector('.consentement__carte').focus({ preventScroll: true }); }
     catch (e) { /* vieux navigateur : tant pis pour le focus */ }
