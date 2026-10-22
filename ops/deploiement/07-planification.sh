@@ -106,6 +106,10 @@ traiter "$AUTRES" "$NEUFS"
 wait "$FC_PID" || true
 cat "$FC_LOG"
 traiter fcmoto
+# Les fiches dont deux marchands sont a plus de 50 % d'ecart : listees dans
+# `controle_ecart` pour relecture (rien n'est separe). Demande de la proprietaire,
+# 22/10/2026, apres le pinlock Airoh rattache a la visiere.
+mcpipe controle-ecarts || echo "!!! mcpipe controle-ecarts en echec, chaine poursuivie"
 # Les alertes de prix lisent les prix que freshness vient de poser. Le `||` est
 # voulu : un serveur d'envoi en panne ne doit pas priver le site des
 # caracteristiques du jour. La commande elle-meme ne sort en erreur que sur une
