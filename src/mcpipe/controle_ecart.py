@@ -11,8 +11,8 @@ niveau, pour qu'une personne tranche, et se souvient des fiches jugees legitimes
 (`statut = 'ok'`) pour ne pas les resortir chaque nuit.
 
 Niveaux :
-  * fort  : un meme marchand porte deux codes-barres sur la fiche (deux articles, presque
-            toujours), OU l'ecart depasse 2x ;
+  * fort  : un meme marchand porte deux codes-barres dont les titres different par autre
+            chose qu'une taille (deux articles), OU l'ecart depasse 2x ;
   * moyen : plusieurs codes-barres sur la fiche, ecart entre 1,5x et 2x ;
   * faible: un seul code-barres : un prix different pour le meme article, donc une promo ou
             une erreur de prix, pas un rapprochement a tort.
@@ -20,6 +20,7 @@ Niveaux :
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass
 
 from . import textnorm as tn
@@ -43,9 +44,14 @@ g AS (
     HAVING count(DISTINCT merchant_id) >= 2 AND max(price) >= %(seuil)s * min(price)
 ),
 mm AS (
-    SELECT DISTINCT o.product_id
+    -- un marchand qui porte plusieurs codes-barres sur la fiche : ses titres, pour juger en
+    -- Python si ce sont des TAILLES (rien d'anormal) ou deux articles (pinlock et visiere)
+    SELECT o.product_id, o.merchant_id, array_agg(DISTINCT o.raw_title) AS titres
     FROM o JOIN g USING (product_id)
     GROUP BY o.product_id, o.merchant_id HAVING count(DISTINCT o.gtin) > 1
+),
+mm2 AS (
+    SELECT product_id, json_agg(to_json(titres)) AS titres FROM mm GROUP BY product_id
 ),
 bas AS (
     SELECT DISTINCT ON (o.product_id) o.product_id, o.marchand, o.raw_title
@@ -57,9 +63,9 @@ haut AS (
 )
 SELECT g.product_id, g.nb_marchands, g.nb_gtin, g.bas, g.haut,
        bas.marchand, bas.raw_title, haut.marchand, haut.raw_title,
-       (mm.product_id IS NOT NULL) AS meme_marchand_2_gtin
+       mm2.titres AS titres_par_marchand
 FROM g JOIN bas USING (product_id) JOIN haut USING (product_id)
-LEFT JOIN mm USING (product_id)
+LEFT JOIN mm2 USING (product_id)
 """
 
 
@@ -80,6 +86,22 @@ def mots_qui_different(a: str | None, b: str | None) -> str:
     return " ".join(vus[:8])
 
 
+_TAILLE = re.compile(r"^(?:[0-9]+(?:[/.,-][0-9]+)?|x{0,3}[sl]|xx?l|[2-6]xl|xs|taille|t[0-9]+)$")
+
+
+def deux_articles_chez_un_marchand(titres_par_marchand) -> bool:
+    """Un meme marchand porte deux codes-barres sur la fiche : des TAILLES (les titres ne
+    different que par un nombre ou S/M/L) ou deux ARTICLES (un mot en plus : « pinlock »).
+    Les tailles sont le cas courant ; seul le second est suspect."""
+    for titres in titres_par_marchand or []:
+        mots = [set(tn.norm_txt(x).split()) for x in titres if x]
+        for i, a in enumerate(mots):
+            for b in mots[i + 1:]:
+                if any(not _TAILLE.match(w) and len(w) > 2 for w in a ^ b):
+                    return True
+    return False
+
+
 def niveau(ratio: float, nb_gtin: int, meme_marchand_2_gtin: bool) -> str:
     if meme_marchand_2_gtin or ratio >= 2:
         return "fort"
@@ -96,9 +118,10 @@ def controler(seuil: float = SEUIL) -> Resultat:
             cur.execute(_SQL, {"seuil": seuil})
             lignes = cur.fetchall()
             vus: list[int] = []
-            for (pid, nm, ng, bas, haut, m_bas, t_bas, m_haut, t_haut, mm2) in lignes:
+            for (pid, nm, ng, bas, haut, m_bas, t_bas, m_haut, t_haut, titres_mm) in lignes:
                 ratio = round(float(haut) / float(bas), 2)
-                niv = niveau(ratio, ng, bool(mm2))
+                mm2 = deux_articles_chez_un_marchand(titres_mm)
+                niv = niveau(ratio, ng, mm2)
                 res.par_niveau[niv] += 1
                 vus.append(pid)
                 cur.execute(
@@ -117,7 +140,7 @@ def controler(seuil: float = SEUIL) -> Resultat:
                         mots = EXCLUDED.mots, niveau = EXCLUDED.niveau, vu_le = current_date
                     RETURNING (xmax = 0)
                     """,
-                    (pid, ratio, bas, haut, m_bas, m_haut, t_bas, t_haut, nm, ng, bool(mm2),
+                    (pid, ratio, bas, haut, m_bas, m_haut, t_bas, t_haut, nm, ng, mm2,
                      mots_qui_different(t_bas, t_haut), niv),
                 )
                 if cur.fetchone()[0]:

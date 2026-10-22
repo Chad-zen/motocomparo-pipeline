@@ -1,4 +1,4 @@
-from mcpipe.controle_ecart import mots_qui_different, niveau
+from mcpipe.controle_ecart import deux_articles_chez_un_marchand, mots_qui_different, niveau
 
 
 def test_le_mot_qui_differencie_un_pinlock_de_sa_visiere():
@@ -12,3 +12,11 @@ def test_les_niveaux_du_controle():
     assert niveau(2.4, 1, False) == "fort"     # plus du double
     assert niveau(1.6, 2, False) == "moyen"    # plusieurs codes-barres
     assert niveau(1.6, 1, False) == "faible"   # un seul code-barres : promo ou erreur de prix
+
+
+def test_des_tailles_ne_sont_pas_deux_articles_mais_un_pinlock_si():
+    tailles = [["Bottes moto Rev'it Expedition GTX noir/gris- 40", "Bottes moto Rev'it Expedition GTX noir/gris- 41"]]
+    assert deux_articles_chez_un_marchand(tailles) is False
+    assert deux_articles_chez_un_marchand([["Airoh ST Pinlock Visière", "Airoh ST Visière"]]) is True
+    assert deux_articles_chez_un_marchand([["Gants Alpinestars XL", "Gants Alpinestars XXL"]]) is False
+    assert deux_articles_chez_un_marchand(None) is False
