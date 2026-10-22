@@ -1014,3 +1014,17 @@ def accessoires_casque(
         console.print(f"[green]ok[/] {res.rangees:,} fiches rangees")
     else:
         console.print("[dim]rien d'ecrit : relancer avec --appliquer[/]")
+
+
+@app.command("controle-ecarts")
+def controle_ecarts(
+    seuil: float = typer.Option(1.5, help="rapport prix haut / prix bas a partir duquel on liste (1,5 = +50 %)"),
+) -> None:
+    """Liste les fiches dont deux marchands sont a plus de 50 % d'ecart (rien n'est separe)."""
+    from .controle_ecart import controler
+
+    res = controler(seuil)
+    n = res.par_niveau or {}
+    console.print(f"{res.fiches:,} fiches a {seuil:g}x ou plus : "
+                  f"[red]{n.get('fort', 0):,} fortes[/], {n.get('moyen', 0):,} moyennes, "
+                  f"{n.get('faible', 0):,} faibles ; {res.nouvelles:,} nouvelles, {res.resolues:,} resolues")
