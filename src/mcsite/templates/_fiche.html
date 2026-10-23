@@ -132,12 +132,21 @@
          explication partaient chacun sur deux lignes, et quatre garanties
          prenaient la moitié de l'écran. Les sous-titres vivent en bas de page,
          dans les quatre tuiles. #}
+      {# Les points forts du MODELE (analyse écrite à la main, faits sourcés) prennent la place
+         des promesses générales : c'est ce qui donne envie de cliquer. Sans analyse pour
+         ce modèle, les quatre promesses restent. #}
+      {% if ana and ana.points_forts_courts %}
+      <ul class="promesses promesses--forts">
+        {% for s in ana.points_forts_courts %}<li>{{ s }}</li>{% endfor %}
+      </ul>
+      {% else %}
       <ul class="promesses">
         <li>Prix relevés chaque jour</li>
         <li>Marchands identifiés, jamais anonymes</li>
         <li>Livraison et retours chez le marchand</li>
         <li>100&nbsp;% gratuit, sans inscription</li>
       </ul>
+      {% endif %}
 
       {# The spread is only honest within one size: comparing an offer whose
          size nobody declared against a known M is not a comparison. Shown once a
@@ -702,6 +711,60 @@
 })();
 </script>
 
+{# Les offres au-delà des cinq premières se replient derrière « Voir les N autres
+   offres » : avec « Toutes » les tailles, le tableau fait des dizaines de lignes et
+   le visiteur devait le traverser pour atteindre l'analyse et les caractéristiques
+   (demande de la propriétaire, 22/10/2026). Sans JavaScript, tout reste affiché.
+   Le repli compte les lignes VISIBLES : choisir une taille le recalcule, et le
+   tableau se referme. Ce script ne touche ni au rang, ni au prix, ni au filtre. #}
+<script>
+(function () {
+  const MAX = 5;                 // lignes montrées avant le bouton
+  const table = document.querySelector('table.offres');
+  if (!table) return;
+  const lignes = Array.from(table.querySelectorAll('tbody tr[data-taille]'));
+  if (lignes.length <= MAX + 1) return;     // replier UNE ligne n'aiderait personne
+
+  const bloc = document.createElement('div');
+  bloc.className = 'offres__voir-plus';
+  const bouton = document.createElement('button');
+  bouton.type = 'button';
+  bouton.className = 'offres__plus-btn';
+  bloc.appendChild(bouton);
+  table.insertAdjacentElement('afterend', bloc);
+
+  let ouvert = false;
+  function replier() {
+    let rang = 0, cachees = 0;
+    for (const tr of lignes) {
+      tr.classList.remove('est-replie');
+      if (tr.hidden) continue;
+      rang += 1;
+      if (!ouvert && rang > MAX) { tr.classList.add('est-replie'); cachees += 1; }
+    }
+    // une seule ligne de plus ne justifie pas un bouton : on l'affiche
+    if (!ouvert && cachees === 1) {
+      const derniere = lignes.filter((tr) => !tr.hidden).pop();
+      derniere.classList.remove('est-replie');
+      cachees = 0;
+    }
+    bloc.hidden = cachees === 0 && !ouvert;
+    bouton.innerHTML = (ouvert
+      ? 'Réduire la liste'
+      : 'Voir les <b>' + cachees + '</b>' + (cachees > 1 ? ' autres offres' : ' autre offre'))
+      + '<i aria-hidden="true"></i>';
+    bouton.setAttribute('aria-expanded', String(ouvert));
+  }
+  bouton.addEventListener('click', function () { ouvert = !ouvert; replier(); });
+
+  // Un changement de taille referme la liste et la recalcule. Le filtre s'exécute
+  // dans son propre écouteur, posé avant celui-ci : on passe donc après lui.
+  const barre = document.querySelector('[data-filtre-taille]');
+  if (barre) barre.addEventListener('click', function () { ouvert = false; replier(); });
+  replier();
+})();
+</script>
+
 
 {# La mention d'affiliation est OBLIGATOIRE et reste. Ce qui l'entourait ne
    l'était pas : cinq lignes pour dire qu'un prix peut changer et qu'une
@@ -713,6 +776,104 @@
   par prix.
 </p>
 </section>
+
+{% if ana %}
+{# L'analyse du MODELE (un texte pour tous ses coloris) : d'abord les indicateurs
+   (la fiche technique lue d'un coup d'oeil), puis points forts ET points à
+   améliorer, profil type. Chaque fait porte sa preuve (SHARP, constructeur,
+   presse, marchands) et sa source ; rien n'est affirmé sans elle. Écrite à la
+   main par lots (`mcpipe fiches-enrichies`), jamais devinée. #}
+{% macro faits(liste) %}
+<ul class="analyse__faits">
+  {% for f in liste %}
+  <li><span>{{ f.texte }}</span>
+      <small><b>{{ {'sharp': 'SHARP', 'fabricant': 'Constructeur', 'presse': 'Presse', 'flux': 'Marchands'}.get(f.preuve, f.preuve) }}</b> · {{ f.source }}</small></li>
+  {% endfor %}
+</ul>
+{% endmacro %}
+<section class="offres__carte analyse" id="analyse">
+<div class="offres__tete">
+  <h2 class="titre-section">{% if ana.modele %}Notre analyse du {{ ana.marque or (p.brand_code | marque) }} {{ ana.modele }}{% else %}L'essentiel de ce casque{% endif %}</h2>
+  <p class="analyse__sous">{% if ana.modele %}Valable pour tous les coloris.{% else %}D'après les caractéristiques relevées chez nos marchands.{% endif %}</p>
+</div>
+<div class="analyse__corps">
+  {% if ana.accroche %}<p class="analyse__accroche">{{ ana.accroche }}</p>{% endif %}
+
+  <h3 class="analyse__titre">L'essentiel en un coup d'œil</h3>
+  <div class="indic">
+    {% for i in ana.indicateurs if not (coque and i.cle == 'coque') %}
+    <div class="indic__case indic__case--{{ i.type }}{% if i.type == 'badge' and not i.ok %} indic__case--alerte{% endif %}">
+      <span class="indic__titre">{{ i.titre }}</span>
+      {% if i.type == 'etoiles' %}
+        <span class="indic__etoiles" role="img" aria-label="{{ i.etoiles }} étoiles sur 5">{% for n in range(5) %}<i class="{{ 'plein' if n < i.etoiles }}">★</i>{% endfor %}</span>
+        <span class="indic__valeur">{{ i.valeur }}</span>
+      {% elif i.type == 'jauge' %}
+        <span class="indic__valeur">{{ i.valeur }}</span>
+        <span class="indic__jauge" role="img" aria-label="{{ i.valeur }} sur une échelle de {{ i.bornes[0] }} à {{ i.bornes[1] }}"><i style="left: {{ i.pct }}%"></i></span>
+        <span class="indic__bornes"><span>{{ i.bornes[0] }}</span><span>{{ i.bornes[1] }}</span></span>
+      {% elif i.type == 'oui' %}
+        <span class="indic__valeur"><i class="indic__pastille indic__pastille--oui" aria-hidden="true">✓</i>{{ i.valeur }}</span>
+      {% elif i.type == 'non' %}
+        <span class="indic__valeur"><i class="indic__pastille indic__pastille--non" aria-hidden="true">✕</i>{{ i.valeur }}</span>
+      {% else %}
+        <span class="indic__valeur">{{ i.valeur }}</span>
+      {% endif %}
+      {% if i.detail %}<span class="indic__detail">{{ i.detail }}</span>{% endif %}
+    </div>
+    {% endfor %}
+  </div>
+
+
+  {% if ana.profil %}
+  {# Le profil du pilote : un curseur à trois repères, pas un paragraphe. Classement
+     éditorial de MotoComparo (usages décrits par le constructeur et la presse). #}
+  <div class="profil">
+    <h3>Pour quel pilote&nbsp;?</h3>
+    <div class="profil__curseur" role="img" aria-label="Profil du pilote : {{ ana.profil.libelle }}">
+      <div class="profil__piste"><span class="profil__repere" style="left: {{ ana.profil.position }}%"></span></div>
+      <div class="profil__etapes">
+        <span class="profil__etape profil__etape--g">
+          <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M3 20V9h5v11M8 20V5h6v15M14 20v-8h5v8M2 20h20"/></svg>Urbain</span>
+        <span class="profil__etape profil__etape--m">
+          <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M2 20l6-10 4 6 3-4 7 8z"/></svg>Enduro / trail</span>
+        <span class="profil__etape profil__etape--d">
+          <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M5 21V4M5 4h13l-2.5 4L18 12H5"/></svg>Sportif</span>
+      </div>
+    </div>
+    {% if ana.profil.usages %}
+    <p class="profil__usages">{% for u in ana.profil.usages %}<span>{{ u }}</span>{% endfor %}</p>
+    {% endif %}
+    <p class="profil__note">{% if ana.profil.auto %}Positionnement indicatif selon le type de casque.{% else %}Positionnement indicatif MotoComparo, d'après les usages décrits par le constructeur et la presse.{% endif %}</p>
+  </div>
+  {% endif %}
+
+  {% if ana.description %}<p class="analyse__desc">{{ ana.description }}</p>{% endif %}
+</div>
+</section>
+{% endif %}
+
+{% if coque %}
+{# La matière de la coque sur une échelle à quatre crans, comme le choix de taille. Elle dit
+   surtout le poids et le prix, pas la sécurité : l'échelle va de « entrée de gamme » à
+   « premium » et la page le précise. #}
+<section class="offres__carte coque" id="coque">
+<div class="offres__tete">
+  <h2 class="titre-section">Matière de la coque</h2>
+</div>
+<div class="analyse__corps coque__corps">
+  <div class="coque__crans" role="img" aria-label="Matière de la coque : {{ coque.libelle }}">
+    {% for c in coque.crans %}
+    <span class="coque__cran coque__cran--{{ loop.index }}{{ ' est-actif' if loop.index == coque.cran }}">
+      <i class="coque__echantillon" aria-hidden="true"></i><b>{{ c }}</b>
+      {% if loop.first %}<small>Entrée de gamme</small>{% elif loop.last %}<small>Haut de gamme</small>{% endif %}
+    </span>
+    {% endfor %}
+  </div>
+  <p class="coque__texte"><b>{{ coque.libelle }}.</b> {{ coque.phrase }}{% if coque.technologie %} Technologie {{ ana.marque if ana and ana.marque else '' }} {{ coque.technologie }}.{% endif %}</p>
+  <p class="coque__note">Tous les casques homologués passent les mêmes essais : la matière dit surtout le poids et le prix, pas le niveau de sécurité.</p>
+</div>
+</section>
+{% endif %}
 
 {% if caracteristiques %}
 {# Ce que le produit EST, pas ce qu'il coûte : troisième bloc de preuve, après
@@ -754,27 +915,6 @@
   Source&nbsp;: marchands partenaires{% if caracteristiques | selectattr('source', 'equalto', 'sharp') | list %}
   et essais <a href="https://sharp.dft.gov.uk/" target="_blank" rel="noopener">SHARP</a>{% endif %}
 </p>
-</section>
-{% endif %}
-
-{% if codes_tailles %}
-{# Un EAN par taille, tous écrits en clair et rendus par le serveur : une
-   recherche Google sur n'importe lequel doit pouvoir tomber sur cette page.
-   Les mêmes codes sont déclarés taille par taille dans les données
-   structurées (`ProductGroup`). Gardé à côté de la réf. déroulante, à la
-   demande de la propriétaire (15/10/2026). #}
-<section class="offres__carte">
-<div class="offres__tete">
-  <h2 class="titre-section">Codes-barres par taille</h2>
-</div>
-<dl class="caracs">
-  {% for c in codes_tailles %}
-  <div class="carac">
-    <dt>{{ c.taille or 'Taille non précisée' }}</dt>
-    <dd>EAN {{ c.ean }}</dd>
-  </div>
-  {% endfor %}
-</dl>
 </section>
 {% endif %}
 
@@ -918,6 +1058,28 @@ document.addEventListener('click', function (e) {
   }
 });
 </script>
+{% endif %}
+
+{% if codes_tailles %}
+{# Un EAN par taille, tous écrits en clair et rendus par le serveur : une
+   recherche Google sur n'importe lequel doit pouvoir tomber sur cette page.
+   Les mêmes codes sont déclarés taille par taille dans les données
+   structurées (`ProductGroup`). Gardé à côté de la réf. déroulante, à la
+   demande de la propriétaire (15/10/2026) ; placé tout en bas, sous l'historique
+   et les codes promo, à sa demande (23/10/2026). #}
+<section class="offres__carte">
+<div class="offres__tete">
+  <h2 class="titre-section">Codes-barres par taille</h2>
+</div>
+<dl class="caracs">
+  {% for c in codes_tailles %}
+  <div class="carac">
+    <dt>{{ c.taille or 'Taille non précisée' }}</dt>
+    <dd>EAN {{ c.ean }}</dd>
+  </div>
+  {% endfor %}
+</dl>
+</section>
 {% endif %}
 
 {% if similaires %}

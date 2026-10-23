@@ -1,0 +1,1091 @@
+[
+ {
+  "modele": "MX-10 MIPS",
+  "marque": "Bell",
+  "nb_fiches": 13,
+  "motif": "\\ymx-?10\\y",
+  "accroche": "Casque cross Bell en polycarbonate avec MIPS, ventilation Velocity Flow et visière Flying Bridge : un cross complet pour rouler tout le week-end.",
+  "description": "Le MX-10 MIPS reprend le style du Moto-10, le casque haut de gamme de Bell, et le met à la portée des pilotes du week-end comme des débutants. Sa coque en polycarbonate abrite un système MIPS et une calotte EPS multidensité. Neuf entrées d'air et cinq extracteurs gardent la tête au frais, et la doublure antimicrobienne se lave.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Coque en polycarbonate léger, calotte EPS multidensité.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Système MIPS pour réduire les forces de rotation en cas de chute.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation Velocity Flow : 9 entrées d'air et 5 extracteurs.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière Flying Bridge entièrement réglable.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure antimicrobienne Ionic+, amovible et lavable.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pré-équipé pour recevoir un système de communication ; homologué ECE 22.06.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque polycarbonate avec MIPS",
+   "9 entrées d'air, 5 extracteurs",
+   "Visière Flying Bridge réglable",
+   "Doublure lavable antimicrobienne"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Visière Flying Bridge entièrement réglable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Velocity Flow : 9 entrées d'air et 5 extracteurs",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Existe aussi en version jeunesse, selon les coloris."
+  ],
+  "alertes_qualite": [
+   "Titres adultes et jeunesse mélangés sous le même motif.",
+   "MIPS C ou C2 selon les coloris.",
+   "Norme ECE 22.06 et ventilation 9/5 relevées sur un seul coloris, supposées identiques."
+  ]
+ },
+ {
+  "modele": "Lithium",
+  "marque": "Bell",
+  "nb_fiches": 13,
+  "motif": "\\ylithium\\y",
+  "accroche": "Un intégral Bell 4 étoiles SHARP en ECE 22.06, 1 600 g sur la balance, avec pare-soleil rabattable pour passer du soleil à l'ombre.",
+  "description": "Le Lithium est l'intégral polyvalent de Bell : coque légère en polycarbonate, calotte EPS à double densité et, selon les versions, système MIPS. Il a décroché 4 étoiles au test SHARP en ECE 22.06 et pèse 1 600 g sur la balance. Pare-soleil rabattable, doublure lavable et ventilation multipoints l'accompagnent du quotidien aux longues sorties.",
+  "profil_position": 35,
+  "points_forts": [
+   {
+    "texte": "4 étoiles au test SHARP, avec la norme ECE 22.06 (test d'août 2025).",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche Lithium, août 2025"
+   },
+   {
+    "texte": "1 600 g à la pesée SHARP.",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche Lithium, août 2025"
+   },
+   {
+    "texte": "Coque en polycarbonate avec calotte EPS à double densité.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil rabattable intégré.",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche Lithium, août 2025"
+   },
+   {
+    "texte": "Doublure et joues amovibles, ventilation multipoints, compatible avec le port de lunettes.",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche Lithium, août 2025"
+   }
+  ],
+  "points_forts_courts": [
+   "4 étoiles SHARP en ECE 22.06",
+   "1 600 g sur la balance SHARP",
+   "Pare-soleil intégré rabattable",
+   "Doublure et joues amovibles"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 600 g (pesée SHARP)",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate)",
+    "source": "SHARP et descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Écran solaire rabattable intégré",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Ventilation multipoints",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à XL",
+    "source": "SHARP"
+   }
+  ],
+  "securite": {
+   "sharp_etoiles": 4,
+   "date_test": "août 2025",
+   "norme": "ECE 22.06"
+  },
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Versions mélangées (Jetstream, Podium, MIPS, Hartluck...) : MIPS C seulement sur certaines.",
+   "Pare-soleil confirmé par SHARP et par les fiches Mono/Tech/Flip, non mentionné sur Jetstream/Podium : ligne conservée, à surveiller."
+  ]
+ },
+ {
+  "modele": "Race Star",
+  "marque": "Bell",
+  "nb_fiches": 9,
+  "motif": "\\yrace ?star\\y",
+  "accroche": "Le casque de piste de Bell : coque en carbone 3K, doublure Flex qui gère l'énergie et ventilation Velocity Flow pour les week-ends de course.",
+  "description": "Le Race Star Flex DLX est le casque de course de Bell. Sa coque en carbone 3K se décline en cinq tailles, et sa doublure Flex gère l'énergie des chocs. La ventilation Velocity Flow refroidit sous l'effort, et l'écran Bell ProTint équipe la nouvelle coupe, plus légère de 10 %.",
+  "profil_position": 95,
+  "points_forts": [
+   {
+    "texte": "Coque en carbone 3K.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure intérieure Flex de gestion de l'énergie.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation Velocity Flow pour un refroidissement maximal.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Cinq tailles de coque pour un ajustement précis.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Nouvelle coupe plus légère de 10 % et écran Bell ProTint.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque en carbone 3K",
+   "Doublure Flex gestion d'énergie",
+   "5 tailles de coque",
+   "Ventilation Velocity Flow"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Carbone (carbone 3K)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Écran Bell ProTint",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Velocity Flow",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "SHARP Race Star (5 étoiles) date de 2018 en ECE 22.05 : version non vendue, non retenue.",
+   "Écran ProTint cité sur les descriptions de la version Flex DLX seulement."
+  ]
+ },
+ {
+  "modele": "MX-9 MIPS",
+  "marque": "Bell",
+  "nb_fiches": 6,
+  "motif": "\\ymx-?9 mips\\y",
+  "accroche": "Un cross Bell en polycarbonate avec MIPS, visière Flying Bridge et ventilation Velocity Flow, homologué ECE 22.06.",
+  "description": "Le MX-9 MIPS est un cross robuste et léger, avec une coque en polycarbonate et ABS en trois tailles. Le système MIPS, la visière Flying Bridge réglable et la ventilation Velocity Flow en font un compagnon de piste complet. Intérieur antibactérien lavable et garantie de 5 ans.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Coque en polycarbonate et ABS, légère, en 3 tailles de coque et d'EPS.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Système MIPS de gestion de l'énergie.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation Velocity Flow pour un refroidissement optimal.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière Flying Bridge entièrement réglable, avec ouvertures d'admission d'air.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure amovible, lavable et antibactérienne ; jugulaire à double anneau en D.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Garantie de 5 ans.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque légère, système MIPS",
+   "Visière Flying Bridge réglable",
+   "Doublure lavable antibactérienne",
+   "Garantie de 5 ans"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 533 g (±50 g, taille M, annoncé)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate et ABS)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Flying Bridge entièrement réglable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Velocity Flow",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Poids annoncé par le distributeur, pas de pesée SHARP.",
+   "Poids et norme relevés sur le coloris Zone."
+  ]
+ },
+ {
+  "modele": "MX-9 Adventure",
+  "marque": "Bell",
+  "nb_fiches": 2,
+  "motif": "\\ymx-?9 adventure\\y",
+  "accroche": "Le casque d'aventure de Bell : écran intégré anti-buée rabattable ou amovible, visière réglable et MIPS, de la piste à la ville.",
+  "description": "Le MX-9 Adventure reprend la base du MX-9 de cross et y ajoute un écran intégré, anti-rayures et antibuée, que l'on rabat ou que l'on retire. Sa visière réglable s'enlève aussi pour un look urbain. Coque en polycarbonate et ABS, MIPS et ventilation Velocity Flow : il suit votre guidon du chemin au bitume.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Écran intégré anti-buée NutraFog II et anti-rayures, rabattable ou entièrement amovible.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière Flying Bridge réglable et amovible.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Système MIPS de gestion de l'énergie.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en polycarbonate et ABS, 3 tailles de coque et d'EPS.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran compatible avec le port de lunettes.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure amovible, lavable et antibactérienne.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Écran intégré rabattable ou amovible",
+   "Visière réglable et amovible",
+   "Système MIPS inclus",
+   "Doublure lavable antibactérienne"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 600 g (±50 g, taille M, annoncé)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate et ABS)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Écran intégré anti-buée et anti-rayures, rabattable ou amovible",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Velocity Flow",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "SHARP MX-9 Adventure (4 étoiles, mars 2024) en ECE 22.05 avec poids de 2 200 g, incohérent avec 1 600 g annoncé : non retenu.",
+   "Poids et norme relevés sur le coloris Mesa."
+  ]
+ },
+ {
+  "modele": "Moto-9S Flex",
+  "marque": "Bell",
+  "nb_fiches": 8,
+  "motif": "\\y(moto-?)?9s\\y",
+  "accroche": "Le cross de course de Bell en fibre de verre, avec gestion de l'énergie Flex, ventilation Velocity Flow et visière Flying Bridge.",
+  "description": "Le Moto-9S Flex reprend les bases de Bell en cross : une coque légère en fibre de verre et une doublure Flex qui gère l'énergie. Trois couches de matériaux travaillent à différentes vitesses d'impact. La ventilation Velocity Flow et la visière Flying Bridge réglable complètent l'ensemble pour les pilotes qui veulent rester devant.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Coque légère en fibre de verre composite.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Technologie Flex de gestion de l'énergie, avec trois couches de matériaux.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation Velocity Flow avec mentonnière EPS entièrement ventilée.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière Flying Bridge entièrement réglable, avec prises d'air.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Vis de visière QuickFlip pour un réglage rapide.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque légère en fibre de verre",
+   "Technologie Flex anti-chocs",
+   "Ventilation Velocity Flow",
+   "Visière Flying Bridge réglable"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 560 g (±50 g, taille M, annoncé)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Fibre de verre",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Flying Bridge entièrement réglable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Velocity Flow, mentonnière ventilée",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Une description évoque la coque Tri-Matrix et une résistance proche du carbone, mais toutes précisent fibre de verre : fibre de verre retenue.",
+   "Poids relevé sur un seul coloris."
+  ]
+ },
+ {
+  "modele": "Moto-3",
+  "marque": "Bell",
+  "nb_fiches": 5,
+  "motif": "\\ymoto-?3\\y",
+  "accroche": "Le casque cross culte de Bell, né à la fin des années 70, en fibre de verre avec ventilation Velocity Flow et ECE 22.06.",
+  "description": "Le Moto-3 garde l'allure de la légende des années 70, avec les méthodes de fabrication d'aujourd'hui. Coque légère en fibre de verre, EPS multicouche et ventilation Velocity Flow : le style rétro cache un casque moderne. Intérieur en tissu éponge amovible et lavable, garantie de cinq ans.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Coque légère en fibre de verre composite.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Style fidèle au Moto-3 d'origine des années 70.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation Velocity Flow avec FlowAdjust.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "3 tailles de coque et d'EPS ; jugulaire à double anneau en D.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure en tissu éponge amovible, lavable et antibactérienne.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Garantie de cinq ans.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Look rétro du Moto-3 d'origine",
+   "Coque légère en fibre de verre",
+   "Ventilation réglable FlowAdjust",
+   "Garantie de cinq ans"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 250 g (±50 g, taille M, annoncé)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Fibre de verre",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Velocity Flow avec FlowAdjust",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Poids et norme relevés sur le coloris noir de la version Classic."
+  ]
+ },
+ {
+  "modele": "Moto-10 MIPS",
+  "marque": "Bell",
+  "nb_fiches": 2,
+  "motif": "\\ymoto-?10 mips\\y",
+  "accroche": "Le cross haut de gamme de Bell : coque composite Tri-Matrix en fibre de verre, MIPS C et ventilation Velocity Flow pour l'effort intense.",
+  "description": "Le Moto-10 MIPS est le casque tout-terrain le plus avancé de la gamme Moto de Bell. Sa coque composite Tri-Matrix en fibre de verre allie stabilité et faible poids, et le système MIPS C limite les forces de rotation. La ventilation Velocity Flow soutient l'effort.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Coque composite Tri-Matrix en fibre de verre.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Solution MIPS C pour réduire les forces de rotation lors des impacts obliques.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation Velocity Flow pour un refroidissement efficace sous forte charge.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Issu de la série Moto, conçue avec les athlètes de Bell.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque composite Tri-Matrix en fibre de verre",
+   "Système MIPS C anti-rotation",
+   "Ventilation Velocity Flow",
+   "Issu de la série Moto de Bell"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Fibre de verre (composite Tri-Matrix)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Velocity Flow",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Version Spherical à coque carbone traitée à part."
+  ]
+ },
+ {
+  "modele": "Moto-10 Spherical",
+  "marque": "Bell",
+  "nb_fiches": 1,
+  "motif": "\\ymoto-?10 spherical\\y",
+  "accroche": "Le cross le plus avancé de Bell : coque segmentée en carbone 3K, technologie Spherical propulsée par MIPS et coussinets magnétiques.",
+  "description": "Le Moto-10 Spherical est l'évolution de la série Moto de Bell. Sa coque segmentée en carbone 3K reste légère et stable, et la technologie Spherical, propulsée par MIPS, réduit les forces de rotation. Les coussinets de joue magnétiques Magnefusion permettent un retrait d'urgence.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Coque segmentée en carbone 3K.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Technologie Spherical propulsée par MIPS pour réduire les forces de rotation.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Système d'échange thermique TEAS pour la ventilation.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coussinets de joue magnétiques Magnefusion, avec retrait d'urgence MERS.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Garde de sangle magnétique Magnefusion.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque segmentée en carbone 3K",
+   "Technologie Spherical avec MIPS",
+   "Joues magnétiques à retrait rapide",
+   "Ventilation à échange thermique"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Carbone (carbone 3K segmenté)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Système d'échange thermique TEAS",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "TEAS cité sur la version GP, supposé commun."
+  ]
+ },
+ {
+  "modele": "Bullitt GT Carbon",
+  "marque": "Bell",
+  "nb_fiches": 2,
+  "motif": "\\ybullitt gt carbon\\y",
+  "accroche": "L'intégral rétro de Bell en carbone 3K : 3 tailles de coque, ventilation Velocity Flow et prises d'air en treillis métallique.",
+  "description": "Le Bullitt GT Carbon prolonge le look rétro du Bullitt avec une coque composite en carbone 3K à profil bas. Trois tailles de coque et d'EPS ajustent le casque à votre tête. La ventilation Velocity Flow se règle, et la doublure en microsuède et cuir soigne le confort.",
+  "profil_position": 60,
+  "points_forts": [
+   {
+    "texte": "Coque en composite de carbone 3K à profil bas.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "3 tailles de coque et d'EPS pour un ajustement optimal.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation Velocity Flow avec FlowAdjust ; prises d'air en treillis métallique verrouillables.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure EPS multicouche à densités différentes.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure en microsuède et cuir.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque en carbone 3K, look rétro",
+   "3 tailles de coque et d'EPS",
+   "Prises d'air en treillis métallique",
+   "Doublure en microsuède et cuir"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Carbone (tissage 3K)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Velocity Flow avec FlowAdjust",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "SHARP Bullitt (3 étoiles, 2016) en ECE 22.05 : ancienne version, non retenue.",
+   "Doublure en microsuède et cuir citée sur GT Lane/GT Carbon Lane."
+  ]
+ },
+ {
+  "modele": "Eliminator Carbon",
+  "marque": "Bell",
+  "nb_fiches": 3,
+  "motif": "\\yeliminator carbon\\y",
+  "accroche": "L'intégral Bell en composite carbone 6K, tout en légèreté, avec ventilation Velocity Flow réglable et doublure à séchage rapide.",
+  "description": "L'Eliminator Carbon vise la performance avec une coque en composite de carbone 6K, héritée des casques de course, pour un poids minimal. La ventilation Velocity Flow se règle, et la doublure amovible sèche vite. Des poches pour les branches de lunettes complètent le confort.",
+  "profil_position": 65,
+  "points_forts": [
+   {
+    "texte": "Coque en composite de carbone 6K.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation Velocity Flow avec FlowAdjust.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure EPS multicouche à densités différentes.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Rembourrage amovible, à séchage rapide et antimicrobien.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Poches intégrées pour les branches de lunettes.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque composite en carbone 6K",
+   "Ventilation Velocity Flow réglable",
+   "Intérieur à séchage rapide",
+   "Poches pour branches de lunettes"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Carbone (composite 6K)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Velocity Flow avec FlowAdjust",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "SHARP Eliminator (5 étoiles, mars 2022) concerne une fibre de verre en ECE 22.05 : non retenu pour la version carbone.",
+   "Poches de lunettes citées sur la version Protint."
+  ]
+ },
+ {
+  "modele": "Custom 500",
+  "marque": "Bell",
+  "nb_fiches": 2,
+  "motif": "\\ycustom 500\\y",
+  "accroche": "Le jet Bell inspiré du casque 500 de 1954 : coque composite en fibre de verre, cinq tailles de coque et intérieur en cuir, homologué ECE 22.06.",
+  "description": "Le Custom 500 reprend l'esprit du premier casque Bell, apparu en 1954. Sa coque en fibre de verre composite à profil bas existe en cinq tailles, pour un ajustement qui épouse la tête. Cinq boutons-pression permettent d'ajouter une visière, et l'intérieur est en cuir véritable antibactérien.",
+  "profil_position": 15,
+  "points_forts": [
+   {
+    "texte": "Inspiré du premier casque produit par la marque en 1954.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en composite de fibre de verre à profil bas.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "5 tailles de coque pour un ajustement personnalisé.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur en cuir véritable antibactérien.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "5 boutons-pression pour fixer une visière ou un écran.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Garantie de cinq ans ; poids d'environ 982 g en taille M.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Inspiré du casque Bell de 1954",
+   "5 tailles de coque",
+   "Intérieur en cuir véritable",
+   "5 boutons-pression pour visière"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "982 g (±50 g, taille M, annoncé)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Fibre de verre (composite)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Cuir véritable antibactérien",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Visière ou écran vendus séparément."
+  ],
+  "alertes_qualite": [
+   "Poids et norme relevés sur la version Solid ; la version Carbon (coque carbone) n'est pas dans nos fiches."
+  ]
+ },
+ {
+  "modele": "TX-501",
+  "marque": "Bell",
+  "nb_fiches": 2,
+  "motif": "\\ytx-? ?501\\y",
+  "accroche": "Un jet Bell en fibre de verre à 1 175 g, avec pare-soleil rabattable et fermeture micrométrique, pour la ville comme pour la route.",
+  "description": "Le TX501 s'inspire du 500-TX historique de Bell, pour le motard moderne. Sa coque en fibre de verre est complétée par un pare-soleil rabattable et une ventilation Velocity Flow. Fermeture micrométrique et doublure confort amovible font de lui un jet facile à vivre.",
+  "profil_position": 15,
+  "points_forts": [
+   {
+    "texte": "Coque composite en fibre de verre, calotte EPS multidensité.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil rabattable intégré, optique de classe 1.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation Velocity Flow.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture micrométrique ; doublure confort amovible et lavable.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Garantie de cinq ans, ECE 22.06.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Pare-soleil rabattable intégré",
+   "Coque en fibre de verre, 1 175 g",
+   "Fermeture micrométrique",
+   "Doublure amovible et lavable"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 175 g (±50 g, annoncé)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Fibre de verre",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Écran solaire rabattable intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Velocity Flow",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Poids et norme relevés sur le coloris Solid gris."
+  ]
+ },
+ {
+  "modele": "Broozer",
+  "marque": "Bell",
+  "nb_fiches": 3,
+  "motif": "\\ybroozer\\y",
+  "accroche": "Le modulable Bell à mentonnière amovible : intégral ou jet en un geste, avec écran clair et teinté fournis et garantie de cinq ans.",
+  "description": "Le Broozer passe de l'intégral au jet grâce à sa mentonnière amovible. Sa coque légère en PC/ABS s'accompagne d'une calotte EPS à double densité et d'une ventilation coulissante. Un écran clair et un écran teinté sont livrés, et la doublure se lave.",
+  "profil_position": 30,
+  "points_forts": [
+   {
+    "texte": "Mentonnière amovible : deux casques en un.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque légère en PC/ABS, calotte EPS à double densité.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran Nutrafog II antibuée, anti-rayures et protection UV ; écrans clair et teinté fournis.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Curseur de ventilation coulissant.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Compatible avec le port de lunettes, doublure lavable.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Garantie de cinq ans.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Mentonnière amovible 2-en-1",
+   "Écrans clair et teinté fournis",
+   "Ventilation coulissante",
+   "Garantie de cinq ans"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 350 g (±50 g, taille M, annoncé)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (PC/ABS)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Nutrafog II antibuée, anti-rayures et UV ; écrans clair et teinté fournis",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Curseurs coulissants",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Fermeture : micro-lock selon la description, double anneau en D selon le tableau technique : ligne omise.",
+   "Poids et norme relevés sur le coloris Duplet."
+  ]
+ }
+]

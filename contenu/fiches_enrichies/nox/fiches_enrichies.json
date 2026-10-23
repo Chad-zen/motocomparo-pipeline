@@ -1,0 +1,440 @@
+[
+ {
+  "modele": "N304S",
+  "marque": "Nox",
+  "nb_fiches": 8,
+  "motif": "\\yn304s\\y",
+  "accroche": "Intégral à coque en polycarbonate, ECE 22.06, avec écran incolore, double écran solaire et fermeture micrométrique.",
+  "description": "Le N304S est un intégral complet pour rouler au quotidien. Sa coque en polycarbonate répond à la norme ECE 22.06, et il embarque un écran incolore avec un double écran solaire. La fermeture micrométrique se règle vite, et un système EQRS complète l'ensemble.",
+  "profil_position": 40,
+  "points_forts": [
+   {
+    "texte": "Coque en polycarbonate, conforme à la norme ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran incolore et double écran solaire.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture par boucle micrométrique.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Système EQRS.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque en polycarbonate, ECE 22.06",
+   "Double écran solaire",
+   "Écran incolore",
+   "Fermeture micrométrique"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Écran incolore",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Double écran solaire",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": []
+ },
+ {
+  "modele": "N401",
+  "marque": "Nox",
+  "nb_fiches": 4,
+  "motif": "\\yn401\\y",
+  "accroche": "Un intégral conforme à la norme ECE 22.06, au confort et au look soignés, pour rouler au quotidien.",
+  "description": "Le N401 est un casque intégral qui répond à la norme ECE 22.06. Nox y a soigné le confort et le look, avec des coloris variés (blanc perle, noir mat, Xeno noir mat et titanium).",
+  "profil_position": 40,
+  "points_forts": [
+   {
+    "texte": "Casque intégral conforme à la norme ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Confort soigné.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Look soigné.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coloris variés dont le blanc perle, le noir mat et le Xeno noir mat et titanium.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Intégral homologué ECE 22.06",
+   "Confort soigné",
+   "Look soigné",
+   "Plusieurs coloris"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": []
+ },
+ {
+  "modele": "N130",
+  "marque": "Nox",
+  "nb_fiches": 5,
+  "motif": "\\yn130\\y",
+  "accroche": "Jet urbain à longue visière transparente, double écran solaire fumé et coque en polycarbonate ECE 22.06.",
+  "description": "Le N130 est un jet pensé pour la ville et la périphérie. Il offre une longue visière transparente et un double écran solaire fumé, sur une coque en polycarbonate conforme à la norme ECE 22.06.",
+  "profil_position": 10,
+  "points_forts": [
+   {
+    "texte": "Longue visière transparente.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Double écran solaire fumé.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en polycarbonate, conforme à la norme ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pensé pour les déplacements urbains et périurbains.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Longue visière transparente",
+   "Double écran solaire fumé",
+   "Coque polycarbonate, ECE 22.06",
+   "Pensé pour la ville"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Longue, transparente",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Double écran solaire fumé",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": []
+ },
+ {
+  "modele": "N210 Evo",
+  "marque": "Nox",
+  "nb_fiches": 5,
+  "motif": "\\yn210 evo\\y",
+  "accroche": "Jet inspiré de la Dolce Vita, avec écran court transparent, fermeture micrométrique et coque polycarbonate ECE 22.06.",
+  "description": "Le N210 Evo s'inspire de la Dolce Vita italienne, entre vintage et modernité. Il offre un écran court transparent et une fermeture micrométrique rapide, sur une coque en polycarbonate conforme à la norme ECE 22.06.",
+  "profil_position": 10,
+  "points_forts": [
+   {
+    "texte": "Inspiration Dolce Vita italienne, entre vintage et moderne.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran court transparent.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture micrométrique rapide.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en polycarbonate, conforme à la norme ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Look Dolce Vita",
+   "Écran court transparent",
+   "Fermeture micrométrique rapide",
+   "Coque polycarbonate, ECE 22.06"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Écran court transparent",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": []
+ },
+ {
+  "modele": "N243",
+  "marque": "Nox",
+  "nb_fiches": 7,
+  "motif": "\\yn243\\y",
+  "accroche": "Jet rétro à l'allure intemporelle, de la gamme Bobbers : il convient à la moto comme au scooter, ECE 22.06.",
+  "description": "Le N243 s'adapte à votre Harley, votre café racer, votre roadster vintage ou votre scooter. Il fait partie de la gamme Bobbers de Nox et affiche un look intemporel. Il répond à la norme ECE 22.06.",
+  "profil_position": 10,
+  "points_forts": [
+   {
+    "texte": "Jet rétro à l'allure intemporelle.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Gamme Bobbers.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pour la moto comme pour le scooter.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Conforme à la norme ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Look rétro intemporel",
+   "Moto ou scooter",
+   "Gamme Bobbers",
+   "Homologué ECE 22.06"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": []
+ },
+ {
+  "modele": "N967",
+  "marque": "Nox",
+  "nb_fiches": 6,
+  "motif": "\\yn967\\y",
+  "accroche": "Modulable à double homologation jet et intégral, conforme à la norme ECE 22.06.",
+  "description": "Le N967 est un modulable polyvalent : il répond à la norme ECE 22.06 en version jet comme en version intégral. Nox y réunit polyvalence, style et confort.",
+  "profil_position": 30,
+  "points_forts": [
+   {
+    "texte": "Modulable homologué ECE 22.06 en version jet et en version intégral.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Style et confort réunis.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Un seul casque pour rouler en jet ou en intégral.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Large choix de coloris, dont le Synchro noir mat et titanium.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Modulable, double homologation",
+   "Utilisable en jet ou en intégral",
+   "ECE 22.06 en jet et intégral",
+   "Style et confort réunis"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06 (jet et intégral)",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": []
+ },
+ {
+  "modele": "N968",
+  "marque": "Nox",
+  "nb_fiches": 3,
+  "motif": "\\yn968\\y",
+  "accroche": "Modulable à mentonnière rétractable sur le dessus, coque polycarbonate ECE 22.06, look sobre et sportif.",
+  "description": "Le N968 passe d'intégral à jet d'une simple pression : sa mentonnière se rétracte sur le haut du casque. Sa coque en polycarbonate répond à la norme ECE 22.06, pour un look sobre et sportif et un bon confort.",
+  "profil_position": 30,
+  "points_forts": [
+   {
+    "texte": "Mentonnière rétractable sur le haut du casque : de l'intégral au jet d'une pression.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en polycarbonate, conforme à la norme ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Look sobre et sportif.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Modulable confortable.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Mentonnière rétractable",
+   "De l'intégral au jet en un geste",
+   "Coque polycarbonate, ECE 22.06",
+   "Look sobre et sportif"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate)",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": []
+ },
+ {
+  "modele": "N633 Airshock",
+  "marque": "Nox",
+  "nb_fiches": 2,
+  "motif": "\\yn633\\y",
+  "accroche": "Casque cross Nox avec fermeture micrométrique, conforme à la norme ECE 22.06, pour la ville ou les loisirs.",
+  "description": "Le N633 Airshock adopte la silhouette d'un casque tout-terrain, avec sa casquette. Sa fermeture micrométrique et sa conformité à la norme ECE 22.06 le destinent à un usage urbain ou de loisir.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Casque cross conforme à la norme ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture par boucle micrométrique.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pensé pour un usage urbain ou de loisir.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visières de rechange existantes pour la gamme.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Look cross",
+   "Conforme à la norme ECE 22.06",
+   "Fermeture micrométrique",
+   "Visière de rechange existante"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Fiches : N633 Airshock et N633 Fusion regroupées."
+  ]
+ }
+]

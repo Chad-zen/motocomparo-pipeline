@@ -1,0 +1,62 @@
+[
+ {
+  "modele": "CC",
+  "marque": "Qwart",
+  "nb_fiches": 3,
+  "motif": "\\yqwart cc\\y",
+  "accroche": "Le jet classique de Qwart revisité : coque en fibre de verre, protection mentonnière et visière amovibles, intérieur en cuir.",
+  "description": "Le CC réinterprète le casque ouvert classique avec des lignes fluides et une protection mentonnière marquée. Sa coque en fibre de verre est stable et légère, et la protection mentonnière comme la visière sont amovibles. Intérieur ventilé en cuir et matière façon daim.",
+  "profil_position": 25,
+  "points_forts": [
+   {
+    "texte": "Coque composite en fibre de verre, stable tout en restant légère.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Protection mentonnière et visière amovibles pour s'adapter à chaque sortie.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur ventilé pour garder la tête au frais.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur en cuir et en matière matelassée façon daim.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Calotin interne en EPS multidensité.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque en fibre de verre",
+   "Protection mentonnière amovible",
+   "Intérieur cuir et façon daim",
+   "Intérieur ventilé"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Fibre de verre",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Intérieur ventilé",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Description tronquée dans le flux : fermeture, norme et poids non confirmés.",
+   "La description mentionne aussi un protège-menton carbone/fibre de verre : non repris pour ne pas mélanger les matières."
+  ]
+ }
+]

@@ -1,0 +1,1262 @@
+[
+ {
+  "modele": "X.R3R",
+  "motif": "\\yx\\.?r3r\\y",
+  "accroche": "L'intégral sportif de Nexx, pensé pour la piste : aérodynamique soignée, fermeture magnétique X-Lock, visière et Pinlock livrés.",
+  "description": "Le X.R3R est l'intégral sportif de Nexx, né de l'esprit course. Sa coque composite existe en trois tailles pour un maintien précis, et son spoiler arrière optionnel stabilise à haute vitesse. Livré avec visière claire, visière foncée et Pinlock, il est prêt pour la piste comme pour la route.",
+  "profil_position": 90,
+  "points_forts": [
+   {
+    "texte": "Coque composite X-Matrix 2 (fibres de verre multiaxiales, fibres organiques 3D, aramide et renfort carbone), proposée en 3 tailles de coque.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Forme aérodynamique avec extension de spoiler arrière en option, pour garder le cap à haute vitesse.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Livré avec une visière claire, une visière foncée et un Pinlock.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière à dégagement rapide Recoil, plate et préparée pour les tear-offs.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture à double anneau en D avec bouton magnétique X-Lock et système d'extraction d'urgence des joues.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation du menton Chin Speed-Flow : 5 entrées et 4 sorties d'air.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Pinlock et 2 visières livrés",
+   "Spoiler arrière en option",
+   "Fermeture magnétique X-Lock",
+   "Esprit course, coque composite"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (technologie X-Matrix 2)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D avec bouton magnétique X-Lock",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Polycarbonate Lexan, double verrouillage, dégagement rapide Recoil, préparée pour les tear-offs",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Chin Speed-Flow : 5 entrées et 4 sorties d'air",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XXS à XXL",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Absent de SHARP.",
+   "Poids non retenu : 1 350 g pour la version Swirl Carbon (flux), 1 525 g pour tout le modèle dans un tableau technique : incohérents.",
+   "Coque : versions X-Matrix 2 et X-Pro carbone mélangées sous un même modèle ; texte limité à composite.",
+   "Pinlock livré affirmé par les textes Hagibis, Zero Pro 2 et Pro FIM ; non vérifié pour toutes les déclinaisons."
+  ],
+  "marque": "Nexx",
+  "nb_fiches": 22
+ },
+ {
+  "modele": "X.Rally",
+  "motif": "\\yx\\.?rally\\y",
+  "accroche": "L'intégral aventure de Nexx pour la route comme pour la piste : champ de vision 225°, ventilation généreuse et visière à rappel.",
+  "description": "Le X.Rally s'adresse à ceux qui alternent route et hors-piste. Sa visière de classe optique I offre un champ de vision de 225° à l'horizontale, et la ventilation Chin Speed-Flow brasse l'air du menton au sommet. Un casque d'aventure sportif, léger et bien aéré.",
+  "profil_position": 55,
+  "points_forts": [
+   {
+    "texte": "Champ de vision X-Sensus de 225° à l'horizontale, avec visière de classe optique I.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière à double blocage avec 2 positions antibuée et mécanisme de rappel, préparée pour les tear-offs.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation Chin Speed-Flow : 6 entrées et 4 sorties d'air.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure de calotte alvéolée qui crée une chambre d'air frais.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Spoiler arrière en option pour la stabilité à haute vitesse.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Système d'extraction d'urgence des mousses de joues (V2).",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Champ de vision de 225°",
+   "Visière à 2 positions antibuée",
+   "6 entrées d'air pour rester au frais",
+   "Spoiler arrière en option"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (technologie X-Matrix 2)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Classe optique I, champ de vision 225°, double blocage, mécanisme de rappel, préparée pour les tear-offs",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Chin Speed-Flow : 6 entrées et 4 sorties d'air",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Absent de SHARP.",
+   "Fermeture non renseignée : micrométrique aluminium + X-Lock d'un côté, double anneau en D de l'autre.",
+   "Coque : X-Pro carbone pour Raid, Pro, Gravix, Namib, Zero Pro ; X-Matrix 2 pour Plain, Yuma (un tableau technique donne la fibre pour Raid) ; texte limité à composite.",
+   "Poids non retenu (1 553 g d'un seul tableau)."
+  ],
+  "marque": "Nexx",
+  "nb_fiches": 20
+ },
+ {
+  "modele": "X.TR",
+  "motif": "\\yx\\.?tr\\y",
+  "accroche": "L'intégral sport-tourisme de Nexx : air frais en continu, bruit de vent réduit et spoiler pour avaler les kilomètres.",
+  "description": "Le X.TR est un intégral pour rouler vite et longtemps. Sa chambre de ventilation Mid Airflow expulse l'air chaud et limite la buée, et son bourrelet de nuque réduit le bruit du vent jusqu'à 40 %. Le spoiler arrière améliore la stabilité, et il se prépare à recevoir l'intercom X.COM3.",
+  "profil_position": 70,
+  "points_forts": [
+   {
+    "texte": "Chambre d'air Mid Airflow brevetée : elle expulse l'air chaud et réduit la buée.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Bourrelet de nuque spécial qui réduit le bruit du vent jusqu'à 40 % sans gêner la ventilation.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière X-Block'N'Seal : étanche au bruit, au vent et à l'eau, avec option photochromique.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "EPS anti-vibration et spoiler arrière pour limiter la traînée et la portance.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure à dégagement rapide F.R.S. pour le nettoyage.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Prêt pour l'intercom X.COM3, avec support de caméra d'action détachable.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Jusqu'à 40 % de bruit de vent en moins",
+   "Visière étanche au vent et à l'eau",
+   "Spoiler arrière pour la stabilité",
+   "Prêt pour l'intercom X.COM3"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (technologie X-Matrix 2)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Mécanisme X-Block'N'Seal, option photochromique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Écran solaire intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Chambre d'air Mid Airflow",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Audio",
+    "valeur": "Prêt pour l'intercom X.COM3",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Absent de SHARP.",
+   "Coque : X-Matrix 2 (Plain, Quanta, Rush) et X-Pro carbone (Atlantic, Zero Pro, Rush Carbon) ; texte limité à composite.",
+   "Fermeture et pare-soleil issus d'un seul tableau technique ; Pinlock non établi donc omis.",
+   "Poids non retenu (1 657 g d'un seul tableau)."
+  ],
+  "marque": "Nexx",
+  "nb_fiches": 14
+ },
+ {
+  "modele": "X.WED3",
+  "motif": "\\yx\\.?wed ?3\\y",
+  "accroche": "Le casque crossover Nexx pour la piste et la route : pare-soleil intégré, Pinlock livré et visière réglable sans outil.",
+  "description": "Le X.WED3 est un casque crossover pour qui aime autant les chemins que l'asphalte. Il embarque un pare-soleil fumé intégré, un Pinlock livré avec le casque et une visière réglable sans outil. Les absorbeurs X-Foam en mousse EPP viennent compléter la calotte pour un casque d'aventure bien équipé.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Pare-soleil fumé intégré, pour passer du soleil à l'ombre sans s'arrêter.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Film Pinlock antibuée livré avec le casque.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière aérodynamique réglable sans outil, retrait facilité par la technologie X-Lock.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Absorbeurs X-Foam en mousse EPP en plus de l'EPS multi-densité.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Multiples entrées d'air et extracteurs, avec chambre Mid Airflow.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur lavable avec cannelures pour les branches de lunettes, prêt pour l'intercom X.COM3.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Pare-soleil fumé intégré",
+   "Pinlock antibuée livré",
+   "Visière réglable sans outil",
+   "Intérieur lavable, lunettes OK"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (technologie X-Matrix)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Polycarbonate Lexan amovible, réglable sans outil, système X-Lock",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Écran solaire fumé intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Multiples entrées d'air et extracteurs",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Audio",
+    "valeur": "Prêt pour l'intercom X.COM3",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Absent de SHARP.",
+   "Coque : X-Matrix (verre, organiques, aramide, carbone) pour Furka, Plain, Gobi ; X-Pro carbone pour Zero Pro, Glaze, Golden Dune, Keyo carbone ; texte limité à composite.",
+   "Poids non retenu (1 700 g d'un seul tableau).",
+   "Titres cross (Trailmania) rattachés au modèle."
+  ],
+  "marque": "Nexx",
+  "nb_fiches": 23
+ },
+ {
+  "modele": "X.WST3",
+  "motif": "\\yx\\.?wst ?3\\y",
+  "accroche": "L'intégral sport-tourisme de Nexx : pare-soleil agrandi de 18 %, chambre d'air centrale et poids annoncé à 1 675 g.",
+  "description": "Le X.WST3 est un intégral sport-tourisme pensé pour la ventilation : une chambre d'air centrale et un système à 6 entrées et 2 sorties maintiennent la tête au frais. Son pare-soleil, agrandi de 18 %, descend jusqu'à l'arête du nez. Une coque en trois tailles et un EPS qui absorbe les vibrations complètent le tableau.",
+  "profil_position": 70,
+  "points_forts": [
+   {
+    "texte": "Pare-soleil agrandi de 18 %, assez haut pour atteindre l'arête du nez.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Chambre d'air centrale (brevet en instance) pour une ventilation interne soignée.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Système d'air dynamique : 6 entrées et 2 sorties.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "EPS qui absorbe les vibrations et forme aérodynamique avec espaceur.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en 3 tailles (XXS-S, M-L, XL-3XL) et forme de menton étudiée pour réduire les blessures au thorax lors d'un choc frontal.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Prêt pour l'intercom X.COM3 ; visière prête pour le Pinlock.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Pare-soleil agrandi de 18 %",
+   "6 entrées et 2 sorties d'air",
+   "Chambre d'air centrale",
+   "Prêt pour l'intercom X.COM3"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 675 g (±50 g, annoncé par le constructeur)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (technologie X-Matrix 2)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Polycarbonate Lexan, position antibuée, Super Lock, préparée pour le Pinlock",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Écran solaire intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Air dynamique : 6 entrées et 2 sorties",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Audio",
+    "valeur": "Prêt pour l'intercom X.COM3",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XXS à XXXL",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Absent de SHARP.",
+   "Coque : X-Matrix 2 (B-Side, Plain, Fluence) et X-Pro carbone (Zero Pro, Hadal, Lava) ; texte limité à composite.",
+   "Pinlock : « inclus » dans un texte (Fluence), « préparé » dans un autre ; ligne Pinlock omise.",
+   "Poids : 1 675 g du constructeur (flux) alors qu'un tableau donne 1 673 g."
+  ],
+  "marque": "Nexx",
+  "nb_fiches": 22
+ },
+ {
+  "modele": "Y.100R",
+  "motif": "\\yy\\.?100 ?r\\y",
+  "accroche": "L'intégral accessible de Nexx avec pare-soleil intégré et Pinlock livré, au look sportif et aux couleurs variées.",
+  "description": "Le Y.100R est un intégral au style racing, avec spoiler à double lame, ventilation à flux rapide et pare-soleil teinté intégré. Le Pinlock antibuée est livré avec le casque et la visière se libère d'un geste grâce au mécanisme X-SWIFT. L'intérieur 3D se lave et convient aux porteurs de lunettes.",
+  "profil_position": 60,
+  "points_forts": [
+   {
+    "texte": "Pare-soleil intérieur teinté intégré, actionné par un simple bouton.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Film Pinlock antibuée livré avec le casque.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière 2D en Lexan à large champ de vision, libérée en un geste par le mécanisme X-SWIFT.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Spoiler Racing à double lame et ventilation à flux rapide.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur 3D démontable et lavable en tissu X.Mart Dry, adapté aux porteurs de lunettes.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en polyfusion (polycarbonate) avec EPS multi-densité sans colle, et prêt pour l'intercom X.COM3.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Pare-soleil intégré",
+   "Pinlock antibuée livré",
+   "Visière à libération rapide",
+   "Intérieur lavable, lunettes OK"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 575 g (±50 g, annoncé par le constructeur)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate), technologie Polyfusion",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Polycarbonate Lexan anti-rayures, libération rapide X-SWIFT",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Écran solaire intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Audio",
+    "valeur": "Prêt pour l'intercom X.COM3",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Absent de SHARP (le Y100 testé est un autre modèle).",
+   "Poids : 1 575 g du constructeur (flux), 1 618 g dans un tableau technique."
+  ],
+  "marque": "Nexx",
+  "nb_fiches": 17
+ },
+ {
+  "modele": "Y.TRAVL",
+  "motif": "\\yy\\.?travl\\y",
+  "accroche": "Le casque aventure accessible de Nexx : visière à peak, pare-soleil intégré et réflecteurs visibles sous tous les angles.",
+  "description": "Le Y.TRAVL est un casque d'aventure à coque polyfusion pour la route comme pour les pistes faciles. Son peak aérodynamique est monté avec système anti-vibration, et son pare-soleil intérieur se manie en roulant. Des réflecteurs répartis sur toute la coque vous rendent visible sous tous les angles.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Peak avec système anti-vibration pour rester stable à haute vitesse.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil intérieur intégré, réglable en roulant.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Large ouverture pour les yeux et visière anti-rayures prête pour le Pinlock.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Réflecteurs sur tous les côtés du casque pour une visibilité à 360°.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coussinets de joues anti-bruit et tissu X-Mart Dry qui évacue l'humidité.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Prêt pour l'intercom X.COM3, avec support de caméra d'action amovible.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Pare-soleil intérieur intégré",
+   "Visible à 360° grâce aux réflecteurs",
+   "Peak anti-vibration",
+   "Prêt pour l'intercom X.COM3"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 750 g (±50 g, annoncé par le constructeur)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate), technologie Polyfusion",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Polycarbonate Lexan transparent anti-rayures, libération rapide X-SWIFT, préparée pour le Pinlock",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Écran solaire intérieur intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Audio",
+    "valeur": "Prêt pour l'intercom X.COM3",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Absent de SHARP.",
+   "Fermeture omise : micrométrique pour le flux, double anneau en D pour un tableau technique.",
+   "Poids : 1 750 g du constructeur, 1 805 g dans un tableau technique."
+  ],
+  "marque": "Nexx",
+  "nb_fiches": 10
+ },
+ {
+  "modele": "Y.10",
+  "motif": "\\yy\\.?10\\y",
+  "accroche": "Le jet urbain de Nexx : coque polyfusion, pare-soleil ultra-large intégré et fermeture micrométrique pour partir en deux secondes.",
+  "description": "Le Y.10 est un jet pensé pour les trajets quotidiens. Son pare-soleil ultra-large est intégré, sa boucle micrométrique se règle en un instant et son intérieur lavable reste frais malgré la transpiration. Il est prêt à recevoir un système de communication.",
+  "profil_position": 10,
+  "points_forts": [
+   {
+    "texte": "Pare-soleil ultra-large intégré, légèrement teinté, avec vision périphérique dégagée.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Boucle micrométrique : un réglage rapide et précis.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque polyfusion, compacte et résistante aux chocs selon le constructeur.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur démontable et lavable, en tissu doux anti-transpiration et anti-allergique.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran long, incolore et anti-rayures, avec ventilation supérieure.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Prêt pour un système de communication Bluetooth jusqu'à 45 mm.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Pare-soleil ultra-large intégré",
+   "Boucle micrométrique rapide",
+   "Intérieur lavable, anti-transpiration",
+   "Prêt pour un intercom Bluetooth"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate), technologie Polyfusion",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Écran long incolore, anti-rayures",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Écran solaire intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Ventilation supérieure",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Audio",
+    "valeur": "Prêt pour un système de communication (haut-parleurs jusqu'à 45 mm)",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Absent de SHARP.",
+   "Polyfusion : les textes disent « coque en polyfusion » sans préciser le matériau ; « polycarbonate » repris de la description d'autres modèles Nexx Polyfusion : à confirmer.",
+   "Poids non retenu (1 175 g ou 1 225 g selon les textes, 1 025 g pour la version Stiletto).",
+   "Nombre de coques : 2 ou 3 selon les textes, omis."
+  ],
+  "marque": "Nexx",
+  "nb_fiches": 28
+ },
+ {
+  "modele": "Y.100",
+  "motif": "\\yy\\.?100\\y",
+  "accroche": "L'intégral Nexx noté 5 étoiles au test SHARP en ECE 22.06, avec pare-soleil intégré et visière prête pour le Pinlock.",
+  "description": "Le Y.100 est un intégral qui a obtenu 5 étoiles au test SHARP britannique, avec 1 600 g sur la balance. Son pare-soleil intérieur teinté se manie d'un bouton et sa visière est prête pour le Pinlock. Une ventilation du menton efficace et un intérieur 3D lavable complètent le tableau.",
+  "profil_position": 55,
+  "points_forts": [
+   {
+    "texte": "5 étoiles au test SHARP, avec la norme ECE 22.06 (test d'août 2025).",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche Y100, août 2025"
+   },
+   {
+    "texte": "1 600 g à la pesée SHARP.",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche Y100, août 2025"
+   },
+   {
+    "texte": "Pare-soleil intérieur teinté, actionné par un simple bouton.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière anti-rayures prête pour le Pinlock, avec système de fixation rapide X-SWIFT.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Grande ventilation supérieure et ventilation du menton très efficace.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Boucle micrométrique à 7 niveaux et doublure 3D amovible et lavable.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "5 étoiles SHARP, norme ECE 22.06",
+   "1 600 g à la pesée SHARP",
+   "Pare-soleil intérieur teinté",
+   "Boucle micrométrique à 7 niveaux"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 600 g (pesée SHARP)",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate), technologie Polyfusion",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Polycarbonate Lexan anti-rayures, fixation rapide X-SWIFT, préparée pour le Pinlock",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Écran solaire intérieur intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Grande ventilation supérieure et ventilation du menton",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à XL",
+    "source": "SHARP"
+   }
+  ],
+  "securite": {
+   "sharp_etoiles": 5,
+   "date_test": "août 2025",
+   "norme": "ECE 22.06"
+  },
+  "a_savoir": [],
+  "alertes_qualite": [
+   "SHARP « Y100 » rattaché à la fiche Y.100 (Core, B-Side) ; à confirmer que ce n'est pas le Y.100R.",
+   "Poids constructeur 1 575 g ±50 g, SHARP 1 600 g : SHARP retenu."
+  ],
+  "marque": "Nexx",
+  "nb_fiches": 2
+ },
+ {
+  "modele": "X.G30",
+  "motif": "\\yx\\.?g30\\y",
+  "accroche": "Le jet rétro de Nexx, inspiré des années 60 : léger, avec pare-soleil intégré, pour la ville, le custom et le scooter.",
+  "description": "Le X.G30 emprunte son look aux casques jet des années 60. Il est léger, avec un pare-soleil intégré et un intérieur en tissu X.Mart Dry. Un choix naturel pour la ville, le custom et le scooter.",
+  "profil_position": 10,
+  "points_forts": [
+   {
+    "texte": "Design rétro inspiré des casques classiques des années 1960.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pensé pour les motos urbaines, les customs et les scooters.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Faible poids pour un confort de port élevé.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil intégré.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur en tissu X.Mart Dry.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Look rétro des années 60",
+   "Pare-soleil intégré",
+   "Léger pour la ville et le scooter",
+   "Tissu intérieur X.Mart Dry"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (technologie X-Matrix 2)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Écran solaire intégré",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Absent de SHARP.",
+   "Peu de données : norme et poids non établis pour le G30.",
+   "Coque : X-Matrix 2 (Groovy), X-Pro carbone (Noiré) ; texte limité à composite."
+  ],
+  "marque": "Nexx",
+  "nb_fiches": 11
+ },
+ {
+  "modele": "X.G20",
+  "motif": "\\yx\\.?g20\\y",
+  "accroche": "Le jet rétro de Nexx aux lignes des années 60 : 1 150 g annoncés, pare-soleil intégré et fermeture double anneau en D.",
+  "description": "Le X.G20 reprend les codes des casques jet des sixties avec les technologies d'aujourd'hui. Sa coque composite X-Matrix 2 en deux tailles reste légère, son pare-soleil est intégré et son intérieur X.Mart Dry se lave. Il convient aux porteurs de lunettes.",
+  "profil_position": 10,
+  "points_forts": [
+   {
+    "texte": "Design inspiré des casques jet classiques des années 1960.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque composite X-Matrix 2 en 2 tailles, pour un poids annoncé de 1 150 g.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil intégré.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur X.Mart Dry amovible et lavable.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Convient aux porteurs de lunettes.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture à double anneau en D.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Look jet des années 60",
+   "1 150 g annoncés",
+   "Pare-soleil intégré",
+   "Intérieur lavable, lunettes OK"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 150 g (±50 g, annoncé par le constructeur)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (technologie X-Matrix 2)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Écran solaire intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Absent de SHARP.",
+   "Fiche Deck : poids et norme contradictoires (1 150 g/ECE 22.06 et 1 325 g/CEE 22-06) ; valeurs retenues d'après la fiche Groovy.",
+   "Seulement 2 fiches au catalogue."
+  ],
+  "marque": "Nexx",
+  "nb_fiches": 2
+ },
+ {
+  "modele": "X.Lifecountry",
+  "motif": "\\yx\\.?lifecountry\\y",
+  "accroche": "Le modulable aventure de Nexx : visière réglable et amovible, système Morphofit pour les joues, pare-soleil intégré.",
+  "description": "Le X.Lifecountry est un modulable pensé pour l'aventure, des longues étapes sur route aux chemins. Son système Morphofit épouse les joues pour un confort durable, sa visière est ajustable et amovible, et sa forme aérodynamique limite la fatigue. Un pare-soleil intégré et une fermeture micrométrique en inox complètent l'ensemble.",
+  "profil_position": 40,
+  "points_forts": [
+   {
+    "texte": "Système Morphofit : ajustement ergonomique des joues pour rester à l'aise sur la durée.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière ajustable et amovible, aérodynamique et pensée pour le tout-terrain.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Structure aérodynamique qui réduit la résistance au vent et la fatigue.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil intégré.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture micrométrique en acier inoxydable.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure amovible et compatible avec le port de lunettes.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Visière ajustable et amovible",
+   "Joues Morphofit confortables",
+   "Pare-soleil intégré",
+   "Moins de résistance au vent"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 925 g (±50 g, annoncé par le constructeur)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (technologie X-Matrix 2)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique en acier inoxydable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Ajustable et amovible",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Écran solaire intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Absent de SHARP.",
+   "Poids : 1 925 g (X-Matrix 2) et 1 875 g (carbone Zero Pro, Glaze) ; valeur du composite retenue.",
+   "Coque : X-Matrix 2 (Plain, Westbound) et X-Pro carbone (Zero Pro, Glaze) ; texte limité à composite.",
+   "Une description tronquée (Terra) cite le système Morphofit."
+  ],
+  "marque": "Nexx",
+  "nb_fiches": 14
+ },
+ {
+  "modele": "X.Lifetour",
+  "motif": "\\yx\\.?lifetour\\y",
+  "accroche": "Le modulable route de Nexx : Pinlock livré, pare-soleil intégré et joint acoustique autour de la visière.",
+  "description": "Le X.Lifetour est un modulable à la fois confortable et complet. Pinlock livré, visière solaire intégrée et joint spécial autour du masque et de la visière : le calme règne à bord. Il se prépare à recevoir l'intercom X.COM3 et accueille une caméra d'action sur le dessus ou le côté.",
+  "profil_position": 30,
+  "points_forts": [
+   {
+    "texte": "Pinlock XLT 120 livré avec le casque.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil intégré commandé par un bouton ergonomique.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Joint en caoutchouc autour du masque et de la visière pour une bonne isolation acoustique.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Champ de vision panoramique et visière à dégagement rapide X-SWIFT.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "1 800 g à la pesée SHARP.",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche X.Lifetour, avril 2026"
+   },
+   {
+    "texte": "Prêt pour l'intercom X.COM3, avec supports pour caméra d'action (dessus et côté).",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Pinlock XLT 120 livré",
+   "Pare-soleil intégré à bouton",
+   "Joint pour un habitacle plus calme",
+   "Prêt pour l'intercom X.COM3"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 800 g (pesée SHARP)",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (technologie X-Matrix 2)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique en acier inoxydable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Polycarbonate Lexan, position antibuée, verrouillage central, dégagement rapide X-SWIFT",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Écran solaire intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Chambre de flux d'air médiane",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Audio",
+    "valeur": "Prêt pour l'intercom X.COM3",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à XXXL",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": {
+   "sharp_etoiles": 3,
+   "date_test": "avril 2026",
+   "norme": "ECE 22.06"
+  },
+  "a_savoir": [],
+  "alertes_qualite": [
+   "SHARP : 3 étoiles, ne pas mettre en avant ; poids 1 800 g (un tableau donne 1 650 g, flux 1 750-1 800 g).",
+   "Coque composite (SHARP) ; versions carbone (Zero Pro, Pro Mile) existent."
+  ],
+  "marque": "Nexx",
+  "nb_fiches": 9
+ }
+]

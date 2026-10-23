@@ -69,8 +69,16 @@ from dataclasses import dataclass, field
 _PREPARE = (r"(?:pr[ée]dispos|pr[ée]{1,2}quip|pr[ée]par|compatible|"
             r"pr[êe]t (?:[àa]|pour)|ready|adapt[ée] (?:pour|[àa])|"
             r"peut recevoir|possibilit[ée] d|en option|non fourni|"
-            r"n[ée]cessite|[àa] commander|vendu s[ée]par)"
+            r"n[ée]cessite|[àa] commander|vendu s[ée]par|"
+            r"utilisation d|installation d|install|d[ée]di[ée]|permet|logement|emplacement|"
+            r"pr[ée]vu|destin[ée]|recevoir|mont(?:er|age)|pour (?:un|le) syst)"
 )
+
+# La PRESENCE doit etre dite : « intercom integre », « livre avec », « avec un kit bluetooth ».
+# Sans l'un de ces mots, on ne sait pas, et on ne l'ecrit pas (22/10/2026 : « permet l'utilisation
+# d'un systeme de communication » donnait « intercom fourni » sur 105 des 160 casques Arai).
+_PRESENCE = (r"(?:int[ée]gr[ée]|inclus|livr[ée]|fourni|embarqu|incorpor|[ée]quip[ée] d|"
+             r"avec (?:un |le |son )?(?:kit |syst[èe]me |module )?(?:intercom|bluetooth|sena|cardo|communication))")
 
 # --- homologation -------------------------------------------------------------
 #
@@ -188,16 +196,21 @@ def _calotte(t: str) -> str | None:
 def _prepare_ou_fourni(texte: str, motif: str) -> str | None:
     """« prééquipé pour » n'est pas « fourni », et c'est LE piège du rayon.
 
-    On cherche le mot dans sa phrase, puis on regarde les quarante signes qui
-    le précèdent. Quarante parce que « prééquipé pour recevoir un système
-    d'intercom » tient dedans, et qu'au-delà on attrape la phrase d'avant, qui
-    parle d'autre chose.
+    On cherche le mot dans sa phrase, puis on regarde les soixante signes qui l'entourent. La
+    PRÉPARATION l'emporte. « fourni » exige une présence DITE (intégré, livré avec, inclus...) :
+    un texte qui parle d'un système de communication sans dire qu'il est dans la boîte ne prouve
+    rien, et ce qu'on ne prouve pas, on ne l'écrit pas.
     """
     m = re.search(motif, texte, re.I)
     if not m:
         return None
-    avant = texte[max(0, m.start() - 40):m.start()]
-    return "prepare" if re.search(_PREPARE, avant, re.I) else "fourni"
+    autour = texte[max(0, m.start() - 60):m.end() + 40]
+    if re.search(_PREPARE, autour, re.I):
+        return "prepare"
+    # la presence se lit TOUT PRES du mot : « ecran solaire integre ... systeme de communication »
+    # (Shoei Neotec 3) n'est pas un intercom integre
+    tout_pres = texte[max(0, m.start() - 28):m.end() + 22]
+    return "fourni" if re.search(_PRESENCE, tout_pres, re.I) else None
 
 
 def lire(titre: str, description: str) -> Casque:

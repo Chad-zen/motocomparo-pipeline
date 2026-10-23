@@ -1,0 +1,1029 @@
+[
+ {
+  "modele": "X.50",
+  "marque": "Givi",
+  "nb_fiches": 8,
+  "motif": "\\yx\\.?50 (solid|hologram)\\y",
+  "accroche": "Le modulable Givi X.50 : double homologation jet et intégral, pare-soleil intégré, coque en fibre de verre.",
+  "description": "Le X.50 est un modulable qui passe de l'intégral au jet en un geste, avec une double homologation P/J en ECE 22.06. Sa coque en fibre de verre existe en deux tailles pour un bon ajustement, et son pare-soleil intégré règle l'éblouissement en un instant. Écran transparent avec Pinlock Max Vision fourni, doublure lavable : un compagnon de longues sorties.",
+  "profil_position": 35,
+  "points_forts": [
+   {
+    "texte": "Double homologation P/J en ECE 22.06 : utilisable en intégral ou en jet.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en fibre de verre, proposée en deux tailles de coque.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran transparent résistant aux rayures, avec Pinlock Max Vision fourni.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil intégré, à abaisser d'un geste quand le soleil est bas.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation en haut de coque et au menton, avec sortie d'air arrière.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure amovible et lavable, déflecteurs de vent et de respiration amovibles.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Jet ou intégral : deux casques en un",
+   "Pare-soleil intégré, Pinlock fourni",
+   "Coque en fibre de verre, 2 tailles",
+   "Doublure amovible et lavable"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Fibre de verre (2 tailles de coque)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06 (P/J)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Transparente, résistante aux rayures",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock Max Vision fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Haut de coque et menton, sortie d'air arrière",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Givi propose le X.50 en deux versions, l'une en fibre de verre et l'autre en carbone."
+  ],
+  "alertes_qualite": [
+   "Matière des versions 'Solid' non écrite en toutes lettres dans les flux (seule la Hologram dit fibre de verre) ; retenue d'après le site Givi (deux versions : carbone / fibre de verre) et les titres 'Carbon' explicites pour le carbone.",
+   "Fiches 'Graphic X50' (300-320) et 'Solid 22R06' exclues : version peut-être carbone, non prouvé."
+  ]
+ },
+ {
+  "modele": "50.3 Quasar",
+  "marque": "Givi",
+  "nb_fiches": 5,
+  "motif": "\\y50\\.3\\y|\\yquasar\\y",
+  "accroche": "L'intégral Givi 50.3 : look sportif, Pinlock Max Vision fourni et double écran solaire, homologué ECE 22.06.",
+  "description": "Le 50.3 est un intégral aux lignes dynamiques, pensé pour rouler sportif sans se compliquer la vie. Sa coque thermoplastique existe en deux tailles et l'écran reçoit un Pinlock Max Vision fourni. Pare-soleil intégré, protège-nez amovible et déflecteur anti-remous : l'essentiel est là.",
+  "profil_position": 65,
+  "points_forts": [
+   {
+    "texte": "Intégral aux lignes sportives, homologué ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque thermoplastique en deux tailles de calotte.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pinlock Max Vision fourni avec l'écran transparent.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil intégré (double écran solaire).",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Protège-nez amovible et déflecteur stop-vent.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Environ 1 500 g (± 50 g) annoncés par le constructeur.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Intégral sportif aux lignes tendues",
+   "Pinlock Max Vision fourni",
+   "Pare-soleil intégré",
+   "Protège-nez et stop-vent amovibles"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (2 tailles de calotte)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock Max Vision fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Entrée d'air en haut de coque et au menton, extracteur arrière",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Un texte évoque 'thermoplastique et polycarbonate' ; matière retenue : thermoplastique. Aucun test SHARP pour le 50.3 (SHARP a testé le 50.4)."
+  ]
+ },
+ {
+  "modele": "X29",
+  "marque": "Givi",
+  "nb_fiches": 4,
+  "motif": "\\yx\\.?29\\y",
+  "accroche": "Le jet Givi X29 : coque en fibre de verre, écran long et double écran solaire escamotable pour la ville.",
+  "description": "Le X29 est un jet urbain à coque en fibre de verre. Son long écran transparent s'accompagne d'un double écran solaire intégré escamotable : on s'adapte à la lumière sans s'arrêter. Intérieur anallergique confortable, fermeture micrométrique, homologation ECE 22.06.",
+  "profil_position": 15,
+  "points_forts": [
+   {
+    "texte": "Coque en fibre de verre pour un jet léger au quotidien.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Long écran transparent, pensé pour la circulation urbaine.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Double écran solaire intégré et escamotable.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur confortable et anallergique, amovible et lavable.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologation ECE 22.06 avec fermeture micrométrique.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Jet en fibre de verre pour la ville",
+   "Double écran solaire escamotable",
+   "Long écran transparent",
+   "Intérieur anallergique lavable"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Fibre de verre",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Longue, transparente",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Double écran solaire intégré, escamotable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Prise d'air frontale et prises d'air supérieures, extracteur arrière",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Une version X29 Carbon existe (coque carbone) ; les fiches comparées visent la version Solid, en fibre de verre."
+  ]
+ },
+ {
+  "modele": "80.1 Apex",
+  "marque": "Givi",
+  "nb_fiches": 4,
+  "motif": "\\y80\\.1\\y|\\yapex\\y",
+  "accroche": "Le casque Givi 80.1 Apex : coque en fibre de verre, Pinlock Max Vision fourni, pare-soleil intégré. Pour route et chemins.",
+  "description": "Le 80.1 Apex est un intégral trail et crossover à coque en fibre de verre, en deux tailles de calotte. Il arrive avec un Pinlock Max Vision fourni, un pare-soleil intégré et une belle ventilation, de la coque jusqu'au menton. Homologué ECE 22.06, il convient aussi bien à la route qu'à l'enduro léger.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Coque en fibre de verre, deux tailles de calotte.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pinlock Max Vision fourni avec l'écran transparent.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil intégré pour passer de l'ombre à la lumière.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation en haut de coque et au menton, extracteur arrière.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Environ 1 450 g (± 50 g) annoncés par le constructeur.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Trail en fibre de verre, 2 tailles",
+   "Pinlock Max Vision fourni",
+   "Pare-soleil intégré",
+   "Environ 1 450 g annoncés"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Fibre de verre (2 tailles de calotte)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock Max Vision fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Haut de coque et menton, extracteur arrière",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Une version 80.1 Carbon existe ; fiches comparées = Apex (fibre de verre). Fiches 'Apex 22R06' rattachées par le nom Apex."
+  ]
+ },
+ {
+  "modele": "X36 Fiber",
+  "marque": "Givi",
+  "nb_fiches": 2,
+  "motif": "\\yx\\.?36\\y",
+  "accroche": "Le modulable Givi X36 Fiber : coque en fibres de verre légère, Pinlock fourni et écran solaire interne, ECE 22.06.",
+  "description": "Le X36 Fiber est un modulable léger à coque en fibres de verre, qui s'ouvre pour la ville et se ferme pour la route. L'écran est prédisposé Pinlock avec le film fourni, et un écran solaire interne limite l'éblouissement. Réglage micrométrique en acier inoxydable, parties internes lavables.",
+  "profil_position": 35,
+  "points_forts": [
+   {
+    "texte": "Coque en fibres de verre pour un modulable léger.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pinlock fourni avec l'écran, pour garder la visière claire.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran solaire interne contre le soleil et la buée.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Mentonnière ouvrable et déflecteur anti-vent.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Réglage micrométrique en acier inoxydable, serrage rapide.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Modulable léger en fibres de verre",
+   "Pinlock fourni",
+   "Écran solaire interne",
+   "Mentonnière ouvrable"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Fibre de verre",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Écran solaire interne",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Prise d'air en haut de coque et au menton, extracteur arrière",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Les variantes X36 Solid et Vertigo sont décrites en thermoplastique et une autre source parle de carbone ; seule la Fiber (fibres de verre) correspond aux fiches comparées."
+  ]
+ },
+ {
+  "modele": "X.50 Carbon",
+  "marque": "Givi",
+  "nb_fiches": 1,
+  "motif": "\\yx\\.?50 carbon\\y",
+  "accroche": "Le modulable Givi X.50 Carbon : coque entièrement en carbone, double homologation jet et intégral, environ 1 450 g annoncés.",
+  "description": "Le X.50 Carbon reprend la formule du modulable Givi dans une coque en fibre de carbone, deux tailles de coque à la clé. Homologué P/J en ECE 22.06, il se porte en intégral pour la route ou mentonnière relevée en ville. Pinlock Max Vision fourni et pare-soleil intégré complètent l'ensemble.",
+  "profil_position": 35,
+  "points_forts": [
+   {
+    "texte": "Coque en fibre de carbone, proposée en deux tailles de coque.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologation P/J en ECE 22.06 : intégral ou jet selon la position de la mentonnière.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Environ 1 450 g (± 50 g) annoncés par le constructeur.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran transparent résistant aux rayures avec Pinlock Max Vision fourni.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil intégré et ventilation en haut de coque et au menton.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque entièrement en carbone",
+   "Jet ou intégral : deux casques en un",
+   "Environ 1 450 g annoncés",
+   "Pare-soleil intégré, Pinlock fourni"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Carbone (2 tailles de coque)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06 (P/J)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Transparente, résistante aux rayures",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock Max Vision fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Haut de coque et menton, sortie d'air arrière",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Poids 1 450 g annoncé (fabricant), non vérifié par SHARP."
+  ]
+ },
+ {
+  "modele": "X31",
+  "marque": "Givi",
+  "nb_fiches": 1,
+  "motif": "\\yx\\.?31\\y",
+  "accroche": "Le jet Givi X31 : double visière avec écran solaire interne, deux tailles de calotte, ECE 22.06.",
+  "description": "Le X31 est un jet thermoplastique facile à vivre, en deux tailles de calotte pour un ajustement soigné. Sa double visière, avec écran extérieur anti-rayures et écran solaire interne fumé, suit la lumière de la journée. Trois entrées d'air et un extracteur arrière assurent le flux d'air.",
+  "profil_position": 15,
+  "points_forts": [
+   {
+    "texte": "Coque thermoplastique en deux tailles de calotte.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Double visière : écran extérieur anti-rayures et écran solaire interne fumé.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Trois entrées d'air supérieures et un extracteur arrière.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur entièrement amovible et lavable en tissu hypoallergénique.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologation ECE 22.06, fermeture micrométrique.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Jet léger en deux tailles de calotte",
+   "Écran solaire interne fumé",
+   "Trois entrées d'air en haut",
+   "Intérieur lavable hypoallergénique"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (2 tailles de calotte)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Écran extérieur anti-rayures",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Visière solaire interne fumée",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Trois entrées d'air supérieures, extracteur arrière",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Pinlock en option seulement : ligne omise."
+  ]
+ },
+ {
+  "modele": "X30",
+  "marque": "Givi",
+  "nb_fiches": 1,
+  "motif": "\\yx\\.?30\\y",
+  "accroche": "Le modulable Givi X30 : coque thermoplastique, Pinlock 70 fourni, double écran solaire, homologué P/J en ECE 22.06.",
+  "description": "Le X30 est un modulable accessible, homologué P/J en ECE 22.06 : intégral pour la route, jet pour la ville. Son écran reçoit un Pinlock 70 fourni et il dispose d'un double écran solaire. Mentonnière ouvrable, déflecteur anti-vent et intérieur lavable complètent le tableau.",
+  "profil_position": 35,
+  "points_forts": [
+   {
+    "texte": "Homologation P/J en ECE 22.06 : intégral ou jet.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en matériau thermoplastique.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran prédisposé Pinlock 70, film fourni.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Double écran solaire intégré.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Mentonnière ouvrable et déflecteur anti-vent.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur amovible et lavable.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Jet ou intégral en un geste",
+   "Pinlock 70 fourni",
+   "Double écran solaire intégré",
+   "Intérieur amovible et lavable"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06 (P/J)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock 70 fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Double écran solaire intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Prise d'air en haut de coque et au menton, extracteur arrière",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": []
+ },
+ {
+  "modele": "X.21 Evo",
+  "marque": "Givi",
+  "nb_fiches": 1,
+  "motif": "\\yx\\.?21\\y",
+  "accroche": "Le modulable Givi X.21 Evo : double homologation jet et intégral, Pinlock 30 fourni, compatible lunettes.",
+  "description": "Le X.21 Evo est un modulable thermoplastique à double homologation P/J. Son écran est livré avec un Pinlock 30, et le pare-soleil règle la lumière. Doublure hypoallergénique et coussinets de joues amovibles, déflecteur d'haleine : un modulable pensé pour le confort des porteurs de lunettes.",
+  "profil_position": 30,
+  "points_forts": [
+   {
+    "texte": "Double homologation P/J : casque jet et casque intégral.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en matière thermoplastique.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran anti-rayures avec Pinlock 30 fourni.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil, pare-vent et déflecteur d'haleine amovibles.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure hypoallergénique, coussinets de joues détachables, adapté aux porteurs de lunettes.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Jet et intégral, double homologation",
+   "Pinlock 30 fourni",
+   "Adapté aux porteurs de lunettes",
+   "Doublure et joues amovibles"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Transparente, résistante aux rayures",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock 30 fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Ouverture en haut de coque et au menton, sortie d'air arrière",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Norme non précisée dans la description de cette version : ligne Norme omise."
+  ]
+ },
+ {
+  "modele": "X.25",
+  "marque": "Givi",
+  "nb_fiches": 1,
+  "motif": "\\yx\\.?25\\y",
+  "accroche": "Le jet Givi X.25 : coque thermoplastique en deux tailles, pare-soleil intégré, environ 1 390 g annoncés.",
+  "description": "Le X.25 est un jet thermoplastique homologué ECE 22.06, proposé en deux tailles de coque. Sa visière transparente anti-rayures s'associe à un pare-soleil intégré. Boucle micrométrique, doublure anallergique lavable : simple, léger et prêt pour la ville.",
+  "profil_position": 12,
+  "points_forts": [
+   {
+    "texte": "Coque thermoplastique en deux tailles de coque.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière transparente résistante aux rayures et pare-soleil intégré.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Environ 1 390 g (± 50 g) annoncés par le constructeur.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure anallergique, amovible et lavable.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologation ECE 22.06, boucle micrométrique.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Jet léger, environ 1 390 g annoncés",
+   "Pare-soleil intégré",
+   "Doublure anallergique lavable",
+   "Deux tailles de coque"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (2 tailles de coque)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Transparente, résistante aux rayures",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Aération supérieure, sortie d'air arrière",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Pinlock 70 non inclus : ligne omise."
+  ]
+ },
+ {
+  "modele": "12.5",
+  "marque": "Givi",
+  "nb_fiches": 1,
+  "motif": "\\y12\\.5\\y",
+  "accroche": "Le jet Givi 12.5 : environ 1 300 g annoncés, écran solaire interne fumé, ECE 22.06.",
+  "description": "Le 12.5 est un jet thermoplastique en deux tailles de coque, léger avec environ 1 300 g annoncés. Son écran solaire interne fumé s'ajoute à la visière transparente anti-rayures. Intérieur hypoallergénique amovible et lavable, boucle micrométrique : le jet de tous les jours.",
+  "profil_position": 10,
+  "points_forts": [
+   {
+    "texte": "Environ 1 300 g (± 50 g) annoncés par le constructeur.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque thermoplastique en deux tailles de coque.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran solaire interne fumé, visière transparente anti-rayures.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur hypoallergénique, amovible et lavable.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologation ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Jet léger, environ 1 300 g annoncés",
+   "Écran solaire interne fumé",
+   "Intérieur amovible et lavable",
+   "Homologué ECE 22.06"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (2 tailles de coque)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Transparente, résistante aux rayures",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Écran solaire interne fumé",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Prise d'air supérieure, extracteur arrière",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": []
+ },
+ {
+  "modele": "Junior Evo 4 Follow",
+  "marque": "Givi",
+  "nb_fiches": 1,
+  "motif": "\\yevo 4\\y|\\yfollow\\y",
+  "accroche": "Le casque enfant Givi Junior Evo 4 Follow : intégral léger aux lignes de grand, homologué ECE 22.06.",
+  "description": "Le Junior Evo 4 Follow est un intégral pour enfant qui reprend les lignes des casques adultes : on peut même assortir les couleurs avec celles des parents. Sa coque en technopolymère est légère, à taille de coque unique. Intérieur et coussinets de joues amovibles, ventilation soignée et homologation ECE 22.06.",
+  "profil_position": 30,
+  "points_forts": [
+   {
+    "texte": "Intégral enfant aux lignes de casque adulte, coloris assortis possibles.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en technopolymère léger, taille de coque unique.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Lentille anti-rayures pour une vue nette.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Entrées d'air avant et à la mentonnière, extracteur arrière.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur amovible, coussinets de joues démontables, tissu hypoallergénique.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Aux lignes des casques de grands",
+   "Intégral enfant léger",
+   "Intérieur et joues amovibles",
+   "Homologué ECE 22.06"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (technopolymère)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Lentille anti-rayures",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Entrées d'air avant et mentonnière, extracteur arrière",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible, tissu hypoallergénique",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Doublure lavable : 'intérieur amovible' dans le texte, 'lavable' non explicite ; ligne Doublure à confirmer."
+  ]
+ }
+]

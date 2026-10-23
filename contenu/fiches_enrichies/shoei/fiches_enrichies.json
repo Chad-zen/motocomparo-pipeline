@@ -1,0 +1,979 @@
+[
+ {
+  "modele": "GT-Air 3",
+  "marque": "Shoei",
+  "nb_fiches": 14,
+  "motif": "gt-?air[- ]?3\\y",
+  "accroche": "Le sport-touring de Shoei : 5 étoiles SHARP, pare-soleil intégré et coque en fibres pour les longues routes.",
+  "description": "Le GT-Air 3 est l'intégral sport-touring de Shoei, à la silhouette aérodynamique. Il décroche 5 étoiles au test SHARP de juin 2024 et glisse un pare-soleil intégré sous la visière. Entrées d'air multiples, intérieur lavable : de quoi enchaîner les kilomètres sereinement.",
+  "profil_position": 70,
+  "points_forts": [
+   {
+    "texte": "5 étoiles au test SHARP, norme ECE 22.06 (test de juin 2024).",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche GT Air3, juin 2024"
+   },
+   {
+    "texte": "Pare-soleil intégré qui se rabat sous la visière.",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche GT Air3, juin 2024"
+   },
+   {
+    "texte": "Coque en composite de fibres AIM, avec calotin en polystyrène à densités multiples.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Entrées d'air multiples et deux extracteurs d'air.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur en tissu hypoallergénique, entièrement démontable et lavable.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Prévu pour l'interphone Sena SRL3 conçu pour ce casque.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "5 étoiles au test SHARP indépendant",
+   "Pare-soleil intégré pour le soleil bas",
+   "Intérieur démontable et lavable",
+   "Prêt pour un interphone Sena dédié"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 700 g (pesée SHARP)",
+    "source": "SHARP (ministère des transports britannique), fiche GT Air3, juin 2024"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "SHARP (ministère des transports britannique), fiche GT Air3, juin 2024"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (technologie AIM)",
+    "source": "SHARP (ministère des transports britannique), fiche GT Air3, juin 2024 ; descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Boucle micrométrique en acier inoxydable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Écran CNS-1C, disponible en plusieurs teintes",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Pare-soleil intégré",
+    "source": "SHARP (ministère des transports britannique), fiche GT Air3, juin 2024"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à XXL",
+    "source": "SHARP (ministère des transports britannique), fiche GT Air3, juin 2024"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": {
+   "sharp_etoiles": 5,
+   "date_test": "juin 2024",
+   "norme": "ECE 22.06"
+  },
+  "a_savoir": [
+   "Le kit interphone Sena SRL3 est le modèle prévu pour le GT-Air 3."
+  ],
+  "alertes_qualite": [
+   "Pinlock fourni déduit d'une description Mike (formulation ambiguë) : à confirmer.",
+   "Le catalogue regroupe de nombreux coloris et collections (Mike, Discipline, Agility, MM93)."
+  ]
+ },
+ {
+  "modele": "Neotec 3",
+  "marque": "Shoei",
+  "nb_fiches": 17,
+  "motif": "neotec ?3\\y",
+  "accroche": "Le modulable 5 étoiles SHARP de Shoei : mentonnière relevable, pare-soleil intégré, homologué intégral et jet.",
+  "description": "Le Neotec 3 réunit la polyvalence d'un modulable et un profil aérodynamique travaillé en soufflerie. Il obtient 5 étoiles au test SHARP de février 2024. Mentonnière relevable verrouillée en acier, pare-soleil intégré et intérieur lavable : le compagnon des trajets variés.",
+  "profil_position": 32,
+  "points_forts": [
+   {
+    "texte": "5 étoiles au test SHARP, norme ECE 22.06 (test de février 2024).",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche NEOTEC 3, février 2024"
+   },
+   {
+    "texte": "Pare-soleil intégré, élargi.",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche NEOTEC 3, février 2024 ; descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Mentonnière relevable avec verrouillage de mâchoire à 360° en acier inoxydable.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologué P/J : utilisable en intégral comme en jet.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Aérodynamisme développé en soufflerie, filtre anti-insecte, aileron intégré.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Prévu pour l'interphone Sena SRL3 conçu pour ce casque.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "5 étoiles au test SHARP indépendant",
+   "Mentonnière relevable, deux casques en un",
+   "Pare-soleil intégré pour le soleil bas",
+   "Étudié en soufflerie pour moins de bruit"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 700 g (pesée SHARP)",
+    "source": "SHARP (ministère des transports britannique), fiche NEOTEC 3, février 2024"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "SHARP (ministère des transports britannique), fiche NEOTEC 3, février 2024"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Fibre de verre (technologie AIM)",
+    "source": "SHARP (ministère des transports britannique), fiche NEOTEC 3, février 2024 ; descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Boucle micrométrique en acier",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Écran CNS-3C",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Pare-soleil intégré QSV-2",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à XXL",
+    "source": "SHARP (ministère des transports britannique), fiche NEOTEC 3, février 2024"
+   }
+  ],
+  "securite": {
+   "sharp_etoiles": 5,
+   "date_test": "février 2024",
+   "norme": "ECE 22.06"
+  },
+  "a_savoir": [
+   "Homologué P/J : intégral et jet.",
+   "Le kit interphone Sena SRL3 est le modèle prévu pour le Neotec 3."
+  ],
+  "alertes_qualite": [
+   "SHARP indique fibre de verre, les flux parlent d'AIM : formulation « Fibre de verre (technologie AIM) » retenue.",
+   "Le catalogue regroupe aussi les finitions mat/brillant et collections (Anthem, Sharpen, Fragments)."
+  ]
+ },
+ {
+  "modele": "NXR2",
+  "marque": "Shoei",
+  "nb_fiches": 16,
+  "motif": "nxr ?2\\y",
+  "accroche": "Un intégral sportif compact, 5 étoiles SHARP, qui passe de la route à la piste avec un Pinlock EVO fourni.",
+  "description": "Le NXR2 est l'intégral sportif de Shoei à la coque compacte et progressive. Il a décroché 5 étoiles au test SHARP de novembre 2022. Six entrées d'air, quatre extracteurs, Pinlock EVO fourni : vous roulez vite, avec la tête fraîche et la vue dégagée.",
+  "profil_position": 85,
+  "points_forts": [
+   {
+    "texte": "5 étoiles au test SHARP, norme ECE 22.06 (test de novembre 2022).",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche NXR 2, novembre 2022"
+   },
+   {
+    "texte": "Pesé à 1 470 g lors du test SHARP.",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche NXR 2, novembre 2022"
+   },
+   {
+    "texte": "Six entrées d'air frontales et mentonnières, quatre extracteurs arrière.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran à champ de vision élargi, livré avec un film Pinlock EVO.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en composite de fibres AIM (fibre de verre et fibres organiques).",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur 3D Max-Dry démontable et lavable, aileron intégré.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "5 étoiles au test SHARP indépendant",
+   "Pinlock EVO fourni avec la visière",
+   "Coque compacte : 1 470 g sur la balance",
+   "Six entrées d'air pour rester au frais"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 470 g (pesée SHARP)",
+    "source": "SHARP (ministère des transports britannique), fiche NXR 2, novembre 2022"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "SHARP (ministère des transports britannique), fiche NXR 2, novembre 2022"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (technologie AIM : fibre de verre et fibres organiques)",
+    "source": "SHARP (ministère des transports britannique), fiche NXR 2, novembre 2022 ; descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Écran CWR-F2 incolore, champ de vision élargi",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock EVO fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "6 entrées d'air, 4 extracteurs",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à 3XL",
+    "source": "SHARP (ministère des transports britannique), fiche NXR 2, novembre 2022"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": {
+   "sharp_etoiles": 5,
+   "date_test": "novembre 2022",
+   "norme": "ECE 22.06"
+  },
+  "a_savoir": [
+   "Le casque est prédisposé à recevoir un système de communication.",
+   "Livré avec cache-nez, bavette anti-remous et housse de transport."
+  ],
+  "alertes_qualite": [
+   "Les flux annoncent environ 1 390 g, SHARP a pesé 1 470 g : SHARP retenu.",
+   "Le catalogue contient des éditions collab (Zaku, Hatsune Miku, Gundam) ; même modèle de base."
+  ]
+ },
+ {
+  "modele": "X-SPR Pro",
+  "marque": "Shoei",
+  "nb_fiches": 11,
+  "motif": "x-?spr[- ]pro\\y(?![- ]?02)",
+  "accroche": "Le casque racing de Shoei, mis au point avec Marc Marquez et homologué FIM pour la compétition.",
+  "description": "Le X-SPR Pro succède au X-Spirit III et se présente comme le casque certifié par Marc Marquez. Il répond à la norme ECE 22.06 et à l'homologation FIM pour la compétition. Sept entrées d'air, six extracteurs et un Pinlock EVO : l'outil des journées piste.",
+  "profil_position": 98,
+  "points_forts": [
+   {
+    "texte": "Homologué ECE 22.06 et certifié FIM pour la compétition.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Successeur du X-Spirit III, développé avec Marc Marquez.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en AIM+, fibres organiques et multi-composites en plusieurs couches.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Sept entrées d'air, six extracteurs et ventilation des mousses de joues.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Déflecteur arrière à stabilisateurs et déflecteur de mentonnière.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran CWR-F2R incolore avec film Pinlock EVO.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Né avec Marc Marquez, homologué FIM",
+   "Sept entrées d'air pour la tête fraîche",
+   "Stabilisé à haute vitesse par son déflecteur",
+   "Pinlock EVO pour voir clair au froid"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (technologie AIM+)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Écran CWR-F2R incolore",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock EVO fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "7 entrées d'air, 6 extracteurs",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Le modèle suivant, le X-SPR Pro 02, a sa propre fiche."
+  ],
+  "alertes_qualite": [
+   "Pas de test SHARP : aucun poids prouvé (RideApart annonce environ 3,2 lb, non retenu).",
+   "Le catalogue mélange des éditions Marquez, Escalate, Valion, Toprak : même modèle de base.",
+   "Pinlock fourni déduit de « Film antibuée Pinlock Evo DKS-304 » (certaines descriptions disent inclus)."
+  ]
+ },
+ {
+  "modele": "X-SPR Pro 02",
+  "marque": "Shoei",
+  "nb_fiches": 2,
+  "motif": "x-?spr[- ]pro[- ]?02",
+  "accroche": "La version FIM 2 du X-SPR Pro : le casque racing de Shoei pour la piste, avec Pinlock EVO livré.",
+  "description": "Le X-SPR Pro 02 est la version du casque racing de Shoei pensée pour l'homologation FIM 02. Elle répond aussi à l'ECE 22.06. Sept entrées d'air, six extracteurs et un spoiler arrière stabilisateur : une base solide pour la piste.",
+  "profil_position": 98,
+  "points_forts": [
+   {
+    "texte": "Homologué ECE 22.06 et FIM 02.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en fibre AIM+ et calotte en polystyrène modulaire.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Sept prises d'air et six extracteurs.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Spoiler arrière et ailerons latéraux pour la stabilité.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Mécanisme de fermeture centrale de la visière et joint d'étanchéité.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Livré avec un Pinlock EVO.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Homologué FIM 02 pour la compétition",
+   "Spoiler et ailerons pour rester stable",
+   "Visière à fermeture centrale étanche",
+   "Pinlock EVO livré dans la boîte"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (technologie AIM+)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Écran CWR-F2R incolore, fermeture centrale",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock EVO fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "7 entrées d'air, 6 extracteurs",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Système d'extraction d'urgence E.Q.R.S. pour retirer les mousses de joues en cas d'accident."
+  ],
+  "alertes_qualite": [
+   "Aucun test SHARP ni poids prouvé.",
+   "Deux fiches seulement ; une seule description marchande (Matt Black)."
+  ]
+ },
+ {
+  "modele": "Hornet ADV 06",
+  "marque": "Shoei",
+  "nb_fiches": 7,
+  "motif": "hornet[- ]adv\\y",
+  "accroche": "Le crossover aventure de Shoei en ECE 22.06 : coque AIM+, visière à changement rapide et Pinlock EVO fourni.",
+  "description": "Le Hornet ADV 06 est le casque crossover de Shoei pour le trail, l'aventure et la route. Il passe à la norme ECE 22.06 avec une coque AIM+ en six couches de fibres. Visière à changement rapide, Pinlock EVO fourni, logements pour un interphone : prêt pour la grande balade.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Mis à jour pour la norme ECE 22.06.",
+    "preuve": "presse",
+    "source": "Visordown, Simon Hancocks, 12 juillet 2026"
+   },
+   {
+    "texte": "Coque AIM+ en six couches de fibres.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière CNS-2 à changement rapide, sans outil.",
+    "preuve": "presse",
+    "source": "Visordown, Simon Hancocks, 12 juillet 2026 ; descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pinlock EVO fourni dans la boîte.",
+    "preuve": "presse",
+    "source": "Visordown, Simon Hancocks, 12 juillet 2026"
+   },
+   {
+    "texte": "Quatre entrées d'air réglables et quatre extracteurs.",
+    "preuve": "presse",
+    "source": "Visordown, Simon Hancocks, 12 juillet 2026"
+   },
+   {
+    "texte": "Logements prévus pour un interphone, visière perforée qui limite la prise au vent.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Aux normes 22.06, pensé pour l'aventure",
+   "Visière qui se change sans outil",
+   "Pinlock EVO déjà dans la boîte",
+   "Logements prêts pour un interphone"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "Visordown, Simon Hancocks, 12 juillet 2026 ; descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (technologie AIM+, six couches)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Écran CNS-2, changement rapide sans outil",
+    "source": "descriptions des marchands partenaires ; Visordown, Simon Hancocks, 12 juillet 2026"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock EVO fourni",
+    "source": "Visordown, Simon Hancocks, 12 juillet 2026"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "4 entrées d'air réglables, 4 extracteurs",
+    "source": "Visordown, Simon Hancocks, 12 juillet 2026"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Audio",
+    "valeur": "Logements prévus pour haut-parleurs",
+    "source": "Visordown, Simon Hancocks, 12 juillet 2026"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Livré avec cache-nez, bavette, housse de transport et kit d'entretien."
+  ],
+  "alertes_qualite": [
+   "Pas de test SHARP.",
+   "Poids : 1 525 g (tableau revendeur) et 1 430 g (MCN) concernent l'ancien Hornet ADV 22.05 ; aucun poids prouvé pour la version 06.",
+   "Visordown indique 4 entrées/4 extracteurs ; une description marchande dit huit ventilations : Visordown retenu.",
+   "Visordown : tailles XS à L disponibles, XL et XXL à venir à sa publication ; tailles omises."
+  ]
+ },
+ {
+  "modele": "Glamster 06",
+  "marque": "Shoei",
+  "nb_fiches": 10,
+  "motif": "glamster[- ]?06",
+  "accroche": "Le néo-rétro de Shoei en 5 étoiles SHARP : look vintage, norme ECE 22.06 et Pinlock de série.",
+  "description": "Le Glamster 06 offre un vrai look vintage sans renoncer au confort d'un casque moderne. Il a obtenu 5 étoiles au test SHARP de mai 2025 et répond à la norme ECE 22.06. Écran réglable sur 3 positions, Pinlock livré : le casque du motard qui aime les belles lignes.",
+  "profil_position": 30,
+  "points_forts": [
+   {
+    "texte": "5 étoiles au test SHARP, norme ECE 22.06 (test de mai 2025).",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche Glamster 06, mai 2025"
+   },
+   {
+    "texte": "Prévu pour le Pinlock et pour les lunettes de vue.",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche Glamster 06, mai 2025"
+   },
+   {
+    "texte": "Coque AIM en fibre de verre organique et fibres multi-composites, trois tailles de calotte.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran CPB-1 réglable sur 3 positions.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Livré avec un film Pinlock de série.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ligne néo-rétro aux performances actuelles.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "5 étoiles au test SHARP indépendant",
+   "Look rétro, norme 22.06",
+   "Écran réglable sur trois positions",
+   "Pinlock livré de série"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "SHARP (ministère des transports britannique), fiche Glamster 06, mai 2025"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (technologie AIM : fibre de verre organique)",
+    "source": "descriptions des marchands partenaires ; SHARP (ministère des transports britannique), fiche Glamster 06, mai 2025"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Écran CPB-1, réglable sur 3 positions",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "SHARP (ministère des transports britannique), fiche Glamster 06, mai 2025"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à XL",
+    "source": "SHARP (ministère des transports britannique), fiche Glamster 06, mai 2025"
+   }
+  ],
+  "securite": {
+   "sharp_etoiles": 5,
+   "date_test": "mai 2025",
+   "norme": "ECE 22.06"
+  },
+  "a_savoir": [
+   "Compatible avec le port de lunettes selon la fiche SHARP."
+  ],
+  "alertes_qualite": [
+   "SHARP ne donne pas de poids pour le Glamster 06.",
+   "Le catalogue mélange des éditions (Blast, Heiwa, MM93)."
+  ]
+ },
+ {
+  "modele": "J-Cruise 3",
+  "marque": "Shoei",
+  "nb_fiches": 11,
+  "motif": "j-?cruise[- ]?3\\y",
+  "accroche": "Le jet de grande balade de Shoei : ventilation revue, écran solaire intégré, ECE 22.06.",
+  "description": "Le J-Cruise 3 est le casque jet pour la ville et les longues balades. Sa ventilation progresse nettement par rapport au J-Cruise II, selon le test de Bennetts BikeSocial. Écran solaire intégré, boucle micrométrique, norme ECE 22.06 : l'air libre sans les tracas.",
+  "profil_position": 15,
+  "points_forts": [
+   {
+    "texte": "Trois aérations supérieures indépendantes ; ventilation jugée nettement meilleure que celle du J-Cruise II.",
+    "preuve": "presse",
+    "source": "Bennetts BikeSocial, Stephen Lamb, 27 janvier 2025"
+   },
+   {
+    "texte": "Silencieux pour un jet, même à vitesse d'autoroute.",
+    "preuve": "presse",
+    "source": "Bennetts BikeSocial, Stephen Lamb, 27 janvier 2025"
+   },
+   {
+    "texte": "Visière CJ-2 d'excellente clarté, facile à changer et étanche sous la pluie.",
+    "preuve": "presse",
+    "source": "Bennetts BikeSocial, Stephen Lamb, 27 janvier 2025"
+   },
+   {
+    "texte": "Écran solaire interne intégré.",
+    "preuve": "presse",
+    "source": "Bennetts BikeSocial, Stephen Lamb, 27 janvier 2025 ; descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque AIM en trois tailles, norme ECE 22.06.",
+    "preuve": "presse",
+    "source": "Bennetts BikeSocial, Stephen Lamb, 27 janvier 2025"
+   },
+   {
+    "texte": "Mousses de joues disponibles en plusieurs épaisseurs.",
+    "preuve": "presse",
+    "source": "Bennetts BikeSocial, Stephen Lamb, 27 janvier 2025"
+   }
+  ],
+  "points_forts_courts": [
+   "Trois aérations réglables sur le dessus",
+   "Silencieux pour un jet, même à vitesse",
+   "Écran solaire intégré",
+   "Visière claire qui se change vite"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 465 g (pesée Bennetts BikeSocial, taille L)",
+    "source": "Bennetts BikeSocial, Stephen Lamb, 27 janvier 2025"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "Bennetts BikeSocial, Stephen Lamb, 27 janvier 2025"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (technologie AIM)",
+    "source": "Bennetts BikeSocial, Stephen Lamb, 27 janvier 2025 ; descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Boucle micrométrique",
+    "source": "Bennetts BikeSocial, Stephen Lamb, 27 janvier 2025"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Écran CJ-2, clarté optique excellente",
+    "source": "Bennetts BikeSocial, Stephen Lamb, 27 janvier 2025"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Écran solaire intégré QSV-2",
+    "source": "Bennetts BikeSocial, Stephen Lamb, 27 janvier 2025"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Un interphone Sena SRL3 dédié existe, ainsi qu'un adaptateur Cardo Packtalk selon Bennetts.",
+   "Mousses de joues de 31, 35 (d'origine), 39 et 43 mm."
+  ],
+  "alertes_qualite": [
+   "Pas de test SHARP.",
+   "Shoei annonce 1 400 g, Bennetts a pesé 1 465 g en L : la pesée est retenue.",
+   "Pinlock non fourni (posts seulement) : ligne omise.",
+   "Doublure lavable déduite de la fiche J-Cruise 2 des flux : à confirmer."
+  ]
+ },
+ {
+  "modele": "J.O2",
+  "marque": "Shoei",
+  "nb_fiches": 12,
+  "motif": "j[.-]?o ?2\\y",
+  "accroche": "Un jet rétro de 1 150 g en ECE 22.06, aux mousses de joues interchangeables et à la visière à boutons-pression dorés.",
+  "description": "Le J.O2 est le casque jet de Shoei au style rétro assumé. Sa coque en fibres AIM reste légère, 1 150 g annoncés, et il répond à la norme ECE 22.06. Mousses de joues interchangeables et intérieur lavable : l'ajustement au millimètre pour la ville.",
+  "profil_position": 12,
+  "points_forts": [
+   {
+    "texte": "Norme ECE 22.06.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Poids annoncé de 1 150 g.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque AIM en fibre de verre et fibres organiques légères, calotin multi-densités.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Mousses de joues interchangeables en quatre épaisseurs : 31, 35, 39 et 43 mm.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Quatre tailles de coque : XS-S, M, L et XL-XXL.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière V-480 en option avec boutons-pression dorés.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Un jet rétro de seulement 1 150 g",
+   "Mousses de joues en quatre épaisseurs",
+   "Quatre tailles de coque pour bien tomber",
+   "Visière en option aux boutons dorés"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 150 g (annoncé)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Fibre de verre (technologie AIM, fibres organiques)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Écran CJ-4",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à XXL",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Visière V-480 vendue en option."
+  ],
+  "alertes_qualite": [
+   "Pas de test SHARP.",
+   "Poids 1 150 g issu d'une description marchande, non vérifié.",
+   "Les flux contiennent aussi l'ancien J.O (22.05) : ne pas mélanger.",
+   "Tailles XS à XXL déduites des quatre tailles de coque."
+  ]
+ },
+ {
+  "modele": "VFX-WR 06",
+  "marque": "Shoei",
+  "nb_fiches": 12,
+  "motif": "vfx-?wr\\y",
+  "accroche": "Le casque cross de Shoei en ECE 22.06 : calotin en trois parties, protection M.E.D.S. et extraction d'urgence.",
+  "description": "Le VFX-WR 06 est le casque tout-terrain de Shoei pour le cross et l'enduro. Sa coque AIM+ abrite un calotin en trois parties et le système M.E.D.S., conçu pour répartir l'énergie rotative. Quatre tailles de coque, norme ECE 22.06 : un compagnon pour les terrains durs.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Norme ECE 22.06.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en AIM+, quatre tailles de coque.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Calotin en polystyrène en trois parties et système M.E.D.S. de répartition d'énergie rotative.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Système d'extraction d'urgence E.Q.R.S.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coussinets de joues et coiffe 3D Max-Dry démontables et lavables.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Entrées d'air frontales et supérieures, extracteurs à l'arrière.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Calotin en trois parties contre les chocs",
+   "Quatre tailles de coque pour bien tomber",
+   "Mousses lavables après la boue",
+   "Extraction d'urgence E.Q.R.S."
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (technologie AIM+)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Protection anti-projections incluse."
+  ],
+  "alertes_qualite": [
+   "Pas de test SHARP.",
+   "Poids non retenu : sources divergentes (1 250 g contre 1 525 g), aucune fiable.",
+   "Le catalogue regroupe des fiches 2026 (Jammer, Solid, Sparkle) ; même modèle de base."
+  ]
+ }
+]

@@ -89,3 +89,15 @@ def test_le_carbone_ingredient_n_est_pas_une_coque_carbone():
     # …et une vraie coque carbone reste du carbone.
     assert lire("", "Coque en fibres de carbone forgée").calotte == "carbone"
     assert lire("Casque intégral HJC F71 CARBON", "").calotte == "carbone"
+
+
+def test_un_systeme_de_communication_cite_n_est_pas_un_intercom_fourni():
+    """22/10/2026 : « permet l'utilisation d'un systeme de communication » donnait « fourni » sur
+    105 des 160 casques Arai. Sans presence dite, on n'ecrit rien."""
+    from mcpipe.caracteristiques.casque import lire
+    for phrase in ("L'echancrure de l'oreille permet l'utilisation d'un système de communication",
+                   "Nouvelle coque dédiée à l'installation d'un système de communication",
+                   "Logements prévus pour haut-parleurs de type Sena ou Cardo"):
+        assert lire("", phrase).intercom in (None, "prepare"), phrase
+    assert lire("", "Casque modulable avec intercom intégré Sena").intercom == "fourni"
+    assert lire("", "Livré avec un kit bluetooth").intercom == "fourni"

@@ -1,0 +1,209 @@
+[
+ {
+  "modele": "Graphic Absolut",
+  "marque": "Pull-in",
+  "nb_fiches": 4,
+  "motif": "\\yabsolut\\y",
+  "accroche": "Le casque cross Pull-in pour débuter ou rouler en loisir : coque injectée, double D, norme ECE 22.06.",
+  "description": "L'Absolut est un casque cross pour les pilotes débutants ou de loisir. Sa coque est injectée, la mentonnière fixe et la fermeture se fait par double boucle D. L'intérieur se démonte et se lave après chaque sortie, et la norme ECE 22.06 est au rendez-vous.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Homologué ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque injectée, mentonnière fixe.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture par double boucle D ajustable.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur amovible, entièrement démontable et lavable.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Finition peinture et vernis.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Cross pour débuter ou le loisir",
+   "Norme ECE 22.06",
+   "Double boucle D ajustable",
+   "Intérieur lavable après la sortie"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (coque injectée)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Descriptions mélangées (plastique injecté, résine injectée) : « thermoplastique (coque injectée) »."
+  ]
+ },
+ {
+  "modele": "Graphic + Kid",
+  "marque": "Pull-in",
+  "nb_fiches": 4,
+  "motif": "\\ygraphic \\+ kid\\y",
+  "accroche": "Le casque cross enfant Pull-in : coque injectée, double D et norme ECE 22.06, pour les premiers tours de roue.",
+  "description": "Le Graphic + Kid est un casque cross pour enfant, à coque injectée et mentonnière fixe. La fermeture double D tient bien, l'intérieur se démonte et se lave. Il répond à la norme ECE 22.06 et aux exigences de la compétition.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Casque cross pour enfant, homologué ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Répond aux exigences de la compétition.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque injectée, mentonnière fixe.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture par double boucle D ajustable.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur amovible, démontable et lavable.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Cross pour enfant, ECE 22.06",
+   "Pensé aussi pour la compétition",
+   "Fermeture double D ajustable",
+   "Intérieur lavable après la sortie"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (coque injectée)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Mention « compétition » issue d'une seule description."
+  ]
+ },
+ {
+  "modele": "Solid",
+  "marque": "Pull-in",
+  "nb_fiches": 1,
+  "motif": "\\ycross pull-in solid\\y",
+  "accroche": "Le casque cross Pull-in en polycarbonate injecté : environ 1 350 g, double D et norme ECE 22.06.",
+  "description": "Le Solid est un casque cross à coque en polycarbonate injecté, résistante aux chocs et légère : environ 1 350 g. Il se ferme par double D, seule fermeture acceptée en compétition, et l'intérieur se démonte et se lave. Il répond à la norme ECE 22.06.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Homologué ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en polycarbonate injecté, environ 1 350 g.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture double D, la seule acceptée en compétition.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur entièrement démontable et lavable, 2 tailles de calotte.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque polycarbonate, 1 350 g environ",
+   "Fermeture double D de compétition",
+   "Norme ECE 22.06",
+   "Intérieur entièrement lavable"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Poids",
+    "valeur": "Environ 1 350 g (annoncé constructeur)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate injecté)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Anciennes versions du Solid en ECE 22.05 : version 22.06 retenue (fiche 2024)."
+  ]
+ }
+]

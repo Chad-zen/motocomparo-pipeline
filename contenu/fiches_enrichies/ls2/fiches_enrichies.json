@@ -1,0 +1,2335 @@
+[
+ {
+  "modele": "FF820 Rapid III",
+  "marque": "LS2",
+  "nb_fiches": 42,
+  "motif": "ff-?820\\y|rapid iii\\y",
+  "accroche": "L'intégral urbain LS2 en thermoplastique HPTT : ventilation haut, menton et arrière, double joint de visière.",
+  "description": "Le Rapid III est l'intégral au dessin soigné pensé pour la ville comme pour les sorties plus longues. Sa coque HPTT reste légère et sa forme aérodynamique limite les remous. Fermeture micrométrique, intérieur démontable et lavable : il se vit au quotidien.",
+  "profil_position": 55,
+  "points_forts": [
+   {
+    "texte": "Coque en HPTT, un thermoplastique léger, en 3 tailles de coque.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation par le haut, le menton et des extracteurs arrière.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Double joint de visière injecté, visière anti-rayures et anti-UV.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière préparée pour le Pinlock 70 MaxVision.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur hypoallergène, démontable et lavable.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologué ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque thermoplastique légère HPTT",
+   "Ventilation haut, menton et arrière",
+   "Intérieur lavable, homologué 22.06",
+   "Visière prête pour le Pinlock"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (HPTT)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Anti-rayures et anti-UV, double joint injecté, préparée pour le Pinlock 70 MaxVision",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Entrée haute, entrée au menton, extracteurs arrière",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XXS à 3XL",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Poids contradictoire (1350 g constructeur vs 1562 g tableau revendeur) : omis.",
+   "Pinlock non fourni d'après les textes : ligne omise."
+  ]
+ },
+ {
+  "modele": "FF811 Vector II",
+  "marque": "LS2",
+  "nb_fiches": 30,
+  "motif": "ff-?811\\y|vector ii\\y",
+  "accroche": "Le tourisme sportif LS2 en fibre de verre HPFC ou carbone : double visière, ventilation à 2 niveaux, coque ovale longue.",
+  "description": "Le Vector II vise le tourisme sportif avec une coque HPFC légère et une ligne ovale longue. Sa double visière avec pare-soleil rabattable et sa ventilation dynamique servent aussi bien en ville que sur autoroute. Déclinaisons en fibre de verre ou en carbone selon les versions.",
+  "profil_position": 65,
+  "points_forts": [
+   {
+    "texte": "Coque HPFC (composite de fibre de verre haute performance), versions carbone au catalogue.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Double visière : écran clair et pare-soleil rabattable.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation canalisée avec entrée frontale à 2 niveaux et extraction arrière.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Boucle micrométrique métallique et plaque de sécurité métal.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Prééquipé pour l'interphone LS2 4X sur certaines versions.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologué ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque légère en fibre de verre ou carbone",
+   "Double visière avec pare-soleil",
+   "Ventilation frontale à 2 niveaux",
+   "Ligne sportive, homologué 22.06"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Fibre de verre (HPFC), versions carbone",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Anti-rayures et anti-UV, ouverture rapide",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré, rabattable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Entrée haute, frontale à 2 niveaux, extraction arrière",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Certaines versions sont en carbone, d'autres en fibre de verre : vérifiez la fiche de la version choisie."
+  ],
+  "alertes_qualite": [
+   "Poids contradictoires (1350, 1500, 1300 g) : omis.",
+   "Tailles de coque 3 vs 6 selon descriptions : omises.",
+   "Pinlock fourni sur Tropical seulement, 'prêt' sur Darflo/Alizer : ligne omise.",
+   "Revendeur indique polycarbonate pour Alizer/Freedom, flux HPFC."
+  ]
+ },
+ {
+  "modele": "FF817 Challenger II",
+  "marque": "LS2",
+  "nb_fiches": 29,
+  "motif": "ff-?817\\y|challenger ii\\y",
+  "accroche": "Un intégral de tourisme LS2 en HPFC avec pare-soleil intégré et Pinlock 120 fourni, pensé pour les longs trajets.",
+  "description": "Le Challenger II s'adresse à ceux qui roulent loin. Sa coque HPFC allie légèreté et rigidité, sa visière offre une vision périphérique large et le pare-soleil est intégré. Le Pinlock 120 XLT fourni garde l'écran net quand l'air est humide.",
+  "profil_position": 45,
+  "points_forts": [
+   {
+    "texte": "Coque HPFC en fibre de verre haute performance.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil intégré et visière à vision périphérique large.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pinlock 120 XLT MaxVision fourni avec le casque.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Environ 1 500 g annoncés par le fabricant (± 50 g).",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Aération du menton à double position et aileron arrière à deux niveaux.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure Coolmax amovible, lavable, qui gère l'humidité.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Pare-soleil intégré, Pinlock 120 fourni",
+   "Coque légère en fibre de verre HPFC",
+   "Doublure Coolmax qui évacue l'humidité",
+   "Pensé pour les longs trajets"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 500 g ± 50 g (annoncé par le fabricant)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Fibre de verre (HPFC)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Anti-rayures, anti-UV, ouverture rapide, bouton de verrouillage",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock 120 fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Entrée haute, menton à double position, aileron arrière à deux niveaux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Coolmax, amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XXS à 3XL",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Livré avec un sac de transport élastique et des autocollants réfléchissants."
+  ],
+  "alertes_qualite": [
+   "Poids revendeur 1553 g vs 1500 g constructeur : valeur constructeur retenue."
+  ]
+ },
+ {
+  "modele": "FF818 Storm III",
+  "marque": "LS2",
+  "nb_fiches": 29,
+  "motif": "ff-?818\\y|storm iii\\y",
+  "accroche": "L'intégral urbain LS2 en alliage KPA : grande entrée d'air, pare-soleil intégré et Pinlock 70 fourni.",
+  "description": "Le Storm III est un intégral de ville et d'autoroute à la coque KPA, un alliage de polycarbonate et de thermoplastiques formulé par LS2. Sa grande entrée d'air supérieure ventile généreusement, le pare-soleil est intégré et le Pinlock 70 est fourni.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Coque en KPA, alliage de polycarbonate et de thermoplastiques.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Grande entrée d'air supérieure et aération de menton avec parties transparentes.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil intégré à l'écran anti-rayures.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pinlock 70 MaxVision fourni.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Libération rapide des mousses de joues.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologué ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Grande entrée d'air, ventilation franche",
+   "Pare-soleil intégré, Pinlock 70 fourni",
+   "Coque légère en alliage KPA",
+   "Pensé pour ville et autoroute"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 600 g ± 50 g (annoncé par le fabricant)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (KPA, alliage à base de polycarbonate)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Anti-rayures, anti-UV, double joint injecté",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock 70 fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Entrée haute, menton, extraction arrière avec parties transparentes",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XXS à 3XL",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Livré avec un sac de transport et des autocollants réfléchissants."
+  ],
+  "alertes_qualite": [
+   "Poids revendeur 1562 g vs 1600 g constructeur."
+  ]
+ },
+ {
+  "modele": "FF901 Advant X",
+  "marque": "LS2",
+  "nb_fiches": 28,
+  "motif": "ff-?901\\y|advant x\\y",
+  "accroche": "Le modulable LS2 à mentonnière pivotante à 180° : coque HPFC, pare-soleil intégré, Pinlock fourni, homologué intégral et jet.",
+  "description": "L'Advant X est un modulable dont la mentonnière pivote à 180° pour s'effacer vers l'arrière. Coque HPFC, pare-soleil intégré, Pinlock MaxVision fourni : il suit toutes les saisons. Double homologation P/J, en intégral comme en jet.",
+  "profil_position": 30,
+  "points_forts": [
+   {
+    "texte": "Mentonnière pivotante à 180°.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Double homologation P/J ECE 22.06, utilisable en intégral ou en jet.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque HPFC en fibre de verre, 2 tailles de coque, versions carbone.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil intégré et Pinlock MaxVision fourni.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Boucle micrométrique métallique et ventilation canalisée.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Version existante avec interphone LS2 4X intégré.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Mentonnière qui pivote à 180°",
+   "Intégral ou jet : double homologation",
+   "Pare-soleil intégré, Pinlock fourni",
+   "Version avec interphone intégré"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 550 à 1 600 g (annoncé par le fabricant)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06 (P/J)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Fibre de verre (HPFC), versions carbone",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Anti-rayures, anti-UV, ouverture rapide",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock MaxVision fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Entrée menton et haute, extraction canalisée",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à 3XL",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Une édition est vendue avec l'interphone LS2 4X Cardo intégré."
+  ],
+  "alertes_qualite": [
+   "Poids 1550/1600 selon version, revendeur 1553.",
+   "Revendeur mélange fibre et carbone selon coloris."
+  ]
+ },
+ {
+  "modele": "FF808 Stream II",
+  "marque": "LS2",
+  "nb_fiches": 25,
+  "motif": "ff-?808\\y|stream ii\\y",
+  "accroche": "L'intégral LS2 accessible en coque KPA : pare-soleil rabattable, ventilation haute et menton, prêt pour l'interphone LS2.",
+  "description": "Le Stream II est un intégral de ville et de petite route au dessin simple. Coque KPA, double visière avec pare-soleil rabattable, doublure ultra-confort lavable : il couvre l'essentiel sans fioriture. Prééquipé pour l'interphone LS2 4X.",
+  "profil_position": 40,
+  "points_forts": [
+   {
+    "texte": "Coque en KPA, alliage de polycarbonate et de thermoplastiques.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Double visière avec pare-soleil rabattable.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière préparée pour le Pinlock Max Vision.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Prééquipé pour l'interphone LS2 4X.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Aération haute, au menton et extracteurs arrière.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologué ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Pare-soleil rabattable en série",
+   "Coque légère en alliage KPA",
+   "Prêt pour l'interphone LS2 4X",
+   "Doublure ultra-confort lavable"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 550 g ± 50 g (annoncé par le fabricant)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (KPA, alliage à base de polycarbonate)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Anti-rayures, anti-UV, préparée pour le Pinlock Max Vision",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré, rabattable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Entrée haute, menton, extracteurs arrière",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": []
+ },
+ {
+  "modele": "OF603 Infinity II",
+  "marque": "LS2",
+  "nb_fiches": 25,
+  "motif": "of-?603\\y|infinity ii\\y",
+  "accroche": "Un jet LS2 en HPFC avec pare-soleil intégré et deux entrées d'air sur le dessus, pour la ville et l'autoroute.",
+  "description": "L'Infinity II est un jet à la coque HPFC, avec une ventilation franche grâce à ses deux prises d'air supérieures. Pare-soleil intégré, grande visière anti-rayures, doublure Magna-Tech lavable : le compagnon des trajets quotidiens.",
+  "profil_position": 20,
+  "points_forts": [
+   {
+    "texte": "Coque HPFC en fibre de verre, 4 tailles de coque, versions carbone.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Deux prises d'air supérieures pour une ventilation franche.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil intégré et grande visière anti-rayures.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure Magna-Tech amovible et lavable.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Prééquipé pour l'interphone LS2 4X.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologué ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Pare-soleil intégré, grande visière",
+   "Deux entrées d'air sur le dessus",
+   "Coque légère HPFC, versions carbone",
+   "Prêt pour l'interphone LS2 4X"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Fibre de verre (HPFC), versions carbone",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Large, anti-rayures et anti-UV, ouverture rapide, préparée pour le Pinlock MaxVision",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Deux entrées supérieures, extraction arrière",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Magna-Tech, amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Poids 1400 g (flux) vs 1300 g (revendeur) : omis.",
+   "Revendeur mélange polycarbonate/fibre/carbone."
+  ]
+ },
+ {
+  "modele": "FF910 Advant II",
+  "marque": "LS2",
+  "nb_fiches": 25,
+  "motif": "ff-?910\\y|advant ii\\y",
+  "accroche": "Le modulable LS2 aux éléments en carbone 6K : double homologation P/J, Pinlock 120 fourni, doublure Coolmax.",
+  "description": "L'Advant II est un modulable pour la ville, la route et toutes les saisons. Ses éléments de ventilation en carbone 6K, son verrouillage de visière revu et son Pinlock 120 fourni en font un compagnon sérieux. Doublure Coolmax lavable, préparé pour le Bluetooth LS2.",
+  "profil_position": 30,
+  "points_forts": [
+   {
+    "texte": "Éléments de ventilation en carbone 6K.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Double homologation P/J ECE 22.06, intégral ou jet.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pinlock 120 MaxVision fourni.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Nouveau système de verrouillage de la visière.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure Coolmax qui gère l'humidité, amovible et lavable.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Préparé pour le système Bluetooth LS2.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Éléments en carbone 6K",
+   "Intégral ou jet : double homologation",
+   "Pinlock 120 fourni",
+   "Doublure Coolmax lavable"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 750 à 1 800 g (annoncé par le fabricant)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06 (P/J)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (KPA) avec éléments en carbone 6K",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Anti-rayures et anti-UV, nouveau verrouillage",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock 120 fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Entrées menton et haute, évents arrière en carbone",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Coolmax, amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à 3XL",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Matériau : KPA (flux) vs polycarbonate/carbone (revendeur).",
+   "Pare-soleil issu du tableau revendeur seul.",
+   "Poids revendeur 1750 puis 1553 sur Glide."
+  ]
+ },
+ {
+  "modele": "MX708 Fast II",
+  "marque": "LS2",
+  "nb_fiches": 22,
+  "motif": "mx-?708\\y",
+  "accroche": "Le casque cross LS2 en KPA renforcé à l'aramide : visière réglable, ventilation canalisée, boucle double D.",
+  "description": "Le Fast II est un casque cross léger pensé pour le tout-terrain. Sa coque composite KPA renforcée à l'aramide, sa visière réglable et amovible et sa ventilation canalisée l'installent dans le quotidien du pilote. Large champ de vision, compatible avec les masques LS2.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Coque en polycarbonate KPA renforcé à l'aramide.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière réglable et amovible.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Champ de vision large compatible avec les masques LS2.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation canalisée : entrées sur le dessus, menton, extracteurs.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Boucle double anneau en D et plaque de sécurité métallique.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologué ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque composite KPA renforcée à l'aramide",
+   "Visière réglable et amovible",
+   "Compatible avec les masques LS2",
+   "Ventilation canalisée"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (KPA, polycarbonate renforcé à l'aramide)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Casquette réglable et amovible",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Entrées sur le dessus et au menton, extracteurs",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XXS à 3XL",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Poids 1500 g vs 1400 g selon marchand : omis."
+  ]
+ },
+ {
+  "modele": "OF618 Verso II",
+  "marque": "LS2",
+  "nb_fiches": 21,
+  "motif": "of-?618\\y|verso ii\\y",
+  "accroche": "Un jet urbain LS2 en KPA avec pare-soleil et grande visière, doublure Coolmax lavable.",
+  "description": "Le Verso II est un jet urbain au dessin moderne. Sa coque KPA et sa fermeture micrométrique métallique restent légères, le pare-soleil et la grande visière rendent les balades confortables. Doublure Coolmax lavable.",
+  "profil_position": 15,
+  "points_forts": [
+   {
+    "texte": "Coque en KPA, environ 1 500 g annoncés (± 50 g).",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil et grande visière.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière préparée pour le Pinlock 70 MaxVision.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture micrométrique métallique.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure Coolmax amovible et lavable.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologué ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Pare-soleil et grande visière",
+   "Coque légère en alliage KPA",
+   "Doublure Coolmax lavable",
+   "Jet urbain au dessin moderne"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 500 g ± 50 g (annoncé par le fabricant)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (KPA, alliage à base de polycarbonate)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Large, anti-rayures et anti-UV, préparée pour le Pinlock 70",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Entrée haute et évacuation",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Coolmax, amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à 3XL",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": []
+ },
+ {
+  "modele": "MX702 Pioneer II",
+  "marque": "LS2",
+  "nb_fiches": 18,
+  "motif": "mx-?702\\y|pioneer ii\\y",
+  "accroche": "Le casque trail/enduro LS2 en KPA : visière réglable amovible, pare-soleil rabattable, prêt pour l'interphone LS2.",
+  "description": "Le Pioneer II convient aux sorties mixtes, route et chemin. Coque KPA, grande visière avec pare-soleil rabattable, casquette réglable et amovible : il suit le terrain. Prééquipé pour l'interphone LS2.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Coque en KPA, alliage de polycarbonate et de thermoplastiques.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Casquette réglable et amovible.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière large avec pare-soleil rabattable.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Préparé pour le Pinlock Max Vision.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Prééquipé pour l'interphone LS2.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologué ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Casquette réglable et amovible",
+   "Pare-soleil rabattable",
+   "Prêt pour l'interphone LS2",
+   "Coque légère en alliage KPA"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (KPA, alliage à base de polycarbonate)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Large, anti-rayures et anti-UV, casquette réglable et amovible",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré, rabattable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Entrée haute, menton, ports d'échappement",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à 3XL",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Poids 1400 g vs 1600 g (Atron) : omis."
+  ]
+ },
+ {
+  "modele": "FF805 Thunder",
+  "marque": "LS2",
+  "nb_fiches": 17,
+  "motif": "ff-?805\\y|thunder\\y",
+  "accroche": "L'intégral piste LS2 en carbone 6K : visière course, prêt pour le tear-off, double anneau en D.",
+  "description": "Le Thunder est l'intégral sportif de LS2, en carbone 6K à large tissage. Visière de course, mécanisme à cliquet métallique, prêt pour les tear-off et pour le Pinlock, ventilation avec spoiler arrière. Le casque des pilotes et des amateurs de piste.",
+  "profil_position": 95,
+  "points_forts": [
+   {
+    "texte": "Coque en carbone 6K à large tissage, 3 tailles de coque.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière de course haute et large, prête pour le tear-off.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Prêt pour le Pinlock Max Vision.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Double anneau en D, sangle renforcée.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure X-Static en tissu argenté.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Environ 1 280 à 1 350 g annoncés.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque carbone 6K à large tissage",
+   "Visière de course, prête pour le tear-off",
+   "Double anneau en D",
+   "Doublure en tissu argenté lavable"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 280 à 1 350 g (annoncé par le fabricant)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Carbone 6K",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Visière de course, anti-rayures, anti-UV, cliquet métallique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Entrées menton, frontale, dessus, spoiler d'extraction",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "X-Static argent, amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Revendeur donne 1468 g sur plusieurs coloris : divergent."
+  ]
+ },
+ {
+  "modele": "FF908 Strobe II",
+  "marque": "LS2",
+  "nb_fiches": 17,
+  "motif": "ff-?908\\y|strobe ii\\y",
+  "accroche": "Le modulable LS2 à mentonnière pivotante à 90°, coque KPA, homologué intégral et jet, pare-soleil rabattable.",
+  "description": "Le Strobe II est un modulable pour navetteurs et voyageurs. Mentonnière pivotante à 90°, coque KPA, double homologation P/J et pare-soleil rabattable. Rembourrage 3D découpé au laser et prééquipé pour l'interphone LS2 4X.",
+  "profil_position": 30,
+  "points_forts": [
+   {
+    "texte": "Mentonnière pivotante à 90°.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Double homologation P/J ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en thermoplastique KPA.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil rabattable, visière préparée pour le Pinlock.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Prééquipé pour l'interphone LS2 4X.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Rembourrage 3D découpé au laser, lavable.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Mentonnière relevable à 90°",
+   "Intégral ou jet : double homologation",
+   "Pare-soleil rabattable",
+   "Prêt pour l'interphone LS2 4X"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 550 g ± 50 g (annoncé par le fabricant)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06 (P/J)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (KPA)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Anti-rayures et anti-UV, préparée pour le Pinlock",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré, rabattable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Entrées menton et haute, extraction canalisée",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à 3XL",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": []
+ },
+ {
+  "modele": "OF558 Sphere II",
+  "marque": "LS2",
+  "nb_fiches": 16,
+  "motif": "of-?558\\y|sphere\\y",
+  "accroche": "Un jet LS2 sobre et élégant en KPA : grande visière anti-rayures, fermeture micrométrique, 2 tailles de coque.",
+  "description": "Le Sphere II est un jet au style sobre, fait pour la ville et la campagne. Sa coque KPA reste légère, sa visière large est traitée anti-rayures et sa fermeture est micrométrique. Deux tailles de coque pour un bon ajustement.",
+  "profil_position": 10,
+  "points_forts": [
+   {
+    "texte": "Coque légère en KPA.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière large traitée anti-rayures.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture micrométrique.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "2 tailles de coque, de XS à 2XL.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologué ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Jet sobre et élégant",
+   "Grande visière anti-rayures",
+   "2 tailles de coque, XS à 2XL",
+   "Homologué ECE 22.06"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (KPA)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Large, anti-rayures",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à 2XL",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Informations limitées : 2 descriptions marchandes."
+  ]
+ },
+ {
+  "modele": "FF902 Scope II",
+  "marque": "LS2",
+  "nb_fiches": 16,
+  "motif": "ff-?902\\y|scope ii\\y",
+  "accroche": "Le modulable LS2 en HPTT à mentonnière relevable à 90° : pare-soleil, Pinlock 70 fourni, homologué intégral et jet.",
+  "description": "Le Scope II est un modulable polyvalent pour la ville et l'autoroute. Mentonnière relevable à 90° avec verrouillage renouvelé, pare-soleil, Pinlock 70 fourni, doublure Coolmax. Double homologation P/J.",
+  "profil_position": 28,
+  "points_forts": [
+   {
+    "texte": "Mentonnière relevable à 90° avec nouveau verrouillage.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Double homologation P/J ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en HPTT, thermoplastique léger.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil et Pinlock 70 MaxVision fourni.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure Coolmax amovible et lavable.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Boucle micrométrique.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Mentonnière relevable à 90°",
+   "Intégral ou jet : double homologation",
+   "Pinlock 70 et pare-soleil inclus",
+   "Doublure Coolmax lavable"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 750 g ± 50 g (annoncé par le fabricant)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06 (P/J)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (HPTT)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock 70 fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Entrées menton et frontale, évacuation canalisée",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Coolmax, amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à 3XL",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": []
+ },
+ {
+  "modele": "FF807 Dragon",
+  "marque": "LS2",
+  "nb_fiches": 13,
+  "motif": "ff-?807\\y|dragon\\y",
+  "accroche": "L'intégral sportif LS2 en carbone 6K : Pinlock fourni, pare-soleil, doublure X-Static, double anneau en D.",
+  "description": "Le Dragon est un sportif en carbone 6K pour l'usage quotidien et les sorties du week-end. Pare-soleil à retrait facile, Pinlock MaxVision fourni, doublure X-Static antibactérienne. Environ 1 450 g annoncés.",
+  "profil_position": 80,
+  "points_forts": [
+   {
+    "texte": "Coque en carbone 6K, 3 tailles de coque.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Environ 1 450 g annoncés par le fabricant.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil à retrait facile.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pinlock MaxVision fourni.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure X-Static imprégnée d'argent, antibactérienne, lavable.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Aérations en carbone, double anneau en D.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque carbone 6K, 1 450 g annoncés",
+   "Pare-soleil, Pinlock fourni",
+   "Doublure X-Static antibactérienne",
+   "Double anneau en D"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 450 g ± 50 g pour la taille M (annoncé par le fabricant)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Carbone 6K",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Anti-rayures et anti-UV, ouverture rapide",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock MaxVision fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré, retrait facile",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Aérations carbone menton et dessus, extraction",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "X-Static, amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à 3XL",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Revendeur indique polycarbonate pour Enthum/Trax, flux dit carbone pour Trax."
+  ]
+ },
+ {
+  "modele": "OF620 Classy",
+  "marque": "LS2",
+  "nb_fiches": 13,
+  "motif": "of-?620\\y|classy\\y",
+  "accroche": "Un jet urbain LS2 élégant en KPA : grande visière, pare-soleil, Pinlock prêt, 3 tailles de coque.",
+  "description": "Le Classy est un jet au dessin élégant pour la ville. Coque KPA, grande visière, pare-soleil intégré, visière prête pour le Pinlock. Environ 1 200 g annoncés.",
+  "profil_position": 12,
+  "points_forts": [
+   {
+    "texte": "Coque en KPA, environ 1 200 g annoncés.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Grande visière avec pare-soleil.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière prête pour le Pinlock MaxVision.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture micrométrique métallique.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "3 tailles de coque.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologué ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Jet élégant, grande visière",
+   "Pare-soleil intégré",
+   "Environ 1 200 g annoncés",
+   "Prêt pour le Pinlock"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 200 g ± 50 g (annoncé par le fabricant)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (KPA)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Grande, anti-rayures et anti-UV, préparée pour le Pinlock MaxVision",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Entrée haute, évacuation",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à 3XL",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": []
+ },
+ {
+  "modele": "MX701 Explorer",
+  "marque": "LS2",
+  "nb_fiches": 12,
+  "motif": "mx-?701\\y|explorer\\y",
+  "accroche": "Le casque aventure LS2 en carbone ou fibre : pare-soleil, visière réglable, double anneau en D.",
+  "description": "L'Explorer est un casque de trail pour les longues distances et tous les terrains. Coque carbone ou fibre selon la version, visière réglable amovible, pare-soleil. Environ 1 450 g annoncés en carbone.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Coque en carbone 6K (versions Carbon) ou en fibre HPFC.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Environ 1 450 g annoncés en carbone.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière réglable et amovible, pare-soleil intérieur.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pinlock 70 fourni sur les versions carbone.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Double anneau en D, ventilation menton et toit.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologué ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Carbone ou fibre au choix",
+   "Visière réglable, pare-soleil",
+   "Environ 1 450 g en carbone",
+   "Double anneau en D"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Carbone (versions Carbon) ou fibre de verre (HPFC)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Large, réglable et amovible, anti-rayures et anti-UV",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Entrées menton et toit, évacuation",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à 3XL",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Poids connu pour le carbone seulement.",
+   "Pinlock fourni sur les versions carbone seulement : ligne omise."
+  ]
+ },
+ {
+  "modele": "OF616 Airflow II",
+  "marque": "LS2",
+  "nb_fiches": 12,
+  "motif": "of-?616\\y|airflow ii\\y",
+  "accroche": "Un jet LS2 en HPTT, simple et élégant, visière à changement rapide d'un bouton.",
+  "description": "L'Airflow II est un jet épuré pour la ville et les routes de campagne. Coque HPTT, visière large anti-rayures à changement rapide, prêt pour le système de communication LS2.",
+  "profil_position": 12,
+  "points_forts": [
+   {
+    "texte": "Coque en HPTT, thermoplastique léger.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière à changement rapide d'un bouton.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière anti-rayures et anti-UV.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Prêt pour l'interphone LS2 4X.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure amovible et lavable.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologué ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Visière à changement rapide",
+   "Jet simple et élégant",
+   "Prêt pour l'interphone LS2",
+   "Doublure lavable"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (HPTT)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Large, anti-rayures et anti-UV, changement rapide",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Entrée haute",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à 3XL",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Poids 1200 g vs 1500 g : omis."
+  ]
+ },
+ {
+  "modele": "OF600 Copter II",
+  "marque": "LS2",
+  "nb_fiches": 11,
+  "motif": "of-?600\\y|copter ii\\y",
+  "accroche": "Un jet LS2 à deux prises d'air et pare-soleil intégré, grande visière, environ 1 200 g annoncés.",
+  "description": "Le Copter II est un jet de ville et d'autoroute. Ventilation par deux prises d'air supérieures, grande visière anti-rayures, pare-soleil intégré. Environ 1 200 g annoncés.",
+  "profil_position": 18,
+  "points_forts": [
+   {
+    "texte": "Deux prises d'air supérieures.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Grande visière anti-rayures et anti-UV.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil intégré.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière préparée pour le Pinlock MaxVision.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Environ 1 200 g annoncés.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologué ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Deux prises d'air sur le dessus",
+   "Pare-soleil intégré",
+   "Environ 1 200 g annoncés",
+   "Grande visière anti-rayures"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 200 g ± 50 g (annoncé par le fabricant)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Grande, anti-rayures et anti-UV, ouverture rapide, préparée pour le Pinlock",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Deux entrées supérieures, évacuation",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Coque : KPA vs HPFC vs HPTT selon marchands : omise."
+  ]
+ },
+ {
+  "modele": "FF812 Kid",
+  "marque": "LS2",
+  "nb_fiches": 10,
+  "motif": "ff-?812\\y",
+  "accroche": "L'intégral LS2 pour enfant : coque composite KPA renforcée à l'aramide, environ 1 250 g annoncés, ventilation, homologué 22.06.",
+  "description": "Le FF812 Kid est un intégral conçu pour les jeunes motards. Coque KPA, ventilation généreuse, intérieur lavable. Environ 1 250 g annoncés.",
+  "profil_position": 40,
+  "points_forts": [
+   {
+    "texte": "Coque en KPA renforcé à l'aramide.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Environ 1 250 g annoncés.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière préparée pour le Pinlock 70.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Boucle micrométrique.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation menton et haute.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologué ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Pensé pour les jeunes motards",
+   "Environ 1 250 g annoncés",
+   "Ventilation haut et menton",
+   "Homologué ECE 22.06"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 250 g ± 50 g (annoncé par le fabricant)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (KPA, polycarbonate renforcé à l'aramide)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Anti-rayures, anti-UV, préparée pour le Pinlock 70",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Entrées haute et menton, extracteurs",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": []
+ },
+ {
+  "modele": "MX703 C X-Force",
+  "marque": "LS2",
+  "nb_fiches": 10,
+  "motif": "mx-?703\\y|x-force\\y",
+  "accroche": "Le casque cross LS2 en carbone : accès pour tube d'hydratation, visière réglable, double anneau en D.",
+  "description": "Le X-Force est le casque cross en carbone de LS2. Visière réglable et rétractable, accès pour tube d'hydratation. La version Pro FIM pèse environ 1 200 g.",
+  "profil_position": 55,
+  "points_forts": [
+   {
+    "texte": "Coque extérieure en carbone.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière réglable et rétractable.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Accès pour tube d'hydratation.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Double anneau en D.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Version Pro FIM en carbone 9K, certifiée FIM, environ 1 200 g.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologué ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque en carbone",
+   "Accès pour tube d'hydratation",
+   "Version Pro FIM certifiée FIM",
+   "Visière réglable"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Carbone",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Casquette réglable et rétractable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Entrées dessus, orifices d'échappement",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à 3XL",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Poids 1300 g (C) vs 1200 g (Pro FIM) : omis."
+  ]
+ },
+ {
+  "modele": "MX700 Subverter Evo",
+  "marque": "LS2",
+  "nb_fiches": 9,
+  "motif": "mx-?700\\y|subverter\\y",
+  "accroche": "Le casque cross LS2 en KPA très ventilé : casquette ajustable, double anneau en D, intérieur lavable.",
+  "description": "Le Subverter Evo est un cross très ventilé grâce à son EPS multi-canaux. Coque KPA, casquette ajustable, intérieur démontable. La version Evo II est homologuée ECE 22.06.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Coque en KPA.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "EPS à canaux pour une circulation d'air.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Casquette ajustable et démontable.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Double anneau en D.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur démontable et lavable.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Evo II homologué ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Très ventilé",
+   "Casquette ajustable",
+   "Coque KPA",
+   "Intérieur lavable"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (KPA)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Casquette ajustable et démontable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à 3XL",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Evo en ECE 22.05 (flux), Evo II en 22.06 : norme omise."
+  ]
+ },
+ {
+  "modele": "OF599 Spitfire II",
+  "marque": "LS2",
+  "nb_fiches": 7,
+  "motif": "of-?599\\y|spitfire\\y",
+  "accroche": "Un jet LS2 ultra léger en KPA, environ 1 000 g annoncés, pare-soleil à 2 niveaux.",
+  "description": "Le Spitfire II est un jet pour la ville et l'autoroute. Coque KPA, pare-soleil à 2 niveaux, fermeture micrométrique. Environ 1 000 g annoncés.",
+  "profil_position": 12,
+  "points_forts": [
+   {
+    "texte": "Coque en KPA.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Environ 1 000 g annoncés.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil à 2 niveaux.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture micrométrique.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur lavable.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologué ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Environ 1 000 g annoncés",
+   "Pare-soleil à 2 niveaux",
+   "Coque KPA légère",
+   "Intérieur lavable"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 000 g ± 50 g (annoncé par le fabricant)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (KPA)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à 3XL",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Fermeture 'à cliquet' dans le texte, micrométrique dans les caractéristiques."
+  ]
+ },
+ {
+  "modele": "OF606 Drifter",
+  "marque": "LS2",
+  "nb_fiches": 7,
+  "motif": "of-?606\\y|drifter\\y",
+  "accroche": "Le crossover LS2 : jet avec mentonnière amovible, KPA, pare-soleil rabattable, 1 350 g annoncés.",
+  "description": "Le Drifter se porte avec ou sans mentonnière, démontable en un double clic. Coque KPA, pare-soleil rabattable, visière réglable.",
+  "profil_position": 25,
+  "points_forts": [
+   {
+    "texte": "Mentonnière amovible.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en KPA.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil rabattable.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture micrométrique.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Environ 1 350 g annoncés.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologué ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Avec ou sans mentonnière",
+   "Pare-soleil rabattable",
+   "Coque KPA",
+   "Environ 1 350 g annoncés"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 350 g ± 50 g (annoncé par le fabricant)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (KPA)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré, rabattable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à XXL",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": []
+ }
+]

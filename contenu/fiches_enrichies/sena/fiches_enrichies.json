@@ -1,0 +1,462 @@
+[
+ {
+  "modele": "Phantom",
+  "marque": "Sena",
+  "nb_fiches": 3,
+  "motif": "\\yphantom\\y(?! anc\\y)",
+  "accroche": "L'intégral connecté Sena avec intercom 60S intégré, feux LED, Pinlock livré et écran solaire rétractable.",
+  "description": "Le Phantom est un intégral qui intègre l'intercom Sena 60S dans sa coque en fibre de verre, sans module externe. Il embarque des feux LED de position et de freinage, un écran solaire rétractable et un film Pinlock livré avec. Recharge USB-C et norme ECE 22.06.",
+  "profil_position": 40,
+  "points_forts": [
+   {
+    "texte": "Intercom Sena 60S intégré au casque.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Feux LED à l'avant et à l'arrière, de position et de freinage.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran solaire rétractable et film Pinlock livré.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en fibre de verre, fermeture double D.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologué ECE 22.06, recharge USB-C.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Intercom Sena 60S intégré",
+   "Feux de position et de freinage LED",
+   "Écran solaire et Pinlock livrés",
+   "Norme ECE 22.06"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Fibre de verre",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Incolore, anti-rayures, anti-UV et antibuée",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Écran solaire intégré rétractable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Prises d'air sur le dessus et la mentonnière, extracteur arrière",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Audio",
+    "valeur": "Intercom Bluetooth intégré",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Poids de tableau tiers (1 656 g) et garantie 3 ans non retenus : source non fiable."
+  ]
+ },
+ {
+  "modele": "Phantom ANC",
+  "marque": "Sena",
+  "nb_fiches": 2,
+  "motif": "\\yphantom anc\\y",
+  "accroche": "Le Phantom avec réduction active du bruit : intercom Sena 60S, haut-parleurs Harman Kardon, Pinlock fourni.",
+  "description": "Le Phantom ANC ajoute au Phantom la réduction active du bruit, jusqu'à 20 dB. L'intercom Sena 60S, le Mesh Intercom 3.0 et les haut-parleurs Harman Kardon sont intégrés à sa coque en fibre de verre. Pinlock, écran solaire interne, feux LED et autonomie jusqu'à 35 heures complètent l'ensemble.",
+  "profil_position": 40,
+  "points_forts": [
+   {
+    "texte": "Réduction active du bruit (ANC) jusqu'à 20 dB.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intercom Sena 60S intégré, Mesh Intercom 3.0 jusqu'à 24 utilisateurs et 2 km de portée.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Haut-parleurs Harman Kardon intégrés, Bluetooth 5.3.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pinlock fourni, écran solaire interne, feux LED avant et arrière.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Autonomie annoncée jusqu'à 35 heures, recharge en 2 h 30. Homologué ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Réduction active du bruit jusqu'à 20 dB",
+   "Intercom Mesh 3.0, jusqu'à 2 km",
+   "Haut-parleurs Harman Kardon",
+   "Autonomie jusqu'à 35 heures"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Fibre de verre",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Écran solaire intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Audio",
+    "valeur": "Intercom Bluetooth intégré avec haut-parleurs Harman Kardon",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Portée annoncée 2 km en terrain dégagé (constructeur)."
+  ]
+ },
+ {
+  "modele": "Outlander",
+  "marque": "Sena",
+  "nb_fiches": 3,
+  "motif": "\\youtlander\\y",
+  "accroche": "Le casque aventure Sena à intercom intégré : coque composite en fibre de verre, Mesh 3.0, audio Harman Kardon, feux stop.",
+  "description": "L'Outlander est un casque connecté pour l'aventure et le dual-sport. Sa coque en fibre de verre composite abrite l'audio Harman Kardon de seconde génération, le Mesh Intercom 3.0 et le Wave Intercom, sans module externe. Il intègre aussi un éclairage avec feux stop.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Casque aventure et dual-sport à communication entièrement intégrée.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en fibre de verre composite.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Audio Harman Kardon de seconde génération, Mesh Intercom 3.0 et Wave Intercom.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Réduction du bruit basée sur l'IA, mises à jour en ligne.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologué ECE 22.06, 1 720 g en taille M (±50 g).",
+    "preuve": "fabricant",
+    "source": "Sena, page produit Outlander"
+   }
+  ],
+  "points_forts_courts": [
+   "Aventure et intercom intégrés",
+   "Audio Harman Kardon intégré",
+   "Mesh Intercom 3.0 et Wave",
+   "Feux stop intégrés"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "Sena, page produit Outlander"
+   },
+   {
+    "nom": "Poids",
+    "valeur": "1 720 g en taille M (±50 g, annoncé constructeur)",
+    "source": "Sena, page produit Outlander"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Fibre de verre (composite)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Audio",
+    "valeur": "Intercom Bluetooth intégré avec audio Harman Kardon",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "S à XXL",
+    "source": "Sena, page produit Outlander"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Norme et poids tirés de la page produit du constructeur."
+  ]
+ },
+ {
+  "modele": "Outstar 2",
+  "marque": "Sena",
+  "nb_fiches": 3,
+  "motif": "\\youtstar 2\\y",
+  "accroche": "Le jet Sena à intercom intégré : Mesh 3.0 et Wave, 20 heures de conversation, ECE 22.06, 1 520 g.",
+  "description": "L'Outstar 2 est un jet connecté, avec Mesh Intercom 3.0 et Wave Intercom intégrés. Sa coque en ABS pèse environ 1 520 g, il gère l'allumage et l'arrêt automatiques et offre jusqu'à 20 heures de conversation. Visière pleine longueur résistante aux rayures et aux UV, norme ECE 22.06.",
+  "profil_position": 10,
+  "points_forts": [
+   {
+    "texte": "Homologué ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Mesh Intercom 3.0 (1,2 km en terrain dégagé) et Wave Intercom.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Haut-parleurs HD de seconde génération, Bluetooth 5.2, réduction de bruit avancée.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Jusqu'à 20 heures de conversation, charge en 2,5 heures.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en ABS, environ 1 520 g (±50 g).",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Intercom Mesh 3.0 et Wave intégrés",
+   "20 heures de conversation",
+   "Norme ECE 22.06",
+   "Visière longue, filtre UV"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Poids",
+    "valeur": "Environ 1 520 g (±50 g, annoncé constructeur)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (ABS)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Fermeture rapide",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Pleine longueur, résistante aux rayures et aux UV",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Audio",
+    "valeur": "Intercom Bluetooth intégré avec haut-parleurs HD",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": []
+ },
+ {
+  "modele": "Outrush 2",
+  "marque": "Sena",
+  "nb_fiches": 2,
+  "motif": "\\youtrush 2\\y",
+  "accroche": "Le modulable connecté Sena en ABS léger : Mesh 3.0, Wave, 20 h de conversation, double homologation jet et intégral.",
+  "description": "L'Outrush 2 est un modulable connecté pour tous les jours. Sa coque légère en polycarbonate ABS, au bord inférieur renforcé, abrite le Mesh Intercom 3.0, le Wave Intercom et des haut-parleurs HD. Visière prête pour Pinlock 70, double homologation P/J et jusqu'à 20 heures de conversation.",
+  "profil_position": 35,
+  "points_forts": [
+   {
+    "texte": "Double homologation jet et intégral (P/J).",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque légère en polycarbonate ABS, bord inférieur renforcé.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Mesh Intercom 3.0 et Wave Intercom, haut-parleurs HD de seconde génération.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Jusqu'à 20 heures de conversation, mises à jour à distance.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière prête pour Pinlock 70.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Modulable à intercom intégré",
+   "Coque légère en ABS renforcée",
+   "Jusqu'à 20 h de conversation",
+   "Double homologation jet et intégral"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate ABS)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Audio",
+    "valeur": "Intercom Bluetooth intégré avec haut-parleurs HD",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Norme exacte non lue (texte tronqué) : omise."
+  ]
+ },
+ {
+  "modele": "Specter",
+  "marque": "Sena",
+  "nb_fiches": 2,
+  "motif": "\\yspecter\\y",
+  "accroche": "Le modulable connecté haut de gamme Sena : coque composite fibre de verre et Kevlar, Pinlock 120 XLT, intercom Mesh 3.0.",
+  "description": "Le Specter est un modulable de tourisme à intercom intégré. Sa coque composite en fibre de verre et Kevlar reste légère malgré l'électronique. Pinlock 120 XLT et écran solaire interne sont fournis, les haut-parleurs Harman Kardon de 40 mm sont intégrés, et la double homologation P/J est en ECE 22.06.",
+  "profil_position": 35,
+  "points_forts": [
+   {
+    "texte": "Coque composite en fibre de verre et Kevlar.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pinlock 120 XLT fourni et écran solaire interne.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Haut-parleurs Harman Kardon de 40 mm, commande par joystick et vocale.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Mesh 3.0 jusqu'à 24 utilisateurs, portée annoncée 2 km, Bluetooth 5.3.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Autonomie annoncée de 30 heures, recharge USB-C. Homologué P/J ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Composite fibre de verre et Kevlar",
+   "Pinlock 120 XLT fourni",
+   "Haut-parleurs Harman Kardon 40 mm",
+   "Autonomie annoncée de 30 heures"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (fibre de verre et Kevlar)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock 120 fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Écran solaire interne",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Audio",
+    "valeur": "Intercom Bluetooth intégré avec haut-parleurs Harman Kardon 40 mm",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": []
+ }
+]

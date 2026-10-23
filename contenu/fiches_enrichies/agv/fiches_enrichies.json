@@ -1,0 +1,1110 @@
+[
+ {
+  "modele": "K6 S",
+  "motif": "\\yk-?6[- ]?s\\y",
+  "accroche": "Le casque route d'AGV en composite carbone et aramide, 5 étoiles SHARP en ECE 22.06 : 1 200 g sur la balance, Pinlock 120 fourni.",
+  "description": "Le K6 S est l'intégral polyvalent d'AGV, hérité de la technologie des pilotes de MotoGP. Sa coque composite en carbone et aramide ne pèse que 1 200 g lors du test SHARP, et sa forme travaillée en soufflerie limite les turbulences. Visière panoramique avec Pinlock 120 fourni, intérieur doux et lavable : il vous accompagne du trajet quotidien à la route de col.",
+  "profil_position": 70,
+  "points_forts": [
+   {
+    "texte": "5 étoiles au test SHARP, avec la norme ECE 22.06 (test de juin 2024).",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche K6-S, juin 2024"
+   },
+   {
+    "texte": "1 200 g à la pesée SHARP : un intégral léger pour les longues sorties.",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche K6-S, juin 2024"
+   },
+   {
+    "texte": "Coque en fibres de carbone et d'aramide, avec une calotte EPS à 5 densités et 4 tailles de coque.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Forme étudiée en soufflerie avec spoiler intégré, pour réduire les turbulences.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière panoramique (190° en largeur, 85° en hauteur) avec Pinlock 120 antibuée fourni.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur amovible et lavable, compatible avec le port de lunettes, avec retrait d'urgence des mousses de joues.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "5 étoiles SHARP, norme ECE 22.06",
+   "1 200 g à la pesée SHARP",
+   "Pinlock 120 antibuée fourni",
+   "Composite carbone-aramide, spoiler intégré"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 200 g (pesée SHARP)",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (carbone et aramide)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Panoramique, champ de vision de 190° à l'horizontale et 85° à la verticale, anti-rayures, micro-ouverture",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock 120 fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "5 entrées d'air avant et un grand extracteur arrière, réglables",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à XXL",
+    "source": "SHARP"
+   }
+  ],
+  "securite": {
+   "sharp_etoiles": 5,
+   "date_test": "juin 2024",
+   "norme": "ECE 22.06"
+  },
+  "a_savoir": [
+   "Compatible avec l'interphone Bluetooth AGV ARK (en option).",
+   "Une visière photochromique SP1 existe en accessoire pour les K6 et K6 S.",
+   "Le K6 (sans S) est un modèle voisin : vérifiez la mention K6 S."
+  ],
+  "alertes_qualite": [
+   "Poids revendeur 1298 g contre 1200 g SHARP : SHARP retenu.",
+   "Le tableau revendeur annonce une visière solaire intégrée sur plusieurs coloris K6 S : contredit les descriptions marchands (pas de pare-soleil), ligne omise.",
+   "Les descriptions divergent sur les extracteurs arrière (1 ou 2) et sur la coque (aramide seule ou carbone-aramide) : formulation prudente."
+  ],
+  "nb_fiches": 18,
+  "marque": "AGV"
+ },
+ {
+  "modele": "K1 S",
+  "motif": "\\yk-?1[- ]?s\\y",
+  "accroche": "L'intégral sport d'AGV issu de la course : 5 étoiles SHARP en ECE 22.06, spoiler testé en soufflerie et visière à 190°.",
+  "description": "Le K1 S reprend les codes des casques de course d'AGV pour la route de tous les jours. Il a obtenu 5 étoiles au test SHARP en ECE 22.06. Spoiler aérodynamique, ventilation généreuse et visière panoramique : il reste stable quand le rythme monte.",
+  "profil_position": 75,
+  "points_forts": [
+   {
+    "texte": "5 étoiles au test SHARP, avec la norme ECE 22.06 (test de septembre 2024).",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche K1-S, septembre 2024"
+   },
+   {
+    "texte": "Spoiler intégré testé en soufflerie et aérations avant développées en course, pour la stabilité à grande vitesse.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en thermoplastique haute résistance en 2 tailles, EPS à 4 densités en 4 tailles.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "5 entrées d'air avant et 2 extracteurs arrière réglables.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière anti-rayures à champ de vision de 190°, avec micro-ouverture et démontage rapide.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Profil de sécurité pour les clavicules, cache-nez et pare-vent amovibles.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "5 étoiles SHARP en ECE 22.06",
+   "Spoiler testé en soufflerie",
+   "5 entrées d'air et 2 extracteurs",
+   "Visière panoramique à 190°"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 500 g (pesée SHARP)",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (résine haute résistance)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Anti-rayures, champ de vision de 190°, micro-ouverture",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "5 entrées d'air avant et 2 extracteurs arrière, réglables",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à XXL",
+    "source": "SHARP"
+   }
+  ],
+  "securite": {
+   "sharp_etoiles": 5,
+   "date_test": "septembre 2024",
+   "norme": "ECE 22.06"
+  },
+  "a_savoir": [
+   "Prêt pour l'installation d'un système de communication.",
+   "Intérieur Dry-Comfort amovible et lavable, coupe adaptée aux lunettes."
+  ],
+  "alertes_qualite": [
+   "Poids revendeur 1442 g (polycarbonate) contre 1500 g SHARP (thermoplastique) : SHARP retenu.",
+   "Pinlock 70 seulement présenté comme compatible/prédisposé : ligne Pinlock omise.",
+   "Catalogue : certaines fiches ('Pulse 46', 'Rossi') peuvent mêler des séries."
+  ],
+  "nb_fiches": 23,
+  "marque": "AGV"
+ },
+ {
+  "modele": "K3",
+  "motif": "\\yk-?3\\y",
+  "accroche": "L'intégral route emblématique d'AGV : pare-soleil intégré, Pinlock 70 fourni, visière à 190°, en ECE 22.06.",
+  "description": "Le K3 est l'intégral polyvalent d'AGV pour la route. Son pare-soleil intégré se manie même avec des gants, et le Pinlock 70 MaxVision est fourni contre la buée. Coque thermoplastique, ventilation soignée et intérieur lavable : un casque simple à vivre au quotidien.",
+  "profil_position": 60,
+  "points_forts": [
+   {
+    "texte": "Pare-soleil intégré, qui se manie confortablement avec des gants.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pinlock 70 MaxVision fourni contre la buée.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en thermoplastique haute résistance, EPS multidensité et profil de protection des clavicules.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière à champ de vision horizontal de 190° avec micro-ouverture et système de décrochage rapide.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "5 prises d'air avant et 2 extracteurs arrière.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur Dry-Comfort amovible, coupe prévue pour les lunettes, inserts réfléchissants.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Pare-soleil intégré, même avec gants",
+   "Pinlock 70 antibuée fourni",
+   "Visière panoramique à 190°",
+   "5 prises d'air et 2 extracteurs"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (haute résistance)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Boucle micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Champ de vision de 190°, anti-rayures, micro-ouverture",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock 70 fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré, utilisable avec des gants",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "5 prises d'air avant et 2 extracteurs arrière",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Préparé pour un système de communication générique.",
+   "Protège-nez et protections contre le vent amovibles."
+  ],
+  "alertes_qualite": [
+   "SHARP ne teste que le K-3 / K3 SV en ECE 22.05 (4 étoiles) : version différente, securite = null.",
+   "Poids revendeur 1602 g non confirmé par SHARP : omis.",
+   "Descriptions contradictoires sur le nombre de tailles de coque (2 ou 3) : omis.",
+   "Pinlock 70 fourni selon plusieurs descriptions, seulement évoqué dans d'autres."
+  ],
+  "nb_fiches": 18,
+  "marque": "AGV"
+ },
+ {
+  "modele": "K7",
+  "motif": "\\yk-?7\\y",
+  "accroche": "Un intégral compact en composite carbone et aramide, 5 étoiles SHARP en ECE 22.06 (avril 2026), avec pare-soleil rétractable intégré.",
+  "description": "Le K7 est l'intégral compact d'AGV, taillé pour toutes les routes. Sa coque composite en carbone et aramide a décroché 5 étoiles au test SHARP d'avril 2026. Pare-soleil rétractable, visière Ultravision à 190° et coussinet de calotte qui diffuse l'air : il se fait oublier sur les longs trajets.",
+  "profil_position": 65,
+  "points_forts": [
+   {
+    "texte": "5 étoiles au test SHARP, avec la norme ECE 22.06 (test d'avril 2026).",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche K7, avril 2026"
+   },
+   {
+    "texte": "Coque en fibres composites (carbone et aramide) en 3 tailles, EPS à 4 densités en 4 tailles.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil rétractable intégré.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation avec 5 aérations avant, 2 grandes bouches arrière et coussinet de calotte diffusant l'air (brevet AGV).",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière Ultravision à champ de vision de 190°, anti-rayures, avec micro-ouverture.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Forme testée en soufflerie, spoiler intégré et profil de protection des clavicules.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "5 étoiles SHARP, test d'avril 2026",
+   "Pare-soleil rétractable intégré",
+   "Coque composite carbone-aramide en 3 tailles",
+   "7 aérations dont 2 grandes à l'arrière"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 600 g (pesée SHARP)",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (carbone et aramide)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Boucle micrométrique en acier",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Ultravision, champ de vision de 190°, anti-rayures, micro-ouverture",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré, rétractable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "5 aérations avant et 2 grandes bouches arrière, réglables",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à XXL",
+    "source": "SHARP"
+   }
+  ],
+  "securite": {
+   "sharp_etoiles": 5,
+   "date_test": "avril 2026",
+   "norme": "ECE 22.06"
+  },
+  "a_savoir": [
+   "Compatible avec l'interphone AGV Insyde.",
+   "Cannelures prévues pour le port de lunettes."
+  ],
+  "alertes_qualite": [
+   "Poids revendeur 1450 g contre 1600 g SHARP : SHARP retenu.",
+   "Pinlock 120 : 'inclus' dans une description, 'prédisposé' dans les autres : ligne omise.",
+   "Le titre 'K7 Mplk' désigne le même modèle."
+  ],
+  "nb_fiches": 23,
+  "marque": "AGV"
+ },
+ {
+  "modele": "Pista GP RR",
+  "motif": "\\ypista gp rr\\y",
+  "accroche": "La réplique du casque des pilotes MotoGP : 100 % carbone, homologué FIM et ECE 22.06, livré avec Pinlock 120 et accessoires piste.",
+  "description": "Le Pista GP RR est le casque de course d'AGV, proposé à tous les pilotes. Sa coque est en 100 % fibre de carbone, homologuée FIM et ECE 22.06. Évents métalliques, visière optique de classe 1, Pinlock 120, kit tear-off et système d'hydratation : tout est prévu pour la piste.",
+  "profil_position": 95,
+  "points_forts": [
+   {
+    "texte": "Homologué FIM et ECE 22.06 : coque et EPS conçus pour limiter les accélérations de rotation.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque 100 % fibre de carbone en 4 tailles, EPS à 5 densités.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Environ 1 450 g (± 50 g) annoncés par le constructeur.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "5 entrées d'air avant et 2 extracteurs arrière, évents métalliques.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière Ultravision de 5 mm, classe optique 1, vision panoramique de 190° x 85°, avec Pinlock 120 fourni.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Livré avec spoiler PRO amovible, système d'hydratation, supports tear-off et bouchons d'oreilles.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Homologué FIM, comme les pilotes",
+   "Coque 100 % carbone, 4 tailles",
+   "Pinlock 120 et tear-off fournis",
+   "Système d'hydratation inclus"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 450 g (± 50 g, annoncé par le constructeur)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Carbone (100 % fibre de carbone, 4 tailles de coque)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D en titane",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Ultravision de 5 mm, classe optique 1, champ de vision de 190° x 85°, anti-rayures",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock 120 fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "5 entrées d'air avant et 2 extracteurs arrière métalliques",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Homologué FIM en plus de l'ECE 22.06.",
+   "Intérieur 360° Adaptive Fit, adapté à la combinaison de course.",
+   "Le spoiler PRO est amovible."
+  ],
+  "alertes_qualite": [
+   "SHARP ne teste que 'Pista GP' et 'PISTA GP R' (ECE 22.05) : modèles différents, securite = null.",
+   "Poids revendeur 1484 g contre 1450 g annoncés : fourchette du constructeur retenue.",
+   "Coloris Futuro : Pinlock 70 fourni au lieu de 120.",
+   "Catalogue : éditions limitées et séries réplique mélangées sous le même motif."
+  ],
+  "nb_fiches": 9,
+  "marque": "AGV"
+ },
+ {
+  "modele": "Eteres",
+  "motif": "\\yeteres\\y",
+  "accroche": "Un jet urbain AGV en ECE 22.06, avec pare-soleil intégré amovible sans outil et coque thermoplastique haute résistance.",
+  "description": "L'Eteres est le jet d'AGV pour la ville et les trajets du quotidien. Sa coque est en thermoplastique haute résistance, homologuée ECE 22.06. Le pare-soleil intégré se retire sans outil, les joues sont interchangeables et la coupe convient aux porteurs de lunettes.",
+  "profil_position": 10,
+  "points_forts": [
+   {
+    "texte": "Homologué ECE 22.06, coque en thermoplastique haute résistance.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil intégré, amovible sans outil.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière anti-rayures avec protection UV.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coussinets de joues interchangeables entre toutes les tailles.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coupe pensée pour les porteurs de lunettes et préparée pour un système de communication.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur DrySpeed, amovible et lavable, qui absorbe la transpiration.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Pare-soleil intégré, amovible",
+   "Visière anti-rayures et anti-UV",
+   "Joues interchangeables entre tailles",
+   "Prêt pour un interphone"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (haute résistance)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Boucle micrométrique avec anneau antivol",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Anti-rayures et anti-UV",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré, amovible sans outil",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Évent avant et bouches d'aération réglables",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Le EPS multidensité existe en 3 tailles.",
+   "Coupe forme compacte, pensée pour la conduite urbaine."
+  ],
+  "alertes_qualite": [
+   "Absent de SHARP : securite = null.",
+   "Pinlock non mentionné pour l'Eteres : ligne omise.",
+   "Aucun poids fiable."
+  ],
+  "nb_fiches": 15,
+  "marque": "AGV"
+ },
+ {
+  "modele": "Irides",
+  "motif": "\\yirides\\y",
+  "accroche": "Un jet AGV en ECE 22.06 avec longue visière à fermeture magnétique, pare-soleil intégré et coque thermoplastique.",
+  "description": "L'Irides est le jet d'AGV pour la circulation de tous les jours. Sa visière allongée se verrouille par système magnétique, et un pare-soleil intégré se retire sans outil. Coque thermoplastique haute résistance, homologation ECE 22.06 et intérieur lavable.",
+  "profil_position": 10,
+  "points_forts": [
+   {
+    "texte": "Homologué ECE 22.06, coque en thermoplastique haute résistance.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière allongée à fermeture magnétique (VMS), stable même à vitesse élevée.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil intégré, amovible sans outil.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière anti-rayures et anti-UV, prédisposée pour un Pinlock.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Évent avant, extracteur arrière et bouches d'aération réglables.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Joues interchangeables, coupe pour lunettes, compatible avec un système de communication.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Visière longue à fermeture magnétique",
+   "Pare-soleil intégré, amovible",
+   "Évent avant et extracteur arrière",
+   "Compatible avec un interphone"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (haute résistance)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Boucle micrométrique avec anneau antivol",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Allongée, fermeture magnétique, anti-rayures et anti-UV",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré, amovible sans outil",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Évent avant, extracteur arrière et bouches réglables",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "La visière est prédisposée pour une lentille Pinlock 70, vendue séparément.",
+   "Deux tailles de coque, EPS multidensité en 3 tailles."
+  ],
+  "alertes_qualite": [
+   "Absent de SHARP : securite = null.",
+   "Pinlock non fourni : ligne omise."
+  ],
+  "nb_fiches": 16,
+  "marque": "AGV"
+ },
+ {
+  "modele": "Tourmodular",
+  "motif": "\\ytourmodular\\y",
+  "accroche": "Le modulable voyage d'AGV : coque composite carbone, aramide et fibre de verre, 4 grandes bouches d'air et interphone DMC intégrable.",
+  "description": "Le Tourmodular est le modulable d'AGV pensé pour les longues étapes. Sa coque composite associe carbone, aramide et fibre de verre, et sa ventilation compte 4 grandes bouches réglables et 16 canaux d'extraction. Il est conçu pour recevoir l'interphone DMC et se ferme à clé.",
+  "profil_position": 35,
+  "points_forts": [
+   {
+    "texte": "Coque en carbone, fibre d'aramide et fibre de verre, homologuée ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "4 grandes bouches d'aération réglables (dessus et menton) et 16 canaux d'extraction d'air.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Prévu pour l'interphone DMC intégré.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Mentonnière à mécanisme à 2 étages pour l'aérodynamisme en configuration jet.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Système de fermeture à clé.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "3 tailles de coque, EPS à 5 densités en 4 tailles.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque composite carbone et aramide, modulable",
+   "4 grandes bouches d'air réglables",
+   "Prévu pour l'interphone DMC",
+   "Fermeture à clé"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (carbone, aramide et fibre de verre)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "4 grandes bouches réglables (dessus et menton) et 16 canaux d'extraction",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Des visières de rechange (fumé, iridium) existent pour le Tourmodular MPLK.",
+   "Prévu pour l'interphone DMC intégré."
+  ],
+  "alertes_qualite": [
+   "Absent de SHARP : securite = null.",
+   "Poids revendeur 1620 g non recoupé : omis.",
+   "Le tableau revendeur annonce un pare-soleil intégré (colonne peu fiable) : ligne omise.",
+   "Fermeture micrométrique seulement sur certains coloris du tableau revendeur : omise."
+  ],
+  "nb_fiches": 11,
+  "marque": "AGV"
+ },
+ {
+  "modele": "Streetmodular",
+  "motif": "\\ystreetmodular\\y",
+  "accroche": "Le modulable AGV pour tous les jours : joues interchangeables entre les tailles, doublure DrySpeed et boucle rapide même avec des gants.",
+  "description": "Le Streetmodular est le modulable d'AGV pour tous les jours. Sa coque thermoplastique est injectée, les joues s'échangent entre toutes les tailles et la doublure DrySpeed absorbe la transpiration. La presse spécialisée en salue la boucle, rapide à fermer avec des gants.",
+  "profil_position": 30,
+  "points_forts": [
+   {
+    "texte": "Coque en thermoplastique injecté.",
+    "preuve": "presse",
+    "source": "Ultimate Motorcycling, test du Streetmodular, mai 2025"
+   },
+   {
+    "texte": "Coussinets de joues interchangeables entre toutes les tailles.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure DrySpeed : absorption instantanée de la transpiration.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Rouleau de nuque enveloppant.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Boucle rapide à utiliser même avec des gants.",
+    "preuve": "presse",
+    "source": "Ultimate Motorcycling, mai 2025"
+   }
+  ],
+  "points_forts_courts": [
+   "Modulable pour tous les jours",
+   "Joues interchangeables entre tailles",
+   "Doublure qui absorbe la transpiration",
+   "Boucle rapide, même avec des gants"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (injecté)",
+    "source": "Ultimate Motorcycling, mai 2025"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Le test d'Ultimate Motorcycling met en avant sa double homologation."
+  ],
+  "alertes_qualite": [
+   "Absent de SHARP : securite = null.",
+   "Peu de données dans nos flux : norme, poids, pare-soleil et Pinlock non confirmés par une source admise, donc omis.",
+   "Les fiches marchands consultées en recherche web n'ont pas servi de source."
+  ],
+  "nb_fiches": 9,
+  "marque": "AGV"
+ },
+ {
+  "modele": "K5 Jet Evo",
+  "motif": "\\yk-?5 jet",
+  "accroche": "Un jet AGV léger en composite carbone et fibre de verre, ECE 22.06, avec pare-soleil intégré amovible et becquet aérodynamique.",
+  "description": "Le K5 Jet Evo est le jet d'AGV pour la route. Sa coquille composite associe carbone et fibre de verre, avec un becquet intégré. Pare-soleil amovible sans outil, 3 aérations avant et 2 extracteurs arrière : il garde la tête au frais.",
+  "profil_position": 20,
+  "points_forts": [
+   {
+    "texte": "Coque en carbone et fibre de verre, EPS multidensité en 3 tailles de coque.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologué ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil intégré, amovible sans outil.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "3 aérations avant ajustables et 2 extracteurs arrière.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Becquet intégré pour l'aérodynamisme.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coupe pour lunettes, compatible avec un système de communication générique.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque composite carbone et fibre de verre",
+   "Pare-soleil intégré, amovible",
+   "3 aérations et 2 extracteurs",
+   "Becquet aérodynamique intégré"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (carbone et fibre de verre)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Boucle micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Anti-rayures et anti-UV, mécanisme à plusieurs niveaux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré, amovible sans outil",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "3 aérations avant ajustables et 2 extracteurs arrière",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Intérieur prévu pour les lunettes."
+  ],
+  "alertes_qualite": [
+   "Absent de SHARP (le K5 testé est un intégral) : securite = null.",
+   "Catalogue : le motif inclut 'K5 Jet Solid'."
+  ],
+  "nb_fiches": 4,
+  "marque": "AGV"
+ },
+ {
+  "modele": "K5",
+  "motif": "\\yk-?5\\y(?! jet)",
+  "accroche": "L'intégral polyvalent d'AGV : pare-soleil intégré, Pinlock 70 fourni et visière à 190°, en ECE 22.06.",
+  "description": "Le K5 est un intégral polyvalent, aussi à l'aise sur le trajet quotidien que sur la sortie route. Sa calotte en fibres composites reçoit un pare-soleil intégré, et le Pinlock 70 MaxVision est fourni. Intérieur lavable et prédisposition pour l'interphone AGV Onsyde.",
+  "profil_position": 55,
+  "points_forts": [
+   {
+    "texte": "Calotte en fibres composites en 3 tailles, EPS multidensité en 4 tailles.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil intégré.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pinlock 70 MaxVision fourni.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière à champ de vision de 190° avec micro-ouverture.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Prédisposé pour l'interphone AGV Onsyde.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Mousses de joues interchangeables avec retrait d'urgence.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Pare-soleil intégré",
+   "Pinlock 70 antibuée fourni",
+   "Visière panoramique à 190°",
+   "Prédisposé pour l'interphone Onsyde"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (calotte en 3 tailles)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Champ de vision de 190°, anti-rayures, micro-ouverture",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock 70 fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "3 entrées d'air frontales et un extracteur arrière",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Coupe compatible avec le port de lunettes."
+  ],
+  "alertes_qualite": [
+   "SHARP ne teste que les K5 / K5S en ECE 22.05 (4 étoiles) : versions anciennes, securite = null.",
+   "Le catalogue peut mêler des anciens K5 (ECE 22.05) et le K5 E2206 ('K5 Mono Matt', 'K5 Noir Brillant')."
+  ],
+  "nb_fiches": 4,
+  "marque": "AGV"
+ },
+ {
+  "modele": "AX9",
+  "motif": "\\yax-?9\\y",
+  "accroche": "Le casque aventure d'AGV : coque composite carbone-aramide-verre, visière et pic modulables en 4 configurations, 1 365 g annoncés.",
+  "description": "L'AX9 est le casque aventure d'AGV. Sa modularité permet 4 configurations en retirant le pic et la visière. Coque composite carbone, aramide et fibre de verre en 3 tailles, ventilation réglable et intérieur prévu pour les lunettes.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "4 configurations possibles en retirant le pic et la visière.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en carbone, aramide et fibre de verre, en 3 tailles de coque.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "1 365 g annoncés en première taille de coque.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "2 extracteurs arrière, 3 aérations avant et grille de mentonnière amovible sans outil.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pic réglable conçu pour limiter l'effet de voile.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "4 configurations : pic et visière amovibles",
+   "Coque composite carbone, aramide et verre",
+   "Grille de mentonnière sans outil",
+   "1 365 g annoncés en 1re taille"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 365 g (première taille de coque, annoncé par le constructeur)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (carbone, aramide et fibre de verre, 3 tailles)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "3 aérations avant et 2 extracteurs arrière, réglables",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Intérieur prévu pour les lunettes et prêt pour un système de communication."
+  ],
+  "alertes_qualite": [
+   "Absent de SHARP : securite = null.",
+   "Norme omise : une description 'Mono Carbon 06' indique CEE 22-05, celle du Steppa indique ECE 22-06.",
+   "Une seule fiche au catalogue."
+  ],
+  "nb_fiches": 1,
+  "marque": "AGV"
+ }
+]

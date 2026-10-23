@@ -1,0 +1,825 @@
+[
+ {
+  "modele": "S3",
+  "marque": "Schuberth",
+  "nb_fiches": 12,
+  "motif": "\\ys3\\y(?! (carbon|spark))",
+  "accroche": "L'intégral sport-touring de Schuberth : composite de fibres, ECE 22.06, Pinlock 120 et pare-soleil rétractable intégrés.",
+  "description": "Le S3 est l'intégral sport-touring de Schuberth, le premier de la marque à répondre à la norme ECE 22.06. Sa coque composite en fibre de verre renforcée de carbone allie légèreté et résistance, et sa forme a été travaillée en soufflerie pour limiter le bruit. Pare-soleil rétractable, Pinlock 120 déjà monté et intérieur ajustable : vous êtes prêt pour de longues journées en selle.",
+  "profil_position": 70,
+  "points_forts": [
+   {
+    "texte": "Premier intégral Schuberth homologué ECE 22.06, pensé pour allier performance de course et confort de tourisme.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en fibre de verre (Direct Fibre Processing) renforcée de carbone, pour absorber les chocs avec moins de poids.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Système S.R.S : les mousses de joues se retirent en cas d'accident pour faciliter le retrait du casque.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pinlock 120 antibuée déjà monté et pare-soleil rétractable intégré.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Double entrée d'air au menton avec filtre remplaçable et spoiler élargi pour évacuer l'air.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Haut-parleurs et micro intégrés à la coque, prêts pour un intercom Schuberth.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Pinlock 120 déjà monté",
+   "Pare-soleil rétractable intégré",
+   "Homologué ECE 22.06",
+   "Joues retirables par les secours"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (fibre de verre renforcée de carbone)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Écran avec Pinlock 120 monté, changement de teinte possible",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock 120 fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Rétractable, intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Double entrée d'air au menton avec filtre remplaçable, spoiler arrière avec extracteur",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Audio",
+    "valeur": "Haut-parleurs et microphone intégrés",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Aucun test SHARP pour le S3.",
+   "Poids du tableau technique (1 641 g) non repris : source jugée peu fiable.",
+   "Fermeture : double anneau en D pour le S3 Carbon, micrométrique selon un tableau technique pour tous les S3 : contradiction, ligne omise.",
+   "Pinlock 120 monté : décrit sur les versions Apex et Carbon, étendu à tout le modèle."
+  ]
+ },
+ {
+  "modele": "S3 Carbon",
+  "marque": "Schuberth",
+  "nb_fiches": 4,
+  "motif": "\\ys3 (carbon|spark)\\y",
+  "accroche": "L'intégral Schuberth en coque carbone faite main, ECE 22.06, Pinlock 120 de série et écran solaire réglable.",
+  "description": "Le S3 Carbon reprend l'intégral sport-touring de Schuberth avec une coque entièrement en fibres de carbone, fabriquée à la main selon les procédés de lamination utilisés en Formule 1. Il garde le pare-soleil réglable, le Pinlock 120 de série et une isolation acoustique soignée. Un casque léger et silencieux pour rouler loin.",
+  "profil_position": 75,
+  "points_forts": [
+   {
+    "texte": "Coque en carbone fabriquée à la main, avec les mêmes procédés de lamination et d'autoclave que pour la Formule 1.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Isolation acoustique annoncée à 85 dB(A) à 100 km/h, après un travail poussé en soufflerie.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pinlock 120 XLT de série et écran solaire réglable avec mécanisme V-lock.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture à double anneau en D, avec système anti-roll-off (A.R.O.S.).",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Système S.R.S : les mousses de joues se retirent en cas d'accident.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Prééquipé pour la communication : micro, haut-parleurs HD et antennes compatibles avec les modules SC2 et SC Edge.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque 100 % carbone faite main",
+   "85 dB(A) à 100 km/h annoncés",
+   "Pinlock 120 de série",
+   "Écran solaire réglable V-lock"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Carbone",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Écran solaire réglable (mécanisme V-lock), plusieurs teintes de visière disponibles",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock 120 fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Réglable, intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Double entrée d'air au menton (filtre lavable et remplaçable), spoiler arrière avec extracteur",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Audio",
+    "valeur": "Micro et haut-parleurs intégrés",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Regroupe S3 Carbon et S3 Spark (coque carbone selon les descriptions).",
+   "Un tableau technique indique « fibre » pour le S3 Carbon : contredit les descriptions (carbone), non retenu.",
+   "Aucun test SHARP."
+  ]
+ },
+ {
+  "modele": "C5",
+  "marque": "Schuberth",
+  "nb_fiches": 19,
+  "motif": "\\yc5\\y(?! (anc|carbon))",
+  "accroche": "Le modulable Schuberth, double homologation P/J, 4 étoiles SHARP : 1 600 g, pare-soleil intégré, visière à mémoire.",
+  "description": "Le C5 est le modulable de Schuberth, compact et léger, homologué ECE 22.06 avec la double homologation P/J. Sa coque composite en fibre de verre renforcée de carbone ne pèse que 1 600 g lors du test SHARP, et sa visière garde sa position quand vous basculez la mentonnière. Pare-soleil intégré, haut-parleurs prévus dans la coque : un compagnon de route polyvalent.",
+  "profil_position": 30,
+  "points_forts": [
+   {
+    "texte": "4 étoiles au test SHARP (mars 2024).",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche C5, mars 2024"
+   },
+   {
+    "texte": "1 600 g à la pesée SHARP : un modulable léger pour les longs trajets.",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche C5, mars 2024"
+   },
+   {
+    "texte": "Double homologation P/J : il se porte mentonnière relevée comme baissée.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en fibre de verre DFP renforcée de carbone, avec 2 tailles de coque.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Mécanisme de visière breveté avec fonction mémoire, pare-soleil intégré et film Pinlock livré.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Double entrée d'air au menton avec filtre remplaçable et spoiler arrière avec extracteur.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "4 étoiles SHARP, 1 600 g pesés",
+   "Double homologation P/J",
+   "Pare-soleil intégré",
+   "Visière à mémoire de position"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 600 g (pesée SHARP)",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (fibre de verre DFP renforcée de carbone)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique, avec système anti-roll-off (A.R.O.S.)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Mécanisme breveté avec fonction mémoire",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Double entrée d'air au menton avec filtre remplaçable, extracteur sous le spoiler arrière",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Audio",
+    "valeur": "Haut-parleurs intégrés",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à XXXL",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": {
+   "sharp_etoiles": 4,
+   "date_test": "mars 2024",
+   "norme": "ECE 22.06"
+  },
+  "a_savoir": [],
+  "alertes_qualite": [
+   "SHARP : coque indiquée « fibre de verre » alors que les descriptions disent verre renforcé de carbone : « composite » retenu.",
+   "SHARP : champ norme vide ; ECE 22.06 vient des descriptions.",
+   "Pinlock fourni : une seule description (C5 Glossy) ; poids du tableau technique (1 647 g) ignoré au profit de SHARP.",
+   "Motif exclut C5 ANC et C5 Carbon (modèles à part)."
+  ]
+ },
+ {
+  "modele": "C5 ANC",
+  "marque": "Schuberth",
+  "nb_fiches": 3,
+  "motif": "\\yc5 anc\\y",
+  "accroche": "Le modulable C5 avec réduction active du bruit intégrée (ANC) et haut-parleurs dédiés de 53 mm.",
+  "description": "Le C5 ANC reprend le modulable de Schuberth et y ajoute une réduction active du bruit intégrée à la coque. Elle filtre les bruits de roulage en gardant l'oreille ouverte à la circulation et aux signaux d'urgence. Coque composite en fibre de verre renforcée de carbone, double homologation P/J, ECE 22.06 : un modulable pensé pour les longues distances.",
+  "profil_position": 30,
+  "points_forts": [
+   {
+    "texte": "Réduction active du bruit (ANC) intégrée, qui cible les fréquences aérodynamiques gênantes.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Filtrage intelligent des bruits de roulage, pour garder l'oreille sur la circulation et les signaux de secours.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Haut-parleurs ANC dédiés de 53 mm pour un son haute fidélité.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Prévu pour l'intercom SC Edge ANC, disponible en option.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en fibre de verre DFP renforcée de carbone, double homologation P/J et ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Mécanisme de visière breveté qui garde sa position quand la mentonnière bascule.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Réduction active du bruit (ANC)",
+   "Haut-parleurs ANC de 53 mm",
+   "Prévu pour l'intercom SC Edge ANC",
+   "Double homologation P/J"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (fibre de verre DFP renforcée de carbone)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique, avec système anti-roll-off (A.R.O.S.)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Mécanisme breveté avec fonction mémoire",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Double entrée d'air au menton avec filtre lavable, extracteur sous le spoiler arrière",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Audio",
+    "valeur": "Haut-parleurs ANC de 53 mm intégrés",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "SHARP C5 non repris : la version ANC n'a pas de test propre.",
+   "ANC utilisable uniquement avec l'intercom SC Edge ANC vendu séparément ; ne pas affirmer qu'il est livré."
+  ]
+ },
+ {
+  "modele": "E2",
+  "marque": "Schuberth",
+  "nb_fiches": 16,
+  "motif": "\\ye2\\y(?! carbon)",
+  "accroche": "Le modulable Schuberth d'allure aventure : 4 étoiles SHARP en ECE 22.06, Pinlock 120 et pare-soleil intégrés.",
+  "description": "Le E2 est le modulable de Schuberth au look de casque d'aventure. Sa coque composite en fibre de verre renforcée de carbone pèse 1 900 g lors du test SHARP, qui lui attribue 4 étoiles en ECE 22.06. Casquette réglable, grand écran avec Pinlock 120, pare-soleil intégré et double homologation P/J : il suit vos routes comme vos pistes.",
+  "profil_position": 45,
+  "points_forts": [
+   {
+    "texte": "4 étoiles au test SHARP, avec la norme ECE 22.06 (août 2026).",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche E2, août 2026"
+   },
+   {
+    "texte": "1 900 g à la pesée SHARP.",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche E2, août 2026"
+   },
+   {
+    "texte": "Le confort d'un modulable avec l'allure d'un casque d'aventure moderne, et la double homologation P/J.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en fibre de verre renforcée de carbone, avec casquette amovible réglable sur 3 positions.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Grand écran incolore anti-rayures de classe optique 1, avec Pinlock 120 extra-large et pare-soleil fumé intégré.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Double prise d'air au menton avec filtre remplaçable, entrée d'air supérieure et spoiler arrière évacuant l'air.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "4 étoiles SHARP, ECE 22.06",
+   "Casquette réglable sur 3 positions",
+   "Pinlock 120 et pare-soleil intégrés",
+   "Double homologation P/J"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 900 g (pesée SHARP)",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (fibre de verre renforcée de carbone)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique, avec système anti-roll-off (A.R.O.S.)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Extra-large, incolore, anti-rayures, classe optique 1",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock 120 fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Fumé, intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Double prise d'air au menton (filtre remplaçable), entrée d'air supérieure, spoiler avec évacuation d'air",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Audio",
+    "valeur": "Haut-parleurs et microphone intégrés",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à XXXL",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": {
+   "sharp_etoiles": 4,
+   "date_test": "août 2026",
+   "norme": "ECE 22.06"
+  },
+  "a_savoir": [],
+  "alertes_qualite": [
+   "SHARP : matériaux « fibre de verre, fibre de carbone » : « composite » retenu.",
+   "Fermeture micrométrique documentée sur la version Atlas, étendue au modèle.",
+   "Motif exclut E2 Carbon (coque carbone, modèle à part)."
+  ]
+ },
+ {
+  "modele": "E2 Carbon",
+  "marque": "Schuberth",
+  "nb_fiches": 1,
+  "motif": "\\ye2 carbon\\y",
+  "accroche": "Le modulable E2 en coque carbone faite main, ECE 22.06, Pinlock 120 et pare-soleil intégrés.",
+  "description": "Le E2 Carbon est le modulable d'aventure de Schuberth en version carbone : sa coque en carbone est fabriquée à la main selon les procédés de lamination et d'autoclave de la Formule 1. Il garde la casquette réglable, le grand écran avec Pinlock 120 et le pare-soleil intégré. Double homologation P/J, ECE 22.06.",
+  "profil_position": 45,
+  "points_forts": [
+   {
+    "texte": "Coque en carbone fabriquée à la main, avec les mêmes procédés de lamination et d'autoclave que pour la Formule 1.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Double homologation P/J et norme ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Casquette détachable et ajustable sur 3 positions avec fonction mémoire.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran extra-large incolore de classe optique 1 avec Pinlock 120, et pare-soleil fumé intégré.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Mentonnière ouvrable à 90° et fermeture micrométrique.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque carbone faite main",
+   "Double homologation P/J",
+   "Casquette réglable sur 3 positions",
+   "Pinlock 120 et pare-soleil intégrés"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Carbone",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Extra-large, incolore, anti-rayures, classe optique 1",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock 120 fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Fumé, intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Audio",
+    "valeur": "Haut-parleurs et microphone intégrés",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Le test SHARP E2 concerne la version composite : non repris pour le Carbon."
+  ]
+ },
+ {
+  "modele": "J2",
+  "marque": "Schuberth",
+  "nb_fiches": 8,
+  "motif": "\\yj2\\y",
+  "accroche": "Le jet Schuberth ECE 22.06 : coque composite en fibre de verre renforcée de carbone, 88 dB(A) à 100 km/h annoncés.",
+  "description": "Le J2 est le jet de Schuberth, avec mentonnière amovible. Sa coque composite en fibre de verre renforcée de carbone existe en trois tailles, et le constructeur annonce seulement 88 dB(A) à 100 km/h. Écran solaire rétractable, pare-nuque, intérieur ajustable et communication prééquipée : un jet pensé pour la ville comme pour la route.",
+  "profil_position": 15,
+  "points_forts": [
+   {
+    "texte": "Jet homologué ECE 22.06, avec mentonnière amovible pour plus de confort et d'insonorisation.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en fibre de verre DFP renforcée de carbone, en trois tailles de coque.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Seulement 88 dB(A) à 100 km/h annoncés par le constructeur, grâce au pare-nuque et au double turbulateur sur l'écran.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Haut-parleurs et antennes Mesh, FM et Bluetooth préinstallés dans la coque.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran clair qui descend bas et écran solaire rétractable.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur sans couture ajustable grâce au Schuberth Individual Program.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Écran solaire rétractable",
+   "Haut-parleurs et antennes préinstallés",
+   "88 dB(A) à 100 km/h annoncés",
+   "Composite verre renforcé de carbone"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (fibre de verre DFP renforcée de carbone)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Écran clair descendant bas, prédisposé pour une lentille Pinlock",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Rétractable, intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Audio",
+    "valeur": "Haut-parleurs intégrés, antennes Mesh, FM et Bluetooth préinstallées",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Aucun test SHARP pour le J2.",
+   "Poids du tableau technique (1 520 g) non repris."
+  ]
+ },
+ {
+  "modele": "Concept",
+  "marque": "Schuberth",
+  "nb_fiches": 3,
+  "motif": "\\yconcept\\y",
+  "accroche": "Le modulable Schuberth en fibre de verre : mentonnière à 90°, visière solaire intégrée, ECE 22.06 P/J, 5 ans de garantie.",
+  "description": "Le Concept est un modulable Schuberth en fibre de verre, léger et facile à vivre. Sa mentonnière s'ouvre à 90° avec un verrouillage renforcé, et la visière solaire intégrée se règle en un geste. Intérieur démontable certifié OEKO-TEX, zones réfléchissantes, compatibilité intercom et lunettes, et 5 ans de garantie.",
+  "profil_position": 30,
+  "points_forts": [
+   {
+    "texte": "Coque de modulable en fibre de verre, annoncée légère.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Mentonnière ouvrable à 90° avec verrouillage renforcé.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran large anti-rayures avec système de changement rapide, et visière solaire intégrée.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur démontable certifié OEKO-TEX, compatible avec le port de lunettes.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Zones réfléchissantes et compatibilité intercom.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologué ECE 22.06 P/J, avec 5 ans de garantie.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Mentonnière relevable à 90°",
+   "Visière solaire intégrée",
+   "Homologué ECE 22.06 P/J",
+   "Garantie de 5 ans"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Fibre de verre",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique, avec système anti-roll-off (A.R.O.S.)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Écran large anti-rayures, changement rapide",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible (certifiée OEKO-TEX)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Aucun test SHARP.",
+   "Pinlock : « avec pinlock » ambigu dans la description, ligne omise."
+  ]
+ }
+]

@@ -1,0 +1,407 @@
+[
+ {
+  "modele": "Typhoon",
+  "marque": "Premier",
+  "nb_fiches": 5,
+  "motif": "\\ytyphoon\\y",
+  "accroche": "Le casque intégral Premier pensé pour débuter : Pinlock fourni, pare-soleil intérieur, garantie 5 ans.",
+  "description": "Le Typhoon s'adresse aux jeunes permis qui veulent du style et du confort sans compromis sur l'équipement. Il embarque un pare-soleil intérieur, un écran Pinlock fourni et une doublure respirante, amovible et lavable. Il est homologué ECE 22.06 et couvert 5 ans après enregistrement chez Premier.",
+  "profil_position": 25,
+  "points_forts": [
+   {
+    "texte": "Homologué ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pinlock fourni et pare-soleil intérieur : prêt pour toutes les lumières.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure respirante, amovible et lavable, compatible avec le port de lunettes (Easy-Fit).",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran à démontage rapide, avec protection UV.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Garantie prolongée de 5 ans sur enregistrement auprès de Premier.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Pinlock fourni, pare-soleil intérieur",
+   "Norme ECE 22.06",
+   "Garanti 5 ans après enregistrement",
+   "Écran démontable sans outil, filtre UV"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (technologie polymère avancée, 2 tailles de coque)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Poids",
+    "valeur": "1 580 à 1 650 g selon la taille de coque (±50 g, annoncé constructeur)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Démontage rapide, protection UV",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Pare-soleil intérieur",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans (sur enregistrement)",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Compatible avec un kit Bluetooth."
+  ],
+  "alertes_qualite": [
+   "Matière de coque déduite de « technologie polymère avancée » (formule Premier utilisée pour du thermoplastique sur d'autres modèles)."
+  ]
+ },
+ {
+  "modele": "Hyper",
+  "marque": "Premier",
+  "nb_fiches": 3,
+  "motif": "\\yhyper (ps|u9|xr)",
+  "accroche": "L'intégral sportif de Premier en composite Dyneema, carbone et aramide : Pinlock fourni, double anneau en D.",
+  "description": "L'Hyper se veut aussi à l'aise sur route que sur piste. Sa coque composite associe des fibres Dyneema, carbone et aramide en deux tailles, et la fermeture se fait par double anneau en D. Le Pinlock est fourni, la doublure se lave, et la garantie atteint 5 ans après enregistrement.",
+  "profil_position": 85,
+  "points_forts": [
+   {
+    "texte": "Coque en fibres Dyneema, carbone et aramide, en 2 tailles de coque.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture par double anneau en D, celle des usages sportifs.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pinlock fourni, visière à démontage rapide avec protection UV.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure respirante, amovible et lavable, compatible lunettes (Easy-Fit).",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Garantie prolongée de 5 ans sur enregistrement auprès de Premier.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque composite Dyneema, carbone et aramide",
+   "Double anneau en D, esprit piste",
+   "Pinlock fourni d'origine",
+   "Garanti 5 ans après enregistrement"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (Dyneema, carbone et aramide, 2 tailles de coque)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Poids",
+    "valeur": "1 370 à 1 430 g selon la taille de coque (±50 g, annoncé constructeur)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Démontage rapide, protection UV",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans (sur enregistrement)",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Compatible avec un kit Bluetooth."
+  ],
+  "alertes_qualite": [
+   "Descriptions mélangées : ECE 22.05 (HP) ou 22.06 (XR, descriptions Hyper), et un poids copié 1 760 g (identique au Devil). Norme omise, poids XR retenu.",
+   "Versions Hyper Carbon (coque carbone) exclues du motif."
+  ]
+ },
+ {
+  "modele": "Devil",
+  "marque": "Premier",
+  "nb_fiches": 2,
+  "motif": "\\ydevil (ph|ev)",
+  "accroche": "Intégral sport-GT Premier pour les longues distances : Pinlock et pare-soleil intégré fournis, garantie 5 ans.",
+  "description": "Le Devil est le sport-GT de Premier, pensé pour avaler les kilomètres. Il est livré avec un Pinlock et un écran solaire intégré, sous une coque composite en fibres Dyneema, carbone et aramide. Doublure lavable, norme ECE 22.06 et garantie de 5 ans après enregistrement.",
+  "profil_position": 65,
+  "points_forts": [
+   {
+    "texte": "Conçu pour les longues distances : un intégral sport-GT.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pinlock fourni et pare-soleil intégré dès l'achat.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en fibres Dyneema, carbone et aramide, en 2 tailles.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure respirante, amovible et lavable, compatible lunettes.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologué ECE 22.06, garantie prolongée de 5 ans sur enregistrement.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Sport-GT pour les longues distances",
+   "Pinlock et pare-soleil intégré fournis",
+   "Coque composite Dyneema, carbone et aramide",
+   "Norme ECE 22.06"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (Dyneema, carbone et aramide, 2 tailles de coque)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Poids",
+    "valeur": "1 430 à 1 490 g selon la taille de coque (±50 g, annoncé constructeur)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Pare-soleil intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans (sur enregistrement)",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Compatible avec un kit Bluetooth."
+  ],
+  "alertes_qualite": [
+   "Les anciennes descriptions Devil (ECE 22.05, 1 760 g, fermeture rapide) contredisent la version 22.06 : version 22.06 retenue, fermeture omise.",
+   "Les Devil Carbon (descriptions « en carbone ») sont exclus du motif pour éviter deux matières."
+  ]
+ },
+ {
+  "modele": "Discovery",
+  "marque": "Premier",
+  "nb_fiches": 2,
+  "motif": "\\ydiscovery\\y",
+  "accroche": "Le crossover Premier pour la route comme pour le chemin : Pinlock fourni, pare-soleil intérieur, garantie 5 ans.",
+  "description": "Le Discovery est un intégral touring-aventure qui assume le tout-terrain sans renoncer à un profil aérodynamique. Coque composite en fibres Dyneema, carbone et aramide, pare-soleil intérieur et Pinlock fournis, norme ECE 22.06. Garantie de 5 ans après enregistrement.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Crossover touring et aventure, pour rouler sur route et chemin.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en fibres Dyneema, carbone et aramide, en 2 tailles.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pinlock fourni et pare-soleil intérieur.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologué ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Garantie prolongée de 5 ans sur enregistrement auprès de Premier.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Crossover route et chemin",
+   "Coque composite Dyneema, carbone et aramide",
+   "Pinlock et pare-soleil intérieur fournis",
+   "Garanti 5 ans après enregistrement"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (Dyneema, carbone et aramide, 2 tailles de coque)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Pare-soleil intérieur",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans (sur enregistrement)",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Compatible avec un kit Bluetooth."
+  ],
+  "alertes_qualite": [
+   "Le poids annoncé (1 580/1 650 g) est identique à celui du Typhoon : probable copie, omis."
+  ]
+ },
+ {
+  "modele": "Vintage",
+  "marque": "Premier",
+  "nb_fiches": 3,
+  "motif": "\\yvintage\\y",
+  "accroche": "Le jet Premier aux lignes minimalistes, en coque de fibres légère : le style rétro, aux normes actuelles.",
+  "description": "Réduit à sa plus simple expression, le Vintage mise sur des lignes épurées et une coque en fibres légère et résistante. Il plaît aux amateurs de moto custom, de café racer et de look rétro. Les versions récentes répondent à la norme ECE 22.06.",
+  "profil_position": 15,
+  "points_forts": [
+   {
+    "texte": "Lignes minimalistes : la simplicité au service du style.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en fibres, légère et résistante.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pensé pour la moto custom, le vintage et le café racer.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Versions récentes homologuées ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Lignes épurées, esprit rétro",
+   "Coque en fibres légère",
+   "Pour custom et café racer",
+   "Norme ECE 22.06"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Descriptions limitées : seuls coque en fibres et ECE 22.06 (versions BTR12 et Classic) retenus."
+  ]
+ }
+]

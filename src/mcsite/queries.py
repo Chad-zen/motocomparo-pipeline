@@ -20,7 +20,7 @@ from typing import Any
 import psycopg
 from psycopg.rows import dict_row
 
-from . import cache, labels
+from . import analyse, cache, labels
 
 # An offer worth showing. Kept as one string so no query can disagree with another.
 # 9 999,00 € pile n'est pas un prix : c'est la valeur que FC-Moto met quand son
@@ -720,6 +720,50 @@ def _public(produit: dict[str, Any]) -> dict[str, Any]:
             "cross": _CROSS,
             "est_cross": bool(re.search(r"\b(cross|enduro|mx|off-?road|trial|quad)\b",
                                         produit.get("best_title") or "", re.I))}
+
+
+def fiche_enrichie(conn: psycopg.Connection, p: dict[str, Any]) -> dict[str, Any] | None:
+    """Le texte « vendeur » du MODELE de cette fiche, ou None.
+
+    La table est remplie a la main par lots (`mcpipe fiches-enrichies`) : tant qu'un modele n'a
+    pas son texte, la fiche reste telle qu'elle etait. Une table absente (base pas encore
+    migree) n'est pas une erreur de page : la fiche s'affiche sans.
+    """
+    titre = p.get("best_title") or p.get("model_display") or ""
+    # Seuls les casques : « Platines d'ecran Arai RX-7V / Quantic » porte le meme nom de modele
+    # et n'est pas un casque (rayons 1 a 5 ; 30 = pieces et accessoires, exclu).
+    if not p.get("brand_code") or not titre or p.get("category_id") not in (1, 2, 3, 4, 5):
+        return None
+    try:
+        r = _row(conn, """
+            SELECT modele, contenu FROM fiche_enrichie
+            WHERE brand_code = %s AND %s ~* motif
+            ORDER BY length(motif) DESC LIMIT 1
+        """, (p["brand_code"], titre))
+    except psycopg.errors.UndefinedTable:
+        conn.rollback()
+        return None
+    if not r:
+        return None
+    c = dict(r["contenu"])
+    c.pop("alertes_qualite", None)      # pour l'equipe, jamais pour le visiteur
+    c["modele"] = r["modele"]
+    mi = c.get("marque_info") or {}
+    src = mi.get("sources", {})
+    lignes = []
+    if mi.get("pays"):
+        lignes.append({"nom": "Lieu de fabrication", "valeur": f"{mi['pays']} ({mi.get('lieu', '')})".replace(" ()", ""),
+                       "source": src.get("lieu") or src.get("pays", "")})
+    if mi.get("assemblage"):
+        lignes.append({"nom": "Assemblage", "valeur": mi["assemblage"], "source": src.get("assemblage", "")})
+    if mi.get("fondation"):
+        lignes.append({"nom": "Marque fondée", "valeur": f"{mi['fondation']}" +
+                       (f" par {mi['fondateur']}" if mi.get("fondateur") else ""),
+                       "source": src.get("fondation", "")})
+    c["fiche_technique"] = list(c.get("fiche_technique") or []) + lignes
+    c["indicateurs"] = analyse.indicateurs(c)
+    c["profil"] = analyse.profil(c)
+    return c
 
 
 def similaires(
@@ -2389,6 +2433,10 @@ def caracteristiques(conn: psycopg.Connection, product_id: int) -> list[dict[str
 
     resultat = []
     for nom, l in par_nom.items():
+        # « Homologation ECE : version non precisee » n'apprend rien au visiteur : tout casque vendu en
+        # Europe est homologue. Ce qu'on ne sait pas, on ne l'affiche pas (la proprietaire, 23/10/2026).
+        if nom == "homologation" and "non précis" in str(l["valeur"]).lower():
+            continue
         resultat.append({
             "nom": nom,
             "libelle": _LIBELLES.get(nom) or nom.replace("_", " ").capitalize(),

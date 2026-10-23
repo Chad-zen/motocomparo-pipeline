@@ -1,0 +1,117 @@
+[
+ {
+  "modele": "Fighter Classic",
+  "marque": "Momo",
+  "nb_fiches": 2,
+  "motif": "\\y(fgtr|fighter)[- ]?classic\\y",
+  "accroche": "Le jet urbain italien inspiré des casques de pilotes d'hélicoptère, aux bords cousus à la main.",
+  "description": "Le Classic est l'icône urbaine de Momo Design. Son design 100 % italien se reconnaît à ses bords cousus à la main le long de la coque et de la visière. La coque thermoplastique existe en trois tailles et la grande visière transparente vous offre une bonne vue en ville.",
+  "profil_position": 10,
+  "points_forts": [
+   {
+    "texte": "Design 100 % italien inspiré des casques de pilotes d'hélicoptère.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Bords cousus à la main le long du profil de la coque et de la visière.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque disponible en trois tailles, forme incurvée et logo « T » emblématique.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque thermoplastique légère.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Grande visière transparente pour une bonne visibilité en ville.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Design 100 % italien",
+   "Bords cousus à la main",
+   "Coque disponible en 3 tailles",
+   "Grande visière transparente"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Grande visière transparente",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Dénominations FGTR et Fighter employées pour le même modèle selon les sources ; équivalence non confirmée par la marque.",
+   "Norme et poids non vérifiables hors sites marchands : lignes omises."
+  ]
+ },
+ {
+  "modele": "Fighter Evo",
+  "marque": "Momo",
+  "nb_fiches": 3,
+  "motif": "\\y(fgtr|fighter)[- ]?evo\\y",
+  "accroche": "La version premium du jet urbain Momo Design : trois tailles de coque et écran sur supports en fibre de carbone mate.",
+  "description": "L'Evo est la version premium de la gamme urbaine de Momo Design. Les bords sont cousus à la main, la coque existe en trois tailles et l'écran repose sur deux supports en fibre de carbone mate. Le mécanisme de visière a été repensé pour changer d'écran plus facilement.",
+  "profil_position": 10,
+  "points_forts": [
+   {
+    "texte": "Version premium de la gamme, au design 100 % italien.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Bords cousus à la main sur le profil de la coque et de la visière.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Trois tailles de coque, forme arrondie et logo « T » conservés.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran sur deux supports en fibre de carbone à finition mate.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Mécanisme de visière repensé pour un changement d'écran plus facile et plus sûr.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Version premium, design 100 % italien",
+   "Bords cousus à la main",
+   "Écran sur supports en fibre de carbone",
+   "Changement d'écran plus facile"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Visière",
+    "valeur": "Écran sur deux supports en fibre de carbone mate, mécanisme repensé",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Matière de coque contradictoire selon les sources : ligne omise.",
+   "Dénominations FGTR et Fighter employées pour le même modèle ; équivalence non confirmée."
+  ]
+ }
+]

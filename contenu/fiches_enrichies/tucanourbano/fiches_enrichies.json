@@ -1,0 +1,496 @@
+[
+ {
+  "modele": "El'Jettin 6.0",
+  "marque": "Tucano Urbano",
+  "nb_fiches": 7,
+  "motif": "\\yel.?jettin\\y",
+  "accroche": "Le demi-jet Tucano Urbano El'Jettin 6.0 : coque ronde en polycarbonate, compact et léger, ECE 22.06.",
+  "description": "L'El'Jettin 6.0 est un demi-jet à la coque ronde et discrète, signé du style italien de Tucano Urbano. Sa coque en polycarbonate reste compacte et légère pour les trajets de tous les jours. Homologué ECE 22.06, il joue la carte de la ville avec ses coloris variés et ses éditions aux couleurs de clubs de foot.",
+  "profil_position": 10,
+  "points_forts": [
+   {
+    "texte": "Demi-jet à coque en polycarbonate.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologation ECE 22.06.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque ronde et discrète : compact, pratique et léger.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pensé pour la ville et les trajets quotidiens.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Disponible en coloris variés, dont des éditions aux couleurs de clubs de football italiens.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Demi-jet compact et léger",
+   "Coque ronde, esprit italien",
+   "Coque en polycarbonate",
+   "Homologué ECE 22.06"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Texte marchand : écran long en accessoire séparé ; non retenu."
+  ]
+ },
+ {
+  "modele": "El'Mettin 6.0",
+  "marque": "Tucano Urbano",
+  "nb_fiches": 5,
+  "motif": "\\yel.?mettin\\y",
+  "accroche": "Le demi-jet Tucano Urbano El'Mettin 6.0 : coque polycarbonate, pare-soleil interne, intérieur Aero 3D lavable, ECE 22.06.",
+  "description": "L'El'Mettin 6.0 est un demi-jet à coque en polycarbonate, au style italien assumé. Sa visière claire anti-rayures cache un pare-soleil interne rétractable, et l'intérieur en filet Aero 3D se lave pour l'été. Une version by Midland intègre en plus un intercom Bluetooth.",
+  "profil_position": 10,
+  "points_forts": [
+   {
+    "texte": "Demi-jet homologué ECE 22.06 à coque en polycarbonate thermoplastique.",
+    "preuve": "fabricant",
+    "source": "Tucano Urbano (site officiel), fiche EL'METTIN 6.0"
+   },
+   {
+    "texte": "Visière claire en polycarbonate anti-rayures et pare-soleil interne rétractable.",
+    "preuve": "fabricant",
+    "source": "Tucano Urbano (site officiel), fiche EL'METTIN 6.0"
+   },
+   {
+    "texte": "Fermeture micrométrique à dégagement rapide.",
+    "preuve": "fabricant",
+    "source": "Tucano Urbano (site officiel), fiche EL'METTIN 6.0"
+   },
+   {
+    "texte": "Intérieur Aero 3D amovible et lavable, coussinets de joues lavables.",
+    "preuve": "fabricant",
+    "source": "Tucano Urbano (site officiel), fiche EL'METTIN 6.0"
+   },
+   {
+    "texte": "Environ 1 100 g en petite taille de coque et 1 200 g en grande (± 50 g), annoncés par le constructeur.",
+    "preuve": "fabricant",
+    "source": "Tucano Urbano (site officiel), fiche EL'METTIN 6.0"
+   }
+  ],
+  "points_forts_courts": [
+   "Demi-jet à coque polycarbonate",
+   "Pare-soleil interne rétractable",
+   "Intérieur Aero 3D lavable",
+   "Fermeture à dégagement rapide"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate)",
+    "source": "Tucano Urbano (site officiel), fiche EL'METTIN 6.0"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "Tucano Urbano (site officiel), fiche EL'METTIN 6.0"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique à dégagement rapide",
+    "source": "Tucano Urbano (site officiel), fiche EL'METTIN 6.0"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Polycarbonate transparent, résistante aux rayures",
+    "source": "Tucano Urbano (site officiel), fiche EL'METTIN 6.0"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Pare-soleil interne rétractable",
+    "source": "Tucano Urbano (site officiel), fiche EL'METTIN 6.0"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "Tucano Urbano (site officiel), fiche EL'METTIN 6.0"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Une version El'Mettin 6.0 by Midland est équipée d'un intercom Bluetooth intégré."
+  ],
+  "alertes_qualite": [
+   "La version 'by Midland' (intercom SMARTCOM Bluetooth 5.1 intégré d'après le site Tucano Urbano) est regroupée avec le modèle standard."
+  ]
+ },
+ {
+  "modele": "El'Fast",
+  "marque": "Tucano Urbano",
+  "nb_fiches": 4,
+  "motif": "\\yel.?fast\\y",
+  "accroche": "Le jet Tucano Urbano El'Fast : écran transparent et écran solaire, intérieur microfibres, prêt pour un kit Bluetooth.",
+  "description": "L'El'Fast est un jet minimaliste et moderne, conçu pour les trajets urbains. Il réunit un écran transparent, un écran solaire et un intérieur en microfibres. Sa prédisposition pour un kit Bluetooth permet de rester connecté.",
+  "profil_position": 12,
+  "points_forts": [
+   {
+    "texte": "Jet au style minimaliste et moderne, adapté aux trajets urbains.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran transparent et écran solaire.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur en microfibres.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Prédisposition pour un kit Bluetooth.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Environ 1 000 g en petite taille de coque et 1 100 g en grande, annoncés pour l'El'Fast 6.0.",
+    "preuve": "fabricant",
+    "source": "Tucano Urbano (site officiel), fiche EL'FAST 6.0"
+   }
+  ],
+  "points_forts_courts": [
+   "Jet urbain minimaliste",
+   "Écrans transparent et solaire",
+   "Intérieur en microfibres",
+   "Prêt pour un kit Bluetooth"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Visière",
+    "valeur": "Écran transparent",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Écran solaire",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Intérieur en microfibres",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Matière de coque contradictoire (fibre de verre dans les textes marchands, polycarbonate sur le site du constructeur) : ligne Coque omise.",
+   "Norme : ECE 22.06 sur El'Fast 6.0, 22.05 sur une ancienne version ; ligne Norme omise."
+  ]
+ },
+ {
+  "modele": "El'Fresh 6.0",
+  "marque": "Tucano Urbano",
+  "nb_fiches": 4,
+  "motif": "\\yel.?fresh\\y",
+  "accroche": "Le jet Tucano Urbano El'Fresh 6.0 : coque en fibre de verre, style minimaliste pour la ville.",
+  "description": "L'El'Fresh 6.0 est un jet minimaliste et moderne, parfaitement dans son élément en ville. Sa coque en fibre de verre reste sobre, et les couvercles de ventilation amovibles se changent pour varier le look. Un écran solaire dédié complète l'ensemble.",
+  "profil_position": 10,
+  "points_forts": [
+   {
+    "texte": "Coque en fibre de verre.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Style minimaliste et moderne, adapté aux trajets urbains.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Couvercles de ventilation amovibles, existant en pièce détachée.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran solaire dédié disponible pour ce casque.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Jet urbain en fibre de verre",
+   "Style minimaliste et moderne",
+   "Couvercles de ventilation amovibles",
+   "Écran solaire dédié disponible"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Fibre de verre",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Peu de données techniques : norme, visière et poids non prouvés."
+  ]
+ },
+ {
+  "modele": "Fastflip",
+  "marque": "Tucano Urbano",
+  "nb_fiches": 4,
+  "motif": "\\yfastflip\\y",
+  "accroche": "Le modulable Tucano Urbano Fastflip : mentonnière basculante à 180°, pare-soleil intégré, homologué P/J en ECE 22.06.",
+  "description": "Le Fastflip est un modulable dont la mentonnière bascule à 180° avec le système Up&Down. Homologué P/J en ECE 22.06, il passe du jet à l'intégral selon l'envie. Pare-soleil rétractable, intérieur Aero 3D lavable et ventilation Clima System à trois prises d'air pour le confort.",
+  "profil_position": 30,
+  "points_forts": [
+   {
+    "texte": "Mentonnière basculante à 180° (système Up&Down).",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologation ECE 22.06 P/J : jet ou intégral.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en polycarbonate avancé, EPS double densité.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran solaire rétractable intégré, écran anti-rayures.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation Clima System avec trois prises d'air.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur Aero 3D démontable et lavable, adapté aux porteurs de lunettes.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Mentonnière basculante à 180°",
+   "Pare-soleil rétractable intégré",
+   "Jet ou intégral, homologué P/J",
+   "Intérieur Aero 3D lavable"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06 (P/J)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Polycarbonate, traitement anti-rayures",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Écran solaire rétractable intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Clima System, trois prises d'air",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Aero 3D, amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Une version Fastflip by Midland intègre un système de communication Bluetooth."
+  ],
+  "alertes_qualite": [
+   "Pinlock 70 en option : ligne omise.",
+   "La fiche 'by Midland' (Bluetooth intégré) est regroupée avec le modèle standard."
+  ]
+ },
+ {
+  "modele": "El'Pop",
+  "marque": "Tucano Urbano",
+  "nb_fiches": 1,
+  "motif": "\\yel.?pop\\y",
+  "accroche": "Le demi-jet Tucano Urbano El'Pop : écran long transparent, ventilation Dynamic Flow, intérieur Aero 3D, ECE 22.06.",
+  "description": "L'El'Pop est un demi-jet pensé pour arpenter la ville comme ses alentours. Son écran long transparent protège du vent, tandis que la ventilation Dynamic Flow et l'intérieur en filet Aero 3D gardent la tête au frais. Homologué ECE 22.06.",
+  "profil_position": 10,
+  "points_forts": [
+   {
+    "texte": "Demi-jet homologué ECE 22.06.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran long transparent.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation Dynamic Flow.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur en filet Aero 3D.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Demi-jet urbain homologué 22.06",
+   "Écran long transparent",
+   "Ventilation Dynamic Flow",
+   "Intérieur en filet Aero 3D"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Écran long transparent",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Dynamic Flow",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Matière de coque non précisée : ligne omise."
+  ]
+ },
+ {
+  "modele": "Hyperlink",
+  "marque": "Tucano Urbano",
+  "nb_fiches": 1,
+  "motif": "\\yhyperlink\\y",
+  "accroche": "Le modulable Tucano Urbano Hyperlink : mentonnière entièrement amovible, homologué P/J en ECE 22.06.",
+  "description": "L'Hyperlink est un modulable dont la mentonnière s'enlève entièrement : la praticité du jet en ville, le niveau d'un intégral sur les trajets plus longs. Homologué P/J en ECE 22.06, il offre un pare-soleil rétractable et un intérieur Aero 3D lavable. Ventilation Clima System à trois prises d'air.",
+  "profil_position": 30,
+  "points_forts": [
+   {
+    "texte": "Mentonnière entièrement amovible : jet en ville, intégral sur route.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologation ECE 22.06 P/J.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en polycarbonate, EPS double densité.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran solaire rétractable intégré, boucle micrométrique à dégagement rapide.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation Clima System avec trois prises d'air.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur Aero 3D démontable et lavable, adapté aux porteurs de lunettes.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Mentonnière entièrement amovible",
+   "Pare-soleil rétractable intégré",
+   "Jet ou intégral, homologué P/J",
+   "Intérieur Aero 3D lavable"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06 (P/J)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique à dégagement rapide",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Polycarbonate, traitement anti-rayures",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Écran solaire rétractable intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Clima System, trois prises d'air",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Aero 3D, amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Pinlock 70 compatible en option : ligne omise."
+  ]
+ }
+]

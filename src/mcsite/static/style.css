@@ -4968,3 +4968,237 @@ html { overflow-x: clip; }
   .reveal { opacity: 1; transform: none; transition: none; }
   .apropos__cartes article, .apropos__chiffres li, .apropos__etapes li::before { transition: none; }
 }
+
+
+/* ========================================================= notre analyse du modele ==
+   Texte « vendeur » d'un modele de casque (22/10/2026) : points forts ET points a
+   ameliorer, profil type, fiche technique, chaque fait avec sa source. Reprend
+   l'encadre des offres (`.offres__carte`) : meme bord, meme ombre, meme titre. */
+.analyse__sous { margin: 0; font-size: 12.5px; color: var(--doux); }
+.analyse__corps { padding: 0 18px 20px; }
+.analyse__accroche { margin: 0 0 12px; font-size: 18px; line-height: 1.4; font-weight: 700; color: var(--nuit); }
+.analyse__desc { margin: 12px 0 0; font-size: 15.5px; line-height: 1.6; color: #2a3042; }
+.analyse__sharp {
+  display: inline-flex; align-items: center; gap: 12px; margin: 2px 0 0;
+  padding: 8px 14px 8px 12px; border: 1px solid var(--or); border-radius: 10px; background: #fff8e1;
+}
+.analyse__sharp b { font-size: 26px; line-height: 1; color: #8a6200; }
+.analyse__sharp b span { font-size: 20px; margin-left: 1px; }
+.analyse__sharp > span { font-size: 13.5px; font-weight: 700; line-height: 1.3; color: var(--nuit); }
+.analyse__sharp small { font-weight: 400; color: var(--doux); font-size: 12px; }
+.analyse h3 {
+  margin: 20px 0 8px; font: 800 12.5px/1.2 Roboto, system-ui, sans-serif;
+  letter-spacing: .07em; text-transform: uppercase; color: var(--nuit);
+}
+.analyse__deux { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 18px; }
+.analyse__plus, .analyse__moins { border-radius: 12px; padding: 2px 16px 12px; }
+.analyse__plus { background: var(--eco-fond); border: 1px solid var(--eco-ligne); }
+.analyse__plus h3 { color: var(--eco-encre); }
+.analyse__moins { background: #fdf3eb; border: 1px solid #f3dccb; }
+.analyse__moins h3 { color: #a2480f; }
+.analyse__faits { list-style: none; margin: 0; padding: 0; }
+.analyse__faits li { padding: 8px 0; border-top: 1px solid rgba(15, 21, 36, .07); font-size: 14.5px; line-height: 1.45; }
+.analyse__faits li:first-child { border-top: 0; }
+.analyse__faits small { display: block; margin-top: 3px; font-size: 12px; line-height: 1.35; color: var(--doux); }
+.analyse__faits small b { color: var(--nuit); }
+.analyse__profil p { margin: 4px 0; font-size: 14.5px; line-height: 1.5; }
+.analyse__tech { margin: 0; }
+.analyse__tech > div { display: grid; grid-template-columns: 150px 1fr; gap: 12px; padding: 7px 0; border-top: 1px solid var(--ligne-carte); font-size: 14.5px; }
+.analyse__tech dt { color: var(--doux); font-weight: 600; }
+.analyse__tech dd { margin: 0; }
+.analyse__tech dd small { display: block; margin-top: 2px; font-size: 12px; color: var(--doux); }
+.analyse__savoir { margin: 0; padding-left: 18px; font-size: 14.5px; line-height: 1.5; }
+.analyse__savoir li { margin: 4px 0; }
+@media (max-width: 760px) {
+  .analyse__deux { grid-template-columns: 1fr; }
+  .analyse__tech > div { grid-template-columns: 1fr; gap: 2px; }
+  .analyse__accroche { font-size: 16.5px; }
+}
+
+/* --- indicateurs : la fiche technique lue d'un coup d'oeil (22/10/2026) ------------ */
+.analyse__titre { margin: 18px 0 10px !important; }
+.indic { display: grid; grid-template-columns: repeat(auto-fill, minmax(168px, 1fr)); gap: 10px; }
+.indic__case {
+  display: flex; flex-direction: column; gap: 5px; min-height: 92px; padding: 11px 13px;
+  border: 1px solid var(--ligne-carte); border-radius: 12px; background: #fbfcfe;
+}
+.indic__titre { font-size: 11.5px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--doux); }
+.indic__valeur { display: flex; align-items: center; gap: 7px; font-size: 17px; font-weight: 800; line-height: 1.2; color: var(--nuit); }
+.indic__detail { font-size: 12px; line-height: 1.3; color: var(--doux); margin-top: auto; }
+.indic__etoiles { display: flex; gap: 2px; font-size: 22px; line-height: 1; }
+.indic__etoiles i { font-style: normal; color: #d6dbe8; }
+.indic__etoiles i.plein { color: var(--or); }
+.indic__case--etoiles { background: #fff8e1; border-color: #f2d98a; }
+.indic__jauge { position: relative; display: block; height: 8px; margin: 3px 4px 0; border-radius: 99px;
+  background: linear-gradient(90deg, #cfe9da 0%, #f6e3a8 55%, #f3c9a8 100%); }
+.indic__jauge i { position: absolute; top: 50%; width: 16px; height: 16px; margin: -8px 0 0 -8px;
+  border: 3px solid var(--nuit); border-radius: 50%; background: #fff; }
+.indic__bornes { display: flex; justify-content: space-between; font-size: 11px; color: var(--doux); }
+.indic__pastille { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%;
+  font: 700 13px/1 Roboto, system-ui, sans-serif; font-style: normal; flex: none; }
+.indic__pastille--oui { background: var(--eco-fond); color: var(--eco-encre); border: 1px solid var(--eco-ligne); }
+.indic__pastille--non { background: #fdf3eb; color: #a2480f; border: 1px solid #f3dccb; }
+.indic__case--badge .indic__valeur { color: var(--eco-encre); }
+.indic__case--badge { background: var(--eco-fond); border-color: var(--eco-ligne); }
+.indic__case--alerte { background: #fdf3eb; border-color: #f3dccb; }
+.indic__case--alerte .indic__valeur { color: #a2480f; }
+.indic__case--inconnu .indic__valeur { color: var(--doux); font-size: 15px; font-weight: 700; }
+.indic__case--inconnu { background: #f4f5f8; border-style: dashed; }
+.analyse__plus-detail { margin-top: 16px; border-top: 1px solid var(--ligne-carte); padding-top: 10px; }
+.analyse__plus-detail summary { cursor: pointer; font-weight: 700; color: var(--nuit); font-size: 14.5px; }
+
+@media (max-width: 520px) {
+  .indic { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .indic__case { min-height: 84px; padding: 10px; }
+  .indic__valeur { font-size: 15px; }
+  .indic__etoiles { font-size: 19px; }
+  .indic__detail { font-size: 11.5px; }
+}
+
+/* --- les offres au-dela des cinq premieres se replient (22/10/2026) ------------------ */
+.offres tbody tr.est-replie { display: none !important; }
+.offres__voir-plus { border-top: 1px solid var(--ligne-carte); }
+.offres__plus-btn {
+  display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%;
+  padding: 15px 18px; border: 0; background: #f6f7fb; cursor: pointer;
+  font: 700 14.5px/1.2 Roboto, system-ui, sans-serif; color: var(--nuit);
+  transition: background .15s;
+}
+.offres__plus-btn:hover { background: #eceff7; }
+.offres__plus-btn:focus-visible { outline: 3px solid var(--or); outline-offset: -3px; }
+.offres__plus-btn b {
+  display: inline-grid; place-items: center; min-width: 26px; height: 22px; padding: 0 7px;
+  border-radius: 99px; background: var(--or); color: var(--nuit); font-size: 13px;
+}
+.offres__plus-btn i {
+  width: 8px; height: 8px; margin-top: -3px; border: solid var(--nuit); border-width: 0 2px 2px 0;
+  transform: rotate(45deg); transition: transform .2s;
+}
+.offres__plus-btn[aria-expanded="true"] i { margin-top: 3px; transform: rotate(-135deg); }
+
+/* --- le profil du pilote : un curseur a trois reperes (22/10/2026) ------------------- */
+.profil { margin-top: 6px; }
+.profil__curseur { margin: 4px 6px 0; }
+.profil__piste {
+  position: relative; height: 10px; margin: 14px 11px 12px; border-radius: 99px;
+  background: linear-gradient(90deg, #d7e8f8 0%, #e6e9c4 50%, #f6c9bd 100%);
+}
+.profil__piste::before, .profil__piste::after {
+  content: ""; position: absolute; top: 50%; width: 2px; height: 18px; margin-top: -9px; background: #b4bccd;
+}
+.profil__piste::before { left: 50%; }
+.profil__piste::after { display: none; }
+.profil__repere {
+  position: absolute; top: 50%; width: 26px; height: 26px; margin: -13px 0 0 -13px; border-radius: 50%;
+  background: var(--or); border: 4px solid #fff; box-shadow: 0 0 0 2px var(--nuit), 0 3px 8px rgba(15, 21, 36, .3);
+}
+.profil__etapes { display: grid; grid-template-columns: repeat(3, 1fr); }
+.profil__etape {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  font-size: 13px; font-weight: 700; color: var(--nuit); text-align: center;
+}
+.profil__etape svg { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; color: var(--doux); }
+.profil__etape--g { align-items: flex-start; text-align: left; }
+.profil__etape--d { align-items: flex-end; text-align: right; }
+.profil__usages { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0 0; }
+.profil__usages span { padding: 3px 10px; border: 1px solid var(--ligne-carte); border-radius: 99px; background: #fbfcfe; font-size: 12.5px; color: var(--nuit); }
+.profil__note { margin: 8px 0 0; font-size: 11.5px; color: var(--doux); }
+
+/* --- la matiere de la coque : quatre crans, comme le choix de taille (22/10/2026) ---- */
+.coque__corps { padding-top: 4px; }
+.coque__crans { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.coque__cran {
+  display: grid; place-items: center; min-height: 46px; padding: 8px 6px; text-align: center;
+  border: 1px solid var(--ligne-carte); border-radius: 12px; background: #fbfcfe;
+  font-size: 13.5px; font-weight: 700; line-height: 1.2; color: var(--doux);
+}
+.coque__cran.est-actif {
+  background: var(--or); border-color: var(--or); color: var(--nuit);
+  box-shadow: 0 3px 10px rgba(245, 179, 1, .35);
+}
+.coque__bornes { display: flex; justify-content: space-between; margin: 6px 4px 0; font-size: 11.5px; color: var(--doux); }
+.coque__texte { margin: 12px 0 0; font-size: 14.5px; line-height: 1.5; }
+.coque__note { margin: 8px 0 0; font-size: 12px; color: var(--doux); }
+@media (max-width: 520px) { .coque__cran { font-size: 12px; min-height: 52px; } }
+
+/* --- la coque en images : un echantillon de matiere par cran, pas un tableau (22/10/2026) -- */
+.coque__crans { position: relative; gap: 4px; align-items: start; }
+.coque__crans::before {        /* le fil qui relie les quatre echantillons */
+  content: ""; position: absolute; left: 12.5%; right: 12.5%; top: 32px; height: 4px; border-radius: 99px;
+  background: linear-gradient(90deg, #cfd5e3, #e9c76a);
+}
+.coque__cran {
+  position: relative; display: flex; flex-direction: column; align-items: center; gap: 8px;
+  min-height: 0; padding: 0; border: 0; background: none; box-shadow: none;
+  font-size: 13px; font-weight: 600; color: var(--doux);
+}
+.coque__cran.est-actif { background: none; box-shadow: none; color: var(--nuit); }
+.coque__cran b { font-weight: inherit; line-height: 1.2; }
+.coque__cran.est-actif b { font-weight: 800; }
+.coque__echantillon {
+  position: relative; width: 44px; height: 44px; margin-top: 10px; border-radius: 50%;
+  border: 3px solid #fff; box-shadow: 0 0 0 1px #c9cfdd, 0 2px 6px rgba(15, 21, 36, .15); opacity: .55;
+}
+.coque__cran.est-actif .coque__echantillon {
+  width: 56px; height: 56px; margin-top: 4px; opacity: 1;
+  box-shadow: 0 0 0 3px var(--or), 0 4px 12px rgba(245, 179, 1, .45);
+}
+.coque__cran--1 .coque__echantillon { background: radial-gradient(circle at 30% 25%, #f3f5f8, #b4bccb 60%, #8d97a9); }
+.coque__cran--2 .coque__echantillon {
+  background: repeating-linear-gradient(0deg, rgba(255,255,255,.45) 0 2px, transparent 2px 6px),
+              repeating-linear-gradient(90deg, rgba(255,255,255,.45) 0 2px, transparent 2px 6px), #d9c9a1;
+}
+.coque__cran--3 .coque__echantillon {
+  background: repeating-linear-gradient(45deg, #23262d 0 4px, #d8b13f 4px 8px);
+}
+.coque__cran--4 .coque__echantillon {
+  background: linear-gradient(135deg, #17191e 25%, transparent 25%) -4px 0,
+              linear-gradient(225deg, #17191e 25%, transparent 25%) -4px 0,
+              linear-gradient(315deg, #17191e 25%, transparent 25%),
+              linear-gradient(45deg, #17191e 25%, #2c3038 25%);
+  background-size: 8px 8px;
+}
+.coque__fleche { display: flex; justify-content: space-between; gap: 12px; margin: 12px 2px 0; font-size: 12px; font-weight: 600; color: var(--doux); }
+.coque__bornes { display: none; }
+@media (max-width: 520px) {
+  .coque__cran { font-size: 11.5px; }
+  .coque__echantillon { width: 38px; height: 38px; }
+  .coque__cran.est-actif .coque__echantillon { width: 48px; height: 48px; }
+  .coque__crans::before { top: 28px; }
+  .coque__fleche { font-size: 11px; }
+}
+
+/* Entree de gamme sous le thermoplastique, haut de gamme sous le carbone (la proprietaire, 22/10/2026) */
+.coque__cran small { margin-top: -2px; font-size: 12px; font-weight: 600; color: var(--doux); }
+.coque__cran.est-actif small { color: var(--nuit); }
+.coque__fleche { display: none; }
+
+/* --- codes promo : colonnes alignees d'une ligne a l'autre (22/10/2026) ----------------------
+   Les codes (TOP20, FALL26, CFS26) et les liens « Voir chez ... » tombaient chacun a une largeur
+   differente, selon la longueur du logo et du texte. Cinq colonnes fixes sur ordinateur. */
+.promo__code { min-width: 112px; text-align: center; }
+@media (min-width: 701px) {
+  .promo {
+    display: grid; flex-wrap: nowrap; align-items: center; gap: 0 18px;
+    grid-template-columns: 9px 128px minmax(0, 1fr) 132px 210px;
+    grid-template-areas: "pt logo texte code voir";
+  }
+  .promo__point { grid-area: pt; }
+  .promo__logo, .promo__marchand { grid-area: logo; justify-self: start; }
+  .promo__texte { grid-area: texte; min-width: 0; flex: none; }
+  .promo__code { grid-area: code; width: 132px; justify-self: center; }
+  .promo__voir { grid-area: voir; justify-self: end; }
+}
+
+/* « Voir chez ... » sous le code, dans la meme colonne, centre sur lui (la proprietaire, 23/10/2026) */
+@media (min-width: 701px) {
+  .promo {
+    grid-template-columns: 9px 128px minmax(0, 1fr) 190px;
+    grid-template-areas: "pt logo texte code" "pt logo texte voir";
+    row-gap: 8px; align-content: center;
+  }
+  .promo__point, .promo__logo, .promo__marchand, .promo__texte { grid-row: 1 / span 2; align-self: center; }
+  .promo__code { justify-self: center; align-self: end; }
+  .promo__voir { justify-self: center; align-self: start; }
+  .promo:not(:has(.promo__voir)) .promo__code { grid-row: 1 / span 2; align-self: center; }
+}

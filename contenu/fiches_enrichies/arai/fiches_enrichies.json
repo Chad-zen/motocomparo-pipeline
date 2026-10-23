@@ -1,0 +1,782 @@
+[
+ {
+  "modele": "RX-7V EVO",
+  "marque": "Arai",
+  "nb_fiches": 36,
+  "accroche": "Le casque sport d'Arai, noté 5 étoiles SHARP : coque en super fibre assemblée à la main, ventilation très généreuse, maintien stable.",
+  "description": "Le RX-7V EVO est le casque intégral sportif d'Arai, pensé pour la route rapide et la piste. Sa coque en super fibre est assemblée à la main et adopte la forme ronde « Ricochet ». Il a décroché 5 étoiles au test SHARP de septembre 2024, et la presse spécialisée salue sa ventilation et sa stabilité à vitesse élevée.",
+  "profil_type": {
+   "pour_qui": "Motards sportifs ou rouleurs rapides qui veulent un casque stable et très ventilé, et qui acceptent un maintien ferme.",
+   "usages": [
+    "route sportive",
+    "roulage rapide",
+    "journées circuit (une version FIM existe)"
+   ],
+   "moins_adapte_pour": "Les motards qui veulent un pare-soleil intégré, ou un maintien plus souple (le testeur de Bennetts renvoie vers le Quantic pour la route)."
+  },
+  "points_forts": [
+   {
+    "texte": "5 étoiles au test SHARP, avec la norme ECE 22.06 (test de septembre 2024).",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche RX7 V EVO, septembre 2024"
+   },
+   {
+    "texte": "Ventilation jugée excellente en essai : de nombreuses entrées et sorties d'air, efficaces même en position fermée.",
+    "preuve": "presse",
+    "source": "Bennetts BikeSocial, John Milbank, 25 janvier 2023"
+   },
+   {
+    "texte": "Système d'aération IC Duct5 à trois positions, diffuseur, grande entrée mentonnière, extracteurs arrière et mesh dans l'EPS.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Maintien serré et stable : aucun point de pression ni mouvement à haute vitesse pour le testeur.",
+    "preuve": "presse",
+    "source": "Bennetts BikeSocial, 25 janvier 2023"
+   },
+   {
+    "texte": "Visière à mécanisme rapide, qui reste là où on la règle, bien étanche à la pluie, avec une excellente vision périphérique ; Pinlock 120 MaxVision fourni.",
+    "preuve": "presse",
+    "source": "Bennetts BikeSocial, 25 janvier 2023 ; descriptions des marchands partenaires pour le Pinlock fourni"
+   },
+   {
+    "texte": "Coque PB-SNC² en super fibre assemblée à la main, avec une calotte EPS à 5 densités.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 500 g (pesée SHARP)",
+    "source": "SHARP ; Bennetts BikeSocial"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "SHARP ; Bennetts"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Super fibre assemblée à la main (technologie Arai PB-SNC²), forme « Ricochet »",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Calotte interne",
+    "valeur": "EPS à 5 densités",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "VAS-V MaxVision, anti-rayures",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires ; SHARP pour l'anti-rayures"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock 120 MaxVision fourni",
+    "source": "Descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "IC Duct5 (3 positions), diffuseur, entrée mentonnière, extracteurs arrière",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable (ECO Pure), joues réglables avec couche de 5 mm à peler, déblocage d'urgence des joues",
+    "source": "Descriptions des marchands partenaires ; Bennetts BikeSocial"
+   },
+   {
+    "nom": "Audio",
+    "valeur": "Logements prévus pour haut-parleurs (non fournis)",
+    "source": "Descriptions des marchands partenaires ; Bennetts BikeSocial"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à XXL",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "Fiches techniques de revendeurs"
+   }
+  ],
+  "securite": {
+   "sharp_etoiles": 5,
+   "date_test": "Septembre 2024",
+   "norme": "ECE 22.06"
+  },
+  "a_savoir": [
+   "Entretien : doublure et joues amovibles et lavables.",
+   "Interphone : compatible avec les systèmes de type Cardo ou Sena, haut-parleurs logés dans la mousse des joues."
+  ],
+  "alertes_qualite": [
+   "Poids : flux 1 600 g (7 fiches) et 1 650 g (1 fiche), revendeur 1 557 g, Dafy 1 600 g (±50 g), SHARP 1 500 g, Bennetts 1 568 g en M. Afficher la pesée SHARP et indiquer une fourchette.",
+   "Homologation : le flux précise 22.06 pour seulement 5 fiches sur 36 (31 sans version). Le tableau revendeur donne 22.06 pour les RX-7V EVO. SHARP liste aussi un ancien RX-7V en 22.05 (2016) : vérifier qu'aucune fiche du catalogue ne mélange l'ancien RX-7V et l'EVO (le revendeur a une ligne « RX-7V Frost Black » sans aucune donnée).",
+   "Nombre de coques : revendeur 4 ou 5 selon les coloris, Dafy 1, SHARP « multiple shells ». Donnée à ne pas afficher.",
+   "Tailles : SHARP XS-XXL, Dafy XS-3XL.",
+   "Matière de calotte dans le flux : « thermoplastique » sur 2 fiches, alors que la coque Arai est un composite de fibres : erreur de flux.",
+   "Tableau revendeur : les fonctionnalités (décrochage d'urgence, lunettes, garantie 5 ans) varient d'un coloris à l'autre du même modèle, ce sont des listes partielles et non des différences réelles."
+  ],
+  "motif": "rx-?7v[- ]?evo",
+  "profil_position": 95,
+  "points_forts_courts": [
+   "5 étoiles au test de choc SHARP",
+   "Ventilation jugée excellente en essai",
+   "Coque assemblée à la main au Japon",
+   "Pinlock anti-buée fourni"
+  ]
+ },
+ {
+  "modele": "TOUR-X5",
+  "marque": "Arai",
+  "nb_fiches": 32,
+  "accroche": "Le casque trail-aventure d'Arai à visière-peak amovible : modulable (peak, lunettes ou rue), très bien aéré, 4 étoiles au test SHARP d'août 2024.",
+  "description": "Le Tour-X5 s'adresse aux motards d'aventure et de trail. Il se porte avec le peak pour les pistes et le soleil bas, ou sans pour la route. La presse spécialisée apprécie sa grande vision, sa ventilation et son mécanisme de visière amélioré. Il a obtenu 4 étoiles au test SHARP d'août 2024. Prévoyez un petit temps de rodage de la doublure.",
+  "profil_type": {
+   "pour_qui": "Motards trail et aventure qui alternent route, pistes et grands trajets, et veulent un casque modulable avec peak amovible.",
+   "usages": [
+    "trail et aventure",
+    "route avec peak ou sans",
+    "lunettes cross possibles avec le peak"
+   ],
+   "moins_adapte_pour": "Les rouleurs d'autoroute qui supportent mal la traînée du peak, et ceux qui veulent un pare-soleil intégré (le peak remplace ce rôle)."
+  },
+  "points_forts": [
+   {
+    "texte": "4 étoiles au test SHARP, avec la norme ECE 22.06 (test d'août 2024).",
+    "preuve": "sharp",
+    "source": "SHARP, fiche TOUR X5, août 2024"
+   },
+   {
+    "texte": "Un casque polyvalent : peak, lunettes ou configuration rue, au choix. Le peak se démonte avec une vis en plastique de chaque côté.",
+    "preuve": "presse",
+    "source": "Bennetts BikeSocial, John Milbank, 30 octobre 2023"
+   },
+   {
+    "texte": "Ventilation excellente en essai : entrée mentonnière, entrée frontale, prise d'air haute, extraction arrière et deux fentes basses.",
+    "preuve": "presse",
+    "source": "Bennetts BikeSocial, 30 octobre 2023"
+   },
+   {
+    "texte": "Visière sans outil, avec Pinlock 120 XLT fourni et platines de fixation réglables pour améliorer l'étanchéité ; champ de vision large.",
+    "preuve": "presse",
+    "source": "Bennetts BikeSocial, 30 octobre 2023"
+   },
+   {
+    "texte": "Trois tailles de coque pour couvrir du XS au XL : une coque proportionnée aux petites têtes.",
+    "preuve": "presse",
+    "source": "Bennetts BikeSocial, 30 octobre 2023 ; tableau revendeur (3 coques)"
+   },
+   {
+    "texte": "Bruit du vent faible en usage courant ; l'équipement d'intérieur (joues, calotte) peut être changé chez le revendeur pour affiner la taille.",
+    "preuve": "presse",
+    "source": "Bennetts BikeSocial, 30 octobre 2023"
+   }
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 736 g avec le peak",
+    "source": "Bennetts BikeSocial ; SHARP"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "SHARP ; tableau revendeur"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (technologie Arai PB-cLc2), 3 tailles de coque",
+    "source": "araihelmet.eu (page Tour-X5) ; Bennetts"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "SHARP ; tableau revendeur"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "VAS-A (dérivée du VAS-V), démontable sans outil, anti-rayures, anti-buée",
+    "source": "araihelmet.eu ; Bennetts ; SHARP"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock 120 XLT fourni",
+    "source": "Bennetts"
+   },
+   {
+    "nom": "Peak",
+    "valeur": "Amovible, 1 vis plastique par côté",
+    "source": "Bennetts"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Entrée mentonnière à 3 positions, entrée frontale, prise d'air haute, extraction arrière",
+    "source": "araihelmet.eu ; Bennetts"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible, tempes et joues avec couche de 5 mm à peler, joues et calotte de rechange disponibles",
+    "source": "araihelmet.eu ; Bennetts"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à XXL",
+    "source": "SHARP ; Bennetts"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "Tableau revendeur"
+   }
+  ],
+  "securite": {
+   "sharp_etoiles": 4,
+   "date_test": "Août 2024",
+   "norme": "ECE 22.06"
+  },
+  "a_savoir": [
+   "Une bavette de menton existe en option."
+  ],
+  "alertes_qualite": [
+   "Poids : SHARP donne 1 500 g, mais Bennetts pèse 1 736 g avec peak, le revendeur 1 735 g, MCN 1 700 g. Le chiffre SHARP est très inférieur : peut-être sans peak, à vérifier avant affichage.",
+   "Rayons : les fiches sont réparties entre « helmet.cross » et « helmet.integral » ; le Tour-X5 est un trail-aventure, à classer en intégral/trail.",
+   "Pinlock : flux « fourni » sur 3 fiches, « préparé » sur 21 ; Bennetts confirme un Pinlock 120 XLT fourni.",
+   "Homologation : aucune version précisée sur 32 fiches ; SHARP et le revendeur donnent 22.06.",
+   "Matière de calotte dans le flux : « thermoplastique » sur 1 fiche, erreur probable (coque composite Arai).",
+   "Tailles : SHARP XS-XXL, Bennetts XS-XL pour trois coques."
+  ],
+  "motif": "tour[- ]?x ?5",
+  "profil_position": 50,
+  "points_forts_courts": [
+   "4 étoiles au test de choc SHARP",
+   "Peak démontable : rue, trail ou lunettes",
+   "Ventilation jugée excellente en essai",
+   "Pinlock 120 XLT fourni"
+  ]
+ },
+ {
+  "modele": "QUANTIC",
+  "marque": "Arai",
+  "nb_fiches": 23,
+  "accroche": "L'intégral Arai pensé pour la route : maintien plus souple que le RX-7V EVO, bonne ventilation et 4 étoiles SHARP (octobre 2024).",
+  "description": "Le Quantic est l'intégral routier d'Arai. Il partage la visière VAS-V du RX-7V EVO, avec une coque en composite de fibres et une doublure amovible. Il a obtenu 4 étoiles au test SHARP d'octobre 2024. La presse le présente comme plus décontracté que le RX-7V EVO, et conseille de l'essayer en premier pour la route.",
+  "profil_type": {
+   "pour_qui": "Motards routiers qui veulent un intégral Arai au maintien plus relâché que le RX-7V EVO.",
+   "usages": [
+    "route",
+    "roulage quotidien",
+    "balades et trajets longs"
+   ],
+   "moins_adapte_pour": "Ceux qui veulent un pare-soleil intégré, et les rouleurs très sensibles au bruit ou aux courants d'air par temps froid."
+  },
+  "points_forts": [
+   {
+    "texte": "4 étoiles au test SHARP, avec la norme ECE 22.06 (test d'octobre 2024).",
+    "preuve": "sharp",
+    "source": "SHARP, fiche Quantic, octobre 2024"
+   },
+   {
+    "texte": "Un maintien plus relâché que le RX-7V EVO : le testeur de Bennetts recommande de l'essayer en premier pour la route.",
+    "preuve": "presse",
+    "source": "Bennetts BikeSocial, John Milbank, janvier 2023 (comparaison avec le RX-7V EVO)"
+   },
+   {
+    "texte": "Ajustement salué par de nombreux propriétaires, même avec des têtes larges.",
+    "preuve": "presse",
+    "source": "Avis propriétaires relevés par recherche sur fiche d'un revendeur et MSL"
+   },
+   {
+    "texte": "Ventilation globalement appréciée, avec six entrées d'air réglables selon les avis.",
+    "preuve": "presse",
+    "source": "Avis propriétaires relevés par recherche sur fiche d'un revendeur"
+   },
+   {
+    "texte": "Visière VAS-V avec Pinlock fourni, anti-rayures et anti-buée, et doublure amovible.",
+    "preuve": "fabricant",
+    "source": "araihelmet.eu (fiche Quantic) ; SHARP ; flux (18 fiches Pinlock fourni)"
+   },
+   {
+    "texte": "Garantie de 5 ans annoncée, et compatibilité lunettes.",
+    "preuve": "flux",
+    "source": "Tableau revendeur"
+   }
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 500 g (pesée SHARP)",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (technologie Arai PB e-cLc)",
+    "source": "araihelmet.eu (fiche Quantic) ; SHARP"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "SHARP ; tableau revendeur"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "VAS-V, anti-rayures, anti-buée",
+    "source": "araihelmet.eu ; SHARP"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Fourni",
+    "source": "Flux (18 fiches)"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible",
+    "source": "SHARP ; tableau revendeur"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à XXL",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "Tableau revendeur"
+   }
+  ],
+  "securite": {
+   "sharp_etoiles": 4,
+   "date_test": "Octobre 2024",
+   "norme": "ECE 22.06"
+  },
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Poids : flux 1 550 g (15 fiches) et 1 291 g (1 fiche, aberrant), revendeur 1 561 g, SHARP 1 500 g, Bennetts environ 1 588 g (déduit : 1 568 g du RX-7V EVO plus 20 g). Retenir SHARP.",
+   "Calotte dans le flux : « thermoplastique » sur 3 fiches, alors que la coque est un composite de fibres.",
+   "Homologation : 22.06 sur 5 fiches seulement, aucune version sur 18 ; SHARP et la fiche constructeur donnent 22.06.",
+   "« Intercom fourni » sur 18 fiches du flux : à ne pas reprendre ; aucune source fiable ne mentionne un interphone fourni.",
+   "Nombre de coques : revendeur 3, SHARP « multiple shells ». Pas affiché.",
+   "Tableau revendeur : les fonctionnalités (décrochage d'urgence, testé en soufflerie, lunettes, garantie) varient d'un coloris à l'autre : listes partielles."
+  ],
+  "motif": "quantic",
+  "profil_position": 75,
+  "points_forts_courts": [
+   "4 étoiles au test de choc SHARP",
+   "Maintien plus relâché, pensé pour la route",
+   "Ajustement salué, même sur têtes larges",
+   "Pinlock fourni, visière anti-rayures"
+  ]
+ },
+ {
+  "modele": "SZ-R",
+  "marque": "Arai",
+  "nb_fiches": 14,
+  "accroche": "Le jet premium d'Arai : visière VAS-Z à double pivot, aération inspirée du RX-7V EVO, Pinlock fourni et norme ECE 22.06.",
+  "description": "Le SZ-R EVO est le casque jet haut de gamme d'Arai. Il reprend la distribution d'air du RX-7V EVO, avec un stabilisateur Air Wing, et une visière VAS-Z à double pivot qui lisse la coque aux tempes. Sa coque en composite de fibres est livrée avec un Pinlock et une doublure amovible.",
+  "profil_type": {
+   "pour_qui": "Motards urbains et routiers qui préfèrent un jet de belle facture, avec visière large et visière teintée en option.",
+   "usages": [
+    "ville",
+    "balades",
+    "route tranquille"
+   ],
+   "moins_adapte_pour": "Ceux qui veulent la protection de menton d'un intégral, ou un casque déjà passé au test SHARP."
+  },
+  "points_forts": [
+   {
+    "texte": "Norme ECE 22.06 pour la version EVO.",
+    "preuve": "fabricant",
+    "source": "motorradundreisen.de (fiche constructeur SZ-R EVO) ; tableau revendeur"
+   },
+   {
+    "texte": "Visière VAS-Z à double pivot : le point de pivot est abaissé et la coque est lissée aux tempes.",
+    "preuve": "fabricant",
+    "source": "motorradundreisen.de (fiche constructeur) ; araihelmet.eu"
+   },
+   {
+    "texte": "Distribution d'air inspirée du RX-7V EVO avec stabilisateur Air Wing, destinée à réduire le bruit à vitesse.",
+    "preuve": "fabricant",
+    "source": "motorradundreisen.de ; araihelmet.eu (fiche SZ-R EVO)"
+   },
+   {
+    "texte": "Pinlock fourni et visière teintée disponible en accessoire (VAS-Z Shield BV Dark-Tint).",
+    "preuve": "fabricant",
+    "source": "araihelmet.eu (factsheet SZ-R EVO 2025) ; flux (14 fiches sur 14)"
+   },
+   {
+    "texte": "Intérieur réglable, conçu pour les lunettes et les haut-parleurs, doublure amovible et lavable.",
+    "preuve": "fabricant",
+    "source": "motorradundreisen.de ; tableau revendeur"
+   }
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06 (version EVO)",
+    "source": "motorradundreisen.de ; tableau revendeur"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres et de plusieurs résines (technologie Arai PB-cLc2)",
+    "source": "motorradundreisen.de ; araihelmet.eu"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "VAS-Z à double pivot",
+    "source": "motorradundreisen.de ; araihelmet.eu"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Fourni",
+    "source": "motorradundreisen.de ; flux"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Diffuseur inspiré du RX-7V EVO, Air Wing",
+    "source": "araihelmet.eu ; motorradundreisen.de"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible, multi-densité, réglable, compatible lunettes et haut-parleurs",
+    "source": "motorradundreisen.de ; araihelmet.eu"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "Tableau revendeur ; flux (8 fiches)"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à XL",
+    "source": "motorradundreisen.de"
+   },
+   {
+    "nom": "Poids annoncé",
+    "valeur": "1 250 g",
+    "source": "Tableau revendeur, une seule source"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "Tableau revendeur"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Intercom : la fiche constructeur mentionne des logements pour haut-parleurs, ce qui est cohérent avec le « préparé » du flux."
+  ],
+  "alertes_qualite": [
+   "Poids : 1 250 g vient d'un seul revendeur et aucune pesée SHARP n'existe ; la fiche constructeur et la presse consultée ne donnent aucun poids.",
+   "Calotte dans le flux : « thermoplastique » sur 5 fiches, alors que la coque est un composite.",
+   "Homologation : 22.06 sur 12 fiches, aucune version sur 2 ; une ligne du revendeur (SZ-R VAS Diamond White) est en 22.05 : c'est l'ancienne version.",
+   "Ventilation : « True » sur 6 fiches seulement, alors que le constructeur annonce une distribution d'air complète.",
+   "Intercom : « préparé » sur 8 fiches, cohérent avec les logements pour haut-parleurs, mais aucun interphone n'est fourni."
+  ],
+  "motif": "sz-?r\\y",
+  "profil_position": 12,
+  "points_forts_courts": [
+   "Norme ECE 22.06 (version EVO)",
+   "Visière VAS-Z à double pivot",
+   "Conçu pour lunettes et haut-parleurs",
+   "Pinlock fourni, visière teintée en option"
+  ]
+ },
+ {
+  "modele": "MX-V",
+  "marque": "Arai",
+  "nb_fiches": 10,
+  "accroche": "Le casque de cross d'Arai : coque en composite de fibres, doublure Dry-Cool, ECE 22.06 ; un testeur MCN lui donne 5/5 en confort après 2 ans.",
+  "description": "Le MX-V EVO est le casque tout-terrain d'Arai, mis à jour pour la norme ECE 22.06. Sa coque en composite de fibres existe en plusieurs tailles, pour un ajustement proportionné. Il embarque une doublure Dry-Cool, le Facial Contour System et un extracteur arrière démontable en trois parties. Un testeur de Motorcycle News, après deux ans d'usage, le note 5/5 en confort et salue sa durabilité.",
+  "profil_type": {
+   "pour_qui": "Pilotes de motocross et d'enduro qui veulent un casque durable avec un bon ajustement.",
+   "usages": [
+    "motocross",
+    "enduro",
+    "piste et terrain"
+   ],
+   "moins_adapte_pour": "La route : c'est un casque tout-terrain, et il n'est pas parmi les plus légers (testeur MCN)."
+  },
+  "points_forts": [
+   {
+    "texte": "Ajustement jugé parfait après deux ans et environ 2 200 miles d'usage, avec confort noté 5/5.",
+    "preuve": "presse",
+    "source": "Motorcycle News, Michael Guy (test de l'ancien MX-V, résultat de recherche)"
+   },
+   {
+    "texte": "Plusieurs tailles de coque, pour un casque proportionné à chaque taille de tête.",
+    "preuve": "presse",
+    "source": "Motorcycle News, Michael Guy"
+   },
+   {
+    "texte": "Ventilation jugée bonne (4/5) et durabilité saluée.",
+    "preuve": "presse",
+    "source": "Motorcycle News, Michael Guy"
+   },
+   {
+    "texte": "Coque PB-cLc2, doublure Dry-Cool, Facial Contour System et extracteur arrière démontable en trois parties.",
+    "preuve": "fabricant",
+    "source": "araihelmet.eu (factsheet MX-V EVO 2025)"
+   },
+   {
+    "texte": "Norme ECE 22.06, annoncée sans changement notable par rapport à l'ancien modèle selon MCN.",
+    "preuve": "fabricant",
+    "source": "araihelmet.eu (factsheet MX-V EVO 2025) ; Motorcycle News"
+   }
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE R22-06",
+    "source": "araihelmet.eu (factsheet MX-V EVO 2025)"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (technologie Arai PB-cLc2)",
+    "source": "araihelmet.eu (factsheet)"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Dry-Cool, Facial Contour System, amovible et lavable",
+    "source": "araihelmet.eu ; flux (9 fiches amovible)"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Extracteur arrière amovible en trois parties",
+    "source": "araihelmet.eu"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "Flux (9 fiches) ; chromeburner.com"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à XL",
+    "source": "araihelmet.eu ; chromeburner.com"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "La version américaine du même casque se vend sous le nom VX-Pro4 (chromeburner.com)."
+  ],
+  "alertes_qualite": [
+   "Homologation : 22.06 sur 1 fiche seulement sur 10 ; le constructeur annonce 22.06 pour l'EVO.",
+   "Poids : 1 350 g sur 2 fiches du flux, aucune pesée indépendante ; le tableau du revendeur ne contient aucune ligne MX-V.",
+   "Calotte dans le flux : fibre sur 13 fiches, composite sur 2 : contradictoire pour un même modèle.",
+   "Tailles : constructeur XS-XL, revendeur XS-XXL.",
+   "Plusieurs fiches portent des millésimes (Replica 2026, Battle 2025) : même modèle, graphismes différents."
+  ],
+  "motif": "mx-?v\\y",
+  "profil_position": 50,
+  "points_forts_courts": [
+   "Ajustement noté 5/5 après 2 ans d'usage",
+   "Ventilation jugée bonne, durabilité saluée",
+   "Norme ECE 22.06",
+   "Doublure Dry-Cool, extracteur démontable"
+  ]
+ },
+ {
+  "modele": "CONCEPT-X",
+  "marque": "Arai",
+  "nb_fiches": 7,
+  "accroche": "L'intégral néo-rétro d'Arai (Concept-XE) : ajustement « typique Arai » confortable, ventilation appréciée, 4 étoiles SHARP (janvier 2025).",
+  "description": "Le Concept-XE marie un look rétro et une technique actuelle. Un testeur de Visordown salue son confort : pression égale sur toute la tête, sans point dur. Il a obtenu 4 étoiles au test SHARP de janvier 2025. La ventilation est appréciée en été, et la visière VAS MaxVision offre une bonne vision. Le sifflement à vitesse et le verrou de visière sont les deux défauts à connaître.",
+  "profil_type": {
+   "pour_qui": "Motards roadster, néo-rétro et urbains qui veulent un intégral Arai au look classique.",
+   "usages": [
+    "roadster",
+    "néo-rétro",
+    "balades et tours en Europe"
+   ],
+   "moins_adapte_pour": "Ceux qui sont sensibles aux sifflements à vitesse et aux visières difficiles à manier avec des gants."
+  },
+  "points_forts": [
+   {
+    "texte": "4 étoiles au test SHARP, avec la norme ECE 22.06 (test de janvier 2025).",
+    "preuve": "sharp",
+    "source": "SHARP, fiche Concept XE, janvier 2025"
+   },
+   {
+    "texte": "Ajustement « typique Arai » très confortable : pression égale sur toute la tête, sans point dur.",
+    "preuve": "presse",
+    "source": "Visordown, Matt Robinson, 22 juin 2024"
+   },
+   {
+    "texte": "Plutôt silencieux, en tout cas nettement plus que les autres Arai du testeur.",
+    "preuve": "presse",
+    "source": "Visordown, Matt Robinson, 22 juin 2024"
+   },
+   {
+    "texte": "Bonne ventilation pour l'été (mentonnière, sourcils, extracteurs arrière) ; seules une ou deux gouttes de pluie sont entrées lors d'un tour européen pluvieux.",
+    "preuve": "presse",
+    "source": "Visordown, Matt Robinson, 22 juin 2024"
+   },
+   {
+    "texte": "Joues amovibles de 5 mm à peler pour ajuster le serrage.",
+    "preuve": "presse",
+    "source": "Visordown, Matt Robinson, 22 juin 2024"
+   }
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "SHARP, janvier 2025"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (technologie Arai PB e-cLc)",
+    "source": "SHARP ; fiche revendeur (fiche d'un revendeur, résultats de recherche)"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "VAS MaxVision, anti-rayures, anti-buée",
+    "source": "fiche d'un revendeur ; SHARP"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible, joues de 5 mm à peler",
+    "source": "SHARP ; Visordown"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Mentonnière, sourcils, extracteurs arrière",
+    "source": "Visordown"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à XL",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Poids annoncé",
+    "valeur": "environ 1 560 g (coloris Frost Black)",
+    "source": "fiche d'un revendeur (fiche revendeur)"
+   }
+  ],
+  "securite": {
+   "sharp_etoiles": 4,
+   "date_test": "Janvier 2025",
+   "norme": "ECE 22.06"
+  },
+  "a_savoir": [
+   "Le casque est vendu sous le nom Concept-XE ; l'ancien Concept-X est un autre modèle."
+  ],
+  "alertes_qualite": [
+   "Nom : le catalogue dit CONCEPT-X mais les titres des fiches sont des Concept-XE : à renommer ou à vérifier.",
+   "Pare-soleil : SHARP liste une « Dropdown sun-visor » pour le Concept XE, alors qu'aucun essai ni fiche constructeur consulté n'en mentionne ; ne pas présenter comme un pare-soleil intégré sans vérification.",
+   "Poids : environ 1 560 g d'après un revendeur, SHARP sans poids ; non confirmé.",
+   "Homologation : 22.06 sur 2 fiches, aucune version sur 5 ; SHARP donne 22.06.",
+   "Calotte dans le flux : « thermoplastique » sur 2 fiches : erreur probable.",
+   "Pinlock « fourni » sur 3 fiches seulement : non confirmé par la presse."
+  ],
+  "motif": "concept[- ]?x",
+  "profil_position": 25,
+  "points_forts_courts": [
+   "4 étoiles au test de choc SHARP",
+   "Ajustement très confortable, sans point dur",
+   "Plutôt silencieux selon l'essai",
+   "Bonne ventilation pour l'été"
+  ]
+ },
+ {
+  "modele": "FREEWAY",
+  "marque": "Arai",
+  "nb_fiches": 3,
+  "accroche": "Un jet à l'ancienne signé Arai : coque en super fibre, intérieur lavable, peak amovible selon les versions. Un casque de balade au look classique.",
+  "description": "Le Freeway est un casque jet à l'esprit rétro, signé Arai. Sa coque est en super fibre. L'intérieur est lavable, avec des joues remplaçables en plusieurs épaisseurs, et un peak amovible est fourni sur certaines versions.",
+  "profil_type": {
+   "pour_qui": "Motards de balade, de café racer et de customs qui veulent un jet classique de marque connue.",
+   "usages": [
+    "balade",
+    "ville",
+    "custom et café racer"
+   ],
+   "moins_adapte_pour": "Ceux qui veulent un casque léger, une protection de menton, ou un casque déjà testé par SHARP."
+  },
+  "points_forts": [
+   {
+    "texte": "Coque en super fibre, décrite comme confortable, solide et légère.",
+    "preuve": "fabricant",
+    "source": "whyarai.co.uk, helmetcity.co.uk (résultats de recherche)"
+   },
+   {
+    "texte": "Intérieur lavable avec joues remplaçables en plusieurs épaisseurs pour ajuster le maintien.",
+    "preuve": "fabricant",
+    "source": "whyarai.co.uk, helmetcity.co.uk (résultats de recherche)"
+   },
+   {
+    "texte": "Fermeture double anneau en D.",
+    "preuve": "fabricant",
+    "source": "Fiches revendeurs (résultats de recherche) ; flux (1 fiche)"
+   },
+   {
+    "texte": "Peak amovible fourni sur certaines versions, et peak pare-soleil en option.",
+    "preuve": "fabricant",
+    "source": "Fiches revendeurs (résultats de recherche)"
+   }
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Super fibre (laminé de fibres complexe)",
+    "source": "whyarai.co.uk ; helmetcity.co.uk"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "Fiches revendeurs"
+   },
+   {
+    "nom": "Intérieur",
+    "valeur": "Lavable, joues remplaçables en plusieurs épaisseurs",
+    "source": "whyarai.co.uk ; helmetcity.co.uk"
+   },
+   {
+    "nom": "Peak",
+    "valeur": "Amovible sur certaines versions ; peak pare-soleil en option",
+    "source": "Fiches revendeurs"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à XL",
+    "source": "Fiches revendeurs"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Les 3 fiches mélangent « Freeway Classic » et « Freeway 2 » : deux produits différents à séparer.",
+   "Calotte : « fibre » sur 2 fiches, « carbone » sur 1 : à vérifier (aucune source ne confirme un carbone).",
+   "Intercom « fourni » sur 2 fiches : improbable pour un jet de ce type, non confirmé.",
+   "Homologation : 22.05 sur 1 fiche, version non précisée sur 2 ; une ligne du catalogue (Classic) est en 22.05, c'est une ancienne version.",
+   "Aucun poids sourcé, aucune ligne dans SHARP ni dans le tableau revendeur."
+  ],
+  "motif": "freeway",
+  "profil_position": 6,
+  "points_forts_courts": [
+   "Coque en super fibre, légère",
+   "Intérieur lavable, joues remplaçables",
+   "Fermeture double anneau en D",
+   "Peak amovible sur certaines versions"
+  ]
+ }
+]

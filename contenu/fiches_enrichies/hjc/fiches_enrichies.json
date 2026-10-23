@@ -1,0 +1,2084 @@
+[
+ {
+  "modele": "RPHA 12",
+  "marque": "HJC",
+  "nb_fiches": 44,
+  "motif": "\\yrpha ?12\\y",
+  "accroche": "L'intégral piste de HJC : coque en fibres PIM Evo, boucle double anneau et Pinlock fourni, pour attaquer en confiance.",
+  "description": "Le RPHA 12 est l'intégral sportif haut de gamme de HJC. Sa coque composite en fibres de carbone, d'aramide et de fibres naturelles vise la légèreté et la stabilité à haute vitesse. Visière à double fixation, Pinlock fourni, doublure qui sèche vite : il est pensé pour les sorties soutenues et les journées de piste.",
+  "profil_position": 95,
+  "points_forts": [
+   {
+    "texte": "Coque PIM Evo, mélange de fibres de carbone, d'aramide et de fibres naturelles, pour allier légèreté et résistance.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière HJ-42 à mécanisme à deux voies, pour un mouvement fluide et une meilleure étanchéité.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pinlock fourni avec la visière, cache-menton et cache-nez livrés selon les versions.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture par boucle double anneau, la fermeture des casques de piste.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure avancée qui évacue l'humidité et sèche rapidement.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque composite légère carbone-aramide",
+   "Pinlock fourni avec la visière",
+   "Boucle double anneau, esprit piste",
+   "Doublure qui sèche vite"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (technologie PIM Evo)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "HJ-42, protection UV 99 %, anti-rayures, fixation à deux voies",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Versions carbone et fibres différentes selon les décors : vérifiez la matière indiquée sur la fiche du coloris."
+  ],
+  "alertes_qualite": [
+   "Matière de coque variable (carbone / fibres) selon décor ; poids annoncés divergents (1330 g carbone vs 1474 g) : non repris.",
+   "Pinlock 'inclus' vs 'Ready' selon les flux : retenu fourni, majoritaire."
+  ]
+ },
+ {
+  "modele": "V31",
+  "marque": "HJC",
+  "nb_fiches": 28,
+  "motif": "\\yv31\\y",
+  "accroche": "Le jet rétro de HJC : coque en fibre de verre, pare-soleil réglable sur 3 hauteurs et emplacements pour haut-parleurs.",
+  "description": "Le V31 donne un look rétro aux trajets de ville et de balade. Sa coque en fibre de verre reste légère, et son pare-soleil teinté se règle sur trois hauteurs. Les emplacements pour haut-parleurs permettent d'y glisser un système de communication.",
+  "profil_position": 15,
+  "points_forts": [
+   {
+    "texte": "Coque en composite de fibre de verre avancée.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil teinté antibuée réglable sur 3 hauteurs.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Emplacements pour haut-parleurs et pince pour installer une communication Bluetooth.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Trois boutons-pression prévus pour fixer une visière (visière non fournie).",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture par boucle double anneau.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Look rétro, coque en fibre de verre",
+   "Pare-soleil réglable sur 3 hauteurs",
+   "Prêt pour haut-parleurs Bluetooth",
+   "Boucle double anneau"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Fibre de verre",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Pare-soleil teinté intégré, 3 hauteurs",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Audio",
+    "valeur": "Logements prévus pour haut-parleurs",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Le pare-soleil existe aussi en accessoire de remplacement."
+  ],
+  "alertes_qualite": [
+   "Norme 22.06 citée par 3 descriptions seulement ; version Carbon distincte non traitée."
+  ]
+ },
+ {
+  "modele": "C10",
+  "marque": "HJC",
+  "nb_fiches": 27,
+  "motif": "\\yc10\\y",
+  "accroche": "L'intégral polyvalent de HJC : 4 étoiles SHARP en ECE 22.06, 1 500 g sur la balance, fermeture micrométrique.",
+  "description": "Le C10 est l'intégral accessible de HJC. Il pèse 1 500 g à la balance SHARP et décroche 4 étoiles en ECE 22.06. Visière prête pour le Pinlock, ventilation canalisée et fermeture micrométrique : un casque simple à vivre au quotidien.",
+  "profil_position": 65,
+  "points_forts": [
+   {
+    "texte": "4 étoiles au test SHARP, norme ECE 22.06 (test de septembre 2024).",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche C10, septembre 2024"
+   },
+   {
+    "texte": "1 500 g à la pesée SHARP.",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche C10, septembre 2024"
+   },
+   {
+    "texte": "Coque en polycarbonate conçue en CAO pour un bon ajustement et un poids contenu.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation ACS : 3 entrées et 2 sorties d'air, de l'avant vers l'arrière.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière HJ-34P anti-rayures, protection UV 99 %, prête à recevoir un Pinlock.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture micrométrique facile à manipuler.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "4 étoiles SHARP, norme ECE 22.06",
+   "1 500 g à la pesée SHARP",
+   "Ventilation 3 entrées, 2 sorties",
+   "Fermeture micrométrique simple"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 500 g (pesée SHARP)",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "HJ-34P, anti-rayures, UV 99 %, prête Pinlock",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "ACS : 3 entrées, 2 sorties d'air",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XXS à XXL",
+    "source": "SHARP"
+   }
+  ],
+  "securite": {
+   "sharp_etoiles": 4,
+   "date_test": "septembre 2024",
+   "norme": "ECE 22.06"
+  },
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Tailles : flux annonce 3XS à 2XL, SHARP XXS à XXL ; SHARP retenu.",
+   "Garantie 3 ou 5 ans selon décor : non reprise."
+  ]
+ },
+ {
+  "modele": "i91",
+  "marque": "HJC",
+  "nb_fiches": 27,
+  "motif": "\\yi-?91\\y",
+  "accroche": "Le modulable urbain de HJC : mentonnière à 90°, écran solaire, fermeture micrométrique et homologation ECE 22.06.",
+  "description": "L'i91 est un modulable pensé pour la ville. Sa mentonnière s'ouvre à 90° et l'écran solaire se déploie d'un geste. Il est prêt à accueillir un système de communication SMART HJC et porte la double homologation P/J.",
+  "profil_position": 30,
+  "points_forts": [
+   {
+    "texte": "Mentonnière relevable à 90° pour discuter ou souffler au feu.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran solaire intégré à déployer selon la lumière.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Double homologation intégral et jet (P/J).",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Prêt à recevoir un système Bluetooth SMART HJC (vendu séparément).",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Rainures pour lunettes et fermeture micrométrique.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Mentonnière relevable à 90°",
+   "Écran solaire intégré",
+   "Double usage : intégral ou jet",
+   "Prêt pour un intercom SMART HJC"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "HJ-33, UV 99 %, anti-rayures, prête Pinlock",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Écran solaire intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Intercom SMART HJC vendu séparément."
+  ],
+  "alertes_qualite": [
+   "Pinlock 'inclus' (un flux) vs 'Ready' ailleurs : ligne omise.",
+   "SHARP i90 (ECE 22.05) = autre modèle, non repris."
+  ]
+ },
+ {
+  "modele": "i40N",
+  "marque": "HJC",
+  "nb_fiches": 26,
+  "motif": "\\yi-?40n\\y",
+  "accroche": "Le jet urbain de HJC : écran long, écran solaire intégré et changement de visière sans outil avec le système RapidFire.",
+  "description": "L'i40N est un jet moderne pour la ville. Son écran long protège le visage, l'écran solaire se manie vite et la visière se change sans outil grâce au système RapidFire. Coque en polycarbonate, coussinets lavables : simple et confortable.",
+  "profil_position": 12,
+  "points_forts": [
+   {
+    "texte": "Écran long qui couvre le visage, avec écran solaire fumé intégré.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Système RapidFire : changement de visière sans outil.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Grande prise d'air supérieure, utilisable avec des gants.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en polycarbonate CAD pour un poids réduit et un bon ajustement.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture micrométrique et coussinets amovibles et lavables.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Écran solaire intégré",
+   "Visière changée sans outil",
+   "Prise d'air utilisable avec gants",
+   "Look moderne, ajusté en 2 calottes"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Écran solaire fumé intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Pinlock proposé en option."
+  ],
+  "alertes_qualite": []
+ },
+ {
+  "modele": "RPHA 72",
+  "marque": "HJC",
+  "nb_fiches": 24,
+  "motif": "\\yrpha ?72\\y",
+  "accroche": "L'intégral sport-touring haut de gamme de HJC : coque PIM, Pinlock 120 fourni, pare-soleil et ventilation ACS.",
+  "description": "Le RPHA 72 est un intégral sport-touring à la coque PIM de deuxième génération, légère et stable. Il est livré avec un Pinlock 120 XLT, cache-nez et cache-menton, et son pare-soleil se règle en plusieurs niveaux. Idéal pour les longues sorties rapides.",
+  "profil_position": 75,
+  "points_forts": [
+   {
+    "texte": "Coque PIM de 2e génération, ou carbone selon les versions : légère, stable et résistante aux chocs.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Aérodynamique travaillée en soufflerie pour la stabilité à grande vitesse.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation ACS : deux entrées et deux sorties d'air.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pinlock 120 XLT, cache-nez et cache-menton dans la boîte.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil dynamique à plusieurs niveaux, boucle double anneau.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Pinlock 120 fourni dans la boîte",
+   "Pare-soleil réglable en plusieurs niveaux",
+   "Coque PIM, stable à grande vitesse",
+   "Ventilation 2 entrées, 2 sorties"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (technologie PIM)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "HJ-48, UV 99 %, anti-rayures",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock 120 fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Pare-soleil intégré à plusieurs niveaux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "ACS : 2 entrées, 2 sorties d'air",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Prêt à recevoir un intercom SMART HJC (vendu séparément)."
+  ],
+  "alertes_qualite": [
+   "Versions fibre et carbone mélangées ; poids annoncés 1400 g vs 1429 g vs 1330 g : non repris."
+  ]
+ },
+ {
+  "modele": "V10",
+  "marque": "HJC",
+  "nb_fiches": 24,
+  "motif": "\\yv10\\y",
+  "accroche": "L'intégral néo-rétro de HJC : coque en fibre de verre, Pinlock fourni et visière qui se change sans outil.",
+  "description": "Le V10 mêle une silhouette vintage, avec sa mentonnière proéminente, et des détails modernes. Sa coque en fibre de verre est conçue en CAO, la visière se remplace sans outil et un film Pinlock est fourni. Il existe en unis et en nombreux décors.",
+  "profil_position": 55,
+  "points_forts": [
+   {
+    "texte": "Coque en composite de fibre de verre conçue en CAO.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Remplacement de visière rapide, sans outil.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Film Pinlock fourni avec l'écran clair.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Mousses de joues d'urgence pour retirer le casque plus vite.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Style vintage inspiré des anciens casques cross.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Style vintage, coque en fibre de verre",
+   "Visière changée sans outil",
+   "Film Pinlock fourni",
+   "Joues à retrait d'urgence"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Fibre de verre",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "HJ-41, UV 99 %, anti-rayures",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock 70 fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Fermeture : micrométrique (flux) vs double anneau (autre source) : omise."
+  ]
+ },
+ {
+  "modele": "F31",
+  "marque": "HJC",
+  "nb_fiches": 22,
+  "motif": "\\yf31\\y",
+  "accroche": "Le jet en fibre de verre de HJC : ventilation ACS, pare-soleil multi-étapes et prêt pour un système Bluetooth.",
+  "description": "Le F31 est un jet en fibre de verre, léger et confortable pour la ville. Le pare-soleil se règle en plusieurs étapes et la ventilation ACS fait circuler l'air de l'avant vers l'arrière. Il est prêt à recevoir un système SMART HJC.",
+  "profil_position": 15,
+  "points_forts": [
+   {
+    "texte": "Coque en composite de fibre de verre avancée.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation ACS : l'air circule de l'avant vers l'arrière.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil avec déploiement en plusieurs étapes, antibuée et anti-rayures.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Prêt à recevoir un système SMART HJC 11B, 21B ou 50B (vendu séparément).",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Mousses de joues amovibles et lavables.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Jet léger en fibre de verre",
+   "Pare-soleil à plusieurs étapes",
+   "Ventilation avant-arrière ACS",
+   "Prêt pour un intercom SMART HJC"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Fibre de verre",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "HJ-43, prête Pinlock",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Écran solaire intégré à plusieurs étapes",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "ACS",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Intercom SMART HJC vendu séparément."
+  ],
+  "alertes_qualite": [
+   "Pinlock 'inclus' (un flux) vs 'Ready' : ligne omise."
+  ]
+ },
+ {
+  "modele": "RPHA 91",
+  "marque": "HJC",
+  "nb_fiches": 21,
+  "motif": "\\yrpha ?91\\y",
+  "accroche": "Le modulable premium de HJC : coque PIM Evo, 4 étoiles SHARP en ECE 22.06, pare-soleil réglable en 3 positions.",
+  "description": "Le RPHA 91 réunit la souplesse d'un modulable et une coque haut de gamme en fibres. Il obtient 4 étoiles au test SHARP en ECE 22.06. Son pare-soleil se règle en trois positions et les mousses de joues se démontent pour le lavage.",
+  "profil_position": 35,
+  "points_forts": [
+   {
+    "texte": "4 étoiles au test SHARP, norme ECE 22.06 (test de septembre 2024).",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche RPHA91, septembre 2024"
+   },
+   {
+    "texte": "1 750 g à la pesée SHARP.",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche RPHA91, septembre 2024"
+   },
+   {
+    "texte": "Coque PIM Evo en fibres (carbone, verre, lin selon les versions) pour la légèreté.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil réglable en 3 positions.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Disponible en quatre tailles de calotte, mousses de joues démontables et lavables.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "4 étoiles SHARP, norme ECE 22.06",
+   "1 750 g à la pesée SHARP",
+   "Pare-soleil réglable en 3 positions",
+   "4 tailles de calotte"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 750 g (pesée SHARP)",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (technologie PIM Evo)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "HJ-37, UV 99 %, anti-rayures, prête Pinlock",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Pare-soleil intégré, 3 positions",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à XXL",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": {
+   "sharp_etoiles": 4,
+   "date_test": "septembre 2024",
+   "norme": "ECE 22.06"
+  },
+  "a_savoir": [
+   "Compatible avec les systèmes SMART HJC 21B et 50B (vendus séparément)."
+  ],
+  "alertes_qualite": [
+   "Versions fibre et carbone ; fermeture micrométrique (flux) vs double anneau (autre source) : omise.",
+   "Poids SHARP = version composite testée."
+  ]
+ },
+ {
+  "modele": "i71",
+  "marque": "HJC",
+  "nb_fiches": 19,
+  "motif": "\\yi-?71\\y",
+  "accroche": "L'intégral polyvalent de HJC : 4 étoiles SHARP en ECE 22.06, pare-soleil à 3 positions et système Push & Release.",
+  "description": "L'i71 est un intégral polyvalent pour le touring, la route et les sorties sportives. Il obtient 4 étoiles au test SHARP en ECE 22.06. Pare-soleil intégré réglable en trois positions et verrou de visière Push & Release : il se prend en main facilement.",
+  "profil_position": 65,
+  "points_forts": [
+   {
+    "texte": "4 étoiles au test SHARP, norme ECE 22.06 (test de mai 2025).",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche I71, mai 2025"
+   },
+   {
+    "texte": "1 800 g à la pesée SHARP.",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche I71, mai 2025"
+   },
+   {
+    "texte": "Pare-soleil intégré antibuée, réglable sur 3 profondeurs.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Verrou de visière Push & Release plus sûr et plus simple à débloquer.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en polycarbonate avancé.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "4 étoiles SHARP, norme ECE 22.06",
+   "Pare-soleil intégré à 3 positions",
+   "Visière Push & Release",
+   "Polyvalent route et touring"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 800 g (pesée SHARP)",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "HJ-38, UV 99 %, anti-rayures, prête Pinlock",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Pare-soleil intégré, 3 positions",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à XXL",
+    "source": "SHARP"
+   }
+  ],
+  "securite": {
+   "sharp_etoiles": 4,
+   "date_test": "mai 2025",
+   "norme": "ECE 22.06"
+  },
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Poids annoncé par un revendeur 1726 g vs SHARP 1800 g : SHARP retenu.",
+   "Fermeture micrométrique (flux) vs double anneau (SHARP) : omise."
+  ]
+ },
+ {
+  "modele": "C50",
+  "marque": "HJC",
+  "nb_fiches": 18,
+  "motif": "\\yc50\\y",
+  "accroche": "Le casque cross HJC en polycarbonate et ABS, testé en soufflerie, avec ventilation ACS et couvre-bouche amovible.",
+  "description": "Le C50 est un casque cross homologué ECE 22.06 à la coque en polycarbonate et ABS. Testé en soufflerie, il garde sa stabilité à haute vitesse, et sa ventilation ACS évacue chaleur et humidité. Couvre-bouche amovible et mousses lavables facilitent l'entretien après la sortie.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Coque en polycarbonate avancé et ABS, solide et légère.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque testée en soufflerie pour la stabilité.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation ACS, flux d'air de l'avant vers l'arrière.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Couvre-bouche amovible et mousses de joues lavables.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Compatible avec les systèmes intercom Bluetooth universels.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque polycarbonate-ABS testée en soufflerie",
+   "Ventilation avant-arrière ACS",
+   "Couvre-bouche amovible",
+   "Rainures pour lunettes de cross"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate et ABS)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "ACS",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Les fiches 'Y50' sont la version enfant, traitée à part."
+  ],
+  "alertes_qualite": [
+   "Norme 22.06 citée par 2 descriptions seulement."
+  ]
+ },
+ {
+  "modele": "F71",
+  "marque": "HJC",
+  "nb_fiches": 17,
+  "motif": "\\yf71\\y",
+  "accroche": "L'intégral sportif de HJC : coque en fibre de verre, Pinlock fourni et système Dual-Lock pour une visière bien étanche.",
+  "description": "Le F71 est un intégral sportif à la coque aérodynamique en fibre de verre. Il est livré avec Pinlock, cache-menton et cache-nez. Le double verrouillage de visière limite les infiltrations à vitesse soutenue.",
+  "profil_position": 80,
+  "points_forts": [
+   {
+    "texte": "Coque en composite de fibre de verre à profil aérodynamique.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Système Dual-Lock de double verrouillage de la visière, pour une meilleure étanchéité.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Livré avec Pinlock, cache-menton et cache-nez.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil dynamique à 3 positions.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Mousses de joues à démontage rapide en cas d'urgence.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Livré avec Pinlock et cache-nez",
+   "Visière à double verrouillage",
+   "Pare-soleil à 3 positions",
+   "Coque aérodynamique en fibre de verre"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Fibre de verre",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "HJ-38, UV 99 %, anti-rayures",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Pare-soleil intégré, 3 positions",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Des versions carbone existent (F71 Carbon)."
+  ],
+  "alertes_qualite": [
+   "Version carbone mélangée dans les fiches ; Pinlock 70 cité par une description."
+  ]
+ },
+ {
+  "modele": "i80",
+  "marque": "HJC",
+  "nb_fiches": 17,
+  "motif": "\\yi-?80\\y",
+  "accroche": "Le modulable aventure de HJC : 4 étoiles SHARP en ECE 22.06, 1 400 g, Pinlock 120 fourni, utilisable avec ou sans visière.",
+  "description": "L'i80 est un modulable adventure : avec visière pour la route, sans visière avec l'écran pour la conduite naked. Il pèse 1 400 g à la balance SHARP et obtient 4 étoiles en ECE 22.06. Pinlock 120 fourni et pare-soleil intégré complètent l'équipement.",
+  "profil_position": 45,
+  "points_forts": [
+   {
+    "texte": "4 étoiles au test SHARP, norme ECE 22.06 (test d'avril 2026).",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche I80, avril 2026"
+   },
+   {
+    "texte": "1 400 g à la pesée SHARP : léger pour un modulable.",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche I80, avril 2026"
+   },
+   {
+    "texte": "Deux configurations : avec visière et écran, ou sans visière avec l'écran.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Film antibuée Pinlock 120 fourni avec l'écran HJ-44.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil intégré fumé, ventilations hautes et basses à deux niveaux.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "4 étoiles SHARP, norme ECE 22.06",
+   "1 400 g à la pesée SHARP",
+   "Pinlock 120 fourni",
+   "Avec ou sans visière"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 400 g (pesée SHARP)",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate APC)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "HJ-44, anti-rayures, anti-UV",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock 120 fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Pare-soleil intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à XXL",
+    "source": "SHARP"
+   }
+  ],
+  "securite": {
+   "sharp_etoiles": 4,
+   "date_test": "avril 2026",
+   "norme": "ECE 22.06"
+  },
+  "a_savoir": [],
+  "alertes_qualite": []
+ },
+ {
+  "modele": "C71",
+  "marque": "HJC",
+  "nb_fiches": 16,
+  "motif": "\\yc71\\y",
+  "accroche": "L'intégral sport-touring simple de HJC : coque polycarbonate, ventilation ACS et visière prête pour le Pinlock.",
+  "description": "Le C71 est un intégral sport-touring sans fioriture. Sa coque en polycarbonate reste légère, la ventilation ACS fait circuler l'air et la visière est prête pour le Pinlock. Les mousses de joues sont interchangeables dans toutes les tailles.",
+  "profil_position": 65,
+  "points_forts": [
+   {
+    "texte": "Coque en polycarbonate composite pour un poids contenu.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation ACS de l'avant vers l'arrière.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière HJ-34P anti-rayures, UV 99 %, prête pour le Pinlock.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Mousses de joues interchangeables dans toutes les tailles.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Compatible avec les intercoms universels.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Intégral simple, coque polycarbonate",
+   "Ventilation avant-arrière ACS",
+   "Visière prête pour le Pinlock",
+   "Compatible intercom universel"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "HJ-34P, anti-rayures, UV 99 %, prête Pinlock",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "ACS",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Un écran solaire HJ-V12 existe en accessoire."
+  ],
+  "alertes_qualite": [
+   "Norme 22.06 citée par 2 descriptions."
+  ]
+ },
+ {
+  "modele": "i31",
+  "marque": "HJC",
+  "nb_fiches": 15,
+  "motif": "\\yi-?31\\y",
+  "accroche": "Le jet HJC en polycarbonate APC : 3 tailles de calotte, pare-soleil rétractable et visière prête pour le Pinlock.",
+  "description": "L'i31 est un jet confortable à la coque en polycarbonate APC, mélange de polycarbonate et d'ABS. Il offre trois tailles de calotte interne, un pare-soleil rétractable et une doublure antibactérienne lavable. La fermeture micrométrique se manie d'une main.",
+  "profil_position": 12,
+  "points_forts": [
+   {
+    "texte": "Coque en polycarbonate APC, alliant polycarbonate et ABS.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Trois tailles de calotte EPS interne.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil fumé intégré et rétractable.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur antibactérien Multi-Cool, démontable et lavable.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière HJ-43 longue, UV 99 %, prête pour le Pinlock.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque polycarbonate-ABS légère",
+   "3 tailles de calotte interne",
+   "Pare-soleil rétractable",
+   "Intérieur lavable antibactérien"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate APC)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "HJ-43, UV 99 %, anti-rayures, prête Pinlock",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Pare-soleil fumé intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": []
+ },
+ {
+  "modele": "RPHA 31",
+  "marque": "HJC",
+  "nb_fiches": 15,
+  "motif": "\\yrpha ?31\\y",
+  "accroche": "Le jet haut de gamme de HJC : coque PIM Evo, menton EPS allongé, 4 tailles de calotte et pare-soleil escamotable.",
+  "description": "Le RPHA 31 est un jet à coque PIM Evo en fibres. Sa coque étendue et son menton en EPS lui donnent un maintien proche d'un intégral. Quatre tailles de calotte, pare-soleil escamotable et compatibilité SMART HJC en font un jet très complet.",
+  "profil_position": 20,
+  "points_forts": [
+   {
+    "texte": "Coque PIM Evo en fibres de carbone, d'aramide, de verre et de lin.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque étendue et menton EPS pour un meilleur maintien.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Quatre tailles de calotte.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil escamotable, mousses de joues 3D lavables.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Compatible avec les systèmes SMART HJC 21B et 50B.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Jet à coque en fibres PIM Evo",
+   "Menton EPS, maintien d'intégral",
+   "4 tailles de calotte",
+   "Pare-soleil escamotable"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (technologie PIM Evo)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "HJ-39, UV, anti-rayures",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Pare-soleil escamotable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Systèmes SMART HJC 21B et 50B vendus séparément."
+  ],
+  "alertes_qualite": [
+   "Pinlock 'incluse' (un flux) vs 'Ready' : ligne omise."
+  ]
+ },
+ {
+  "modele": "i72",
+  "marque": "HJC",
+  "nb_fiches": 14,
+  "motif": "\\yi-?72\\y",
+  "accroche": "L'intégral sport-touring compact de HJC : écran optique classe 1, Pinlock fourni et pare-soleil réglable.",
+  "description": "L'i72 est un intégral sport-touring compact et léger. Son écran de classe optique 1 est livré avec un film Pinlock, et le pare-soleil interne se règle sur plusieurs positions. Un emplacement dédié accueille un système de communication SMART HJC.",
+  "profil_position": 70,
+  "points_forts": [
+   {
+    "texte": "Coque en polycarbonate composite APC au profil aérodynamique.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran de classe optique 1 avec film Pinlock fourni.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil interne rétractable, réglable sur plusieurs positions.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation ACS qui évacue chaleur et humidité.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur antibactérien amovible et lavable, rainures pour lunettes.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Écran optique classe 1, Pinlock fourni",
+   "Pare-soleil réglable",
+   "Emplacement pour intercom SMART HJC",
+   "Intérieur lavable, rainures lunettes"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate APC)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Pare-soleil intégré, réglable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "ACS",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Système SMART HJC vendu séparément."
+  ],
+  "alertes_qualite": []
+ },
+ {
+  "modele": "F100",
+  "marque": "HJC",
+  "nb_fiches": 14,
+  "motif": "\\yf100\\y",
+  "accroche": "Le modulable HJC en fibre de verre : 4 étoiles SHARP en ECE 22.06, pare-soleil intégré et ventilation ACS.",
+  "description": "Le F100 est un modulable à coque en fibre de verre, existant aussi en carbone. Il décroche 4 étoiles au test SHARP en ECE 22.06. Pare-soleil intégré, ventilation ACS à deux étages et calotin EPS multi-densités.",
+  "profil_position": 35,
+  "points_forts": [
+   {
+    "texte": "4 étoiles au test SHARP, norme ECE 22.06 (test d'août 2026).",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche F100, août 2026"
+   },
+   {
+    "texte": "1 700 g à la pesée SHARP pour la version fibre de verre.",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche F100, août 2026"
+   },
+   {
+    "texte": "Version carbone disponible, environ 100 g plus légère selon le constructeur.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation ACS avec évents supérieurs et inférieurs à deux étages.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran HJ-45 prêt Pinlock, déflecteur de vent et menton fournis.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "4 étoiles SHARP, norme ECE 22.06",
+   "Modulable en fibre de verre ou carbone",
+   "Pare-soleil intégré antibuée",
+   "Déflecteurs vent et menton fournis"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 700 g (pesée SHARP)",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Fibre de verre",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "HJ-45, anti-rayures, prête Pinlock",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Pare-soleil interne intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "ACS à deux étages",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à XXL",
+    "source": "SHARP"
+   }
+  ],
+  "securite": {
+   "sharp_etoiles": 4,
+   "date_test": "août 2026",
+   "norme": "ECE 22.06"
+  },
+  "a_savoir": [
+   "Compatible avec un système de communication Bluetooth."
+  ],
+  "alertes_qualite": [
+   "Poids SHARP = version fibre de verre ; version carbone plus légère, non pesée.",
+   "Pinlock 'livré' (un flux) vs 'prédisposé' : ligne omise."
+  ]
+ },
+ {
+  "modele": "F72",
+  "marque": "HJC",
+  "nb_fiches": 12,
+  "motif": "\\yf72\\y",
+  "accroche": "L'intégral sport-touring de HJC : coque en fibre de verre ou carbone, écran optique classe 1 et Pinlock fourni.",
+  "description": "Le F72 est un intégral sport-touring compact. Sa coque existe en fibre de verre ou en carbone, pour un poids plus léger. Écran HJ-52 de classe optique 1, Pinlock fourni et pare-soleil dynamique : la route, sans compromis.",
+  "profil_position": 70,
+  "points_forts": [
+   {
+    "texte": "Coque en fibre de verre ou en carbone selon la version.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran principal HJ-52 de classe optique 1, large champ de vision.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pinlock fourni avec l'écran.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil interne rétractable à réglage dynamique.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur antibactérien amovible et lavable, boucle double anneau.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Écran classe optique 1, Pinlock fourni",
+   "Coque fibre de verre ou carbone",
+   "Pare-soleil dynamique",
+   "Boucle double anneau"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "HJ-52, classe optique 1",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Pare-soleil interne rétractable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "ACS",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Matière de coque variable (verre / carbone) : ligne Coque omise."
+  ]
+ },
+ {
+  "modele": "RPHA 60",
+  "marque": "HJC",
+  "nb_fiches": 12,
+  "motif": "\\yrpha ?60\\y",
+  "accroche": "Le casque trail haut de gamme de HJC : coque PIM, Pinlock 120 fourni, ventilation ACS et pare-soleil à commande externe.",
+  "description": "Le RPHA 60 est un intégral pour le trail et l'adventure. Sa coque PIM est associée à une ventilation ACS à 3 entrées et 4 sorties. Pinlock 120 fourni, pare-soleil à commande externe, il est prêt à recevoir un kit SMART HJC.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Coque PIM en résine époxy et tissu de fibres.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation ACS : 3 entrées et 4 sorties d'air.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière aérodynamique testée en soufflerie.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pinlock 120 fourni.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil fumé intégré avec commande externe.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Pinlock 120 fourni",
+   "Ventilation 3 entrées, 4 sorties",
+   "Pare-soleil à commande externe",
+   "Visière testée en soufflerie"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (technologie PIM)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock 120 fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Pare-soleil fumé intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "ACS : 3 entrées, 4 sorties d'air",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Kits SMART HJC 11B, 21B et 50B vendus séparément."
+  ],
+  "alertes_qualite": []
+ },
+ {
+  "modele": "i100",
+  "marque": "HJC",
+  "nb_fiches": 12,
+  "motif": "\\yi-?100\\y",
+  "accroche": "Le modulable HJC à mentonnière rotative : double homologation P/J, écran solaire et ECE 22.06.",
+  "description": "L'i100 est un modulable dont la mentonnière pivote pour passer d'intégral à jet. Il porte la double homologation P/J et l'écran solaire offre un large champ de vision. Coque en polycarbonate conçue en CAO.",
+  "profil_position": 35,
+  "points_forts": [
+   {
+    "texte": "Mentonnière rotative pour passer facilement d'intégral à jet.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Double homologation P/J.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran solaire à large champ de vision, antibuée et anti-rayures.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en polycarbonate composite conçue en CAO.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Bonne répartition du poids en position ouverte comme fermée.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Mentonnière rotative, intégral ou jet",
+   "Double homologation P/J",
+   "Écran solaire intégré",
+   "Fermeture micrométrique"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "HJ-36, UV 99 %, prête Pinlock",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Écran solaire intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": []
+ },
+ {
+  "modele": "RPHA 71",
+  "marque": "HJC",
+  "nb_fiches": 8,
+  "motif": "\\yrpha ?71\\y",
+  "accroche": "L'intégral sport-touring HJC en fibres : pare-soleil intégré à 3 positions et verrou de visière Push & Release.",
+  "description": "Le RPHA 71 est un intégral sportif à la coque en fibres, carbone sur certaines versions. Son pare-soleil intégré se règle en trois positions et son verrou Push & Release se débloque facilement. Boucle double anneau, homologué ECE 22.06.",
+  "profil_position": 80,
+  "points_forts": [
+   {
+    "texte": "Coque en fibres (carbone sur les versions Carbon) pour la légèreté.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil intégré antibuée réglable en 3 positions.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Verrou de visière Push & Release.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Boucle double anneau.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran HJ-40 prêt Pinlock, UV 99 %.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Pare-soleil à 3 positions",
+   "Visière Push & Release",
+   "Boucle double anneau",
+   "Coque en fibres, carbone en option"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "HJ-40, UV 99 %, prête Pinlock",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Pare-soleil intégré, 3 positions",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "SHARP RPHA 70 (ECE 22.05) = ancien modèle : non repris.",
+   "Matière de coque variable : ligne Coque omise."
+  ]
+ },
+ {
+  "modele": "C91N",
+  "marque": "HJC",
+  "nb_fiches": 7,
+  "motif": "\\yc91n\\y",
+  "accroche": "Le modulable HJC : mentonnière rotative, double écran solaire interne et ECE 22.06.",
+  "description": "Le C91N est un modulable à la coque en polycarbonate. Sa mentonnière pivote pour passer en jet, et le double écran solaire interne coulisse d'une main. De grandes ventilations et des cannelures pour lunettes complètent l'ensemble.",
+  "profil_position": 30,
+  "points_forts": [
+   {
+    "texte": "Mentonnière rotative pour passer de la configuration intégrale à jet.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran solaire fumé intégré à commande coulissante.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation ACS avec évents supérieurs et inférieurs.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Cannelures pour faciliter le port de lunettes.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière HJ-17 prête pour le Pinlock.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Mentonnière rotative, intégral ou jet",
+   "Écran solaire à commande coulissante",
+   "Cannelures pour lunettes",
+   "Ventilation haute et basse"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "HJ-17, anti-rayures, UV 99 %, prête Pinlock",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Écran solaire intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "ACS",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Fermeture : double anneau (3 flux) vs micrométrique (autre source) : omise.",
+   "SHARP C91 (22.05) = version précédente : non repris."
+  ]
+ },
+ {
+  "modele": "V60",
+  "marque": "HJC",
+  "nb_fiches": 7,
+  "motif": "\\yv60\\y",
+  "accroche": "L'intégral néo-rétro HJC en fibre de verre : écran solaire interne à 3 positions et compatible lunettes de cross.",
+  "description": "Le V60 offre une silhouette classique avec des détails modernes. Sa coque en fibre de verre reste légère, l'écran solaire interne se règle sur trois positions et la casquette se clipse. Il se porte aussi avec des lunettes de cross.",
+  "profil_position": 40,
+  "points_forts": [
+   {
+    "texte": "Coque en composite de fibre de verre avancée.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran solaire interne à 3 positions.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Casquette amovible à clips.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Compatible avec le port de lunettes de cross en option.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur Supercool qui absorbe et évacue l'humidité.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Look classique, coque en fibre de verre",
+   "Écran solaire à 3 positions",
+   "Casquette amovible à clips",
+   "Intérieur qui évacue l'humidité"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Fibre de verre",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Écran solaire interne, 3 positions",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Emplacements haut-parleurs cités une seule fois : omis."
+  ]
+ },
+ {
+  "modele": "Y10",
+  "marque": "HJC",
+  "nb_fiches": 7,
+  "motif": "\\yy10\\y",
+  "accroche": "Le casque enfant HJC en polycarbonate : ventilation ACS, visière prête pour le Pinlock et mousses de joues interchangeables.",
+  "description": "Le Y10 est le casque intégral des enfants, avec des décors réussis et des unis sobres. Sa coque en polycarbonate est légère et sa ventilation ACS évacue la chaleur. Les mousses de joues sont interchangeables dans toutes les tailles.",
+  "profil_position": 40,
+  "points_forts": [
+   {
+    "texte": "Coque en polycarbonate composite avancée.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation ACS, circulation d'air de l'avant vers l'arrière.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière HJ-50 anti-rayures, UV 99 %, prête pour le Pinlock.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Mousses de joues interchangeables dans toutes les tailles.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Prévu pour recevoir un intercom.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Casque intégral enfant, coque légère",
+   "Ventilation avant-arrière ACS",
+   "Joues interchangeables par taille",
+   "Visière prête pour le Pinlock"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "HJ-50, UV 99 %, prête Pinlock",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "ACS",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": []
+ }
+]

@@ -1,0 +1,311 @@
+[
+ {
+  "modele": "Formula CC",
+  "marque": "Fly Racing",
+  "nb_fiches": 12,
+  "motif": "\\yformula cc\\y",
+  "accroche": "Le casque cross Fly Racing Formula CC : coque tri-composite carbone, Kevlar et fibre de verre, système AIS et cellules RHEON.",
+  "description": "Le Formula CC est le casque cross haut de gamme de la famille Formula, à coque tri-composite : carbone, Kevlar DuPont et fibre de verre. Son système d'impact adaptatif AIS associe des cellules RHEON et un EPS Conehead à double densité. Zone d'allègement pour la clavicule, intérieur lavable et ventilation TFV pour rouler à l'aise.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Coque tri-composite en fibre de carbone, Kevlar DuPont et fibre de verre.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Système d'impact adaptatif AIS avec cellules d'énergie RHEON.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "EPS Conehead à double densité, réglé sur six zones critiques.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Zone de soulagement de la clavicule dans la coque.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur lavable, antimicrobien et anti-humidité, ventilation TFV.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Version Centrum : homologation ECE 22.06 et DOT.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque composite en carbone, Kevlar et verre",
+   "Système AIS avec cellules RHEON",
+   "EPS Conehead à double densité",
+   "Intérieur lavable et antimicrobien"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (carbone, Kevlar et fibre de verre)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "TFV (True Functional Ventilation)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Lavable, antimicrobienne",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Norme ECE 22.06 / DOT seulement prouvée sur la version Centrum ; ligne Norme omise.",
+   "Sous-versions (Centrum, Tektonic, Solid, Glide, Objective) regroupées."
+  ]
+ },
+ {
+  "modele": "Formula CP",
+  "marque": "Fly Racing",
+  "nb_fiches": 10,
+  "motif": "\\yformula cp\\y",
+  "accroche": "Le casque cross Fly Racing Formula CP : coque en alliage de polycarbonate, cellules RHEON, EPS multi-densité, ECE 22.06.",
+  "description": "Le Formula CP reprend les technologies de la gamme Formula dans une coque en alliage de polycarbonate, légère et résistante à la pénétration. Cellules RHEON, EPS multi-densité et zone d'allègement pour la clavicule travaillent ensemble. Ventilation TFV, intérieur Quick-Dry lavable et garniture avec protège-nez intégré.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Coque en alliage de polycarbonate, légère.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Cellules d'énergie d'impact RHEON dans un système d'impact adaptatif.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "EPS multi-densité réglé zone par zone, mentonnière en EPS.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Zone de soulagement de la clavicule dans la coque.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation TFV et intérieur Quick-Dry lavable, antimicrobien.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologation ECE 22.06 et DOT.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque légère en alliage de polycarbonate",
+   "Cellules RHEON et EPS multi-densité",
+   "Ventilation TFV",
+   "Intérieur Quick-Dry lavable"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (alliage de polycarbonate)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "TFV (True Functional Ventilation)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Quick-Dry, lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Textes de la version 'DBK' en ECE 22.06 ; une ancienne version pourrait être en 22.05, non constaté."
+  ]
+ },
+ {
+  "modele": "Formula S Carbon",
+  "marque": "Fly Racing",
+  "nb_fiches": 6,
+  "motif": "\\yformula (s|smart) carbon\\y",
+  "accroche": "Le casque cross Fly Racing Formula S Carbon : coque carbone 12K et puce Fly Smart by Quin à capteurs.",
+  "description": "Le Formula S Carbon pousse la formule Formula Carbon avec une coque en fibre de carbone 12K et une puce FLY Smart by Quin. Sur la version Protocol, cinq capteurs analysent l'activité et une appli enregistre les données d'impact. S'ajoutent le système AIS, les cellules RHEON et l'EPS Conehead.",
+  "profil_position": 55,
+  "points_forts": [
+   {
+    "texte": "Coque en fibre de carbone 12K.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Puce FLY Smart Intelligent Telemetry by Quin intégrée à la coque.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Version Protocol : cinq capteurs, appli avec alerte SOS par simple appui sur le casque, batterie jusqu'à 60 jours.",
+    "preuve": "fabricant",
+    "source": "FLY Racing (site officiel), fiche Formula S Carbon Protocol"
+   },
+   {
+    "texte": "Système AIS avec cellules RHEON, EPS Conehead à six zones critiques.",
+    "preuve": "fabricant",
+    "source": "FLY Racing (site officiel), fiche Formula S Carbon Protocol"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque en fibre de carbone 12K",
+   "Puce connectée FLY Smart by Quin",
+   "Alerte SOS depuis l'appli (Protocol)",
+   "Système AIS et cellules RHEON"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Carbone (fibre de carbone 12K)",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Détails des capteurs issus de la version Protocol ; variantes Legacy et Solid non confirmées une à une.",
+   "Norme : site constructeur mentionne ECE/DOT sans édition ; ligne Norme omise.",
+   "Fiches 'S Carbon' et 'Smart Carbon' regroupées."
+  ]
+ },
+ {
+  "modele": "Formula Carbon",
+  "marque": "Fly Racing",
+  "nb_fiches": 2,
+  "motif": "\\yformula carbon\\y",
+  "accroche": "Le casque cross Fly Racing Formula Carbon : coque en fibre de carbone 12K, système AIS, cellules RHEON, EPS Conehead.",
+  "description": "Le Formula Carbon est le haut de gamme de la famille Formula, à coque en fibre de carbone 12K. Cette coque offre légèreté et résistance à la pénétration. Le système AIS, les cellules RHEON et l'EPS Conehead en forme de pointe travaillent ensemble pour absorber les chocs progressivement.",
+  "profil_position": 55,
+  "points_forts": [
+   {
+    "texte": "Coque en fibre de carbone 12K, légère.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Système d'impact adaptatif AIS, associant structures et matériaux d'atténuation de l'énergie.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Cellules d'énergie d'impact en RHEON, matériau viscoélastique.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "EPS Conehead en forme de pointe pour une absorption progressive.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque en fibre de carbone 12K",
+   "Système AIS et cellules RHEON",
+   "EPS Conehead en forme de pointe",
+   "Haut de gamme Formula"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Carbone (fibre de carbone 12K)",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Norme : ECE 22.05 sur la fiche Prime ; ligne Norme omise.",
+   "Fiches Prime et Tracer regroupées."
+  ]
+ },
+ {
+  "modele": "Kinetic",
+  "marque": "Fly Racing",
+  "nb_fiches": 2,
+  "motif": "\\ykinetic\\y",
+  "accroche": "Le casque cross Fly Racing Kinetic : coque en polymère légère, EPS double densité, ventilation TFV.",
+  "description": "Le Kinetic est le casque cross à la silhouette anguleuse de Fly Racing, léger, à coque en polymère. Son EPS à double densité et ses plusieurs tailles de coque et d'EPS permettent un ajustement précis. La ventilation TFV et la doublure amovible et lavable assurent le confort.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Coque légère en polymère durable.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "EPS à double densité, plusieurs tailles de coque et d'EPS pour un ajustement précis.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation TFV : air capté par les entrées puis évacué à l'arrière.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Garniture avec protège-nez intégré.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure et coussinets de joues amovibles et lavables.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Cross léger en polymère durable",
+   "EPS double densité",
+   "Ventilation TFV",
+   "Doublure et joues lavables"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polymère durable)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "TFV (True Functional Ventilation)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Matière : polycarbonate dans certains textes, polymère dans d'autres ; retenu 'polymère'. Norme 22.05 sur une version ; ligne omise."
+  ]
+ }
+]

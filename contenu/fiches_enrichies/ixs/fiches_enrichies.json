@@ -1,0 +1,590 @@
+[
+ {
+  "modele": "217 2.0",
+  "marque": "IXS",
+  "nb_fiches": 6,
+  "motif": "\\y(ixs ?)?217 2\\.0\\y",
+  "accroche": "L'intégral IXS 217 2.0 : polycarbonate, pare-soleil intégré, environ 1 550 g annoncés, homologué ECE 22.06.",
+  "description": "Le 217 2.0 est un intégral à coque en polycarbonate, en deux tailles de coque. Sa visière transparente à dégagement rapide est prête pour le Pinlock, et un pare-soleil intégré se rabat à la demande. Déflecteur de respiration et de vent, doublure en polyester lavable : un intégral polyvalent.",
+  "profil_position": 60,
+  "points_forts": [
+   {
+    "texte": "Intégral à coque en polycarbonate, deux tailles de coque et deux tailles d'EPS.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière transparente résistante aux rayures, à dégagement rapide.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil intégré à rabattre.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Environ 1 550 g (± 50 g) annoncés par le constructeur.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Déflecteur de respiration et de vent, homologation ECE 22.06.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure en polyester et coussinets de joues amovibles et lavables.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Intégral en polycarbonate, 2 coques",
+   "Pare-soleil intégré à rabattre",
+   "Visière à dégagement rapide",
+   "Doublure et joues lavables"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate, 2 tailles de coque)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "À cliquet",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Transparente, résistante aux rayures, dégagement rapide",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré, à rabattre",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Pinlock préparé, non fourni : ligne omise. Version 217 1.0 exclue."
+  ]
+ },
+ {
+  "modele": "912 SV 2.0 Blade",
+  "marque": "IXS",
+  "nb_fiches": 6,
+  "motif": "\\y(ixs ?)?912 ?sv 2\\.0\\y",
+  "accroche": "L'intégral IXS 912 SV 2.0 Blade : champ de vision panoramique, pare-soleil intégré, déflecteur de souffle, ECE 22.06.",
+  "description": "Le 912 SV 2.0 Blade est un intégral au champ de vision panoramique, avec une visière claire à ouverture rapide prête pour le Pinlock. Son pare-soleil intégré se rabat à l'intérieur et un déflecteur de souffle et de vent calme les turbulences. Deux tailles de coque, homologation ECE 22.06.",
+  "profil_position": 60,
+  "points_forts": [
+   {
+    "texte": "Champ de vision panoramique, visière claire résistante aux rayures à ouverture rapide.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil intégré, à rabattre à l'intérieur.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Déflecteur de souffle et de vent.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Aération à la tête et au menton.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Deux tailles de coque et deux tailles d'EPS, homologation ECE 22.06.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure et coussinets de joues amovibles et lavables.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Champ de vision panoramique",
+   "Pare-soleil intégré à rabattre",
+   "Déflecteur de souffle et de vent",
+   "Doublure et joues lavables"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "À cliquet",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Claire, résistante aux rayures, ouverture rapide",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré, à rabattre",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Tête et menton",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Matière de coque non précisée : ligne omise. Pinlock préparé, non fourni : ligne omise. Version 912 SV 1.0 exclue."
+  ]
+ },
+ {
+  "modele": "868",
+  "marque": "IXS",
+  "nb_fiches": 4,
+  "motif": "\\y(ixs ?)?868\\y",
+  "accroche": "Le jet IXS 868 : environ 1 450 g annoncés, longue visière, pare-soleil intégré et spoiler aérodynamique, ECE 22.06.",
+  "description": "Le 868 est un jet à la longue visière transparente résistante aux rayures, avec pare-soleil intégré qui se rabat. Son spoiler aérodynamique à l'arrière accompagne la sortie d'air. Environ 1 450 g annoncés, une taille de coque et deux tailles d'EPS, homologation ECE 22.06.",
+  "profil_position": 15,
+  "points_forts": [
+   {
+    "texte": "Longue visière transparente résistante aux rayures.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil intégré, à rabattre.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Sortie d'air avec spoiler aérodynamique.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Environ 1 450 g (± 50 g) annoncés par le constructeur.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologation ECE 22.06, une taille de coque et deux tailles d'EPS.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure et coussinets de joues amovibles et lavables.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Jet à longue visière",
+   "Pare-soleil intégré à rabattre",
+   "Spoiler aérodynamique à l'arrière",
+   "Environ 1 450 g annoncés"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "À micro-cliquet",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Longue, transparente, résistante aux rayures",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré, à rabattre",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Tête et menton, sortie d'air avec spoiler",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Matière de coque non précisée : ligne Coque omise. Fiches 'iXS868 SV 1.0' regroupées avec le 868 (même famille, descriptions voisines)."
+  ]
+ },
+ {
+  "modele": "363 2.0",
+  "marque": "IXS",
+  "nb_fiches": 4,
+  "motif": "\\y(ixs ?)?363 2\\.0\\y",
+  "accroche": "Le casque cross IXS 363 2.0 : coque polycarbonate, ventilation front et menton, environ 1 450 g annoncés, ECE 22.06.",
+  "description": "Le 363 2.0 est un casque cross à coque en polycarbonate, en une taille de coque et deux tailles d'EPS. Ventilé au front et au menton, il se ferme par un micro-cliquet facile à manier avec des gants. Doublure en polyester amovible et lavable, homologation ECE 22.06.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Casque cross à coque en polycarbonate, une taille de coque et deux tailles d'EPS.",
+    "preuve": "fabricant",
+    "source": "iXS (site officiel), fiche iXS363 2.0"
+   },
+   {
+    "texte": "Homologation ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "iXS (site officiel), fiche iXS363 2.0"
+   },
+   {
+    "texte": "Environ 1 450 g (± 50 g) annoncés par le constructeur.",
+    "preuve": "fabricant",
+    "source": "iXS (site officiel), fiche iXS363 2.0"
+   },
+   {
+    "texte": "Ventilation au front et au menton.",
+    "preuve": "fabricant",
+    "source": "iXS (site officiel), fiche iXS363 2.0"
+   },
+   {
+    "texte": "Fermeture à micro-cliquet.",
+    "preuve": "fabricant",
+    "source": "iXS (site officiel), fiche iXS363 2.0"
+   },
+   {
+    "texte": "Doublure 100 % polyester et coussinets de joues amovibles et lavables.",
+    "preuve": "fabricant",
+    "source": "iXS (site officiel), fiche iXS363 2.0"
+   }
+  ],
+  "points_forts_courts": [
+   "Cross à coque en polycarbonate",
+   "Environ 1 450 g annoncés",
+   "Ventilé au front et au menton",
+   "Doublure et joues lavables"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate)",
+    "source": "iXS (site officiel), fiche iXS363 2.0"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "iXS (site officiel), fiche iXS363 2.0"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micro-cliquet",
+    "source": "iXS (site officiel), fiche iXS363 2.0"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Front et menton",
+    "source": "iXS (site officiel), fiche iXS363 2.0"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "iXS (site officiel), fiche iXS363 2.0"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Version 363 1.0 exclue."
+  ]
+ },
+ {
+  "modele": "189FG 2.0",
+  "marque": "IXS",
+  "nb_fiches": 2,
+  "motif": "\\y189 ?fg 2\\.0\\y",
+  "accroche": "Le casque cross IXS 189FG 2.0 : coque en fibre de verre, environ 1 000 g annoncés, fermeture double anneau en D.",
+  "description": "Le 189FG 2.0 est un casque cross à coque en fibre de verre, qui annonce environ 1 000 g sur la balance du constructeur. Il existe en deux tailles de coque et deux tailles d'EPS, avec une aération à l'avant de la tête et au menton. Doublure lavable, homologation ECE 22.06 : prêt pour la piste comme pour le chemin.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Coque cross en fibre de verre, deux tailles de coque et deux tailles d'EPS.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Environ 1 000 g (± 50 g) annoncés par le constructeur.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologation ECE 22.06.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Aération à l'avant de la tête et au menton.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture double anneau en D.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure intérieure et coussinets de joues amovibles et lavables.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Cross en fibre de verre, environ 1 000 g",
+   "Fermeture double anneau en D",
+   "Aération tête et menton",
+   "Doublure et joues lavables"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Fibre de verre (2 tailles de coque)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Avant de la tête et menton",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Poids annoncé (fabricant), non vérifié par SHARP. Version 1.0 exclue."
+  ]
+ },
+ {
+  "modele": "301 1.0",
+  "marque": "IXS",
+  "nb_fiches": 2,
+  "motif": "\\y301 1\\.0\\y",
+  "accroche": "Le modulable IXS 301 1.0 : coque polycarbonate, pare-soleil intégré, canal pour lunettes dans les joues.",
+  "description": "Le 301 1.0 est un modulable à coque en polycarbonate, à la mentonnière qui bascule. Sa visière transparente se démonte vite et accueille un Pinlock, tandis qu'un pare-soleil intégré se rabat à l'intérieur. Un canal pour lunettes est intégré aux coussinets de joues.",
+  "profil_position": 30,
+  "points_forts": [
+   {
+    "texte": "Modulable à coque en polycarbonate, mentonnière à bascule.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière transparente résistante aux rayures, à dégagement rapide.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil intégré, à rabattre.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Canal pour lunettes intégré dans le coussinet de joue.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Aération à l'avant de la tête et au menton.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure intérieure amovible et lavable.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Modulable à mentonnière basculante",
+   "Pare-soleil intégré à rabattre",
+   "Canal pour lunettes dans les joues",
+   "Doublure amovible et lavable"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "À cliquet",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Transparente, résistante aux rayures, dégagement rapide",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré, à rabattre",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Avant de la tête et menton",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Norme non précisée dans la description : ligne omise. Pinlock préparé, non fourni : ligne omise."
+  ]
+ },
+ {
+  "modele": "422 FG 2.2",
+  "marque": "IXS",
+  "nb_fiches": 2,
+  "motif": "\\y422 ?fg 2\\.2\\y",
+  "accroche": "L'intégral IXS 422 FG 2.2 : coque composite fibre de verre et aramide, Pinlock fourni, environ 1 350 g annoncés.",
+  "description": "Le 422 FG 2.2 est un intégral à coque composite en fibre de verre et aramide, annoncé autour de 1 350 g. Il offre une visière transparente à changement rapide avec double verrouillage, un Pinlock fourni et un pare-soleil intégré rétractable. Deux tailles de coque, trois tailles d'EPS, homologation ECE 22.06.",
+  "profil_position": 80,
+  "points_forts": [
+   {
+    "texte": "Coque composite en fibre de verre et aramide, deux tailles de coque et trois tailles d'EPS.",
+    "preuve": "fabricant",
+    "source": "iXS (site officiel), fiche iXS422 FG 2.2"
+   },
+   {
+    "texte": "Environ 1 350 g (± 50 g) annoncés par le constructeur.",
+    "preuve": "fabricant",
+    "source": "iXS (site officiel), fiche iXS422 FG 2.2"
+   },
+   {
+    "texte": "Visière transparente résistante aux rayures, à changement rapide, avec double système de verrouillage.",
+    "preuve": "fabricant",
+    "source": "iXS (site officiel), fiche iXS422 FG 2.2"
+   },
+   {
+    "texte": "Pinlock fourni et pare-soleil intégré rétractable.",
+    "preuve": "fabricant",
+    "source": "iXS (site officiel), fiche iXS422 FG 2.2"
+   },
+   {
+    "texte": "Ventilation au front et au menton, déflecteur de respiration et de vent.",
+    "preuve": "fabricant",
+    "source": "iXS (site officiel), fiche iXS422 FG 2.2"
+   },
+   {
+    "texte": "Canal pour lunettes dans les joues, homologation ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "iXS (site officiel), fiche iXS422 FG 2.2"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque composite en fibre de verre et aramide",
+   "Pinlock fourni, pare-soleil intégré",
+   "Environ 1 350 g annoncés",
+   "Double verrouillage de la visière"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Composite (fibre de verre et aramide, 2 tailles de coque)",
+    "source": "iXS (site officiel), fiche iXS422 FG 2.2"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "iXS (site officiel), fiche iXS422 FG 2.2"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "À cliquet",
+    "source": "iXS (site officiel), fiche iXS422 FG 2.2"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Transparente, résistante aux rayures, changement rapide",
+    "source": "iXS (site officiel), fiche iXS422 FG 2.2"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock fourni",
+    "source": "iXS (site officiel), fiche iXS422 FG 2.2"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré, rétractable",
+    "source": "iXS (site officiel), fiche iXS422 FG 2.2"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Front et menton",
+    "source": "iXS (site officiel), fiche iXS422 FG 2.2"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "iXS (site officiel), fiche iXS422 FG 2.2"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Les versions 2.1 (MIPS) et 2.16 SV sont exclues."
+  ]
+ }
+]

@@ -1,0 +1,1242 @@
+[
+ {
+  "modele": "N60-6",
+  "marque": "Nolan",
+  "nb_fiches": 60,
+  "motif": "n-?60-?6\\y",
+  "accroche": "L'intégral routier de Nolan au look sportif : écran solaire, Pinlock et ventilation Airbooster réunis.",
+  "description": "Le N60-6 est l'intégral de route de Nolan, à l'aise en ville comme sur les routes sinueuses du week-end. Vous trouvez à bord un écran solaire rétractable, une visière extra-large livrée avec son film Pinlock et la ventilation Airbooster. La version Sport ajoute un aileron aérodynamique pour une allure plus racée.",
+  "profil_position": 55,
+  "points_forts": [
+   {
+    "texte": "Écran solaire intégré VPS, réglable, avec protection UV400 et traitement anti-rayures.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière extra-large traitée anti-rayures, livrée avec un film antibuée Pinlock.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation Airbooster : deux entrées en haut, une à la mentonnière et un extracteur d'air arrière.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture micrométrique Microlock et doublure Clima Comfort amovible et lavable.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologué ECE 22.06, avec coque en polycarbonate Lexan en deux tailles.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Version Sport : aileron aérodynamique testé en soufflerie, pour la stabilité à haute vitesse.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Écran solaire intégré, réglable",
+   "Pinlock fourni avec la visière large",
+   "Aération en 3 points, extracteur arrière",
+   "Homologué ECE 22.06, look sportif"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 400 g (± 50 g, taille M, version Classico)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate Lexan), 2 tailles de coque",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique Microlock",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Extra-large, traitée anti-rayures, démontage rapide",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Écran solaire VPS réglable, UV400",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Airbooster : 2 entrées hautes, entrée mentonnière, extracteur arrière",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XXS à 3XL",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "La version Sport ajoute un aileron et pèse environ 1 470 g (± 50 g, taille M).",
+   "Le casque accepte une bavette anti-vent, vendue séparément."
+  ],
+  "alertes_qualite": [
+   "Pas de test SHARP pour le N60-6 (seul le N60-5, 22.05, figure dans sharp.csv).",
+   "Flux divergents sur le Pinlock : fourni (3 sources) mais 'préparé' sur quelques fiches ; versions mélangées.",
+   "Homologation 'P' côté flux sans numéro de norme ; 22.06 confirmé par 3 autres flux.",
+   "Catalogue mêle N60-6 de route et N60-6 Sport (poids et aileron différents)."
+  ]
+ },
+ {
+  "modele": "N20-2",
+  "marque": "Nolan",
+  "nb_fiches": 58,
+  "motif": "n-?20-?2\\y",
+  "accroche": "Le jet urbain de Nolan : coque Lexan, ventilation Airbooster et prédisposition intercom, en version avec ou sans écran.",
+  "description": "Le N20-2 est le jet de Nolan pour la ville, le scooter et les petites routes. Sa coque en polycarbonate Lexan s'accompagne d'une ventilation Airbooster qui canalise l'air jusqu'à l'extracteur arrière. Il existe en version Visor avec écran intégré et écran solaire.",
+  "profil_position": 12,
+  "points_forts": [
+   {
+    "texte": "Coque en polycarbonate Lexan et EPS multi-densité en 5 tailles.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation Airbooster : l'air entre par le haut et sort par un extracteur arrière.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran solaire VPS réglable sur 3 positions (version Visor).",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Prédisposé pour l'intercom N-Com Bluetooth et adapté aux porteurs de lunettes.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture Microlock rapide, homologué ECE 22.06.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Écran solaire réglable (version Visor)",
+   "Aération Airbooster jusqu'à l'arrière",
+   "Prêt pour un intercom Bluetooth",
+   "Compatible porteurs de lunettes"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate Lexan)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique Microlock",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Airbooster, extracteur arrière",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Audio",
+    "valeur": "Logements prévus pour haut-parleurs (intercom N-Com en option)",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "La version Visor ajoute un écran et un écran solaire intégrés."
+  ],
+  "alertes_qualite": [
+   "Aucun poids, aucun SHARP.",
+   "Un flux décrit le Visor comme 'casque intégral' : erreur marchande, c'est un jet.",
+   "Norme 22.06 donnée par un seul flux détaillé."
+  ]
+ },
+ {
+  "modele": "N80-8",
+  "marque": "Nolan",
+  "nb_fiches": 35,
+  "motif": "n-?80-?8\\y",
+  "accroche": "L'intégral routier héritier du N87 : Pinlock fourni, écran solaire, ouverture d'urgence des joues et ventilation Airbooster.",
+  "description": "Le N80-8 est l'intégral de route haut de gamme de Nolan, héritier du N87. Il convient aux trajets du quotidien comme aux longues sorties. Sa fermeture à double rétention, son écran solaire à rétractation automatique et son système d'extraction d'urgence des joues en font un casque complet.",
+  "profil_position": 40,
+  "points_forts": [
+   {
+    "texte": "Fermeture Microlock2 à double système de rétention, réglage micrométrique.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "NERS : les mousses de joues se retirent rapidement pour faciliter l'extraction du casque après un accident.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière extra-large anti-rayures livrée avec un film Pinlock, plus écran solaire VPS rétractable.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation Airbooster avec extracteur arrière, coiffe en maille et doublure Clima Comfort Top.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Réglage de la position de la doublure (LPC) et système Eyewear Adaptive pour les lunettes.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologué ECE 22.06, avec doublure prévue pour les écouteurs d'intercom N-Com.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Pinlock fourni et écran solaire intégré",
+   "Joues amovibles en urgence (NERS)",
+   "Fermeture à double rétention Microlock2",
+   "Homologué ECE 22.06, prêt pour intercom"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 530 g (± 50 g, taille M)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate Lexan), 2 tailles de coque",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique Microlock2, double rétention",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Extra-large, anti-rayures, mécanisme de décrochage rapide",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Écran solaire VPS réglable, UV400, rétractation automatique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Airbooster, aération supérieure, extracteur arrière",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible (Clima Comfort Top)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Audio",
+    "valeur": "Logements prévus pour haut-parleurs (intercom N-Com en option)",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Une bavette anti-remous est fournie selon les descriptions des versions."
+  ],
+  "alertes_qualite": [
+   "Pas de test SHARP pour le N80-8.",
+   "Revendeur indique 1 636 g, flux fabricant 1 530 g (± 50 g) : on retient 1 530 g.",
+   "Homologation 'P' côté flux sans numéro ; 22.06 confirmé par d'autres flux.",
+   "'Lexan le plus résistant du marché' dans les flux : superlatif non repris.",
+   "Bavette : incluse selon 2 flux, non précisée ailleurs."
+  ]
+ },
+ {
+  "modele": "N120-1",
+  "marque": "Nolan",
+  "nb_fiches": 33,
+  "motif": "n-?120-?1\\y",
+  "accroche": "Le modulable à mentonnière flip-back de Nolan : elle bascule à 180° derrière la coque. Noté 4 étoiles SHARP.",
+  "description": "Le N120-1 est le premier modulable « flip-back » de Nolan : la mentonnière pivote vers l'arrière, au-dessus de la coque, pour passer du casque intégral au casque ouvert. Il a obtenu 4 étoiles au test SHARP d'août 2025. Double homologation intégral/jet et ventilation Airbooster complètent le tableau.",
+  "profil_position": 30,
+  "points_forts": [
+   {
+    "texte": "4 étoiles au test SHARP, norme ECE 22.06 (test d'août 2025).",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche N120-1, août 2025"
+   },
+   {
+    "texte": "Mentonnière flip-back qui pivote à 180° vers l'arrière au lieu de pendre devant la coque.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Double homologation intégral/jet (P/J) pour rouler mentonnière relevée en jet.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ouverture Dual Action de la mentonnière, avec mécanisme à pivot unique.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran solaire VPS, visière ultra-large anti-rayures et adaptation aux lunettes (Eyewear Adaptive).",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation Airbooster, coiffe en maille et compatibilité avec l'intercom N-Com et le feu de freinage ESS III.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Mentonnière flip-back à 180°",
+   "4 étoiles au test SHARP",
+   "Double homologation intégral et jet",
+   "Écran solaire intégré, compatible lunettes"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 700 g (pesée SHARP)",
+    "source": "SHARP (ministère des transports britannique), fiche N120-1, août 2025"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "SHARP (ministère des transports britannique), fiche N120-1, août 2025"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate Lexan), 2 tailles de coque",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique Microlock2",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Ultra-large, anti-rayures, prête pour un film Pinlock",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Écran solaire VPS intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Airbooster",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Audio",
+    "valeur": "Logements prévus pour haut-parleurs (intercom N-Com en option)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XXS à 3XL",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": {
+   "sharp_etoiles": 4,
+   "date_test": "août 2025",
+   "norme": "ECE 22.06"
+  },
+  "a_savoir": [
+   "Le casque est prévu pour recevoir l'intercom N-Com, vendu en option."
+  ],
+  "alertes_qualite": [
+   "SHARP liste XS à XL (tailles testées) alors que les flux annoncent XXS à 3XL : on affiche les flux.",
+   "Poids : SHARP 1 700 g, flux 1 670 g (± 50 g) ; on retient SHARP.",
+   "Pinlock : 'avec système Pinlock' ambigu, ligne omise."
+  ]
+ },
+ {
+  "modele": "X-904 Ultra Carbon",
+  "marque": "Nolan",
+  "nb_fiches": 25,
+  "motif": "x-?904\\y",
+  "accroche": "L'intégral carbone de Nolan entre piste et tourisme : coque légère, Pinlock fourni, écran solaire et second écran fumé.",
+  "description": "Le X-904 Ultra Carbon associe la protection d'un casque de course et le confort d'un modèle de tourisme. Sa coque en carbone, légère et compacte, limite la fatigue sur longues distances. Il existe en versions I-ESS, avec feu de freinage intégré, et Quin, avec détection d'accident.",
+  "profil_position": 70,
+  "points_forts": [
+   {
+    "texte": "Coque en carbone Ultra Carbon, légère et à faible volume, en 3 tailles.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure ajustable (LAF), mousses 3D Steadyfit et système Eyewear Adaptive pour les lunettes.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran extra-large à montage magnétique, Pinlock fourni, écran solaire VPS UV400 et second écran fumé offert.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation à entrées réglables et extracteur arrière, prédisposition intercom N-Com.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Version I-ESS : LED à 360° et feu stop automatique au freinage.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Version Quin : détection d'accident et alerte des secours via le smartphone.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque carbone légère pour la distance",
+   "Pinlock fourni, second écran fumé offert",
+   "Version avec feu de freinage intégré",
+   "Version avec alerte accident (Quin)"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Carbone (Ultra Carbon), 3 tailles de coque",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Extra-large, montage magnétique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Écran solaire VPS réglable, UV400",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Entrées réglables et extracteur arrière",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Audio",
+    "valeur": "Logements prévus pour haut-parleurs (intercom N-Com en option)",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Les versions I-ESS et Quin sont à repérer dans le nom de la fiche.",
+   "Le casque est livré avec cache-nez et bavette anti-remous."
+  ],
+  "alertes_qualite": [
+   "Aucun poids ni SHARP trouvé.",
+   "Norme 22.06 donnée par un seul flux détaillé.",
+   "Catalogue mêle versions standard, I-ESS et Quin."
+  ]
+ },
+ {
+  "modele": "N100-6",
+  "marque": "Nolan",
+  "nb_fiches": 20,
+  "motif": "n-?100-?6\\y",
+  "accroche": "Le modulable voyage de Nolan : mentonnière à trajectoire elliptique, pare-soleil intégré, double homologation intégral/jet.",
+  "description": "Le N100-6 est le modulable haut de gamme de Nolan, pensé pour les longs trajets et les départs à l'aube. Sa mentonnière suit une trajectoire elliptique et se rapproche de la coque une fois relevée, ce qui limite la prise au vent. Écran solaire intégré, doublure amovible et compatibilité lunettes : il est prêt pour la route.",
+  "profil_position": 30,
+  "points_forts": [
+   {
+    "texte": "Rotation elliptique de la mentonnière : plus proche de la coque une fois relevée, moins de résistance au vent.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ouverture Dual Action de la mentonnière, d'une seule main.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Double homologation intégral/jet (P/J), norme ECE 22.06.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran solaire intégré, doublure amovible et compatibilité avec les lunettes.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation Airbooster et fermeture micrométrique Microlock2.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Garantie de 5 ans annoncée sur la plupart des coloris.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Mentonnière elliptique, moins de vent",
+   "Ouverture d'une main, double sécurité",
+   "Écran solaire intégré, compatible lunettes",
+   "Double homologation intégral et jet"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 650 g (± 50 g, taille M)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate Lexan), 2 tailles de coque",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique Microlock2",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Ultra-large, déverrouillage rapide",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Écran solaire intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Airbooster",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Audio",
+    "valeur": "Logements prévus pour haut-parleurs (intercom N-Com en option)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Certains coloris sont des éditions N-Com testées en soufflerie."
+  ],
+  "alertes_qualite": [
+   "Pas de test SHARP pour le N100-6 (N100-5 Plus : autre modèle).",
+   "Revendeur : 1 768 g contre 1 650 g (± 50 g) côté fabricant : on retient 1 650 g.",
+   "Garantie 5 ans absente de 4 coloris du tableau revendeur (Legend/Paloma) : à confirmer.",
+   "Graphismes Assoluto, Cinetico, Radiante, Scia mêlés : même casque."
+  ]
+ },
+ {
+  "modele": "X-804 RS Ultra Carbon",
+  "marque": "Nolan",
+  "nb_fiches": 18,
+  "motif": "x-?804 rs\\y",
+  "accroche": "Le casque piste en carbone de Nolan, inspiré du MotoGP et du Superbike. 4 étoiles SHARP, 1 400 g pesés.",
+  "description": "Le X-804 RS Ultra Carbon est le casque de course de Nolan. Sa coque en carbone, disponible en 4 tailles, reste à 1 400 g à la pesée SHARP. Il a obtenu 4 étoiles au test d'avril 2026, en norme ECE 22.06.",
+  "profil_position": 95,
+  "points_forts": [
+   {
+    "texte": "4 étoiles au test SHARP, norme ECE 22.06 (avril 2026).",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche X-804 RS Ultra Carbon, avril 2026"
+   },
+   {
+    "texte": "Pesé à 1 400 g par SHARP, avec une coque en fibre de carbone.",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche X-804 RS Ultra Carbon, avril 2026"
+   },
+   {
+    "texte": "Coque en carbone disponible en 4 tailles extérieures pour un ajustement précis.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Système NERS : retrait rapide des joues en urgence, plus verrouillage de sécurité de la visière.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Aileron aérodynamique de piste, testé en soufflerie sur de nombreux coloris.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture à double anneau en D, ventilation multipoint, garantie de 5 ans annoncée.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "4 étoiles SHARP, norme 22.06",
+   "Coque carbone de 1 400 g",
+   "Aileron testé en soufflerie",
+   "Joues amovibles en urgence (NERS)"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 400 g (pesée SHARP)",
+    "source": "SHARP (ministère des transports britannique), fiche X-804 RS Ultra Carbon, avril 2026"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "SHARP (ministère des transports britannique), fiche X-804 RS Ultra Carbon, avril 2026"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Carbone (Ultra Carbon), 4 tailles de coque",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "SHARP (ministère des transports britannique), fiche X-804 RS Ultra Carbon, avril 2026"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Ultra-large, anti-rayures, verrouillage de sécurité",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Multipoint",
+    "source": "SHARP (ministère des transports britannique), fiche X-804 RS Ultra Carbon, avril 2026"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible",
+    "source": "SHARP (ministère des transports britannique), fiche X-804 RS Ultra Carbon, avril 2026"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à XXL",
+    "source": "SHARP (ministère des transports britannique), fiche X-804 RS Ultra Carbon, avril 2026"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": {
+   "sharp_etoiles": 4,
+   "date_test": "avril 2026",
+   "norme": "ECE 22.06"
+  },
+  "a_savoir": [
+   "Il se décline en versions FIM et en éditions spéciales (Replica).",
+   "Un système d'hydratation est prévu sur de nombreux coloris."
+  ],
+  "alertes_qualite": [
+   "Flux fabricant 1 390 g (± 50 g) contre SHARP 1 400 g : cohérent.",
+   "Garantie 5 ans issue d'un tableau revendeur : à confirmer.",
+   "Catalogue mêle RS Ultra Carbon et éditions FIM/Replica."
+  ]
+ },
+ {
+  "modele": "N90-3",
+  "marque": "Nolan",
+  "nb_fiches": 16,
+  "motif": "n-?90-?3\\y",
+  "accroche": "Le modulable abordable de Nolan : mentonnière à double sécurité, écran solaire et Airbooster.",
+  "description": "Le N90-3 est un modulable d'entrée de gamme chez Nolan, pensé pour la ville et le tourisme. Sa mentonnière s'ouvre d'une main grâce à un mécanisme à double action qui limite l'ouverture accidentelle. Les versions « 06 » sont homologuées intégral/jet selon la norme ECE 22.06.",
+  "profil_position": 30,
+  "points_forts": [
+   {
+    "texte": "Mentonnière à double action : on actionne d'abord le verrou de sécurité puis le levier, d'une seule main.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Double homologation intégral/jet (P/J), norme ECE 22.06 sur les versions « 06 ».",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran solaire VPS rétractable, traité anti-rayures et anti-buée, protection UV400.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation Airbooster et fermeture micrométrique Microlock2 à double rétention.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en polycarbonate Lexan avec EPS en 5 tailles, de XXS à XXL.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Mentonnière à double sécurité, d'une main",
+   "Double homologation intégral et jet",
+   "Écran solaire intégré anti-buée",
+   "Tailles du XXS au XXL"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 630 g (± 50 g, taille M, version 06)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06 (versions « 06 »)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate Lexan)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique Microlock2, double rétention",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Ultra-large, anti-rayures",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Écran solaire VPS rétractable, UV400",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Airbooster",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible (Clima Comfort)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XXS à XXL",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Le casque est compatible avec le feu de freinage ESS III."
+  ],
+  "alertes_qualite": [
+   "SHARP a testé le N90-3 en ECE 22.05 (août 2022, 4 étoiles, 1 650 g, XXS-XXL) : pas la version 22.06 vendue, securite laissée à null.",
+   "Catalogue mêle N90-3 (22.05) et N90-3 06 (22.06).",
+   "Pinlock : fourni selon un flux, absent de la version Special : ligne omise."
+  ]
+ },
+ {
+  "modele": "N40-6",
+  "marque": "Nolan",
+  "nb_fiches": 13,
+  "motif": "n-?40-?6\\y",
+  "accroche": "Le jet trois-quarts urbain de Nolan : coque Lexan EXL, double écran solaire intégré et prédisposition N-Com.",
+  "description": "Le N40-6 est un jet conçu pour la ville et le scooter. Sa coque jet trois-quarts couvre davantage les tempes et la nuque qu'un demi-jet. Un double écran solaire intégré et un long écran transparent complètent l'équipement.",
+  "profil_position": 15,
+  "points_forts": [
+   {
+    "texte": "Coque jet trois-quarts en polycarbonate Lexan EXL, qui couvre plus largement tempes et nuque.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Double écran solaire intégré, traité anti-buée.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Long écran transparent à champ de vision panoramique.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Prédisposé pour le système de communication Nolan N-Com.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque jet trois-quarts couvrante",
+   "Double écran solaire intégré",
+   "Longue visière panoramique",
+   "Prédisposé pour l'intercom N-Com"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate Lexan EXL)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Longue, transparente, panoramique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Double écran solaire intégré, anti-buée",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Audio",
+    "valeur": "Logements prévus pour haut-parleurs (intercom N-Com en option)",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Aucune norme, poids ni SHARP trouvés pour le N40-6.",
+   "Descriptions marchandes très marketing ('isolation phonique excellente') non reprises."
+  ]
+ },
+ {
+  "modele": "X-804 ST Ultra Carbon",
+  "marque": "Nolan",
+  "nb_fiches": 12,
+  "motif": "x-?804 st\\y",
+  "accroche": "La version route du casque piste de Nolan : même coque carbone, aileron plus compact.",
+  "description": "Le X-804 ST Ultra Carbon reprend la coque haute performance du X-804 RS de piste, et la même architecture de sécurité. L'aileron arrière agressif laisse place à un profil plus compact, pensé pour la route. Il s'adresse aux motards sportifs qui roulent vite sur route.",
+  "profil_position": 80,
+  "points_forts": [
+   {
+    "texte": "Même coque haute performance et même architecture de sécurité que le X-804 RS de piste.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque à forte teneur en carbone, qui allège le casque.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Aileron arrière profilé et plus compact que celui du RS.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur haut de gamme pensé pour le confort.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque carbone légère",
+   "Même base que le X-804 RS de piste",
+   "Aileron compact pour la route",
+   "Intérieur haut de gamme confortable"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Carbone (Ultra Carbon)",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "ST absent de sharp.csv et du tableau revendeur : securite null, pas de poids ni norme.",
+   "Texte 'même coque que le RS' vient d'un seul flux."
+  ]
+ },
+ {
+  "modele": "N40-5",
+  "marque": "Nolan",
+  "nb_fiches": 6,
+  "motif": "n-?40-?5\\y",
+  "accroche": "Le jet urbain de Nolan : ventilation Airbooster, visière large anti-rayures et prédisposition intercom N-Com.",
+  "description": "Le N40-5 est un jet contemporain pour les trajets urbains et les escapades. Sa coque en polycarbonate Lexan s'allie à une visière ultra-large et à la ventilation Airbooster. Il est prêt à accueillir un intercom N-Com.",
+  "profil_position": 15,
+  "points_forts": [
+   {
+    "texte": "Coque en polycarbonate Lexan conçue pour absorber l'énergie d'un choc.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation Airbooster qui améliore la circulation de l'air.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière ultra-large traitée anti-rayures.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure Clima Comfort amovible et lavable.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Prêt pour l'intercom N-Com ; version I-ESS avec feu de freinage ESS III.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Visière ultra-large anti-rayures",
+   "Ventilation Airbooster",
+   "Prêt pour l'intercom N-Com",
+   "Doublure lavable"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 350 g (± 50 g, taille M, version 06)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate Lexan)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique Microlock",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Airbooster",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Audio",
+    "valeur": "Logements prévus pour haut-parleurs (intercom N-Com en option)",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Une version I-ESS ajoute un signal de freinage lumineux (ESS III)."
+  ],
+  "alertes_qualite": [
+   "Norme : ECE 22-05 sur un flux (Special), versions '06' sans numéro : ligne omise.",
+   "Un flux copie 'Dual Action' (modulable) sur le N40-5 06 : ignoré.",
+   "Catalogue mêle N40-5 et N40-5 06."
+  ]
+ },
+ {
+  "modele": "N21",
+  "marque": "Nolan",
+  "nb_fiches": 4,
+  "motif": "n-?21\\y",
+  "accroche": "Le mini-jet de Nolan, léger et urbain : tour de cou, écran solaire en version Visor, bague d'accroche pour le casque.",
+  "description": "Le N21 est un mini-jet urbain, léger et moderne, pensé pour le scooter et les motos custom. Il offre une coque en polycarbonate Lexan, un tour de cou et une doublure amovible. La version Visor ajoute un écran large et un écran solaire.",
+  "profil_position": 12,
+  "points_forts": [
+   {
+    "texte": "Coque en polycarbonate Lexan légère, en 2 tailles de coque.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Tour de cou et doublure Clima Comfort amovible pour limiter le bruit du vent.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Bague d'accroche pour suspendre le casque à la moto.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran large traité anti-rayures des deux côtés (version Visor).",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture micrométrique Microlock.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Mini-jet léger pour la ville",
+   "Bague pour accrocher le casque à la moto",
+   "Tour de cou contre le vent",
+   "Écran solaire intégré (version Visor)"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 250 g (± 50 g, taille M, version Visor 06)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate Lexan), 2 tailles de coque",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique Microlock",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible (Clima Comfort)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XXS à XL",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Les versions « 06 » indiquent la norme ECE 22.06 ; d'autres versions restent en 22.05."
+  ],
+  "alertes_qualite": [
+   "Normes mélangées dans les flux (22.05 et 22.06) : ligne Norme omise.",
+   "Pas de SHARP."
+  ]
+ },
+ {
+  "modele": "N70-2 X",
+  "marque": "Nolan",
+  "nb_fiches": 2,
+  "motif": "n-?70-?2 ?x?\\y",
+  "accroche": "Le casque transformable de Nolan : 8 configurations, de l'intégral au jet, pour la route comme le hors-piste léger.",
+  "description": "Le N70-2 X est un casque transformable pour les motards qui mêlent route et tout-terrain. On ajoute ou retire la mentonnière, la casquette et la visière pour obtenir jusqu'à 8 configurations. Il est homologué intégral/jet (P/J).",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "8 configurations possibles : mentonnière, casquette et visière se retirent ou se remontent.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Double homologation intégral/jet (P/J).",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation Airbooster, utile sur route comme hors route.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran solaire VPS traité anti-rayures et anti-buée.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture micrométrique Microlock2.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "8 configurations en un seul casque",
+   "Double homologation intégral et jet",
+   "Ventilation Airbooster",
+   "Écran solaire intégré"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate Lexan)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique Microlock2",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Écran solaire VPS intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Airbooster",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Fiche 229657 'N70-2X 06' classée intégral/cross : code à vérifier.",
+   "N70-2 GT du tableau revendeur = autre modèle, non utilisé.",
+   "Norme sans numéro (P/J seulement)."
+  ]
+ },
+ {
+  "modele": "N53",
+  "marque": "Nolan",
+  "nb_fiches": 1,
+  "motif": "n-?53\\y",
+  "accroche": "Le casque cross de Nolan : large ouverture pour les masques, filtre à poussière lavable et Airbooster.",
+  "description": "Le N53 est un casque cross aux lignes agressives. Sa large ouverture accueille tous types de masques, et la forme arrière de la coque tient la sangle en place. Il est homologué ECE 22.05.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Large ouverture pour accueillir une grande variété de masques.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Forme arrière de coque pensée pour tenir la sangle du masque.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Filtre à poussière amovible et lavable à la mentonnière.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation Airbooster et doublure Clima Comfort amovible et lavable.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Large ouverture, tous masques cross",
+   "Sangle du masque bien maintenue",
+   "Filtre à poussière lavable",
+   "Ventilation Airbooster"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.05",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate Lexan), 2 tailles de coque",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Airbooster",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Une seule fiche au catalogue.",
+   "Norme 22.05 (ancienne) : à surveiller."
+  ]
+ }
+]

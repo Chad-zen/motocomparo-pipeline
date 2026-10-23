@@ -1,0 +1,975 @@
+[
+ {
+  "modele": "RB-671",
+  "marque": "Redbike",
+  "nb_fiches": 5,
+  "motif": "\\yrb-?671\\y",
+  "accroche": "Un jet vintage en fibre de verre à la coque très compacte, avec boucle à lunettes à l'arrière : le look d'époque, sans fioriture.",
+  "description": "Le RB-671 est un casque jet de style vintage à la coque très petite, qui épouse la tête au plus près. Sa coque est en fibre de verre, doublée de textile, avec une sangle à fermeture rapide à clic. Une boucle à l'arrière retient vos lunettes quand elles sont relevées.",
+  "profil_position": 10,
+  "points_forts": [
+   {
+    "texte": "Coque en fibre de verre, à la forme très compacte.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure textile.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Sangle de menton à fermeture rapide à clic.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Boucle intégrée à l'arrière pour retenir les lunettes.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque en fibre de verre",
+   "Très petite coque, look d'époque",
+   "Fermeture rapide à clic",
+   "Boucle à lunettes à l'arrière"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Fibre de verre",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Rapide à clic",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Textile",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Description marchande : version non homologuée ECE (usage à risques) ; norme volontairement omise de la fiche."
+  ]
+ },
+ {
+  "modele": "RB-720 Basic",
+  "marque": "Redbike",
+  "nb_fiches": 4,
+  "motif": "\\yrb-?720\\y",
+  "accroche": "Jet rétro en fibre de verre, 4 tailles de coque, homologué ECE 22.06 : un look classique avec une fermeture à cliquet.",
+  "description": "Le RB-720 Basic donne un air d'autrefois à vos trajets. Sa coque en fibre de verre existe en quatre tailles pour un bon ajustement, avec doublure textile et bords en faux cuir. La fermeture à cliquet se règle facilement, et le casque est certifié ECE 22.06.",
+  "profil_position": 15,
+  "points_forts": [
+   {
+    "texte": "Coque extérieure en fibre de verre.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Quatre tailles de coque pour s'ajuster à la tête.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Certifié selon la norme ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure intérieure en textile et bords en faux cuir.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture à cliquet.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Homologué ECE 22.06",
+   "Coque en fibre de verre, 4 tailles",
+   "Bords en faux cuir, look rétro",
+   "Fermeture à cliquet"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Fibre de verre",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "À cliquet",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Textile",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": []
+ },
+ {
+  "modele": "RB-680 / RB-681 Replica DDR",
+  "marque": "Redbike",
+  "nb_fiches": 4,
+  "motif": "\\yrb-?68[01]\\y",
+  "accroche": "Une réplique de casque de cyclomoteur est-allemand, en fibre de verre, avec ses rayures d'époque et sa coque très petite.",
+  "description": "Les RB-680 et RB-681 reprennent le style d'un casque de cyclomoteur de l'ex-RDA. Vous choisissez entre le rouge à rayures et le blanc cassé à rayures, sur une coque très compacte en fibre de verre. Doublure textile, fermeture rapide à clic et boucle à lunettes à l'arrière complètent le tableau.",
+  "profil_position": 10,
+  "points_forts": [
+   {
+    "texte": "Réplique d'un casque de cyclomoteur de la RDA.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en fibre de verre, très petite.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure textile.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Courroie de menton à fermeture rapide à clic.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Boucle intégrée à l'arrière pour les lunettes.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Réplique d'un casque de la RDA",
+   "Coque en fibre de verre",
+   "Rayures d'époque",
+   "Fermeture rapide à clic"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Fibre de verre",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Rapide à clic",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Textile",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Description marchande : version non homologuée ECE (usage à risques) ; norme volontairement omise de la fiche.",
+   "RB-680 (rouge) et RB-681 (blanc cassé) regroupés ; fiches 'RB-680/RB-681' communes."
+  ]
+ },
+ {
+  "modele": "RB-860 / RB-862",
+  "marque": "Redbike",
+  "nb_fiches": 4,
+  "motif": "\\yrb-?86[02]\\y",
+  "accroche": "Casque ouvert en fibre de verre avec pare-soleil teinté intégré, écran transparent et homologation ECE 22.06.",
+  "description": "Les RB-860 et RB-862 allient look rétro et équipement moderne. La coque en fibre de verre existe en trois tailles, avec doublure textile, bords imitation cuir et piqûres décoratives. Un écran extérieur transparent et un pare-soleil teinté intégré, le tout certifié ECE 22.06.",
+  "profil_position": 15,
+  "points_forts": [
+   {
+    "texte": "Coque extérieure en fibre de verre en trois tailles.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Certifié selon la norme ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran extérieur transparent.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil teinté intégré.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Bords imitation cuir avec piqûres décoratives de couleur coordonnée.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture à cliquet.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Pare-soleil teinté intégré",
+   "Homologué ECE 22.06",
+   "Coque en fibre de verre",
+   "Bords imitation cuir, piqûres déco"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Fibre de verre",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Écran extérieur transparent",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Teinté, intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "À cliquet",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Textile",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "RB-861 (2 fiches) non couvert : aucune description pour ce numéro."
+  ]
+ },
+ {
+  "modele": "RB-915",
+  "marque": "Redbike",
+  "nb_fiches": 3,
+  "motif": "\\yrb-?915\\y",
+  "accroche": "Jet en ABS avec visière anti-rayures et micro-boucle, homologué ECE 22.05 : une silhouette simple, du XS au XXL.",
+  "description": "Le RB-915 est un jet à la ligne épurée, à la coque ABS en deux tailles. Sa visière résiste aux rayures et la micro-boucle se règle d'une main. Doublure textile noire, tailles du XS au XXL, homologation ECE 22.05.",
+  "profil_position": 15,
+  "points_forts": [
+   {
+    "texte": "Coque en ABS en deux tailles de calotte.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière résistante aux rayures.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologué ECE 22.05.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture par micro-boucle.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Tailles du XS au XXL.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Visière anti-rayures",
+   "Homologué ECE 22.05",
+   "Coque ABS, 2 tailles de calotte",
+   "Du XS au XXL"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.05",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (ABS)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Anti-rayures",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Textile",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à XXL",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": []
+ },
+ {
+  "modele": "RB-520 Police",
+  "marque": "Redbike",
+  "nb_fiches": 3,
+  "motif": "\\yrb-?520\\y",
+  "accroche": "Un jet en fibre de verre inspiré d'un capitaine de police de série télé, avec col en cuir noir amovible.",
+  "description": "Le RB-520 Police a du caractère. Sa coque en fibre de verre s'habille d'un col en cuir noir amovible, fermé par une fermeture à glissière, et d'une doublure textile noire. Le design détaillé rappelle un capitaine de police de série culte.",
+  "profil_position": 10,
+  "points_forts": [
+   {
+    "texte": "Coque en fibre de verre.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Col en cuir noir amovible, avec fermeture à glissière.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure textile noire.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Boucle intégrée à l'arrière pour les lunettes.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Col en cuir noir amovible",
+   "Coque en fibre de verre",
+   "Design de capitaine de police",
+   "Boucle à lunettes à l'arrière"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Fibre de verre",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Textile",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Description marchande : version non homologuée ECE (usage à risques) ; norme volontairement omise de la fiche.",
+   "Fermeture contradictoire entre flux (double D / micro cliquet) : omise."
+  ]
+ },
+ {
+  "modele": "RB-675 / RB-676",
+  "marque": "Redbike",
+  "nb_fiches": 3,
+  "motif": "\\yrb-?67[56]\\y",
+  "accroche": "Jet vintage en fibre de verre livré avec une visière noire, doublure en velours doux et fermeture à cliquet réglable.",
+  "description": "Les RB-675 et RB-676 ont le style vintage de Redbike, avec une coque très compacte en fibre de verre. Une visière noire est livrée avec le casque, et la doublure textile en velours doux se révèle agréable. La fermeture à cliquet se règle à votre mesure.",
+  "profil_position": 10,
+  "points_forts": [
+   {
+    "texte": "Coque en fibre de verre, très petite.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière noire incluse.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure textile en velours doux.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture à cliquet réglable individuellement.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Boucle intégrée à l'arrière pour les lunettes.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Visière noire incluse",
+   "Doublure en velours doux",
+   "Fermeture à cliquet réglable",
+   "Coque en fibre de verre"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Fibre de verre",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Noire, incluse",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "À cliquet réglable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Textile",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Description marchande : version non homologuée ECE (usage à risques) ; norme volontairement omise de la fiche."
+  ]
+ },
+ {
+  "modele": "RB-804 Evolution",
+  "marque": "Redbike",
+  "nb_fiches": 2,
+  "motif": "\\yrb-?804\\y",
+  "accroche": "Jet en fibre de verre à peinture métallisée, 5 tailles de coque et homologation ECE 22.06.",
+  "description": "Le RB-804 Evolution soigne sa finition avec une peinture métallisée sur sa coque en fibre de verre. Cinq tailles de coque assurent un bon ajustement, et la doublure textile s'accompagne de bords en faux cuir. Il est certifié ECE 22.06.",
+  "profil_position": 15,
+  "points_forts": [
+   {
+    "texte": "Coque extérieure en fibre de verre à peinture métallisée.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Cinq tailles de coque.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Certifié selon la norme ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure en textile et bords en faux cuir.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture à cliquet.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Peinture métallisée",
+   "5 tailles de coque",
+   "Homologué ECE 22.06",
+   "Fermeture à cliquet"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Fibre de verre",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "À cliquet",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Textile",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": []
+ },
+ {
+  "modele": "RB-742 Stripes",
+  "marque": "Redbike",
+  "nb_fiches": 1,
+  "motif": "\\yrb-?742\\y",
+  "accroche": "Jet en ABS à bords en aluminium, avec visière courte incluse et homologation ECE 22.05.",
+  "description": "Le RB-742 Stripes joue la carte rétro : coque ABS en deux tailles, bords en aluminium et doublure textile bordée de simili cuir. Une visière courte est fournie, et la fermeture microlock est homologuée ECE 22.05.",
+  "profil_position": 10,
+  "points_forts": [
+   {
+    "texte": "Coque en thermoplastique ABS en deux tailles.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Bords en aluminium.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière courte incluse.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologué ECE 22.05.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture microlock.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Bords en aluminium",
+   "Visière courte incluse",
+   "Homologué ECE 22.05",
+   "Coque ABS, 2 tailles"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.05",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (ABS)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Microlock",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Textile",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": []
+ },
+ {
+  "modele": "RB-753 Oldtimer",
+  "marque": "Redbike",
+  "nb_fiches": 1,
+  "motif": "\\yrb-?753\\y",
+  "accroche": "Un jet de style ancien à coque ABS en deux tailles, avec visière courte incluse et fermeture micrométrique.",
+  "description": "Le RB-753 Oldtimer cultive l'esprit des casques d'autrefois. Sa coque ABS existe en deux tailles, avec doublure textile noire et manchettes en simili cuir. Fermeture micrométrique, visière courte fournie et homologation ECE 22.05.",
+  "profil_position": 10,
+  "points_forts": [
+   {
+    "texte": "Coque en ABS en deux tailles.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière courte incluse.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture micrométrique.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologué ECE 22.05.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Manchettes en simili cuir et doublure textile noire.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Visière courte incluse",
+   "Fermeture micrométrique",
+   "Homologué ECE 22.05",
+   "Look oldtimer"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.05",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (ABS)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Textile",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": []
+ },
+ {
+  "modele": "RB-757 Bologna",
+  "marque": "Redbike",
+  "nb_fiches": 1,
+  "motif": "\\yrb-?757\\y",
+  "accroche": "Jet à coque ABS, bords en similicuir, petite visière incluse et micro-boucle, homologué ECE 22.05.",
+  "description": "Le RB-757 Bologna reprend les codes du jet italien : coque ABS, bords en similicuir et doublure textile. Il est livré avec une petite visière, ferme par micro-boucle et répond à la norme ECE 22.05.",
+  "profil_position": 10,
+  "points_forts": [
+   {
+    "texte": "Coque en ABS.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Petite visière incluse.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Bords en similicuir.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture par micro-boucle.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologué ECE 22.05.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Petite visière incluse",
+   "Bords en similicuir",
+   "Homologué ECE 22.05",
+   "Micro-boucle"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.05",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (ABS)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Textile",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Couleur de doublure contradictoire entre flux (noire / marron) : omise."
+  ]
+ },
+ {
+  "modele": "RB-510 Italia",
+  "marque": "Redbike",
+  "nb_fiches": 1,
+  "motif": "\\yrb-?510\\y",
+  "accroche": "Un jet en fibre de verre aux couleurs de l'Italie, avec col en cuir et doublure textile noire.",
+  "description": "Le RB-510 Italia affiche ses couleurs sur une coque en fibre de verre. Il se complète d'un col en cuir et d'une doublure textile noire pour un look rétro franc.",
+  "profil_position": 10,
+  "points_forts": [
+   {
+    "texte": "Coque en fibre de verre.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure textile noire.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Col en cuir.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Décor aux couleurs de l'Italie.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque en fibre de verre",
+   "Col en cuir",
+   "Doublure textile noire",
+   "Couleurs de l'Italie"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Fibre de verre",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Textile",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Seule la version 'RB-510 Italia' est dans les fiches ; la version 'Flag' (non ECE) est différente. Norme omise."
+  ]
+ },
+ {
+  "modele": "RB-511 TT",
+  "marque": "Redbike",
+  "nb_fiches": 1,
+  "motif": "\\yrb-?511\\y",
+  "accroche": "Casque rétro à demi-coque en fibre de verre, inspiré des années 50, avec boucle à lunettes à l'arrière.",
+  "description": "Le RB-511 TT s'adresse aux nostalgiques. Coque en fibre de verre, doublure textile noire et design intemporel des années 50. Une boucle à l'arrière retient vos lunettes.",
+  "profil_position": 10,
+  "points_forts": [
+   {
+    "texte": "Coque en fibre de verre.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure textile noire.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Design intemporel inspiré des années 50.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Boucle intégrée à l'arrière pour les lunettes.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Design des années 50",
+   "Coque en fibre de verre",
+   "Doublure textile noire",
+   "Boucle à lunettes à l'arrière"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Fibre de verre",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Textile",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Description marchande : version non homologuée ECE (usage à risques) ; norme volontairement omise de la fiche.",
+   "Fermeture contradictoire (bouton-poussoir / clic) : omise."
+  ]
+ },
+ {
+  "modele": "RB-512-II Union Jack",
+  "marque": "Redbike",
+  "nb_fiches": 1,
+  "motif": "\\yrb-?512\\y",
+  "accroche": "Jet en fibre de verre aux couleurs du Royaume-Uni, à la coque très petite et doublure textile noire.",
+  "description": "Le RB-512-II Union Jack sort le drapeau britannique sur une coque en fibre de verre très compacte. Doublure textile noire, silhouette fine : un casque qui assume son style.",
+  "profil_position": 10,
+  "points_forts": [
+   {
+    "texte": "Coque en fibre de verre.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque très petite.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure textile noire.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Décor Union Jack.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Décor Union Jack",
+   "Coque en fibre de verre",
+   "Très petite coque",
+   "Doublure textile noire"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Fibre de verre",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Textile",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Description marchande : version non homologuée ECE (usage à risques) ; norme volontairement omise de la fiche."
+  ]
+ },
+ {
+  "modele": "RB-514",
+  "marque": "Redbike",
+  "nb_fiches": 1,
+  "motif": "\\yrb-?514\\y",
+  "accroche": "Casque vintage en fibre de verre, bleu clair à bande centrale orange, avec boucle à lunettes à l'arrière.",
+  "description": "Le RB-514 mise sur un design classique : bleu clair barré d'une bande centrale orange. La coque est en fibre de verre, la doublure en textile, et la sangle se ferme d'un clic. Une boucle à l'arrière retient vos lunettes.",
+  "profil_position": 10,
+  "points_forts": [
+   {
+    "texte": "Coque en fibre de verre.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Bleu clair avec bande centrale orange.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure textile.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Jugulaire à fermeture rapide à clic.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Boucle intégrée à l'arrière pour les lunettes.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Bleu clair, bande orange",
+   "Coque en fibre de verre",
+   "Fermeture rapide à clic",
+   "Boucle à lunettes à l'arrière"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Fibre de verre",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Rapide à clic",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Textile",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Description marchande : version non homologuée ECE (usage à risques) ; norme volontairement omise de la fiche."
+  ]
+ }
+]

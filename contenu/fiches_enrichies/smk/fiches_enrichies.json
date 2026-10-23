@@ -1,0 +1,333 @@
+[
+ {
+  "modele": "Typhoon",
+  "marque": "SMK",
+  "nb_fiches": 2,
+  "motif": "\\ytyphoon\\y",
+  "accroche": "L'intégral SMK noté 4 étoiles au test SHARP en ECE 22.06, avec pare-soleil intégré et ventilation complète.",
+  "description": "Le Typhoon est un intégral à coque compacte et aérodynamique, qui plaît aux sportifs comme aux motards du quotidien. Il a obtenu 4 étoiles au test SHARP en norme ECE 22.06. Pare-soleil intégré, ventilation par la bouche, les côtés et le dessus : vous restez à l'aise sur les longs trajets.",
+  "profil_position": 65,
+  "points_forts": [
+   {
+    "texte": "4 étoiles au test SHARP, avec la norme ECE 22.06 (test d'août 2026).",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche Typhoon, août 2026"
+   },
+   {
+    "texte": "1 700 g à la pesée SHARP.",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche Typhoon, août 2026"
+   },
+   {
+    "texte": "Pare-soleil intégré qui descend en un geste.",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche Typhoon, août 2026"
+   },
+   {
+    "texte": "Ventilation complète : orifices au niveau de la bouche, sur les côtés et sur le dessus.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Disponible du XS au XXXL, prêt à recevoir un système de communication.",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche Typhoon, août 2026"
+   },
+   {
+    "texte": "Visière à dégagement rapide, doublure amovible, Pinlock-ready.",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche Typhoon, août 2026"
+   }
+  ],
+  "points_forts_courts": [
+   "4 étoiles SHARP, norme ECE 22.06",
+   "Pare-soleil intégré",
+   "Disponible du XS au XXXL",
+   "Ventilation bouche, côtés et dessus"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 700 g (pesée SHARP)",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Anti-rayures, anti-buée, dégagement rapide",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Orifices menton, côtés et dessus",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à XXXL",
+    "source": "SHARP"
+   }
+  ],
+  "securite": {
+   "sharp_etoiles": 4,
+   "date_test": "août 2026",
+   "norme": "ECE 22.06"
+  },
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Le test SHARP porte sur la gamme Typhoon sans précision de décor ; fiche rattachée au Typhoon 06.",
+   "Pinlock 'ready' seulement, non fourni : ligne Pinlock omise."
+  ]
+ },
+ {
+  "modele": "Stellar",
+  "marque": "SMK",
+  "nb_fiches": 1,
+  "motif": "\\ystellar\\y",
+  "accroche": "L'intégral SMK à coque thermoplastique EIRT, visière anti-UV à dégagement rapide et fermeture Microlock.",
+  "description": "Le Stellar est un intégral conçu pour le confort. Sa coque aérodynamique en thermoplastique EIRT existe en deux tailles pour un bon maintien. La visière à dégagement rapide filtre les UV et se prépare au Pinlock, tandis que la fermeture Microlock se règle facilement.",
+  "profil_position": 60,
+  "points_forts": [
+   {
+    "texte": "Coque aérodynamique en thermoplastique EIRT, en deux tailles.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière à dégagement rapide, protection UV à 100 % et anti-rayures.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Prête à recevoir un Pinlock pour lutter contre la buée.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Système de ventilation avancé avec déflecteur de respiration.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure antiallergique, amovible et lavable.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture Microlock et poches pour haut-parleurs.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque aérodynamique en 2 tailles",
+   "Visière anti-UV à dégagement rapide",
+   "Prêt pour le Pinlock",
+   "Doublure amovible et lavable"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (EIRT)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Protection UV 100 %, anti-rayures, dégagement rapide",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Système avancé avec déflecteur de respiration",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Audio",
+    "valeur": "Logements prévus pour haut-parleurs",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Plusieurs déclinaisons Stellar (Solid, Uno, Sport...) dans les flux : norme non reprise car non confirmée pour la version de la fiche."
+  ]
+ },
+ {
+  "modele": "Bionic",
+  "marque": "SMK",
+  "nb_fiches": 1,
+  "motif": "\\ybionic\\y",
+  "accroche": "Le casque intégral enfant SMK en ECE 22.06, Pinlock-ready, avec boucle micrométrique et environ 1 200 g.",
+  "description": "Le Bionic Youth est l'intégral pensé pour les plus jeunes. Coque en polycarbonate, EPS multidensité, aérations sur tout le casque : il protège sans peser, autour de 1 200 g. Boucle micrométrique à dégagement rapide et intérieur amovible lavable.",
+  "profil_position": 20,
+  "points_forts": [
+   {
+    "texte": "Certifié ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en polycarbonate avec EPS multidensité.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Environ 1 200 g, à 50 g près, annoncés par le constructeur.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière à dégagement rapide, prête pour un Pinlock 70.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Aérations sur l'ensemble du casque et déflecteur de respiration.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Boucle micrométrique à dégagement rapide, doublure hypoallergénique amovible et lavable.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Intégral enfant certifié ECE 22.06",
+   "Environ 1 200 g annoncés",
+   "Boucle micrométrique rapide",
+   "Visière prête pour le Pinlock"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "Environ 1 200 g (±50 g, donnée constructeur)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Dégagement rapide, anti-rayures",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Entrées et sorties d'air canalisées, aérations menton et dessus",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Audio",
+    "valeur": "Logements prévus pour haut-parleurs",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Pinlock 70 prêt, non fourni : ligne omise."
+  ]
+ },
+ {
+  "modele": "Allterra",
+  "marque": "SMK",
+  "nb_fiches": 1,
+  "motif": "\\yallterra\\y",
+  "accroche": "Le casque de cross SMK en thermoplastique EIRT et ECE 22.06, avec deux tailles de coque.",
+  "description": "L'Allterra est le casque de motocross de SMK. Sa coque en thermoplastique EIRT, résistant aux impacts, existe en deux tailles pour un bon ajustement. Il répond à la norme ECE 22.06.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Norme ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en thermoplastique EIRT, conçu pour résister aux impacts.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Deux tailles de coque pour mieux s'ajuster à votre tête.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Un casque de cross, pensé pour la piste et le tout-terrain.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Casque de cross en ECE 22.06",
+   "Coque thermoplastique EIRT",
+   "Deux tailles de coque",
+   "Pensé pour la piste et le tout-terrain"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (EIRT)",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Versions X-Aces et Fulmine N décrites ; la fiche de la gamme ne précise pas la déclinaison."
+  ]
+ }
+]

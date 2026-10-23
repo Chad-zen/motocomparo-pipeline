@@ -1,0 +1,729 @@
+[
+ {
+  "modele": "Riviera V4 X",
+  "marque": "Caberg",
+  "nb_fiches": 12,
+  "motif": "\\yriviera v4 x\\y",
+  "accroche": "Le jet Caberg compact pour la ville et au-delà : 2 tailles de coque, double visière et pare-soleil intégré.",
+  "description": "Le Riviera V4 X est un jet Caberg au look moderne, conçu pour la ville comme pour les itinéraires plus larges. Il existe en deux tailles de coque et se glisse facilement sous une selle. Le système Double Visor Tech intègre un pare-soleil facile à manier, et la ventilation se règle avec un aérateur supérieur et deux sorties arrière.",
+  "profil_position": 12,
+  "points_forts": [
+   {
+    "texte": "Jet au look moderne, pensé pour la conduite quotidienne en ville comme pour les trajets hors agglomération.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "2 tailles de coque pour s'ajuster à votre tête, avec des dimensions réduites qui facilitent le rangement sous la selle.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Système Double Visor Tech : pare-soleil intérieur facile à utiliser et double visière (transparente et teintée).",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière extérieure et pare-soleil plus longs que sur le modèle précédent, pour mieux se protéger.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation avec un aérateur supérieur et deux aérateurs arrière.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière anti-rayures et antibuée, avec profil anti-pluie.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Double visière avec pare-soleil intégré",
+   "Jet compact en 2 tailles de coque",
+   "Se glisse sous la selle",
+   "Aérateur supérieur et 2 sorties arrière"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Visière",
+    "valeur": "Longue, anti-rayures et antibuée, double visière (transparente et teintée)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intérieur, intégré (Double Visor Tech)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Un aérateur supérieur et deux aérateurs arrière",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Aucun test SHARP ; norme et poids non précisés dans les descriptions disponibles."
+  ]
+ },
+ {
+  "modele": "Drift Evo II",
+  "marque": "Caberg",
+  "nb_fiches": 9,
+  "motif": "\\ydrift evo ii\\y",
+  "accroche": "L'intégral sport Caberg à coque légère nouvelle génération : spoiler arrière, 2 tailles de coque, pare-soleil intégré.",
+  "description": "Le Drift Evo II succède au Drift Evo avec une toute nouvelle coque légère, développée par Caberg. Sa coque existe en deux tailles, de XS à M puis de L à XXL, pour un ajustement soigné. Le spoiler arrière lui donne un profil sportif et améliore la stabilité à haute vitesse, tandis que le pare-soleil intégré se manie facilement.",
+  "profil_position": 75,
+  "points_forts": [
+   {
+    "texte": "Nouvelle coque légère développée par Caberg, qui succède à celle du Drift Evo.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "2 tailles de coque (XS à M, L à XXL) pour un équilibre entre confort et ajustement.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Spoiler arrière pour un look sportif, plus d'aérodynamisme à haute vitesse et moins de turbulences.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil intégré et visière résistante aux rayures.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fiche SOS-MEDICAL-ID intégrée sur certains coloris.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque légère nouvelle génération",
+   "Spoiler arrière aérodynamique",
+   "Pare-soleil intégré",
+   "2 tailles de coque, XS à XXL"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Visière",
+    "valeur": "Résistante aux rayures",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à XXL (2 tailles de coque)",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "SHARP Drift Evo (22.05, 2021) concerne l'ancienne génération : non repris.",
+   "Coque, norme et poids non précisés pour le Drift Evo II ; pare-soleil et SOS-MEDICAL-ID décrits sur certains coloris (Crok, CBR).",
+   "Le coloris Carbon Nova est regroupé ici ; sa coque n'est pas décrite."
+  ]
+ },
+ {
+  "modele": "Freeride X",
+  "marque": "Caberg",
+  "nb_fiches": 8,
+  "motif": "\\yfreeride x\\y",
+  "accroche": "Le jet Caberg au style vintage, ECE 22.06 : coque en 3 tailles, rivets, cuir et détails fabriqués en Italie.",
+  "description": "Le Freeride X est le jet Caberg au look élégant et vintage, homologué ECE 22.06. Sa coque, l'une des plus petites du marché selon le constructeur, existe en trois tailles et se glisse sous les selles étroites. Rivets sur le pourtour, prises d'air en acier, détails en cuir et porte-lunettes sérigraphié, fabriqués en Italie : un jet qui soigne les détails.",
+  "profil_position": 12,
+  "points_forts": [
+   {
+    "texte": "Jet vintage homologué ECE 22.06, avec une coque en trois tailles.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Une coque de petite dimension, qui se glisse facilement sous les selles étroites.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Cinq rivets sur le pourtour, prises d'air en acier, détails en cuir et porte-lunettes sérigraphié, fabriqués en Italie.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière transparente anti-rayures incluse, double protection anti-turbulence au niveau du cou.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure intérieure amovible et lavable, fermeture micrométrique et boucle pour lunettes à l'arrière.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Préparé pour les systèmes de communication Pro Speak Evo.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Jet vintage ECE 22.06",
+   "Coque en 3 tailles",
+   "Rivets, cuir et détails made in Italy",
+   "Se glisse sous les selles étroites"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique (Microlock)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Transparente, anti-rayures, incluse",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Une version Freeride X Carbon existe ; sa coque n'est pas décrite, aucune matière affirmée.",
+   "Aucun test SHARP ; poids non précisé."
+  ]
+ },
+ {
+  "modele": "Soho",
+  "marque": "Caberg",
+  "nb_fiches": 8,
+  "motif": "\\ysoho\\y",
+  "accroche": "Le jet Caberg Soho, ECE 22.06 : coque ABS en 2 tailles, environ 1 150 g, pare-soleil intégré, ventilation généreuse.",
+  "description": "Le Soho est un jet léger certifié ECE 22.06, à la coque en ABS thermoplastique LG Chem Hi-Impact proposée en deux tailles. Son grand évent frontal et ses quatre extracteurs assurent une bonne ventilation, même à faible vitesse. Pare-soleil intégré, doublure lavable en tissus respirants et préparation pour kit Bluetooth : l'allié de vos trajets quotidiens.",
+  "profil_position": 10,
+  "points_forts": [
+   {
+    "texte": "Certifié ECE 22.06, avec un poids annoncé d'environ 1 150 g (± 50 g).",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en ABS thermoplastique LG Chem Hi-Impact, en deux tailles (XS à M, L à XXL).",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Grand évent frontal et quatre extracteurs d'air sur le dessus et à l'arrière, pour une bonne ventilation même à faible vitesse.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière claire anti-rayures et pare-soleil intégré.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure entièrement amovible et lavable en tissus respirants, coussinets de joues compatibles avec les lunettes.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Préparé pour le kit de communication Bluetooth Caberg Pro Speak Evo.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Léger : environ 1 150 g annoncés",
+   "Coque ABS en 2 tailles",
+   "Pare-soleil intégré",
+   "Certifié ECE 22.06"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 150 g (annoncé, ± 50 g)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (ABS LG Chem Hi-Impact)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique (Microlock)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Claire, anti-rayures",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Grand évent frontal, quatre extracteurs sur le dessus et à l'arrière",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Aucun test SHARP."
+  ]
+ },
+ {
+  "modele": "Flyon II",
+  "marque": "Caberg",
+  "nb_fiches": 8,
+  "motif": "\\yflyon ii\\y",
+  "accroche": "Le jet touring Caberg Flyon II, ECE 22.06 : coque redessinée, spoiler arrière, large visière antibuée.",
+  "description": "Le Flyon II est la nouvelle version du jet touring de Caberg lancé en 2020. Sa coque extérieure et intérieure a été entièrement redessinée, avec un petit spoiler arrière et deux sorties d'air chaud. Large visière antibuée qui couvre le visage et une partie du cou, pare-soleil intégré : un jet complet, homologué ECE 22.06.",
+  "profil_position": 20,
+  "points_forts": [
+   {
+    "texte": "Coque extérieure et intérieure entièrement redessinées, avec un petit spoiler arrière.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Deux sorties sous le spoiler pour évacuer l'air chaud, et un évent avant supérieur à deux prises d'air réglables.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologué selon la dernière réglementation européenne, ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Large visière extérieure qui couvre le visage et une partie du cou, anti-rayures et traitée antibuée.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Verrouillage latéral de la visière pour éviter une ouverture involontaire.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil intégré et visière Max Vision (claire et teintée).",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Large visière antibuée",
+   "Spoiler et sorties d'air chaud",
+   "Pare-soleil intégré",
+   "Homologué ECE 22.06"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Large, couvre le visage et une partie du cou, anti-rayures, antibuée, verrouillage latéral, Max Vision claire et teintée",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Évent avant supérieur à deux prises d'air réglables, deux sorties d'air chaud sous le spoiler",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Une version Flyon II Carbon existe ; la coque n'est pas décrite pour le modèle, aucune matière affirmée.",
+   "Aucun test SHARP ; poids non précisé."
+  ]
+ },
+ {
+  "modele": "Avalon X",
+  "marque": "Caberg",
+  "nb_fiches": 4,
+  "motif": "\\yavalon x\\y",
+  "accroche": "L'intégral Caberg au design sportif : pare-soleil intégré DVT, visières démontables sans outils, aérations réglables.",
+  "description": "L'Avalon X est l'intégral de Caberg au design d'inspiration sportive, pensé pour le quotidien comme pour les plus longues distances. Sa coque existe en deux tailles, et le pare-soleil intégré DVT se manœuvre au levier latéral. Les deux visières se retirent sans outils, et les aérations du dessus se règlent selon la chaleur.",
+  "profil_position": 60,
+  "points_forts": [
+   {
+    "texte": "Intégral au design d'inspiration sportive, idéal pour un usage quotidien comme pour les longues distances.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en 2 tailles pour un bon rapport entre le volume de la coque et la taille de la tête.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil intégré Double Visor Tech, actionné par un levier latéral.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière transparente anti-rayures préparée pour un insert antibuée ; les deux visières se retirent sans outils.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Aérations réglables sur le dessus, aérations arrière et spoiler pour évacuer l'air.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Pare-soleil intégré à levier",
+   "Visières démontables sans outils",
+   "Aérations réglables sur le dessus",
+   "Coque en 2 tailles"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Visière",
+    "valeur": "Transparente, anti-rayures, préparée pour un insert antibuée, démontable sans outils",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré (Double Visor Tech), levier latéral",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Aérations réglables sur le dessus, aérations arrière et spoiler",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Aucun test SHARP ; norme et poids non précisés."
+  ]
+ },
+ {
+  "modele": "Tourmax X",
+  "marque": "Caberg",
+  "nb_fiches": 4,
+  "motif": "\\ytourmax x\\y",
+  "accroche": "Le modulable Caberg pour l'aventure, 100 % Made in Italy : double homologation P/J, ECE 22.06, levier P/J.",
+  "description": "Le Tourmax X est le modulable d'aventure de Caberg, conçu pour les motos d'enduro et de maxi-enduro. Évolution du Tourmax, il reçoit un nouveau système d'ouverture de la mentonnière, validé selon l'ECE 22.06 P/J. Fabriqué en Italie, il se porte mentonnière ouverte grâce au levier P/J situé à gauche.",
+  "profil_position": 45,
+  "points_forts": [
+   {
+    "texte": "Modulable d'aventure pensé pour les propriétaires de motos d'enduro et de maxi-enduro.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Nouveau système d'ouverture de la mentonnière, qui a passé les tests ECE 22.06 P/J.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Double homologation P/J : levier à gauche qui bloque la mentonnière en position totalement ouverte.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "100 % Made in Italy, par un constructeur qui se présente comme la première entreprise italienne à produire des casques à bascule.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Modulable pensé pour l'aventure",
+   "Double homologation P/J",
+   "Levier P/J côté gauche",
+   "100 % Made in Italy"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Description limitée : peu de faits techniques (coque, poids, visière non précisés).",
+   "SHARP existe pour l'ancien Tourmax (ECE 22.05) : non repris."
+  ]
+ },
+ {
+  "modele": "Duke Evo",
+  "marque": "Caberg",
+  "nb_fiches": 2,
+  "motif": "\\yduke evo\\y",
+  "accroche": "Le modulable Caberg Duke Evo : 4 étoiles SHARP en ECE 22.06, 1 650 g pesés, double homologation P/J.",
+  "description": "Le Duke Evo est l'évolution du modulable Duke de Caberg, lancé en 2012. Il décroche 4 étoiles au test SHARP en ECE 22.06, pour 1 650 g à la pesée. Coque compacte, doublure respirante et hypoallergénique, coussinets de joues 3D, ouverture de mentonnière simplifiée : un modulable facile à vivre.",
+  "profil_position": 30,
+  "points_forts": [
+   {
+    "texte": "4 étoiles au test SHARP, avec la norme ECE 22.06 (août 2025).",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche Duke Evo, août 2025"
+   },
+   {
+    "texte": "1 650 g à la pesée SHARP, avec une coque thermoplastique compacte.",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche Duke Evo, août 2025"
+   },
+   {
+    "texte": "Évolution de l'emblématique Duke, lancé en 2012, avec double homologation P/J.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure en tissus respirants et hypoallergéniques, coussinets de joues conçus en technologie 3D.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Nouveau système d'ouverture de la mentonnière, facile à utiliser.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil intégré et visière antibuée.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "4 étoiles SHARP, ECE 22.06",
+   "1 650 g à la pesée SHARP",
+   "Double homologation P/J",
+   "Pare-soleil intégré"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 650 g (pesée SHARP)",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Antibuée, anti-rayures, dégagement rapide",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à XL",
+    "source": "SHARP"
+   }
+  ],
+  "securite": {
+   "sharp_etoiles": 4,
+   "date_test": "août 2025",
+   "norme": "ECE 22.06"
+  },
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Les descriptions parlent de 5 étoiles SHARP pour l'ancien Duke : le Duke Evo est à 4 étoiles, seule la note du Duke Evo est utilisée.",
+   "Poids annoncé « environ 1 600 g » par les descriptions : la pesée SHARP prime."
+  ]
+ },
+ {
+  "modele": "Duke X",
+  "marque": "Caberg",
+  "nb_fiches": 1,
+  "motif": "\\yduke x\\y",
+  "accroche": "Le modulable Caberg Duke X, 100 % Made in Italy : double homologation P/J ECE 22.06, 1 550 g annoncés.",
+  "description": "Le Duke X est le modulable de Caberg 100 % Made in Italy, nouvelle version du Duke et du Duke II. Son nouveau système d'ouverture de la mentonnière a passé les tests ECE 22.06 P/J, et le levier côté gauche la verrouille ouverte. Compact, il annonce 1 550 g (± 50 g) et profite du système Double Visor Tech.",
+  "profil_position": 30,
+  "points_forts": [
+   {
+    "texte": "100 % Made in Italy, nouvelle version du Duke et du Duke II.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Nouveau système d'ouverture de la mentonnière, qui a passé les tests ECE 22.06 P/J.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Double homologation P/J : levier à gauche qui verrouille la mentonnière en position ouverte.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Dimensions réduites : poids annoncé de 1 550 g (± 50 g).",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Système Double Visor Tech avec pare-soleil intégré, et dégagement rapide de la visière.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Modulable 100 % Made in Italy",
+   "Double homologation P/J",
+   "Compact : 1 550 g annoncés",
+   "Pare-soleil intégré Double Visor Tech"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 550 g (annoncé, ± 50 g)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Dégagement rapide",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré (Double Visor Tech)",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Une seule fiche ; aucun test SHARP pour le Duke X (SHARP existe pour Duke II et Duke Evo)."
+  ]
+ },
+ {
+  "modele": "Levo X",
+  "marque": "Caberg",
+  "nb_fiches": 1,
+  "motif": "\\ylevo x\\y",
+  "accroche": "Le modulable Caberg Levo X, ECE 22.06 P/J : ouverture à une main, visière panoramique et Pinlock Max Vision.",
+  "description": "Le Levo X est le modulable de tourisme de Caberg, au design innovant. Il se manie à une main, sa partie avant se verrouille ouverte, et la double homologation P/J permet de rouler mentonnière relevée. Visière panoramique ultra-large avec Pinlock Max Vision, ventilation avant et arrière : un compagnon pour les longues étapes.",
+  "profil_position": 30,
+  "points_forts": [
+   {
+    "texte": "Modulable de tourisme au design innovant, avec deux tailles de coque.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Double homologation P/J selon l'ECE 22.06 : il se porte même mentonnière ouverte.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ouverture et pliage de la partie avant à une main, avec verrouillage en position ouverte.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière panoramique ultra-large pour un champ de vision optimal, avec lentille antibuée Pinlock Max Vision.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Deux aérations avant, deux extracteurs arrière et des conduits intégrés dans la coque intérieure.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Ouverture de la mentonnière à une main",
+   "Double homologation P/J",
+   "Visière panoramique, Pinlock Max Vision",
+   "Aérations avant, extracteurs arrière"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Panoramique ultra-large, antibuée avec lentille Pinlock Max Vision",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Deux aérations avant, deux extracteurs arrière, conduits dans la coque intérieure",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Une seule fiche.",
+   "Matière de coque contradictoire dans la description (fibre de verre / carbone selon la phrase) : non affirmée.",
+   "SHARP Levo (22.05, 2019) concerne l'ancienne génération : non repris."
+  ]
+ }
+]

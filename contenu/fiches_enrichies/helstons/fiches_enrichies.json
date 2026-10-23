@@ -1,0 +1,809 @@
+[
+ {
+  "modele": "Course",
+  "marque": "Helstons",
+  "nb_fiches": 4,
+  "motif": "\\ycourse\\y",
+  "accroche": "Le Helstons Course : coque 100 % carbone, finition cuir et damier inspiré des courses de moto.",
+  "description": "Le Course joue la carte rétro avec une coque 100 % carbone et son motif à damier inspiré des courses d'autrefois. Les écrans solaire et transparent sont inclus, et la finition cuir donne à l'intérieur un vrai caractère. Joues démontables et lavables, patte arrière pour ranger des lunettes : un casque qui a de la gueule.",
+  "profil_position": 40,
+  "points_forts": [
+   {
+    "texte": "Coque 100 % carbone, légère et résistante.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Motif à damier en dégradé inspiré de l'univers des courses de moto.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran transparent et écran solaire fournis.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Finition cuir et patte arrière en cuir pour les lunettes.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Aérations hautes et basses, joues démontables et lavables.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque 100 % carbone, look rétro",
+   "Damier inspiré des courses d'antan",
+   "Écrans transparent et solaire fournis",
+   "Finition cuir et joues lavables"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Carbone",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Écran transparent fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Écran solaire fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Aérations hautes et basses",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Joues démontables et lavables",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Norme contradictoire : ECE 22.06 (une description) vs 22.05 (autres) ; ligne Norme omise.",
+   "Fermeture contradictoire (double D vs micrométrique) ; ligne omise.",
+   "Fiches 'jet' et 'intégral' mélangées sous le même nom Course (types incohérents côté marchands) ; description rédigée en intégral d'après les textes 'intégral'."
+  ]
+ },
+ {
+  "modele": "Leo",
+  "marque": "Helstons",
+  "nb_fiches": 4,
+  "motif": "\\yleo\\y",
+  "accroche": "Le Helstons Leo : jet rétro en polycarbonate, deux visières fournies, ECE 22.06.",
+  "description": "Le Leo est un jet rétro à coque en polycarbonate ABS, au look discret. Il est livré avec une visière pare-soleil et une visière transparente, faciles à changer. Boucle micrométrique, coussinets de joues lavables et maintien des lunettes en cuir à l'arrière.",
+  "profil_position": 15,
+  "points_forts": [
+   {
+    "texte": "Coque extérieure en polycarbonate.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière pare-soleil et visière transparente fournies.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture à boucle micrométrique.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Système de maintien des lunettes en cuir à l'arrière.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coussinets de joues amovibles et lavables.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologation ECE 22.06.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Jet rétro, coque polycarbonate",
+   "Deux visières fournies",
+   "Maintien des lunettes en cuir",
+   "Joues amovibles et lavables"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Écran transparent fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Visière pare-soleil fournie",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Coussinets de joues amovibles et lavables",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": []
+ },
+ {
+  "modele": "Naked Carbon",
+  "marque": "Helstons",
+  "nb_fiches": 2,
+  "motif": "\\ynaked carbon\\y",
+  "accroche": "Le Helstons Naked Carbon : jet en fibre de carbone, finition cuir, écrans solaire et transparent fournis, ECE 22.06.",
+  "description": "Le Naked Carbon associe une coque en fibre de carbone à une finition cuir élégante, pour un jet au style rétro assumé. Les deux écrans, solaire et transparent, sont fournis et se changent facilement. Boucle micrométrique, joues lavables et système de maintien des lunettes en cuir à l'arrière.",
+  "profil_position": 15,
+  "points_forts": [
+   {
+    "texte": "Coque en fibre de carbone, légère.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Finition en cuir pour un style rétro.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran solaire et écran transparent fournis.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Système de maintien des lunettes en cuir à l'arrière.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coussinets de joues amovibles et lavables, ECE 22.06.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Jet en carbone, finition cuir",
+   "Écrans solaire et transparent fournis",
+   "Patte arrière pour vos lunettes",
+   "Joues amovibles et lavables"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Carbone",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Écran transparent fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Écran solaire fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Coussinets de joues amovibles et lavables",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Un texte décrit un 'Naked carbone mat' intégral à double D ; fiches comparées = jet, description rédigée en jet."
+  ]
+ },
+ {
+  "modele": "Naked",
+  "marque": "Helstons",
+  "nb_fiches": 2,
+  "motif": "\\ynaked\\y(?! (carbon|full))",
+  "accroche": "Le Helstons Naked : jet à coque polycarbonate, forme bombée rétro, écrans solaire et transparent fournis, ECE 22.06.",
+  "description": "Le Naked, c'est le jet rétro sans chichi : une coque polycarbonate à la forme bombée et un look épuré. Visières solaire et transparente fournies, boucle micrométrique, joues démontables et lavables. Une patte à l'arrière permet de maintenir vos lunettes moto.",
+  "profil_position": 15,
+  "points_forts": [
+   {
+    "texte": "Coque en polycarbonate à la forme bombée, style rétro.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière solaire et visière transparente fournies.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture micrométrique.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Patte arrière pour le port et le maintien de lunettes moto.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Joues démontables et lavables, homologué ECE 22.06.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Jet rétro à la forme bombée",
+   "Deux écrans fournis",
+   "Patte arrière pour lunettes moto",
+   "Joues démontables et lavables"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Écran transparent fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Visière solaire fournie",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Joues démontables et lavables",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Un texte ancien décrit un 'Naked' en fibre de carbone 22.05 ; trois textes concordent sur polycarbonate 22.06, retenu."
+  ]
+ },
+ {
+  "modele": "Devil",
+  "marque": "Helstons",
+  "nb_fiches": 2,
+  "motif": "\\ydevil\\y",
+  "accroche": "Le Helstons Devil : jet à coque polycarbonate, écrans solaire et transparent fournis, ECE 22.06.",
+  "description": "Le Devil est un jet rétro à coque en polycarbonate ABS, pensé pour la ville et les balades. Deux visières sont fournies : on passe du pare-soleil à la visière transparente en quelques secondes. Boucle micrométrique, joues lavables et maintien des lunettes en cuir à l'arrière.",
+  "profil_position": 15,
+  "points_forts": [
+   {
+    "texte": "Coque extérieure en polycarbonate.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière solaire et visière transparente fournies, on passe de l'une à l'autre en quelques secondes.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture à boucle micrométrique.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Système de maintien des lunettes en cuir à l'arrière.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coussinets de joues amovibles et lavables.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologation ECE 22.06.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Jet rétro à coque polycarbonate",
+   "Deux visières fournies",
+   "Maintien des lunettes en cuir",
+   "Joues amovibles et lavables"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Écran transparent fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Visière solaire fournie",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Coussinets de joues amovibles et lavables",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": []
+ },
+ {
+  "modele": "Freedom",
+  "marque": "Helstons",
+  "nb_fiches": 2,
+  "motif": "\\yfreedom\\y",
+  "accroche": "Le Helstons Freedom : jet en polycarbonate, une seule taille de coque, écrans solaire et transparent fournis, ECE 22.06.",
+  "description": "Le Freedom est un jet en polycarbonate qui joue la discrétion et l'élégance. Une seule taille de coque, un écran transparent et un écran solaire fournis, et une patte arrière pour maintenir des lunettes moto. Mousses de joues démontables et lavables, boucle micrométrique.",
+  "profil_position": 15,
+  "points_forts": [
+   {
+    "texte": "Coque extérieure en polycarbonate.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran transparent et écran solaire fournis ; une seule taille de coque.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture à boucle micrométrique.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Système de maintien des lunettes en cuir à l'arrière.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coussinets de joues amovibles et lavables.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologation ECE 22.06.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Jet discret en polycarbonate",
+   "Écrans solaire et transparent fournis",
+   "Patte arrière pour lunettes moto",
+   "Mousses de joues lavables"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate), une seule taille de coque",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Écran transparent fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Écran solaire fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Coussinets de joues amovibles et lavables",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": []
+ },
+ {
+  "modele": "Seventy One",
+  "marque": "Helstons",
+  "nb_fiches": 2,
+  "motif": "\\yseventy one\\y",
+  "accroche": "Le Helstons Seventy One : jet rétro en polycarbonate avec visière solaire interne escamotable, ECE 22.06.",
+  "description": "Le Seventy One est un jet à coque en polycarbonate, robuste et léger. Sa visière transparente anti-rayures s'accompagne d'une visière solaire interne escamotable. La patte arrière permet de retirer l'écran et d'arborer des lunettes de type goggles pour un style rétro affirmé.",
+  "profil_position": 15,
+  "points_forts": [
+   {
+    "texte": "Coque extérieure en polycarbonate.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière transparente anti-rayures et visière solaire interne escamotable.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture à boucle micrométrique.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Patte arrière : on retire l'écran pour porter des lunettes de type goggles.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coussinets de joues amovibles et lavables.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologation ECE 22.06.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Jet rétro, coque polycarbonate",
+   "Visière solaire interne escamotable",
+   "Compatible lunettes goggles",
+   "Mousses de joues lavables"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Transparente, traitée anti-rayures",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Visière solaire interne escamotable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Coussinets de joues amovibles et lavables",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": []
+ },
+ {
+  "modele": "Racing Oil",
+  "marque": "Helstons",
+  "nb_fiches": 2,
+  "motif": "\\yracing-?oil\\y",
+  "accroche": "Le Helstons Racing Oil, en collaboration Motul : jet en polycarbonate, deux visières fournies, ECE 22.06.",
+  "description": "Le Racing Oil est un jet à coque en polycarbonate, décoré aux couleurs de Motul. Visière solaire et visière transparente sont fournies. Fermeture micrométrique, joues démontables et lavables, patte arrière pour les lunettes.",
+  "profil_position": 15,
+  "points_forts": [
+   {
+    "texte": "Coque extérieure en polycarbonate.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière solaire et visière transparente fournies.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture à boucle micrométrique.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Patte à l'arrière pour maintenir des lunettes.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coussinets de joues amovibles et lavables.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologation ECE 22.06.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Jet rétro aux couleurs Motul",
+   "Deux visières fournies",
+   "Patte arrière pour lunettes",
+   "Joues démontables et lavables"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Écran transparent fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Visière solaire fournie",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Coussinets de joues amovibles et lavables",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Collaboration avec Motul indiquée dans le titre du modèle."
+  ]
+ },
+ {
+  "modele": "Thunderbolt",
+  "marque": "Helstons",
+  "nb_fiches": 1,
+  "motif": "\\ythunderbolt\\y",
+  "accroche": "Le Helstons Thunderbolt : jet rétro en polycarbonate, deux visières fournies, ECE 22.06.",
+  "description": "Le Thunderbolt est un jet à coque en polycarbonate ABS, au style rétro franc. On passe de la visière pare-soleil à la visière transparente en quelques secondes, toutes deux fournies. Boucle micrométrique et joues lavables pour le quotidien.",
+  "profil_position": 15,
+  "points_forts": [
+   {
+    "texte": "Coque extérieure en polycarbonate.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière pare-soleil et visière transparente fournies.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture à boucle micrométrique.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Système de maintien des lunettes en cuir à l'arrière.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coussinets de joues amovibles et lavables.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologation ECE 22.06.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Jet rétro, coque polycarbonate",
+   "Deux visières fournies",
+   "Maintien des lunettes en cuir",
+   "Joues amovibles et lavables"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Écran transparent fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Visière pare-soleil fournie",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Coussinets de joues amovibles et lavables",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": []
+ },
+ {
+  "modele": "Union Jack",
+  "marque": "Helstons",
+  "nb_fiches": 1,
+  "motif": "\\yunion jack\\y",
+  "accroche": "Le Helstons Union Jack : jet en polycarbonate, intérieur en cuir perforé, deux écrans fournis, ECE 22.06.",
+  "description": "L'Union Jack est un jet en polycarbonate à l'intérieur en cuir perforé, pour aérer davantage. L'écran incolore anti-rayures, rétractable, est complété par un écran fumé solaire fourni en plus. Boucle micrométrique et patte en cuir à l'arrière pour maintenir vos lunettes.",
+  "profil_position": 15,
+  "points_forts": [
+   {
+    "texte": "Coque extérieure en polycarbonate.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran incolore anti-rayures rétractable, avec un écran fumé solaire supplémentaire.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture à boucle micrométrique.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur en cuir perforé pour aérer davantage.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Joues démontables et lavables, patte en cuir à l'arrière pour les lunettes.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologation ECE 22.06.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Jet en polycarbonate, intérieur cuir",
+   "Écran fumé solaire fourni",
+   "Écran incolore rétractable",
+   "Joues démontables et lavables"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Écran incolore anti-rayures, rétractable, écran fumé solaire fourni en plus",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Intérieur en cuir perforé, joues démontables et lavables",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Fiche titrée 'Union Jack' ; description issue d'un texte intitulé 'Flag Union Jack' (polycarbonate, 22.06). Le modèle 'Flag' seul (carbone, 22.05) est exclu."
+  ]
+ }
+]

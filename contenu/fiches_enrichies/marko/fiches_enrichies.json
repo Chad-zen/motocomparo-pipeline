@@ -1,0 +1,127 @@
+[
+ {
+  "modele": "Full Moon",
+  "marque": "Marko",
+  "nb_fiches": 1,
+  "motif": "\\yfull ?moon\\y",
+  "accroche": "L'intégral Marko au look rétro années 60, en fibres, avec EPS multidensité et double ventilation de mentonnière.",
+  "description": "Le Full Moon s'inspire des casques des années 60, avec une finition soignée et élégante. Sa coque est réalisée en fibres, avec un EPS multidensité et un intérieur antibactérien, démontable et lavable. Écran clair à large champ de vision et fermeture à double anneau en D : un intégral rétro prêt pour la route.",
+  "profil_position": 35,
+  "points_forts": [
+   {
+    "texte": "Look inspiré des casques des années 60, finition soignée et élégante.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en fibres, composite ou carbone selon la version.",
+    "preuve": "presse",
+    "source": "Le Repaire des Motards, test du Full Moon (2022)"
+   },
+   {
+    "texte": "Calotin en mousse EPS multidensité.",
+    "preuve": "presse",
+    "source": "Le Repaire des Motards, test du Full Moon (2022)"
+   },
+   {
+    "texte": "Intérieur antibactérien, démontable et lavable.",
+    "preuve": "presse",
+    "source": "Le Repaire des Motards, test du Full Moon (2022)"
+   },
+   {
+    "texte": "Double ventilation sur la mentonnière et écran clair à large champ de vision.",
+    "preuve": "presse",
+    "source": "Le Repaire des Motards, test du Full Moon (2022)"
+   }
+  ],
+  "points_forts_courts": [
+   "Look rétro inspiré des années 60",
+   "Finition soignée et élégante",
+   "Intérieur démontable et lavable",
+   "Écran clair à large champ de vision"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "Le Repaire des Motards, test du Full Moon (2022)"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Écran clair à large champ de vision",
+    "source": "Le Repaire des Motards, test du Full Moon (2022)"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Double ventilation sur la mentonnière",
+    "source": "Le Repaire des Motards, test du Full Moon (2022)"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "Le Repaire des Motards, test du Full Moon (2022)"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Test de presse portant sur la première génération ; la norme varie selon les versions : ligne omise.",
+   "Coque composite ou carbone selon la version : ligne Coque omise."
+  ]
+ },
+ {
+  "modele": "Dark Side",
+  "marque": "Marko",
+  "nb_fiches": 3,
+  "motif": "\\ydark ?side\\y",
+  "accroche": "L'intégral néo-rétro de Marko aux lignes épurées, avec sa longue visière fumée et sa coque en fibres.",
+  "description": "Le Dark Side est un intégral néo-rétro aux lignes épurées. Sa longue visière fumée lui donne un style qui ne passe pas inaperçu. Coque en fibres, déclinée en composite ou en carbone, et possibilité d'y intégrer un intercom.",
+  "profil_position": 35,
+  "points_forts": [
+   {
+    "texte": "Look néo-rétro unique, aux lignes épurées.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Longue visière fumée.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en fibres, déclinée en composite ou en carbone.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Possibilité d'intégrer un intercom.",
+    "preuve": "presse",
+    "source": "NeozOne, test du Dark Side Carbon"
+   },
+   {
+    "texte": "Un casque décrit comme léger et très confortable à porter.",
+    "preuve": "presse",
+    "source": "NeozOne, test du Dark Side Carbon"
+   }
+  ],
+  "points_forts_courts": [
+   "Look néo-rétro aux lignes épurées",
+   "Longue visière fumée",
+   "Coque en fibres, composite ou carbone",
+   "Intercom intégrable"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Visière",
+    "valeur": "Longue visière fumée",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Versions Dark Side et Dark Side Carbon regroupées ; matière de coque variable selon la fiche : ligne Coque omise.",
+   "Boreal (2 fiches) non traité : trop peu de données."
+  ]
+ }
+]

@@ -1,0 +1,242 @@
+[
+ {
+  "modele": "Gelato",
+  "marque": "GMS",
+  "nb_fiches": 9,
+  "motif": "\\ygelato\\y",
+  "accroche": "Un jet léger en polycarbonate, avec pare-soleil rabattable intégré et norme ECE 22.06.",
+  "description": "Le Gelato est un casque jet pour la ville, avec une coque en polycarbonate et un pare-soleil rabattable intégré. La visière claire résiste aux rayures, la fermeture est micrométrique et l'intérieur se démonte et se lave. Il est homologué ECE 22.06.",
+  "profil_position": 10,
+  "points_forts": [
+   {
+    "texte": "Homologué ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil rabattable intégré.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière claire résistante aux rayures.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Joues et doublure amovibles et lavables séparément, canal pour lunettes.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Pare-soleil rabattable intégré",
+   "Homologué ECE 22.06",
+   "Fermeture micrométrique",
+   "Intérieur amovible et lavable"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Claire, résistante aux rayures",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Pare-soleil rabattable intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Aération de la tête",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": []
+ },
+ {
+  "modele": "Vectus",
+  "marque": "GMS",
+  "nb_fiches": 2,
+  "motif": "\\yvectus\\y",
+  "accroche": "Le jet GMS à changement rapide de visière, pare-soleil intégré, spoiler arrière et écran préparé Pinlock.",
+  "description": "Le Vectus est un casque jet en polycarbonate pensé pour le quotidien. La visière se change vite, le pare-soleil est intégré et rabattable, et l'écran est préparé pour recevoir un Pinlock. Spoiler arrière avec sortie d'air et norme ECE 22.06.",
+  "profil_position": 10,
+  "points_forts": [
+   {
+    "texte": "Homologué ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière à changement rapide avec système de pression automatique.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil intégré et rabattable.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Spoiler arrière avec sortie d'air.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Joues et doublure amovibles et lavables, canal pour lunettes.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Visière à changement rapide",
+   "Pare-soleil intégré rabattable",
+   "Spoiler arrière avec sortie d'air",
+   "Norme ECE 22.06"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Claire, résistante aux rayures, changement rapide",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Pare-soleil intégré et rabattable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Aération de la tête, spoiler arrière avec sortie d'air",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Pinlock « préparé » seulement : ligne Pinlock omise."
+  ]
+ },
+ {
+  "modele": "Velox",
+  "marque": "GMS",
+  "nb_fiches": 1,
+  "motif": "\\yvelox\\y",
+  "accroche": "L'intégral GMS en polycarbonate : pare-soleil intégré, spoiler arrière et écran préparé Pinlock.",
+  "description": "Le Velox est un intégral au look sportif. Il combine une coque en polycarbonate, un pare-soleil rabattable intégré et une visière à changement rapide. L'écran est préparé pour un Pinlock, et la norme ECE 22.06 est au rendez-vous.",
+  "profil_position": 55,
+  "points_forts": [
+   {
+    "texte": "Homologué ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil rabattable intégré.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière à changement rapide, verrouillage et pression automatique.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Aération de la tête et du menton, spoiler arrière avec sortie d'air.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Intégral avec pare-soleil intégré",
+   "Visière à changement rapide",
+   "Spoiler arrière avec sortie d'air",
+   "Norme ECE 22.06"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Claire, résistante aux rayures, changement rapide",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Pare-soleil rabattable intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Aération de la tête et du menton, spoiler arrière",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Pinlock « préparé » seulement : ligne omise."
+  ]
+ }
+]

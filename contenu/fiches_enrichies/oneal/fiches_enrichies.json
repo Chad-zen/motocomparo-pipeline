@@ -1,0 +1,775 @@
+[
+ {
+  "modele": "1SRS",
+  "marque": "O'Neal",
+  "nb_fiches": 34,
+  "motif": "\\y1 ?-?srs\\y",
+  "accroche": "Le casque cross O'Neal robuste : coque ABS, 5 entrées d'air, norme ECE 22.06, aussi en taille enfant.",
+  "description": "Le 1SRS est le casque de motocross robuste d'O'Neal, pensé pour rouler souvent. Sa coque en ABS est légère, son aération par le haut fait circuler l'air, et il existe aussi pour les plus jeunes pilotes. Un casque simple, solide et prêt pour la piste.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Coque extérieure en ABS, robuste et légère, avec deux coques et deux tailles d'EPS.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Aération par le haut : 5 entrées et 4 sorties d'air.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Conforme à la norme ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture de sécurité à double anneau en D.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Existe en version enfant, avec une taille d'EPS dédiée.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque ABS robuste et légère",
+   "Aération par le haut, 5 entrées d'air",
+   "Norme ECE 22.06",
+   "Aussi disponible pour les enfants"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (ABS)",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "5 entrées et 4 sorties d'air",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Poids 1 180 g relevé sur une fiche sans précision adulte/enfant : omis.",
+   "Versions adulte et enfant mélangées dans les flux."
+  ]
+ },
+ {
+  "modele": "2SRS",
+  "marque": "O'Neal",
+  "nb_fiches": 11,
+  "motif": "\\y2 ?-?srs\\y",
+  "accroche": "Un casque cross O'Neal en ABS, ECE 22.06, doublure lavable et Airflaps compatibles, pour rouler sans y penser.",
+  "description": "Le 2SRS est un casque de motocross confortable, sûr et aux graphismes francs. Sa coque en ABS reste légère (environ 1 450 g), la doublure se retire pour la lessive et les aérations travaillent à chaque sortie. Un casque honnête pour les week-ends sur la piste.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Coque en ABS, de nombreuses ouvertures d'aération pour la ventilation.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Environ 1 450 g (± 50 g) selon le fabricant.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Conforme à la norme ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure rembourrée, amovible, absorbant la transpiration et lavable.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture double anneau en D et compatibilité avec le système Airflaps.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Environ 1 450 g sur la tête",
+   "Norme ECE 22.06",
+   "Doublure amovible et lavable",
+   "Compatible avec les Airflaps"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 450 g (± 50 g, annoncé par le fabricant)",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (ABS)",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": []
+ },
+ {
+  "modele": "3SRS",
+  "marque": "O'Neal",
+  "nb_fiches": 37,
+  "motif": "\\y3 ?-?srs\\y",
+  "accroche": "Le casque cross O'Neal en ABS, 2 coques et 2 EPS : environ 1 390 g, ECE 22.06, prêt pour le capteur Quin.",
+  "description": "Le 3SRS accompagne les pilotes de la première à la dernière manche. Deux tailles de coque et deux tailles d'EPS offrent un bon maintien, la doublure se retire facilement et un sac de rangement est livré avec. Il se prépare même à recevoir le capteur de chocs Quin.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Coque en ABS avec 2 tailles de coque et 2 tailles d'EPS.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Environ 1 390 g en taille M (± 50 g) selon le fabricant.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Aération supérieure : 5 entrées et 4 sorties d'air.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure multi-densité amovible, absorbant la transpiration et lavable.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Compatible avec le capteur de chocs Quin Smart et livré avec un sac de rangement.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Conforme à la norme ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Environ 1 390 g en taille M",
+   "5 entrées et 4 sorties d'air",
+   "Prêt pour le capteur de chocs Quin",
+   "Livré avec son sac de rangement"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 390 g (taille M, ± 50 g, annoncé par le fabricant)",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (ABS)",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "5 entrées et 4 sorties d'air",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Existe en versions enfant (Youth) : le poids de 1 170 g vu sur une fiche enfant est omis."
+  ]
+ },
+ {
+  "modele": "5SRS",
+  "marque": "O'Neal",
+  "nb_fiches": 4,
+  "motif": "\\y5 ?-?srs\\y",
+  "accroche": "Un casque cross O'Neal en ABS, inspiré du 10SRS : 2 coques, 2 EPS, évents surdimensionnés, norme ECE 22.06.",
+  "description": "Le 5SRS reprend le concept du 10SRS dans une version plus accessible. Sa coque en ABS est doublée de deux EPS pour un bon maintien et de grands évents laissent passer beaucoup d'air. Un casque de cross au dessin épuré.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Coque en ABS thermoplastique avec 2 coques extérieures et 2 EPS.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Plusieurs évents surdimensionnés et canaux d'air connectés.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Conforme à la norme ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture de sécurité à double anneau en D.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Repris du concept du 10SRS, le haut de gamme O'Neal.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Évents surdimensionnés pour l'air",
+   "2 coques et 2 EPS pour le maintien",
+   "Norme ECE 22.06",
+   "Dessin épuré hérité du 10SRS"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (ABS)",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": []
+ },
+ {
+  "modele": "EX-SRS",
+  "marque": "O'Neal",
+  "nb_fiches": 11,
+  "motif": "\\y(ex ?-?srs|hitchhiker)\\y",
+  "accroche": "Le casque cross O'Neal aux Airflaps intégrés : 2 coques, 3 EPS, ventilation réglable et fermable.",
+  "description": "L'EX-SRS est un casque de cross innovant : ses Airflaps sont intégrés à la coque et livrés avec. Deux coques extérieures et trois couches d'EPS assurent un bon maintien, et les canaux d'air se règlent selon la météo. Pour rouler longtemps sans se soucier de la poussière.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Airflaps intégrés à la coque et livrés avec le casque, à monter soi-même.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en ABS avec 2 coques extérieures et 3 couches d'EPS.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Canaux de ventilation réglables et refermables pour un flux d'air personnalisé.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture de sécurité à double anneau en D.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil réglable en hauteur, fixé par des vis en plastique sécables.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Airflaps intégrés et fournis",
+   "2 coques et 3 EPS pour le maintien",
+   "Ventilation réglable et refermable",
+   "Pare-soleil réglable en hauteur"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (ABS)",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Canaux réglables et refermables",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "La fiche Hitchhiker est rattachée à l'EX-SRS d'après les descriptions des marchands (coloris/version)."
+  ]
+ },
+ {
+  "modele": "Challenger",
+  "marque": "O'Neal",
+  "nb_fiches": 17,
+  "motif": "\\ychallenger\\y",
+  "accroche": "L'intégral O'Neal polyvalent : coque ABS, pare-soleil intégré, ECE 22.06, prêt pour le Pinlock et le Bluetooth.",
+  "description": "Le Challenger est un intégral qui fait tout. Sa coque en ABS cache un pare-soleil secondaire intégré, une doublure lavable et un spoiler arrière pour l'aérodynamisme. Il est prêt pour le Pinlock et le Bluetooth : de quoi rouler sur la route comme au quotidien.",
+  "profil_position": 30,
+  "points_forts": [
+   {
+    "texte": "Coque en ABS avec 2 coques extérieures et 2 EPS.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil secondaire intégré.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Prêt pour le Pinlock 70 Maxvision et compatible Bluetooth.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Environ 1 490 g en taille M (± 50 g) selon le fabricant.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure amovible, absorbant la transpiration et lavable.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Conforme à la norme ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Pare-soleil intégré",
+   "Prêt pour le Pinlock",
+   "Environ 1 490 g en taille M",
+   "Doublure amovible et lavable"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 490 g (taille M, ± 50 g, annoncé par le fabricant)",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (ABS)",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Audio",
+    "valeur": "Prêt pour le Bluetooth",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": []
+ },
+ {
+  "modele": "Sierra",
+  "marque": "O'Neal",
+  "nb_fiches": 20,
+  "motif": "\\ysierra\\y",
+  "accroche": "L'intégral aventure O'Neal : pare-soleil intégré, Pinlock fourni, fermeture micrométrique et ECE 22.06.",
+  "description": "Le Sierra est un intégral aventure à la coque affirmée. Son pare-soleil intégré et son Pinlock fourni aident à garder une vue claire par tous les temps, et la fermeture micrométrique se règle en un geste. Les logements prévus pour haut-parleurs ajoutent un confort bienvenu sur longue distance.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Pare-soleil secondaire intégré et visière transparente.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pinlock antibuée fourni avec le casque.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture micrométrique Microlock, rapide et efficace.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Logements prévus pour haut-parleurs (unité Bluetooth non fournie).",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en ABS avec 2 coques extérieures et 3 EPS (version RS).",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Conforme à la norme ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Pare-soleil intégré",
+   "Pinlock antibuée fourni",
+   "Fermeture micrométrique rapide",
+   "Prêt pour des haut-parleurs"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (ABS)",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Transparente, avec pare-soleil intégré",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock fourni",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Audio",
+    "valeur": "Logements prévus pour haut-parleurs",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Un flux de la version Sierra R cite une coque en polycarbonate, les autres l'ABS : ABS retenu.",
+   "Poids 1 590 g (Flat) et 1 600 g (RS) : versions mélangées, omis.",
+   "Pinlock 30 sur le Flat, MaxVision sur le RS."
+  ]
+ },
+ {
+  "modele": "A-SRS",
+  "marque": "O'Neal",
+  "nb_fiches": 6,
+  "motif": "\\ya ?-?srs\\y",
+  "accroche": "L'intégral aventure O'Neal en fibre de verre : 2 coques, 3 EPS, pare-soleil intégré, ECE 22.06.",
+  "description": "L'A-SRS allie la légèreté d'un casque cross au confort d'un intégral. Sa coque en fibre de verre est doublée de trois EPS, le pare-soleil est intégré et les joues se retirent vite grâce au système E.Q.R.S. Il se prépare aussi à accueillir le capteur Quin Smart.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Coque en fibre de verre : deux coques extérieures et trois EPS.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil secondaire intégré et écran transparent.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Retrait rapide des joues grâce au système E.Q.R.S.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Prêt pour le capteur de chocs Quin Smart.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture Microlock et logements prévus pour haut-parleurs.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Conforme à la norme ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque légère en fibre de verre",
+   "Pare-soleil intégré",
+   "Joues à retrait rapide",
+   "Prêt pour le capteur Quin"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Fibre de verre",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Audio",
+    "valeur": "Logements prévus pour haut-parleurs",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": []
+ },
+ {
+  "modele": "D-SRS",
+  "marque": "O'Neal",
+  "nb_fiches": 6,
+  "motif": "\\yd ?-?srs\\y",
+  "accroche": "L'intégral aventure O'Neal en ABS : pare-soleil intégré, environ 1 650 g, ECE 22.06, prêt Pinlock et Bluetooth.",
+  "description": "Le D-SRS rapproche d'une ingénierie haut de gamme. Sa coque en ABS reçoit un pare-nez et un coupe-vent pour limiter courants d'air et bruit, et le pare-soleil est intégré. Doublure amovible pour les longues balades, prêt pour le Pinlock et le Bluetooth.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Coque en ABS avec 2 coques extérieures et 2 tailles d'EPS.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-nez et coupe-vent contre le vent et le bruit.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil intégré, prêt pour le Pinlock 70 Maxvision.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Environ 1 650 g en taille M (± 50 g) selon le fabricant.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture Microlock et conforme à la norme ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Pare-nez et coupe-vent intégrés",
+   "Pare-soleil intégré",
+   "Prêt pour le Pinlock",
+   "Doublure amovible et lavable"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 650 g (taille M, ± 50 g, annoncé par le fabricant)",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (ABS)",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "3 entrées et 2 sorties d'air",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Audio",
+    "valeur": "Prêt pour le Bluetooth",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": []
+ },
+ {
+  "modele": "Volt",
+  "marque": "O'Neal",
+  "nb_fiches": 8,
+  "motif": "\\yvolt\\y",
+  "accroche": "Le casque jet O'Neal avec écran solaire et visière intégrés, ECE 22.06 : simple pour la ville et le trial.",
+  "description": "Le Volt est un casque ouvert pensé pour le trial et la ville. Il intègre un écran solaire et une visière, sa doublure se retire et se lave, et la fermeture Microlock se règle d'une main. Léger et facile à vivre au quotidien.",
+  "profil_position": 15,
+  "points_forts": [
+   {
+    "texte": "Écran solaire intégré et visière.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Conforme à la norme ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture de mentonnière Microlock.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure rembourrée, amovible, absorbant la transpiration et lavable.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en ABS thermoplastique.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Écran solaire intégré",
+   "Visière incluse",
+   "Fermeture Microlock rapide",
+   "Doublure amovible et lavable"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (ABS)",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Un flux cite une coque en polycarbonate, un autre l'ABS : ABS retenu."
+  ]
+ }
+]

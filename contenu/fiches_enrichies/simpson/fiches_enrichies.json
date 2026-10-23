@@ -1,0 +1,412 @@
+[
+ {
+  "modele": "Venom",
+  "marque": "Simpson",
+  "nb_fiches": 13,
+  "motif": "\\yvenom\\y",
+  "accroche": "L'intégral Simpson au look street-fighter : coque tri-composite MAXX-3C, visière ultra-large, prêt pour le Pinlock.",
+  "description": "Le Venom de Simpson combine un look street-fighter et un intérieur confortable. Sa coque tri-composite MAXX-3C mêle carbone, Kevlar et fibre de verre, et sa visière ultra-large ouvre grand le champ de vision. Pare-soleil intérieur, double verrouillage de l'écran et préparation Pinlock MaxVision : un intégral au caractère affirmé.",
+  "profil_position": 65,
+  "points_forts": [
+   {
+    "texte": "Coque MAXX-3C tri-composite multi-axes, un mélange de carbone, de Kevlar et de fibre de verre.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière ultra-large anti-rayures avec changement rapide et double système de verrouillage.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Préparé pour le Pinlock MaxVision, avec ventilation contrôlée de la visière contre la buée.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil intérieur, évent de menton réglable et système d'échappement de l'air chaud.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure intérieure amovible et lavable, avec rideau de menton et déflecteur de respiration.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture à double anneau en D, prêt à recevoir un casque Bluetooth.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque tri-composite MAXX-3C",
+   "Visière ultra-large, double verrou",
+   "Préparé pour le Pinlock MaxVision",
+   "Pare-soleil intérieur intégré"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (tri-composite MAXX-3C : carbone, Kevlar, fibre de verre)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Ultra-large, anti-rayures, changement rapide, double verrouillage, préparée pour Pinlock MaxVision",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intérieur, intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Évent de menton avec curseur, système d'échappement de l'air chaud",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Norme mélangée dans les descriptions : ECE 22.06 (version Solid) et 22.05 (ancienne fiche) : ligne Norme omise.",
+   "Nombre de tailles de coque contradictoire (2 ou 3) : omis.",
+   "SHARP Venom (4 étoiles) concerne la version ECE 22.05 de 2018 : non repris.",
+   "Pinlock MaxVision « inclus » dans une seule description : seule la préparation est affirmée.",
+   "Le titre « ghost/venom » d'une fiche est compté ici."
+  ]
+ },
+ {
+  "modele": "Darksome",
+  "marque": "Simpson",
+  "nb_fiches": 10,
+  "motif": "\\ydarksome\\y",
+  "accroche": "Le modulable Simpson inspiré des années 70 : coque tri-composite, Pinlock MaxVision fourni, ECE 22.06.",
+  "description": "Le Darksome reprend le dessin emblématique des Simpson des années 70 dans un modulable moderne, au bruit réduit et à l'aérodynamisme travaillé. Sa coque tri-composite carbone, Kevlar et fibre de verre existe en trois tailles pour tous les gabarits, de XS à XXL. Pinlock MaxVision fourni, pare-soleil rabattable, intérieur lavable : prêt pour les longs trajets.",
+  "profil_position": 30,
+  "points_forts": [
+   {
+    "texte": "Design inspiré des Simpson des années 70, avec bruit réduit et aérodynamisme nettement améliorés.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque tri-composite ultralégère (carbone, Kevlar, fibre de verre), en 3 tailles de coque de XS à XXL.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Poids annoncé de 1 510 g par le constructeur.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pinlock MaxVision fourni, visière anti-rayures et visière fumée intérieure incluse.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil rabattable et système d'échappement de l'air chaud.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure amovible et lavable, prêt pour un casque Bluetooth, certifié ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Look rétro années 70, tech moderne",
+   "Pinlock MaxVision fourni",
+   "Pare-soleil rabattable",
+   "Coque tri-composite, 3 tailles"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 510 g (annoncé par le constructeur)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (tri-composite : carbone, Kevlar, fibre de verre)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Anti-rayures, verrouillable, flux d'air antibuée contrôlé, visière fumée intérieure incluse",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock MaxVision fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Rabattable, intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à XXL",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "SHARP DARKSOME 2 (4 étoiles, 22.06, juin 2024, 1 500 g, XS-XXL) existe mais le nom diffère : non repris faute de certitude.",
+   "Une version Darksome Carbon (coque 100 % carbone) existe dans les flux ; les fiches ne la distinguent pas : coque décrite en composite.",
+   "Pinlock « 100 % Max Vision inclus » : référence 120 non confirmée, non écrite."
+  ]
+ },
+ {
+  "modele": "M62",
+  "marque": "Simpson",
+  "nb_fiches": 9,
+  "motif": "\\ym62\\y",
+  "accroche": "L'intégral Simpson M62 : esthétique rétro, coque tri-composite en 3 tailles, Pinlock MAX Vision 120 inclus.",
+  "description": "Le M62 mêle une esthétique rétro à une construction moderne, pensée pour le pilote. Sa coque légère en tri-composite (fibre de verre, Kevlar et carbone) existe en trois tailles pour un ajustement précis. Le Pinlock MAX Vision 120 est inclus : un intégral au style vintage qui reste facile à vivre.",
+  "profil_position": 55,
+  "points_forts": [
+   {
+    "texte": "Esthétique rétro classique associée à une protection moderne et à une fonctionnalité axée sur le pilote.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque légère en tri-composite : fibre de verre, Kevlar et mélange de carbone.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "3 tailles de coque pour un ajustement précis selon votre tour de tête.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pinlock MAX Vision 120 inclus pour une visière antibuée dès la sortie du carton.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Look rétro, construction moderne",
+   "Coque légère tri-composite",
+   "3 tailles de coque",
+   "Pinlock MAX Vision 120 inclus"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (tri-composite : fibre de verre, Kevlar, carbone)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock 120 fourni",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Description très courte : peu de faits.",
+   "La version M62 Hondo Carbon (100 % carbone) existe mais n'apparaît pas dans les fiches.",
+   "Aucun test SHARP ; norme non précisée dans les descriptions."
+  ]
+ },
+ {
+  "modele": "Chopper",
+  "marque": "Simpson",
+  "nb_fiches": 7,
+  "motif": "\\ychopper\\y",
+  "accroche": "Le jet Simpson Chopper : look rétro classique, coque tri-composite en 5 tailles, ECE 22.06.",
+  "description": "Le Chopper est un casque ouvert au style rétro classique, avec des matériaux et une construction modernes. Sa coque tri-composite légère existe en cinq tailles pour garder un profil bas, et quatre aérations frontales préservent l'allure d'origine. Cinq boutons-pression accueillent visières et pics : à vous de composer votre look.",
+  "profil_position": 10,
+  "points_forts": [
+   {
+    "texte": "Style rétro classique avec matériaux, construction et fonctions modernes.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque tri-composite légère en 5 tailles de coque, pour le profil le plus bas possible.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Quatre aérations sur le front, qui gardent l'allure classique tout en ventilant.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Système à cinq boutons-pression compatible avec une large gamme de visières et de pics.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Compatible avec les systèmes de communication, fermeture à double anneau en D, certifié ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Jet rétro classique",
+   "Coque en 5 tailles, profil bas",
+   "5 boutons-pression pour visières",
+   "Certifié ECE 22.06"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (tri-composite : carbone, Kevlar, fibre de verre)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Quatre aérations frontales",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Il existe un Chopper Carbon (coque 100 % carbone) ; les fiches ne le distinguent pas : coque décrite en composite.",
+   "Aucun test SHARP."
+  ]
+ },
+ {
+  "modele": "Speed",
+  "marque": "Simpson",
+  "nb_fiches": 5,
+  "motif": "\\yspeed\\y",
+  "accroche": "L'intégral Simpson Speed : coque légère en polycarbonate, ventilation à effet Venturi, visière fumée incluse, ECE 22.06.",
+  "description": "Le Speed est un intégral léger au caractère affirmé. Sa coque en polycarbonate thermo-injecté existe en trois tailles, et ses aérations Speed Brow à effet Venturi ventilent bien. Visière ultra-large à dégagement rapide, visière fumée foncée incluse, doublure hypoallergénique lavable : de quoi rouler sans se compliquer la vie.",
+  "profil_position": 60,
+  "points_forts": [
+   {
+    "texte": "Coque légère en polycarbonate thermo-injecté, en 3 tailles de coque.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Aérations Speed Brow à effet Venturi et ventilation de menton avec orifice d'échappement central arrière.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière ultra-large à dégagement rapide, 4 positions verrouillables, compatible Pinlock.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière fumée foncée incluse dans la boîte, en plus de la visière claire.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure confort hypoallergénique entièrement amovible et lavable, avec découpes pour haut-parleurs.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture à double anneau en D et certification ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque légère en polycarbonate",
+   "Visière fumée foncée incluse",
+   "Aérations Venturi Speed Brow",
+   "Visière à dégagement rapide"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate thermo-injecté)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Ultra-large, dégagement rapide, 4 positions verrouillables, compatible Pinlock, visière fumée foncée incluse",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Aérations Speed Brow à effet Venturi, ventilation de menton, orifice d'échappement central arrière",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Audio",
+    "valeur": "Logements prévus pour haut-parleurs",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Aucun test SHARP.",
+   "Les versions 06 citées dans les titres partagent la même base."
+  ]
+ }
+]

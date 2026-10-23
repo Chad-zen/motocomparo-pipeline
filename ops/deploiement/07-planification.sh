@@ -122,6 +122,12 @@ mcpipe caracteristiques  # relit les descriptions du jour, remplit product_carac
                          # est pose par match, pas remis a zero chaque nuit.
 # Quelles fiches n'ont pas de matière, de saison ou d'homologation : alimente
 # l'écran « Fiches sans caractéristiques » de l'administration.
+# Les mesures SHARP (note, poids pese) et le tableau du revendeur se COLLENT sur les fiches par
+# rapprochement ; ce rapprochement n'etait dans aucune chaine, et le grand recalcul du 18/10/2026 a
+# efface ses 6 000 valeurs sans que personne le voie (constate le 22/10/2026). Rejouable, 2 secondes
+# chacun, place apres `caracteristiques` qui ne touche pas a ces deux sources.
+mcpipe sharp-rapprocher || echo "!!! mcpipe sharp-rapprocher en echec, chaine poursuivie"
+mcpipe revendeur-rapprocher || echo "!!! mcpipe revendeur-rapprocher en echec, chaine poursuivie"
 mcpipe couverture || echo "!!! mcpipe couverture en echec, chaine poursuivie"
 
 # Le vidage du cache est fait par systemd APRÈS cette chaîne, voir

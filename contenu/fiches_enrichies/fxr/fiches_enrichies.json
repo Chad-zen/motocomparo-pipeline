@@ -1,0 +1,161 @@
+[
+ {
+  "modele": "Clutch Comp",
+  "marque": "FXR",
+  "nb_fiches": 2,
+  "motif": "\\yclutch comp\\y",
+  "accroche": "Le casque de cross FXR en alliage de polymère, 15 ports de ventilation et EPS double densité.",
+  "description": "Le Clutch Comp est le casque de cross de FXR, à la coque en alliage de polymère avancé, légère et durable. Quinze ports de ventilation à très haut débit font circuler l'air, et la boucle à double anneau en D en acier inoxydable maintient le tout. Deux tailles de coque pour un bon ajustement.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Coque en alliage de polymère avancé, légère et durable.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation à 15 ports à très haut débit.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Deux tailles de coque pour un ajustement optimal.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure EPS à double densité.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Boucle à double anneau en D en acier inoxydable.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Vis de visière à 3 points de rupture, faciles à manier avec des gants.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque en alliage de polymère",
+   "15 ports de ventilation",
+   "2 tailles de coque",
+   "Boucle double anneau en D inox"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Alliage de polymère avancé",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D (acier inoxydable)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "15 ports à très haut débit",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Norme absente de la version de la fiche : ligne omise."
+  ]
+ },
+ {
+  "modele": "6D ATR-3 Carbon",
+  "marque": "FXR",
+  "nb_fiches": 1,
+  "motif": "\\yatr-?3\\y",
+  "accroche": "Le casque de cross FXR en carbone 3K avec suspension omnidirectionnelle ODS, ventilation Air-Gap et garantie 3 ans.",
+  "description": "Le 6D ATR-3 Carbon associe une coque légère en carbone 3K à la suspension omnidirectionnelle reconstructible ODS, conçue pour réduire les forces d'impact et de rotation. La ventilation Air-Gap rafraîchit le front. Il répond à la norme ECE 22.06 et se livre avec housse et extension de visière anti-boue.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Coque en carbone 3K, légère, pour la stabilité et la performance.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Suspension omnidirectionnelle ODS reconstructible, pour réduire les forces d'impact et de rotation.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation Air-Gap avec refroidissement Ram Air direct vers le front.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Répond à la norme ECE 22.06.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Poches pour haut-parleurs, extension de visière anti-boue et housse inclus.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Anneaux en D en titane exclusifs 6D, garantie limitée de 3 ans.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Carbone 3K avec suspension ODS",
+   "Ventilation Air-Gap Ram Air",
+   "Housse et extension anti-boue incluses",
+   "Garantie limitée de 3 ans"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Carbone (tissage 3K)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D (titane)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Air-Gap avec refroidissement Ram Air du front",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Audio",
+    "valeur": "Logements prévus pour haut-parleurs",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "3 ans (limitée)",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Fermoir magnétique et double D cités ensemble selon les versions : fermeture double D titane retenue.",
+   "Version jeune ATR-3Y non couverte."
+  ]
+ }
+]

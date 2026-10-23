@@ -1,0 +1,575 @@
+[
+ {
+  "modele": "Supertech S-R10",
+  "marque": "Alpinestars",
+  "motif": "\\y(s-?)?r-?10\\y",
+  "accroche": "L'intégral racing d'Alpinestars né du MotoGP : coque composite en 4 tailles, Pinlock 120 fourni, homologué ECE 22.06 et FIM.",
+  "description": "Le Supertech S-R10 est le casque de piste d'Alpinestars, développé avec des pilotes de MotoGP. Sa coque composite associe carbone 3K, aramide et fibre de verre, et existe en 4 tailles pour un ajustement précis. Il est livré avec un écran Pinlock 120 et un écran teinté foncé : vous partez prêt pour la piste comme pour la route sportive.",
+  "profil_position": 95,
+  "points_forts": [
+   {
+    "texte": "Coque composite en fibre de carbone 3K, aramide et fibre de verre haute densité, déclinée en 4 tailles de coque.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran haute clarté anti-rayures et antibuée, avec Pinlock 120 XLT et écran teinté foncé fournis.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation soignée : 11 aérations, dont 7 entrées et 4 sorties, avec un grand curseur de toit.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture par double anneau en D et système A-Head pour régler l'assise du casque sur la tête.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur amovible, lavable et traité antimicrobien, compatible avec un système d'hydratation.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologué ECE 22.06, DOT et FIM pour la piste.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Né avec des pilotes de MotoGP",
+   "Pinlock 120 et écran teinté fournis",
+   "Coque composite en 4 tailles",
+   "Homologué ECE 22.06 et FIM"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (carbone 3K, aramide, fibre de verre)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Écran haute clarté anti-rayures et antibuée, écran teinté foncé fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock 120 fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "11 aérations (7 entrées, 4 sorties)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Aucun test SHARP disponible.",
+   "Poids non retenu : seule une source de tableau technique l'indique (1550 g), fiabilité incertaine.",
+   "Une description parle de coque en carbone, d'autres de composite multi-fibres : on retient composite.",
+   "Pinlock fourni lu dans une seule version de description."
+  ],
+  "nb_fiches": 14
+ },
+ {
+  "modele": "Supertech S-R7",
+  "marque": "Alpinestars",
+  "motif": "\\y(s-?)?r-?7\\y",
+  "accroche": "L'intégral sport d'Alpinestars pour la piste comme la route : coque composite carbone-aramide-verre, Pinlock 120 livré, ECE 22.06.",
+  "description": "Le Supertech S-R7 vise le plaisir sportif sur circuit comme sur route. Sa coque multicomposite associe carbone, aramide et fibre de verre pour rester légère, et son profil aérodynamique stabilise le casque à haute vitesse. L'écran reçoit un Pinlock 120 fourni, et l'intérieur amovible se lave facilement.",
+  "profil_position": 80,
+  "points_forts": [
+   {
+    "texte": "Coque multicomposite en carbone, aramide et fibre de verre, pour un casque léger et résistant.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Profil aérodynamique qui améliore la stabilité à haute vitesse.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran anti-rayures avec Pinlock 120 MaxVision, livré avec déflecteur de souffle et bavette de menton.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Technologie PLASMA brevetée Alpinestars et réglage A-Head de l'assise du casque.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur amovible, lavable et antibactérien.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologué ECE 22.06 et DOT.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Pensé pour la piste et la route",
+   "Coque composite légère",
+   "Pinlock 120 livré avec le casque",
+   "Intérieur amovible et lavable"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (carbone, aramide, fibre de verre)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Écran anti-rayures",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock 120 fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "10 entrées et sorties d'air",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Aucun test SHARP disponible.",
+   "Fermeture, poids et garantie non retenus (source unique, tableau technique).",
+   "Pinlock fourni lu dans une seule version de description.",
+   "Les fiches incluent l'édition Taiyo Furusato."
+  ],
+  "nb_fiches": 24
+ },
+ {
+  "modele": "Supertech S-M10",
+  "marque": "Alpinestars",
+  "motif": "\\ys-?m-?10\\y",
+  "accroche": "Le casque cross haut de gamme d'Alpinestars : coque composite en 4 tailles, MIPS, 1 260 g en taille M, 28 ouvertures d'air.",
+  "description": "Le Supertech S-M10 est le casque cross le plus abouti d'Alpinestars. Sa coque composite existe en 4 tailles pour que chaque taille de tête ait sa propre coque, et la protection MIPS accompagne l'EPS à 4 densités. Avec 1 260 g en taille M et 28 ouvertures d'air, il reste léger et frais pendant les manches.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Poids annoncé de 1 260 g en taille M (norme ECE), 1 310 g avec les coussinets latéraux.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque composite multi-fibres (carbone, aramide) en 4 tailles de coque pour 6 tailles de casque, de XS à XXL.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Technologie MIPS, système de libération d'urgence E-ject et réglage A-Head.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "28 ouvertures d'air : 18 entrées et 10 sorties pour une ventilation poussée.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "EPS à 4 densités et fermeture par double anneau en D.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologué ECE 22.06.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Seulement 1 260 g en taille M",
+   "Protection MIPS et libération E-ject",
+   "28 ouvertures d'air pour rester frais",
+   "Une coque adaptée à chaque taille"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 260 g (taille M, annonce constructeur)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (technologie MCT, carbone et aramide)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "28 ouvertures (18 entrées, 10 sorties)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à XXL",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Aucun test SHARP disponible.",
+   "Poids constructeur (1 260 g taille M), non vérifié par pesée indépendante.",
+   "Une description du tableau technique donne la coque en fibre de verre pour une version : ignorée, les descriptions détaillées parlent de composite carbone/aramide."
+  ],
+  "nb_fiches": 16
+ },
+ {
+  "modele": "S-M7",
+  "marque": "Alpinestars",
+  "motif": "\\ys-?m-?7\\y",
+  "accroche": "Le casque cross de compétition d'Alpinestars : coque composite, technologie PLASMA, 20 points de ventilation, environ 1 280 g.",
+  "description": "Le S-M7 est taillé pour la compétition tout-terrain. Sa coque composite en fibre de verre, carbone et aramide pèse environ 1 280 g en taille M, et ses 20 points de ventilation gardent la tête au frais. La technologie PLASMA, placée sous le bord de la coque, aide à dissiper l'énergie d'un choc côté clavicule, et la visière se détache en cas d'impact.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Environ 1 280 g en taille M, annoncé par le constructeur.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque composite en fibre de verre, carbone et aramide, déclinée en 3 tailles de coque pour 6 tailles de casque.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Technologie PLASMA brevetée Alpinestars, premier casque cross de la marque à l'intégrer.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "20 points de ventilation et profil aérodynamique sans canal externe.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière à détachement automatique en cas de choc, réglage A-Head de l'assise.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologué ECE 22.06.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Environ 1 280 g seulement en taille M",
+   "20 points de ventilation",
+   "Technologie PLASMA brevetée",
+   "Visière qui se détache en cas de choc"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 280 g (taille M, annonce constructeur)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (fibre de verre, carbone, aramide)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "20 points de ventilation",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Audio",
+    "valeur": "Logements prévus pour haut-parleurs",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Aucun test SHARP disponible.",
+   "Poids constructeur, non vérifié par pesée indépendante.",
+   "Les fiches regroupent plusieurs graphismes (Blaster, Cast, Dash, Fuse, Rise, Solid, Core)."
+  ],
+  "nb_fiches": 16
+ },
+ {
+  "modele": "S-M5",
+  "marque": "Alpinestars",
+  "motif": "\\ys-?m-?5\\y",
+  "accroche": "Le casque cross en thermoplastique d'Alpinestars : coque en 2 tailles, intérieur Silverplus lavable, visière détachable.",
+  "description": "Le S-M5 est un casque cross à la coque thermo-injectée en polymères d'épaisseurs variables. Il propose 2 tailles de coque pour un ajustement soigné, un intérieur démontable et lavable avec traitement antibactérien, et une visière conçue pour se détacher en cas de choc.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Coque en thermoplastique injecté, d'épaisseurs variables, en 2 tailles de coque.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur Silverplus entièrement démontable et lavable, avec traitement antibactérien.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture par double anneau en D et système de déverrouillage d'urgence.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière légère conçue pour se détacher en cas de choc.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation optimisée et côtés du casque profilés.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque thermoplastique en 2 tailles",
+   "Intérieur amovible et lavable",
+   "Visière qui se détache en cas de choc",
+   "Fermeture double anneau en D"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polymères injectés)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Aucun test SHARP disponible.",
+   "Norme mélangée selon les versions et millésimes (ECE 22.05 pour Action, Solid, Compass, Scout ; ECE 22.06 pour Honda, Corp, Sail) : ligne Norme omise.",
+   "Nombre de pièces d'EPS contradictoire (4 densités, 5 ou 7 pièces) : omis."
+  ],
+  "nb_fiches": 17
+ },
+ {
+  "modele": "S-M3",
+  "marque": "Alpinestars",
+  "motif": "^(?=.*\\ys-?m-?3\\y)(?!.*\\y(enfant|jettson|yamaha)\\y)",
+  "accroche": "Le casque cross d'Alpinestars pour débuter ou rouler souvent : coque thermo-injectée, 10 entrées et 7 sorties d'air, environ 1 310 g.",
+  "description": "Le S-M3 couvre le motocross, l'enduro et le tout-terrain. Sa coque thermo-injectée allie légèreté et résistance, pour environ 1 310 g en taille M. Dix entrées et sept sorties d'air entretiennent la ventilation, et les joues amovibles facilitent le retrait du casque en cas de besoin. L'intérieur en matériaux recyclés se lave sans effort.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Environ 1 310 g en taille M (version Radium, norme ECE), annoncé par le constructeur.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque thermo-injectée en polymères d'épaisseurs variables, avec EPS multi-densités.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "10 entrées et 7 sorties d'air pour une bonne ventilation.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Joues amovibles avec système de libération d'urgence.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur antibactérien en matériaux recyclés, amovible et lavable, avec canaux pour système d'hydratation.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologué ECE 22.06 et DOT.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Environ 1 310 g en taille M",
+   "10 entrées et 7 sorties d'air",
+   "Joues amovibles à libération d'urgence",
+   "Intérieur lavable en matière recyclée"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 310 g (taille M, annonce constructeur)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polymères thermo-injectés)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "10 entrées et 7 sorties d'air",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Aucun test SHARP disponible.",
+   "Poids relevé sur la version Radium, extrapolé aux autres graphismes.",
+   "Les fiches regroupent Falcon, Heat, Radium, Solid, Force."
+  ],
+  "nb_fiches": 20
+ },
+ {
+  "modele": "S-M3 Youth",
+  "marque": "Alpinestars",
+  "motif": "^(?=.*\\ys-?m-?3\\y)(?=.*\\y(enfant|jettson|yamaha)\\y)",
+  "accroche": "Le casque cross enfant d'Alpinestars : 1 060 g, 3 tailles de coque Youth, les technologies de la gamme adulte, ECE 22.06.",
+  "description": "Le S-M3 Youth reprend les technologies de la gamme adulte d'Alpinestars dans une forme anatomique pour les jeunes pilotes. Sa coque thermo-injectée en thermoplastique existe en trois tailles (Youth S, M et L) pour 1 060 g. Les tailles Youth M et Youth L partagent la même doublure EPS, ce qui accompagne la croissance de l'enfant.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Seulement 1 060 g, annoncé par le constructeur.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque thermo-injectée en thermoplastique, en trois tailles Youth S, M et L.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure EPS identique pour les tailles Youth M et L, pour suivre la croissance de l'enfant.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Technologies issues de la gamme adulte Alpinestars pour la performance et le confort.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologué ECE 22.06.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Seulement 1 060 g pour les enfants",
+   "3 tailles de coque Youth",
+   "Pensé pour grandir avec l'enfant",
+   "Les technologies de la gamme adulte"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 060 g (annonce constructeur)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polymères thermo-injectés)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "Youth S, Youth M et Youth L",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Aucun test SHARP disponible.",
+   "Regroupe Falcon, Jettson, Radium, Solid, Fray, Yamaha enfant."
+  ],
+  "nb_fiches": 14
+ }
+]

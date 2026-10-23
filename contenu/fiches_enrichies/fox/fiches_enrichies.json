@@ -1,0 +1,376 @@
+[
+ {
+  "modele": "V1",
+  "marque": "Fox",
+  "nb_fiches": 21,
+  "motif": "^(?!.*(youth|jeunesse|enfant)).*\\yv1\\y",
+  "accroche": "Le casque cross d'entrée de gamme de Fox : coque polycarbonate-ABS, système MIPS et homologation ECE 22.06.",
+  "description": "Le V1 est le casque cross de Fox pour attaquer les pistes sans chichi. Sa coque légère en polycarbonate et ABS accueille le système MIPS et une ventilation généreuse, avec 7 entrées d'air et 4 sorties. Visière réglable, intérieur lavable et homologation ECE 22.06.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Coque légère en polycarbonate et ABS moulés par injection.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Système MIPS intégré pour réduire les forces de rotation en cas d'impact.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Quatre tailles de coque et cinq tailles de mousse EPS pour un ajustement précis.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Sept entrées d'air et quatre sorties pour une bonne circulation d'air.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière réglable à vis latérales détachables, couvre-bouche ventilé amovible.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologué ECE 22.06 et DOT ; doublure et coussinets de joues amovibles et lavables.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Système MIPS intégré",
+   "Homologué ECE 22.06",
+   "7 entrées d'air, 4 sorties",
+   "Intérieur amovible et lavable"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate et ABS)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Réglable, vis latérales détachables",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "7 entrées d'air et 4 sorties",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Versions mélangées : tailles de coque/EPS variables selon les séries (Nitro 4 coques/6 EPS, Kairos/Collect/Shield 4/5), ECE 22.06 indiqué sur Shield, Kairos, Collect, Solid.",
+   "Coque polycarbonate-ABS tirée des descriptions Shield, Noble, Frame, Flow."
+  ]
+ },
+ {
+  "modele": "V1 Youth",
+  "marque": "Fox",
+  "nb_fiches": 5,
+  "motif": "^(?=.*\\yv1\\y)(?=.*(youth|jeunesse|enfant))",
+  "accroche": "Le V1 en version junior : coque polycarbonate-ABS, MIPS et réglage précis pour les 4 à 14 ans.",
+  "description": "Le V1 Youth offre aux jeunes pilotes une coque légère en polycarbonate et ABS et le système MIPS. Une taille de coque et deux tailles de mousse EPS ajustent le casque aux 4 à 14 ans. Visière réglable à vis détachables : de quoi rouler en motocross, en quad ou en tout-terrain.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Coque légère en polycarbonate et ABS.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Système MIPS pour réduire les forces de rotation en cas d'impact.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Une taille de coque et deux tailles de mousse EPS pour les enfants de 4 à 14 ans.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière réglable avec vis latérales détachables.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Casque d'entrée de gamme pour le motocross, le quad et le tout-terrain.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Pour les 4 à 14 ans",
+   "Système MIPS intégré",
+   "Coque légère polycarbonate-ABS",
+   "Visière réglable"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate et ABS)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Réglable, vis latérales détachables",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Norme non indiquée pour la version Youth : omise.",
+   "Séries mélangées (Noble, Collect, Shield, Kairos, Diffuse SE)."
+  ]
+ },
+ {
+  "modele": "V3",
+  "marque": "Fox",
+  "nb_fiches": 6,
+  "motif": "^(?!.*((youth|jeunesse|enfant)|\\yrs\\y)).*\\yv3\\y",
+  "accroche": "Coque en fibre de verre composite, MIPS, visière 3 positions et ECE 22.06 : le V3 de Fox pour rouler plus loin.",
+  "description": "Le V3 monte d'un cran avec une coque en composite de fibre de verre, légère et résistante. Il embarque le système MIPS, une visière réglable sur trois positions et une doublure Ionic+ qui gère l'humidité. Logements pour haut-parleurs, passage pour l'hydratation et homologation ECE 22.06 complètent le tableau.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Coque en composite de fibre de verre, légère.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Système MIPS avec une couche à faible frottement entre la tête et le casque.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque intérieure MDEPS en EPS pour répartir l'énergie sur une grande surface.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière détachable, réglable sur trois positions.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure Ionic+ qui évacue l'humidité ; retrait d'urgence des coussinets de joues possible.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Logements pour haut-parleurs, passage pour l'hydratation, boucle double D en titane.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque en fibre de verre composite",
+   "Système MIPS intégré",
+   "Visière réglable en 3 positions",
+   "Logements haut-parleurs prévus"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Fibre de verre composite",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Réglable sur 3 positions, détachable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Doublure Ionic+ anti-humidité",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Audio",
+    "valeur": "Logements prévus pour haut-parleurs",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "ECE 22.06 indiqué sur le V3 Tine ; les séries plus anciennes (Divider, Drip) peuvent différer.",
+   "Modèle V3 (Solid, Divider, Drip, Throttle, Tine) regroupé."
+  ]
+ },
+ {
+  "modele": "V3 RS",
+  "marque": "Fox",
+  "nb_fiches": 12,
+  "motif": "^(?!.*(youth|jeunesse|enfant))(?=.*\\yv3 rs\\y)",
+  "accroche": "Coque en fibre de carbone 4K, MIPS Integra Split à deux couches d'EPS et ECE 22.06 : le V3 RS de course.",
+  "description": "Le V3 RS est le casque haut de gamme de Fox, développé avec et pour les pilotes professionnels. Sa coque en fibre de carbone 4K est légère et le système MIPS Integra Split superpose deux couches d'EPS. Visière réglable en trois positions, logements pour haut-parleurs et homologation ECE 22.06.",
+  "profil_position": 55,
+  "points_forts": [
+   {
+    "texte": "Coque en fibre de carbone 4K, légère.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Système MIPS Integra Split avec deux couches d'EPS.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Développé avec et pour les pilotes professionnels, éprouvé en course.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Évents d'admission et d'extraction placés pour faciliter le refroidissement.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière réglable sur trois positions, doublure Ionic+ anti-humidité.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Logements pour haut-parleurs, passage d'hydratation, boucle double D en fibre de carbone.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque en fibre de carbone 4K",
+   "MIPS Integra Split, 2 couches d'EPS",
+   "Développé avec des pilotes pros",
+   "Homologué ECE 22.06"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Carbone (fibre de carbone 4K)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Réglable sur 3 positions",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Doublure Ionic+ anti-humidité",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Audio",
+    "valeur": "Logements prévus pour haut-parleurs",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Poids annoncé 1 230 g (taille M) uniquement sur la version Fracture Carbon : non repris.",
+   "Fermeture en carbone indiquée sur Carbon Solid ; double D retenue."
+  ]
+ },
+ {
+  "modele": "V3 Youth",
+  "marque": "Fox",
+  "nb_fiches": 3,
+  "motif": "^(?=.*\\yv3\\y)(?=.*(youth|jeunesse|enfant))",
+  "accroche": "Le V3 en version junior : coque en fibre de verre composite, MIPS et visière réglable sur trois positions.",
+  "description": "Le V3 Youth offre aux jeunes pilotes une coque légère en composite de fibre de verre et le système MIPS. La visière se règle sur trois positions, avec une extension anti-boue amovible. Un passage d'hydratation complète l'ensemble.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Coque légère en composite de fibre de verre.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Système MIPS pour réduire les forces de rotation en cas d'impact.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque intérieure MDEPS en EPS pour répartir l'énergie sur une grande surface.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière réglable sur trois positions, avec extension anti-boue amovible.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Système d'hydratation.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque en fibre de verre composite",
+   "Système MIPS intégré",
+   "Visière réglable en 3 positions",
+   "Prévu pour l'hydratation"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Fibre de verre composite",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Réglable sur 3 positions, extension anti-boue amovible",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Norme non indiquée pour la version Youth : omise."
+  ]
+ }
+]

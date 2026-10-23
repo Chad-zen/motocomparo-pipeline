@@ -1,0 +1,1167 @@
+[
+ {
+  "modele": "Aria",
+  "marque": "Acerbis",
+  "nb_fiches": 20,
+  "motif": "\\yaria\\y",
+  "accroche": "Le jet italien léger, avec pare-soleil intégré et ventilation réglable : l'allure ouverte, sans fioritures.",
+  "description": "L'Aria est le casque jet d'Acerbis pour la ville et les petits trajets. Sa coque thermoplastique reste légère, le pare-soleil se rétracte d'un geste et la ventilation avant se règle à votre convenance. Un intérieur amovible et lavable, une boucle micrométrique : tout est pensé pour partir vite.",
+  "profil_position": 15,
+  "points_forts": [
+   {
+    "texte": "Coque thermoplastique, une coque extérieure et deux coques intérieures selon les versions.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil intégré et rétractable pour les trajets ensoleillés.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation réglable à l'avant, avec évents arrière et latéraux.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Boucle micrométrique à libération rapide.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur amovible, hypoallergénique, respirant et lavable.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologué ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Pare-soleil intégré et rétractable",
+   "Ventilation réglable à l'avant",
+   "Intérieur amovible et lavable",
+   "Boucle micrométrique rapide"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré et rétractable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Entrée d'air avant réglable, évents arrière et latéraux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Poids annoncé 1 100 g (Solid), 1 110 g (Metallic) ou 1 200 g (autres versions) : non repris.",
+   "Une version 2023 est décrite avec pare-soleil amovible, les autres intégré."
+  ]
+ },
+ {
+  "modele": "Brezza",
+  "marque": "Acerbis",
+  "nb_fiches": 23,
+  "motif": "\\ybrezza\\y(?! enfant)",
+  "accroche": "Le demi-jet Acerbis léger, avec écran transparent et boucle micrométrique : le casque ouvert simple et net.",
+  "description": "Le Brezza est un casque ouvert (demi-jet) à la coque thermoplastique légère, pensé pour la ville et les trajets courts. Son écran extérieur transparent vous protège du vent, la doublure se retire pour le lavage et la boucle se règle au millimètre. Il existe en coloris unis et métallisés.",
+  "profil_position": 10,
+  "points_forts": [
+   {
+    "texte": "Coque extérieure en thermoplastique, une seule taille de coque et deux tailles d'EPS.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière extérieure transparente.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture micro-réglable à dégagement rapide.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure amovible et lavable, hypoallergénique et respirante.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Environ 1 150 g en taille M.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Certifié ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Environ 1 150 g en taille M",
+   "Visière extérieure transparente",
+   "Doublure amovible et lavable",
+   "Boucle micro-réglable rapide"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 150 g (taille M, selon le fabricant)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Visière extérieure transparente",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Les fiches Brezza Enfant (980 g) sont exclues du motif."
+  ]
+ },
+ {
+  "modele": "X-Way",
+  "marque": "Acerbis",
+  "nb_fiches": 17,
+  "motif": "\\yx-?way\\y",
+  "accroche": "L'intégral Acerbis à l'allure sportive : pare-soleil intégré, Pinlock 70 prévu, intercom prévu.",
+  "description": "Le X-Way est un casque intégral à l'allure sportive. Son pare-soleil intégré se commande au curseur, la visière est préparée pour un Pinlock 70 antibuée et la fixation micro-ajustable se règle d'une main. Les logements d'écouteurs sont prévus pour un intercom.",
+  "profil_position": 65,
+  "points_forts": [
+   {
+    "texte": "Pare-soleil intégré commandé par un curseur.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière préparée pour un Pinlock 70 Max Vision.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Une taille de coque extérieure et trois tailles de coques intérieures.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Prévu pour des écouteurs d'intercom (Ø 40 mm maximum).",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur amovible, hypoallergénique et lavable, avec garde respiratoire et tissu de protection amovibles.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Environ 1 600 g en taille M, certifié ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Pare-soleil intégré au curseur",
+   "Visière prête pour le Pinlock 70",
+   "Intérieur lavable, prêt pour l'intercom",
+   "Trois tailles de coques intérieures"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 600 g (taille M, selon le fabricant)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré, commandé par un curseur",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Audio",
+    "valeur": "Logements prévus pour haut-parleurs",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Matière de coque non précisée dans les flux : ligne omise."
+  ]
+ },
+ {
+  "modele": "T711",
+  "marque": "Acerbis",
+  "nb_fiches": 16,
+  "motif": "\\yt711\\y",
+  "accroche": "Le cross d'inspiration américaine en fibre de verre : 18 prises d'air et visière réglable en longueur.",
+  "description": "Le T711 s'inspire du style américain et s'adresse à ceux qui roulent en cross et en enduro. Sa coque en fibre de verre existe en deux tailles et la visière se règle en longueur pour moins de boue sur les lunettes. Avec ses 18 prises d'air, la ventilation reste généreuse, même sur les tours les plus longs.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Coque en fibre de verre en deux tailles extérieures, avec deux tailles d'EPS.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière réglable en longueur, mise au point avec les pilotes pour limiter la boue sur le masque.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "18 prises d'air pour la circulation de l'air.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Compatible avec un système d'hydratation.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque compatible avec les minerves (neck brace).",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture à double anneau en D, intérieur amovible et lavable.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque en fibre de verre",
+   "18 prises d'air",
+   "Visière réglable en longueur",
+   "Compatible minerve et hydratation"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Fibre de verre",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Visière réglable en longueur",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "18 prises d'air",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Poids non lisible dans les flux (texte tronqué)."
+  ]
+ },
+ {
+  "modele": "Airstrike-X",
+  "marque": "Acerbis",
+  "nb_fiches": 15,
+  "motif": "\\yairstrike-x\\y",
+  "accroche": "Le cross en fibre de verre d'Acerbis pour rouler et s'entraîner : 4 entrées d'air, 6 extracteurs, visière sans vis.",
+  "description": "L'Airstrike-X est un casque tout-terrain en fibre de verre pensé pour la compétition comme pour l'entraînement. Sa visière se fixe sans vis, les prises d'air se retirent pour le nettoyage et l'ouverture frontale offre un large champ de vision pour les masques modernes. Les coussinets de joues se retirent rapidement en cas d'urgence.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Coque extérieure en fibre de verre, disponible en deux tailles.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation par 4 entrées d'air et 6 extracteurs.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Prises d'air amovibles pour faciliter le nettoyage.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière fixée sans vis.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Large champ de vision, pensé pour les masques de cross récents.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coussinets de joues à retrait rapide en cas d'urgence, coque compatible avec les minerves.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque en fibre de verre",
+   "4 entrées d'air et 6 extracteurs",
+   "Visière fixée sans vis",
+   "Coussinets de joues à retrait d'urgence"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Fibre de verre",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Fixée sans vis",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "4 entrées d'air et 6 extracteurs, prises d'air amovibles",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Poids et norme non lisibles dans les flux (texte tronqué) : lignes omises."
+  ]
+ },
+ {
+  "modele": "Serel",
+  "marque": "Acerbis",
+  "nb_fiches": 13,
+  "motif": "\\yserel\\y",
+  "accroche": "Le modulable Acerbis polyvalent : pare-soleil intégré, mentonnière relevable, Pinlock 70 et intercom prévus.",
+  "description": "Le Serel est un casque modulable pour la route et la ville. La mentonnière se relève d'un curseur central, le pare-soleil intégré se commande au pouce et la visière est préparée pour un Pinlock 70. Les logements sont prévus pour un intercom et l'intérieur se lave.",
+  "profil_position": 30,
+  "points_forts": [
+   {
+    "texte": "Casque modulable à pare-soleil intégré commandé par un curseur.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière préparée pour un Pinlock 70.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Une taille de coque extérieure et trois tailles de coques intérieures.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Prévu pour des écouteurs d'intercom (Ø 40 mm maximum).",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Garde respiratoire et relief de menton amovibles.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Environ 1 650 g en taille M, homologué ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Mentonnière relevable",
+   "Pare-soleil intégré au curseur",
+   "Visière prête pour le Pinlock 70",
+   "Prêt pour un intercom"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 650 g (taille M, selon le fabricant)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré, commandé par un curseur",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Audio",
+    "valeur": "Logements prévus pour haut-parleurs",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Coque annoncée en thermoplastique (fiche technique) mais en polycarbonate dans un autre texte : thermoplastique retenu."
+  ]
+ },
+ {
+  "modele": "Linear",
+  "marque": "Acerbis",
+  "nb_fiches": 11,
+  "motif": "\\ylinear\\y",
+  "accroche": "Le cross thermoplastique d'Acerbis pour débuter et rouler : coque en losange et large ventilation.",
+  "description": "Le Linear est un casque tout-terrain à la coque thermoplastique en forme de losange. Ses larges ouvertures d'aération brassent l'air en toute saison et l'intérieur perforé se retire pour le lavage. Il est compatible avec les minerves et se ferme par un double anneau en D.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Coque extérieure en thermoplastique en forme de losange.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Larges ouvertures d'aération pour une bonne circulation de l'air.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture par sangle à double anneau en D.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque compatible avec les minerves.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur hypoallergénique, respirant, amovible et lavable.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Environ 1 400 g en taille M, certifié ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque thermoplastique en losange",
+   "Larges ouvertures d'aération",
+   "Compatible avec les minerves",
+   "Intérieur amovible et lavable"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 400 g (taille M, selon le fabricant)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Larges ouvertures d'aération",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Un texte ancien annonce ECE 22.05 et 1 350 g, un autre trois coques intérieures : versions mélangées, 22.06 retenue."
+  ]
+ },
+ {
+  "modele": "Whoops",
+  "marque": "Acerbis",
+  "nb_fiches": 12,
+  "motif": "\\ywhoops\\y",
+  "accroche": "Le cross au style américain : 5 entrées et 5 extracteurs d'air, coque thermoplastique, du XS au XXL.",
+  "description": "Le Whoops est un casque de cross au style américain pour rouler en tout-terrain. Sa coque thermoplastique reçoit cinq entrées et cinq extracteurs d'air, et deux tailles de coque intérieure ajustent le maintien. Les tissus respirants gardent le confort sous la chaleur.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Coque extérieure en thermoplastique, une taille de coque extérieure et deux de coque intérieure.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation par 5 entrées et 5 extracteurs d'air.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Sangle à double anneau.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Tissus hypoallergéniques et respirants.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Compatible avec les protège-nuque et les haut-parleurs d'intercom de 45 mm.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Environ 1 350 g en taille M, certifié ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "5 entrées et 5 extracteurs d'air",
+   "Coque thermoplastique",
+   "Du XS au XXL",
+   "Intérieur respirant et lavable"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 350 g (taille M, selon le fabricant)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "5 entrées et 5 extracteurs d'air",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à XXL",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Tailles XS à XXL tirées d'un seul texte."
+  ]
+ },
+ {
+  "modele": "Attack",
+  "marque": "Acerbis",
+  "nb_fiches": 14,
+  "motif": "\\yattack\\y",
+  "accroche": "L'intégral aventure Acerbis en fibre de verre : écran à essuie-glace, pare-soleil intégré, Pinlock 70 prévu.",
+  "description": "L'Attack est un casque d'aventure à la coque en fibre de verre, taillé pour la route comme pour les chemins. Son écran à fixation rapide reçoit un essuie-glace intégré et le pare-soleil se commande au curseur. Il est préparé pour le Pinlock 70 et pour un intercom.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Coque extérieure en fibre de verre en deux tailles, coque intérieure en deux tailles.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran intégré avec essuie-glace.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran transparent à fermeture rapide, panoramique et antibuée prêt pour le Pinlock 70.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil intégré actionné par un curseur.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture à double anneau en D, jugulaire amovible.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Environ 1 450 g en taille M, certifié ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Écran avec essuie-glace intégré",
+   "Coque en fibre de verre",
+   "Pare-soleil intégré au curseur",
+   "Écran à changement rapide"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 450 g (taille M, selon le fabricant)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Fibre de verre",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Écran transparent à fixation rapide, avec essuie-glace",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré, commandé par un curseur",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Audio",
+    "valeur": "Logements prévus pour haut-parleurs",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Une version Attack-C en fibre de carbone existe chez les marchands mais n'a pas de fiche : non mélangée."
+  ]
+ },
+ {
+  "modele": "Assault",
+  "marque": "Acerbis",
+  "nb_fiches": 11,
+  "motif": "\\yassault\\y",
+  "accroche": "L'intégral aventure Acerbis : visière à retrait rapide, pare-soleil intégré, Pinlock 70 prévu.",
+  "description": "L'Assault est un casque intégral pour la route et le tout-terrain. D'un geste, la visière se retire pour passer en configuration off-road, et le pare-soleil intégré se commande au curseur. Il est préparé pour le Pinlock 70 et compatible avec les intercoms.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Visière amovible à déclenchement rapide pour passer en usage tout-terrain.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil intégré commandé par un curseur.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière transparente haute résistance.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Préparé pour le Pinlock 70 Max Vision, compatible avec les intercoms.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Une coque extérieure et trois coques intérieures.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur amovible, hypoallergénique, respirant et lavable.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Visière à retrait rapide",
+   "Pare-soleil intégré au curseur",
+   "Visière prête pour le Pinlock 70",
+   "Route ou tout-terrain"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Visière transparente amovible à déclenchement rapide",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré, commandé par un curseur",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Audio",
+    "valeur": "Logements prévus pour haut-parleurs",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Matière de coque, poids et norme non lisibles (texte tronqué) : lignes omises."
+  ]
+ },
+ {
+  "modele": "Tarmak-X",
+  "marque": "Acerbis",
+  "nb_fiches": 11,
+  "motif": "\\ytarmak-x\\y",
+  "accroche": "L'intégral touring et sportif en fibre de verre : spoiler arrière, trois tailles de coque, double anneau.",
+  "description": "Le Tarmak-X marie l'esprit touring et le caractère sportif. Sa coque en fibre de verre existe en trois tailles pour s'ajuster à chacun et le spoiler arrière donne une allure aérodynamique. L'écran transparent est préparé pour le Pinlock 70 et la fermeture est à double anneau en D.",
+  "profil_position": 65,
+  "points_forts": [
+   {
+    "texte": "Coque en fibre de verre, trois tailles de coque extérieure et trois intérieures.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Spoiler arrière aérodynamique.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran principal transparent, préparé pour le Pinlock 70 Max Vision.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture à double anneau en D.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur de nouvelle génération, pour le confort sur longs trajets.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Environ 1 480 g en taille M.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque en fibre de verre",
+   "Spoiler arrière aérodynamique",
+   "Trois tailles de coque",
+   "Écran prêt pour le Pinlock 70"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 480 g (taille M, selon le fabricant)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Fibre de verre",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Écran transparent, préparé pour le Pinlock 70",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Le Tarmak (sans X, carbone) a des fiches distinctes : exclu."
+  ]
+ },
+ {
+  "modele": "Firstway 2.0",
+  "marque": "Acerbis",
+  "nb_fiches": 10,
+  "motif": "\\yfirstway\\y",
+  "accroche": "Le jet urbain Acerbis : pare-soleil intégré, intérieur lavable et boucle micrométrique.",
+  "description": "Le Firstway 2.0 est un casque jet pour la ville. Sa coque thermoplastique reste légère, le pare-soleil intégré se commande au curseur et la boucle micrométrique se serre d'une main. L'intérieur se retire pour le lavage.",
+  "profil_position": 10,
+  "points_forts": [
+   {
+    "texte": "Coque extérieure en thermoplastique, une taille de coque et trois tailles d'EPS.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil intégré commandé par un curseur.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Réglage micrométrique de la sangle avec blocage rapide.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur amovible, hypoallergénique, respirant et lavable.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran transparent anti-rayures.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Environ 1 350 g en taille M, certifié ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Pare-soleil intégré au curseur",
+   "Boucle micrométrique rapide",
+   "Coque thermoplastique",
+   "Intérieur amovible et lavable"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 350 g (taille M, selon le fabricant)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré, commandé par un curseur",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Un ancien texte cite ECE 22.05 ; un autre parle de polycarbonate : thermoplastique et 22.06 retenus."
+  ]
+ },
+ {
+  "modele": "Profile",
+  "marque": "Acerbis",
+  "nb_fiches": 9,
+  "motif": "\\yprofile\\y",
+  "accroche": "Le cross jeunesse Acerbis en thermoplastique : double anneau en D, compatible protège-nuque, norme ECE 22.06.",
+  "description": "Le Profile est un casque de cross pensé pour les jeunes pilotes. Sa coque thermoplastique est légère et le double anneau en D tient fermement. L'intérieur doux évacue l'humidité et la coque accepte un protège-nuque.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Coque extérieure en thermoplastique, taille unique de coque extérieure.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture à double anneau en D.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque compatible avec les protège-nuques.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur doux au toucher qui évacue l'humidité, amovible et lavable.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Environ 1 150 g en taille M.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Certifié ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque thermoplastique légère",
+   "Double anneau en D",
+   "Compatible avec un protège-nuque",
+   "Intérieur doux, amovible et lavable"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 150 g (taille M, selon le fabricant)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "50 (YS) à 56 (YXL)",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Fiches Junior, White et Enfant regroupées ; une version de la gamme parle d'une coque et d'une calotte intérieure uniques."
+  ]
+ },
+ {
+  "modele": "Rider Junior",
+  "marque": "Acerbis",
+  "nb_fiches": 6,
+  "motif": "\\yrider junior\\y",
+  "accroche": "Le casque aventure enfant d'Acerbis : intégral, cross ou aventure, avec kit d'autocollants.",
+  "description": "Le Rider Junior s'adapte à vos envies avec trois configurations : cross sans écran, intégral sans visière ou aventure avec visière. Sa coque thermoplastique reçoit un intérieur doux qui évacue l'humidité. Un kit d'autocollants permet de le personnaliser.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Trois configurations : cross sans écran transparent, intégral sans visière, aventure.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque extérieure en thermoplastique, une taille de coque et deux tailles d'EPS.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fixation rapide micro-ajustable.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur doux au toucher, amovible, hypoallergénique et lavable.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Kit d'autocollants pour personnaliser le casque.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Environ 1 250 g, certifié ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Trois configurations en un casque",
+   "Kit d'autocollants fourni",
+   "Coque thermoplastique",
+   "Intérieur doux, amovible et lavable"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 250 g (selon le fabricant)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Audio",
+    "valeur": "Logements prévus pour haut-parleurs",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": []
+ }
+]

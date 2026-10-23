@@ -1,0 +1,57 @@
+[
+ {
+  "modele": "X-297",
+  "marque": "One Industries",
+  "nb_fiches": 6,
+  "motif": "\\yx-?297\\y",
+  "accroche": "Le casque de cross One Industries à la coupe sportive et ajustée, avec ventilation par canaux internes et joues à retrait rapide.",
+  "description": "Le X-297 est un casque de cross à la coupe sportive et ajustée : il reste stable et bouge peu sur les terrains exigeants. De grandes ouvertures de ventilation et des canaux internes font circuler l'air. En cas de besoin, le système E.Q.R.S. permet de retirer les joues rapidement.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Coupe sportive et ajustée pour un maintien stable.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Moins de mouvements du casque et un contrôle optimal sur les terrains exigeants.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Grandes ouvertures de ventilation pour un maximum d'air frais.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Canaux de ventilation internes pour mieux évacuer la chaleur.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Retrait facile et rapide des joues grâce au système E.Q.R.S. à languettes d'urgence.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coupe sportive et ajustée",
+   "Ventilation par canaux internes",
+   "Joues à retrait rapide E.Q.R.S.",
+   "Maintien stable sur terrain exigeant"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Ventilation",
+    "valeur": "Grandes ouvertures avec canaux de ventilation internes",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Matière de coque contradictoire selon les sources : ligne omise. Peu d'éléments de flux (version Horizon).",
+   "X-197 Carbon (1 fiche) non traité : aucune description."
+  ]
+ }
+]

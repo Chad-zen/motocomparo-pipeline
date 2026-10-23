@@ -1,0 +1,152 @@
+[
+ {
+  "modele": "JD/ONE",
+  "marque": "John Doe",
+  "nb_fiches": 14,
+  "motif": "\\yjd/one (frozen(?! carbon)|spectral|signature(?! frozen))",
+  "accroche": "L'intégral rétro années 70 de John Doe : personnalisable, coque en fibre de verre en 4 tailles.",
+  "description": "Le JD/ONE s'inspire des casques des années 70 et se personnalise à volonté, avec pics et pièces d'origine. Sa coque en fibre de verre existe en quatre tailles, la ventilation se règle à l'avant et à l'arrière et la doublure est remplaçable. Il convient à la route comme à l'aventure.",
+  "profil_position": 45,
+  "points_forts": [
+   {
+    "texte": "Coque en fibre de verre, en 4 tailles de coque.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Style rétro des années 70, à personnaliser selon vos envies.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Déverrouillage d'urgence E.Q.R.S. et fermeture double D.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écrans traités antibuée et anti-rayures.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation interne réglable à l'avant et à l'arrière.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Look rétro années 70 personnalisable",
+   "Coque fibre de verre, 4 tailles",
+   "Déverrouillage d'urgence E.Q.R.S.",
+   "Ventilation réglable avant et arrière"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Fibre de verre (4 tailles de coque)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Traitée antibuée et anti-rayures",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Réglable à l'avant et à l'arrière",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Remplaçable et ajustable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Des pics courts et longs d'origine existent en accessoires."
+  ],
+  "alertes_qualite": [
+   "Versions Signature Frozen (fiches à 479) exclues : matière non établie. Norme non lisible dans les descriptions : omise."
+  ]
+ },
+ {
+  "modele": "JD/ONE Frozen Carbon",
+  "marque": "John Doe",
+  "nb_fiches": 2,
+  "motif": "\\yjd/one frozen carbon\\y",
+  "accroche": "Le JD/ONE en fibre de carbone : style rétro années 70, personnalisable, 4 tailles de coque.",
+  "description": "Version carbone du JD/ONE, le Frozen Carbon garde l'esprit des casques des années 70 et toute la personnalisation de la gamme. Sa coque en fibre de carbone existe en quatre tailles, avec ventilation réglable, déverrouillage d'urgence E.Q.R.S. et fermeture double D.",
+  "profil_position": 45,
+  "points_forts": [
+   {
+    "texte": "Coque en composite de fibre de carbone, en 4 tailles de coque.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Style rétro des années 70, à personnaliser selon vos envies.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Déverrouillage d'urgence E.Q.R.S. et fermeture double D.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écrans traités antibuée et anti-rayures.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation interne réglable à l'avant et à l'arrière.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque en fibre de carbone",
+   "Look rétro années 70",
+   "Déverrouillage d'urgence E.Q.R.S.",
+   "Ventilation réglable avant et arrière"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Carbone (fibre de carbone, 4 tailles de coque)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Traitée antibuée et anti-rayures",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Réglable à l'avant et à l'arrière",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Remplaçable et ajustable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Matière carbone déduite de la description « Carbon Signature » : à confirmer pour le Frozen Carbon."
+  ]
+ }
+]

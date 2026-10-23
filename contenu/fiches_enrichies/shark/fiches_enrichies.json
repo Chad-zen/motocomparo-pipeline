@@ -1,0 +1,1262 @@
+[
+ {
+  "modele": "D-Skwal 3",
+  "marque": "Shark",
+  "nb_fiches": 50,
+  "motif": "d-skwall? 3\\y",
+  "accroche": "L'intégral au look agressif homologué ECE 22.06, avec double visière intégrée, Pinlock 70 fourni et intérieur en 5 textiles.",
+  "description": "Le D-Skwal 3 mise sur un style sportif et une vraie dotation de série. Sa coque en polycarbonate Lexan est profilée avec des spoilers aérodynamiques, la double visière (claire et solaire) est intégrée et le Pinlock est fourni. À l'intérieur, le confort Best Fit utilise 5 textiles amovibles.",
+  "profil_position": 60,
+  "points_forts": [
+   {
+    "texte": "Homologué ECE 22.06, coque polycarbonate Lexan en 2 tailles de coque.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Spoilers aérodynamiques pour rester stable à vitesse soutenue.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Double visière intégrée (claire et pare-soleil), Pinlock 70 fourni.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Retrait de la visière rapide et sans outil grâce au système breveté Shark.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur Best Fit en 5 textiles, amovible et lavable.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Norme ECE 22.06",
+   "Double visière avec pare-soleil intégré",
+   "Pinlock 70 fourni",
+   "Visière à retirer sans outil"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 555 g (donnée constructeur, à 50 g près)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate Lexan)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "tableau technique d'un revendeur partenaire"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Retrait rapide sans outil",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock 70 fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à XXL",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "tableau technique d'un revendeur partenaire"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Prêt pour l'interphone Sena for Shark."
+  ],
+  "alertes_qualite": [
+   "SHARP ne teste que le D-Skwal d'origine (ECE 22.05, 2018) : securite nulle.",
+   "Poids : descriptions 1 555 g (+/- 50 g), tableau revendeur 1 540 g.",
+   "Tableau revendeur annonce des LED sur le D-Skwal 3 : absent des descriptions, ignoré.",
+   "Tableau revendeur : 1 coque (15 lignes) ou 2 (12) : 2 retenues (descriptions)."
+  ]
+ },
+ {
+  "modele": "Skwal i3",
+  "marque": "Shark",
+  "nb_fiches": 42,
+  "motif": "\\yi3\\y(?!.*(jet|r.{1,2}action))",
+  "accroche": "Un intégral avec feux stop LED intégrés : accéléromètre, rechargement USB-C, Pinlock 70 fourni, homologué ECE 22.06.",
+  "description": "Le Skwal i3 se fait voir quand vous freinez : ses feux stop LED, pilotés par un accéléromètre, s'allument sans fil ni Bluetooth. Il garde un intégral polycarbonate bien équipé, avec pare-soleil intégré, Pinlock 70 fourni et fermeture micrométrique. Les feux se rechargent en USB-C et se coupent si vous préférez.",
+  "profil_position": 60,
+  "points_forts": [
+   {
+    "texte": "Feux de position et feux stop LED actifs de série, avec accéléromètre triaxial.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Rechargement USB-C et feux désactivables.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologué ECE 22.06, coque polycarbonate Lexan en 2 tailles de coque.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pinlock 70 fourni et pare-soleil intégré antibuée.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière à retrait rapide sans outil, compatible interphone Sharktooth Prime.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Feux stop LED intégrés au casque",
+   "Rechargement USB-C",
+   "Pinlock 70 fourni",
+   "Pare-soleil intégré, norme ECE 22.06"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 585 g (donnée constructeur, à 50 g près)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate Lexan)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Optique classe 1, anti-rayures, retrait rapide sans outil",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock 70 fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré, anti-rayures et antibuée",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "tableau technique d'un revendeur partenaire"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Les feux stop se rechargent en USB-C.",
+   "Compatible avec l'interphone Sharktooth Prime de Shark."
+  ],
+  "alertes_qualite": [
+   "Pas de test SHARP pour le Skwal i3 : securite nulle.",
+   "Poids : descriptions 1 585 g (+/- 50 g), tableau revendeur 1 604 g.",
+   "Les titres iCUP et Jet sont exclus du motif."
+  ]
+ },
+ {
+  "modele": "Spartan RS",
+  "marque": "Shark",
+  "nb_fiches": 33,
+  "motif": "spartan rs\\y",
+  "accroche": "L'intégral sportif de Shark en composite de fibres : 4 étoiles SHARP en ECE 22.06, 1 500 g à la pesée, Pinlock fourni.",
+  "description": "Le Spartan RS marie un look néo-rétro à un vrai profil sportif. Coque en composite de fibres, visière à verrouillage 4 points inspiré du modèle de course de Shark, pare-soleil intégré et Pinlock livré avec. Intérieur Alveotech en simili cuir perforé : il se sent aussi bien sur route que sur circuit.",
+  "profil_position": 80,
+  "points_forts": [
+   {
+    "texte": "4 étoiles au test SHARP, avec la norme ECE 22.06 (test de septembre 2024).",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche SPARTAN RS, septembre 2024"
+   },
+   {
+    "texte": "1 500 g à la pesée SHARP, pour un intégral en composite.",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche SPARTAN RS, septembre 2024"
+   },
+   {
+    "texte": "Verrouillage de visière à 4 points, repris du Race-R Pro GP de course.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pinlock fourni et pare-soleil intégré traité UV380.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur Alveotech, bavette amovible, prêt pour un interphone Sena.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "4 étoiles SHARP, norme ECE 22.06",
+   "1 500 g à la pesée SHARP",
+   "Visière verrouillée en 4 points",
+   "Pinlock et pare-soleil intégré"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 500 g (pesée SHARP)",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (verre multiaxial, carbone sur les versions Carbon)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Verrouillage à 4 points, anti-rayures (écran VZ160)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock Max Vision fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré, traité UV380",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à XXL",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "tableau technique d'un revendeur partenaire"
+   }
+  ],
+  "securite": {
+   "sharp_etoiles": 4,
+   "date_test": "septembre 2024",
+   "norme": "ECE 22.06"
+  },
+  "a_savoir": [
+   "Les versions Carbon sont en fibre de carbone et un peu plus légères (environ 1 485 g annoncés).",
+   "Compatible avec l'interphone Sena for Shark."
+  ],
+  "alertes_qualite": [
+   "Poids : SHARP 1 500 g retenu ; descriptions 1 485 g (Carbon) ou 1 530 g, tableau revendeur 1 475 g.",
+   "Pinlock annoncé 120 dans quelques textes, Max Vision seul dans les autres : formulation « Max Vision ».",
+   "Coque verre/carbone selon version Carbon ou non : formulation prudente."
+  ]
+ },
+ {
+  "modele": "Ridill 2",
+  "marque": "Shark",
+  "nb_fiches": 32,
+  "motif": "ridill 2\\y",
+  "accroche": "Un intégral polycarbonate à vivre au quotidien : 4 étoiles SHARP en ECE 22.06, pare-soleil intégré et doublure lavable.",
+  "description": "Le Ridill 2 est l'intégral de Shark pour rouler tous les jours sans se poser de questions. Coque en polycarbonate Lexan, pare-soleil intégré, visière avec position de ventilation et système Easy Fit pour les porteurs de lunettes. L'intérieur amovible passe en machine à 30 °C.",
+  "profil_position": 55,
+  "points_forts": [
+   {
+    "texte": "4 étoiles au test SHARP, avec la norme ECE 22.06 (test de février 2025).",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche Ridill 2, février 2025"
+   },
+   {
+    "texte": "1 500 g à la pesée SHARP.",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche Ridill 2, février 2025"
+   },
+   {
+    "texte": "Coque en polycarbonate Lexan injecté, en 2 tailles de coque.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil intégré et visière avec position de ventilation.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure amovible lavable en machine à 30 °C, Easy Fit pour les lunettes.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "4 étoiles SHARP, norme ECE 22.06",
+   "Pare-soleil intégré",
+   "Doublure lavable en machine",
+   "Easy Fit pour porter des lunettes"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 500 g (pesée SHARP)",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate Lexan)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Optique classe 1, anti-rayures, position de ventilation",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré, anti-rayures et antibuée",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à XL",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "tableau technique d'un revendeur partenaire"
+   }
+  ],
+  "securite": {
+   "sharp_etoiles": 4,
+   "date_test": "février 2025",
+   "norme": "ECE 22.06"
+  },
+  "a_savoir": [
+   "Prêt pour l'interphone Sena, avec un espace dédié.",
+   "La visière est compatible Pinlock Max Vision."
+  ],
+  "alertes_qualite": [
+   "Poids : SHARP 1 500 g retenu ; descriptions 1 470 g, tableau revendeur 1 459 g.",
+   "Entrées d'air : 4 ou 3 selon les descriptions : ligne omise.",
+   "Une description (Matrix Camo) parle de LED rechargeables et d'un sac de transport, contredit les autres : ignoré.",
+   "Pinlock non fourni (« non inclus ») : ligne omise."
+  ]
+ },
+ {
+  "modele": "Aeron-GP",
+  "marque": "Shark",
+  "nb_fiches": 27,
+  "motif": "aeron-?gp\\y",
+  "accroche": "L'intégral de course de Shark en composite carbone et aramide : 4 étoiles SHARP en ECE 22.06, 1 400 g à la pesée, aileron qui s'ajuste tout seul.",
+  "description": "L'Aeron-GP est le casque de piste de Shark, développé avec des pilotes de MotoGP. Sa coque composite en carbone apparent et aramide ne pèse que 1 400 g lors du test SHARP, et son aileron adaptatif suit votre position de pilotage. Visière à verrouillage 4 points, 5 entrées et 7 sorties d'air : il est fait pour attaquer la piste comme les cols.",
+  "profil_position": 98,
+  "points_forts": [
+   {
+    "texte": "4 étoiles au test SHARP, avec la norme ECE 22.06 (test d'août 2025).",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche Aeron GP, août 2025"
+   },
+   {
+    "texte": "1 400 g à la pesée SHARP : un intégral léger pour un casque de course.",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche Aeron GP, août 2025"
+   },
+   {
+    "texte": "Coque Carbon on View et aramide, en 2 tailles de coque.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Aileron aérodynamique adaptatif, qui s'ajuste à la position de pilotage.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière optique classe 1 avec verrouillage à 4 points, 5 entrées et 7 sorties d'air.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "4 étoiles SHARP, norme ECE 22.06",
+   "1 400 g à la pesée SHARP",
+   "Aileron qui suit votre position",
+   "Visière verrouillée en 4 points"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 400 g (pesée SHARP)",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (carbone apparent et aramide, technologie COVA)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Optique classe 1, anti-rayures et antibuée, verrouillage à 4 points",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "5 entrées d'air et 7 sorties",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à XL",
+    "source": "SHARP"
+   }
+  ],
+  "securite": {
+   "sharp_etoiles": 4,
+   "date_test": "août 2025",
+   "norme": "ECE 22.06"
+  },
+  "a_savoir": [
+   "Les versions FIM Racing sont annoncées avec la certification FIM Racing (FIM-02).",
+   "Retrait d'urgence des mousses de joues prévu."
+  ],
+  "alertes_qualite": [
+   "Poids : SHARP 1 400 g retenu ; descriptions 1 410 g ou 1 460 g (+/- 50 g), tableau revendeur 1 413 g.",
+   "Test SHARP daté d'août 2025 : version non précisée (route ou FIM), rattachée à l'Aeron-GP.",
+   "Pinlock non mentionné dans les descriptions : ligne omise."
+  ]
+ },
+ {
+  "modele": "Skwal Cup",
+  "marque": "Shark",
+  "nb_fiches": 24,
+  "motif": "skwal cup\\y",
+  "accroche": "L'intégral à aileron arrière façon casque de course : Pinlock 70 fourni, pare-soleil intégré, homologué ECE 22.06.",
+  "description": "Le Skwal Cup emprunte ses lignes anguleuses et son aileron arrière aux casques de compétition. Simulé en CFD pour réduire les turbulences, il propose 4 entrées d'air, 2 sorties, un pare-soleil intégré et un Pinlock 70 fourni. Fermeture double anneau en D et préparation pour l'interphone Sena.",
+  "profil_position": 65,
+  "points_forts": [
+   {
+    "texte": "Aileron arrière inspiré de la course, affiné par simulation CFD.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologué ECE 22.06, coque polycarbonate à fort impact.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pinlock 70 fourni et pare-soleil intégré antibuée.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "4 entrées d'air et 2 sorties, avec générateurs de vortex pour limiter le bruit.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture double anneau en D, prédisposé à l'interphone Sena for Shark.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Aileron arrière façon casque de course",
+   "Pinlock 70 fourni",
+   "Pare-soleil intégré",
+   "Fermeture double anneau en D"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Optique classe 1, anti-rayures, retrait rapide sans outil",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock 70 fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré, anti-rayures et antibuée",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "4 entrées d'air et 2 sorties",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible",
+    "source": "tableau technique d'un revendeur partenaire"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Préparé pour l'interphone Sena for Shark.",
+   "Le Skwal Jet Cup est la version ouverte du même design."
+  ],
+  "alertes_qualite": [
+   "Pas de test SHARP : securite nulle.",
+   "Poids : seul le tableau revendeur donne 1 587 g, non retenu.",
+   "Ventilation : 4/2 majoritaire, 1/2 dans 2 descriptions : majoritaire retenue.",
+   "Titres marchands « Skwal Jet Cup » parfois mélangés avec cette fiche."
+  ]
+ },
+ {
+  "modele": "Skwal i3 Jet",
+  "marque": "Shark",
+  "nb_fiches": 23,
+  "motif": "\\yi3 jet\\y|\\yi3\\y.*r.{1,2}action",
+  "accroche": "Un jet urbain avec feux de position, de freinage et clignotants intégrés, à écran solaire intégré et homologué ECE 22.06.",
+  "description": "Le Skwal i3 Jet est un jet qui prend la nuit au sérieux. Ses LED indépendantes et son accéléromètre déclenchent le feu de freinage, avec trois modes d'éclairage : position, stop actif et clignotants. Écran solaire intégré, fermeture micrométrique et emplacement prévu pour un interphone Sharktooth Prime.",
+  "profil_position": 15,
+  "points_forts": [
+   {
+    "texte": "Trois modes d'éclairage LED : position, feux de freinage actifs et clignotants.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Accéléromètre triaxial qui détecte le freinage sans fil ni Bluetooth.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque thermoplastique en 2 tailles de coque, homologuée ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran solaire intégré et conception pour les porteurs de lunettes.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Emplacement prévu pour l'interphone Sharktooth Prime.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Feux stop et clignotants intégrés",
+   "Écran solaire intégré",
+   "Norme ECE 22.06",
+   "Interphone Sharktooth Prime prévu"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Large champ de vision sans distorsion",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Version jet du Skwal i3 : ne pas confondre avec l'intégral.",
+   "Un écran supplémentaire est fourni selon les versions."
+  ],
+  "alertes_qualite": [
+   "Pinlock : « inclus » dans une description, « non inclus » dans les autres : ligne omise.",
+   "Pas de test SHARP : securite nulle. Poids absent : ligne omise.",
+   "Tableau revendeur sans ligne pour ce modèle."
+  ]
+ },
+ {
+  "modele": "Aeron",
+  "marque": "Shark",
+  "nb_fiches": 22,
+  "motif": "aeron\\y(?!-)",
+  "accroche": "Le casque route inspiré du MotoGP : coque composite carbone et aramide, 5 entrées et 7 extracteurs d'air, visière verrouillée en 4 points.",
+  "description": "L'Aeron est le successeur direct de l'Aeron-GP, que portent aussi les pilotes Shark en MotoGP, pensé pour la route. Sa coque composite Carbon on View et aramide reste légère, et les graphismes des coloris s'inspirent des casques de Grand Prix. Visière à verrouillage 4 points, retrait rapide sans outil et compatibilité avec les lunettes.",
+  "profil_position": 90,
+  "points_forts": [
+   {
+    "texte": "Coque Carbon on View et fibres d'aramide, légère et résistante.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Successeur direct de l'Aeron-GP porté par les pilotes Shark en MotoGP.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "5 entrées d'air et 7 extracteurs pour garder la tête au frais.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière verrouillée en 4 points, avec retrait rapide sans outil.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Convient aux porteurs de lunettes, avec déverrouillage d'urgence.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque composite carbone et aramide",
+   "Héritier de l'Aeron-GP du MotoGP",
+   "5 entrées et 7 sorties d'air",
+   "Convient aux porteurs de lunettes"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "tableau technique d'un revendeur partenaire"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (carbone apparent et aramide, technologie COVA)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "tableau technique d'un revendeur partenaire"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Verrouillage à 4 points, retrait rapide sans outil, anti-rayures",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "5 entrées d'air et 7 extracteurs",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible",
+    "source": "tableau technique d'un revendeur partenaire"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "L'Aeron (route) est distinct de l'Aeron-GP (course) : vérifiez la mention GP.",
+   "Plusieurs coloris sont des répliques de pilotes."
+  ],
+  "alertes_qualite": [
+   "Aucun test SHARP rattaché à l'Aeron route (le test Aeron GP concerne l'autre fiche) : securite nulle.",
+   "Poids absent des descriptions et du tableau revendeur : ligne omise.",
+   "Les descriptions de l'Aeron mélangent des textes route et course (A2S, Aeron GP) : ignorés."
+  ]
+ },
+ {
+  "modele": "Spartan GT Pro",
+  "marque": "Shark",
+  "nb_fiches": 21,
+  "motif": "spartan gt pro\\y",
+  "accroche": "Le GT sport de Shark : coque composite verre et carbone, double aileron arrière, Pinlock 120 fourni et pare-soleil intégré.",
+  "description": "Le Spartan GT Pro est le casque des longues sorties rapides. Sa coque composite associe fibre de verre multiaxiale et carbone, son double aileron arrière limite la traînée, et la visière à verrouillage 4 points vient du modèle de course de Shark. Pinlock 120 fourni, pare-soleil intégré et doublure Alveotech Sanitized.",
+  "profil_position": 75,
+  "points_forts": [
+   {
+    "texte": "Coque en fibres composites multiaxiales avec carbone, en 2 tailles de coque.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Double aileron arrière pour limiter la traînée aérodynamique.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière classe optique 1, verrouillage 4 points hérité du Race-R Pro GP.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pinlock 120 Max Vision fourni et pare-soleil UV380 intégré.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure Alveotech Sanitized et mentonnière à double usage.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Double aileron sur coque composite",
+   "Pinlock 120 fourni",
+   "Visière verrouillée en 4 points",
+   "Pare-soleil UV380 intégré"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (verre multiaxial et carbone)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Optique classe 1, anti-rayures, verrouillage à 4 points",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock 120 fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré, traité UV380 et antibuée",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "3 entrées d'air et 2 sorties",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible",
+    "source": "tableau technique d'un revendeur partenaire"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "tableau technique d'un revendeur partenaire"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Compatible avec l'interphone Sharktooth Prime de Shark.",
+   "La version « Carbon » est en carbone."
+  ],
+  "alertes_qualite": [
+   "SHARP : seuls les Spartan GT et GT Carbon (ECE 22.05, 2021) existent : pas la version 22.06, securite nulle.",
+   "Poids absent des descriptions ; tableau revendeur 1 464 g non retenu (source non vérifiable).",
+   "Certaines descriptions parlent de coque fibre de verre seule pour le GT Pro simple."
+  ]
+ },
+ {
+  "modele": "OXO",
+  "marque": "Shark",
+  "nb_fiches": 21,
+  "motif": "\\yoxo\\y",
+  "accroche": "Le modulable Shark à double homologation : 4 étoiles SHARP en ECE 22.06, Pinlock 70 fourni, pare-soleil intégré.",
+  "description": "L'OXO passe de l'intégral au jet en un geste : la mentonnière se verrouille en position jet. Homologué comme intégral et comme jet, il est testé 4 étoiles SHARP en ECE 22.06. Coque polycarbonate Lexan, Pinlock 70 fourni, pare-soleil UV380 intégré et préparation pour l'interphone Sena.",
+  "profil_position": 30,
+  "points_forts": [
+   {
+    "texte": "4 étoiles au test SHARP, avec la norme ECE 22.06 (test de mai 2025).",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche Oxo, mai 2025"
+   },
+   {
+    "texte": "Homologué comme casque intégral et comme casque jet (P/J).",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Mentonnière qui se verrouille en position jet, passage rapide d'un mode à l'autre.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pinlock 70 fourni et pare-soleil UV380 intégré.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque polycarbonate Lexan en 2 tailles, 6 tailles de calotte EPS.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "4 étoiles SHARP, norme ECE 22.06",
+   "Intégral et jet en un geste",
+   "Pinlock 70 fourni",
+   "Pare-soleil UV380 intégré"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 660 g (donnée constructeur, à 50 g près)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate Lexan)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Large champ de vision, anti-rayures",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock 70 fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré, traité UV380",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "2 entrées d'air et 2 sorties",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à XL",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "tableau technique d'un revendeur partenaire"
+   }
+  ],
+  "securite": {
+   "sharp_etoiles": 4,
+   "date_test": "mai 2025",
+   "norme": "ECE 22.06"
+  },
+  "a_savoir": [
+   "Prêt pour les interphones Sena (MWS/MWD ou BTS/BTD).",
+   "Le Pinlock 70 est livré avec le casque."
+  ],
+  "alertes_qualite": [
+   "Poids : descriptions 1 660 g (+/- 50 g), tableau revendeur 1 682 g : descriptions retenues.",
+   "Pas de poids SHARP dans le test OXO.",
+   "Tableau revendeur : pare-soleil intégré pour 6 lignes sur 17 seulement ; descriptions affirment l'écran solaire UV380."
+  ]
+ },
+ {
+  "modele": "Skwal Jet Cup",
+  "marque": "Shark",
+  "nb_fiches": 20,
+  "motif": "skwal jet cup\\y|\\yjet cup\\y",
+  "accroche": "Le jet qui a hérité de l'aileron des casques de course : aérodynamique MotoGP, 1 395 g annoncés, homologué ECE 22.06.",
+  "description": "Le Skwal Jet Cup apporte l'aérodynamique des casques de course au monde du jet. Son aileron arrière, rare dans cette catégorie, guide le flux d'air. Coque thermoplastique en 2 tailles, écran solaire intégré, doublure Sanitized lavable et système Easy Fit pour les lunettes.",
+  "profil_position": 20,
+  "points_forts": [
+   {
+    "texte": "Aileron arrière inspiré de la compétition, rare sur un jet.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologué ECE 22.06, 1 395 g annoncés par le constructeur.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran solaire intégré, visière à dégagement rapide breveté.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure Sanitized démontable et lavable, Easy Fit pour les lunettes.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation à 2 entrées et 2 sorties, prêt pour l'interphone Sena for Shark.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Aileron arrière façon casque de course",
+   "Écran solaire intégré",
+   "Doublure démontable et lavable",
+   "Norme ECE 22.06"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 395 g (donnée constructeur)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Dégagement rapide breveté, anti-rayures",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré, anti-rayures et antibuée",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "2 entrées d'air et 2 sorties",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à XXL",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Visière préparée pour recevoir un film Pinlock.",
+   "Préparé pour l'interphone Sena for Shark."
+  ],
+  "alertes_qualite": [
+   "Pas de test SHARP : securite nulle.",
+   "Plusieurs titres marchands appellent à tort « casque intégral » le Skwal Jet Cup.",
+   "Pinlock « ready » seulement : ligne omise."
+  ]
+ },
+ {
+  "modele": "Skwal Jet",
+  "marque": "Shark",
+  "nb_fiches": 19,
+  "motif": "skwal jet\\y(?! cup)",
+  "accroche": "Le jet urbain de Shark : 1 385 g annoncés, écran solaire intégré, ventilation 2 entrées et 2 sorties, garantie 5 ans.",
+  "description": "Le Skwal Jet réunit style et efficacité en ville. Coque thermoplastique en 2 tailles, fermeture micrométrique, écran solaire intégré et système Easy Fit pour les porteurs de lunettes. Homologué ECE 22.06, il se prépare à recevoir l'interphone Sharktooth Prime.",
+  "profil_position": 15,
+  "points_forts": [
+   {
+    "texte": "Homologué ECE 22.06, 1 385 g annoncés par le constructeur.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque thermoplastique en 2 tailles, avec doublures EPS multi-densité.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran solaire intégré et système Easy Fit pour les lunettes.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation à 2 entrées et 2 sorties d'air.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Garantie 5 ans My Shark.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "1 385 g annoncés par le constructeur",
+   "Écran solaire intégré",
+   "Easy Fit pour porter des lunettes",
+   "Garantie 5 ans"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 385 g (donnée constructeur)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré, anti-rayures et antibuée",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "2 entrées d'air et 2 sorties",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Emplacement prévu pour l'interphone Sharktooth Prime.",
+   "Le Skwal Jet Cup est une autre version, avec aileron."
+  ],
+  "alertes_qualite": [
+   "Pinlock : « inclus » dans une description, « non inclus » dans les autres : ligne omise.",
+   "Pas de test SHARP : securite nulle.",
+   "Les titres « Skwal Jet Cup » sont exclus du motif."
+  ]
+ },
+ {
+  "modele": "RS Jet",
+  "marque": "Shark",
+  "nb_fiches": 12,
+  "motif": "rs jet\\y",
+  "accroche": "Le jet en fibres de Shark : Pinlock 120 fourni, écran solaire UV380 intégré, doublure Alveotec antibactérienne, ECE 22.06.",
+  "description": "Le RS Jet reprend l'esprit néo-rétro du Spartan RS en version ouverte. Coque en fibres composites (carbone selon les versions), longue visière anti-rayures avec Pinlock 120 fourni et écran solaire intégré UV380. Intérieur perforé Alveotec antibactérien, à environ 1 430 g pour la première taille de coque.",
+  "profil_position": 15,
+  "points_forts": [
+   {
+    "texte": "Coque multiaxiale en fibres composites, carbone sur les versions Carbon.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Environ 1 430 g pour la première taille de coque.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pinlock 120 Max Vision fourni, longue visière anti-rayures.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran solaire intégré labellisé UV380.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure Alveotec Sanitized antibactérienne, homologué ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque composite fibres, carbone selon version",
+   "Pinlock 120 fourni",
+   "Écran solaire UV380 intégré",
+   "Norme ECE 22.06"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 430 g (donnée constructeur, première taille de coque)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (multiaxial, carbone sur les versions Carbon)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Longue visière anti-rayures et antibuée, protection UV380",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock 120 fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré, labellisé UV380",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible",
+    "source": "tableau technique d'un revendeur partenaire"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Compatible avec l'interphone Shark Sena.",
+   "Les versions Carbon sont en fibre de carbone."
+  ],
+  "alertes_qualite": [
+   "Pas de test SHARP : securite nulle.",
+   "Ventilation : « 1 entrée, 4 sorties » ou « 1 entrée, 2 sorties » : ligne omise.",
+   "Tableau revendeur : un coloris en polycarbonate, ignoré."
+  ]
+ }
+]

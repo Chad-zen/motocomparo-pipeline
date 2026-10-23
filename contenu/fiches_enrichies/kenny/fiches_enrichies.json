@@ -1,0 +1,500 @@
+[
+ {
+  "modele": "Performance",
+  "marque": "Kenny",
+  "nb_fiches": 32,
+  "motif": "\\yperformance\\y",
+  "accroche": "Le casque cross Kenny aux deux tailles de coque : visière profilée, protection nasale, boucle double D et ECE 22.06.",
+  "description": "Le Performance est le casque cross de Kenny pour rouler à l'entraînement comme en compétition. Sa coque injectée est proposée en deux tailles, avec une visière profilée intégrée et une protection nasale. Un système de gestion des chocs obliques (MIPS ou ERT selon la version) et la boucle double D s'ajoutent à l'homologation ECE 22.06.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Coque injectée en deux tailles de coque (XS-M et L-XXL).",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière profilée intégrée à la coque, fixée par clips sans visserie.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Protection nasale incluse.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Gestion des chocs obliques et linéaires par MIPS ou ERT (Energy Reduction Technology), selon la version.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture de jugulaire par boucle double D ajustable.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur ultra doux, entièrement démontable et lavable.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Visière profilée et protection nasale",
+   "Boucle double D, ECE 22.06",
+   "Intérieur doux et lavable",
+   "Technologie contre les chocs obliques"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Profilée, intégrée à la coque, fixée par clips",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Plusieurs entrées et sorties d'air",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Existe en versions Graphic, Graphic + et enfant."
+  ],
+  "alertes_qualite": [
+   "MIPS (Performance Graphic) ou ERT (Graphic +) selon la version : formulé en « ou ».",
+   "Matière : polycarbonate ou plastique injecté selon les descriptions.",
+   "Versions enfant et années 2024 à 2027 mélangées ; une description ancienne annonce ECE 22.05 et 1 205 g : non retenue."
+  ]
+ },
+ {
+  "modele": "Track",
+  "marque": "Kenny",
+  "nb_fiches": 16,
+  "motif": "\\ytrack\\y",
+  "accroche": "Le casque cross Kenny pour débuter ou rouler en loisir : coque en deux tailles, visière réglable en hauteur, double D et ECE 22.06.",
+  "description": "Le Track est le casque cross et enduro de Kenny pensé pour les premiers tours de roue comme pour l'entraînement. Sa coque injectée existe en deux tailles et sa visière aérée se règle en hauteur. Boucle double D, intérieur lavable et homologation ECE 22.06 : l'essentiel au bon endroit.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Coque injectée disponible en deux tailles (XS-M et L-XXL).",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière aérée, réglable en hauteur.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture de jugulaire par boucle double D ajustable.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Plusieurs entrées et sorties d'air pour la ventilation.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure hypoallergénique détachable et lavable.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Finition en peinture et vernis ; version enfant disponible.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Visière réglable en hauteur",
+   "Deux tailles de coque",
+   "Boucle double D, ECE 22.06",
+   "Doublure détachable et lavable"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Aérée, réglable en hauteur",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Plusieurs entrées et sorties d'air",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Existe en version Kid pour les enfants."
+  ],
+  "alertes_qualite": [
+   "Coque : polycarbonate (anciennes descriptions) ou thermoplastique injecté (récentes).",
+   "Une description ancienne annonce ECE 22.05 : fiches 2024-2027 supposées ECE 22.06."
+  ]
+ },
+ {
+  "modele": "Titanium Carbone",
+  "marque": "Kenny",
+  "nb_fiches": 4,
+  "motif": "\\ytitanium\\y",
+  "accroche": "Le cross haut de gamme de Kenny en fibre de carbone avec MIPS, mousses de joues à retrait magnétique et ECE 22.06.",
+  "description": "Le Titanium Carbone est le casque cross haut de gamme de Kenny. Sa coque en fibre de carbone allie légèreté et confort, et son système MIPS absorbe l'énergie des chocs obliques. Les mousses de joues se retirent rapidement grâce au système magnétique Easy-Release, et la protection nasale est livrée.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Coque en fibre de carbone, légère.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Système MIPS pour absorber l'énergie de l'impact en cas de chute.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Système magnétique Easy-Release pour retirer rapidement les mousses de joues.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Protection nasale livrée avec le casque ; visière souple fixée par clips.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Deux tailles de coque (XS-M et L-XXL).",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture de jugulaire par boucle double D.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque en fibre de carbone",
+   "MIPS contre les chocs obliques",
+   "Joues à retrait magnétique",
+   "Protection nasale livrée"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Carbone",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Souple, fixée par clips",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Plusieurs entrées et sorties d'air",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Motif large sur Titanium : toutes les fiches du catalogue sont des Titanium Carbone.",
+   "Versions Graphic en fibre tri-composite non présentes dans nos fiches."
+  ]
+ },
+ {
+  "modele": "Extreme",
+  "marque": "Kenny",
+  "nb_fiches": 10,
+  "motif": "\\yextreme\\y",
+  "accroche": "Le casque adventure de Kenny pour les longs périples : coque injectée, double écran solaire, rideau de menton amovible et boucle micrométrique.",
+  "description": "L'Extreme est un casque intégral de Kenny pensé pour les adeptes des longs périples. Sa coque en thermoplastique injecté, son double écran avec visière solaire et son rideau de menton amovible le rendent polyvalent entre route et chemin. Boucle micrométrique réglable et aérations ajustables pour garder le cap.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Pensé et développé pour l'aventure et l'enduro.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en thermoplastique injecté.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Double visière avec écran solaire, compatible avec un film Pinlock.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Rideau de menton amovible ; aérations réglables.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture par boucle micrométrique ajustable.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure hypoallergénique amovible et lavable.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Pensé pour l'aventure et l'enduro",
+   "Double visière avec écran solaire",
+   "Rideau de menton amovible",
+   "Fermeture micrométrique"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (injecté)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Double visière avec écran solaire",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Aérations réglables",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Norme ECE 22.06 (descriptions récentes) ou 22.05 (anciennes) : ligne Norme omise.",
+   "Pinlock : compatible, film vendu séparément, ligne omise."
+  ]
+ },
+ {
+  "modele": "Evasion",
+  "marque": "Kenny",
+  "nb_fiches": 2,
+  "motif": "\\yevasion\\y",
+  "accroche": "Le jet Kenny à double écran : long écran clair pour la route, écran solaire court intégré, ECE 22.06, pensé aussi pour le quad.",
+  "description": "L'Evasion est un casque jet de Kenny pour le quad, mais aussi pour la route sur petites et moyennes cylindrées. Il réunit un long écran transparent et une petite visière solaire intégrée. Coque thermoplastique injectée, ventilation réglable et fermeture micrométrique le rendent simple à vivre.",
+  "profil_position": 15,
+  "points_forts": [
+   {
+    "texte": "Double écran : long écran clair et visière solaire courte intégrée.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en thermoplastique injecté.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation réglable.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture de jugulaire par boucle micrométrique.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur démontable et lavable ; homologué ECE 22.06.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Double écran clair et solaire",
+   "Pensé pour le quad et la route",
+   "Ventilation réglable",
+   "Intérieur démontable et lavable"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (injecté)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Écran solaire court intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Réglable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Une ancienne version Solid est en ECE 22.05 et coque polycarbonate : non retenue."
+  ]
+ },
+ {
+  "modele": "Trial Up",
+  "marque": "Kenny",
+  "nb_fiches": 5,
+  "motif": "\\ytrial up\\y",
+  "accroche": "Le casque Trial Up de Kenny : trial ou route sur petites et moyennes cylindrées, coque injectée, visière amovible, ECE 22.06.",
+  "description": "Le Trial Up relève tous les défis, en trial comme en usage routier sur petites et moyennes cylindrées. Sa coque en thermoplastique injecté s'accompagne d'une visière amovible et d'une doublure intérieure lavable. La boucle micrométrique réglable assure un ajustement précis, dans le cadre de la norme ECE 22.06.",
+  "profil_position": 25,
+  "points_forts": [
+   {
+    "texte": "Utilisable en trial ou sur route, petites et moyennes cylindrées.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en thermoplastique injecté.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière amovible.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Boucle micrométrique réglable pour un ajustement précis.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure intérieure lavable ; aérations intégrées.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Trial ou route, petites cylindrées",
+   "Visière amovible",
+   "Boucle micrométrique réglable",
+   "Doublure intérieure lavable"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (injecté)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Amovible",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Aérations intégrées",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Aucune pesée disponible."
+  ]
+ }
+]

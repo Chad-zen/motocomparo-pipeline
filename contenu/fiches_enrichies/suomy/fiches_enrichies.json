@@ -1,0 +1,559 @@
+[
+ {
+  "modele": "Track-1",
+  "marque": "Suomy",
+  "nb_fiches": 46,
+  "motif": "\\ytrack-?1\\y",
+  "accroche": "L'intégral Suomy né en soufflerie : coque composite carbone, aramide et fibre de verre, pour la route comme pour la piste.",
+  "description": "Le Track-1 est l'intégral Suomy de nouvelle génération, dessiné en soufflerie pour réunir route et circuit. Sa coque composite mêle carbone, fibres aramides et fibre de verre, et sa visière en polycarbonate est anti-rayures, de classe optique 1. Il existe en de nombreux coloris, dont des répliques de pilotes comme Bagnaia, Bastianini ou Bayliss.",
+  "profil_position": 75,
+  "points_forts": [
+   {
+    "texte": "Coque composite mêlant carbone, fibres aramides et fibre de verre, proposée en deux tailles de coque.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Calotte de protection en polystyrène (EPS) proposée en trois tailles.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière en polycarbonate injecté, anti-rayures, de classe optique 1.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation assurée par 4 prises d'air.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Forme conçue et développée en soufflerie, pour un bon équilibre entre usage routier et circuit.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque composite carbone-aramide-verre",
+   "Visière anti-rayures, classe optique 1",
+   "Forme étudiée en soufflerie",
+   "4 prises d'air pour ventiler"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (technologie Tricarboco : carbone, aramide, fibre de verre)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Polycarbonate injecté, anti-rayures, classe optique 1",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "4 prises d'air",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Norme, poids et Pinlock non confirmés pour tous les coloris (textes tronqués) : omis.",
+   "Titres mélangés Track-1 2023 / répliques anciennes (Bayliss 2002/2005) : mêmes caractéristiques supposées."
+  ]
+ },
+ {
+  "modele": "SR-GP Evo",
+  "marque": "Suomy",
+  "nb_fiches": 30,
+  "motif": "\\ysr-?gp evo\\y",
+  "accroche": "Le casque de piste Suomy conçu avec des pilotes de MotoGP : coque composite, Pinlock 120 fourni, vision périphérique de 210°.",
+  "description": "Le SR-GP Evo est le casque de course de Suomy, développé avec l'apport de pilotes de MotoGP et de course sur route. Sa coque composite existe en quatre tailles, sa visière à verrouillage de course reçoit un Pinlock 120 fourni et le champ de vision reste très large. Un intégral taillé pour rester concentré à haute vitesse.",
+  "profil_position": 95,
+  "points_forts": [
+   {
+    "texte": "Coque composite Tricarboco (carbone, aramide, fibre de verre) proposée en quatre tailles.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Calotte de protection en polystyrène en quatre tailles.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Champ de vision de 92° en vertical et 210° en périphérie.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Verrouillage de visière de course, Pinlock Max Vision 120 fourni, visière prête pour le Tear Off.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation à 5 entrées d'air et 3 sorties.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Double anneau en D et coussinets de joues à retrait d'urgence.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque composite en 4 tailles",
+   "Pinlock 120 fourni",
+   "Vision périphérique de 210°",
+   "Verrouillage de visière course"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (technologie Tricarboco : carbone, aramide, fibre de verre)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Polycarbonate injecté, anti-rayures, champ de vision de 92° (vertical) et 210° (périphérique), verrouillage de course, Tear Off ready",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock 120 fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "5 entrées d'air et 3 sorties",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Norme (E06 dans certains titres) non confirmée par le texte : omise.",
+   "Ancien SR-GP (sans Evo) exclu du motif ; sa Hickman Replica existe dans les flux mais pas parmi les fiches."
+  ]
+ },
+ {
+  "modele": "Speedstar 2",
+  "marque": "Suomy",
+  "nb_fiches": 24,
+  "motif": "\\yspeedstar 2\\y",
+  "accroche": "Soufflerie, coque composite, ECE 22.06 : l'intégral Suomy qui marie l'esprit course et le confort du sport-touring.",
+  "description": "Le Speedstar 2 réunit l'élan de la course et le confort du tourisme sportif. Conçu et développé en Italie, il a été testé en soufflerie et sur route, avec plus de trois ans d'essais pour rester stable dans chaque position de conduite. Sa coque composite en deux tailles est homologuée ECE 22.06.",
+  "profil_position": 70,
+  "points_forts": [
+   {
+    "texte": "Homologué ECE 22.06.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque composite Tricomposite en deux tailles (XS-M et L-XXL).",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Aérodynamique optimisée par plus de trois ans d'essais en soufflerie et sur piste.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Champ de vision de 92° en vertical et 210° en périphérie.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture à boucle micrométrique.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Poids annoncé d'environ 1 500 g (± 50 g).",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Homologué ECE 22.06",
+   "Fermeture à boucle micrométrique",
+   "Vision de 92° x 210°",
+   "Testé en soufflerie et sur route"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 500 g (± 50 g, annoncé par le constructeur)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (technologie Tricomposite)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Champ de vision de 92° (vertical) et 210° (périphérique)",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Une description (Parallax) parle d'une coque thermoplastique, les autres de tricomposite : composite retenu.",
+   "Le test SHARP du Speedstar (ECE 22.05, 2021) concerne l'ancien modèle : non utilisé."
+  ]
+ },
+ {
+  "modele": "Stellar 2",
+  "marque": "Suomy",
+  "nb_fiches": 21,
+  "motif": "\\ystellar 2\\y",
+  "accroche": "Lignes dynamiques, coque en thermoplastique ADT-Advanced et intérieurs Hydrocool : l'intégral Suomy conçu pour la route, ECE 22.06.",
+  "description": "Le Stellar 2 reprend la signature Suomy : des formes élégantes, dessinées en Italie puis testées en soufflerie et sur route. Sa coque en thermoplastique ADT-Advanced est étudiée pour l'homologation ECE 22.06, et ses intérieurs Hydrocool soignent le confort. Un intégral polyvalent pour le tourisme sportif, avec quatre entrées d'air.",
+  "profil_position": 60,
+  "points_forts": [
+   {
+    "texte": "Coque en thermoplastique avancé ADT-Advance, conçue pour l'homologation ECE 22.06.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieurs Hydrocool pour le confort.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation à quatre entrées d'air et deux sorties.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture à boucle micrométrique.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Forme optimisée en soufflerie pour la stabilité de conduite.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Homologué ECE 22.06",
+   "Coque thermoplastique ADT-Advanced",
+   "4 entrées et 2 sorties d'air",
+   "Intérieurs Hydrocool"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (technologie ADT-Advanced)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "4 entrées d'air et 2 sorties",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Nombre de tailles de coque contradictoire (2 ou 3) : omis.",
+   "Poids tronqué dans les textes : omis.",
+   "Mention « pare-soleil large » ambiguë : non retenue."
+  ]
+ },
+ {
+  "modele": "S1-XR GP",
+  "marque": "Suomy",
+  "nb_fiches": 24,
+  "motif": "\\ys1-?xr\\y",
+  "accroche": "Le casque de piste Suomy éprouvé par Pecco Bagnaia : coque tricomposite et aérodynamique travaillée en soufflerie et sur circuit.",
+  "description": "Le S1-XR GP est l'intégral de course de Suomy, développé en Italie et mis à l'épreuve par le pilote Ducati Pecco Bagnaia. Sa coque tricomposite est légère et rigide, son aérodynamique a été affinée pendant plus de trois ans en soufflerie et sur circuit, et sa vision atteint 92° en vertical et 210° en périphérie. Les répliques Bagnaia ou Hickman régaleront les fans de MotoGP.",
+  "profil_position": 100,
+  "points_forts": [
+   {
+    "texte": "Coque tricomposite, plus légère et rigide, à base de composite de fibres.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Plus de trois ans d'essais en soufflerie et sur circuit pour l'aérodynamique.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Champ de vision de 92° en vertical et 210° en périphérie.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière à verrouillage de course (Racing Lock System).",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Plusieurs versions conformes à la norme FIM.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Prêt pour un système d'hydratation (non fourni).",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Éprouvé par Pecco Bagnaia",
+   "Aérodynamique testée en soufflerie",
+   "Vision de 92° x 210°",
+   "Verrouillage de visière course"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (technologie Tricomposite)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Anti-rayures, champ de vision de 92° (vertical) et 210° (périphérique), verrouillage de course Racing Lock",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Poids (1 400 g) et Pinlock 120 cités seulement pour la version Carbone : omis car versions mélangées.",
+   "FIM mentionné seulement sur certaines versions (Monster Mugello 2024, Hickman 2024, Plain FIM).",
+   "Norme ECE 22.06 citée pour la version Carbone, E06 dans les titres des autres."
+  ]
+ },
+ {
+  "modele": "X-Wing",
+  "marque": "Suomy",
+  "nb_fiches": 21,
+  "motif": "\\yx-?wing\\y",
+  "accroche": "Le casque cross Suomy aux graphismes vifs : coque thermoplastique ADT-Advanced, environ 1 250 g, homologué ECE 22.06.",
+  "description": "Le X-Wing descend directement du MX Speed, le casque des pilotes Suomy en off-road. Sa coque thermoplastique ADT-Advanced en deux tailles encaisse les chocs, tandis que le pic réglable, la fenêtre prévue pour les lunettes cross et les graphismes vifs font le reste. Un casque cross léger et facile à vivre.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Coque thermoplastique ADT-Advanced, mélange de résines à haute résistance aux chocs, en deux tailles.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Poids annoncé d'environ 1 250 g (± 50 g).",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologué ECE 22.06.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "4 prises d'air sur la face avant pour canaliser le flux d'air.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure et coussinets de joues amovibles et lavables, avec double anneau en D.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pic réglable et amovible, fenêtre prévue pour les lunettes cross récentes.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque thermoplastique ADT-Advanced",
+   "Environ 1 250 g, ECE 22.06",
+   "Pic réglable, intérieur lavable",
+   "4 prises d'air sur la face avant"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 250 g (± 50 g, annoncé par le constructeur)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (technologie ADT-Advanced)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "4 prises d'air",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Un texte du Motley annonce une coque Tricarboco, les autres l'ADT-Advanced : thermoplastique retenu.",
+   "Poids et norme cités sur la version Plain : supposés identiques pour les autres graphismes."
+  ]
+ },
+ {
+  "modele": "TX-Pro",
+  "marque": "Suomy",
+  "nb_fiches": 5,
+  "motif": "\\ytx-?pro\\y",
+  "accroche": "Né de la course : coque composite carbone, aramide et fibre de verre, Pinlock Max Vision 70, ECE 22.06, environ 1 230 g.",
+  "description": "Le TX-Pro est l'intégral Suomy dérivé du monde de la course et pensé pour le tourisme sportif. Sa coque composite associe carbone, fibres aramides et fibre de verre, avec une fine finition carbone apparente. Visière anti-rayures de classe optique 1, Pinlock Max Vision 70 fourni et vision très large : de quoi rouler loin et rester à l'aise.",
+  "profil_position": 75,
+  "points_forts": [
+   {
+    "texte": "Coque composite Tricarboco (carbone, aramide, fibre de verre) avec finition carbone apparente, en deux tailles.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologué ECE 22.06.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Poids annoncé d'environ 1 230 g (± 50 g) en taille M.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière anti-rayures de classe optique 1, Pinlock Max Vision 70 fourni.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Champ de vision de 92° en vertical et 210° en périphérie.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "4 prises d'air et 2 sorties d'air, doublures hypoallergéniques amovibles.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque composite carbone-aramide-verre",
+   "Pinlock Max Vision 70 fourni",
+   "Environ 1 230 g, ECE 22.06",
+   "Intérieur hypoallergénique amovible"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 230 g (± 50 g en taille M, annoncé par le constructeur)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (technologie Tricarboco : carbone, aramide, fibre de verre)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Anti-rayures, classe optique 1, champ de vision de 92° (vertical) et 210° (périphérique)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock Max Vision 70 fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "4 prises d'air et 2 sorties",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Le nom « Carbon » désigne une finition carbone sur coque Tricarboco : composite retenu, pas carbone.",
+   "Pinlock 70 « incluse » citée sur In Sight et Emblem : étendue au modèle."
+  ]
+ }
+]

@@ -1,0 +1,347 @@
+[
+ {
+  "modele": "F3 Carbon Pro",
+  "marque": "Klim",
+  "nb_fiches": 1,
+  "motif": "\\yf3\\y",
+  "accroche": "Le casque cross de Klim en fibre de carbone posée à la main, avec Koroyd, EPS triple densité et sangle magnétique Fidlock.",
+  "description": "Le F3 Carbon Pro est le casque tout-terrain en carbone de Klim. Sa coque posée à la main s'associe à la technologie Koroyd et à un EPS triple densité pour absorber les chocs. Treize entrées d'air et six sorties vous gardent au frais, et la sangle magnétique Fidlock se referme d'un geste, même avec les gants.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Coque en fibre de carbone posée à la main, en trois tailles de coque.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Koroyd et EPS triple densité pour absorber l'énergie des chocs.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation directe à travers l'EPS : 13 entrées d'air et 6 sorties.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Sangle magnétique Fidlock à dégagement rapide.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Certifié ECE 22.06, compatible avec une minerve.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran extra-large pour un champ de vision maximal.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Carbone posé à la main",
+   "Koroyd et EPS triple densité",
+   "13 entrées d'air, 6 sorties",
+   "Sangle magnétique Fidlock"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Carbone (posé à la main)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Sangle magnétique Fidlock à dégagement rapide",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "13 entrées d'air et 6 sorties, EPS à ventilation directe",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Le F3 existe aussi en version composite (F3 Recoil) : vérifiez la mention Carbon Pro."
+  ],
+  "alertes_qualite": [
+   "Une seule fiche (Carbon Pro) ; les variantes composite du F3 ne sont pas couvertes."
+  ]
+ },
+ {
+  "modele": "GT1 Expedition",
+  "marque": "Klim",
+  "nb_fiches": 1,
+  "motif": "\\ygt-?1\\y",
+  "accroche": "Le modulable de voyage de Klim en carbone posé à la main, avec charnière brevetée et Koroyd. Garantie 5 ans.",
+  "description": "Le GT1 Expedition est le modulable de tourisme de Klim. Sa coque et sa mentonnière en carbone sont posées à la main, et la charnière brevetée referme l'écran au ras de la coque pour limiter le bruit. Intérieur Brrr Pro, bordure en cuir de chèvre perforé : vous partez loin sans vous fatiguer.",
+  "profil_position": 30,
+  "points_forts": [
+   {
+    "texte": "Coque et mentonnière en fibre de carbone posées à la main, mentonnière renforcée d'EPS.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Charnière brevetée qui ferme l'écran au ras de la coque pour réduire le bruit.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Koroyd et canaux EPS pour la circulation de l'air et la gestion de la chaleur.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture de jugulaire à double anneau en D en acier inoxydable.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur Brrr Pro amovible et lavable, bordure de menton en cuir de chèvre perforé.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologué ECE 22.06, compatible avec le port de lunettes, garantie 5 ans.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Modulable en carbone posé à la main",
+   "Charnière brevetée, écran au ras",
+   "Koroyd et canaux de ventilation EPS",
+   "ECE 22.06 et garantie 5 ans"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Carbone (posé à la main)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D (acier inoxydable)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Canaux EPS avec Koroyd",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable (tissu Brrr Pro)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Pas de test SHARP ; poids absent."
+  ]
+ },
+ {
+  "modele": "Krios Pro",
+  "marque": "Klim",
+  "nb_fiches": 3,
+  "motif": "\\ykrios\\y",
+  "accroche": "L'adventure de Klim entièrement en carbone posé à la main, avec Koroyd et quatre modes de conduite.",
+  "description": "Le Krios Pro est le casque adventure de Klim, pensé pour la route comme pour les pistes. Sa coque est entièrement en carbone posé à la main, doublée de Koroyd. Écran et casquette se démontent sans outil, selon que vous roulez en trail ou en tout-terrain.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Coque entièrement en fibre de carbone posée à la main.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Koroyd, matériau qui s'écrase de façon homogène pour absorber les impacts.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Quatre modes de conduite : adventure, trail, tout-terrain et route.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Aérations menton et front entièrement réglables.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran en polycarbonate anti-rayures, démontable sans outil, casquette cross amovible.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture magnétique Fidlock, norme ECE 22.06, garantie 5 ans.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Carbone posé à la main, Koroyd",
+   "Quatre modes de conduite",
+   "Aérations menton et front réglables",
+   "Visière démontable sans outil"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Carbone (posé à la main)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Sangle magnétique Fidlock",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Polycarbonate anti-rayures, démontage sans outil",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Aérations menton et front entièrement réglables",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Pinlock : Pinlock-Ready selon certaines descriptions, Pinlock livré selon d'autres : ligne omise.",
+   "Poids 1303 g seulement dans un tableau marchand, non repris."
+  ]
+ },
+ {
+  "modele": "X1 Alpha",
+  "marque": "Klim",
+  "nb_fiches": 5,
+  "motif": "\\yx-?1 alpha\\y",
+  "accroche": "Le crossover de Klim en carbone posé à la main : Koroyd, visière réglable sans outil, Pinlock et écran photochromique livrés.",
+  "description": "Le X1 Alpha est le casque adventure haut de gamme de Klim. Coque en carbone posée à la main, structure Koroyd et EPS canalisé : l'air circule et les chocs sont absorbés. La visière se règle à la volée, un écran photochromique et un Pinlock sont livrés avec le casque.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Coque en fibre de carbone posée à la main, structure Koroyd et EPS canalisé.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Quatre modes de conduite : adventure, bi-usage, tout-terrain et route.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière réglable à la volée et amovible sans outil.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pinlock et écran photochromique livrés avec le casque, ainsi qu'une housse.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur Brrr Pro amovible et lavable, bordure en cuir de chèvre perforé.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture à double anneau en D en titane, emplacements pour haut-parleurs d'intercom.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Carbone posé à la main, Koroyd",
+   "Pinlock et écran photochromique livrés",
+   "Visière réglable et amovible sans outil",
+   "Garantie 5 ans"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Carbone (posé à la main)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D (titane)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Réglable à la volée, amovible sans outil, écran photochromique livré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "4 entrées et 4 sorties d'air",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable (tissu Brrr Pro)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Audio",
+    "valeur": "Logements prévus pour haut-parleurs",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Le contenu livré (Pinlock, écran photochromique) varie selon les descriptions ; formulation reprise de la plus complète.",
+   "Poids 1479 g seulement dans un tableau marchand, non repris."
+  ]
+ }
+]

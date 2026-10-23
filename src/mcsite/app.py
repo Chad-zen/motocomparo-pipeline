@@ -38,7 +38,7 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from functools import lru_cache
 
-from . import admin, cache, labels, partenaires, queries, seo, suggestions
+from . import admin, cache, labels, partenaires, queries, seo, suggestions, analyse
 from . import v1 as v1_mod
 from . import articles as articles_mod
 from . import courbe as courbe_mod
@@ -833,6 +833,14 @@ def product(request: Request, slug: str):
         meme_gamme = queries.meme_gamme(conn, p, 8)
         promos = queries.codes_promo(conn, sorted({o['merchant'] for o in rows}))
         caracteristiques = queries.caracteristiques(conn, p["id"])
+        enrichie = queries.fiche_enrichie(conn, p)
+        caracteristiques = analyse.aligner_caracteristiques(caracteristiques, enrichie)
+        coque = (analyse.coque_curseur(caracteristiques, enrichie)
+                 if p.get("category_id") in (1, 2, 3, 4, 5) else None)
+        # Le texte ecrit a la main prime ; a defaut, l'analyse tiree des caracteristiques (aucun texte
+        # invente) : tous les casques ont ainsi leur bloc, les autres rayons n'en ont pas.
+        ana = enrichie or (analyse.analyse_auto(caracteristiques, p.get("category_code"))
+                           if p.get("category_id") in (1, 2, 3, 4, 5) else None)
     # Les points de la courbe, posés DANS la page plutôt que servis par une
     # seconde requête : la v1 allait les chercher en JSON après coup, ce qui
     # ajoutait un aller-retour et faisait apparaître la courbe en retard.
@@ -912,6 +920,9 @@ def product(request: Request, slug: str):
              seuils_remise=labels.SEUILS_REMISE,
              similaires=similaires, meme_gamme=meme_gamme, promos=promos,
              caracteristiques=caracteristiques,
+             enrichie=enrichie,
+             ana=ana,
+             coque=coque,
              codes_tailles=codes_tailles if len(codes_tailles) > 1 else [],
              donnees_structurees=[
                  _donnees_structurees(request, p, rows, image, reference,

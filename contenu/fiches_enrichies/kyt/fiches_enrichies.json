@@ -1,0 +1,529 @@
+[
+ {
+  "modele": "TT-Revo",
+  "marque": "KYT",
+  "nb_fiches": 46,
+  "motif": "\\ytt-?revo\\y",
+  "accroche": "L'intégral KYT à coque thermoplastique ADT, dessiné en soufflerie avec des ingénieurs aéronautiques.",
+  "description": "Le TT-Revo est l'intégral sportif-tourisme de KYT. Sa coque en thermoplastique avancé ADT encaisse les chocs, et ses lignes ont été affinées en soufflerie avec l'aide d'ingénieurs aéronautiques. Le mécanisme de visière est fin et pratique, l'intérieur pensé pour le confort et l'évacuation de l'air : un casque taillé pour les longues sorties.",
+  "profil_position": 70,
+  "points_forts": [
+   {
+    "texte": "Coque en thermoplastique avancé ADT, un mélange de résines à haute résistance aux chocs.",
+    "preuve": "flux",
+    "source": "Descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Formes étudiées en soufflerie, avec un ingénieur en aéronautique.",
+    "preuve": "flux",
+    "source": "Descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Becquet pour la stabilité aérodynamique à toutes les vitesses.",
+    "preuve": "flux",
+    "source": "Descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Mécanisme de visière fin, pensé pour la praticité.",
+    "preuve": "flux",
+    "source": "Descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur optimisé pour le confort et l'évacuation de l'air.",
+    "preuve": "flux",
+    "source": "Descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque thermoplastique ADT résistante",
+   "Dessiné en soufflerie",
+   "Becquet stabilisateur",
+   "Intérieur aéré et confortable"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (ADT, résines thermoplastiques avancées)",
+    "source": "Descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Plusieurs sous-gammes (Course, Tourist) mélangées dans les textes marchands ; aucune donnée de poids ni de norme fiable."
+  ]
+ },
+ {
+  "modele": "R2R",
+  "marque": "KYT",
+  "nb_fiches": 31,
+  "motif": "\\yr2r\\y",
+  "accroche": "Du circuit à la route : un intégral sportif KYT à coque ADT, pare-soleil interne et grand champ de vision.",
+  "description": "Le R2R, c'est « From Race to Road » : l'ADN course de KYT dans un casque de tous les jours. Sa conception reprend celle du KX-1 Race, pour un champ de vision immense et une belle aérodynamique. Pare-soleil interne, bonne circulation d'air et visière sans outils : vous roulez détendu du matin au soir.",
+  "profil_position": 75,
+  "points_forts": [
+   {
+    "texte": "Conception proche du KX-1 Race : champ de vision et aérodynamisme similaires.",
+    "preuve": "flux",
+    "source": "Descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil interne intégré.",
+    "preuve": "flux",
+    "source": "Descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en thermoplastique avancé ADT.",
+    "preuve": "flux",
+    "source": "Descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Deux entrées d'air à l'avant pour une ventilation optimale.",
+    "preuve": "flux",
+    "source": "Descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière amovible sans outils.",
+    "preuve": "flux",
+    "source": "Descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Inspiré du casque de course KX-1",
+   "Pare-soleil interne intégré",
+   "Visière changée sans outils",
+   "Deux entrées d'air frontales"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (ADT)",
+    "source": "Descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Amovible sans outils",
+    "source": "Descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré (interne)",
+    "source": "Descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Deux entrées d'air à l'avant",
+    "source": "Descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Le texte cite un Max Pinlock 70 sans dire s'il est fourni : ligne Pinlock omise."
+  ]
+ },
+ {
+  "modele": "D-City",
+  "marque": "KYT",
+  "nb_fiches": 23,
+  "motif": "\\yd-?city\\y",
+  "accroche": "Le jet urbain KYT à coque ADT : pare-soleil rétractable et visière sans outils pour les trajets de tous les jours.",
+  "description": "Le D-City est le casque urbain de KYT, pensé pour les trajets courts et moyens. Sa coque en thermoplastique ADT-Advanced reste simple à vivre : pare-soleil rétractable commandé d'un bouton, visière qui s'ôte sans outils, intérieurs amovibles et lavables. Un compagnon efficace pour la ville.",
+  "profil_position": 10,
+  "points_forts": [
+   {
+    "texte": "Pare-soleil intégré et rétractable, actionné par un bouton sur la coque.",
+    "preuve": "flux",
+    "source": "Descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière amovible sans outils grâce à son système de fixation et de rotation.",
+    "preuve": "flux",
+    "source": "Descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieurs et coussinets amovibles, lavables et remplaçables.",
+    "preuve": "flux",
+    "source": "Descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en thermoplastique ADT-Advanced, étudiée pour l'usage urbain quotidien.",
+    "preuve": "flux",
+    "source": "Descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière préparée pour recevoir un écran Pinlock.",
+    "preuve": "flux",
+    "source": "Descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Pare-soleil rétractable au bouton",
+   "Visière retirée sans outils",
+   "Intérieur lavable et amovible",
+   "Conçu pour la ville au quotidien"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (ADT-Advanced)",
+    "source": "Descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré, rétractable",
+    "source": "Descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Amovible sans outils",
+    "source": "Descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "Descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Pinlock préparé mais non fourni : ligne omise. Fiches Colorful, Lucent, Plain regroupées."
+  ]
+ },
+ {
+  "modele": "KX-1 Race GP",
+  "marque": "KYT",
+  "nb_fiches": 16,
+  "motif": "\\ykx-?1\\y",
+  "accroche": "Le casque de course KYT testé par Enea Bastianini : sept canaux d'air, champ de vision de 210° et homologation FIM.",
+  "description": "Le KX-1 Race GP est le haut de gamme course de KYT, conçu et développé en Italie avec les outils numériques les plus avancés. Trois ans de soufflerie et d'essais sur piste ont servi à optimiser l'aérodynamique dans toutes les positions. Sept canaux d'admission d'air et un champ de vision de 210° : un casque de pilote.",
+  "profil_position": 100,
+  "points_forts": [
+   {
+    "texte": "Trois années de tests en soufflerie et sur piste pour optimiser l'aérodynamique, y compris en virage.",
+    "preuve": "flux",
+    "source": "Descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Sept canaux d'admission d'air avec système de ventilation intégré.",
+    "preuve": "flux",
+    "source": "Descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Champ de vision de 210° en périphérique et 90° en vertical.",
+    "preuve": "flux",
+    "source": "Descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière amovible sans outils.",
+    "preuve": "flux",
+    "source": "Descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Répond à la norme FIM, selon le constructeur.",
+    "preuve": "flux",
+    "source": "Descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Testé en soufflerie et sur piste",
+   "Sept canaux d'air frais",
+   "Champ de vision de 210°",
+   "Répond à la norme FIM"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Visière",
+    "valeur": "Amovible sans outils, champ de vision 210° / 90°",
+    "source": "Descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Sept canaux d'admission d'air",
+    "source": "Descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Le texte des éditions Bulega recopie 'testé par Bastianini' : copie du texte d'une autre édition. Matière de coque, poids, norme ECE non précisés."
+  ]
+ },
+ {
+  "modele": "R1R",
+  "marque": "KYT",
+  "nb_fiches": 13,
+  "motif": "\\yr1r\\y",
+  "accroche": "L'intégral KYT en coque composite tri-fibre, né de l'expérience MotoGP : environ 1 450 g et trois tailles de coque.",
+  "description": "Le R1R s'inspire de l'expérience MotoGP de KYT, avec plus de trois ans de soufflerie et d'essais sur route et sur piste. Sa coque composite associe carbone, fibre de verre et aramide, en trois tailles de coque pour un meilleur ajustement. Grande prise d'air avant, visière optique de classe 1 : il est fait pour rouler vite et longtemps.",
+  "profil_position": 80,
+  "points_forts": [
+   {
+    "texte": "Coque composite (fibre de carbone, fibre de verre, aramide).",
+    "preuve": "flux",
+    "source": "Descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Trois tailles de coque : XS-S, M-L et XL-XXL.",
+    "preuve": "flux",
+    "source": "Descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Environ 1 450 g en taille M (à plus ou moins 50 g).",
+    "preuve": "flux",
+    "source": "Descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière optique en polycarbonate de classe 1, anti-rayures, protection UV380, champ de vision de 210° sur 90°.",
+    "preuve": "flux",
+    "source": "Descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture double anneau en D ; visière amovible sans outil.",
+    "preuve": "flux",
+    "source": "Descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque composite tri-fibre",
+   "Trois tailles de coque",
+   "Environ 1 450 g en taille M",
+   "Visière à large champ de vision"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (carbone, fibre de verre, aramide)",
+    "source": "Descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Poids",
+    "valeur": "Environ 1 450 g (taille M, à ± 50 g)",
+    "source": "Descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "Descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Polycarbonate classe optique 1, anti-rayures, UV380, sans outil",
+    "source": "Descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à XXL (trois tailles de coque)",
+    "source": "Descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Poids annoncé identique à celui du TTR-Jet : à vérifier. Pinlock : texte tronqué, ligne omise. Variantes Carbon : même texte que le Plain."
+  ]
+ },
+ {
+  "modele": "NZ-Race",
+  "marque": "KYT",
+  "nb_fiches": 6,
+  "motif": "\\ynz[- ]?race\\y",
+  "accroche": "L'intégral KYT en coque tri-composite aramide, carbone et fibre de verre, avec becquet testé en soufflerie.",
+  "description": "Le NZ-Race puise dans l'expérience course de KYT. Sa coque tri-composite mêle aramide, carbone et fibre de verre pour allier résistance et légèreté. Le becquet, travaillé en soufflerie, soigne la stabilité à haute vitesse, et trois prises d'air frontales assurent une ventilation continue.",
+  "profil_position": 90,
+  "points_forts": [
+   {
+    "texte": "Coque composite : aramide, carbone et fibre de verre.",
+    "preuve": "flux",
+    "source": "Descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Becquet testé en soufflerie pour la stabilité à haute vitesse.",
+    "preuve": "flux",
+    "source": "Descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Trois prises d'air frontales et canaux EPS pour évacuer l'air chaud par l'arrière.",
+    "preuve": "flux",
+    "source": "Descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière de classe optique 1 avec large champ de vision.",
+    "preuve": "flux",
+    "source": "Descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque composite tri-fibre",
+   "Becquet testé en soufflerie",
+   "Trois prises d'air frontales",
+   "Visière de classe optique 1"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (aramide, carbone, fibre de verre)",
+    "source": "Descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Classe optique 1",
+    "source": "Descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Fiches Carbon Stride/Competition : le texte parle de coque tri-composite, pas de carbone seul."
+  ]
+ },
+ {
+  "modele": "Skyhawk",
+  "marque": "KYT",
+  "nb_fiches": 6,
+  "motif": "\\yskyhawk\\y",
+  "accroche": "Le casque cross KYT en coque composite tri-fibre, avec grandes entrées d'air et large champ de vision pour lunettes.",
+  "description": "Le Skyhawk est le casque de motocross de KYT. Sa coque composite tri-fibre mêle aramide, carbone et fibre de verre. Quatre grandes ouvertures avant canalisent l'air dans la coque, protégées par des mailles métalliques, et le large champ de vision accueille de nombreuses lunettes cross. Intérieurs amovibles et lavables.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Coque composite : aramide, carbone et fibre de verre.",
+    "preuve": "flux",
+    "source": "Descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Quatre grandes ouvertures avant qui canalisent l'air, protégées par des mailles métalliques.",
+    "preuve": "flux",
+    "source": "Descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Large champ de vision, compatible avec de nombreuses lunettes de cross.",
+    "preuve": "flux",
+    "source": "Descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieurs et coussinets amovibles, lavables et remplaçables.",
+    "preuve": "flux",
+    "source": "Descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Deux tailles de coque.",
+    "preuve": "flux",
+    "source": "Descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque composite tri-fibre",
+   "Quatre grandes entrées d'air",
+   "Compatible avec lunettes de cross",
+   "Intérieur lavable et amovible"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (aramide, carbone, fibre de verre)",
+    "source": "Descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Quatre grandes entrées d'air avant",
+    "source": "Descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "Descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Versions Ardor, Hyperflow, Glowing, Plain : détails recopiés d'une version à l'autre."
+  ]
+ },
+ {
+  "modele": "TTR-Jet",
+  "marque": "KYT",
+  "nb_fiches": 4,
+  "motif": "\\yttr-?jet\\y",
+  "accroche": "Le jet KYT en thermoplastique ADT : pare-soleil intérieur, boucle micrométrique et norme ECE 22.06.",
+  "description": "Le TTR-Jet est le jet de KYT en thermoplastique ADT-Advanced, aux formes étudiées en soufflerie. Il offre un pare-soleil intérieur, une visière anti-rayures et une fermeture micrométrique facile à manier. Les coussinets de joues sont prévus pour accueillir un kit Bluetooth, et les intérieurs se retirent et se lavent.",
+  "profil_position": 15,
+  "points_forts": [
+   {
+    "texte": "Norme ECE 22.06 indiquée par le constructeur.",
+    "preuve": "flux",
+    "source": "Descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil intérieur.",
+    "preuve": "flux",
+    "source": "Descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture à boucle micrométrique.",
+    "preuve": "flux",
+    "source": "Descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coussinets de joues prédisposés pour un kit Bluetooth.",
+    "preuve": "flux",
+    "source": "Descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieurs amovibles, lavables et remplaçables.",
+    "preuve": "flux",
+    "source": "Descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Homologué ECE 22.06",
+   "Pare-soleil intérieur",
+   "Fermeture micrométrique",
+   "Prêt pour un kit Bluetooth"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "Descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (ADT-Advanced)",
+    "source": "Descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "Descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré (intérieur)",
+    "source": "Descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "Descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Audio",
+    "valeur": "Logements prévus pour haut-parleurs",
+    "source": "Descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "Deux tailles de coque (XS-M, L-XXL)",
+    "source": "Descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Poids annoncé 1 450 g identique au R1R : omis. Pinlock préparé, non fourni : omis. Logements Bluetooth interprétés comme logements audio."
+  ]
+ }
+]

@@ -807,8 +807,6 @@ def _todo(stage: str) -> int:
     return 1
 
 
-if __name__ == "__main__":
-    app()
 
 
 @app.command()
@@ -1028,3 +1026,28 @@ def controle_ecarts(
     console.print(f"{res.fiches:,} fiches a {seuil:g}x ou plus : "
                   f"[red]{n.get('fort', 0):,} fortes[/], {n.get('moyen', 0):,} moyennes, "
                   f"{n.get('faible', 0):,} faibles ; {res.nouvelles:,} nouvelles, {res.resolues:,} resolues")
+
+
+@app.command("fiches-enrichies")
+def fiches_enrichies(
+    fichier: str = typer.Argument(None, help="JSON : une liste d'objets, un par modele"),
+    marque: str = typer.Option("arai", help="code marque des modeles du fichier"),
+    marque_info: str = typer.Option(None, help="JSON de l'identite de la marque (pays, fondation...)"),
+    dossier: str = typer.Option(None, help="charge tout un dossier : <dossier>/<marque>/fiches_enrichies.json"),
+) -> None:
+    """Charge des fiches enrichies (texte par modele) dans `fiche_enrichie`."""
+    from .fiches_enrichies import charger, charger_dossier
+
+    if dossier:
+        lignes = charger_dossier(dossier)
+        marques = sorted({m for m, _, _ in lignes})
+        console.print(f"[green]ok[/] {len(lignes)} modeles, {len(marques)} marques")
+        return
+    if not fichier:
+        raise typer.BadParameter("un fichier, ou --dossier")
+    for modele, n in charger(fichier, marque, marque_info):
+        console.print(f"[green]ok[/] {modele} : {n} fiches")
+
+
+if __name__ == "__main__":
+    app()

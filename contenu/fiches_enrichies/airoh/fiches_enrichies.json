@@ -1,0 +1,1400 @@
+[
+ {
+  "modele": "Aviator 3",
+  "motif": "\\yaviator[- ]?3\\y",
+  "accroche": "Le casque cross de compétition d'Airoh : coque composite HPC en 4 tailles, hydratation intégrée, 8 entrées d'air, mis au point en soufflerie.",
+  "description": "L'Aviator 3 est le casque cross haut de gamme d'Airoh, pensé en soufflerie et testé par des pilotes de course du monde. Sa coque composite HPC existe en quatre tailles, avec huit entrées d'air et des ailerons à extracteurs intégrés. Vous profitez d'une doublure magnétique facile à retirer et d'un système d'hydratation intégré à l'EPS : de quoi enchaîner les manches sans lâcher la piste.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Coque composite HPC disponible en 4 tailles, pour un ajustement précis.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Forme étudiée en soufflerie et testée par des pilotes de course.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "8 entrées d'air et ailerons avec extracteurs intégrés, pour rester au frais.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Système d'hydratation AHS intégré à l'EPS multi-densité.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure magnétique AMLS et retrait d'urgence des joues AEFR par les secours.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière réglable à démontage rapide, support de caméra intégré.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque composite HPC en 4 tailles",
+   "Étudié en soufflerie avec des pilotes",
+   "Hydratation intégrée à l'EPS",
+   "8 entrées d'air, ailerons extracteurs"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (carbone HPC), 4 tailles de coque",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D (aluminium)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Réglable, démontage rapide",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "8 entrées d'air, ailerons avec extracteurs intégrés",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à XXL",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Coque en carbone 3K sur le décor Carbon, en carbone HPC sur les autres décors."
+  ],
+  "alertes_qualite": [
+   "Matière : les flux parlent de carbone HPC, de fibre carbone-kevlar (Color) et de carbone 3K (décor Carbon) : formulation composite retenue.",
+   "Poids du tableau technique d'un tiers non repris (1 350 g, non confirmé par nos descriptions).",
+   "Les fiches Aviator 3 FIM / TC 222 partagent le même texte."
+  ],
+  "nb_fiches": 32,
+  "marque": "Airoh"
+ },
+ {
+  "modele": "Wraaap",
+  "motif": "\\ywra+p\\y",
+  "accroche": "Le casque cross Airoh à la coque thermoplastique HRT en 3 tailles, ventilation travaillée en soufflerie et graphismes qui ne passent pas inaperçus.",
+  "description": "Le Wraaap joue la carte du look agressif et des décors marqués, sur une base solide : une coque en thermoplastique HRT proposée en trois tailles. La ventilation a été optimisée en soufflerie et un filtre anti-poussière équipe la mentonnière. Un casque cross qui s'adapte à une large gamme de têtes, pour aller au bout de votre passion.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Coque en thermoplastique HRT en 3 tailles (XXS à XXL).",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation de dernière génération optimisée en soufflerie.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Extracteurs d'air à l'arrière pour évacuer la chaleur.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Prise d'air de mentonnière avec filtre anti-poussière amovible.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur hypoallergénique, amovible et lavable.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque HRT en 3 tailles, XXS à XXL",
+   "Ventilation réglée en soufflerie",
+   "Filtre anti-poussière sur la mentonnière",
+   "Intérieur amovible et lavable"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (HRT), 3 tailles de coque",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D (aluminium)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Réglable, grand champ de vision",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Entrées sur le front et la mentonnière, extracteurs arrière",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XXS à XXL",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Poids ±1 330 g cité pour un seul décor ancien : non repris.",
+   "Mentions « tous âges » dans les flux : non reprises (pas de précision de taille enfant)."
+  ],
+  "nb_fiches": 28,
+  "marque": "Airoh"
+ },
+ {
+  "modele": "Connor",
+  "motif": "\\yconnor\\y",
+  "accroche": "L'intégral Airoh à coque thermoplastique HRT en 3 tailles, avec visière extra large démontable sans outil et un choix de graphismes très large.",
+  "description": "Le Connor est l'intégral d'entrée de gamme d'Airoh, aux lignes tendues et aux décors nombreux. Sa coque en thermoplastique HRT existe en trois tailles et sa visière extra large se retire sans outil grâce au système ATVR. Position antibuée, déflecteur de vent amovible, fermeture micrométrique : tout est prévu pour rouler au quotidien.",
+  "profil_position": 55,
+  "points_forts": [
+   {
+    "texte": "Coque en thermoplastique HRT en 3 tailles (XS à XXL).",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière extra large, démontable sans outil (ATVR), avec position antibuée.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture micrométrique pour un réglage rapide.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Filet coulissant ASN : un tissu 3D qui réduit les forces transmises à la tête.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Déflecteur de vent amovible et intérieur lavable.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Prêt pour l'installation d'un système Bluetooth.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Visière extra large sans outil",
+   "Coque HRT en 3 tailles, XS à XXL",
+   "Position antibuée sur la visière",
+   "Prêt pour un système Bluetooth"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "À partir de 1 450 g (±50 g, indication constructeur)",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (HRT), 3 tailles de coque",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Extra large, ATVR démontable sans outil, position antibuée",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à XXL",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Pinlock : visière préparée mais écran non fourni selon les flux : ligne omise."
+  ],
+  "nb_fiches": 25,
+  "marque": "Airoh"
+ },
+ {
+  "modele": "Matryx",
+  "motif": "\\ymatryx\\y",
+  "accroche": "L'intégral routier d'Airoh : coque composite en 2 tailles, visière extra large avec antibuée automatique A3S, Pinlock 120 fourni, pare-soleil intégré.",
+  "description": "Le Matryx est un intégral pensé pour la route comme pour les longs trajets. Sa coque composite existe en deux tailles et sa visière extra large est dotée du système antibuée automatique A3S, avec un Pinlock 120 livré dans la boîte. Pare-soleil intégré, retrait de visière sans outil et doublure Coolmax lavable : le confort est au rendez-vous.",
+  "profil_position": 65,
+  "points_forts": [
+   {
+    "texte": "Visière extra large avec antibuée automatique A3S et verrouillage.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pinlock 120 XLT livré avec le casque.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil intégré, pour passer du soleil à l'ombre sans arrêt.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière démontable sans outil grâce au système ATVR.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque composite en 2 tailles, à partir de 1 500 g (±50 g).",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure Coolmax amovible, lavable et hypoallergénique.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Antibuée automatique A3S",
+   "Pinlock 120 livré avec le casque",
+   "Pare-soleil intégré",
+   "Visière sans outil (ATVR)"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "À partir de 1 500 g (±50 g, indication constructeur)",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (carbone composite HPC), 2 tailles de coque",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Extra large, antibuée automatique A3S, ATVR sans outil",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock 120 fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Réglable, étudiée en soufflerie",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à XXL",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Les versions Carbon (3K et 6K) ont une coque en carbone."
+  ],
+  "alertes_qualite": [
+   "Matière : composite HPC pour la plupart des décors, plein carbone 3K / 6K pour Carbon et Carbon Stylish : formulation composite retenue.",
+   "Pinlock 120 : confirmé sur Scope, Carbon, Rocket ; supposé identique sur les autres décors."
+  ],
+  "nb_fiches": 25,
+  "marque": "Airoh"
+ },
+ {
+  "modele": "Spark 2",
+  "motif": "\\yspark[- ]?2\\y",
+  "accroche": "L'intégral Airoh à 5 étoiles SHARP en ECE 22.06 : 1 500 g sur la balance, Pinlock 70 fourni, pare-soleil intégré et visière sans outil.",
+  "description": "Le Spark 2 est l'intégral polyvalent d'Airoh, validé 5 étoiles au test SHARP. Il pèse 1 500 g à la pesée, avec une coque thermoplastique HRT, un pare-soleil intégré et une visière extra large retirable sans outil. Un Pinlock 70 est fourni pour garder une vue dégagée, du trajet quotidien aux sorties plus longues.",
+  "profil_position": 60,
+  "points_forts": [
+   {
+    "texte": "5 étoiles au test SHARP, avec la norme ECE 22.06 (décembre 2025).",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche Spark 2, décembre 2025"
+   },
+   {
+    "texte": "1 500 g à la pesée SHARP.",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche Spark 2, décembre 2025"
+   },
+   {
+    "texte": "Pinlock 70 fourni avec le casque.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil intégré et visière extra large démontable sans outil (ATVR).",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche Spark 2, décembre 2025"
+   },
+   {
+    "texte": "Systèmes ASN et AEFR, ventilation développée en soufflerie.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture micrométrique et intérieur lavable.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "5 étoiles SHARP, norme ECE 22.06",
+   "1 500 g à la pesée SHARP",
+   "Pinlock 70 fourni",
+   "Pare-soleil intégré"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 500 g (pesée SHARP)",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (HRT)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Extra large, ATVR sans outil, position antibuée",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock 70 fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à XXL",
+    "source": "SHARP"
+   }
+  ],
+  "securite": {
+   "sharp_etoiles": 5,
+   "date_test": "décembre 2025",
+   "norme": "ECE 22.06"
+  },
+  "a_savoir": [
+   "Le Spark (première génération) est un modèle voisin : vérifiez la mention Spark 2."
+  ],
+  "alertes_qualite": [
+   "Coque notée THS sur un décor (Shadow) et HRT ailleurs : thermoplastique retenu.",
+   "Tailles de coque : 2 ou 3 selon les flux : nombre omis."
+  ],
+  "nb_fiches": 24,
+  "marque": "Airoh"
+ },
+ {
+  "modele": "Aviator Ace 2",
+  "motif": "\\yaviator[- ]?ace[- ]?2\\y",
+  "accroche": "Le casque cross Airoh à partir de 1 250 g : 2 tailles de coque, ventilation sur le menton et le dessus, casquette réglable et cache-nez inclus.",
+  "description": "L'Aviator Ace 2 est un casque tout-terrain léger qui démarre à 1 250 g. Il se décline en deux tailles de coque et sa ventilation s'étend du menton au dessus du casque, avec une sortie à l'arrière. Prêt pour un système de communication Bluetooth, il vous suit sur la piste comme sur les chemins.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "À partir de 1 250 g (±50 g) : un cross léger.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "2 tailles de coque pour un ajustement précis (XS à XL).",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation sur le menton et le dessus, sortie d'air à l'arrière.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Systèmes ASN et AEFR pour limiter les forces transmises et faciliter le retrait des joues.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Casquette réglable et cache-nez amovible inclus.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Prêt pour les interphones Bluetooth.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "À partir de 1 250 g",
+   "Coque en 2 tailles, XS à XL",
+   "Casquette et cache-nez inclus",
+   "Prêt pour un interphone Bluetooth"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "À partir de 1 250 g (±50 g, indication constructeur)",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Casquette réglable, grand champ de vision pour masque",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Menton, front et dessus, extracteurs arrière",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à XL",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Coque : carbone composite (Shield, Engine, Carbon) contre polycarbonate (Proud, Sake) selon les flux : ligne Coque omise.",
+   "Casquette et cache-nez : cités sur le décor Carbon, supposés communs.",
+   "Le modèle sans « 2 » (Ace, ECE 22.05) existe : motif limité à Ace 2."
+  ],
+  "nb_fiches": 22,
+  "marque": "Airoh"
+ },
+ {
+  "modele": "Twist 3",
+  "motif": "\\ytwist[- ]?3\\y",
+  "accroche": "Le cross Airoh à coque thermoplastique HRT, ventilation étudiée en soufflerie, filtre anti-poussière et prêt pour un système Bluetooth.",
+  "description": "Le Twist 3 est un casque tout-terrain aux lignes décidées, pensé pour aborder chaque virage avec aisance. Sa coque en thermoplastique HRT existe en deux tailles, avec un système de ventilation optimisé en soufflerie. Mentonnière à filtre anti-poussière, fermeture double D et préparation Bluetooth complètent l'ensemble.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Coque en thermoplastique HRT, en 2 tailles de coque.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation multi-zones étudiée en soufflerie, avec extracteurs arrière.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Prise d'air de mentonnière avec filtre anti-poussière amovible.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Systèmes ASN et AEFR pour limiter les forces transmises et faciliter le retrait des joues.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Prêt à accueillir un système de communication Bluetooth.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur antibactérien, entièrement amovible et lavable.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque HRT en 2 tailles",
+   "Mentonnière avec filtre anti-poussière",
+   "Ventilation étudiée en soufflerie",
+   "Prêt pour un système Bluetooth"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (HRT), 2 tailles de coque",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D (aluminium)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Réglable, ouverture large pour masque",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Entrées frontales et mentonnière, extracteurs arrière",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à XXL",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Un décor est décrit « coque double THS » : thermoplastique retenu."
+  ],
+  "nb_fiches": 22,
+  "marque": "Airoh"
+ },
+ {
+  "modele": "Mathisse II",
+  "motif": "\\ymathisse[- ]?(ii|2)\\y",
+  "accroche": "Le modulable Airoh à mentonnière rotative 180°, double homologation P/J, pare-soleil rétractable et Pinlock 70 livré.",
+  "description": "Le Mathisse II change de visage en un geste : intégral pour la route, jet pour la ville, grâce à sa mentonnière qui pivote à 180°. Sa coque en thermoplastique HRT s'accompagne d'un pare-soleil rétractable, d'une visière extra large antibuée et d'un Pinlock 70 livré. Double homologation P/J et préparation Bluetooth : un 2 en 1 vraiment polyvalent.",
+  "profil_position": 30,
+  "points_forts": [
+   {
+    "texte": "Mentonnière rotative à 180° : passez de l'intégral au jet d'un seul geste.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Double homologation P/J, en ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil rétractable et visière extra large avec position antibuée.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pinlock 70 livré avec le casque.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en thermoplastique HRT et système ASN.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Préparé pour un système Bluetooth, intérieur lavable.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Mentonnière rotative à 180°",
+   "Double homologation P/J",
+   "Pare-soleil rétractable",
+   "Pinlock 70 livré"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06 (double homologation P/J)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (HRT)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Extra large, antibuée, protection UV",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock 70 fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Rétractable, intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Système ACVS",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Le Mathisse de première génération (ECE 22.05) est un modèle voisin."
+  ],
+  "alertes_qualite": [
+   "Nombre de tailles de coque : 2 (un flux), 4 (deux flux) : omis.",
+   "Tableau technique d'un tiers annonce polycarbonate : contredit HRT des flux, ignoré."
+  ],
+  "nb_fiches": 19,
+  "marque": "Airoh"
+ },
+ {
+  "modele": "Commander 2",
+  "motif": "\\ycommander[- ]?2\\y",
+  "accroche": "Le crossover Airoh pour route et chemins : coque composite en 3 tailles, antibuée automatique A3S, Pinlock 120 et pare-soleil intégré.",
+  "description": "Le Commander 2 est le casque d'aventure d'Airoh, aussi à l'aise sur le bitume que sur la terre. Sa coque composite est proposée en trois tailles, et sa visière extra large profite de l'antibuée automatique A3S, d'un Pinlock 120 et d'un pare-soleil intégré. Casquette aérodynamique amovible, filet ASN et retrait d'urgence des joues : un partenaire de voyage complet.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Coque composite en 3 tailles, développée en soufflerie.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière extra large avec antibuée automatique A3S et verrouillage.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pinlock 120 XLT et second écran fumé livrés avec le casque.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil intégré teinté, anti-UV.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Casquette aérodynamique amovible pour le tout-terrain.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Systèmes ASN et AEFR, fermeture double D.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Antibuée automatique A3S",
+   "Pinlock 120 et écran fumé livrés",
+   "Pare-soleil intégré",
+   "Casquette amovible pour la piste"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (HPC), 3 tailles de coque",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Extra large, A3S antibuée automatique, verrouillage",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock 120 fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Étudiée en soufflerie",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Les versions Carbon et Full Carbon ont une coque en carbone 6K."
+  ],
+  "alertes_qualite": [
+   "Matière : composite HPC (verre et carbone) ou plein carbone 6K selon la version : formulation composite retenue.",
+   "Pinlock 120 et écran fumé : confirmés sur Color et Reveal, supposés communs."
+  ],
+  "nb_fiches": 17,
+  "marque": "Airoh"
+ },
+ {
+  "modele": "J 110",
+  "motif": "\\yj[- ]?110\\y",
+  "accroche": "Le modulable Airoh en composite : 1 070 g en jet, 1 340 g en intégral, double homologation P/J et pare-soleil intégré.",
+  "description": "Le J 110 réunit le confort d'un jet et la polyvalence d'un intégral, avec une mentonnière entièrement amovible. Sa coque composite, en deux tailles, limite le poids à environ 1 070 g en jet et 1 340 g en intégral. Double homologation P/J, pare-soleil intégré, fermeture micrométrique : un casque 2 en 1 au style bombardier.",
+  "profil_position": 30,
+  "points_forts": [
+   {
+    "texte": "Environ 1 070 g en configuration jet et 1 340 g en intégral.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Mentonnière entièrement amovible : deux casques en un.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Double homologation P/J, en ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque composite en 2 tailles (XS à XXL).",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil intégré et fermeture micrométrique.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Prêt à accueillir un interphone, intérieur Coolmax lavable.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "1 070 g en jet, 1 340 g en intégral",
+   "Mentonnière entièrement amovible",
+   "Double homologation P/J",
+   "Pare-soleil intégré"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "Environ 1 340 g en intégral, 1 070 g en jet (indication constructeur)",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06 (double homologation P/J)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (HPC), 2 tailles de coque",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Grand écran anti-rayures, protection UV",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Sur la mentonnière",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à XXL",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Coque : fibres composites HPC (carbone et aramide) selon les flux : composite retenu."
+  ],
+  "nb_fiches": 16,
+  "marque": "Airoh"
+ },
+ {
+  "modele": "GP 800",
+  "motif": "\\ygp[- ]?800\\y",
+  "accroche": "L'intégral de piste d'Airoh : 5 étoiles SHARP en ECE 22.06, 1 500 g à la pesée, coque composite en 3 tailles, becquet arrière et visière de course 2D.",
+  "description": "Le GP 800 est le casque racing d'Airoh, validé 5 étoiles au test SHARP en ECE 22.06. Sa coque composite en trois tailles et son becquet arrière marqué visent la stabilité à haute vitesse. Visière de course 2D retirable sans outil, doublure Coolmax lavable, fermeture double D : tout est pensé pour le circuit.",
+  "profil_position": 95,
+  "points_forts": [
+   {
+    "texte": "5 étoiles au test SHARP, avec la norme ECE 22.06 (avril 2026).",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche GP800, avril 2026"
+   },
+   {
+    "texte": "1 500 g à la pesée SHARP.",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche GP800, avril 2026"
+   },
+   {
+    "texte": "Coque composite en 3 tailles, aérodynamique étudiée en soufflerie.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Becquet arrière prononcé pour la stabilité en piste.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière de course 2D anti-rayures, retirable sans outil (ATVR).",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure Coolmax amovible, lavable et hypoallergénique.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "5 étoiles SHARP, norme ECE 22.06",
+   "1 500 g à la pesée SHARP",
+   "Becquet pour la stabilité en piste",
+   "Visière de course 2D sans outil"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 500 g (pesée SHARP)",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (carbone HPC), 3 tailles de coque",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Visière de course 2D, anti-rayures, ATVR sans outil",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à XXL",
+    "source": "SHARP"
+   }
+  ],
+  "securite": {
+   "sharp_etoiles": 5,
+   "date_test": "avril 2026",
+   "norme": "ECE 22.06"
+  },
+  "a_savoir": [
+   "La version FIM Racing 1 est en carbone 12K UD et approuvée FIM."
+  ],
+  "alertes_qualite": [
+   "Poids : 1 440 g (±50 g) chez les marchands contre 1 500 g SHARP : SHARP retenu.",
+   "SHARP indique « composite fibre » sans préciser la version testée.",
+   "Pinlock 120 cité sur Must et FIM Racing seulement : ligne omise."
+  ],
+  "nb_fiches": 13,
+  "marque": "Airoh"
+ },
+ {
+  "modele": "Kombakt",
+  "motif": "\\ykombakt\\y",
+  "accroche": "Le demi-jet Airoh léger et urbain : coque HRT en 2 tailles, écran solaire intégré, fermeture micrométrique avec anneau antivol.",
+  "description": "Le Kombakt est un demi-jet pensé pour la ville, qui mise sur la légèreté et la liberté de mouvement. Sa coque en thermoplastique HRT existe en deux tailles et un écran solaire fumé est intégré. Fermeture micrométrique avec anneau antivol, intérieur lavable et préparation Bluetooth : pratique au quotidien.",
+  "profil_position": 10,
+  "points_forts": [
+   {
+    "texte": "Coque en thermoplastique HRT, en 2 tailles.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran solaire intégré, fumé clair et traité anti-UV.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture micrométrique avec anneau antivol intégré.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Filet coulissant ASN pour réduire les forces transmises à la tête.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation supérieure et latérale, extracteur arrière.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Compatible Bluetooth, intérieur démontable et lavable.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Écran solaire intégré",
+   "Coque HRT en 2 tailles",
+   "Anneau antivol sur la fermeture",
+   "Prêt pour un système Bluetooth"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (HRT), 2 tailles de coque",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Écran solaire fumé clair, anti-UV, anti-rayures",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Supérieure et latérale, extracteur arrière",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Nature de la visière principale (teintée ou claire) non tranchée entre flux : ligne limitée à l'écran solaire."
+  ],
+  "nb_fiches": 12,
+  "marque": "Airoh"
+ },
+ {
+  "modele": "H 21",
+  "motif": "\\yh[. -]?21\\y",
+  "accroche": "Le jet Airoh en composite carbone HPC : écran solaire anti-UV, ailerons arrière, fermeture micrométrique avec anneau antivol.",
+  "description": "Le H 21 est un jet à coque composite en carbone HPC, léger et compact, pensé pour sillonner la ville. Il offre une ventilation supérieure avec extracteurs et ailerons arrière, une visière verrouillable anti-rayures et un écran solaire anti-UV. Fermeture micrométrique, anneau antivol et doublure Coolmax lavable.",
+  "profil_position": 10,
+  "points_forts": [
+   {
+    "texte": "Coque en composite carbone HPC, légère et compacte.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran solaire anti-UV et visière verrouillable anti-rayures.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation supérieure, extracteurs et ailerons arrière.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture micrométrique avec anneau antivol.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Compatible système de communication Bluetooth.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure Coolmax amovible, lavable et hypoallergénique.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque composite carbone HPC légère",
+   "Écran solaire anti-UV",
+   "Ailerons et extracteurs arrière",
+   "Anneau antivol sur la fermeture"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (carbone HPC)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Verrouillable, anti-rayures",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Écran solaire anti-UV",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Supérieure, extracteurs et ailerons arrière",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Pinlock 70 en option (non fourni) : ligne omise.",
+   "Un seul flux détaille la coque (HPC Carbon) : appliqué à tout le modèle."
+  ],
+  "nb_fiches": 8,
+  "marque": "Airoh"
+ },
+ {
+  "modele": "Helyos",
+  "motif": "\\yhelyos\\y",
+  "accroche": "Le jet Airoh nouvelle génération : coque HRT en 3 tailles, long écran incolore, pare-soleil rétractable et fermeture micrométrique.",
+  "description": "Le Helyos est le « tech-jet » d'Airoh, une nouvelle génération de casques ouverts au dessin linéaire. Sa coque en thermoplastique HRT existe en trois tailles, avec un long écran incolore et un pare-soleil rétractable. Un kit permet même de le porter sans écran pour un look classique.",
+  "profil_position": 10,
+  "points_forts": [
+   {
+    "texte": "Coque en thermoplastique HRT en 3 tailles (XS à XXL).",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil rétractable, résistant aux UV.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Long écran incolore anti-rayures.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Kit livré pour rouler sans écran, look classique.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation complète avec extracteur arrière.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture micrométrique réglable, prêt pour le Bluetooth.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Pare-soleil rétractable",
+   "Coque HRT en 3 tailles",
+   "Peut se porter sans écran",
+   "Prêt pour un système Bluetooth"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (HRT), 3 tailles de coque",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Long écran incolore, anti-rayures",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Rétractable, intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Prises d'air supérieures et latérales, extracteur arrière",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à XXL",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [],
+  "nb_fiches": 7,
+  "marque": "Airoh"
+ },
+ {
+  "modele": "Spark",
+  "motif": "\\yspark\\y(?![- ]?2\\y)",
+  "accroche": "L'intégral Airoh à coque HRT en 2 tailles, avec écran extra large démontable, Pinlock fourni et écran solaire interne rétractable.",
+  "description": "Le Spark est l'intégral abordable et sportif d'Airoh, décliné en de nombreux décors. Sa coque en thermoplastique HRT existe en deux tailles. L'écran extra large se retire rapidement, un Pinlock est fourni et un écran solaire interne se rétracte d'un geste.",
+  "profil_position": 60,
+  "points_forts": [
+   {
+    "texte": "Coque en thermoplastique HRT, en 2 tailles.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran extra large à démontage rapide, anti-rayures et anti-UV.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Lentille antibuée Pinlock fournie.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran solaire interne rétractable.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture micrométrique pour un réglage rapide.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque HRT en 2 tailles",
+   "Écran solaire interne rétractable",
+   "Pinlock fourni",
+   "Écran extra large démontable"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (HRT), 2 tailles de coque",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Extra large, démontage rapide, anti-rayures, anti-UV",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Écran solaire interne rétractable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Le Spark 2 est un modèle voisin, plus récent : vérifiez la mention Spark 2."
+  ],
+  "alertes_qualite": [
+   "Norme ECE 22.05 citée sur Thrill et Rise : ligne omise (version des autres décors inconnue).",
+   "Texte moins documenté que les autres modèles (flux courts)."
+  ],
+  "nb_fiches": 8,
+  "marque": "Airoh"
+ }
+]

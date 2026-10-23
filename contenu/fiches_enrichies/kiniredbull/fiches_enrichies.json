@@ -1,0 +1,125 @@
+[
+ {
+  "modele": "ADV 1.0",
+  "marque": "Kini-Red Bull",
+  "nb_fiches": 2,
+  "motif": "\\yadv 1\\y",
+  "accroche": "Le casque adventure Kini-Red Bull : ventilation à canaux internes, pare-soleil intégré et doublure lavable.",
+  "description": "L'ADV 1.0 est le casque touring et adventure de Kini-Red Bull, avec la déco bleu et blanc de l'équipe. Aérations et canaux internes assurent la ventilation, le pare-soleil intégré s'adapte aux changements de lumière. Doublure confort rembourrée, amovible et lavable.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Casque touring et adventure aux couleurs Red Bull.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation optimisée avec aérations et canaux internes.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure confort rembourrée, amovible et lavable.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visibilité claire grâce à la visière et au pare-soleil intégré.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Look adventure aux couleurs Red Bull",
+   "Ventilation par canaux internes",
+   "Doublure amovible et lavable",
+   "Pare-soleil intégré"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Aérations avec canaux internes",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Matière de coque et norme non documentées : lignes omises."
+  ]
+ },
+ {
+  "modele": "ADV X 2.0",
+  "marque": "Kini-Red Bull",
+  "nb_fiches": 2,
+  "motif": "\\yadv x\\y",
+  "accroche": "Le casque adventure en fibre de verre de Kini-Red Bull, avec joues à retrait rapide E.Q.R.S. et ventilation par canaux.",
+  "description": "L'ADV X 2.0 est le casque touring et adventure de Kini-Red Bull, avec sa coque en fibre de verre. Les joues se retirent rapidement grâce au système E.Q.R.S. La ventilation passe par des aérations et des canaux internes, et la doublure se lave.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Coque en fibre de verre.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Casque touring et adventure aux couleurs Red Bull.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation optimisée avec aérations et canaux internes.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Retrait rapide des joues avec le système E.Q.R.S.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure confort amovible, absorbant la transpiration et lavable.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque en fibre de verre",
+   "Joues à retrait rapide E.Q.R.S.",
+   "Ventilation par canaux internes",
+   "Doublure amovible et lavable"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Fibre de verre",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Aérations avec canaux internes",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Norme et poids non documentés : lignes omises."
+  ]
+ }
+]

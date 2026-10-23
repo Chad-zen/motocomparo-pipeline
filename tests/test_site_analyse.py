@@ -1,0 +1,90 @@
+from mcsite.analyse import indicateurs, profil
+
+
+def _par_cle(contenu):
+    return {i["cle"]: i for i in indicateurs(contenu)}
+
+
+def test_indicateurs_d_un_modele_teste_et_pese():
+    c = {"securite": {"sharp_etoiles": 5, "date_test": "Septembre 2024", "norme": "ECE 22.06"},
+         "fiche_technique": [
+             {"nom": "Poids", "valeur": "1 500 g (pesée SHARP)", "source": "SHARP"},
+             {"nom": "Norme", "valeur": "ECE 22.06", "source": "SHARP"},
+             {"nom": "Pinlock", "valeur": "Pinlock 120 fourni", "source": "x"}]}
+    i = _par_cle(c)
+    assert i["sharp"]["etoiles"] == 5
+    assert i["poids"]["valeur"].endswith(" g") and 45 <= i["poids"]["pct"] <= 55
+    assert i["poids"]["detail"] == "Pesé en test"
+    assert i["norme"]["ok"] is True
+    assert i["pinlock"]["type"] == "oui"
+
+
+def test_ce_qu_on_n_a_pas_n_est_pas_montre():
+    """Regle de la proprietaire (22/10/2026) : si on n'a pas, on ne mentionne pas."""
+    assert _par_cle({"fiche_technique": []}) == {}
+    i = _par_cle({"fiche_technique": [
+        {"nom": "Pare-soleil", "valeur": "Non intégré ; système compatible", "source": "x"},
+        {"nom": "Pinlock", "valeur": "Non fourni", "source": "x"}]})
+    assert "pare_soleil" not in i and "pinlock" not in i      # un manque n'est pas une case
+    assert all(x["type"] != "inconnu" and x["type"] != "non" for x in indicateurs({}))
+
+
+def test_un_poids_annonce_dit_d_ou_il_vient():
+    i = _par_cle({"fiche_technique": [{"nom": "Poids annoncé", "valeur": "1 250 g", "source": "x"}]})
+    assert i["poids"]["detail"] == "Annoncé par le constructeur"
+
+
+def test_le_curseur_de_profil_va_de_urbain_a_sportif():
+    assert profil({}) is None                                  # pas de position, pas de curseur
+    assert profil({"profil_curseur": {"position": 95}})["libelle"] == "Sportif"
+    assert profil({"profil_curseur": {"position": 50}})["libelle"] == "Enduro / trail"
+    assert profil({"profil_curseur": {"position": 6}})["libelle"] == "Urbain"
+    assert profil({"profil_curseur": {"position": 400}})["position"] == 100
+
+
+def test_le_curseur_de_coque_range_les_matieres():
+    from mcsite.analyse import coque_curseur
+
+    def cran(valeur):
+        k = coque_curseur([{"nom": "calotte", "valeur": valeur}])
+        return k["cran"] if k else None
+
+    assert cran("polycarbonate") == 1        # contient « carbon » : ne doit PAS passer au carbone
+    assert cran("thermoplastique") == 1
+    assert cran("fibre") == 2
+    assert cran("composite") == 3
+    assert cran("carbone") == 4
+    assert cran("Carbon Kevlar") == 4
+    assert cran("Carbon-Glass Hybrid") == 3
+    assert coque_curseur([]) is None and cran("bois") is None     # inconnu : pas de curseur
+
+
+def test_la_fiche_verifiee_prime_sur_la_caracteristique_des_flux():
+    from mcsite.analyse import coque_curseur
+    contenu = {"fiche_technique": [{"nom": "Coque", "valeur": "Composite de fibres (technologie Arai PB-cLc2)"}]}
+    k = coque_curseur([{"nom": "calotte", "valeur": "thermoplastique"}], contenu)
+    assert k["cran"] == 3 and k["technologie"] == "PB-cLc2"
+
+
+def _carac(**kw):
+    return [{"nom": k, "valeur": v} for k, v in kw.items()]
+
+
+def test_l_analyse_automatique_ne_dit_que_ce_qui_est_releve():
+    from mcsite.analyse import analyse_auto
+    a = analyse_auto(_carac(homologation="22.06", pinlock="fourni", ecran_solaire="True",
+                            interieur_amovible="True", calotte="carbone"), "helmet.integral")
+    cles = {i["cle"] for i in a["indicateurs"]}
+    assert {"norme", "pinlock", "pare_soleil", "doublure"} <= cles
+    assert "Écran solaire intégré" in a["points_forts_courts"] and len(a["points_forts_courts"]) == 4
+    assert a["profil"]["position"] == 68 and a["profil"]["auto"] is True
+
+
+def test_l_analyse_automatique_se_tait_quand_il_y_a_trop_peu():
+    from mcsite.analyse import analyse_auto
+    assert analyse_auto(_carac(ventilation="True"), "helmet.jet") is None        # moins de trois cases
+    a = analyse_auto(_carac(homologation="22.05", pinlock="fourni", interieur_amovible="True"), "helmet.jet")
+    assert a is not None and a["points_forts_courts"] is None or len(a["points_forts_courts"]) >= 3
+    # un intercom « fourni » n'est jamais traduit en case : seul « prepare » l'est
+    b = analyse_auto(_carac(intercom="fourni", homologation="22.06", pinlock="fourni", interieur_amovible="True"), "helmet.jet")
+    assert "audio" not in {i["cle"] for i in b["indicateurs"]}

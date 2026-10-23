@@ -1,0 +1,191 @@
+[
+ {
+  "modele": "SE5 Polycarbonate",
+  "marque": "Troy Lee Designs",
+  "nb_fiches": 6,
+  "motif": "\\yse5 polycarbonate\\y",
+  "accroche": "Le casque cross SE5 en polycarbonate : 1 380 g, Mips Integra TX, 11 entrées et 5 sorties d'air.",
+  "description": "Le SE5 Polycarbonate de Troy Lee Designs allie légèreté et robustesse : une coque et une mentonnière moulées en polycarbonate, pour 1 380 g annoncés. Le système Mips Integra TX est intégré à la doublure, et 11 entrées avec 5 sorties d'air gardent la tête au frais en piste.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "1 380 g annoncés pour un casque cross à coque en polycarbonate.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Mips Integra TX intégré à la doublure contre les impacts rotationnels.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "EPS double densité pour absorber les chocs.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "11 entrées d'air et 5 sorties pour un flux d'air maximal.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublures amovibles et lavables, joues à dégagement d'urgence.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "1 380 g, coque en polycarbonate",
+   "Mips Integra TX dans la doublure",
+   "11 entrées et 5 sorties d'air",
+   "Joues à dégagement d'urgence"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 380 g (annoncé constructeur)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "11 entrées d'air et 5 sorties",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Une description « The Line » parle de polyacrylite : polycarbonate retenu. Norme non lisible (texte tronqué) : omise."
+  ]
+ },
+ {
+  "modele": "GP Pro",
+  "marque": "Troy Lee Designs",
+  "nb_fiches": 12,
+  "motif": "\\ygp pro\\y",
+  "accroche": "Le casque cross GP Pro avec Mips, mentonnière EPP et joues à dégagement d'urgence, aussi en taille enfant.",
+  "description": "Le GP Pro est un casque cross à coque en polyacrylite avancée, proposé en trois tailles de coque. Il intègre le système Mips contre les impacts rotationnels, une mentonnière doublée d'EPP et des joues 3D à retrait d'urgence. Les versions récentes sont homologuées ECE 22.06.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Système Mips de protection cérébrale contre les impacts rotationnels.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en polyacrylite avancée, en trois tailles de coque.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Mentonnière doublée d'EPP.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Joues anatomiques 3D à déverrouillage d'urgence pour les secours.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Vis de visière en plastique avec inserts en laiton, anneaux en D en acier inoxydable.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Mips contre les chocs rotationnels",
+   "Mentonnière doublée d'EPP",
+   "Joues à retrait d'urgence",
+   "3 tailles de coque"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Polyacrylite (technologie avancée, 3 tailles de coque)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D (acier inoxydable)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Existe en versions adulte et enfant."
+  ],
+  "alertes_qualite": [
+   "Poids 1 525 g donné pour des versions adulte et jeunesse : omis. ECE 22.06 confirmée seulement sur versions récentes : norme omise de la fiche technique."
+  ]
+ },
+ {
+  "modele": "SE5 Carbon",
+  "marque": "Troy Lee Designs",
+  "nb_fiches": 1,
+  "motif": "\\yse5 carbon\\y",
+  "accroche": "Le SE5 Carbon de Troy Lee Designs : coque carbone, Mips Integra, mentonnière EPP à suspension clavicule.",
+  "description": "Le SE5 Carbon est la version haut de gamme du SE5, avec une coque en carbone. Il intègre le Mips Integra, un EPS double densité et une mentonnière doublée d'EPP avec suspension à la clavicule. C'est le choix de l'équipe TLD / Red Bull / GasGas Factory Racing.",
+  "profil_position": 55,
+  "points_forts": [
+   {
+    "texte": "Coque en carbone.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Mips Integra moulé contre les forces de rotation.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "EPS double densité pour une absorption progressive.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Mentonnière doublée d'EPP avec système de suspension à la clavicule.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Casque de l'équipe TLD / Red Bull / GasGas Factory Racing.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque en carbone",
+   "Mips Integra moulé",
+   "Mentonnière EPP, suspension clavicule",
+   "Casque de l'équipe usine TLD"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Carbone",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Une description parle de « fibres de carbone » : carbone retenu. Poids et norme non documentés hors fiches de vente : omis."
+  ]
+ }
+]

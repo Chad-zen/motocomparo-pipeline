@@ -1,0 +1,330 @@
+[
+ {
+  "modele": "Heritage",
+  "marque": "Nox Premium",
+  "nb_fiches": 4,
+  "motif": "\\yheritage\\y",
+  "accroche": "Un jet compact au look vintage, avec long écran transparent et double écran solaire rétractable.",
+  "description": "L'Heritage est un jet compact au look vintage, pensé pour la ville. Il associe un long écran transparent qui protège le visage à un double écran solaire rétractable. La fermeture micrométrique se règle vite, même en trajet urbain.",
+  "profil_position": 10,
+  "points_forts": [
+   {
+    "texte": "Look vintage sur un jet compact.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Long écran transparent qui protège le visage.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Double écran solaire rétractable.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture par boucle micrométrique, rapide et efficace en ville.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Look vintage, jet compact",
+   "Long écran transparent",
+   "Double écran solaire rétractable",
+   "Boucle micrométrique rapide"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Long écran transparent",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Double écran solaire rétractable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Norme absente des descriptions pour l'Heritage : omise."
+  ]
+ },
+ {
+  "modele": "Idol",
+  "marque": "Nox Premium",
+  "nb_fiches": 3,
+  "motif": "\\yidol\\y",
+  "accroche": "Le mini jet Nox Premium à jonc chromé et écran aviateur : chic, simple, homologué ECE 22.06.",
+  "description": "L'Idol est un mini jet de caractère. Jonc chromé de finition, intérieur en cuir retourné et écran transparent de type aviateur lui donnent un look soigné, de la Vespa au café racer. Il répond à la norme ECE 22.06.",
+  "profil_position": 8,
+  "points_forts": [
+   {
+    "texte": "Homologué ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Jonc chromé de finition.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran transparent de type aviateur.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur en cuir retourné (ou simili cuir retourné selon les coloris).",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Mini jet à jonc chromé",
+   "Écran transparent type aviateur",
+   "Intérieur en cuir retourné",
+   "Norme ECE 22.06"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Transparente, de type aviateur",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Cuir retourné ou simili cuir retourné selon les descriptions : formulation prudente, ligne Doublure omise."
+  ]
+ },
+ {
+  "modele": "Spy",
+  "marque": "Nox Premium",
+  "nb_fiches": 2,
+  "motif": "\\yspy\\y",
+  "accroche": "Le jet Nox Premium moderne : long écran transparent, double écran solaire et norme ECE 22.06.",
+  "description": "Le Spy est un jet au look moderne, conçu pour une conduite aisée en ville. Son long écran transparent se complète d'un double écran solaire. Il répond à la norme ECE 22.06.",
+  "profil_position": 10,
+  "points_forts": [
+   {
+    "texte": "Homologué ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Long écran transparent.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Double écran solaire.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Look moderne pensé pour la ville.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Look moderne pour la ville",
+   "Long écran transparent",
+   "Double écran solaire",
+   "Norme ECE 22.06"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Long écran transparent",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Double écran solaire",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": []
+ },
+ {
+  "modele": "Seventy 2",
+  "marque": "Nox Premium",
+  "nb_fiches": 2,
+  "motif": "\\yseventy 2\\y",
+  "accroche": "L'intégral néo-rétro inspiré des casques cross des années 60, avec casquette MX vintage et menton grillagé.",
+  "description": "Le Seventy 2 s'inspire des casques de motocross des années 60 pour un style néo-rétro qui ne passe pas inaperçu. Les ventilations grillagées du menton et la casquette MX vintage soulignent son caractère. Il répond à la norme ECE 22.06.",
+  "profil_position": 30,
+  "points_forts": [
+   {
+    "texte": "Homologué ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Inspiré des casques de motocross des années 60.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Casquette MX vintage.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilations grillagées sur le menton.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Inspiré des casques cross des années 60",
+   "Casquette MX vintage",
+   "Menton à ventilations grillagées",
+   "Norme ECE 22.06"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Ventilations grillagées sur le menton",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": []
+ },
+ {
+  "modele": "Revenge",
+  "marque": "Nox Premium",
+  "nb_fiches": 1,
+  "motif": "\\yrevenge\\y",
+  "accroche": "L'intégral néo-rétro inspiré des années 80, au design épuré et aux normes ECE 22.06.",
+  "description": "Le Revenge est un intégral néo-rétro inspiré des années 80. Son design épuré, entre vintage et authentique, réveille le besoin de liberté. Il répond à la norme ECE 22.06.",
+  "profil_position": 30,
+  "points_forts": [
+   {
+    "texte": "Homologué ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Inspiré des années 80.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Design épuré.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Style néo-rétro, aux accents vintage.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Intégral inspiré des années 80",
+   "Design épuré",
+   "Style néo-rétro et vintage",
+   "Norme ECE 22.06"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Données minces : 4 points forts issus d une seule description."
+  ]
+ },
+ {
+  "modele": "Next Traker",
+  "marque": "Nox Premium",
+  "nb_fiches": 1,
+  "motif": "\\ynext traker\\y",
+  "accroche": "Le jet minimaliste d'inspiration vintage, avec écran solaire de type lunette rétractable et boucle micrométrique.",
+  "description": "Le Next Traker est un jet minimaliste d'inspiration vintage mais de conception moderne. Son écran solaire de type lunette se rétracte, et la boucle micrométrique ferme la jugulaire vite et bien en ville. Il répond à la norme ECE 22.06.",
+  "profil_position": 10,
+  "points_forts": [
+   {
+    "texte": "Homologué ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Inspiration vintage, conception moderne.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran solaire de type lunette, rétractable.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Boucle micrométrique pour une fermeture rapide en milieu urbain.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Jet minimaliste d'esprit vintage",
+   "Écran solaire type lunette",
+   "Boucle micrométrique rapide",
+   "Norme ECE 22.06"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Écran solaire de type lunette rétractable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": []
+ }
+]

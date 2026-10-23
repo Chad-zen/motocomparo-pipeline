@@ -1,0 +1,437 @@
+[
+ {
+  "modele": "Moto 2.5",
+  "marque": "Leatt",
+  "nb_fiches": 6,
+  "motif": "\\yleatt (moto )?2\\.5\\y",
+  "accroche": "Le casque cross d'entrée de gamme de Leatt : coque composite, turbines 360° et 13 canaux d'aération, ECE 22.06.",
+  "description": "Le Moto 2.5 est le point d'entrée dans la gamme cross de Leatt. Sa coque en polymère injecté existe en trois tailles et intègre la technologie des turbines 360°. Treize grands canaux d'aération renouvellent l'air même à faible allure, et l'homologation ECE 22.06 est au rendez-vous.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Coque en composé polymère injecté, en trois tailles.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Technologie des turbines 360° de Leatt.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Treize grands canaux d'aération pour une bonne circulation d'air, même à basse vitesse.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Nouvelle norme haute performance ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Le point d'entrée de la gamme cross de Leatt.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Turbines 360° de Leatt",
+   "13 canaux d'aération",
+   "Coque en trois tailles",
+   "Homologué ECE 22.06"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite (polymère injecté)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "13 grands canaux d'aération",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Millésimes mélangés (V23, V24, V26, 2026) ; ECE 22.06 indiqué sur Tricolor et V26, pas sur les V23/V24."
+  ]
+ },
+ {
+  "modele": "Moto 3.5",
+  "marque": "Leatt",
+  "nb_fiches": 8,
+  "motif": "\\yleatt (moto )?3\\.5\\y",
+  "accroche": "Coque composite en polymère injecté, turbines 360°, ECE 22.06 : le Moto 3.5 de Leatt, aussi décliné en junior.",
+  "description": "Le Moto 3.5 associe une coque composite en polymère injecté à la technologie des turbines 360° de Leatt. Sa doublure intérieure est lavable et respirante, avec un traitement anti-odeur, et de grands canaux gardent la tête au frais. Une version junior est proposée avec des lunettes Vizion 3.5 en kit.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Coque composite en polymère injecté, en trois tailles.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Technologie des turbines 360° de Leatt.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Mousse d'impact à double densité.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure intérieure lavable et respirante, avec tissu anti-odeur.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Grands canaux de ventilation pour un climat de tête confortable.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Nouvelle norme haute performance ECE 22.06 ; version junior livrée avec lunettes Vizion 3.5.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Turbines 360° de Leatt",
+   "Doublure lavable, anti-odeur",
+   "Vendu en kit avec lunettes",
+   "Homologué ECE 22.06"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite (polymère injecté)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Lavable et respirante",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Versions mélangées (V25 junior, V27 Moto, Checkered Junior, Sharp, White) ; ECE 22.06 indiqué sur Sharp."
+  ]
+ },
+ {
+  "modele": "Moto 7.5",
+  "marque": "Leatt",
+  "nb_fiches": 13,
+  "motif": "\\yleatt (moto )?7\\.5\\y",
+  "accroche": "Coque composite en polymère injecté, 4 densités de mousse, doublure Pro-Fit et lunettes en kit : le Moto 7.5 de Leatt.",
+  "description": "Le Moto 7.5 est pensé pour les pilotes qui rêvent de piste toute la semaine. Sa coque composite en polymère injecté existe en trois tailles, avec quatre densités de mousse d'impact et une doublure Pro-Fit qui s'adapte à la forme de la tête. Il est livré avec des lunettes et une visière à rupture.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Coque composite en polymère injecté, légère, en trois tailles.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Quatre densités de mousse d'impact.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure confort Pro-Fit en matériau élastique qui s'adapte à la tête.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure intérieure lavable et respirante, avec tissu anti-odeur.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Conçu pour permettre une grande mobilité avec une minerve Leatt.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Livré en kit avec des lunettes ; nouvelle norme ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "4 densités de mousse d'impact",
+   "Doublure Pro-Fit qui s'adapte",
+   "Vendu en kit avec lunettes",
+   "Homologué ECE 22.06"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite (polymère injecté)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "À rupture, avec rallonge",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Lavable et respirante",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Lunettes du kit variables (2.5, 4.5) ; versions V24, S24, V26, Vector, Stripes mélangées."
+  ]
+ },
+ {
+  "modele": "Moto 8.5",
+  "marque": "Leatt",
+  "nb_fiches": 9,
+  "motif": "\\yleatt (moto |kit )?8\\.5\\y",
+  "accroche": "Coque composite en trois tailles, 4 densités de mousse, visière à décrochage et lunettes en kit : le Moto 8.5.",
+  "description": "Le Moto 8.5 est un kit casque et lunettes prêt pour la course. Sa coque composite existe en trois tailles, avec quatre densités de mousse d'impact et la technologie des turbines 360°. La doublure X-Static est lavable et anti-odeur, et la visière à rupture vient avec sa rallonge.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Coque extérieure composite en trois tailles.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Système 3 en 1 : turbines 360° et mousse d'impact.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Quatre densités de mousse d'impact.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure modulable Pro-Fit et doublure X-Static lavable, respirante et anti-odeur.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière à rupture, rallonge de visière incluse.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Retrait d'urgence des coussinets de joues ; nouvelle norme ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "4 densités de mousse d'impact",
+   "Visière à décrochage",
+   "Vendu en kit avec lunettes",
+   "Homologué ECE 22.06"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "À rupture, avec rallonge",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Larges canaux, efficaces même à basse vitesse",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Lavable et respirante",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Millésimes mélangés (V26, 2025, 2026, Tiger, Camo, Pinata) ; lunettes du kit variables (Velocity 4.5/5.5)."
+  ]
+ },
+ {
+  "modele": "Moto 9.5 Carbon",
+  "marque": "Leatt",
+  "nb_fiches": 3,
+  "motif": "\\yleatt (moto )?9\\.5 (carbon|v2[67]|avec)",
+  "accroche": "Coque à matrice carbone en trois tailles, doublure Pro-Fit, lunettes Velocity 6.5 en kit et ECE 22.06.",
+  "description": "Le Moto 9.5 Carbon est le haut de gamme cross de Leatt. Sa coque à matrice carbone, légère et durable, existe en trois tailles, avec quatre densités de mousse d'impact et une doublure Pro-Fit. Il est livré avec des lunettes Velocity 6.5 Iriz et répond à la norme ECE 22.06.",
+  "profil_position": 55,
+  "points_forts": [
+   {
+    "texte": "Coque à matrice carbone en trois tailles.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Quatre densités de mousse d'impact.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure confort Pro-Fit qui s'adapte à la forme de la tête.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Larges canaux d'aération, efficaces même à basse vitesse.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coiffe à fonction de déchirement.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Kit avec lunettes Velocity 6.5 Iriz ; certifié ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque à matrice carbone",
+   "4 densités de mousse d'impact",
+   "Vendu en kit avec lunettes",
+   "Homologué ECE 22.06"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Carbone (coque à matrice carbone)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Larges canaux, efficaces même à basse vitesse",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Pro-Fit, lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Les 2 fiches 'intégral 9.5 V25' (affichées 701) ne sont pas couvertes : possible ADV 9.5, non vérifié.",
+   "Formule 'matrice carbone' ≠ carbone pur selon certains textes : formulation conservée."
+  ]
+ },
+ {
+  "modele": "ADV 8.5",
+  "marque": "Leatt",
+  "nb_fiches": 4,
+  "motif": "\\yleatt adv 8\\.5\\y",
+  "accroche": "Casque aventure à coque composite, visière photochromique et transparente fournies, lunettes et Pinlock MaxVision en kit.",
+  "description": "L'ADV 8.5 prolonge la gamme cross de Leatt vers l'aventure. Sa coque composite en trois tailles est dessinée pour limiter la traînée et la portance, et sa visière se retire d'un clip. Le kit comprend une visière photochromique, une visière transparente, des lunettes Velocity 4.5 et un écran antibuée Pinlock MaxVision.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Coque composite en trois tailles, dessinée pour limiter la traînée et la portance.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière photochromique et visière transparente fournies.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Lunettes Velocity 4.5 livrées dans le kit.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran antibuée Pinlock MaxVision fourni.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Large ouverture compatible avec des lunettes tout-terrain ; visière amovible d'un clip.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Aérations réglables.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Visière photochromique incluse",
+   "Lunettes et Pinlock fournis",
+   "Visière amovible d'un clip",
+   "Aérations réglables"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Composite",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Photochromique et transparente fournies",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock MaxVision fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Aérations réglables",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Aucune norme indiquée dans les flux pour ce modèle : omise."
+  ]
+ }
+]

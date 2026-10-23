@@ -1,0 +1,1966 @@
+[
+ {
+  "modele": "Exo-391",
+  "marque": "Scorpion",
+  "nb_fiches": 21,
+  "motif": "exo-?391\\y",
+  "accroche": "L'intégral ECE 22.06 de Scorpion, noté 4 étoiles SHARP, avec visière préparée Pinlock et 5 ans de garantie.",
+  "description": "L'Exo-391 est l'intégral d'accès de la gamme Scorpion, homologué ECE 22.06. Sa coque en polycarbonate existe en deux tailles et sa visière Ellip-Tec se change sans outil. Au test SHARP, il décroche 4 étoiles.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "4 étoiles au test SHARP, avec la norme ECE 22.06 (test d'août 2025).",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche EXO 391, août 2025"
+   },
+   {
+    "texte": "1 600 g à la pesée SHARP.",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche EXO 391, août 2025"
+   },
+   {
+    "texte": "Visière à mécanisme Ellip-Tec : remplacement sans outil, et préparée pour recevoir un Pinlock antibuée.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en polycarbonate déclinée en 2 tailles (XS-M et L-XXL) pour un volume mieux ajusté.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coussinets de joue à retrait d'urgence, fermeture micrométrique et garantie de 5 ans.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "4 étoiles au test SHARP, ECE 22.06",
+   "Visière qui se change sans outil",
+   "Prêt à recevoir un Pinlock antibuée",
+   "Garanti 5 ans"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 600 g (pesée SHARP)",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate)",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Ellip-Tec, remplacement sans outil, préparée Pinlock",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à XXL",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": {
+   "sharp_etoiles": 4,
+   "date_test": "août 2025",
+   "norme": "ECE 22.06"
+  },
+  "a_savoir": [
+   "Les coussinets de joue se retirent grâce à des boucles textiles, utile pour ôter le casque après une chute."
+  ],
+  "alertes_qualite": []
+ },
+ {
+  "modele": "Exo-491",
+  "marque": "Scorpion",
+  "nb_fiches": 24,
+  "motif": "exo-?491\\y",
+  "accroche": "L'intégral polyvalent de Scorpion : pare-soleil intégré, visière Ellip-Tec et doublure lavable pour rouler tous les jours.",
+  "description": "Successeur de l'Exo-490, l'Exo-491 mise sur l'équipement : pare-soleil escamotable, ventilation ram-air et visière à changement rapide. L'intérieur est amovible et lavable. Il a été noté 3 étoiles au test SHARP en ECE 22.06.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Testé SHARP en janvier 2025 (3 étoiles, norme ECE 22.06).",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche Exo 491, janvier 2025"
+   },
+   {
+    "texte": "Pare-soleil Speedview intégré, qui se rabat d'un geste.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière Ellip-Tec à changement rapide, compatible Pinlock MaxVision.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation ram-air pour faire circuler l'air dans le casque.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure Kwikwick C amovible et lavable, qui évacue l'humidité.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Garantie de 5 ans.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Pare-soleil intégré qui se rabat",
+   "Visière à changement rapide",
+   "Doublure lavable anti-humidité",
+   "Garanti 5 ans"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 600 g (pesée SHARP)",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Ellip-Tec, changement rapide, compatible Pinlock MaxVision",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré, rabattable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Système ram-air",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à XXL",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": {
+   "sharp_etoiles": 3,
+   "date_test": "janvier 2025",
+   "norme": "ECE 22.06"
+  },
+  "a_savoir": [
+   "Il remplace l'Exo-490 dans la gamme Scorpion."
+  ],
+  "alertes_qualite": [
+   "Fermeture variable selon coloris (micrométrique ou double anneau) : non affichée."
+  ]
+ },
+ {
+  "modele": "Exo-530 Air",
+  "marque": "Scorpion",
+  "nb_fiches": 29,
+  "motif": "exo-?530\\y",
+  "accroche": "Un intégral ECE 22.06 à coussinets de joue gonflables Airfit, pare-soleil Speedview II et visière Ellip-Tec II.",
+  "description": "L'Exo-530 Air est pensé pour la route de tous les jours : aération travaillée, pare-soleil intégré et déflecteur de souffle inclus. Les coussinets de joue Airfit se gonflent pour s'ajuster à votre visage. Trois tailles de coque limitent le volume de la tête.",
+  "profil_position": 55,
+  "points_forts": [
+   {
+    "texte": "Coussinets de joue gonflables Airfit pour un maintien réglé à votre visage.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil Speedview II intégré.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière optique de classe 1, changement facile avec Ellip-Tec II, prête pour un Pinlock 120 XLT MaxVision.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en polycarbonate injecté, en 3 tailles (XXS-M, L, XL-3XL).",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Déflecteur de souffle fourni, retrait d'urgence des joues, homologation ECE 22.06 et garantie de 5 ans.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Joues gonflables pour un ajustement précis",
+   "Pare-soleil Speedview II intégré",
+   "Visière classe 1 changée sans effort",
+   "Coque en 3 tailles"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate injecté)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Classe optique 1, Ellip-Tec II, préparée Pinlock 120 XLT MaxVision",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré (Speedview II)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Système d'aération aéro-tuned",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Le déflecteur de souffle est inclus."
+  ],
+  "alertes_qualite": [
+   "Fermeture : description parle d'une boucle à dégagement rapide, le tableau d'un micrométrique : omise."
+  ]
+ },
+ {
+  "modele": "Exo-1400 Evo II Air",
+  "marque": "Scorpion",
+  "nb_fiches": 13,
+  "motif": "exo-?1400 evo (ii|2)\\y",
+  "accroche": "Le touring de Scorpion en version II : plus silencieux, joues Airfit, pare-soleil Speedview et jugulaire à anneaux en titane.",
+  "description": "L'Exo-1400 Evo II est conçu pour les motards qui passent la journée en selle. Scorpion le décrit plus silencieux que l'Evo première du nom. Joues gonflables Airfit, pare-soleil intégré et visière Ellip-Tec II : le confort au long cours.",
+  "profil_position": 55,
+  "points_forts": [
+   {
+    "texte": "Annoncé plus silencieux que l'Exo-1400 Evo première version.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coussinets de joue gonflables Airfit pour régler le maintien.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière Ellip-Tec II, remplaçable sans outil, et pare-soleil Speedview intégré.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture à double anneau en D en titane.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Existe en coque composite ou en carbone Ultra TCT, en 3 tailles de coque (XS-M, L, XL-XXL).",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologué ECE 22.06, garanti 5 ans.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Plus silencieux que la 1re version",
+   "Joues gonflables Airfit",
+   "Pare-soleil intégré",
+   "Jugulaire à anneaux en titane"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (technologie Ultra TCT)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Ellip-Tec II, remplacement sans outil",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré (Speedview)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Une version Carbon Air à coque carbone Ultra TCT existe aussi."
+  ],
+  "alertes_qualite": [
+   "Pinlock : texte du flux dit « MaxVision 70 inclus » (incohérent avec 120 ailleurs) : ligne omise.",
+   "Versions fibre et carbone mélangées sur une même fiche."
+  ]
+ },
+ {
+  "modele": "Exo-1500 Air",
+  "marque": "Scorpion",
+  "nb_fiches": 20,
+  "motif": "exo-?1500\\y",
+  "accroche": "Le successeur de l'Exo-1400 : coque Ultra TCT, joues Airfit, Pinlock 120 fourni et prêt pour l'intercom.",
+  "description": "L'Exo-1500 Air succède à l'Exo-1400 avec une aérodynamique retravaillée, pour un casque plus stable et plus silencieux. Il arrive avec son Pinlock 120 XLT MaxVision et un pare-soleil SpeedView II. L'intérieur est prévu pour recevoir un intercom.",
+  "profil_position": 55,
+  "points_forts": [
+   {
+    "texte": "Successeur de l'Exo-1400, avec une aérodynamique retravaillée.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pinlock 120 XLT MaxVision fourni avec l'écran 2D anti-rayures.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil SpeedView II rétractable à plusieurs niveaux, et position « City » pour un filet d'air à basse vitesse.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Mousses Airfit : une pompe intégrée gonfle les coussins d'air pour ajuster les joues.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Prédisposé à recevoir un intercom, jugulaire micrométrique en acier, ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Pinlock 120 fourni d'origine",
+   "Pare-soleil SpeedView II à plusieurs niveaux",
+   "Joues Airfit réglables par pompe",
+   "Prêt pour recevoir un intercom"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (technologie Ultra TCT)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Écran 2D anti-rayures",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock 120 fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré (SpeedView II)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Extracteurs arrière et ventilation mentonnière",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Une version Carbon Air existe, avec coque en fibres de carbone Ultra TCT."
+  ],
+  "alertes_qualite": [
+   "Versions Air (fibre) et Carbon Air mélangées ; coque indiquée en composite par prudence."
+  ]
+ },
+ {
+  "modele": "Exo-R1 Evo Air",
+  "marque": "Scorpion",
+  "nb_fiches": 17,
+  "motif": "exo[- ]?r1 evo(?! (ii|2)\\y)\\y",
+  "accroche": "L'intégral piste de Scorpion : 4 étoiles SHARP, 1 400 g sur la balance, Pinlock 120 et écran fumé fournis.",
+  "description": "Hérité de la compétition, l'Exo-R1 Evo Air est le casque des routes sinueuses et des journées de circuit. Sa coque Ultra TCT pèse 1 400 g à la pesée SHARP. Il est livré avec un écran teinté foncé et un Pinlock 120.",
+  "profil_position": 90,
+  "points_forts": [
+   {
+    "texte": "4 étoiles au test SHARP, avec la norme ECE 22.06 (septembre 2024).",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche Exo R1 Evo, septembre 2024"
+   },
+   {
+    "texte": "1 400 g à la pesée SHARP.",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche Exo R1 Evo, septembre 2024"
+   },
+   {
+    "texte": "Pinlock MaxVision 120 et écran teinté foncé fournis.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque Ultra TCT en 3 tailles (XS-M, L, XL-XXL), avec grande entrée d'air supérieure.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coussinets de joue Airfit, visière Ellip-Tec II et jugulaire à double anneau en D en titane.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Garantie de 5 ans.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "4 étoiles SHARP, 1 400 g pesé",
+   "Pinlock 120 et écran fumé fournis",
+   "Jugulaire à anneaux en titane",
+   "Né de la compétition"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 400 g (pesée SHARP)",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (technologie Ultra TCT)",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Ellip-Tec II, écran teinté foncé fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pinlock",
+    "valeur": "Pinlock 120 fourni",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à XXXL",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": {
+   "sharp_etoiles": 4,
+   "date_test": "septembre 2024",
+   "norme": "ECE 22.06"
+  },
+  "a_savoir": [
+   "Existe en version Carbon Air à coque carbone Ultra TCT."
+  ],
+  "alertes_qualite": [
+   "Fiche mêlant coques composite et carbone ; pesée SHARP rattachée à la version composite."
+  ]
+ },
+ {
+  "modele": "Exo-R1 Evo II Air",
+  "marque": "Scorpion",
+  "nb_fiches": 18,
+  "motif": "exo[- ]?r1 evo (ii|2)\\y",
+  "accroche": "L'Exo-R1 Evo II, testé en MotoGP et WSBK : vision optique classe 1 à 190°, joues Airfit et jugulaire titane.",
+  "description": "L'Exo-R1 Evo II Air reprend l'esprit de la piste avec une coque Ultra TCT sculptée pour fendre l'air. L'entrée d'air supérieure est élargie et les sorties redessinées évacuent la chaleur. Son écran optique de classe 1 offre un champ de vision de 190° en largeur.",
+  "profil_position": 92,
+  "points_forts": [
+   {
+    "texte": "Casque présenté comme éprouvé en MotoGP et WSBK.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran optique de classe 1 : 190° de vision en largeur, 100° en hauteur.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Entrée d'air supérieure plus large et sorties d'air redessinées.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coussinets de joue gonflables Airfit et déflecteur de souffle fourni.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Double anneau en D en titane, homologué ECE 22.06, garanti 5 ans.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Testé en MotoGP et WSBK",
+   "Vision large : 190° en largeur",
+   "Joues Airfit sur mesure",
+   "Jugulaire à anneaux en titane"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (technologie Ultra TCT)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Écran optique de classe 1",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Une version Carbon Air à coque carbone existe aussi."
+  ],
+  "alertes_qualite": [
+   "Pinlock fourni confirmé seulement pour la version Carbon : ligne omise.",
+   "Versions Air et Carbon mélangées."
+  ]
+ },
+ {
+  "modele": "Exo-GT SP Air",
+  "marque": "Scorpion",
+  "nb_fiches": 7,
+  "motif": "exo-?gt sp\\y",
+  "accroche": "Le sport-touring Scorpion noté 4 étoiles SHARP en ECE 22.06, à joues Airfit et visière optique de classe 1.",
+  "description": "L'Exo-GT SP Air vise le sport-touring : coque composite en 3 tailles, ventilation réglable et visière de classe optique 1. Les joues Airfit se gonflent pour s'ajuster, et un kit d'urgence facilite le retrait des joues. Au test SHARP : 4 étoiles.",
+  "profil_position": 72,
+  "points_forts": [
+   {
+    "texte": "4 étoiles au test SHARP, avec la norme ECE 22.06 (mai 2025).",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche Exo GT-SP Air, mai 2025"
+   },
+   {
+    "texte": "Visière optique de classe 1, anti-rayures, avec pare-soleil intégré.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coussinets de joue gonflables Airfit pour un ajustement sur mesure.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation avant et arrière réglable, avec déflecteur d'air.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Joues à déverrouillage d'urgence pour retirer le casque plus facilement.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "4 étoiles au test SHARP, ECE 22.06",
+   "Visière classe 1, pare-soleil intégré",
+   "Joues Airfit sur mesure",
+   "Ventilation réglable avant-arrière"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Classe optique 1, anti-rayures",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à XL",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": {
+   "sharp_etoiles": 4,
+   "date_test": "mai 2025",
+   "norme": "ECE 22.06"
+  },
+  "a_savoir": [
+   "Existe en version Carbon, à coque carbone et verre Ultra TCT LFP."
+  ],
+  "alertes_qualite": [
+   "Pinlock fourni mentionné pour la version Carbon, « prêt » côté SHARP : ligne omise.",
+   "Fibre et carbone mélangés sur la fiche."
+  ]
+ },
+ {
+  "modele": "ADF-9000 Air",
+  "marque": "Scorpion",
+  "nb_fiches": 13,
+  "motif": "adf-?9000\\y",
+  "accroche": "Le casque trail de Scorpion : visière Exolon incassable, peak démontable à la main et lunettes cross sans outil.",
+  "description": "L'ADF-9000 Air s'adresse aux aventuriers qui alternent route et chemins. Sa coque Ultra TCT en 3 tailles reste légère. Le peak se retire à la main et la visière peut laisser place à des lunettes de cross.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Visière Exolon, matière présentée comme incassable qui évite les éclats.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Peak démontable à la main en desserrant les vis, pour rouler sur autoroute.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière remplaçable par des lunettes de cross grâce à un système sans outil.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque Ultra TCT en fibre composite, 3 tailles (XS-S, M-L, XL-3XL).",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Joues gonflables Airfit, retrait d'urgence, ECE 22.06 et garantie de 5 ans.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Visière Exolon incassable",
+   "Peak démontable à la main",
+   "Prêt pour les lunettes de cross",
+   "Garanti 5 ans"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (technologie Ultra TCT)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Exolon, remplaçable par des lunettes sans outil",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Le peak se retire à la main pour limiter la prise au vent sur autoroute."
+  ],
+  "alertes_qualite": [
+   "Version Carbon (Carbon Air) mélangée sur certaines fiches."
+  ]
+ },
+ {
+  "modele": "Covert FX",
+  "marque": "Scorpion",
+  "nb_fiches": 13,
+  "motif": "covert[- ]?fx\\y",
+  "accroche": "L'intégral au style bad-ass de Scorpion : coque fibre de verre et aramide, doublure KwikWick 3 et logements haut-parleurs.",
+  "description": "Le Covert FX est la version intégrale du célèbre Covert. Sa coque fine, réglée à l'aérodynamique de la moto, vise un roulage plus doux et plus silencieux. Les poches pour haut-parleurs facilitent l'installation d'un kit Bluetooth.",
+  "profil_position": 35,
+  "points_forts": [
+   {
+    "texte": "Coque fabriquée à partir de fibres de verre, d'aramide et de polyrésine.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Forme fine réglée pour réduire portance et turbulences.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Poches intégrées pour haut-parleurs d'un kit de communication.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure KwikWick 3 amovible, qui évacue l'humidité.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Compatible lunettes, garantie de 5 ans.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Style bad-ass en version intégrale",
+   "Poches pour haut-parleurs",
+   "Doublure KwikWick 3 anti-humidité",
+   "Garanti 5 ans"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Fibre de verre",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Audio",
+    "valeur": "Logements prévus pour haut-parleurs",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": []
+ },
+ {
+  "modele": "Exo-Junior",
+  "marque": "Scorpion",
+  "nb_fiches": 11,
+  "motif": "exo-?(junior|jnr)\\y",
+  "accroche": "L'intégral enfant de Scorpion : joues gonflables Airfit, visière Ellip-Tec et doublure KwikWick C.",
+  "description": "L'Exo-Junior équipe les jeunes motards d'un intégral à coque en polycarbonate. Les joues Airfit se gonflent pour épouser leur visage en pleine croissance. La visière se change rapidement et le casque est prévu pour un Pinlock.",
+  "profil_position": 15,
+  "points_forts": [
+   {
+    "texte": "Coque en polycarbonate légère, conçue par CAO pour s'ajuster aux jeunes motards.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coussinets de joue gonflables Airfit, adaptés aux visages en croissance.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière Ellip-Tec à dégagement rapide.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière préparée pour un Pinlock.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure KwikWick C, compatible lunettes.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Joues Airfit qui suivent la croissance",
+   "Visière à dégagement rapide",
+   "Prêt pour un Pinlock antibuée",
+   "Doublure KwikWick C anti-humidité"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Ellip-Tec, dégagement rapide, préparée Pinlock",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Norme ECE absente des sources : ligne omise.",
+   "Fiche EXO-JNR Air et Exo-Junior mélangées."
+  ]
+ },
+ {
+  "modele": "Belfast Evo",
+  "marque": "Scorpion",
+  "nb_fiches": 26,
+  "motif": "belfast evo\\y",
+  "accroche": "Le jet rétro de Scorpion : coque fibre de verre Ultra TCT, pare-soleil Speedview et finitions toucher cuir.",
+  "description": "Le Belfast Evo marie style rétro et équipement moderne. Sa coque en fibre de verre Ultra TCT est complétée d'un pare-soleil rétractable traité antibuée sur les deux faces. Doublure lavable, boucle micrométrique, ECE 22.06.",
+  "profil_position": 10,
+  "points_forts": [
+   {
+    "texte": "Coque en fibre de verre Ultra TCT.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil Speedview rétractable, traité antibuée sur ses deux faces.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure KwikWick II antimicrobienne, amovible et lavable.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Compatible lunettes, boucle micrométrique, homologué ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Garantie de 5 ans.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Look rétro, équipement moderne",
+   "Pare-soleil antibuée intégré",
+   "Doublure lavable antimicrobienne",
+   "Garanti 5 ans"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Fibre de verre",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré, antibuée des deux côtés",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Une version Carbon existe, avec coque en carbone."
+  ],
+  "alertes_qualite": [
+   "Versions fibre et carbone mélangées."
+  ]
+ },
+ {
+  "modele": "Belfast II",
+  "marque": "Scorpion",
+  "nb_fiches": 13,
+  "motif": "belfast (ii|2)\\y",
+  "accroche": "Le jet vintage de Scorpion en seconde génération : coque fibre ou carbone, pare-soleil intégré, ECE 22.06.",
+  "description": "Le Belfast II prolonge le jet rétro de Scorpion. Il se décline en fibre ou en carbone, avec un pare-soleil intégré. Il est homologué ECE 22.06.",
+  "profil_position": 10,
+  "points_forts": [
+   {
+    "texte": "Coque en fibre, ou en carbone pour la version Carbon.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil intégré.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Compatible avec le port de lunettes.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture micrométrique.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologué ECE 22.06, garantie de 5 ans.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Jet vintage en fibre ou en carbone",
+   "Pare-soleil intégré",
+   "Compatible avec vos lunettes",
+   "Garanti 5 ans"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Données minces (tableau uniquement) ; fibre et carbone mélangés."
+  ]
+ },
+ {
+  "modele": "Exo-230",
+  "marque": "Scorpion",
+  "nb_fiches": 13,
+  "motif": "exo-?230\\y",
+  "accroche": "Le jet urbain de Scorpion : coque polycarbonate, pare-soleil Speedview, préparé Pinlock, ECE 22.06.",
+  "description": "L'Exo-230 est taillé pour la ville : compact, léger et confortable. Son pare-soleil rétractable et sa visière préparée pour le Pinlock servent tous les jours. Doublure KwikWick C et boucle micrométrique.",
+  "profil_position": 12,
+  "points_forts": [
+   {
+    "texte": "Coque en polycarbonate, format compact.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil Speedview rétractable.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière préparée pour recevoir un Pinlock.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure KwikWick C qui évacue l'humidité, amovible.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Boucle micrométrique, homologué ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Jet compact pour la ville",
+   "Pare-soleil rétractable",
+   "Prêt pour un Pinlock antibuée",
+   "Doublure anti-humidité amovible"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Préparée Pinlock",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré (Speedview)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": []
+ },
+ {
+  "modele": "Exo-City II",
+  "marque": "Scorpion",
+  "nb_fiches": 27,
+  "motif": "exo-?city (ii|2)\\y",
+  "accroche": "Le jet urbain à visière allongée contre le vent, avec pare-soleil Speedview et 5 ans de garantie.",
+  "description": "L'Exo-City II est un jet pour ceux qui veulent plus qu'un jet standard. Sa visière allongée coupe le vent et le pare-soleil protège du soleil rasant. Coque polycarbonate en deux tailles, ECE 22.06.",
+  "profil_position": 12,
+  "points_forts": [
+   {
+    "texte": "Visière principale allongée pour bloquer le vent.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil Speedview rabattable avec revêtement antibuée des deux côtés.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en polycarbonate, 2 tailles (XS-L et XL-XXL).",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure KwikWick C lavable qui évacue l'humidité.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture micrométrique, homologué ECE 22.06, garanti 5 ans.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Visière allongée qui bloque le vent",
+   "Pare-soleil antibuée rabattable",
+   "Doublure lavable anti-humidité",
+   "Garanti 5 ans"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré (Speedview)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": []
+ },
+ {
+  "modele": "Exo-Combat II",
+  "marque": "Scorpion",
+  "nb_fiches": 5,
+  "motif": "exo-?combat (ii|2)\\y",
+  "accroche": "Le modulaire à deux pièces de Scorpion : jet ouvert ou masque fixé, poches haut-parleurs et doublure KwikWick.",
+  "description": "L'Exo-Combat II se transforme : en jet ouvert pour l'air frais, ou avec son masque pour le look. Isolation acoustique et ajustement progressent par rapport au précédent Exo-Combat. Les poches haut-parleurs attendent votre kit Bluetooth.",
+  "profil_position": 20,
+  "points_forts": [
+   {
+    "texte": "Conception en 2 pièces : jet ouvert ou masque attaché.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Isolation acoustique et ajustement améliorés par rapport à l'Exo-Combat.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Poches intégrées pour haut-parleurs de communication.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure KwikWick qui évacue l'humidité.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Compatible lunettes, garantie de 5 ans.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Se transforme en jet ouvert",
+   "Isolation acoustique améliorée",
+   "Poches pour haut-parleurs",
+   "Garanti 5 ans"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Audio",
+    "valeur": "Logements prévus pour haut-parleurs",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Aucune étoile SHARP pour la version II."
+  ]
+ },
+ {
+  "modele": "Exo-Z1",
+  "marque": "Scorpion",
+  "nb_fiches": 8,
+  "motif": "exo-?z1\\y",
+  "accroche": "Le jet du quotidien de Scorpion, décliné en carbone Onyx au motif unique sur chaque casque.",
+  "description": "L'Exo-Z1 est un jet pensé pour les pilotes de tous les jours. La version Carbon Onyx arbore un motif de carbone différent sur chaque casque. Pare-soleil intégré et ECE 22.06.",
+  "profil_position": 15,
+  "points_forts": [
+   {
+    "texte": "Version Carbon Onyx : motif de carbone aléatoire, donc unique sur chaque casque.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil intégré.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture micrométrique.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologué ECE 22.06.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Garantie de 5 ans.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Carbone Onyx : chaque casque est unique",
+   "Jet pensé pour le quotidien",
+   "Pare-soleil intégré",
+   "Garanti 5 ans"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Données minces ; version Carbon et versions standard mélangées."
+  ]
+ },
+ {
+  "modele": "ADX-2",
+  "marque": "Scorpion",
+  "nb_fiches": 12,
+  "motif": "adx-?2\\y",
+  "accroche": "Le modulaire aventure de Scorpion : double homologation P/J, mentonnière relevable, visière retirable, lunettes cross.",
+  "description": "L'ADX-2 s'adresse à qui alterne route et chemins. Relevez la mentonnière pour une pause, retirez la visière extérieure pour l'aérodynamisme ou montez des lunettes de cross. Il bénéficie d'une double homologation P/J.",
+  "profil_position": 45,
+  "points_forts": [
+   {
+    "texte": "Double homologation P/J : polyvalent route et hors-piste.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Mentonnière relevable pour faire une pause.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière extérieure démontable, ou remplaçable par des lunettes de cross.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil intégré.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure amovible, compatible lunettes, garantie de 5 ans.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Double homologation route et jet",
+   "Mentonnière relevable",
+   "Lunettes cross à la place de la visière",
+   "Garanti 5 ans"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Coque polycarbonate ou fibre selon coloris ; fermeture micrométrique ou double D selon coloris : lignes omises."
+  ]
+ },
+ {
+  "modele": "Exo-930 Evo",
+  "marque": "Scorpion",
+  "nb_fiches": 18,
+  "motif": "exo-?930\\y",
+  "accroche": "Le modulaire à mentonnière entièrement amovible de Scorpion : homologué P/J en ECE 22.06, préparé Pinlock.",
+  "description": "L'Exo-930 Evo succède à l'Exo-900 Transformer. Sa mentonnière se retire entièrement pour passer en jet ouvert, grâce à la double homologation P/J. Pare-soleil Speedview intégré et doublure lavable.",
+  "profil_position": 30,
+  "points_forts": [
+   {
+    "texte": "Mentonnière entièrement amovible, homologuée P/J pour passer en jet.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "3 étoiles au test SHARP, avec la norme ECE 22.06 (août 2024).",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche EXO 930 EVO, août 2024"
+   },
+   {
+    "texte": "Pare-soleil Speedview rétractable intégré.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière préparée pour un Pinlock MaxVision.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure KwikWick amovible et lavable, compatible lunettes.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Mentonnière 100 % amovible",
+   "Passe en jet ouvert, homologué P/J",
+   "Pare-soleil Speedview intégré",
+   "Doublure lavable"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 800 g (pesée SHARP)",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate)",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Préparée Pinlock MaxVision",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré (Speedview)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à XXL",
+    "source": "SHARP"
+   }
+  ],
+  "securite": {
+   "sharp_etoiles": 3,
+   "date_test": "août 2024",
+   "norme": "ECE 22.06"
+  },
+  "a_savoir": [],
+  "alertes_qualite": []
+ },
+ {
+  "modele": "Exo-Tech Evo",
+  "marque": "Scorpion",
+  "nb_fiches": 16,
+  "motif": "exo-?tech evo(?! (pro|carbon))\\y",
+  "accroche": "Le modulaire Scorpion noté 4 étoiles SHARP en ECE 22.06, à pare-soleil intégré et look d'intégral.",
+  "description": "L'Exo-Tech Evo est un modulaire à l'allure d'intégral, à coque compacte. La mentonnière se manœuvre facilement et la ventilation supérieure s'ouvre d'une touche. Au test SHARP, il obtient 4 étoiles.",
+  "profil_position": 30,
+  "points_forts": [
+   {
+    "texte": "4 étoiles au test SHARP, avec la norme ECE 22.06 (mai 2024).",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche TECH EVO, mai 2024"
+   },
+   {
+    "texte": "Coque compacte pour un look d'intégral.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Mécanisme de mentonnière facile à utiliser.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation supérieure One-Touch.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière Pinlock et pare-soleil intégré.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "4 étoiles au test SHARP, ECE 22.06",
+   "Modulaire au look d'intégral",
+   "Mentonnière facile à manœuvrer",
+   "Pare-soleil intégré"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 800 g (pesée SHARP)",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à XXL",
+    "source": "SHARP"
+   }
+  ],
+  "securite": {
+   "sharp_etoiles": 4,
+   "date_test": "mai 2024",
+   "norme": "ECE 22.06"
+  },
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Versions Carbon exclues du motif ; Evo Pro à part."
+  ]
+ },
+ {
+  "modele": "Exo-Tech Evo Pro",
+  "marque": "Scorpion",
+  "nb_fiches": 5,
+  "motif": "exo-?tech evo pro\\y",
+  "accroche": "La déclinaison Pro du modulaire Exo-Tech Evo : look d'intégral, pare-soleil intégré, doublure amovible.",
+  "description": "L'Exo-Tech Evo Pro prolonge l'Exo-Tech Evo avec une coque TCT-U. Il garde le look d'intégral, la mentonnière facile à manœuvrer et la ventilation One-Touch. Pare-soleil intégré et doublure amovible.",
+  "profil_position": 30,
+  "points_forts": [
+   {
+    "texte": "Look d'intégral sur un modulaire à coque compacte.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Mentonnière facile à manœuvrer, ventilation supérieure One-Touch.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil intégré.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure amovible, compatible lunettes.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologué ECE 22.06.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Modulaire au look d'intégral",
+   "Mentonnière facile à manœuvrer",
+   "Ventilation One-Touch",
+   "Pare-soleil intégré"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Coque TCT-U annoncée, matière non détaillée : omise."
+  ]
+ },
+ {
+  "modele": "Exo-Tech II",
+  "marque": "Scorpion",
+  "nb_fiches": 16,
+  "motif": "exo-?tech (ii|2)\\y",
+  "accroche": "Le modulaire Scorpion de seconde génération : aérodynamique optimisée, ventilation améliorée et doublure haut de gamme.",
+  "description": "L'Exo-Tech II revoit le modulaire de Scorpion : aérodynamique optimisée, ventilation améliorée et doublure de confort haut de gamme. Il sert aux trajets quotidiens comme aux voyages.",
+  "profil_position": 30,
+  "points_forts": [
+   {
+    "texte": "Aérodynamique optimisée.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation améliorée.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Doublure de confort haut de gamme, amovible.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pare-soleil intégré et compatible lunettes.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologué ECE 22.06, garanti 5 ans.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Aérodynamique et ventilation revues",
+   "Doublure de confort haut de gamme",
+   "Pare-soleil intégré",
+   "Garanti 5 ans"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Existe en carbone ou en polycarbonate selon la version."
+  ],
+  "alertes_qualite": [
+   "Données minces ; carbone et polycarbonate mélangés."
+  ]
+ },
+ {
+  "modele": "SMX-10",
+  "marque": "Scorpion",
+  "nb_fiches": 14,
+  "motif": "(exo )?smx-?10\\y",
+  "accroche": "Le casque cross de Scorpion, plus léger que le VX-16 Evo Air, avec ventilation améliorée et ajustement simplifié.",
+  "description": "Le SMX-10 succède au VX-16 Evo Air en pesant moins. Style moderne, ventilation améliorée et système d'ajustement simplifié. Scorpion le présente comme un équilibre entre durabilité et performance.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Plus léger que son prédécesseur, le VX-16 Evo Air.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation améliorée.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Système d'ajustement simplifié.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Style moderne et agressif.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Plus léger que le VX-16 Evo Air",
+   "Ventilation améliorée",
+   "Ajustement simplifié",
+   "Style moderne de cross"
+  ],
+  "fiche_technique": [],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Aucune donnée technique chiffrée disponible."
+  ]
+ },
+ {
+  "modele": "VX-16 Evo Air",
+  "marque": "Scorpion",
+  "nb_fiches": 10,
+  "motif": "vx-?16\\y",
+  "accroche": "Le casque cross Scorpion à joues gonflables Airfit, large ouverture visuelle et visière allongée, ECE 22.06.",
+  "description": "Le VX-16 Evo Air reprend les atouts de la série VX-15 : Airfit, grande fenêtre de vision et peak allongé. La coque thermoplastique reste légère. Les mousses de joues 3D découpées au laser améliorent l'ajustement.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Joues gonflables Airfit pour ajuster le maintien.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Grande fenêtre de vision et visière allongée.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Mousses de joues 3D découpées au laser, zone de menton plus grande pour respirer.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en polycarbonate en 2 tailles (XS-M, L-XXL).",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologué ECE 22.06, garanti 5 ans.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Joues gonflables Airfit",
+   "Grande fenêtre de vision",
+   "Mousses 3D découpées au laser",
+   "Garanti 5 ans"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": []
+ },
+ {
+  "modele": "VX-22 Air",
+  "marque": "Scorpion",
+  "nb_fiches": 8,
+  "motif": "vx-?22\\y",
+  "accroche": "Le cross haut de gamme de Scorpion : coque Ultra TCT, joues Airfit, jugulaire titane et compatible minerve.",
+  "description": "Le VX-22 Air associe une coque Ultra TCT en fibre de verre et des joues Airfit réglables. Sa jugulaire double anneau en titane et son joint compatible minerve le destinent à la pratique soutenue. Une version MIPS existe.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Coque Ultra TCT en fibre de verre.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Version avec système MIPS.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Pompe Airfit pour des joues sur mesure.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Jugulaire double anneau en D en titane.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Joint compatible minerve, homologué ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque Ultra TCT en fibre de verre",
+   "Joues Airfit sur mesure",
+   "Version MIPS disponible",
+   "Compatible avec une minerve"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Fibre de verre",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Garantie",
+    "valeur": "5 ans",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [
+   "Le MIPS n'équipe que la version dédiée."
+  ],
+  "alertes_qualite": [
+   "MIPS non présent sur toutes les fiches (VX-22 Air 2023 et 2026 mélangés)."
+  ]
+ }
+]

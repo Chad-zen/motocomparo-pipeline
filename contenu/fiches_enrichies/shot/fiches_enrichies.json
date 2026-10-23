@@ -1,0 +1,609 @@
+[
+ {
+  "modele": "Furious",
+  "marque": "Shot",
+  "nb_fiches": 37,
+  "motif": "^(?!.*\\yenfant\\y).*\\yfurious\\y",
+  "accroche": "Le cross Shot pour débuter : coque SRS, vernis haute résistance, intérieur lavable et ventilation généreuse.",
+  "description": "Le Furious est le casque cross grand public de Shot, pensé pour rouler au guidon sans se compliquer la vie. Sa coque SRS est protégée par un vernis polyuréthane résistant, et l'intérieur hypoallergénique se démonte pour se laver. Visière ventilée, extracteurs arrière, fermeture Double D : il fait le travail en cross comme en quad ou en trial.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Coque SRS (Synthetic Reinforced Shell) protégée par un vernis polyuréthane haute résistance.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Vis auto-cassantes et insert de mentonnière Shock Absorber pour mieux répartir l'énergie en cas d'impact.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Jusqu'à 9 diffuseurs frontaux et 8 extracteurs arrière selon les versions, avec visière ventilée.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur hypoallergénique, ventilé, entièrement amovible et lavable ; adapté aux porteurs de lunettes de vue sur les versions récentes.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Versions récentes homologuées ECE 22.06 ; usage cross, quad, scooter tout-terrain et trial selon le constructeur.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque SRS sous vernis haute résistance",
+   "Jusqu'à 9 entrées d'air, 8 extracteurs",
+   "Intérieur amovible et lavable",
+   "Menton protégé par un insert amortisseur"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate, technologie SRS)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Ventilée",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Diffuseurs frontaux et extracteurs arrière",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Versions mélangées : les modèles anciens (Raw, Solid 2023) sont annoncés ECE 22.05, les récents ECE 22.06 ; Norme omise.",
+   "Matière : 'polycarbonate' (Raw, Draw) et 'matériau synthétique renforcé' (League) ; retenu thermoplastique (polycarbonate).",
+   "Nombre de diffuseurs/extracteurs variable selon les versions (6/4 à 9/8). Poids 1300 g annoncé seulement pour Mirage, omis."
+  ]
+ },
+ {
+  "modele": "Furious Kid",
+  "marque": "Shot",
+  "nb_fiches": 5,
+  "motif": "\\yfurious\\y.*\\yenfant\\y",
+  "accroche": "Le Furious en taille enfant : coque SRS pensée pour les jeunes pilotes, ECE 22.06, intérieur lavable.",
+  "description": "Le Furious Kid reprend l'esprit du Furious adulte, avec une coque SRS et des mousses pensées pour la morphologie des enfants. Il ventile bien, se nettoie facilement et se ferme d'un geste avec la boucle Double D. De quoi accompagner les jeunes pilotes de course à l'entraînement comme en course.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Coque SRS (Synthetic Reinforced Shell) conçue pour les enfants, avec vernis polyuréthane haute résistance.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Vis auto-cassantes et insert de mentonnière Shock Absorber pour une protection renforcée.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "9 diffuseurs frontaux et 7 extracteurs arrière sur les versions Apex, Flash et Stream, avec visière ventilée.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur hypoallergénique, ventilé, entièrement démontable et lavable.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologué ECE 22.06, fermeture par boucle Double D.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque SRS conçue pour les enfants",
+   "9 entrées d'air et 7 extracteurs",
+   "Intérieur démontable et lavable",
+   "Fermeture Double D facile à régler"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Ventilée",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "9 diffuseurs frontaux et 7 extracteurs arrière",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Matière de coque non détaillée ('SRS'), ligne Coque omise.",
+   "Version Tracer Kid annoncée 22.05 (absente des fiches).",
+   "Nombre de coques variable (1 pour Ridge, 2 pour Flash/Stream)."
+  ]
+ },
+ {
+  "modele": "Speed",
+  "marque": "Shot",
+  "nb_fiches": 19,
+  "motif": "^(?!.*\\y(enfant|olymp)\\y).*\\yspeed\\y",
+  "accroche": "Le cross Shot Speed : coque SRS, système SAS, 9 entrées d'air et homologation ECE 22.06 et DOT.",
+  "description": "Le Speed mise sur des coloris marqués et un équipement complet. Sa coque SRS est associée au système SAS, qui aide à limiter les effets des chocs, et à des vis auto-cassantes. L'intérieur sèche vite, la visière est ventilée et réglable : un casque cross facile à vivre, séance après séance.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Coque SRS (Synthetic Reinforced Shell) en deux tailles de coque avec deux densités d'EPS.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Système d'absorption des chocs SAS et vis auto-cassantes pour répartir les forces rotationnelles.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "9 diffuseurs frontaux et 5 extracteurs arrière pour une bonne circulation d'air.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur hypoallergénique, ventilé, amovible, lavable et à séchage rapide.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière ventilée et réglable ; homologué ECE 22.06 et DOT.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Système SAS contre les chocs rotatifs",
+   "9 entrées d'air, 5 extracteurs",
+   "Intérieur à séchage rapide",
+   "Visière ventilée et réglable"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Ventilée et réglable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "9 diffuseurs frontaux et 5 extracteurs arrière",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Matière de coque non détaillée ('SRS'), ligne Coque omise.",
+   "Homologation DOT mentionnée en plus de ECE 22.06."
+  ]
+ },
+ {
+  "modele": "Speed Kid",
+  "marque": "Shot",
+  "nb_fiches": 7,
+  "motif": "\\yspeed\\y.*\\y(enfant|olymp)\\y",
+  "accroche": "Le Speed en version enfant : coque SRS, système SAS, vis auto-cassantes et intérieur à séchage rapide.",
+  "description": "Le Speed Kid offre aux jeunes pilotes le même équipement que le Speed adulte : coque SRS, système SAS et vis auto-cassantes. L'intérieur est lavable et sèche vite, la visière ventilée se règle, et la boucle Double D se ferme facilement. Parfait pour les premiers tours de piste.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Coque SRS (Synthetic Reinforced Shell) avec deux tailles de coque et deux calotins EPS.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Système SAS et vis auto-cassantes pour mieux répartir les forces rotationnelles.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "9 diffuseurs frontaux et 5 extracteurs arrière.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur hypoallergénique, ventilé, amovible, lavable et à séchage rapide.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière ventilée réglable, fermeture Double D ; homologué ECE 22.06 et DOT.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Système SAS contre les chocs rotatifs",
+   "9 entrées d'air, 5 extracteurs",
+   "Intérieur à séchage rapide",
+   "Visière ventilée et réglable"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Ventilée et réglable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "9 diffuseurs frontaux et 5 extracteurs arrière",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Fiches Olymp (enfant) regroupées avec Speed Kid.",
+   "Matière de coque non détaillée ('SRS'), ligne Coque omise."
+  ]
+ },
+ {
+  "modele": "Race",
+  "marque": "Shot",
+  "nb_fiches": 15,
+  "motif": "\\yrace\\y",
+  "accroche": "Le cross Shot Race : coque SRS, MIPS, 9 entrées d'air, ventilation de menton et ECE 22.06.",
+  "description": "Le Race s'adresse aux pilotes qui veulent un casque cross bien équipé : système MIPS contre les chocs rotatifs, coque SRS, ventilation poussée avec 9 diffuseurs et 8 extracteurs. L'intérieur Quick Dry sèche vite et les joues se retirent rapidement grâce au système Quick Release. Adapté aux porteurs de lunettes.",
+  "profil_position": 55,
+  "points_forts": [
+   {
+    "texte": "Système MIPS pour limiter les risques de lésions cérébrales en cas de choc rotatif.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque SRS renforcée, deux tailles de coque et deux EPS, avec vis auto-cassantes.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "9 diffuseurs frontaux et 8 extracteurs arrière ; ventilation de menton sur le Tracer.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur Morpho-Conforming Quick Dry amovible et lavable, avec Quick Release pour retirer les mousses de joues en urgence.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Adapté aux porteurs de lunettes de vue ; homologué ECE 22.06.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "MIPS contre les chocs rotatifs",
+   "9 entrées d'air, 8 extracteurs",
+   "Joues amovibles en cas d'urgence",
+   "Adapté aux lunettes de vue"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polycarbonate, technologie SRS)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Ventilée",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "9 diffuseurs frontaux et 8 extracteurs arrière",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Matière : 'polycarbonate SRS' dans une description (Battle), 'SRS renforcée' dans les autres.",
+   "Ventilation de menton citée seulement pour Tracer."
+  ]
+ },
+ {
+  "modele": "Lite",
+  "marque": "Shot",
+  "nb_fiches": 18,
+  "motif": "^(?!.*\\yprism\\y).*\\ylite\\y",
+  "accroche": "Le cross Shot Lite : coque en fibre de verre, D3O, MIPS, 10 entrées d'air et ECE 22.06 et DOT.",
+  "description": "Le Lite est le haut de gamme cross de Shot. Sa coque en fibre de verre accueille la technologie D3O et le système MIPS contre les chocs rotatifs. Dix diffuseurs, neuf extracteurs et un passage pour tuyau d'hydratation : tout est là pour rouler longtemps et frais.",
+  "profil_position": 55,
+  "points_forts": [
+   {
+    "texte": "Coque en fibre de verre avec finition polyuréthane, en deux tailles de coque et deux EPS.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Technologie D3O d'absorption des chocs et système MIPS contre les chocs rotatifs.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "10 diffuseurs frontaux et 9 extracteurs arrière pour une excellente circulation d'air.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coussinets de joues à retrait rapide (Quick Release) et intérieur hypoallergénique amovible, lavable.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Passage pour tuyau d'hydratation ; homologué ECE 22.06 et DOT.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "D3O et MIPS pour absorber les chocs",
+   "10 entrées d'air, 9 extracteurs",
+   "Passage pour tuyau d'hydratation",
+   "Joues à retrait rapide"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Fibre de verre",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Ventilée et ajustable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "10 diffuseurs frontaux et 9 extracteurs arrière",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Lite Prism / Lite Fury (22.05, tri-composite, 1100 g) = ancienne version : motif exclut Prism.",
+   "Faits issus de Challenger, Solid et Volt."
+  ]
+ },
+ {
+  "modele": "Core",
+  "marque": "Shot",
+  "nb_fiches": 8,
+  "motif": "\\ycore\\y",
+  "accroche": "Le cross Shot Core : coque tri-composite, MIPS, intérieur Quick Dry et ECE 22.06, annoncé 1 250 g.",
+  "description": "Le Core est un cross haut de gamme à coque tri-composite, annoncé à 1 250 g. Le système MIPS aide à limiter les effets des chocs rotatifs, tandis que l'intérieur Morpho-Conforming Quick Dry sèche vite. Mousses de joues à retrait rapide et vernis polyuréthane résistant complètent l'ensemble.",
+  "profil_position": 55,
+  "points_forts": [
+   {
+    "texte": "Coque tri-composite, vernis polyuréthane haute résistance et trois tailles d'EPS.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Système MIPS et insert de mentonnière Shock Absorber pour limiter les lésions cérébrales.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Poids annoncé de 1 250 g (± 50 g) par le constructeur.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur Morpho-Conforming Quick Dry démontable et lavable, avec système Quick Release.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologué ECE 22.06, fermeture Double D.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque tri-composite de 1 250 g annoncés",
+   "MIPS contre les chocs rotatifs",
+   "Intérieur Quick Dry lavable",
+   "Joues à retrait rapide"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 250 g (± 50 g, annoncé par le constructeur)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres (tri-composite)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Ventilée",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Poids tiré de la description Core Honor, supposé valable pour les autres versions.",
+   "Ventilation 5/4 (Honor) vs 7/4 (Fast) : omise."
+  ]
+ },
+ {
+  "modele": "Trek",
+  "marque": "Shot",
+  "nb_fiches": 3,
+  "motif": "\\ytrek\\y",
+  "accroche": "Le Shot Trek, polyvalent trail et aventure : coque SRS, visière ventilée, prêt pour Pinlock 70 et Bluetooth.",
+  "description": "Le Trek est le casque aventure de Shot pour passer de la route aux chemins. Sa coque SRS est accompagnée d'une visière ventilée et d'une bavette de menton pour réduire le vent et le bruit. Les versions Max Vision et Rally sont prêtes pour le Pinlock 70 et le Bluetooth.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "Coque SRS (Synthetic Reinforced Shell) avec insert de mentonnière Shock Absorber.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Versions Max Vision et Rally : écran solaire intégré, prêt pour Pinlock 70 et pour un système Bluetooth.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière ventilée, 5 diffuseurs frontaux et 3 extracteurs arrière sur les versions Rally.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur démontable, lavable et hypoallergénique ; aileron de menton contre le vent et le bruit.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture Double D ; homologué ECE 22.06 et DOT (versions Max Vision / Rally).",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Prêt pour Pinlock 70 et Bluetooth",
+   "Visière ventilée, aileron anti-bruit",
+   "Intérieur lavable et hypoallergénique",
+   "Polyvalent trail, aventure, enduro"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Ventilée",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Versions mélangées : Max Vision, Rally, Solid ; faits Pinlock/Bluetooth/écran solaire valables Max Vision/Rally seulement.",
+   "Pinlock non fourni (seulement 'prêt'), ligne omise."
+  ]
+ }
+]

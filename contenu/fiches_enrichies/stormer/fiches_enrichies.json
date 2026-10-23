@@ -1,0 +1,430 @@
+[
+ {
+  "modele": "Sun Evo 2.0",
+  "marque": "Stormer",
+  "nb_fiches": 4,
+  "motif": "\\ysun evo 2\\.0",
+  "accroche": "Le jet urbain Stormer en thermoplastique : norme ECE 22.06, écran anti-rayures et trois teintes d'écran en option.",
+  "description": "Le Sun Evo 2.0 est un casque jet pensé pour la ville. Sa coque en thermoplastique reçoit un vernis haute résistance, l'intérieur se démonte et se lave, et l'écran cranté anti-rayures est livré clair. Des écrans fumé, fumé foncé ou iridium sont disponibles en option. Homologué ECE 22.06.",
+  "profil_position": 8,
+  "points_forts": [
+   {
+    "texte": "Homologué ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en thermoplastique avec vernis haute résistance.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran cranté anti-rayures, joint d'écran à lèvre souple.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écrans fumé, fumé foncé ou iridium disponibles en option.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur démontable et lavable, fermeture micrométrique.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Jet urbain homologué ECE 22.06",
+   "Écrans fumé et iridium en option",
+   "Intérieur démontable et lavable",
+   "Fermeture micrométrique"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Cranté, anti-rayures, joint à lèvre souple",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Aérateur frontal à obturateur",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Nombre de tailles de coque contradictoire (1 ou 3) : omis."
+  ]
+ },
+ {
+  "modele": "Sun 2.0",
+  "marque": "Stormer",
+  "nb_fiches": 3,
+  "motif": "\\ysun 2\\.0",
+  "accroche": "Le jet Stormer en thermoplastique, simple et soigné : ECE 22.06, intérieur lavable, écrans colorés en option.",
+  "description": "Le Sun 2.0 est un jet à la coque thermoplastique, avec fermeture micrométrique et intérieur en tissu hypoallergénique, démontable et lavable. L'écran transparent cranté résiste aux rayures et des écrans colorés sont proposés en option. Il répond à la norme ECE 22.06.",
+  "profil_position": 8,
+  "points_forts": [
+   {
+    "texte": "Homologué ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en résine thermoplastique.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Tissu hypoallergénique, entièrement démontable et lavable.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran transparent cranté anti-rayures, écrans de couleur en option.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque thermoplastique, ECE 22.06",
+   "Tissu hypoallergénique lavable",
+   "Écran anti-rayures cranté",
+   "Écrans de couleur en option"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (résine)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Transparente, cranté, anti-rayures",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": []
+ },
+ {
+  "modele": "Clyde",
+  "marque": "Stormer",
+  "nb_fiches": 2,
+  "motif": "\\yclyde\\y",
+  "accroche": "Jet rétro Stormer à double écran, intérieur cuir et suédé, joint finition métal : le style, aux normes ECE 22.06.",
+  "description": "Le Clyde est un jet rétro qui soigne les détails : coque en résine thermoplastique, vernis haute résistance, joint de finition métal et intérieur cuir et tissu suédé. Il embarque un double écran, anti-rayures et solaire, et se ferme par boucle micrométrique. Homologué ECE 22.06.",
+  "profil_position": 10,
+  "points_forts": [
+   {
+    "texte": "Homologué ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Double écran : un écran cranté anti-rayures et un écran solaire.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur en finition cuir et tissu suédé, joint de finition métal.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en résine thermoplastique avec vernis haute résistance.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Tissu hypoallergénique, entièrement démontable et lavable.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Look rétro, joint finition métal",
+   "Double écran dont un solaire",
+   "Intérieur cuir et tissu suédé",
+   "Norme ECE 22.06"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (résine)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Cranté anti-rayures, avec écran solaire",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Écran solaire",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": []
+ },
+ {
+  "modele": "Quartz",
+  "marque": "Stormer",
+  "nb_fiches": 2,
+  "motif": "\\yquartz\\y",
+  "accroche": "Le jet rétro Stormer à écran clipsable en option : cuir et tissu suédé, joint métal, ECE 22.06.",
+  "description": "Le Quartz est un jet rétro en résine thermoplastique, à l'intérieur en finition cuir et tissu suédé et au joint de finition métal. Il se prépare à recevoir un écran Quartz en option, disponible en plusieurs coloris et fixé sur pressions. Homologué ECE 22.06.",
+  "profil_position": 10,
+  "points_forts": [
+   {
+    "texte": "Homologué ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur en finition cuir et tissu suédé, joint de finition métal.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Prêt à recevoir un écran Quartz en option, en plusieurs coloris, fixé sur pressions.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Joues démontables et lavables, tissu hypoallergénique.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Jet rétro, joint finition métal",
+   "Écran clipsable en option",
+   "Intérieur cuir et tissu suédé",
+   "Norme ECE 22.06"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (résine)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": []
+ },
+ {
+  "modele": "History",
+  "marque": "Stormer",
+  "nb_fiches": 2,
+  "motif": "\\yhistory\\y",
+  "accroche": "L'intégral rétro Stormer : joint métal, intérieur cuir et suède, écran prédisposé Pinlock 70 Max Vision.",
+  "description": "Le History est un intégral au design rétro classique, avec joint de finition métal et intérieur en cuir et suède. L'écran est prédisposé pour un Pinlock 70 Max Vision, et les aérateurs frontaux et de menton se règlent par obturateur. Fermeture micrométrique, norme ECE 22.06.",
+  "profil_position": 20,
+  "points_forts": [
+   {
+    "texte": "Homologué ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Design rétro classique, joint en finition métal.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur en cuir et suède, doublure démontable et lavable.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran prédisposé Pinlock 70 Max Vision.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Aérateurs frontaux et de menton à obturateur.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Intégral rétro, joint finition métal",
+   "Intérieur cuir et suède lavable",
+   "Écran prédisposé Pinlock 70",
+   "Norme ECE 22.06"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Aérateurs frontaux et de menton à obturateur",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Matière de coque absente des descriptions : ligne omise. Pinlock seulement prédisposé : ligne Pinlock omise."
+  ]
+ },
+ {
+  "modele": "Run",
+  "marque": "Stormer",
+  "nb_fiches": 2,
+  "motif": "\\yrun\\y",
+  "accroche": "Le jet Stormer avec écran solaire intégré, préparé Bluetooth : ECE 22.06, intérieur lavable.",
+  "description": "Le Run est un jet moto avec écran solaire intégré, préparé pour recevoir un kit Bluetooth. L'intérieur se démonte et se lave, les aérateurs frontaux se ferment par obturateur et la boucle est micrométrique. Livré avec un écran clair, il est homologué ECE 22.06.",
+  "profil_position": 10,
+  "points_forts": [
+   {
+    "texte": "Homologué ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran solaire intégré.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Préparé pour un kit Bluetooth.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran clair livré, écrans fumé ou iridium disponibles en option.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur démontable et lavable, aérateurs frontaux à obturateur.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Écran solaire intégré",
+   "Préparé pour un kit Bluetooth",
+   "Norme ECE 22.06",
+   "Intérieur démontable et lavable"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Écran solaire intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Aérateurs frontaux à obturateur",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Matière de coque absente des descriptions : ligne omise."
+  ]
+ }
+]

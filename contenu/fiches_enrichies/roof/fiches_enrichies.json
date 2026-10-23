@@ -1,0 +1,374 @@
+[
+ {
+  "modele": "Boxxer 2",
+  "marque": "Roof",
+  "nb_fiches": 6,
+  "motif": "\\yboxxer[- ]?2\\y(?! carbon)",
+  "accroche": "Le modulable Roof à mentonnière 180° et verrouillage FleXLocker : 4 étoiles SHARP en ECE 22.06, 1 600 g.",
+  "description": "Le Boxxer 2 est le modulable de référence de Roof. Sa mentonnière pivote à 180°, se verrouille et se déverrouille d'une seule main, et le système FleXLocker peut la bloquer en position ouverte. Coque en composite de fibres de verre, 4 étoiles au test SHARP en ECE 22.06, double homologation jet et intégral.",
+  "profil_position": 35,
+  "points_forts": [
+   {
+    "texte": "4 étoiles au test SHARP, avec la norme ECE 22.06 (test de février 2025).",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche Boxxer 2, février 2025"
+   },
+   {
+    "texte": "1 600 g à la pesée SHARP pour un modulable à double homologation.",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche Boxxer 2, février 2025"
+   },
+   {
+    "texte": "Mentonnière pivotante à 180°, verrouillage automatique et déverrouillage à une main.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Système FleXLocker exclusif Roof : il peut bloquer la mentonnière en position ouverte.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Double homologation jet et intégral (P/J), habillage Silent Lining pour réduire turbulences et bruits.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "4 étoiles SHARP, norme ECE 22.06",
+   "1 600 g à la pesée SHARP",
+   "Mentonnière 180° et FleXLocker",
+   "Double homologation jet et intégral"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 600 g (pesée SHARP)",
+    "source": "SHARP (ministère des transports britannique), fiche Boxxer 2, février 2025"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "SHARP (ministère des transports britannique), fiche Boxxer 2, février 2025"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Composite de fibres de verre (multi-composites)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Anti-rayures et antibuée",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Prise d'air frontale à effet Venturi et 2 extracteurs arrière",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Audio",
+    "valeur": "Prédisposé pour un kit de communication",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "S à XXL",
+    "source": "SHARP (ministère des transports britannique), fiche Boxxer 2, février 2025"
+   }
+  ],
+  "securite": {
+   "sharp_etoiles": 4,
+   "date_test": "février 2025",
+   "norme": "ECE 22.06"
+  },
+  "a_savoir": [
+   "Livré avec housse de transport et coussins additionnels (selon version)."
+  ],
+  "alertes_qualite": [
+   "SHARP indique « composite de fibres », les descriptions précisent des fibres multi-composites de verre : formulation « composite de fibres de verre ».",
+   "Le motif exclut les Boxxer 2 Carbon par un lookahead PostgreSQL (?! carbon)."
+  ]
+ },
+ {
+  "modele": "Boxxer 2 Carbon",
+  "marque": "Roof",
+  "nb_fiches": 1,
+  "motif": "\\yboxxer[- ]?2 carbon\\y",
+  "accroche": "Le Boxxer 2 en carbone : modulable à mentonnière 180°, FleXLocker et double homologation jet et intégral.",
+  "description": "Le Boxxer 2 Carbon reprend les innovations du Boxxer 2 sous une coque en carbone apparent. Mentonnière pivotante à 180°, verrouillage et déverrouillage automatiques, système FleXLocker exclusif Roof et norme ECE 22.06 en double homologation jet et intégral.",
+  "profil_position": 35,
+  "points_forts": [
+   {
+    "texte": "Coque en carbone apparent.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Mentonnière pivotante à 180° à verrouillage automatique, ouverture à une main.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Système FleXLocker exclusif Roof, qui bloque la mentonnière en position ouverte.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologué ECE 22.06 en double homologation jet et intégral (P/J).",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Habillage Silent Lining contre turbulences et bruits, EPS double densité.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque en carbone apparent",
+   "Mentonnière 180° à une main",
+   "Norme ECE 22.06, jet et intégral",
+   "FleXLocker exclusif Roof"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Carbone",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Détails (écrans, sac à dos) issus de la version Thirty : non repris."
+  ]
+ },
+ {
+  "modele": "Boxer Alpha",
+  "marque": "Roof",
+  "nb_fiches": 7,
+  "motif": "\\yboxx?er alpha\\y",
+  "accroche": "Le modulable Roof qui modernise le Boxer : coque en fibre de verre, FleXLocker, double homologation ECE 22.06.",
+  "description": "Le Boxer Alpha garde les lignes qui ont fait le succès du Boxer et modernise sa conception. Coque en fibre de verre légère, mentonnière à 180° et verrouillage FleXLocker. Il se porte en jet ou en intégral, avec la double homologation P/J en ECE 22.06.",
+  "profil_position": 35,
+  "points_forts": [
+   {
+    "texte": "Coque en fibre de verre, EPS double densité.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Mentonnière pivotante à 180°, verrouillage et déverrouillage automatiques.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Système FleXLocker de verrouillage de mentonnière, exclusif Roof.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Double homologation jet et intégral en ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur antibactérien à séchage rapide, adapté au port de lunettes, prédisposé pour un kit Bluetooth.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Se porte en jet ou en intégral",
+   "Mentonnière 180° et FleXLocker",
+   "Coque en fibre de verre",
+   "Prédisposé pour un kit Bluetooth"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Fibre de verre",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Audio",
+    "valeur": "Prédisposé pour un kit Bluetooth",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Test SHARP « Boxer » (ECE 22.05, 1 680 g) correspond à l'ancienne version : non repris."
+  ]
+ },
+ {
+  "modele": "Desmo 3 Carbon",
+  "marque": "Roof",
+  "nb_fiches": 2,
+  "motif": "\\ydesmo[- ]?3 carbon\\y",
+  "accroche": "Le modulable Roof en carbone avec écran photochromique de série et mécanisme d'écran desmodromique.",
+  "description": "Le Desmo 3 Carbon marque le retour du Desmo en coque carbone. Son écran photochromique, fourni d'origine, s'adapte tout seul à la lumière, et le mécanisme d'écran breveté suit la mentonnière. Mentonnière réversible à 180°, déverrouillage à une main, homologation jet et intégral en ECE 22.06.",
+  "profil_position": 35,
+  "points_forts": [
+   {
+    "texte": "Coque en fibre de carbone.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran photochromique de série : protection solaire progressive et automatique.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Mécanisme d'écran desmodromique breveté, écran libre quelle que soit la position de la mentonnière.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Mentonnière réversible à 180° et déverrouillage centralisé à une main.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Ventilation à effet Venturi : 4 entrées d'air et 2 extracteurs. Homologué jet et intégral ECE 22.06.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Écran photochromique de série",
+   "Coque carbone, mentonnière 180°",
+   "Déverrouillage à une main",
+   "Norme ECE 22.06, jet et intégral"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Carbone",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Photochromique de série, anti-rayures et antibuée",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "4 entrées d'air et 2 extracteurs, effet Venturi",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Une description Desmo 3 Carbon parle de composites thermoplastiques (probablement le Desmo 3 non carbone) : carbone retenu. Test SHARP Desmo 3 = thermoplastique ECE 22.05, non repris."
+  ]
+ },
+ {
+  "modele": "RO15 Bamboo",
+  "marque": "Roof",
+  "nb_fiches": 4,
+  "motif": "\\yro15 bamboo\\y",
+  "accroche": "Le jet Roof en fibre de bambou tressée apparente : chaque casque est unique, 1 220 g à 1 320 g.",
+  "description": "Le RO15 Bamboo est un jet urbain à la personnalité rare : sa coque en fibre de bambou tressée reste visible, et chaque casque a donc son propre dessin. Il pèse environ 1 220 g (coque S) à 1 320 g (coque L). Un choix écolo et original pour la ville.",
+  "profil_position": 10,
+  "points_forts": [
+   {
+    "texte": "Coque en fibre de bambou tressée apparente : chaque casque est unique.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Roof le présente comme le seul casque au monde entièrement en fibre de bambou naturel.",
+    "preuve": "presse",
+    "source": "Le Repaire des motards, dossier Roof"
+   },
+   {
+    "texte": "Environ 1 220 g en coque S et 1 320 g en coque L.",
+    "preuve": "presse",
+    "source": "Le Repaire des motards, casque jet Roof Bamboo, 2023"
+   },
+   {
+    "texte": "Un jet urbain au parti pris écologique.",
+    "preuve": "fabricant",
+    "source": "Constructeur, d'après les descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque en bambou tressé apparent",
+   "Chaque casque est unique",
+   "Jet urbain écolo",
+   "1 220 g en coque S"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 220 g (coque S) à 1 320 g (coque L)",
+    "source": "Le Repaire des motards, casque jet Roof Bamboo, 2023"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Fibres de bambou (tressées, apparentes)",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Norme non confirmée hors fiches de vente : omise."
+  ]
+ }
+]

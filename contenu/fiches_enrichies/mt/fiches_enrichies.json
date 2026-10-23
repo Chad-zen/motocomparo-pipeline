@@ -1,0 +1,1105 @@
+[
+ {
+  "modele": "Braker SV",
+  "marque": "MT Helmets",
+  "nb_fiches": 14,
+  "motif": "\\ybraker\\y",
+  "accroche": "L'intégral sport-touring MT Helmets : 5 étoiles SHARP en ECE 22.06, 1 600 g sur la balance, écran solaire rétractable et spoiler.",
+  "description": "Le Braker SV est l'intégral sport-touring de MT Helmets. Il a obtenu 5 étoiles au test SHARP en ECE 22.06 et pèse 1 600 g sur la balance. Son écran solaire rétractable, son spoiler aérodynamique et sa ventilation par prises d'air frontales et extracteur arrière le rendent agréable de la ville aux longues routes.",
+  "profil_position": 65,
+  "points_forts": [
+   {
+    "texte": "5 étoiles au test SHARP, avec la norme ECE 22.06 (test d'août 2024).",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche Braker SV, août 2024"
+   },
+   {
+    "texte": "1 600 g à la pesée SHARP.",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche Braker SV, août 2024"
+   },
+   {
+    "texte": "Coque en polymère HIRP, robuste et résistant aux chocs.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran solaire rétractable et ancrage d'écran MT-QVSS pour changer de visière.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Spoiler aérodynamique et ventilation par prises d'air au front, au menton et extracteur arrière.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Prédisposé pour recevoir un intercom ; intérieur hypoallergénique amovible et lavable.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "5 étoiles SHARP, norme ECE 22.06",
+   "1 600 g sur la balance SHARP",
+   "Écran solaire rétractable",
+   "Spoiler et extracteur arrière"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 600 g (pesée SHARP)",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polymère HIRP)",
+    "source": "SHARP et descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Écran incolore anti-rayures, démontage rapide MT-QVSS",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Écran solaire rétractable intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Prises d'air au front et au menton, extracteur arrière",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à XXL",
+    "source": "SHARP"
+   }
+  ],
+  "securite": {
+   "sharp_etoiles": 5,
+   "date_test": "août 2024",
+   "norme": "ECE 22.06"
+  },
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Pinlock : écran prédisposé (film en option), ligne omise."
+  ]
+ },
+ {
+  "modele": "Thunder 4 SV",
+  "marque": "MT Helmets",
+  "nb_fiches": 10,
+  "motif": "\\ythunder 4\\y",
+  "accroche": "L'intégral aux lignes sportives de MT Helmets : écran solaire, ventilation MT-AFCS et fermeture micrométrique pour la ville comme la route.",
+  "description": "Le Thunder 4 SV a les lignes d'un casque sportif et l'équipement d'un casque du quotidien. Sa coque en mélange de polymères HIRP est complétée d'un écran transparent et d'un écran solaire. La ventilation MT-AFCS et la fermeture micrométrique le rendent facile à vivre en ville comme sur moyennes distances.",
+  "profil_position": 60,
+  "points_forts": [
+   {
+    "texte": "Coque issue d'un mélange de polymères HIRP.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran transparent et écran solaire intégré.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Système de ventilation MT-AFCS.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture de jugulaire par boucle micrométrique.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Lignes sportives pour un usage quotidien, en ville ou sur moyennes distances.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Lignes sportives, écran solaire",
+   "Ventilation MT-AFCS",
+   "Fermeture micrométrique",
+   "Écran transparent et écran solaire"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polymère HIRP)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Écran solaire intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Système MT-AFCS",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "SHARP Thunder 4S (5 étoiles, ECE 22.06, 2026) probablement ce casque mais nom différent : non retenu.",
+   "Norme absente des descriptions : ligne omise."
+  ]
+ },
+ {
+  "modele": "Atom 2 SV",
+  "marque": "MT Helmets",
+  "nb_fiches": 8,
+  "motif": "\\yatom 2\\y",
+  "accroche": "Le modulable MT Helmets 4 étoiles SHARP en ECE 22.06 : mentonnière relevable d'une main, écran solaire rétractable et intérieur lavable.",
+  "description": "L'Atom 2 SV est un modulable pensé pour dévorer les kilomètres. Il a décroché 4 étoiles au test SHARP en ECE 22.06. La mentonnière s'ouvre d'une seule main et se verrouille relevée, et l'écran solaire se déploie d'une simple pression. Homologué P/J, il se porte ouvert ou fermé.",
+  "profil_position": 30,
+  "points_forts": [
+   {
+    "texte": "4 étoiles au test SHARP, avec la norme ECE 22.06 (test de janvier 2025).",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche Atom 2, janvier 2025"
+   },
+   {
+    "texte": "Mentonnière ouvrable d'une seule main, verrouillable en position relevée.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran solaire rétractable intégré, activé d'une simple pression.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologué ECE 22.06 P/J : utilisable mentonnière ouverte ou fermée.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur hypoallergénique, amovible et lavable ; éléments réfléchissants.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Compatible avec un intercom.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "4 étoiles SHARP, norme ECE 22.06",
+   "Mentonnière relevable d'une main",
+   "Écran solaire à portée de doigt",
+   "Utilisable ouvert ou fermé (P/J)"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 700 g (pesée SHARP)",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polymère HIRP)",
+    "source": "SHARP et descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Écran solaire rétractable intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à XXL",
+    "source": "SHARP"
+   }
+  ],
+  "securite": {
+   "sharp_etoiles": 4,
+   "date_test": "janvier 2025",
+   "norme": "ECE 22.06"
+  },
+  "a_savoir": [],
+  "alertes_qualite": [
+   "SHARP nomme le casque Atom 2 (sans SV) : correspondance supposée."
+  ]
+ },
+ {
+  "modele": "Cosmo SV",
+  "marque": "MT Helmets",
+  "nb_fiches": 5,
+  "motif": "\\ycosmo\\y",
+  "accroche": "Le jet urbain MT Helmets à long écran et écran solaire à levier unique, avec changement de visière rapide et logement pour intercom.",
+  "description": "Le Cosmo SV est un jet conçu pour la ville, sans oublier les trajets plus longs. Son long écran robuste est complété d'un écran solaire que l'on actionne d'une main. Le système breveté MT-QVSS change la visière en un instant, et l'intérieur hypoallergénique se lave.",
+  "profil_position": 15,
+  "points_forts": [
+   {
+    "texte": "Coque en polymère HIRP légère et résistante aux impacts.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Long écran et écran solaire rétractable à levier unique, actionnable d'une main.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Système MT-QVSS breveté pour changer la visière rapidement.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Logement prévu pour un intercom Bluetooth UCS.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur hypoallergénique entièrement amovible et lavable ; ECE 22.06.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Écran solaire à levier unique",
+   "Changement de visière rapide",
+   "Logement prévu pour intercom",
+   "Intérieur amovible et lavable"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polymère HIRP)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Long écran en polycarbonate, changement rapide MT-QVSS",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Écran solaire rétractable intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Plusieurs entrées d'air et extraction arrière",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Une description ajoute l'homologation DOT, pas les autres."
+  ]
+ },
+ {
+  "modele": "Stinger 2",
+  "marque": "MT Helmets",
+  "nb_fiches": 5,
+  "motif": "\\ystinger 2\\y(?!.*enfant)",
+  "accroche": "L'intégral MT Helmets 5 étoiles SHARP en ECE 22.06 : 1 600 g sur la balance, visière rapide prête Pinlock et ventilation réglable.",
+  "description": "Le Stinger 2 est un intégral aux lignes dynamiques, 5 étoiles au test SHARP en ECE 22.06. Il affiche 1 600 g sur la balance. Sa coque en résine thermoplastique HIRP, sa calotte EPS multidensité et sa visière à fixation rapide sont complétées d'une ventilation réglable avec déflecteurs de souffle.",
+  "profil_position": 60,
+  "points_forts": [
+   {
+    "texte": "5 étoiles au test SHARP, avec la norme ECE 22.06 (test de septembre 2025).",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche Stinger 2, septembre 2025"
+   },
+   {
+    "texte": "1 600 g à la pesée SHARP.",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche Stinger 2, septembre 2025"
+   },
+   {
+    "texte": "Coque en résine thermoplastique HIRP, calotte EPS à densités multiples.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Visière MT-V-28B en polycarbonate, à fixation rapide, prédisposée pour un Pinlock MaxVision.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Entrées d'air réglables à l'avant et sur le dessus, extracteurs arrière, déflecteurs de souffle.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Prédisposé pour un intercom universel.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "5 étoiles SHARP, norme ECE 22.06",
+   "1 600 g sur la balance SHARP",
+   "Visière à fixation rapide",
+   "Ventilation réglable, extracteurs"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 600 g (pesée SHARP)",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polymère HIRP)",
+    "source": "SHARP et descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Polycarbonate MT-V-28B à fixation rapide",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Entrées d'air réglables à l'avant et au sommet, extracteurs arrière",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à XXL",
+    "source": "SHARP"
+   }
+  ],
+  "securite": {
+   "sharp_etoiles": 5,
+   "date_test": "septembre 2025",
+   "norme": "ECE 22.06"
+  },
+  "a_savoir": [
+   "Une version enfant, le Stinger 2 Kid, existe à part."
+  ],
+  "alertes_qualite": [
+   "Fiches enfant exclues du motif (autre taille de coque, pas de test SHARP)."
+  ]
+ },
+ {
+  "modele": "Targo S",
+  "marque": "MT Helmets",
+  "nb_fiches": 5,
+  "motif": "\\ytargo\\y",
+  "accroche": "L'intégral sport-touring MT Helmets aux courbes racing : spoiler aérodynamique, visière à démontage rapide et ventilation efficace.",
+  "description": "Le Targo S assume son côté sport-touring avec ses courbes agressives et son aileron aérodynamique. Sa coque HIRP, sa visière à démontage rapide compatible Pinlock et sa ventilation par prises d'air frontales et extracteur arrière couvrent le quotidien. Intérieur hypoallergénique lavable, compatible intercom.",
+  "profil_position": 65,
+  "points_forts": [
+   {
+    "texte": "Coque en HIRP, polymère solide et résistant aux chocs.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Design racing avec spoiler aérodynamique.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran incolore anti-rayures, démontage rapide, compatible avec film Pinlock.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Prises d'air frontales et mentonnières, extracteur arrière.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur hypoallergénique, entièrement démontable et lavable ; compatible intercom.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologué ECE 22.06.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Design racing, spoiler aérodynamique",
+   "Écran à démontage rapide",
+   "Ventilation avant et extracteur",
+   "Intérieur amovible et lavable"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polymère HIRP)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Incolore anti-rayures, démontage rapide",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Prises d'air frontales et mentonnières, extracteur arrière",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "SHARP Targo (3 étoiles, 2019) en ECE 22.05 : ancienne version, non retenue.",
+   "Écran solaire cité sur certains coloris seulement : ligne Pare-soleil omise."
+  ]
+ },
+ {
+  "modele": "Viale SV S",
+  "marque": "MT Helmets",
+  "nb_fiches": 4,
+  "motif": "\\yviale\\y",
+  "accroche": "Le jet compact de MT Helmets pour la ville : coque HIRP légère, long écran incolore, écran solaire et fermeture micrométrique.",
+  "description": "Le Viale SV S est un jet simple, sobre et compact, pensé pour arpenter les ruelles ou rejoindre des amis en terrasse. Sa coque en polymère HIRP reste légère, et il se complète d'un long écran incolore et d'un écran solaire. La fermeture micrométrique se règle vite.",
+  "profil_position": 10,
+  "points_forts": [
+   {
+    "texte": "Coque en polymère HIRP, légère et aérodynamique.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Long écran incolore et écran solaire.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture par boucle micrométrique rapide et efficace.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Format compact conçu pour les déplacements urbains.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Répond aux exigences de la norme ECE 22.06.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Jet compact pour la ville",
+   "Long écran et écran solaire",
+   "Fermeture micrométrique rapide",
+   "Coque légère en polymère HIRP"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polymère HIRP)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Long écran incolore",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Écran solaire intégré",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Descriptions de la version Viale SV (sans S) mêlées à Viale SV S."
+  ]
+ },
+ {
+  "modele": "Jarama SV",
+  "marque": "MT Helmets",
+  "nb_fiches": 4,
+  "motif": "\\yjarama\\y",
+  "accroche": "L'intégral rétro de MT Helmets avec la technologie d'aujourd'hui : écran solaire rétractable, changement d'écran rapide, ECE 22.06.",
+  "description": "Le Jarama SV marie un look vintage et des performances modernes. Sa coque HIRP protège et allège, son écran solaire se rétracte, et le mécanisme de changement d'écran est rapide. Il accueille un intercom Bluetooth et ses finitions soignées tiennent leurs promesses.",
+  "profil_position": 35,
+  "points_forts": [
+   {
+    "texte": "Design vintage avec coque HIRP légère.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran solaire rétractable.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Mécanisme de changement d'écran rapide ; compatible avec Pinlock MaxVision et FogOff.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Logement dédié au système UCS pour intercom Bluetooth.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur hypoallergénique entièrement amovible et lavable.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologué ECE 22.06.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Look rétro, technologie actuelle",
+   "Écran solaire rétractable",
+   "Changement d'écran rapide",
+   "Logement prévu pour intercom"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polymère HIRP)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Écran solaire rétractable intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Logement UCS pour intercom, mais ligne Audio omise (pas de haut-parleurs cités)."
+  ]
+ },
+ {
+  "modele": "Genesis SV",
+  "marque": "MT Helmets",
+  "nb_fiches": 3,
+  "motif": "\\ygenesis\\y",
+  "accroche": "Le modulable MT Helmets pour le touring et la ville : mentonnière ouvrable d'une main, écran solaire rétractable, ECE 22.06.",
+  "description": "Le Genesis SV est un modulable polyvalent, conçu pour le touring comme pour les trajets urbains. Sa mentonnière s'ouvre d'une seule main et se verrouille ouverte, pour passer de l'intégral au jet. Écran solaire rétractable, intérieur lavable et fermeture micrométrique complètent le confort.",
+  "profil_position": 30,
+  "points_forts": [
+   {
+    "texte": "Coque en polymère HIRP à haute résistance aux chocs.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Mentonnière ouvrable d'une seule main et verrouillable en position ouverte.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran solaire rétractable intégré et large champ de vision.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran compatible Pinlock anti-buée ; prédisposition pour système de communication.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur hypoallergénique, amovible et lavable ; éléments réfléchissants.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologué ECE 22.06 P/J.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Mentonnière ouvrable d'une main",
+   "Écran solaire rétractable",
+   "Prêt pour intercom",
+   "Utilisable ouvert ou fermé (P/J)"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polymère HIRP)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Écran solaire rétractable intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Genesis R SV et Genesis SV mélangés."
+  ]
+ },
+ {
+  "modele": "KRE+ S",
+  "marque": "MT Helmets",
+  "nb_fiches": 3,
+  "motif": "\\ykre\\+ s\\y",
+  "accroche": "Le casque piste de MT Helmets en coque carbone : homologué ECE 22.06 et FIM, spoiler arrière et intérieur en fibres ignifuges.",
+  "description": "Le KRE+ S est le modèle phare de MT Helmets, développé en compétition. Sa coque en fibre de carbone allie légèreté et résistance, avec un spoiler arrière pour l'aérodynamisme. Il est homologué ECE 22.06 et FIM, avec un intérieur en fibres ignifuges et un système d'extraction d'urgence.",
+  "profil_position": 95,
+  "points_forts": [
+   {
+    "texte": "Coque en fibre de carbone, légère et résistante.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologué ECE 22.06 et FIM.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture double anneau en D.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Spoiler arrière pour l'aérodynamisme ; cache-nez amovible inclus.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur hypoallergénique, antibactérien, en fibres ignifuges, entièrement démontable.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran incolore anti-rayures démontable, compatible Pinlock.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Coque carbone, homologué FIM",
+   "Spoiler arrière aérodynamique",
+   "Intérieur en fibres ignifuges",
+   "Fermeture double anneau en D"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06 et FIM",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Carbone",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Double anneau en D",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Incolore anti-rayures, démontage facile",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Entrées d'air et extraction arrière",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "SHARP KRE SV (3 étoiles, 2018, fibre de verre, ECE 22.05) est un autre casque.",
+   "Une description cite un Pinlock Maxvision inclus (version KRE+ Solid) : non retenu pour les fiches FIM."
+  ]
+ },
+ {
+  "modele": "Track SV",
+  "marque": "MT Helmets",
+  "nb_fiches": 2,
+  "motif": "\\ytrack sv\\y",
+  "accroche": "Le casque adventure MT Helmets 4 étoiles SHARP en ECE 22.06 : visière amovible, écran solaire rétractable et ventilation réglée.",
+  "description": "Le Track SV bascule du mode routier au mode trail grâce à sa visière amovible. Il a obtenu 4 étoiles au test SHARP en ECE 22.06 et pèse 1 600 g sur la balance. Écran solaire rétractable d'une main, compatibilité Pinlock et FogOff, extraction d'urgence ERS : il est prêt pour la route comme pour le chemin.",
+  "profil_position": 50,
+  "points_forts": [
+   {
+    "texte": "4 étoiles au test SHARP, avec la norme ECE 22.06 (test d'avril 2026).",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche Track SV, avril 2026"
+   },
+   {
+    "texte": "1 600 g à la pesée SHARP.",
+    "preuve": "sharp",
+    "source": "SHARP (ministère des transports britannique), fiche Track SV, avril 2026"
+   },
+   {
+    "texte": "Visière (peak) amovible pour passer du routier au trail.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran solaire rétractable, actionné d'une seule main.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Compatible Pinlock et FogOff ; prédisposé pour système intercom UCS.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Système d'extraction d'urgence ERS.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "4 étoiles SHARP, norme ECE 22.06",
+   "Visière amovible : route ou trail",
+   "Écran solaire d'une main",
+   "Extraction d'urgence ERS"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Poids",
+    "valeur": "1 600 g (pesée SHARP)",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "SHARP"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polymère HIRP)",
+    "source": "SHARP et descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Écran solaire rétractable intégré",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Ventilation",
+    "valeur": "Entrées d'air multiples et extracteur arrière",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Tailles",
+    "valeur": "XS à XXL",
+    "source": "SHARP"
+   }
+  ],
+  "securite": {
+   "sharp_etoiles": 4,
+   "date_test": "avril 2026",
+   "norme": "ECE 22.06"
+  },
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Pinlock : compatible seulement, ligne omise."
+  ]
+ },
+ {
+  "modele": "Lite",
+  "marque": "MT Helmets",
+  "nb_fiches": 2,
+  "motif": "\\ylite\\y",
+  "accroche": "Le jet enfant de MT Helmets : coque HIRP, écran à changement rapide, fermeture micrométrique et housse de transport livrée.",
+  "description": "Pour MT Helmets, tout le monde a le droit de profiter d'une balade en toute sécurité : le Lite est un jet pensé pour les enfants. Sa coque en thermoplastique HIRP reste résistante tout en restant confortable. L'écran se change vite, l'intérieur se démonte pour le lavage, et une housse de transport est fournie.",
+  "profil_position": 10,
+  "points_forts": [
+   {
+    "texte": "Casque jet conçu pour les enfants.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Coque en thermoplastique HIRP, résistante et confortable.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran transparent à changement rapide.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture de jugulaire par boucle micrométrique.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur démontable et lavable ; housse de transport livrée.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Homologué ECE 22.06.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Jet conçu pour les enfants",
+   "Écran à changement rapide",
+   "Housse de transport livrée",
+   "Intérieur démontable et lavable"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polymère HIRP)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Visière",
+    "valeur": "Écran transparent à changement rapide",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Casque enfant : profil_position purement indicatif."
+  ]
+ },
+ {
+  "modele": "Le Mans 2 SV S",
+  "marque": "MT Helmets",
+  "nb_fiches": 1,
+  "motif": "\\yle mans\\y",
+  "accroche": "Le jet rétro de MT Helmets : finitions simili cuir, intérieur en suédine, écran solaire à languette et ECE 22.06.",
+  "description": "Le Le Mans 2 SV S affirme un style rétro avec ses finitions en simili cuir et son sublime intérieur en suédine. Sa calotte HIRP équilibre légèreté et sécurité, et l'écran solaire se manie du bout du doigt grâce à sa languette de commande.",
+  "profil_position": 10,
+  "points_forts": [
+   {
+    "texte": "Calotte en HIRP, polymère à haute résistance aux impacts.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Écran solaire avec languette de commande.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Finitions en simili cuir et intérieur en suédine.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Fermeture micrométrique avec rétention à double dent.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "texte": "Intérieur hypoallergénique, entièrement amovible et lavable.",
+    "preuve": "flux",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "points_forts_courts": [
+   "Style rétro, finitions simili cuir",
+   "Écran solaire à languette",
+   "Intérieur en suédine",
+   "Intérieur amovible et lavable"
+  ],
+  "fiche_technique": [
+   {
+    "nom": "Norme",
+    "valeur": "ECE 22.06",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Coque",
+    "valeur": "Thermoplastique (polymère HIRP)",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Fermeture",
+    "valeur": "Micrométrique",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Pare-soleil",
+    "valeur": "Écran solaire intégré à languette",
+    "source": "descriptions des marchands partenaires"
+   },
+   {
+    "nom": "Doublure",
+    "valeur": "Amovible et lavable",
+    "source": "descriptions des marchands partenaires"
+   }
+  ],
+  "securite": null,
+  "a_savoir": [],
+  "alertes_qualite": [
+   "Un titre annonce 1 050 g et polycarbonate pour une version précédente : non retenu."
+  ]
+ }
+]
