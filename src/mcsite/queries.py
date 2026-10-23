@@ -2482,9 +2482,14 @@ def caracteristiques(conn: psycopg.Connection, product_id: int) -> list[dict[str
         # Europe est homologue. Ce qu'on ne sait pas, on ne l'affiche pas (la proprietaire, 23/10/2026).
         if nom == "homologation" and "non précis" in str(l["valeur"]).lower():
             continue
+        libelle = _LIBELLES.get(nom) or nom.replace("_", " ").capitalize()
+        # « Homologation ECE » ne vaut que pour un casque (22.05, 22.06) : un pantalon porte une classe EN 17092 (A, AA,
+        # AAA), un gant ou une botte une norme EN 13594 / EN 13634. Le libelle suit la valeur (23/10/2026).
+        if nom == "homologation" and not re.match(r"\s*22[.]0", str(l["valeur"])):
+            libelle = "Homologation"
         resultat.append({
             "nom": nom,
-            "libelle": _LIBELLES.get(nom) or nom.replace("_", " ").capitalize(),
+            "libelle": libelle,
             # seuls les booléens sont traduits ici : les notes (`_equipement_vers_note`,
             # `_CALOTTE_VERS_NOTE`) lisent les codes bruts. Le reste se traduit
             # à l'affichage, par le filtre `caracteristique`.

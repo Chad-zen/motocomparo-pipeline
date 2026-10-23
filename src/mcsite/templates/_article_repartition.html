@@ -1,28 +1,30 @@
 {# Combien de fiches comparables déclarent chaque valeur d'une
    caractéristique, et à quel prix médian — voir `articles.Donnees.repartition`.
    Attend `rep` : rayon, nom, libelle, lignes (valeur, n, mediane, mini), total,
-   renseignees. #}
+   renseignees. `rep.noms` (facultatif) : valeur -> libelle en toutes lettres pour la premiere colonne. #}
 
 {% if rep.lignes %}
 <div class="tableau-enveloppe">
-  <table class="offres">
+  {# Un vrai tableau, avec ses en-têtes visibles sur mobile : la classe `offres` le transformait en cartes sans
+     étiquettes, et « Préparé 1130 179,00 € 46,42 € » ne disait plus ce que chaque nombre voulait dire. #}
+  <table class="tableau-article">
     <thead>
-      <tr><th>{{ rep.libelle }}</th><th>Fiches</th><th>Prix médian</th><th>Prix le plus bas</th></tr>
+      <tr><th scope="col">{{ rep.libelle }}</th><th scope="col" class="num">Fiches</th><th scope="col" class="num">Prix médian</th><th scope="col" class="num">Prix le plus bas</th></tr>
     </thead>
     <tbody>
       {% for l in rep.lignes %}
       <tr>
-        <td>{{ l.valeur | caracteristique }}</td>
-        <td>{{ l.n }}</td>
-        <td>{{ l.mediane | prix if l.mediane else '—' }}</td>
-        <td>{{ l.mini | prix if l.mini else '—' }}</td>
+        <th scope="row">{{ (rep.noms or {}).get(l.valeur) or (l.valeur | caracteristique) }}</th>
+        <td class="num">{{ "{:,}".format(l.n).replace(",", " ") }}</td>
+        <td class="num">{{ l.mediane | prix if l.mediane else '—' }}</td>
+        <td class="num">{{ l.mini | prix if l.mini else '—' }}</td>
       </tr>
       {% endfor %}
     </tbody>
   </table>
 </div>
 <p class="sous-titre">
-  Sur {{ rep.total }} fiches comparables du rayon, {{ rep.renseignees }}
+  Sur {{ "{:,}".format(rep.total).replace(",", " ") }} fiches comparables du rayon, {{ "{:,}".format(rep.renseignees).replace(",", " ") }}
   déclarent cette caractéristique sur leur fiche marchand
   ({{ ((rep.renseignees / rep.total) * 100) | round | int if rep.total else 0 }}&nbsp;%).
   Les autres ne la mentionnent simplement pas — ce n'est pas une absence

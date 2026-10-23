@@ -418,13 +418,24 @@ def _rayons() -> list[dict[str, Any]]:
 _MENU_MOTARD = ("helmet", "jacket", "gloves", "boots", "pants", "suit", "protection", "jersey",
                 "goggles", "apparel_casual")
 _MENU_SEUIL = 600
+# 23/10/2026, demande de la proprietaire : sous « Echappements » le menu ne garde que « Bagagerie », puis un dernier
+# lien « Toutes les pieces moto » (page /pieces-moto) qui porte les autres rayons de la moto.
+_MENU_MOTO = ("exhaust", "luggage")
+# Et cinq marques seulement, dans cet ordre ; « Toutes les marques » reste en dessous.
+_MENU_MARQUES = ("alpinestars", "shoei", "arai", "ixon", "furygan")
 
 
 def _menu(nav: list[dict[str, Any]]) -> list[dict[str, Any]]:
     par_code = {c["code"]: c for c in nav}
     motard = [par_code[k] for k in _MENU_MOTARD if k in par_code]
-    moto = [c for c in nav if c["code"] not in _MENU_MOTARD and c["n"] >= _MENU_SEUIL]
+    moto = [par_code[k] for k in _MENU_MOTO if k in par_code]
     return motard + moto
+
+
+def _rayons_pieces(nav: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Les rayons de la MOTO (tout ce qui n'est pas l'equipement du motard ni une piece de casque)."""
+    return [c for c in nav if c["code"] not in _MENU_MOTARD and not c["code"].startswith("helmet")
+            and c["n"] >= 50]
 
 
 def _ctx(request: Request, **extra: Any) -> dict[str, Any]:
@@ -444,6 +455,7 @@ def _ctx(request: Request, **extra: Any) -> dict[str, Any]:
     # seulement là où un gabarit les demande explicitement. Aucune fiche produit
     # n'en affiche : voir le commentaire de `_pub.html`.
     return {"request": request, "nav": nav, "nav_menu": _menu(nav), "marques": marques,
+            "marques_menu": [{"brand_code": c} for c in _MENU_MARQUES],
             "marchands_actifs": marchands,
             "bandeaux": partenaires.bandeaux(),
             "bandeaux_larges": partenaires.bandeaux("large"),
@@ -1703,6 +1715,14 @@ def bons_plans(request: Request):
         request, "bons-plans.html", _ctx(request, items=items))
 
 
+@app.get("/pieces-moto", response_class=HTMLResponse)
+def pieces_moto(request: Request):
+    """Tous les rayons de la moto (echappements, freinage, transmission...) : la cible du dernier lien du menu."""
+    ctx = _ctx(request)
+    return templates.TemplateResponse(request, "pieces_moto.html",
+                                      {**ctx, "rayons_pieces": _rayons_pieces(ctx["nav"])})
+
+
 @app.get("/marques", response_class=HTMLResponse)
 def marques(request: Request):
     """L'index alphabétique de toutes les marques comparables."""
@@ -2674,7 +2694,7 @@ def _urls_sitemap() -> list[str]:
                 GROUP BY p.brand_code HAVING count(*) >= 5
                 ORDER BY count(*) DESC
             """).fetchall()
-        fixes = ["/", "/produits", "/bons-plans", "/marques", "/guides",
+        fixes = ["/", "/produits", "/bons-plans", "/marques", "/pieces-moto", "/guides",
                  "/codes-promo", "/infos", "/contact"]
         # Les articles PUBLIÉS seulement : un brouillon répond 404 en
         # production, le proposer aux moteurs serait leur donner une erreur.

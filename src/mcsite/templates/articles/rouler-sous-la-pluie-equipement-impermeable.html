@@ -122,7 +122,7 @@ illustration_alt: Moto garée sous un petit abri pendant une forte pluie d'autom
   visière est équipée pour en recevoir un, vendu séparément. Voici ce que
   déclarent les fiches de casques comparables du catalogue&nbsp;:
 </p>
-{% set rep = donnees.repartition('helmet', 'pinlock') %}
+{% set rep = dict(donnees.repartition('helmet', 'pinlock'), libelle='Pinlock (écran anti-buée)', noms={'fourni': 'Écran fourni avec le casque', 'prepare': 'Visière préparée, écran vendu à part'}) %}
 {% include "_article_repartition.html" %}
 <p>
   Le tableau compte uniquement les fiches qui mentionnent un Pinlock&nbsp;;

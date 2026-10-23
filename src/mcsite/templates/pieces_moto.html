@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% import "_categories.html" as cat %}
+{% block title %}Toutes les pièces moto — MotoComparo{% endblock %}
+{% block description %}Échappements, freinage, transmission, moteur, pneus, entretien : tous les rayons de pièces et accessoires moto comparés chez plusieurs marchands.{% endblock %}
+
+{% block contenu %}
+<nav class="fil" aria-label="Fil d'Ariane"><a href="/">Accueil</a> › <span>Toutes les pièces moto</span></nav>
+<h1 class="titre-page">Toutes les pièces moto</h1>
+<p class="sous-titre">
+  Les rayons de la moto (échappements, bagagerie, freinage, transmission, moteur, pneus, entretien…)
+  dont les prix sont comparés chez plusieurs marchands.
+</p>
+{{ cat.mosaique(rayons_pieces, 20) }}
+{% endblock %}

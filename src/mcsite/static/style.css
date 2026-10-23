@@ -5235,3 +5235,18 @@ html { overflow-x: clip; }
 .article__cta { margin: 28px 0 8px; padding: 16px 18px; background: var(--nuit); color: #fff; border-radius: 12px; display: grid; gap: 10px; justify-items: start; }
 .article__cta p { margin: 0; }
 .article__lies { margin-top: 26px; }
+
+/* Le tableau de repartition des articles : un vrai tableau, en-tetes toujours visibles (23/10/2026). */
+.tableau-article { width: 100%; border-collapse: collapse; font-size: 14.5px; margin: 6px 0 4px; }
+.tableau-article th, .tableau-article td { padding: 9px 10px; border-bottom: 1px solid #e3e7ef; text-align: left; vertical-align: top; }
+.tableau-article thead th { font-size: 12.5px; text-transform: uppercase; letter-spacing: .04em; color: var(--doux); border-bottom: 2px solid #cfd6e4; }
+.tableau-article .num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.tableau-article tbody th { font-weight: 700; }
+.tableau-article tbody tr:first-child { background: #fff9e8; }
+.tableau-article thead th.num { white-space: normal; }
+.tableau-article tbody th { width: 38%; }
+@media (max-width: 520px) {
+  .tableau-article { font-size: 13.5px; }
+  .tableau-article th, .tableau-article td { padding: 8px 5px; }
+  .tableau-article thead th { font-size: 11px; letter-spacing: 0; }
+}

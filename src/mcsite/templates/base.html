@@ -452,6 +452,12 @@ window.addEventListener('load', function () {
       </a>
       {% endif %}
     {% endfor %}
+    {# Dernier lien du menu des rayons (23/10/2026) : tous les rayons de la moto sur une page, avec l'icone d'« Entretien ». #}
+    <a class="tiroir__item" href="/pieces-moto">
+      {{ cat.picto('maintenance', 'ico') }}
+      <span class="tiroir__lbl">Toutes les pièces moto</span>
+      <span class="tiroir__chev" aria-hidden="true">›</span>
+    </a>
     <script>
       document.querySelectorAll('.tiroir__item--parent').forEach(function (b) {
         b.addEventListener('click', function () {
@@ -462,9 +468,9 @@ window.addEventListener('load', function () {
       });
     </script>
 
-    {% if marques %}
+    {% if marques_menu %}
     <div class="tiroir__section">Marques</div>
-    {% for m in marques %}
+    {% for m in marques_menu %}
       <a class="tiroir__item tiroir__item--marque" href="/m/{{ m.brand_code }}">
         <span class="tiroir__lbl">{{ m.brand_code | marque }}</span>
         <span class="tiroir__chev" aria-hidden="true">›</span>
@@ -490,15 +496,6 @@ window.addEventListener('load', function () {
       <span class="tiroir__chev" aria-hidden="true">›</span>
     </a>
 
-    <div class="tiroir__section">Le site</div>
-    <a class="tiroir__item" href="/infos">
-      <span class="tiroir__lbl">À propos</span>
-      <span class="tiroir__chev" aria-hidden="true">›</span>
-    </a>
-    <a class="tiroir__item" href="/contact">
-      <span class="tiroir__lbl">Contact</span>
-      <span class="tiroir__chev" aria-hidden="true">›</span>
-    </a>
   </div>
 </nav>
 

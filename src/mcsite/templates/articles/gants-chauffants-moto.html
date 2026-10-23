@@ -1,0 +1,352 @@
+{#---
+titre: Gants chauffants moto : ce qu'il faut savoir avant d'acheter
+description: Batterie ou branchement sur la moto, niveaux de chauffe, autonomie annoncée, norme EN 13594 : ce que disent les fabricants et ce que déclarent les fiches.
+date: 2026-10-30
+statut: brouillon
+rayon: gloves
+produits:
+marques:
+illustration: gants-chauffants-moto.webp
+illustration_alt: Mains gantées de noir posées sur une poignée de moto, brume légère sur une route de campagne en automne.
+---#}
+
+{# Les trois blocs de données, calculés une fois pour tout l'article. #}
+{% set rep_c = donnees.repartition('gloves', 'chauffant') %}
+{% set rep_s = donnees.repartition('gloves', 'saison') %}
+{% set rep_h = dict(donnees.repartition('gloves', 'homologation'), libelle='Homologation') %}
+{% set ns = namespace(chauf=none, hiver=none) %}
+{% for l in rep_c.lignes %}{% if (l.valeur | string | lower) in ['true', 'oui'] %}{% set ns.chauf = l %}{% endif %}{% endfor %}
+{% for l in rep_s.lignes %}{% if (l.valeur | string | lower) == 'hiver' %}{% set ns.hiver = l %}{% endif %}{% endfor %}
+
+<div class="article__reponse">
+  <p><b>À retenir</b></p>
+  <ul>
+    <li>Un gant chauffant reste un gant&nbsp;: il doit être <b>conforme à la réglementation sur les équipements de protection individuelle</b>, comme n'importe quelle paire, et porter le marquage CE.</li>
+    <li>La première question est l'<b>alimentation</b>&nbsp;: une batterie dans le gant, un branchement sur la batterie de la moto, ou les deux selon le modèle.</li>
+    <li>Les <b>niveaux de chauffe</b> et l'<b>autonomie</b> sont ceux que le fabricant annonce&nbsp;; ils dépendent du réglage, du froid et de la charge, et MotoComparo n'en a mesuré aucun.</li>
+    <li>Les niveaux de chauffe n'ont rien à voir avec les niveaux 1 et 2 de la norme <b>EN 13594</b>, qui décrivent la protection en cas de chute.</li>
+  </ul>
+</div>
+
+<p>
+  Cet article s'adresse à celles et ceux qui roulent en automne et en hiver, et
+  qui se demandent si un gant chauffant vaut le détour par rapport à un bon
+  gant d'hiver. Il explique le fonctionnement de ces gants, les deux modes
+  d'alimentation, ce que la loi et la norme demandent, puis ce que déclarent
+  les fiches du catalogue de MotoComparo. Les tableaux sont recalculés à
+  l'ouverture de la page&nbsp;; les faits techniques et légaux viennent des
+  fabricants et des textes officiels listés en fin d'article. Le site n'a
+  aucun banc d'essai&nbsp;: aucun gant n'a été porté, aucune durée de chauffe
+  n'a été mesurée.
+</p>
+
+<h2>Comment fonctionne un gant chauffant</h2>
+<p>
+  Un gant chauffant est un gant de moto auquel on a ajouté un circuit
+  électrique qui produit de la chaleur. Les fabricants décrivent des
+  éléments chauffants intégrés au gant, une source d'énergie, et une façon de
+  régler l'intensité. Pour les gants d'hiver sans chauffage, voir notre guide
+  <a href="/guides/gants-ete-ou-hiver">gants moto été, mi-saison ou hiver</a>.
+</p>
+<p>
+  Le fabricant français Five explique par exemple que ses gants HG utilisent
+  des résistances (des conducteurs qui chauffent quand le courant les
+  traverse) posées sur le dessus de la main et sur les doigts, jusqu'à la
+  dernière phalange. La paume n'a pas de résistance&nbsp;: une fine couche
+  d'isolation thermique y est prévue pour préserver l'adhérence sur la
+  poignée
+  (<a href="https://five-gloves.com/en/five-hg-heated-gloves/" rel="noopener">page «&nbsp;HG heated gloves&nbsp;», Five</a>).
+  Le même fabricant précise que la chaleur ressentie dépend de la vitesse, de
+  la température extérieure, du vent, de la durée du trajet et de la
+  sensibilité de chacun au froid.
+</p>
+
+<h2>Batterie dans le gant ou branchement sur la moto</h2>
+<p>
+  Les gants chauffants se répartissent entre trois alimentations, que les
+  fabricants citent eux-mêmes.
+</p>
+<ul class="liste-puces">
+  <li><b>La batterie dans le gant.</b> Five indique des batteries de 7,2&nbsp;V
+      (volts) et 2,2&nbsp;Ah (ampères-heures, la capacité de la batterie), qui
+      se rechargent en environ quatre heures avec le double chargeur fourni et
+      peuvent rester dans leur poche du gant pendant la charge.
+      Alpinestars décrit pour son modèle HT-5 une batterie lithium de
+      7,4&nbsp;V par gant, rechargée par un câble USB en Y qui relie les deux
+      batteries
+      (<a href="https://www.alpinestars.com/products/ht-5-heat-tech-drystar-sup-reg-sup-gloves" rel="noopener">page HT-5, Alpinestars</a>).</li>
+  <li><b>Le branchement sur la moto.</b> Gerbing, dont le système fonctionne
+      en 12&nbsp;V continu, alimente ses gants depuis la batterie de la moto.
+      Chaque installation demande un faisceau de batterie et un contrôleur de
+      température
+      (<a href="https://www.gerbing.com/pages/12v-f-a-q" rel="noopener">FAQ 12&nbsp;V, Gerbing</a>).
+      Five propose un kit qui relie ses gants à la prise allume-cigare ou à la
+      batterie de la moto.</li>
+  <li><b>Les deux.</b> Macna appelle «&nbsp;Dual Power&nbsp;» un système où le
+      choix entre 7,4&nbsp;V et 12&nbsp;V n'est pas définitif&nbsp;: la même
+      paire peut recevoir une batterie ou un branchement sur la moto
+      (<a href="https://www.macna.com/en/Techlab-Comfort-CRC-E-Heated" rel="noopener">Tech Lab, Macna</a>).</li>
+</ul>
+<p>
+  Selon Macna, une alimentation en 12&nbsp;V chauffe plus vite et atteint des
+  températures plus élevées qu'en 7,4&nbsp;V. Le fabricant ajoute qu'il faut
+  comparer des puissances de chauffe équivalentes plutôt que des numéros de
+  niveau&nbsp;: le niveau 1 en 12&nbsp;V se rapproche, dit-il, du niveau 3 en
+  7,4&nbsp;V
+  (<a href="https://www.macna.com/en/heated-setup" rel="noopener">page «&nbsp;Heated Setup&nbsp;», Macna</a>).
+</p>
+
+<aside class="article__bon-a-savoir">
+  <p><b>Bon à savoir.</b> Selon la page «&nbsp;Heated Setup&nbsp;» de Macna, les
+  batteries ne sont pas incluses avec les gants&nbsp;; certains kits en
+  comprennent une avec son chargeur. Quand vous comparez deux prix, vérifiez
+  donc si la fiche vend la paire seule ou un kit, car la comparaison n'a de
+  sens qu'entre produits équivalents.</p>
+</aside>
+
+<h2>Zones chauffées et niveaux de chauffe</h2>
+<p>
+  Les gants proposent plusieurs niveaux d'intensité, réglés par un bouton sur
+  le gant ou par une application. Chez Five, trois niveaux correspondent à
+  45&nbsp;°C (Eco), 50&nbsp;°C (Regular) et 60&nbsp;°C (Boost), des valeurs
+  que le fabricant dit envoyer dans le circuit. Chez Macna, quatre niveaux
+  vont de 40 à 100&nbsp;% de la puissance, chacun associé à une couleur sur
+  l'indicateur&nbsp;; l'application Bluetooth reprend les mêmes paliers et
+  permet de programmer l'arrêt automatique des gants. Alpinestars indique, pour
+  son HT-5, trois réglages et une régulation séparée pour chaque main.
+</p>
+<p>
+  Ces chiffres décrivent le circuit du gant, pas la température de votre
+  peau. Les fabricants ne promettent pas la même chose&nbsp;: une température
+  de consigne chez l'un, un pourcentage de puissance chez l'autre. Deux
+  modèles ne se comparent donc pas niveau contre niveau.
+</p>
+
+<h2>L'autonomie annoncée par les fabricants</h2>
+<p>
+  L'autonomie d'un gant à batterie est la durée pendant laquelle il chauffe
+  avant que la batterie soit vide. MotoComparo n'en a mesuré aucune&nbsp;;
+  voici seulement ce que disent les fabricants.
+</p>
+<ul class="liste-puces">
+  <li><b>Five</b> annonce jusqu'à six heures en mode Eco et environ deux
+      heures en mode Boost, la durée réelle variant avec la charge de la
+      batterie, la température et l'humidité.</li>
+  <li><b>Macna</b> ne donne, sur la page consultée, aucune durée en heures
+      pour ses gants. Elle précise que plus l'ampérage de la batterie est
+      élevé, plus l'usage entre deux recharges est long.</li>
+  <li><b>Alpinestars</b> ne précise ni la capacité de la batterie ni la
+      durée, sur la page consultée du modèle HT-5.</li>
+</ul>
+<p>
+  Une durée annoncée vaut pour les conditions décrites par le fabricant. Macna
+  précise que, pour disposer d'une alimentation 12&nbsp;V sans limite de durée,
+  il faut relier les gants à la moto par des câbles.
+</p>
+
+<h2>Ce que la loi et la norme imposent</h2>
+<p>
+  En circulation, le conducteur et le passager d'une moto doivent porter des
+  gants conformes à la réglementation relative aux équipements de protection
+  individuelle. Ne pas le faire est puni de l'amende des contraventions de la
+  troisième classe, avec retrait d'un point du permis
+  (<a href="https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000033132243" rel="noopener">article R431-1-2 du Code de la route, Légifrance</a>,
+  en vigueur depuis le 20 novembre 2016). Le texte dit «&nbsp;des gants&nbsp;»
+  sans distinguer les gants chauffants des autres&nbsp;: la règle les vise donc
+  comme les autres paires. La page de Service-Public ajoute que les gants
+  doivent porter le marquage CE
+  (<a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F34168" rel="noopener">«&nbsp;Équipements obligatoires pour conduire une moto&nbsp;»</a>,
+  page vérifiée le 16 juin 2026).
+</p>
+<p>
+  La norme des gants de moto est l'<b>EN 13594:2015</b>. D'après
+  l'organisme d'essais SATRA, elle couvre la protection des mains et des
+  poignets lors d'un choc ou d'un glissement sur la route, tout en gardant
+  assez d'aisance pour manœuvrer les commandes. Elle fixe deux niveaux&nbsp;:
+  le niveau 1, pour des gants à faible gêne, et le niveau 2, pour des gants
+  plus protecteurs, avec une protection d'articulations obligatoire
+  (<a href="https://www.satra.com/ppe/EN13594_mc.php" rel="noopener">EN 13594:2015, SATRA</a>).
+  La présentation de SATRA ne mentionne pas le chauffage&nbsp;: la norme décrit
+  la protection, pas la qualité de la chauffe.
+</p>
+<p>
+  Un fabricant peut donc afficher les deux. Alpinestars écrit que son HT-5
+  est un vêtement de protection certifié CE de niveau 1 KP (le sigle KP désigne la protection des
+  articulations éprouvée), sans citer
+  nommément l'EN 13594 sur la page consultée. À l'inverse, la page «&nbsp;HG
+  heated gloves&nbsp;» de Five ne mentionne ni marquage CE ni norme&nbsp;; cela
+  ne dit rien de la conformité du produit, seulement que cette page ne la
+  précise pas. L'étiquette cousue dans le gant et la notice du fabricant
+  restent les documents qui font foi.
+</p>
+
+<aside class="article__bon-a-savoir">
+  <p><b>Bon à savoir.</b> Les «&nbsp;niveaux&nbsp;» ne désignent pas la même
+  chose. Pour la chauffe, Macna compte quatre niveaux d'intensité&nbsp;; pour
+  la protection, l'EN 13594 en compte deux (SATRA). Un gant «&nbsp;niveau
+  2&nbsp;» sur la chauffe n'est pas un gant de niveau 2 pour la protection.
+  Pour cette raison, le catalogue ne lit un niveau de protection que lorsqu'il
+  est rattaché à une homologation, et écarte les niveaux de chauffe.</p>
+</aside>
+
+<h2>Ce que déclarent les fiches de notre catalogue</h2>
+<p>
+  Les tableaux suivants comptent les gants comparables du catalogue (vendus
+  par deux marchands au moins, avec un prix connu) selon ce que leur fiche
+  marchande indique. Ils comptent ce que les marchands <i>déclarent</i>&nbsp;:
+  une fiche qui se tait n'est pas un gant qui n'a pas la caractéristique.
+</p>
+
+<h3>Système chauffant déclaré</h3>
+{% set rep = rep_c %}
+{% include "_article_repartition.html" %}
+{% if ns.chauf %}
+<p>
+  Parmi les gants comparables du catalogue, {{ ns.chauf.n }} fiches déclarent
+  un système chauffant, à un prix médian de {{ ns.chauf.mediane | prix }}.
+  Le catalogue ne porte aucune caractéristique sur la tension (7,4 ou
+  12&nbsp;V), sur le mode d'alimentation ni sur l'autonomie&nbsp;: ces
+  informations se lisent dans la description de chaque fiche et dans la notice
+  du fabricant.
+</p>
+{% else %}
+<p>
+  Le catalogue ne permet pas, pour le moment, de compter les gants chauffants
+  comparables. Il ne porte de toute façon aucune caractéristique sur la
+  tension, l'alimentation ou l'autonomie&nbsp;: ces informations se lisent dans
+  la description de chaque fiche et dans la notice du fabricant.
+</p>
+{% endif %}
+
+<h3>Saison déclarée</h3>
+{% set rep = rep_s %}
+{% include "_article_repartition.html" %}
+{% if ns.chauf and ns.hiver and ns.chauf.mediane and ns.hiver.mediane %}
+<p>
+  Comme repère, le prix médian des gants déclarés «&nbsp;hiver&nbsp;» est de
+  {{ ns.hiver.mediane | prix }}, contre {{ ns.chauf.mediane | prix }} pour les
+  gants déclarant un système chauffant&nbsp;: le groupe chauffant est
+  {% if ns.chauf.mediane > ns.hiver.mediane %}plus cher{% elif ns.chauf.mediane < ns.hiver.mediane %}moins cher{% else %}au même prix{% endif %}
+  au prix médian. Ces deux groupes peuvent se recouper, et un prix de gant
+  chauffant peut inclure ou non les batteries&nbsp;: c'est un repère, pas un
+  verdict.
+</p>
+{% endif %}
+
+<h3>Homologation déclarée</h3>
+{% set rep = rep_h %}
+{% include "_article_repartition.html" %}
+<p>
+  Une fiche qui indique seulement «&nbsp;CE&nbsp;» signale un équipement de
+  protection individuelle sans citer la norme&nbsp;: c'est le marchand qui n'a
+  pas recopié la référence, pas forcément le gant qui ne l'a pas. Ce tableau
+  porte sur tous les gants du rayon, chauffants ou non&nbsp;: le catalogue ne
+  croise pas les deux caractéristiques dans cet article.
+</p>
+
+<h2>Comment choisir</h2>
+<p>
+  Dans l'ordre, les questions à se poser avant de regarder les prix.
+</p>
+<ol class="liste-puces">
+  <li><b>Comment le gant est-il alimenté&nbsp;?</b> Une batterie dans le gant
+      évite tout câble&nbsp;; un branchement sur la moto évite de recharger
+      mais demande une installation (faisceau, fusible, contrôleur chez
+      Gerbing). Les modèles à double alimentation laissent les deux
+      possibilités.</li>
+  <li><b>La batterie est-elle fournie&nbsp;?</b> Chez Macna, elle ne l'est pas
+      toujours. Repérez si la fiche vend un kit ou la paire seule.</li>
+  <li><b>Quels réglages le fabricant décrit-il&nbsp;?</b> Nombre de niveaux,
+      bouton ou application, régulation séparée pour chaque main.</li>
+  <li><b>Quelle autonomie est annoncée, et dans quelles conditions&nbsp;?</b>
+      Une durée sans le niveau de chauffe correspondant ne se compare à
+      rien.</li>
+  <li><b>Que dit l'étiquette de protection&nbsp;?</b> Cherchez la référence
+      EN 13594 et le niveau. Le chauffage ne remplace pas la protection.</li>
+</ol>
+
+<h3>Les précautions de branchement</h3>
+<p>
+  Gerbing demande de brancher d'abord la borne positive de la batterie, puis
+  la borne négative, et de poser le fusible en dernier. La somme des valeurs
+  des vêtements raccordés détermine le fusible à utiliser, et chaque
+  motard doit avoir son propre faisceau, son propre cordon et son propre
+  contrôleur. Le fabricant déconseille d'allumer l'équipement quand le moteur
+  est coupé ou tourne sous le régime indiqué, au risque d'endommager
+  l'équipement et le circuit électrique. Pour tout autre fabricant, c'est la
+  notice qui prime.
+</p>
+
+<aside class="article__bon-a-savoir">
+  <p><b>Bon à savoir.</b> Les fabricants ne décrivent pas tous la chauffe de la
+  même façon (température de consigne, pourcentage de puissance, nombre de
+  réglages). Pour comparer deux modèles, relevez la source d'alimentation, le
+  niveau de chauffe et la durée annoncée sur chacune des deux fiches, puis
+  lisez la notice avant d'acheter.</p>
+</aside>
+
+<h2>Avant d'acheter, et pour comparer les prix</h2>
+<ul class="liste-puces">
+  <li><b>La taille.</b> Les tailles ne se correspondent pas d'une marque à
+      l'autre&nbsp;: reportez vos mesures au guide de la marque, comme pour un
+      gant d'hiver ordinaire.</li>
+  <li><b>L'imperméabilité.</b> Un système chauffant ne dit rien de l'eau. La
+      différence entre membrane et déperlant se lit dans
+      <a href="/guides/rouler-sous-la-pluie-equipement-impermeable">le dossier
+      sur l'équipement pour la pluie</a>.</li>
+  <li><b>Le reste du corps.</b> Les mains ne sont qu'une partie de
+      l'équipement d'hiver&nbsp;; voir
+      <a href="/guides/blouson-moto-hiver-membrane-doublure">le guide du
+      blouson d'hiver</a>.</li>
+  <li><b>L'entretien.</b> Suivez la notice du fabricant, qui prime sur les
+      conseils généraux d'un article.</li>
+</ul>
+<p>Pour comparer les prix du jour&nbsp;:</p>
+<ul class="liste-puces">
+  <li><a href="/c/gloves?q=chauffants">Les gants chauffants du rayon</a>, par
+      recherche du mot «&nbsp;chauffants&nbsp;» (une recherche par mot, pas un
+      filtre de caractéristique&nbsp;: elle peut remonter des accessoires).</li>
+  <li><a href="/c/gloves?saison=hiver">Les gants d'hiver comparés</a>, pour
+      situer un gant chauffant face à un gant d'hiver ordinaire.</li>
+  <li><a href="/c/gloves?homologation=en13594">Les gants qui citent la norme EN 13594</a>,
+      dont <a href="/c/gloves?homologation=en13594-niveau-1">le niveau 1</a>
+      et <a href="/c/gloves?homologation=en13594-niveau-2">le niveau 2</a>.</li>
+  <li><a href="/c/gloves">Tous les gants</a>, avec les filtres saison,
+      homologation, matière et marque.</li>
+  <li><a href="/c/electronics">Le rayon électronique</a>, pour les équipements
+      électroniques du catalogue.</li>
+  <li><a href="/guides#guide-normes">Les normes des vêtements et des
+      protections</a> (EN 17092, EN 1621, EN 13594) et
+      <a href="/guides#guide-comparer-prix">comparer deux prix sans se
+      tromper</a>.</li>
+  <li><a href="/bons-plans">Les bons plans du moment</a>, pour repérer les
+      baisses relevées sur le catalogue.</li>
+</ul>
+
+<section class="article__faq">
+  <h2>Questions fréquentes</h2>
+  <details class="faq"><summary>Un gant chauffant doit-il être homologué comme un autre gant&nbsp;?</summary>
+    <p>Oui. L'article R431-1-2 du Code de la route impose des gants conformes à la réglementation sur les équipements de protection individuelle, sans distinguer les gants chauffants, et Service-Public précise que les gants doivent porter le marquage CE. La norme de référence pour la protection est l'EN 13594 (SATRA).</p></details>
+  <details class="faq"><summary>Vaut-il mieux une batterie dans le gant ou un branchement sur la moto&nbsp;?</summary>
+    <p>Les fabricants décrivent trois cas&nbsp;: batterie dans le gant (Five, Alpinestars), branchement sur la moto en 12&nbsp;V (Gerbing), ou les deux (Macna). Macna indique que le 12&nbsp;V chauffe plus vite et atteint des températures plus élevées que le 7,4&nbsp;V. Le choix dépend de la durée de vos trajets et de votre tolérance à une installation sur la moto.</p></details>
+  <details class="faq"><summary>Quelle est l'autonomie d'un gant chauffant&nbsp;?</summary>
+    <p>Elle dépend du modèle, du réglage et des conditions. Le fabricant Five annonce jusqu'à six heures en mode Eco et environ deux heures en mode Boost, selon la charge, la température et l'humidité. MotoComparo n'a mesuré aucune durée&nbsp;: reportez-vous à la fiche et à la notice du modèle.</p></details>
+  <details class="faq"><summary>Les niveaux de chauffe correspondent-ils aux niveaux 1 et 2 de l'EN 13594&nbsp;?</summary>
+    <p>Non. Les niveaux de chauffe règlent l'intensité du chauffage (quatre niveaux chez Macna, trois chez Five). Les niveaux 1 et 2 de l'EN 13594 décrivent la protection en cas de chute et la gêne ergonomique du gant (SATRA).</p></details>
+  <details class="faq"><summary>Peut-on filtrer les gants chauffants sur MotoComparo&nbsp;?</summary>
+    <p>Pas par un filtre dédié dans le rayon gants. Le catalogue lit une caractéristique «&nbsp;chauffant&nbsp;» sur les fiches qui la déclarent et la compte dans cet article, mais ne porte ni tension, ni mode d'alimentation, ni autonomie. Une recherche par mot dans le rayon permet de retrouver les gants chauffants.</p></details>
+</section>
+
+<section class="article__sources">
+  <h2>Sources</h2>
+  <ol>
+    <li><a href="https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000033132243" rel="noopener">Article R431-1-2 du Code de la route</a>, Légifrance, consulté le 23 octobre 2026.</li>
+    <li><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F34168" rel="noopener">Équipements obligatoires pour conduire une moto</a>, Service-Public (DILA), page vérifiée le 16 juin 2026, consultée le 23 octobre 2026.</li>
+    <li><a href="https://www.satra.com/ppe/EN13594_mc.php" rel="noopener">EN 13594:2015, gants de protection pour motocyclistes</a>, SATRA, consulté le 23 octobre 2026.</li>
+    <li><a href="https://five-gloves.com/en/five-hg-heated-gloves/" rel="noopener">HG heated gloves</a>, Five, consulté le 23 octobre 2026.</li>
+    <li><a href="https://www.macna.com/en/heated-setup" rel="noopener">Heated Setup</a>, Macna, consulté le 23 octobre 2026.</li>
+    <li><a href="https://www.macna.com/en/Techlab-Comfort-CRC-E-Heated" rel="noopener">Tech Lab, Dual Power Technology</a>, Macna, consulté le 23 octobre 2026.</li>
+    <li><a href="https://www.gerbing.com/pages/12v-f-a-q" rel="noopener">12V Frequently Asked Questions</a>, Gerbing, consulté le 23 octobre 2026.</li>
+    <li><a href="https://www.alpinestars.com/products/ht-5-heat-tech-drystar-sup-reg-sup-gloves" rel="noopener">HT-5 Heat Tech Drystar gloves</a>, Alpinestars, consulté le 23 octobre 2026.</li>
+  </ol>
+</section>
