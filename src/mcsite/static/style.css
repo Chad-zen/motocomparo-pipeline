@@ -5214,3 +5214,7 @@ html { overflow-x: clip; }
 /* La pastille d'ecart de la page d'accueil prend la teinte de son palier (sobre sous 20 %, orange de 20 a 35,
    rouge au-dela), comme sur les cartes de la boutique et la fiche : elle etait rouge quel que soit le chiffre. */
 .pastille[class*="remise--"] { background: var(--remise-fond); color: var(--remise-encre); }
+
+/* « Couleur : noir » et « Pour : Homme » sur une seule ligne (23/10/2026). */
+.fiche__attributs { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 24px; row-gap: 2px; margin: 0 0 14px; }
+.fiche__attributs .fiche__couleur, .fiche__attributs .fiche__genre { margin: 0; }
