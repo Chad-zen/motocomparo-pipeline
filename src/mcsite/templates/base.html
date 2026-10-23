@@ -264,28 +264,6 @@ window.addEventListener('load', function () {
 {# Pas de repli <noscript> GTM : l'iframe contactait Google sans consentement,
    et un visiteur sans JavaScript ne peut de toute façon pas en donner un. #}
 
-<div class="confiance">
-  <div class="conteneur confiance__inner">
-    {# Reprise de la v1 : trois affirmations séparées par des points médians,
-       et non deux bouts de phrase collés. Le compte des marchands reste LU dans
-       la base — écrit en dur, il mentait (le bandeau annonçait six marchands
-       alors que deux n'apparaissaient sur aucune fiche). #}
-    <span>⏱ Prix actualisés quotidiennement</span>
-    <span class="confiance__sep" aria-hidden="true">·</span>
-    <span class="confiance__fort">{{ marchands_actifs | length }} marchands <span class="confiance__long">vérifiés et </span>comparés</span>
-    <span class="confiance__sep" aria-hidden="true">·</span>
-    <span class="confiance__libre">100&nbsp;% gratuit, sans inscription</span>
-    {# Les liens de service à l'opposé, comme en v1 : ils doivent être
-       atteignables de partout sans être dans le chemin de personne. #}
-    <nav class="confiance__service" aria-label="Informations">
-      <a href="/infos">À propos</a>
-      <a href="/contact">Contact</a>
-      <a href="/infos#donnees">Confidentialité</a>
-      <a href="/infos#cgu">CGU</a>
-    </nav>
-  </div>
-</div>
-
 {# Sans ce lien, un visiteur au clavier traverse l'en-tête, la recherche puis
    les ~45 liens du tiroir avant d'atteindre le contenu, à chaque page. #}
 <a class="evitement" href="#contenu">Aller au contenu</a>

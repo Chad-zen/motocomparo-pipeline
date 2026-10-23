@@ -31,6 +31,8 @@ PUBLIES = (
     "ls2-ff818-vs-scorpion-exo-530",
     "gants-ete-ou-hiver",
     "casque-jet-modulable-integral-norme",
+    "blouson-moto-hiver-membrane-doublure",
+    "rouler-sous-la-pluie-equipement-impermeable",
 )
 BROUILLON = "brouillon-de-test"
 _TEXTE_BROUILLON = (
