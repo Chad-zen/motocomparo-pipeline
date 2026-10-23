@@ -868,6 +868,25 @@ def prix_conseille_cmd(
                   + (" ; table ecrite" if ecrire else " ; rien ecrit"))
 
 
+@app.command("separer-references")
+def separer_references_cmd(
+    appliquer: bool = typer.Option(False, "--appliquer", help="separer les fiches (sinon : comptage seul)"),
+    defaire_id: int = typer.Option(0, "--defaire", help="annuler la separation numero N (separation_trace)"),
+) -> None:
+    """Une fiche de pieces qui melange deux numeros de reference est separee (voir separer_references.py).
+
+    Apres `--appliquer` : `mcpipe relier-tailles` puis `mcpipe freshness`.
+    """
+    from . import separer_references as sr
+
+    if defaire_id:
+        console.print(f"[green]ok[/] {sr.defaire(defaire_id):,} offres remises sur leur fiche d'avant")
+        return
+    b = sr.appliquer(ecrire=appliquer)
+    console.print(f"[green]ok[/] {b['fiches_separees']:,} fiches a separer, {b['fiches_creees']:,} fiches creees, "
+                  f"{b['offres_deplacees']:,} offres deplacees" + ("" if appliquer else " (rien modifie)"))
+
+
 @app.command("bons-plans")
 def bons_plans_cmd() -> None:
     """Calcule les bons plans une fois et les range dans `bons_plans_precalcules`.
