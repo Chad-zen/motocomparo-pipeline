@@ -1934,7 +1934,6 @@ def listing_filtre(
         "pertinence": "s.merchant_count DESC, s.cheapest",
         "prix":       "s.cheapest",
         "prix_desc":  "s.cheapest DESC",
-        "marchands":  "s.merchant_count DESC, s.cheapest",
         # Meme formule que la pastille des cartes : 1 - moins cher / plus cher,
         # pour les fiches comparees chez au moins deux marchands.
         "remise":     "CASE WHEN s.merchant_count >= 2 AND s.dearest > s.cheapest "
