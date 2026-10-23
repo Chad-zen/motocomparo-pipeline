@@ -150,6 +150,17 @@ def charger(chemin: str, marque: str = "arai", marque_info: str | None = None) -
                 # « matiere de coque » lit la base, la fiche lit le texte verifie ; sans cela ils se
                 # contredisaient (LS2 FF808 : « carbone » dans le flux, thermoplastique en realite).
                 code = _code_coque(fiche)
+                if not code:
+                    # matiere indeterminee (« carbone ou fibre de verre » selon la version) : aucune valeur
+                    # `manuel` ne doit rester d'un passage precedent
+                    cur.execute(
+                        """
+                        DELETE FROM product_caracteristique pc USING product p, product_stats s
+                        WHERE pc.product_id = p.id AND s.product_id = p.id AND pc.nom = 'calotte'
+                          AND pc.source = 'manuel' AND p.brand_code = %s AND s.best_title ~* %s
+                        """,
+                        (marque, motif),
+                    )
                 if code:
                     cur.execute(
                         """

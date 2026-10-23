@@ -1,3 +1,4 @@
+from mcsite import analyse
 from mcsite.analyse import indicateurs, profil
 
 
@@ -88,3 +89,14 @@ def test_l_analyse_automatique_se_tait_quand_il_y_a_trop_peu():
     # un intercom « fourni » n'est jamais traduit en case : seul « prepare » l'est
     b = analyse_auto(_carac(intercom="fourni", homologation="22.06", pinlock="fourni", interieur_amovible="True"), "helmet.jet")
     assert "audio" not in {i["cle"] for i in b["indicateurs"]}
+
+
+def test_coque_la_premiere_matiere_fait_foi_pas_les_versions_carbone():
+    # LS2 FF811 / FF901 / OF603 : « Fibre de verre (HPFC), versions carbone » n'est pas du carbone
+    assert analyse._cran_coque("Fibre de verre (HPFC), versions carbone") == 2
+    assert analyse._cran_coque("Thermoplastique (KPA) avec éléments en carbone 6K") == 1
+    assert analyse._cran_coque("Carbone 6K") == 4
+
+
+def test_coque_deux_matieres_selon_la_version_est_indeterminee():
+    assert analyse._cran_coque("Carbone (versions Carbon) ou fibre de verre (HPFC)") is None

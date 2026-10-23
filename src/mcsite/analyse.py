@@ -171,8 +171,19 @@ _PHRASES_COQUE = {
 }
 
 
+_FAMILLES_COQUE = (r"(?<!poly)carbon", r"composite|hybrid|hybride", r"verre|fibreglass|fiberglass|\bfibre\b",
+                   r"thermoplast|polycarbon|\babs\b|plastique")
+
+
 def _cran_coque(texte: str) -> int | None:
     v = (texte or "").lower()
+    # « Fibre de verre (HPFC), versions carbone » et « Thermoplastique avec elements en carbone 6K » :
+    # la matiere de la coque est la premiere ; les versions et elements en carbone sont des options.
+    # (23/10/2026 : ces fiches LS2 sortaient au cran carbone, et dans le filtre « carbone ».)
+    v = re.sub(r"\b(?:versions?|[ée]l[ée]ments?|inserts?)\b[^,;()]*", "", v)
+    # « Carbone ou fibre de verre » : deux matieres selon la version, donc aucune de sure
+    if re.search(r"\bou\b", v) and sum(bool(re.search(f, v)) for f in _FAMILLES_COQUE) >= 2:
+        return None
     # « polycarbonate » CONTIENT « carbon » : sans le garde, un casque en plastique passait au cran carbone
     carbone = re.search(r"(?<!poly)carbon", v)
     if carbone and not re.search(r"composite|hybrid|hybride", v):
