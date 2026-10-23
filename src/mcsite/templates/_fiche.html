@@ -93,9 +93,9 @@
                 data-seuils="{{ seuils_remise | join(',') }}"
                 {% if pvc %}data-pvc="{{ pvc }}"{% endif %}
                 {{ 'hidden' if not (plus_cher and remise) }}>
-            <s class="meilleur__barre" data-prix-haut>{{ plus_cher | prix if plus_cher }}</s>
+            {% if pvc %}<span class="pvc-bloc"><small class="pvc-etiquette" title="Prix public conseillé">PVC</small><s class="meilleur__barre" data-prix-haut>{{ plus_cher | prix if plus_cher }}</s></span>
+            {% else %}<s class="meilleur__barre" data-prix-haut>{{ plus_cher | prix if plus_cher }}</s>{% endif %}
             <span class="remise" data-remise>−{{ remise or 0 }}&nbsp;%</span>
-            {% if pvc %}<span class="meilleur__pvc">sous le prix public conseillé</span>{% endif %}
           </span>
           </span>
           {% set logo_meilleur = logo_marchand(meilleure.merchant) %}
