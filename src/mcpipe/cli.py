@@ -838,6 +838,23 @@ def consolider(
                       f"{r['fiches_fusionnees']:,} fiches fusionnees")
 
 
+@app.command("fusion-tailles")
+def fusion_tailles(
+    inscrire: bool = typer.Option(False, "--inscrire",
+                                  help="inscrire les paires comme validees (sinon : comptage seul)"),
+) -> None:
+    """Un meme casque coupe en deux fiches par tailles (voir tailles_coupees.py).
+
+    Sans option, compte seulement. Avec `--inscrire`, les paires sont validees ; la fusion
+    elle-meme est faite par `consolider --appliquer`, qui garde sa trace.
+    """
+    from . import tailles_coupees as tc
+
+    n = tc.paires_a_fusionner(inscrire=inscrire)
+    console.print(f"[green]ok[/] {n:,} paires de casques coupees par tailles"
+                  + (", inscrites pour fusion" if inscrire else " (rien modifie)"))
+
+
 @app.command("bons-plans")
 def bons_plans_cmd() -> None:
     """Calcule les bons plans une fois et les range dans `bons_plans_precalcules`.

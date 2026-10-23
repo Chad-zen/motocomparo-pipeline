@@ -86,6 +86,9 @@ traiter() {   # $1 : les marchands a charger ; $2 : les marchands neufs, isoles
   # propriétaire a VALIDÉ dans /admin/regroupements (et, si elle l'a activée, ce
   # que le site juge sûr), puis recalcule les propositions et les alias de marque
   # à lui soumettre. Doit précéder `relier-tailles` et `freshness`.
+  # Un meme casque coupe en deux fiches par tailles (XS-S sur l'une, M-L sur l'autre) : regle stricte,
+  # voir src/mcpipe/tailles_coupees.py. Inscrit les paires comme validees ; `consolider` les fusionne.
+  mcpipe fusion-tailles --inscrire || echo "!!! mcpipe fusion-tailles en echec, chaine poursuivie"
   nice -n 10 mcpipe consolider --appliquer || echo "!!! mcpipe consolider en echec, chaine poursuivie"
   mcpipe relier-tailles # relit les overrides de taille issus de l'emprunt
                         # et rattache chaque offre a la bonne variante —
