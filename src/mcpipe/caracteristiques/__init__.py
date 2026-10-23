@@ -105,7 +105,12 @@ def _lignes(feed: FeedSpec, chemin: Path):
 # écartée de l'AFFICHAGE : ses textes restent valables, c'est son flux de PRIX
 # qui est mort. Un texte figé décrit toujours correctement le produit qu'il
 # décrit.
-_ORDRE = ("motoblouz", "fcmoto", "speedway", "labecanerie", "maxxess", "motoaxxe")
+# Motard Bleu et Motoin sont a la fin : leurs flux sont arrives apres, et ils ne comblent que ce que les autres
+# ne disent pas. LE PIEGE (24/10/2026) : un marchand absent de cette liste est LU puis ECARTE EN SILENCE, car la boucle
+# de `calculer` ne retient que les marchands de `_ORDRE`. 5 788 fiches vendues seulement par ces deux marchands (dont
+# 5 591 avec moins de trois caracteristiques) en etaient privees, par exemple les gants chauffants Gerbing XRL.
+# `tests/test_caracteristiques_ordre.py` exige que tout marchand de `FEEDS` figure ici.
+_ORDRE = ("motoblouz", "fcmoto", "speedway", "labecanerie", "maxxess", "motoaxxe", "motardbleu", "motoin")
 
 # Les rayons qu'on sait lire, et par quel module.
 _RAYONS: dict[tuple[int, ...], object] = {
