@@ -90,6 +90,9 @@ traiter() {   # $1 : les marchands a charger ; $2 : les marchands neufs, isoles
   # voir src/mcpipe/tailles_coupees.py. Inscrit les paires comme validees ; `consolider` les fusionne.
   mcpipe fusion-tailles --inscrire || echo "!!! mcpipe fusion-tailles en echec, chaine poursuivie"
   nice -n 10 mcpipe consolider --appliquer || echo "!!! mcpipe consolider en echec, chaine poursuivie"
+  # Une fiche de pieces qui melange deux numeros de reference (kit de vis Lightech Triumph et Aprilia sur la meme
+  # fiche) est separee, avec trace (separation_trace). Avant `relier-tailles` et `freshness`, qui recalculent.
+  mcpipe separer-references --appliquer || echo "!!! mcpipe separer-references en echec, chaine poursuivie"
   mcpipe relier-tailles # relit les overrides de taille issus de l'emprunt
                         # et rattache chaque offre a la bonne variante —
                         # sans cela, les tailles empruntees depuis fcmoto ne
