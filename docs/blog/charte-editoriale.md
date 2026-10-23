@@ -394,3 +394,15 @@ L'auteur écrit, dans le fichier, les éléments suivants, dans cet ordre :
 **Ton :** pédagogique et direct, phrases courtes, jargon expliqué une fois, vouvoiement.
 **Confiance :** la page porte déjà la mention sur les prix relevés et l'absence d'essai ; le texte ne promet rien
 d'autre. Aucun avis, aucune note, aucune impression de port.
+
+### La mise en page (23/10/2026)
+
+La page reprend la mise en page de l'article de référence : durée de lecture et date au-dessus d'un grand titre,
+signature de l'équipe, grande image arrondie (l'illustration si elle est déposée, sinon un bandeau au pictogramme du
+rayon), carte « À retenir » avec son icône, cartes « Bon à savoir », FAQ en cartes dépliantes, et le **sommaire en
+barre fixe en bas de l'écran** (il s'ouvre vers le haut). Rien de cela ne demande de balisage particulier, hors la
+convention de la FAQ (§ 10, point 8).
+
+**Pour que le texte tienne cette mise en page :** des paragraphes courts (deux à quatre phrases) ; la réponse dans
+la première phrase de chaque section ; les termes clés en gras à leur première apparition ; une liste à puces dès
+que l'on énumère des critères ; pas de bloc de texte de plus de six lignes sur un téléphone.

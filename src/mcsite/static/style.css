@@ -5250,3 +5250,60 @@ html { overflow-x: clip; }
   .tableau-article th, .tableau-article td { padding: 8px 5px; }
   .tableau-article thead th { font-size: 11px; letter-spacing: 0; }
 }
+
+/* --- La mise en page des articles d'apres l'article de reference (23/10/2026) ------------------------------------ */
+.article { max-width: 760px; margin-inline: auto; }
+.article__meta { display: flex; align-items: center; gap: 12px; margin: 6px 0 8px; font-size: 14px; color: var(--doux); }
+.article__meta-sep { width: 1px; height: 14px; background: #c5ccda; }
+.article__titre { font-size: clamp(28px, 5.4vw, 42px); line-height: 1.14; letter-spacing: -.01em; margin: 0 0 16px; }
+.article__signature { display: flex; align-items: center; gap: 10px; margin: 0 0 22px; font-size: 14px; color: var(--doux); }
+.article__signature img { border-radius: 50%; }
+.article__signature b { color: var(--nuit); }
+.article__illustration img, .article__hero { border-radius: 18px; }
+.article__hero {
+  display: grid; place-items: center; aspect-ratio: 16 / 7; margin: 0 0 26px; color: #fff;
+  background: radial-gradient(120% 140% at 80% 10%, #2b3f7a 0%, var(--nuit) 55%, #0b1330 100%);
+  position: relative; overflow: hidden;
+}
+.article__hero::after { content: ""; position: absolute; inset: auto -10% -45% -10%; height: 60%; background: radial-gradient(closest-side, rgba(245, 180, 0, .35), transparent); }
+.article__hero-ico { width: min(34%, 190px); height: auto; color: #fff; position: relative; z-index: 1; }
+.article__corps { font-size: 16.5px; }
+.article__corps p, .article__corps li { line-height: 1.9; }
+.article__corps p { margin: 0 0 18px; }
+.article__corps h2 { font-size: clamp(23px, 4.4vw, 30px); font-weight: 700; line-height: 1.2; margin: 46px 0 14px; letter-spacing: -.005em; }
+.article__corps h3 { font-size: 19px; margin: 28px 0 8px; }
+.article__corps ul, .article__corps ol { padding-left: 24px; }
+.article__corps li { margin-bottom: 8px; }
+/* « À retenir » : une carte blanche bordee, avec son icone, comme « Key takeaways » */
+.article__reponse { background: #fff; border: 1px solid #dde2ee; border-left: 1px solid #dde2ee; border-radius: 14px; padding: 18px 22px 8px; margin: 0 0 30px; }
+.article__reponse > p:first-child { display: flex; align-items: center; gap: 10px; margin: 0 0 6px; font-size: 16px; }
+.article__reponse > p:first-child::before {
+  content: "i"; display: inline-grid; place-items: center; width: 20px; height: 20px; border: 1.6px solid var(--nuit); border-radius: 50%;
+  font: 700 12px/1 serif; font-style: italic; flex: none;
+}
+.article__reponse ul { margin: 8px 0 12px; padding-left: 26px; }
+/* « Bon a savoir » : meme carte, accent or */
+.article__bon-a-savoir { background: #fff; border: 1px solid #dde2ee; border-radius: 14px; padding: 16px 20px 16px 52px; position: relative; margin: 26px 0; }
+.article__bon-a-savoir::before {
+  content: "i"; position: absolute; left: 18px; top: 17px; display: grid; place-items: center; width: 20px; height: 20px; border: 1.6px solid #d99a00;
+  color: #d99a00; border-radius: 50%; font: 700 12px/1 serif; font-style: italic;
+}
+.article__bon-a-savoir p { line-height: 1.8; }
+.article__faq details.faq { background: #fff; border: 1px solid #dde2ee; border-radius: 12px; padding: 14px 18px; margin: 0 0 10px; }
+.article__faq details.faq[open] { border-color: #c5ccda; }
+.tableau-enveloppe { border: 1px solid #dde2ee; border-radius: 14px; padding: 4px 8px; background: #fff; }
+.tableau-article tbody tr:last-child th, .tableau-article tbody tr:last-child td { border-bottom: 0; }
+.article__sources li { margin-bottom: 6px; }
+.article__cta { border-radius: 18px; padding: 22px 24px; }
+.article__lies .articles-liste__item { border-radius: 14px; }
+/* Le sommaire : une feuille fixe en bas de l'ecran, comme sur la reference. */
+.sommaire-feuille { position: fixed; left: 0; right: 0; bottom: 0; z-index: 45; background: #fff; border-top: 1px solid #dde2ee; box-shadow: 0 -6px 24px rgba(15, 25, 60, .10); }
+.sommaire-feuille__barre { display: flex; align-items: center; gap: 12px; width: 100%; max-width: 760px; margin: 0 auto; padding: 14px 20px; background: none; border: 0; font-weight: 600; font-size: 15px; font-family: inherit; color: var(--nuit); cursor: pointer; text-align: left; }
+.sommaire-feuille__chev { margin-left: auto; transition: transform .2s; }
+.sommaire-feuille.est-ouvert .sommaire-feuille__chev { transform: rotate(180deg); }
+.sommaire-feuille__liste { max-width: 760px; margin: 0 auto; max-height: 55vh; overflow: auto; padding: 8px 20px 0; border-bottom: 1px solid #eef0f6; }
+.sommaire-feuille__liste ol { margin: 0 0 8px; padding-left: 22px; display: grid; gap: 4px; }
+.sommaire-feuille__liste a { display: block; padding: 8px 0; color: var(--nuit); font-size: 15px; }
+body:has(.sommaire-feuille) { padding-bottom: 56px; }
+body:has(.sommaire-feuille) .mc-chat { --mc-chat-bas: 76px; }
+@media (prefers-reduced-motion: reduce) { .sommaire-feuille__chev { transition: none; } }
