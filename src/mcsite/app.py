@@ -2500,6 +2500,23 @@ def aller(offre_id: int):
         "Cache-Control": "no-store", "X-Robots-Tag": "noindex, nofollow"})
 
 
+@app.get("/aller/promo/{promo_id}")
+def aller_promo(promo_id: int):
+    """Le lien « Voir chez … » d'un code promo : meme principe que `aller`, la destination vient de la base."""
+    with pool.connection() as conn:  # type: ignore[union-attr]
+        r = conn.execute(
+            "SELECT url, merchant_id FROM code_promo WHERE id = %s AND retire_le IS NULL", (promo_id,)).fetchone()
+        lien = (r[0] or "").strip() if r else ""
+        if not lien.lower().startswith(("https://", "http://")):
+            raise HTTPException(status_code=404)
+        try:
+            conn.execute("INSERT INTO clic_sortant (promo_id, merchant_id) VALUES (%s, %s)", (promo_id, r[1]))
+        except Exception:
+            pass
+    return RedirectResponse(lien, status_code=302, headers={
+        "Cache-Control": "no-store", "X-Robots-Tag": "noindex, nofollow"})
+
+
 @app.get("/robots.txt", response_class=PlainTextResponse)
 def robots(request: Request) -> str:
     """Ce qu'un robot a le droit de parcourir.

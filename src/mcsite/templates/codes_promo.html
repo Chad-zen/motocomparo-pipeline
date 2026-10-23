@@ -34,7 +34,7 @@
       <button type="button" class="promo__code" data-code="{{ c.code }}"
               title="Copier le code">{{ c.code }}</button>
       {% if c.url %}
-        <a class="promo__voir" href="{{ c.url }}" target="_blank"
+        <a class="promo__voir" href="/aller/promo/{{ c.id }}" target="_blank"
            rel="nofollow sponsored noopener">Voir chez {{ c.merchant | marchand }} →</a>
       {% endif %}
     </div>

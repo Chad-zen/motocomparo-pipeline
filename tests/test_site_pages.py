@@ -215,3 +215,10 @@ def test_les_boutons_voir_l_offre_passent_par_aller_et_ne_montrent_pas_le_lien_d
     texte = gabarit.read_text(encoding="utf-8")
     assert "deeplink" not in texte
     assert texte.count('href="/aller/') >= 3
+
+
+def test_les_liens_des_codes_promo_passent_aussi_par_aller():
+    import pathlib
+    for nom in ("_fiche.html", "codes_promo.html"):
+        texte = (pathlib.Path(__file__).parent.parent / "src/mcsite/templates" / nom).read_text(encoding="utf-8")
+        assert 'href="{{ c.url }}"' not in texte

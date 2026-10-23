@@ -883,7 +883,7 @@ def codes_promo(conn: psycopg.Connection, marchands: list[str]) -> list[dict[str
     if not marchands:
         return []
     return _rows(conn, """
-        SELECT m.code AS merchant, c.code, c.libelle, c.url, c.fin_le,
+        SELECT m.code AS merchant, c.id, c.code, c.libelle, c.url, c.fin_le,
                c.conditions, c.source, c.vu_le
         FROM code_promo c
         JOIN merchant m ON m.id = c.merchant_id
@@ -902,7 +902,7 @@ def codes_promo_actifs(conn: psycopg.Connection) -> list[dict[str, Any]]:
     MASQUE (`affiche = false`) n'apparait pas : montrer son code reviendrait a le citer.
     """
     return _rows(conn, """
-        SELECT m.code AS merchant, c.code, c.libelle, c.url, c.fin_le,
+        SELECT m.code AS merchant, c.id, c.code, c.libelle, c.url, c.fin_le,
                c.conditions, c.source, c.vu_le
         FROM code_promo c
         JOIN merchant m ON m.id = c.merchant_id AND m.affiche
