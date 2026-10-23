@@ -637,7 +637,7 @@
   "points_forts_courts": [
    "Pare-soleil intégré, grande visière",
    "Deux entrées d'air sur le dessus",
-   "Coque légère HPFC, versions carbone",
+   "Coque légère en fibre de verre HPFC",
    "Prêt pour l'interphone LS2 4X"
   ],
   "fiche_technique": [
@@ -689,8 +689,8 @@
   "marque": "LS2",
   "nb_fiches": 25,
   "motif": "ff-?910\\y|advant ii\\y",
-  "accroche": "Le modulable LS2 aux éléments en carbone 6K : double homologation P/J, Pinlock 120 fourni, doublure Coolmax.",
-  "description": "L'Advant II est un modulable pour la ville, la route et toutes les saisons. Ses éléments de ventilation en carbone 6K, son verrouillage de visière revu et son Pinlock 120 fourni en font un compagnon sérieux. Doublure Coolmax lavable, préparé pour le Bluetooth LS2.",
+  "accroche": "Le modulable LS2 à coque thermoplastique et éléments en carbone 6K : double homologation P/J, Pinlock 120 fourni, doublure Coolmax.",
+  "description": "L'Advant II est un modulable pour la ville, la route et toutes les saisons. Sa coque thermoplastique, ses éléments de ventilation en carbone 6K, son verrouillage de visière revu et son Pinlock 120 fourni en font un compagnon sérieux. Doublure Coolmax lavable, préparé pour le Bluetooth LS2.",
   "profil_position": 30,
   "points_forts": [
    {
@@ -725,7 +725,7 @@
    }
   ],
   "points_forts_courts": [
-   "Éléments en carbone 6K",
+   "Thermoplastique et ventilation carbone",
    "Intégral ou jet : double homologation",
    "Pinlock 120 fourni",
    "Doublure Coolmax lavable"
