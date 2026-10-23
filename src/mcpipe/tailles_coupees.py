@@ -1,12 +1,12 @@
-"""Un meme casque, deux fiches : les tailles coupees en deux (23/10/2026).
+"""Un meme article, deux fiches : les tailles coupees en deux (23/10/2026).
 
 LE CAS. Le Shoei J-Cruise 3 bleu mat existait en deux fiches : XS et S sur l'une, M et L sur
 l'autre. Les codes-barres se suivent (…700, …717, …724, …731) et La Becanerie nomme les tailles
 « blue metallic mat » partout. Aucune regle existante ne les rapprochait : `consolider` part des
 codes-barres eclates, et ici chaque code-barres n'est que sur une seule fiche. Mesure du
-23/10 : 309 paires de casques dans ce cas, toutes fusionnees a la main ce jour-la.
+23/10 : 309 paires de casques dans ce cas, puis 370 sur gants, vestes, pantalons, bottes... (meme regle).
 
-LA REGLE (validee par la proprietaire sur un echantillon). Deux fiches de casque sont la meme si :
+LA REGLE (validee par la proprietaire sur un echantillon). Deux fiches du meme rayon sont la meme si :
   - un marchand qui met la COULEUR dans son titre (La Becanerie, Speedway) donne exactement le
     meme titre, taille retiree, aux deux ;
   - elles portent le meme nom de modele ;
@@ -37,7 +37,7 @@ SELECT o.product_id, m.code AS marchand, p.brand_code, upper(coalesce(o.raw_size
 FROM raw_offer o
 JOIN product p ON p.id = o.product_id
 JOIN merchant m ON m.id = o.merchant_id
-WHERE o.is_live AND p.category_id BETWEEN 1 AND 5 AND p.status <> 'merged'
+WHERE o.is_live AND p.status <> 'merged'
   AND m.code = ANY(%(marchands)s);
 
 CREATE TEMP TABLE _g ON COMMIT DROP AS
@@ -49,7 +49,7 @@ CREATE TEMP TABLE _sel ON COMMIT DROP AS
 SELECT DISTINCT g.ids FROM _g g
 JOIN product a ON a.id = g.ids[1] JOIN product b ON b.id = g.ids[2]
 JOIN product_stats sa ON sa.product_id = g.ids[1] JOIN product_stats sb ON sb.product_id = g.ids[2]
-WHERE a.model_display = b.model_display
+WHERE a.model_display = b.model_display AND a.category_id = b.category_id
   AND least(sa.cheapest, sb.cheapest) > 0
   AND greatest(sa.cheapest, sb.cheapest) / least(sa.cheapest, sb.cheapest) < %(ecart)s
   AND EXISTS (SELECT 1 FROM _t WHERE product_id = g.ids[1] AND taille <> '')
