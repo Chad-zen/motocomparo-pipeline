@@ -28,8 +28,8 @@
 <article class="article">
   <h1 class="titre-page">{{ article.titre }}</h1>
   <p class="sous-titre">
-    Publié le {{ article.date.strftime('%d/%m/%Y') }}
-    {%- if article.maj and article.maj != article.date %} · mis à jour le {{ article.maj.strftime('%d/%m/%Y') }}{% endif %}
+    {%- if article.maj and article.maj != article.date %}Mis à jour le {{ article.maj.strftime('%d/%m/%Y') }}{% else %}Publié le {{ article.date.strftime('%d/%m/%Y') }}{% endif %}
+    · {{ minutes }}&nbsp;min de lecture
   </p>
 
   {% if article.illustration_url %}
@@ -42,9 +42,40 @@
   </figure>
   {% endif %}
 
+  {# Le sommaire : un lien par intertitre (h2), ancres posees par `articles.mise_en_forme`. Avec moins de trois
+     intertitres il n'apporte rien : on ne l'affiche pas. #}
+  {% if sommaire | length >= 3 %}
+  <nav class="article__sommaire" aria-label="Dans cet article">
+    <p class="article__sommaire-titre">Dans cet article</p>
+    <ol>
+      {% for ancre, titre in sommaire %}<li><a href="#{{ ancre }}">{{ titre }}</a></li>{% endfor %}
+    </ol>
+  </nav>
+  {% endif %}
+
   <div class="article__corps">
-    {% include article.gabarit %}
+    {{ corps }}
   </div>
+
+  {# L'appel vers le comparateur, sobre : un lien vers le rayon de l'article, jamais vers un marchand. #}
+  {% if article.rayon %}
+  <aside class="article__cta">
+    <p><b>Comparer les prix du jour.</b> MotoComparo relève chaque jour les prix chez plusieurs marchands pour les
+       mêmes articles.</p>
+    <a class="bouton bouton--or" href="/c/{{ article.rayon }}">Voir le rayon et comparer</a>
+  </aside>
+  {% endif %}
+
+  {% if lies %}
+  <section class="article__lies">
+    <h2 class="titre-section">À lire aussi</h2>
+    <ul class="articles-liste">
+      {% for x in lies %}
+      <li class="articles-liste__item"><a href="/guides/{{ x.slug }}"><b>{{ x.titre }}</b></a><p>{{ x.description }}</p></li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% endif %}
 </article>
 
 <p class="mentions">

@@ -60,6 +60,9 @@ mémoire.
 
 from __future__ import annotations
 
+import unicodedata
+from html import unescape
+
 import logging
 import os
 import re
@@ -374,3 +377,56 @@ def _plus_bas(courbe: list[dict[str, Any]]) -> dict[str, Any] | None:
     if not lignes:
         return None
     return min(lignes, key=lambda c: (c["price"], -c["observed_on"].toordinal()))
+
+
+# --- la forme d'un article : sommaire, temps de lecture, questions fréquentes ----------------------------------------
+#
+# Calculées sur le HTML déjà rendu, pas sur le fichier source : un bloc de données vivantes (tableau comparatif) fait
+# partie de la page que le lecteur lit, donc du temps de lecture. Aucun de ces éléments ne demande de balisage à
+# l'auteur sauf la FAQ, qui suit une convention (voir `docs/blog/charte-editoriale.md`, § « La forme cible »).
+
+_H2 = re.compile(r"<h2(?P<attrs>[^>]*)>(?P<texte>.*?)</h2>", re.S)
+_H3 = re.compile(r"<h3(?P<attrs>[^>]*)>(?P<texte>.*?)</h3>", re.S)
+_FAQ = re.compile(r'<details class="faq"[^>]*>\s*<summary[^>]*>(?P<q>.*?)</summary>(?P<r>.*?)</details>', re.S)
+_BALISES = re.compile(r"<[^>]+>")
+MOTS_PAR_MINUTE = 220
+
+
+def _texte(html: str) -> str:
+    return re.sub(r"\s+", " ", unescape(_BALISES.sub(" ", html))).strip()
+
+
+def _ancre(texte: str, deja: set[str]) -> str:
+    base = re.sub(r"[^a-z0-9]+", "-", unicodedata.normalize("NFKD", texte.lower()).encode("ascii", "ignore").decode())
+    base = base.strip("-")[:60] or "section"
+    ancre, n = base, 2
+    while ancre in deja:
+        ancre, n = f"{base}-{n}", n + 1
+    deja.add(ancre)
+    return ancre
+
+
+def mise_en_forme(html: str) -> tuple[str, list[tuple[str, str]], int, list[dict[str, str]]]:
+    """(corps avec ancres sur les intertitres, sommaire [(ancre, titre)], minutes de lecture, FAQ [{q, r}])."""
+    deja: set[str] = set()
+    sommaire: list[tuple[str, str]] = []
+
+    def _poser(m: re.Match, dans_sommaire: bool) -> str:
+        attrs = m.group("attrs")
+        titre = _texte(m.group("texte"))
+        if 'id="' in attrs:
+            ancre = re.search(r'id="([^"]+)"', attrs).group(1)
+            deja.add(ancre)
+        else:
+            ancre = _ancre(titre, deja)
+            attrs = f'{attrs} id="{ancre}"'
+        if dans_sommaire:
+            sommaire.append((ancre, titre))
+        niveau = "h2" if dans_sommaire else "h3"
+        return f"<{niveau}{attrs}>{m.group('texte')}</{niveau}>"
+
+    corps = _H2.sub(lambda m: _poser(m, True), html)
+    corps = _H3.sub(lambda m: _poser(m, False), corps)
+    minutes = max(1, round(len(_texte(html).split()) / MOTS_PAR_MINUTE))
+    faq = [{"q": _texte(m.group("q")), "r": _texte(m.group("r"))} for m in _FAQ.finditer(html)]
+    return corps, sommaire, minutes, faq

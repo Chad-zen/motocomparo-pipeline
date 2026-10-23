@@ -275,3 +275,19 @@ def test_le_plan_du_site_contient_les_publies_et_pas_le_brouillon(
     for slug in PUBLIES:
         assert f"/guides/{slug}</loc>" in r.text
     assert f"/guides/{BROUILLON}" not in r.text
+
+
+def test_la_mise_en_forme_pose_les_ancres_le_sommaire_le_temps_de_lecture_et_la_faq():
+    """La forme d'un article (23/10/2026) : sommaire, minutes de lecture, FAQ lue pour les donnees structurees."""
+    from mcsite.articles import mise_en_forme
+
+    html = ("<h2>Ce que la loi impose</h2><p>" + "mot " * 440 + "</p><h3>Détail</h3>"
+            "<h2>Ce que la loi impose</h2><h2>Avant d'acheter</h2>"
+            '<details class="faq"><summary>Peut-on rouler sans gants ?</summary><p>Non, les gants sont obligatoires.</p></details>')
+    corps, sommaire, minutes, faq = mise_en_forme(html)
+    assert [t for _, t in sommaire] == ["Ce que la loi impose", "Ce que la loi impose", "Avant d'acheter"]
+    ancres = [a for a, _ in sommaire]
+    assert len(set(ancres)) == 3, "deux intertitres identiques doivent avoir deux ancres differentes"
+    assert all(f'id="{a}"' in corps for a in ancres)
+    assert minutes == 2
+    assert faq == [{"q": "Peut-on rouler sans gants ?", "r": "Non, les gants sont obligatoires."}]

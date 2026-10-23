@@ -18,6 +18,8 @@ from datetime import date
 from decimal import Decimal, InvalidOperation
 from pathlib import Path
 from typing import Any
+
+from markupsafe import Markup
 from urllib.parse import parse_qs, quote_plus, urlencode
 
 import psycopg
@@ -1746,6 +1748,11 @@ def guides(request: Request):
 _DONNEES_ARTICLE = articles_mod.Donnees(lambda: pool)
 
 
+def contenu_gabarit_contexte(contexte: dict[str, Any]) -> dict[str, Any]:
+    """Le contexte d'un gabarit d'article rendu a la main : celui de la page, sans les cles du moteur de reponse."""
+    return {k: v for k, v in contexte.items() if k != "request"} | {"request": contexte["request"]}
+
+
 @app.get("/guides/{slug}", response_class=HTMLResponse)
 def article(request: Request, slug: str):
     """Un article. Un brouillon répond 404 hors aperçu (`BLOG_APERCU=1`)."""
@@ -1780,10 +1787,21 @@ def article(request: Request, slug: str):
                             for m in a.marques]
     fil = _fil(request, [("Accueil", "/"), ("Guides & conseils", "/guides"),
                          (a.titre, f"/guides/{a.slug}")])
+    contexte = _ctx(request, article=a, donnees=_DONNEES_ARTICLE, donnees_structurees=[posting, fil])
+    # Le corps est rendu ICI pour calculer le sommaire, le temps de lecture et la FAQ sur le texte que le lecteur voit.
+    corps = templates.env.get_template(a.gabarit).render(contenu_gabarit_contexte(contexte))
+    corps, sommaire, minutes, faq = articles_mod.mise_en_forme(corps)
+    if faq:
+        contexte["donnees_structurees"].append({
+            "@context": "https://schema.org", "@type": "FAQPage",
+            "mainEntity": [{"@type": "Question", "name": f["q"],
+                            "acceptedAnswer": {"@type": "Answer", "text": f["r"]}} for f in faq]})
+    # trois autres articles publies, ceux du meme rayon d'abord
+    autres = [x for x in articles_mod.publies() if x.slug != a.slug]
+    autres.sort(key=lambda x: (x.rayon != a.rayon, -x.date.toordinal()))
     return templates.TemplateResponse(
         request, "article.html",
-        _ctx(request, article=a, donnees=_DONNEES_ARTICLE,
-             donnees_structurees=[posting, fil]))
+        {**contexte, "corps": Markup(corps), "sommaire": sommaire, "minutes": minutes, "lies": autres[:3]})
 
 
 # --- la mesure d'audience, et son interrupteur -------------------------------

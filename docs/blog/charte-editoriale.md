@@ -353,3 +353,44 @@ Les manques que MotoComparo comble :
    une membrane, une classe AA, une note SHARP, à quel prix médian.
 4. **L'honnêteté vérifiable** : sources liées, « ce que la fiche ne dit
    pas », aucune prétention d'essai.
+
+---
+
+## 10. La forme cible (23/10/2026, d'après un article de référence demandé par la propriétaire)
+
+Les cinq formats (§ 5) gardent leur logique, mais **chaque article prend désormais la forme d'un article de fond**,
+long, sourcé, que l'on peut survoler ou lire en entier. Le moteur (`articles.py`, `article.html`) fournit lui-même :
+le **temps de lecture**, la **date de mise à jour**, le **sommaire** « Dans cet article » (un lien par `<h2>`, ancres
+automatiques), les **données structurées** (`BlogPosting`, et `FAQPage` si l'article a une FAQ), le bloc
+**« À lire aussi »** (trois autres articles) et un **appel sobre vers le rayon** (jamais vers un marchand).
+L'auteur écrit, dans le fichier, les éléments suivants, dans cet ordre :
+
+1. **« À retenir »** — l'encadré `<div class="article__reponse">` existant, mais en **quatre puces** (`<ul>`) qui
+   donnent l'essentiel : la réponse à la question du titre, puis les trois critères qui comptent. Pas de paragraphe.
+2. **Une introduction** de 3 à 5 phrases : à qui s'adresse l'article, ce qu'on y trouve, d'où viennent les chiffres.
+3. **Six à huit sections `<h2>`** (réparties en `<h3>` au besoin), qui suivent une progression : définition ou
+   règle → ce qu'elle change pour le lecteur → ce que montre le catalogue → comment choisir → pièges.
+4. **Un tableau comparatif** alimenté par un bloc de données vivantes (§ 7). Jamais de chiffre écrit à la main.
+5. **Un à deux encadrés « Bon à savoir »** : `<aside class="article__bon-a-savoir"><p><b>Bon à savoir.</b> …</p></aside>`.
+   Un fait court, utile, sourcé (une règle, un piège, une erreur courante).
+6. **Un exemple chiffré** quand il en existe un vérifiable (calculé par le gabarit, jamais écrit).
+7. **Des liens internes** vers les rayons filtrés, les autres articles et les fiches (§ 8), au moins six.
+8. **Une FAQ de cinq questions** (les questions que les gens tapent vraiment), au format exact :
+
+   ```html
+   <section class="article__faq">
+     <h2>Questions fréquentes</h2>
+     <details class="faq"><summary>La question, avec son point d'interrogation ?</summary>
+       <p>La réponse en deux à quatre phrases, sourcée comme le reste du texte.</p></details>
+     … (cinq au total)
+   </section>
+   ```
+   Le moteur lit ces blocs pour produire les données structurées `FAQPage` : la forme est donc obligatoire.
+9. **Une section « Sources »** en dernier : `<section class="article__sources"><h2>Sources</h2><ol><li><a href="…">Titre de la page</a>, organisme, date de consultation</li>…</ol></section>`.
+   Une liste de toutes les sources citées dans le texte (loi, norme, organisme, fabricant), jamais un site marchand.
+10. **« Pour aller plus loin »** n'est plus une section : elle est remplacée par « À lire aussi » (automatique).
+
+**Longueur :** 1 500 à 2 300 mots hors tableaux, FAQ et sources (le format C, le duel, reste à 1 200 à 1 800).
+**Ton :** pédagogique et direct, phrases courtes, jargon expliqué une fois, vouvoiement.
+**Confiance :** la page porte déjà la mention sur les prix relevés et l'absence d'essai ; le texte ne promet rien
+d'autre. Aucun avis, aucune note, aucune impression de port.
