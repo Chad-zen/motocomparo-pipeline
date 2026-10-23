@@ -2325,6 +2325,10 @@ body:has(.banc:not([hidden])) { padding-bottom: var(--banc-h, 94px); }
     margin-top: 8px;
   }
   .theme-v1 .offres tr:has(.offres__taille--longue) td.offres__action { grid-row: 4; }
+  /* La taille est CENTREE dans sa pastille grise, a chaque fois (23/10/2026) : alignee a droite, elle laissait
+     un vide a gauche de « taille XS ». */
+  .theme-v1 .offres td.offres__taille,
+  .theme-v1 .offres td.offres__taille--longue { text-align: center; }
 
   .theme-v1 .offres td.offres__action {
     grid-column: 1 / -1; grid-row: 3; padding-top: 12px;
