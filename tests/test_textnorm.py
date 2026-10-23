@@ -406,3 +406,17 @@ def test_un_tiret_colle_est_une_generation_pas_une_taille(titre):
 ])
 def test_un_tiret_detache_porte_une_vraie_valeur(titre, attendu):
     assert size_code(None, titre, None, None)[0] == attendu
+
+
+def test_une_demi_taille_garde_sa_virgule():
+    """Gants Gerbing « Taille 9,5 » (Motard Bleu) devenaient « 95 » ; bottes « 44,5 » devenaient « 445 » (24/10/2026)."""
+    from mcpipe.textnorm import size_code
+
+    assert size_code("Taille 9,5", None, None, None) == ("9,5", "feed")
+    assert size_code("Taille 8,5", None, None, None)[0] == "8,5"
+    assert size_code("Taille 8", None, None, None)[0] == "8"            # une taille entiere ne change pas
+    assert size_code("44,5", None, None, None)[0] == "EU44,5"           # pointure : prefixe EU comme 44 -> EU44
+    assert size_code("45.5", None, None, None)[0] == "EU45,5"
+    assert size_code("9.5 US", None, None, None)[0] == "9,5US"
+    assert size_code("10,5", None, None, None)[0] == "10,5"
+    assert size_code("44", None, None, None)[0] == "EU44"

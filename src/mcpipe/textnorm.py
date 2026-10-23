@@ -409,6 +409,16 @@ def size_code(raw_size: str | None, title: str | None, link: str | None,
         bas, haut = int(m_age.group(1)), int(m_age.group(2))
         if 1 <= bas < haut <= 16 and haut - bas <= 2:
             return f"{bas}-{haut}ANS", src
+    # UNE DEMI-TAILLE garde sa virgule (24/10/2026) : « Taille 9,5 » (gants Gerbing, Motard Bleu) devenait « 95 »,
+    # « 44,5 » (bottes) « 445 », « 9.5 US » « 95US » : 4 260 offres vivantes, et un « 95 » que personne ne
+    # comprend a cote de « 8 », « 85 » et « 9 ». Le chiffre apres la virgule est toujours un 5 ou un 0 ici ; la
+    # virgule (et non le point) est le signe decimal du site. Une pointure de 35 a 52 reste prefixee « EU ».
+    if m_dec := re.fullmatch(r"(?:taille\s*)?(\d{1,2})\s*[.,]\s*(\d)\s*(eu|us|uk|mm)?", cand.strip(), re.I):
+        entier, decimale, unite = int(m_dec.group(1)), m_dec.group(2), (m_dec.group(3) or "").upper()
+        base = f"{entier},{decimale}"
+        if unite:
+            return f"{base}{unite}", src
+        return (f"EU{base}" if 35 <= entier <= 52 else base), src
     c = re.sub(r"[^a-z0-9]", "", cand, flags=re.I).upper()
     c = _SIZE_ALPHA_MAP.get(c, c)
     if _SIZE_LETTER_RE.match(c):
