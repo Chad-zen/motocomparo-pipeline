@@ -1024,7 +1024,8 @@ def offers(conn: psycopg.Connection, product_id: int) -> list[dict[str, Any]]:
 # Le prix public conseille (table `prix_conseille`, voir mcpipe/prix_conseille.py). Le palier 2 (Speedway
 # seul) reste ETEINT : l'audit du 23/10/2026 a trouve 1 faux sur 18 verifiables. Pour l'ouvrir, passer a 2.
 PVC_PALIER_MAX = 1
-_PVC = f"(SELECT pcv.prix FROM prix_conseille pcv WHERE pcv.product_id = s.product_id AND pcv.palier <= {PVC_PALIER_MAX})"
+_PVC = "pcv.prix"
+_JOINT_PVC = f"LEFT JOIN prix_conseille pcv ON pcv.product_id = s.product_id AND pcv.palier <= {PVC_PALIER_MAX}"
 
 
 def prix_conseilles(conn: psycopg.Connection) -> dict[str, float]:
@@ -1987,6 +1988,7 @@ def listing_filtre(
         FROM product p
         JOIN product_stats s ON s.product_id = p.id
         JOIN category c ON c.id = p.category_id
+        {_JOINT_PVC}
         {_OU}
         ORDER BY {ordre}
         LIMIT %(lim)s OFFSET %(off)s
