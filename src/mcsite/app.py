@@ -369,6 +369,7 @@ def _remise_carte(it: dict) -> dict | None:
 
 
 templates.env.globals["remise_carte"] = _remise_carte
+templates.env.globals["niveau_remise"] = labels.niveau_remise
 
 
 @lru_cache(maxsize=4)

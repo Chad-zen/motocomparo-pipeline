@@ -179,7 +179,7 @@
     {% for it in o.produits %}
     <a class="carte carte--rayon" href="/p/{{ it.slug }}">
       {{ actions(it) }}
-      <span class="pastille">−{{ it.remise | int }}&nbsp;%</span>
+      {% set r = remise_carte(it) %}{% if r %}<span class="pastille remise--{{ r.niveau }}">−{{ r.pct }}&nbsp;%</span>{% endif %}
       <div class="carte__img">
         {% if it.image_url %}<img src="{{ it.image_url }}" alt="" width="170" height="170" loading="lazy">
         {% else %}<span class="carte__sansimg">pas de visuel</span>{% endif %}
@@ -189,7 +189,7 @@
         <span class="carte__nom">{{ nom(it) }}</span>
         <div class="carte__bas">
           <span class="carte__prix">dès {{ it.cheapest | prix }}</span>
-          <span class="carte__barre">{{ it.dearest | prix }}</span>
+          {% if r %}<span class="carte__barre">{{ (r.barre or it.dearest) | prix }}</span>{% endif %}
         </div>
       </div>
     </a>
@@ -255,7 +255,7 @@
     {% for it in baisses %}
     <a class="carte carte--rayon" href="/p/{{ it.slug }}">
       {{ actions(it) }}
-      <span class="pastille">−{{ it.baisse | int }}&nbsp;%</span>
+      <span class="pastille remise--{{ niveau_remise(it.baisse | int) }}">−{{ it.baisse | int }}&nbsp;%</span>
       <div class="carte__img">
         {% if it.image_url %}<img src="{{ it.image_url }}" alt="" width="170" height="170" loading="lazy">
         {% else %}<span class="carte__sansimg">pas de visuel</span>{% endif %}
