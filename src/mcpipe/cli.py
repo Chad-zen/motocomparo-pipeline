@@ -855,6 +855,19 @@ def fusion_tailles(
                   + (", inscrites pour fusion" if inscrire else " (rien modifie)"))
 
 
+@app.command("prix-conseille")
+def prix_conseille_cmd(
+    ecrire: bool = typer.Option(False, "--ecrire", help="remplacer la table prix_conseille (sinon : comptage seul)"),
+) -> None:
+    """Le prix public conseille de chaque fiche, releve dans les prix barres des flux (voir prix_conseille.py)."""
+    from . import prix_conseille as pc
+
+    b = pc.calculer(ecrire=ecrire)
+    console.print(f"[green]ok[/] {b['fiches_avec_prix_barre']:,} fiches avec un prix barre, "
+                  f"palier 1 (2 marchands d'accord) : {b['palier_1']:,}, palier 2 (Speedway seul) : {b['palier_2']:,}"
+                  + (" ; table ecrite" if ecrire else " ; rien ecrit"))
+
+
 @app.command("bons-plans")
 def bons_plans_cmd() -> None:
     """Calcule les bons plans une fois et les range dans `bons_plans_precalcules`.
