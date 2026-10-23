@@ -82,8 +82,12 @@ def paires_a_fusionner(inscrire: bool = False) -> int:
     conn = connect()
     try:
         with conn.cursor() as cur:
-            cur.execute(_SQL, {"taille_finale": TAILLE_FINALE, "marchands": list(MARCHANDS),
-                               "ecart": ECART_PRIX_MAX})
+            params = {"taille_finale": TAILLE_FINALE, "marchands": list(MARCHANDS),
+                      "ecart": ECART_PRIX_MAX}
+            for instruction in _SQL.split(";
+
+"):      # psycopg: une instruction par execute
+                cur.execute(instruction.strip().rstrip(";"), params)
             cur.execute("SELECT count(*) FROM _sel")
             n = cur.fetchone()[0]
             if inscrire and n:
