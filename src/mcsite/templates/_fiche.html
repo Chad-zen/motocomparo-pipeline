@@ -111,7 +111,7 @@
                   data-comparer="{{ p.slug }}" data-vignette="{{ image or '' }}"
                   aria-label="Ajouter au comparateur" title="Ajouter au comparateur">{{ act.ico_comparer() }}</button>
           <a class="bouton bouton--or meilleur__voir" rel="nofollow sponsored noopener"
-             target="_blank" href="{{ meilleure.deeplink }}"
+             target="_blank" href="/aller/{{ meilleure.offer_id }}"
              aria-label="Voir la meilleure offre, {{ p.cheapest | prix }} chez {{ meilleure.merchant | marchand }} (nouvel onglet)">Voir l'offre →</a>
         </div>
       </div>
@@ -305,7 +305,7 @@
            `target="_blank"` n'était signalé nulle part — le retour arrière
            cesse de fonctionner, sans explication. #}
         <a class="bouton {{ 'bouton--or' if loop.first else 'bouton--contour' }}"
-           href="{{ o.deeplink }}" rel="nofollow sponsored noopener"
+           href="/aller/{{ o.offer_id }}" rel="nofollow sponsored noopener"
            target="_blank"
            aria-label="Voir l'offre à {{ o.price | prix }} chez {{ o.merchant | marchand }} (nouvel onglet)">
           Voir l'offre<span class="visuellement-cache"> chez {{ o.merchant | marchand }}</span>
@@ -313,7 +313,7 @@
         {% if o.autres %}
           <span class="offres__autres">
             {%- for lien in o.autres -%}
-              <a href="{{ lien }}" rel="nofollow sponsored noopener" target="_blank"
+              <a href="/aller/{{ lien }}" rel="nofollow sponsored noopener" target="_blank"
                  title="Autre offre du même marchand au même prix">{{ loop.index + 1 }}</a>
             {%- endfor -%}
           </span>

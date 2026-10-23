@@ -1096,7 +1096,7 @@ def _grouper(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
             continue
         cle = (o["merchant"], o["price"], o["in_stock"])
         if cle in index:
-            index[cle]["autres"].append(o["deeplink"])
+            index[cle]["autres"].append(o["offer_id"])
         else:
             tete = {**o, "autres": []}
             index[cle] = tete
@@ -2474,6 +2474,32 @@ for _motif in ("/wp-{reste:path}", "/xmlrpc.php", "/feed", "/feed/",
     app.add_api_route(_motif, _disparu, methods=["GET", "POST"])
 
 
+@app.get("/aller/{offre_id}")
+def aller(offre_id: int):
+    """Le bouton « Voir l'offre » : on note le clic, puis on envoie le visiteur chez le marchand.
+
+    L'adresse affichee est celle du site ; le lien d'affiliation n'apparait plus dans la page. Il est
+    lu en base PAR NUMERO D'OFFRE : l'adresse de destination n'est jamais prise dans la requete, donc
+    la route ne peut pas servir de redirection ouverte. Pas de cache (ni nginx ni navigateur) : un clic
+    mis en cache ne serait pas compte. Un echec de l'ecriture du clic ne doit jamais bloquer le visiteur.
+    """
+    with pool.connection() as conn:  # type: ignore[union-attr]
+        r = conn.execute(
+            "SELECT deeplink, product_id, merchant_id FROM raw_offer WHERE id = %s AND is_live",
+            (offre_id,)).fetchone()
+        lien = (r[0] or "").strip() if r else ""
+        if not lien.lower().startswith(("https://", "http://")):
+            raise HTTPException(status_code=404)
+        try:
+            conn.execute(
+                "INSERT INTO clic_sortant (offre_id, product_id, merchant_id) VALUES (%s, %s, %s)",
+                (offre_id, r[1], r[2]))
+        except Exception:
+            pass  # table absente (base pas encore migree) ou saturee : on redirige quand meme
+    return RedirectResponse(lien, status_code=302, headers={
+        "Cache-Control": "no-store", "X-Robots-Tag": "noindex, nofollow"})
+
+
 @app.get("/robots.txt", response_class=PlainTextResponse)
 def robots(request: Request) -> str:
     """Ce qu'un robot a le droit de parcourir.
@@ -2493,6 +2519,7 @@ def robots(request: Request) -> str:
         "Disallow: /admin",
         "Disallow: /comparer",
         "Disallow: /fragment/",
+        "Disallow: /aller/",
         # Les FILTRES sont fermés : ils se combinent sans fin, et un robot qui
         # explore mille fourchettes de prix n'a plus le temps de voir les
         # fiches. Aucune fiche n'est perdue pour autant — toutes celles qui ont

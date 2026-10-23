@@ -206,3 +206,12 @@ def test_les_suggestions_visent_le_meme_public(client):
         for v in vues:
             autre = queries.product(conn, v["slug"])
             assert autre["genre_age"].endswith("-E"), v["slug"]
+
+
+def test_les_boutons_voir_l_offre_passent_par_aller_et_ne_montrent_pas_le_lien_d_affiliation():
+    """Le lien d'affiliation (track.effiliation.com…) ne doit plus etre dans la page (23/10/2026)."""
+    import pathlib
+    gabarit = pathlib.Path(__file__).parent.parent / "src/mcsite/templates/_fiche.html"
+    texte = gabarit.read_text(encoding="utf-8")
+    assert "deeplink" not in texte
+    assert texte.count('href="/aller/') >= 3
