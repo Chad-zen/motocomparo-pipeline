@@ -1383,13 +1383,34 @@ def _retenues(*noms: str) -> str:
 # n'est calculée qu'une fois par requête (sous-requête non corrélée, jointe
 # par hachage) grâce à l'index `(nom, valeur)` de la migration 023.
 _CARAC_SQL: dict[str, str] = {
+    # CASQUE : la calotte. Une valeur `manuel` (texte verifie du modele) l'emporte ; sinon les
+    # sources doivent S'ACCORDER, « polycarbonate » et « thermoplastique » etant la meme famille.
+    # Quand le flux dit « carbone » et l'attribut du marchand « thermoplastique » (LS2 FF808,
+    # 23/10/2026 : ~1 000 casques), la fiche est ABSENTE du filtre plutot que mal classee : un
+    # client qui coche « carbone » ne doit jamais tomber sur un casque en plastique.
     "matiere": f"""
+        SELECT x.product_id, x.valeur
+        FROM (
+          SELECT c.product_id,
+                 CASE WHEN bool_or(c.source = 'manuel')
+                           THEN max(c.famille) FILTER (WHERE c.source = 'manuel')
+                      WHEN count(DISTINCT c.famille) = 1 THEN min(c.famille)
+                 END AS valeur
+          FROM (SELECT pc.product_id, pc.source,
+                       CASE pc.valeur WHEN 'polycarbonate' THEN 'thermoplastique'
+                                      ELSE replace(replace(unaccent(lower(pc.valeur)), ' et ', '-'), ' ', '-')
+                       END AS famille
+                FROM product_caracteristique pc WHERE pc.nom = 'calotte') c
+          GROUP BY c.product_id
+        ) x
+        JOIN product pp ON pp.id = x.product_id
+        WHERE x.valeur IS NOT NULL AND pp.category_id IN ({_ids(_CASQUES)})
+        UNION ALL
         SELECT r.product_id,
                replace(replace(unaccent(lower(r.valeur)), ' et ', '-'), ' ', '-') AS valeur
-        FROM ({_retenues('matiere', 'matiere_coque', 'calotte')}) r
+        FROM ({_retenues('matiere', 'matiere_coque')}) r
         JOIN product pp ON pp.id = r.product_id
-        WHERE (r.nom = 'calotte' AND pp.category_id IN ({_ids(_CASQUES)}))
-           OR (r.nom = 'matiere_coque' AND pp.category_id IN ({_ids(_BLOUSONS)}))
+        WHERE (r.nom = 'matiere_coque' AND pp.category_id IN ({_ids(_BLOUSONS)}))
            OR (r.nom = 'matiere'
                AND pp.category_id IN ({_ids(_PANTALONS + _GANTS + _BOTTES)}))""",
     "homologation": f"""

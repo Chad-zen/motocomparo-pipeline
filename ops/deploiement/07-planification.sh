@@ -131,6 +131,9 @@ mcpipe caracteristiques  # relit les descriptions du jour, remplit product_carac
 # chacun, place apres `caracteristiques` qui ne touche pas a ces deux sources.
 mcpipe sharp-rapprocher || echo "!!! mcpipe sharp-rapprocher en echec, chaine poursuivie"
 mcpipe revendeur-rapprocher || echo "!!! mcpipe revendeur-rapprocher en echec, chaine poursuivie"
+# La matiere de coque VERIFIEE des 403 modeles ecrite en base (source `manuel`) pour les fiches du jour :
+# le filtre « matiere de coque » lit la base, la fiche lit le texte verifie.
+(cd /srv/motocomparo/app && mcpipe fiches-enrichies --dossier contenu/fiches_enrichies) || echo "!!! mcpipe fiches-enrichies en echec, chaine poursuivie"
 mcpipe couverture || echo "!!! mcpipe couverture en echec, chaine poursuivie"
 
 # Le vidage du cache est fait par systemd APRÈS cette chaîne, voir

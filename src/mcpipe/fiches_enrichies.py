@@ -87,6 +87,17 @@ FORTS_COURTS: dict[tuple[str, str], list[str]] = {
 }
 
 
+def _code_coque(fiche: dict) -> str | None:
+    """Le code de filtre (thermoplastique, fibre, composite, carbone) de la ligne « Coque » de la fiche."""
+    from mcsite.analyse import _CODE_COQUE, _cran_coque
+
+    for ligne in fiche.get("fiche_technique") or []:
+        if ligne.get("nom", "").lower().startswith("coque"):
+            cran = _cran_coque(ligne.get("valeur", ""))
+            return _CODE_COQUE.get(cran) if cran else None
+    return None
+
+
 def charger(chemin: str, marque: str = "arai", marque_info: str | None = None) -> list[tuple[str, int]]:
     """Charge les fiches enrichies d'un fichier JSON ; rend (modele, nombre de fiches touchees).
 
@@ -135,6 +146,22 @@ def charger(chemin: str, marque: str = "arai", marque_info: str | None = None) -
                     (marque, motif),
                 )
                 rendu.append((modele, cur.fetchone()[0]))
+                # La matiere de coque VERIFIEE du modele devient la valeur `manuel` de ces fiches : le filtre
+                # « matiere de coque » lit la base, la fiche lit le texte verifie ; sans cela ils se
+                # contredisaient (LS2 FF808 : « carbone » dans le flux, thermoplastique en realite).
+                code = _code_coque(fiche)
+                if code:
+                    cur.execute(
+                        """
+                        INSERT INTO product_caracteristique (product_id, nom, valeur, source, confiance)
+                        SELECT p.id, 'calotte', %s, 'manuel', 'lue'
+                        FROM product p JOIN product_stats s ON s.product_id = p.id
+                        WHERE p.brand_code = %s AND p.category_id IN (1, 2, 3, 4, 5) AND s.best_title ~* %s
+                        ON CONFLICT (product_id, nom, source) DO UPDATE
+                        SET valeur = EXCLUDED.valeur, calcule_le = now()
+                        """,
+                        (code, marque, motif),
+                    )
         conn.commit()
         return rendu
     finally:
