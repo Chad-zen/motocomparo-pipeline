@@ -5202,3 +5202,9 @@ html { overflow-x: clip; }
   .promo__voir { justify-self: center; align-self: start; }
   .promo:not(:has(.promo__voir)) .promo__code { grid-row: 1 / span 2; align-self: center; }
 }
+
+/* Le prix barre est le prix public conseille : on le dit, a cote du pourcentage (23/10/2026). */
+
+.meilleur__reference[data-pvc] { flex-wrap: wrap; }
+
+.meilleur__pvc { color: #fff; opacity: .78; font-size: 11.5px; white-space: nowrap; }

@@ -222,3 +222,18 @@ def test_les_liens_des_codes_promo_passent_aussi_par_aller():
     for nom in ("_fiche.html", "codes_promo.html"):
         texte = (pathlib.Path(__file__).parent.parent / "src/mcsite/templates" / nom).read_text(encoding="utf-8")
         assert 'href="{{ c.url }}"' not in texte
+
+
+def test_remise_carte_un_pvc_remplace_l_ecart_entre_marchands(monkeypatch):
+    """Prix public conseille connu : barre = PVC, pourcentage = ecart a ce PVC. Jamais les deux (23/10/2026)."""
+    from decimal import Decimal
+
+    from mcsite import app
+
+    monkeypatch.setattr(app, "_pvc_de", lambda slug: 200.0 if slug == "avec-pvc" else None)
+    it = {"slug": "avec-pvc", "cheapest": Decimal("150"), "dearest": Decimal("160"), "merchant_count": 3}
+    assert app._remise_carte(it) == {"pct": 25, "niveau": "orange", "barre": 200.0, "pvc": True}
+    # sous 3 % du PVC : rien, et SURTOUT pas l'ecart entre marchands (160 contre 150 ferait -6 %)
+    assert app._remise_carte({**it, "cheapest": Decimal("197")}) is None
+    # sans PVC : l'ancien ecart entre marchands, inchange
+    assert app._remise_carte({**it, "slug": "sans-pvc"}) == {"pct": 6, "niveau": "sobre"}

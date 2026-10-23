@@ -1021,6 +1021,24 @@ def offers(conn: psycopg.Connection, product_id: int) -> list[dict[str, Any]]:
     """, (product_id,))
 
 
+# Le prix public conseille (table `prix_conseille`, voir mcpipe/prix_conseille.py). Le palier 2 (Speedway
+# seul) reste ETEINT : l'audit du 23/10/2026 a trouve 1 faux sur 18 verifiables. Pour l'ouvrir, passer a 2.
+PVC_PALIER_MAX = 1
+_PVC = f"(SELECT pcv.prix FROM prix_conseille pcv WHERE pcv.product_id = s.product_id AND pcv.palier <= {PVC_PALIER_MAX})"
+
+
+def prix_conseilles(conn: psycopg.Connection) -> dict[str, float]:
+    """slug -> prix public conseille, pour les paliers ouverts. Table absente : aucun PVC."""
+    try:
+        rows = _rows(conn, f"""
+            SELECT p.slug, pc.prix FROM prix_conseille pc JOIN product p ON p.id = pc.product_id
+            WHERE pc.palier <= {PVC_PALIER_MAX}""")
+    except psycopg.errors.UndefinedTable:
+        conn.rollback()
+        return {}
+    return {r["slug"]: float(r["prix"]) for r in rows}
+
+
 def sizes(conn: psycopg.Connection, product_id: int) -> list[str]:
     rows = _rows(conn, f"""
         SELECT DISTINCT v.size_code
@@ -1936,7 +1954,12 @@ def listing_filtre(
         "prix_desc":  "s.cheapest DESC",
         # Meme formule que la pastille des cartes : 1 - moins cher / plus cher,
         # pour les fiches comparees chez au moins deux marchands.
-        "remise":     "CASE WHEN s.merchant_count >= 2 AND s.dearest > s.cheapest "
+        # MEME logique que la pastille (`app._remise_carte`) : si la fiche a un prix public conseille,
+        # l'ecart a ce prix (sous 3 % : rien) ; sinon l'ecart entre marchands. Jamais les deux.
+        "remise":     "CASE WHEN " + _PVC + " IS NOT NULL THEN "
+                      "CASE WHEN round((1 - s.cheapest / " + _PVC + ") * 100) >= 3 "
+                      "THEN 1 - s.cheapest / " + _PVC + " ELSE 0 END "
+                      "WHEN s.merchant_count >= 2 AND s.dearest > s.cheapest "
                       "THEN (s.dearest - s.cheapest) / s.dearest ELSE 0 END DESC, s.merchant_count DESC",
         # `vu_le` est la date de la première offre vue, portée par
         # `product_stats` (migration 020) — jamais `product.created_at`, qui

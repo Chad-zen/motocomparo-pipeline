@@ -22,7 +22,7 @@
     {# L'ecart entre marchands, au meme calcul et aux memes paliers de couleur que
        la fiche (sobre sous 20 %, orange de 20 a 35, rouge au-dela). #}
     {% set remise = remise_carte(it) %}
-    {% if remise %}<span class="remise carte__remise remise--{{ remise.niveau }}">−{{ remise.pct }}&nbsp;%</span>{% endif %}
+    {% if remise %}<span class="remise carte__remise remise--{{ remise.niveau }}"{% if remise.pvc %} title="Sous le prix public conseillé"{% endif %}>−{{ remise.pct }}&nbsp;%</span>{% endif %}
     <div class="carte__img">
       {% if it.image_url %}<img src="{{ it.image_url }}" alt="" width="170" height="170" loading="lazy">
       {% else %}<span class="carte__sansimg">pas de visuel</span>{% endif %}
@@ -45,7 +45,7 @@
         </span>
         {# Le prix le plus haut releve chez un marchand, barre, a droite du meilleur prix :
            c'est la reference de la pastille d'ecart, et elle n'existe que si la pastille existe. #}
-        {% if remise %}<s class="carte__barre">{{ it.dearest | prix }}</s>{% endif %}
+        {% if remise %}<s class="carte__barre"{% if remise.pvc %} title="Prix public conseillé"{% endif %}>{{ (remise.barre or it.dearest) | prix }}</s>{% endif %}
       </div>
       {# Une carte sans bouton ne se lit pas comme cliquable — la v1 en met un
          sur chacune, et c'est la différence entre une vignette et une offre. #}

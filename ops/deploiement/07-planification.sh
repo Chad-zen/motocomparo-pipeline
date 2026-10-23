@@ -95,6 +95,9 @@ traiter() {   # $1 : les marchands a charger ; $2 : les marchands neufs, isoles
                         # sans cela, les tailles empruntees depuis fcmoto ne
                         # s'affichent jamais : l'emprunt ecrit dans offer_size_override,
                         # mais le site lit variant.size_code, pose par cette etape.
+  # Le prix public conseille de chaque fiche (palier 1 : 2 marchands d'accord, palier 2 : Speedway seul),
+  # releve dans les prix barres des flux du jour ; le site lit la table `prix_conseille`.
+  mcpipe prix-conseille --ecrire || echo "!!! mcpipe prix-conseille en echec, chaine poursuivie"
   mcpipe freshness      # recalcule les prix affichés — jamais optionnel
   # Les bons plans, calcules UNE fois ici (14 a 30 s) et ranges dans une table : la page
   # /bons-plans ne fait plus que lire 48 lignes. A lancer apres `freshness` (les prix).

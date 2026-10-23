@@ -314,6 +314,32 @@ def _logo_largeur(code: str, hauteur: int = 26) -> int:
 templates.env.globals["logo_largeur"] = _logo_largeur
 
 
+_pvc_cache: dict[str, Any] = {"t": 0.0, "d": {}}
+_pvc_verrou = threading.Lock()
+
+
+def _pvc_de(slug: str | None) -> float | None:
+    """Le prix public conseille d'une fiche, lu dans `prix_conseille` et garde 10 minutes en memoire.
+
+    La table est petite (quelques milliers de lignes) et ne change qu'a la chaine de nuit : une
+    lecture par carte serait un aller-retour de plus pour rien. Sans base (tests) ou sans table : aucun PVC.
+    """
+    import time
+
+    if not slug or pool is None:
+        return None
+    if time.time() - _pvc_cache["t"] > 600:
+        with _pvc_verrou:
+            if time.time() - _pvc_cache["t"] > 600:
+                try:
+                    with pool.connection() as conn:
+                        _pvc_cache["d"] = queries.prix_conseilles(conn)
+                    _pvc_cache["t"] = time.time()
+                except Exception:
+                    _pvc_cache["t"] = time.time() - 540      # on reessaie dans une minute
+    return _pvc_cache["d"].get(slug)
+
+
 def _remise_carte(it: dict) -> dict | None:
     """L'ecart en pourcentage entre le marchand le moins cher et le plus cher, pour
     une carte de la boutique, avec le palier de couleur de la fiche.
@@ -326,6 +352,14 @@ def _remise_carte(it: dict) -> dict | None:
     Le plafond de 50 % a ete retire le 17/10/2026, a la demande de Sofia.
     """
     bas, haut = it.get("cheapest"), it.get("dearest")
+    # Un prix public conseille connu REMPLACE l'ecart entre marchands, jamais les deux (23/10/2026) :
+    # prix barre = le PVC, pourcentage = l'ecart du meilleur prix a ce PVC, sous 3 % rien.
+    pvc = _pvc_de(it.get("slug"))
+    if pvc and bas:
+        pct = round((1 - float(bas) / pvc) * 100)
+        if pct < 3:
+            return None
+        return {"pct": pct, "niveau": labels.niveau_remise(pct), "barre": pvc, "pvc": True}
     if not bas or not haut or (it.get("merchant_count") or 0) < 2 or haut <= bas:
         return None
     pct = round((1 - bas / haut) * 100)
@@ -906,6 +940,13 @@ def product(request: Request, slug: str):
         if plus_cher and max(prix) > 0 and max(prix) > min(prix)
         else None
     )
+    # Un prix public conseille connu REMPLACE cet ecart (23/10/2026) : barre = le PVC, pourcentage = l'ecart
+    # du meilleur prix a ce PVC, sous 3 % rien. Jamais les deux chiffres.
+    pvc = _pvc_de(p.get("slug"))
+    if pvc and prix:
+        plus_cher = pvc
+        pct_pvc = round((1 - float(min(prix)) / pvc) * 100)
+        remise = pct_pvc if pct_pvc >= 3 else None
     # when the prices were last read from the merchants
     vus = [o["last_seen"] for o in rows if o["last_seen"]]
     releve = max(vus).strftime("%d/%m/%Y à %H:%M") if vus else None
@@ -915,7 +956,7 @@ def product(request: Request, slug: str):
              points=points,
              image=image, nb_offres=len(rows), meilleure=meilleure,
              reference=reference, economie=economie, releve=releve,
-             plus_cher=plus_cher, remise=remise,
+             plus_cher=plus_cher, remise=remise, pvc=pvc,
              niveau_remise=labels.niveau_remise(remise),
              seuils_remise=labels.SEUILS_REMISE,
              similaires=similaires, meme_gamme=meme_gamme, promos=promos,

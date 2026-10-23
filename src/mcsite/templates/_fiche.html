@@ -91,9 +91,11 @@
              `labels.py` : le script les relit au lieu de les redéfinir. #}
           <span class="meilleur__reference" data-reference
                 data-seuils="{{ seuils_remise | join(',') }}"
+                {% if pvc %}data-pvc="{{ pvc }}"{% endif %}
                 {{ 'hidden' if not (plus_cher and remise) }}>
             <s class="meilleur__barre" data-prix-haut>{{ plus_cher | prix if plus_cher }}</s>
             <span class="remise" data-remise>−{{ remise or 0 }}&nbsp;%</span>
+            {% if pvc %}<span class="meilleur__pvc">sous le prix public conseillé</span>{% endif %}
           </span>
           </span>
           {% set logo_meilleur = logo_marchand(meilleure.merchant) %}
@@ -668,12 +670,16 @@
       // Une remise qui s'arrondit à 0 % n'est pas une remise : 79,00 € contre
       // 79,20 € ne se barre pas (« −0 % » à côté d'un prix barré, relevé le
       // 16/10/2026).
-      const montrer = prixTous.length > 1 && maxi > mini
-                      && Math.round((1 - mini / maxi) * 100) >= 1;
+      // Un prix public conseille (data-pvc) REMPLACE l'ecart entre marchands : barre = le PVC, sous 3 % rien.
+      const pvc = parseFloat(refEl.dataset.pvc || '');
+      const haut = pvc > 0 ? pvc : maxi;
+      const montrer = pvc > 0
+        ? (mini > 0 && mini < pvc && Math.round((1 - mini / pvc) * 100) >= 3)
+        : (prixTous.length > 1 && maxi > mini && Math.round((1 - mini / maxi) * 100) >= 1);
       refEl.hidden = !montrer;
       if (montrer) {
-        const pct = Math.round((1 - mini / maxi) * 100);
-        hautEl.textContent = euros(maxi);
+        const pct = Math.round((1 - mini / haut) * 100);
+        hautEl.textContent = euros(haut);
         remiseEl.textContent = '−' + pct + ' %';
         // Le palier vit sur le BLOC : le prix et l'encadré y puisent la même
         // teinte. Le poser sur la seule pastille laisserait le prix figé sur
