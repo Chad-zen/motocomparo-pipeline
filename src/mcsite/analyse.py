@@ -226,6 +226,8 @@ def contenu_selon_titre(contenu: dict[str, Any] | None, titre: str | None) -> di
     for champ in ("accroche", "description"):
         phrases = re.split(r"(?<=[.!?])\s+", contenu.get(champ) or "")
         sortie[champ] = " ".join(p for p in phrases if not _MOT_COQUE.search(p))
+    # les cases « L'essentiel » ont ete calculees AVANT : sans cela la case « Coque » restait affichee
+    sortie["indicateurs"] = indicateurs(sortie)
     return sortie
 
 

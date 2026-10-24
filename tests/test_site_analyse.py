@@ -132,3 +132,12 @@ def test_une_version_carbon_incertaine_perd_aussi_la_matiere_declaree_par_les_ma
              {"nom": "ventilation", "valeur": "True", "source": "flux", "confiance": "lue"}]
     sortie = analyse.aligner_caracteristiques(carac, carbon)
     assert [c["nom"] for c in sortie] == ["ventilation"]
+
+
+def test_les_cases_de_l_essentiel_sont_recalculees_sans_la_coque():
+    contenu = {"fiche_technique": [{"nom": "Coque", "valeur": "Fibre de verre (HPFC), versions carbone"},
+                                   {"nom": "Norme", "valeur": "ECE 22.06"}]}
+    contenu["indicateurs"] = analyse.indicateurs(contenu)
+    assert any(i["cle"] == "coque" for i in contenu["indicateurs"])
+    carbon = analyse.contenu_selon_titre(contenu, "OF603 CARBON URUS")
+    assert not any(i["cle"] == "coque" for i in carbon["indicateurs"])
