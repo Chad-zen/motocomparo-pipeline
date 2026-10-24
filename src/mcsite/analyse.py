@@ -219,6 +219,7 @@ def contenu_selon_titre(contenu: dict[str, Any] | None, titre: str | None) -> di
     if not contenu or not coque_mixte(contenu) or not re.search(r"carbon", titre or "", re.I):
         return contenu
     sortie = dict(contenu)
+    sortie["coque_incertaine"] = True       # `aligner_caracteristiques` retire alors la matiere declaree par les marchands
     sortie["fiche_technique"] = [l for l in contenu.get("fiche_technique") or []
                                  if not re.match(r"\s*coque", l.get("nom", ""), re.I)]
     sortie["points_forts_courts"] = [c for c in contenu.get("points_forts_courts") or [] if not _MOT_COQUE.search(c)]
@@ -347,6 +348,9 @@ def aligner_caracteristiques(caracteristiques: list[dict[str, Any]], contenu: di
     """
     if not contenu:
         return caracteristiques
+    if contenu.get("coque_incertaine"):
+        # une version « Carbon » d'un modele a deux matieres : ni le texte du modele ni les marchands ne tranchent
+        caracteristiques = [c for c in caracteristiques if c["nom"] != "calotte"]
     ind = {i["cle"]: i for i in indicateurs(contenu)}
     tech = contenu.get("fiche_technique") or []
     neuves: dict[str, tuple[str, str]] = {}     # nom -> (valeur, source)

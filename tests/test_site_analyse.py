@@ -123,3 +123,12 @@ def test_un_modele_a_deux_matieres_ne_dit_rien_de_la_coque_d_une_version_carbon(
     simple = {"fiche_technique": [{"nom": "Coque", "valeur": "Thermoplastique (KPA)"}]}
     assert analyse.coque_mixte(simple) is False
     assert analyse.contenu_selon_titre(simple, "Casque CARBON") is simple
+
+
+def test_une_version_carbon_incertaine_perd_aussi_la_matiere_declaree_par_les_marchands():
+    contenu = {"fiche_technique": [{"nom": "Coque", "valeur": "Fibre de verre (HPFC), versions carbone"}]}
+    carbon = analyse.contenu_selon_titre(contenu, "Casque jet LS2 OF603 CARBON URUS")
+    carac = [{"nom": "calotte", "valeur": "fibre", "source": "flux", "confiance": "lue"},
+             {"nom": "ventilation", "valeur": "True", "source": "flux", "confiance": "lue"}]
+    sortie = analyse.aligner_caracteristiques(carac, carbon)
+    assert [c["nom"] for c in sortie] == ["ventilation"]
