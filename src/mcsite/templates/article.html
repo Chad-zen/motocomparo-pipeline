@@ -51,7 +51,7 @@
   {# Sans illustration déposée, un bandeau aux couleurs du site avec le pictogramme du rayon : l'article ne reste pas
      sans image d'en-tête. #}
   {% set picto = article.rayon if article.rayon in ['jacket', 'gloves', 'pants', 'boots', 'helmet', 'luggage', 'protection'] else 'helmet' %}
-  <div class="article__hero" aria-hidden="true">{{ cat.picto(picto, 'article__hero-ico') }}</div>
+  <div class="article__hero article__hero--v{{ variante_hero }}" aria-hidden="true">{{ cat.picto(picto, 'article__hero-ico') }}</div>
   {% endif %}
 
   <div class="article__corps">
@@ -59,13 +59,17 @@
   </div>
 
   {# L'appel vers le comparateur, sobre : un lien vers le rayon de l'article, jamais vers un marchand. #}
-  {% if article.rayon %}
+  {# Le rayon `plusieurs` (dossier de saison) n'est pas une page : `/c/plusieurs` répondait 404. Un article sur plusieurs
+     rayons renvoie vers l'ensemble du catalogue. #}
   <aside class="article__cta">
     <p><b>Comparer les prix du jour.</b> MotoComparo relève chaque jour les prix chez plusieurs marchands pour les
        mêmes articles.</p>
+    {% if article.rayon and article.rayon != 'plusieurs' %}
     <a class="bouton bouton--or" href="/c/{{ article.rayon }}">Voir le rayon et comparer</a>
+    {% else %}
+    <a class="bouton bouton--or" href="/produits">Voir le catalogue et comparer</a>
+    {% endif %}
   </aside>
-  {% endif %}
 
   {% if lies %}
   <section class="article__lies">

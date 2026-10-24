@@ -13,6 +13,7 @@ import logging
 import os
 import re
 import threading
+import zlib
 from contextlib import asynccontextmanager, contextmanager
 from datetime import date
 from decimal import Decimal, InvalidOperation
@@ -1547,6 +1548,20 @@ def favoris():
     return RedirectResponse("/comparer", status_code=301)
 
 
+def _caracteristiques_comme_la_fiche(conn, it: dict[str, Any]) -> list[dict[str, Any]]:
+    """Les caracteristiques d'une fiche telles que la page produit les affiche (24/10/2026).
+
+    Le comparateur lisait `caracteristiques()` brut : pour les 403 modeles au texte verifie, coque, poids, norme et
+    Pinlock du tableau (et donc la note) pouvaient contredire la fiche du meme casque. On applique ici le meme
+    alignement, avec la meme recherche du texte du modele.
+    """
+    carac = queries.caracteristiques(conn, it["product_id"])
+    enrichie = queries.fiche_enrichie(conn, {"brand_code": it.get("brand_code"), "best_title": it.get("best_title"),
+                                             "model_display": it.get("model_display"),
+                                             "category_id": it.get("category_id")})
+    return analyse.aligner_caracteristiques(carac, enrichie)
+
+
 def _noter(items: list[dict[str, Any]]) -> None:
     """Pose la note MotoComparo sur chaque fiche comparée, en place.
 
@@ -1570,7 +1585,7 @@ def comparer(request: Request, p: str = ""):
     with pool.connection() as conn:  # type: ignore[union-attr]
         items = queries.par_slugs(conn, slugs)
         for it in items:
-            it["caracteristiques"] = queries.caracteristiques(conn, it["product_id"])
+            it["caracteristiques"] = _caracteristiques_comme_la_fiche(conn, it)
     _noter(items)
     lignes = queries.tableau_comparaison(items)
     sections = queries.sections_comparaison(lignes)
@@ -1609,7 +1624,7 @@ def comparatif(request: Request, slugs: str):
     with pool.connection() as conn:  # type: ignore[union-attr]
         items = queries.par_slugs(conn, slugs_list)
         for it in items:
-            it["caracteristiques"] = queries.caracteristiques(conn, it["product_id"])
+            it["caracteristiques"] = _caracteristiques_comme_la_fiche(conn, it)
     if len(items) < 2:
         raise HTTPException(404, "Fiches introuvables ou insuffisantes pour comparer")
     _noter(items)
@@ -1821,7 +1836,9 @@ def article(request: Request, slug: str):
     autres.sort(key=lambda x: (x.rayon != a.rayon, -x.date.toordinal()))
     return templates.TemplateResponse(
         request, "article.html",
-        {**contexte, "corps": Markup(corps), "sommaire": sommaire, "minutes": minutes, "lies": autres[:3]})
+        {**contexte, "corps": Markup(corps), "sommaire": sommaire, "minutes": minutes, "lies": autres[:3],
+         # un fond different par article (6 variantes), choisi sur le slug : stable d'une visite a l'autre
+         "variante_hero": zlib.crc32(a.slug.encode()) % 6})
 
 
 # --- la mesure d'audience, et son interrupteur -------------------------------

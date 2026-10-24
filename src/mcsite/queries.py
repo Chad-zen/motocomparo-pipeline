@@ -2452,6 +2452,21 @@ def _valeur_lisible(v: Any) -> Any:
     return v
 
 
+def calotte_contradictoire(lignes: list[dict[str, Any]]) -> bool:
+    """Deux sources non verifiees donnent deux FAMILLES de matiere pour la calotte (« carbone » dans le flux,
+    « thermoplastique » dans l'attribut du marchand : LS2 FF808). Une valeur `manuel` (texte verifie du modele) tranche.
+
+    Meme regle que le filtre de matiere (23/10/2026) : une fiche contredite n'affiche pas de matiere plutot qu'une
+    matiere fausse, et le comparateur n'en tire pas de note. « polycarbonate » et « thermoplastique » sont une famille.
+    """
+    calottes = [l for l in lignes if l["nom"] == "calotte"]
+    if any(l["source"] == "manuel" for l in calottes):
+        return False
+    familles = {"thermoplastique" if str(l["valeur"]).lower() == "polycarbonate" else str(l["valeur"]).lower()
+                for l in calottes}
+    return len(familles) > 1
+
+
 def caracteristiques(conn: psycopg.Connection, product_id: int) -> list[dict[str, Any]]:
     """Les caractéristiques d'une fiche, une par nom, la source la plus fiable
     d'abord quand plusieurs sources répondent sur le même nom.
@@ -2468,7 +2483,10 @@ def caracteristiques(conn: psycopg.Connection, product_id: int) -> list[dict[str
     """, (product_id,))
 
     par_nom: dict[str, dict[str, Any]] = {}
+    calotte_douteuse = calotte_contradictoire(lignes)
     for l in lignes:
+        if calotte_douteuse and l["nom"] == "calotte":
+            continue
         nom = _NOM_ALIAS.get(l["nom"], l["nom"])
         priorite = _SOURCE_PRIORITE_PAR_NOM.get(nom, _SOURCE_PRIORITE)
         retenue = par_nom.get(nom)
@@ -2864,17 +2882,25 @@ def indice_protection(
             # `caracteristiques()` a déjà tranché la source en amont, ici on ne
             # revoit pas ce choix.
             ("Poids", _echelonne(nombre("poids_g"), 1900, 1250), 0.15, True, _GRADUE),
-            ("Matière de calotte", _CALOTTE_VERS_NOTE.get((lire("calotte") or "").lower()),
-             0.15, False, _GRADUE),
-            # 22.06 impose l'essai de choc rotationnel et le test à basse
-            # vitesse que 22.05 ne prévoyait pas : l'écart entre les deux
-            # normes est réel, pas une date sur une étiquette.
-            ("Homologation", _echelonne(nombre("homologation"), 22.05, 22.06), 0.15, True, _GRADUE),
+            # LA MATIERE DE LA CALOTTE N'ENTRE PLUS DANS LA PROTECTION (24/10/2026). Elle dit le poids et le prix, pas
+            # la securite : la fiche l'explique elle-meme (curseur de coque), et un casque en fibre de verre n'est pas
+            # « plus protecteur » qu'un casque en polycarbonate de meme homologation. Notee 9 sur 10 pour de la fibre,
+            # elle gonflait les notes des casques sans aucun essai.
+            #
+            # L'HOMOLOGATION 22.06 NON PLUS. Depuis que la vente des casques 22.05 est interdite, tout casque en
+            # vente est 22.06 : le critere rapportait 10 sur 10 a tous (note de 9,5 pour un jet d'entree de gamme).
+            # Seul l'ancien stock 22.05 compte, en retrait.
+            ("Homologation 22.05 (ancienne norme)",
+             0.0 if nombre("homologation") == 22.05 else None, 0.15, True, _GRADUE),
             # Plusieurs tailles de coque = une calotte à la taille de la tête
             # plutôt qu'un rembourrage plus épais dans la même coque.
             ("Tailles de coque", _echelonne(nombre("nombre_coques"), 1, 3), 0.10, False, _GRADUE),
         ]
         base = "l'essai indépendant SHARP" if "note_securite" in par_nom else None
+        # Sans essai indépendant, le poids et le nombre de tailles de coque ne disent rien de la protection
+        # (docstring ci-dessus) : pas d'indice, plutôt qu'un chiffre bâti sur des cases.
+        if "note_securite" not in par_nom:
+            return None
     elif racine in ("jacket", "suit"):
         classe = _classe_en17092(lire("classe_protection"), lire("homologation"))
         composantes = [
@@ -3107,6 +3133,10 @@ def note_globale(
     """
     protection = indice_protection(caracteristiques, category_code)
     equipement = note_equipement(caracteristiques, category_code)
+    # UNE NOTE D'ENSEMBLE SANS PROTECTION N'EST PAS UNE NOTE (24/10/2026) : « 7,0 » bati sur « ventilation et interieur
+    # amovible » dit les options, pas la qualite. Le tableau garde les lignes ; le chiffre exige un volet protection.
+    if protection is None:
+        return None
 
     # 1. CE QUE VAUT L'ARTICLE, prix mis de côté. Les volets absents sortent
     #    du calcul ET de son poids : comparer deux volets à un seul n'a de

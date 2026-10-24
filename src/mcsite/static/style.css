@@ -5307,3 +5307,13 @@ html { overflow-x: clip; }
 body:has(.sommaire-feuille) { padding-bottom: 56px; }
 body:has(.sommaire-feuille) .mc-chat { --mc-chat-bas: 76px; }
 @media (prefers-reduced-motion: reduce) { .sommaire-feuille__chev { transition: none; } }
+/* « A lire aussi » : pas de barre doree a gauche du titre (24/10/2026). */
+.article__lies .titre-section { border-left: 0; padding-left: 0; }
+.article__lies .titre-section::before { content: none; }
+/* Six fonds pour le bandeau d'en-tete des articles, afin qu'ils ne se ressemblent pas tous (24/10/2026). */
+.article__hero--v0 { background: radial-gradient(120% 140% at 80% 10%, #2b3f7a 0%, var(--nuit) 55%, #0b1330 100%); }
+.article__hero--v1 { background: radial-gradient(120% 140% at 20% 15%, #8a2a2a 0%, #3b1218 55%, #1a0a0e 100%); }
+.article__hero--v2 { background: radial-gradient(120% 140% at 75% 20%, #1f6b5a 0%, #0f3a33 55%, #08201c 100%); }
+.article__hero--v3 { background: radial-gradient(120% 140% at 25% 10%, #5b3a8e 0%, #2a1a4d 55%, #140c28 100%); }
+.article__hero--v4 { background: radial-gradient(120% 140% at 80% 15%, #b8741a 0%, #5a3510 55%, #2a180a 100%); }
+.article__hero--v5 { background: radial-gradient(120% 140% at 30% 10%, #3f5a73 0%, #1f2f3d 55%, #0f1820 100%); }
