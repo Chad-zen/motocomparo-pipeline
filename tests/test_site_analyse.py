@@ -100,3 +100,26 @@ def test_coque_la_premiere_matiere_fait_foi_pas_les_versions_carbone():
 
 def test_coque_deux_matieres_selon_la_version_est_indeterminee():
     assert analyse._cran_coque("Carbone (versions Carbon) ou fibre de verre (HPFC)") is None
+
+
+def test_un_modele_a_deux_matieres_ne_dit_rien_de_la_coque_d_une_version_carbon():
+    """LS2 OF603 « CARBON URUS » affichait « fibre de verre HPFC » : le texte vaut pour tous les coloris (24/10/2026)."""
+    contenu = {
+        "accroche": "Un jet LS2 en HPFC avec pare-soleil intégré. Deux entrées d'air sur le dessus.",
+        "description": "Coque HPFC légère. Doublure lavable.",
+        "points_forts_courts": ["Coque légère en fibre de verre HPFC", "Pare-soleil intégré"],
+        "fiche_technique": [{"nom": "Coque", "valeur": "Fibre de verre (HPFC), versions carbone"},
+                            {"nom": "Norme", "valeur": "ECE 22.06"}],
+    }
+    assert analyse.coque_mixte(contenu) is True
+    carbon = analyse.contenu_selon_titre(contenu, "Casque jet LS2 OF603 INFINITY II - CARBON URUS")
+    assert [l["nom"] for l in carbon["fiche_technique"]] == ["Norme"]
+    assert carbon["points_forts_courts"] == ["Pare-soleil intégré"]
+    assert "HPFC" not in carbon["description"] and "HPFC" not in carbon["accroche"]
+    assert carbon["accroche"] == "Deux entrées d'air sur le dessus."
+    # les coloris unis gardent le texte
+    assert analyse.contenu_selon_titre(contenu, "Casque jet LS2 OF603 INFINITY II - SOLID") is contenu
+    # un modele a une seule matiere n'est jamais touche
+    simple = {"fiche_technique": [{"nom": "Coque", "valeur": "Thermoplastique (KPA)"}]}
+    assert analyse.coque_mixte(simple) is False
+    assert analyse.contenu_selon_titre(simple, "Casque CARBON") is simple

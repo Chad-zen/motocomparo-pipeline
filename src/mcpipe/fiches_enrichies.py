@@ -87,6 +87,13 @@ FORTS_COURTS: dict[tuple[str, str], list[str]] = {
 }
 
 
+def _coque_mixte(fiche: dict) -> bool:
+    """La ligne « Coque » annonce deux matieres (« fibre de verre, versions carbone ») : voir `mcsite.analyse`."""
+    from mcsite.analyse import coque_mixte
+
+    return coque_mixte(fiche)
+
+
 def _code_coque(fiche: dict) -> str | None:
     """Le code de filtre (thermoplastique, fibre, composite, carbone) de la ligne « Coque » de la fiche."""
     from mcsite.analyse import _CODE_COQUE, _cran_coque
@@ -150,6 +157,18 @@ def charger(chemin: str, marque: str = "arai", marque_info: str | None = None) -
                 # « matiere de coque » lit la base, la fiche lit le texte verifie ; sans cela ils se
                 # contredisaient (LS2 FF808 : « carbone » dans le flux, thermoplastique en realite).
                 code = _code_coque(fiche)
+                mixte = _coque_mixte(fiche)
+                if mixte:
+                    # un modele a deux matieres : les fiches dont le titre dit « carbon » n'ont pas de valeur verifiee
+                    # (et celle d'un passage precedent est retiree)
+                    cur.execute(
+                        """
+                        DELETE FROM product_caracteristique pc USING product p, product_stats s
+                        WHERE pc.product_id = p.id AND s.product_id = p.id AND pc.nom = 'calotte' AND pc.source = 'manuel'
+                          AND p.brand_code = %s AND s.best_title ~* %s AND s.best_title ~* 'carbon'
+                        """,
+                        (marque, motif),
+                    )
                 if not code:
                     # matiere indeterminee (« carbone ou fibre de verre » selon la version) : aucune valeur
                     # `manuel` ne doit rester d'un passage precedent
@@ -168,10 +187,11 @@ def charger(chemin: str, marque: str = "arai", marque_info: str | None = None) -
                         SELECT p.id, 'calotte', %s, 'manuel', 'lue'
                         FROM product p JOIN product_stats s ON s.product_id = p.id
                         WHERE p.brand_code = %s AND p.category_id IN (1, 2, 3, 4, 5) AND s.best_title ~* %s
+                          AND NOT (%s AND s.best_title ~* 'carbon')
                         ON CONFLICT (product_id, nom, source) DO UPDATE
                         SET valeur = EXCLUDED.valeur, calcule_le = now()
                         """,
-                        (code, marque, motif),
+                        (code, marque, motif, mixte),
                     )
         conn.commit()
         return rendu

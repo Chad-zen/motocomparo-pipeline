@@ -883,7 +883,7 @@ def product(request: Request, slug: str):
         meme_gamme = queries.meme_gamme(conn, p, 8)
         promos = queries.codes_promo(conn, sorted({o['merchant'] for o in rows}))
         caracteristiques = queries.caracteristiques(conn, p["id"])
-        enrichie = queries.fiche_enrichie(conn, p)
+        enrichie = analyse.contenu_selon_titre(queries.fiche_enrichie(conn, p), p.get("best_title") or p.get("model_display"))
         caracteristiques = analyse.aligner_caracteristiques(caracteristiques, enrichie)
         coque = (analyse.coque_curseur(caracteristiques, enrichie)
                  if p.get("category_id") in (1, 2, 3, 4, 5) else None)
@@ -1556,9 +1556,11 @@ def _caracteristiques_comme_la_fiche(conn, it: dict[str, Any]) -> list[dict[str,
     alignement, avec la meme recherche du texte du modele.
     """
     carac = queries.caracteristiques(conn, it["product_id"])
-    enrichie = queries.fiche_enrichie(conn, {"brand_code": it.get("brand_code"), "best_title": it.get("best_title"),
-                                             "model_display": it.get("model_display"),
-                                             "category_id": it.get("category_id")})
+    enrichie = analyse.contenu_selon_titre(
+        queries.fiche_enrichie(conn, {"brand_code": it.get("brand_code"), "best_title": it.get("best_title"),
+                                      "model_display": it.get("model_display"),
+                                      "category_id": it.get("category_id")}),
+        it.get("best_title") or it.get("model_display"))
     return analyse.aligner_caracteristiques(carac, enrichie)
 
 

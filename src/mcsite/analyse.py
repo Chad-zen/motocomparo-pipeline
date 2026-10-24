@@ -197,6 +197,37 @@ def _cran_coque(texte: str) -> int | None:
     return None
 
 
+_COQUE_MIXTE = re.compile(r"versions?\s+carbon|carbone\s+sur\s+les\s+versions|carbone\s+ou\s|\bou\s+(?:fibre|carbone)", re.I)
+_MOT_COQUE = re.compile(r"coque|hpfc|fibre|composite|carbon", re.I)
+
+
+def coque_mixte(contenu: dict[str, Any] | None) -> bool:
+    """Le texte du MODELE annonce deux matieres de coque (« fibre de verre, versions carbone »)."""
+    for l in (contenu or {}).get("fiche_technique") or []:
+        if re.match(r"\s*coque", l.get("nom", ""), re.I) and _COQUE_MIXTE.search(l.get("valeur", "")):
+            return True
+    return False
+
+
+def contenu_selon_titre(contenu: dict[str, Any] | None, titre: str | None) -> dict[str, Any] | None:
+    """Un modele vendu en deux matieres (LS2 OF603 : fibre de verre, et une version « Carbon ») : le texte est ecrit pour
+    TOUS les coloris, il ne peut pas dire la matiere de la version « Carbon ». Sur une fiche dont le titre porte
+    « carbon », on retire donc ce que le texte affirme de la coque : la ligne technique, les points forts courts et les
+    phrases qui la decrivent. Les sources des revendeurs se contredisent sur cette version (fibre de carbone pour l'un,
+    melange de fibre de verre pour l'autre) : mieux vaut ne rien dire que dire faux (24/10/2026).
+    """
+    if not contenu or not coque_mixte(contenu) or not re.search(r"carbon", titre or "", re.I):
+        return contenu
+    sortie = dict(contenu)
+    sortie["fiche_technique"] = [l for l in contenu.get("fiche_technique") or []
+                                 if not re.match(r"\s*coque", l.get("nom", ""), re.I)]
+    sortie["points_forts_courts"] = [c for c in contenu.get("points_forts_courts") or [] if not _MOT_COQUE.search(c)]
+    for champ in ("accroche", "description"):
+        phrases = re.split(r"(?<=[.!?])\s+", contenu.get(champ) or "")
+        sortie[champ] = " ".join(p for p in phrases if not _MOT_COQUE.search(p))
+    return sortie
+
+
 def coque_curseur(caracteristiques: list[dict[str, Any]] | None, contenu: dict[str, Any] | None = None
                   ) -> dict[str, Any] | None:
     """Le curseur « matiere de la coque » : thermoplastique, fibre de verre, composite, carbone.
