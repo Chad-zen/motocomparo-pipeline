@@ -13,6 +13,9 @@ LA REGLE (validee par la proprietaire sur un echantillon). Deux fiches du meme r
   - leurs prix mini sont a moins de 30 % l'un de l'autre ;
   - chacune a des tailles connues et les deux jeux de tailles ne se recoupent PAS.
 Les paires qui se chevauchent (trois fiches pour un casque) sont laissees : on ne devine pas.
+LES TAILLES se lisent dans `offer_signature.size_code` (celles que le site affiche), pas dans la colonne du flux : Speedway
+ne remplit pas `raw_size`, si bien que les fiches X-SPR Pro Marquez Motegi 5 (M, TU d'un cote ; S, L, XL, 2XL de l'autre)
+n'etaient jamais fusionnees (24/10/2026).
 Motoblouz et FC-Moto sont exclus : leur titre est le meme pour toutes les couleurs.
 
 Ce module ne fusionne pas lui-meme : il inscrit les paires comme `validee` dans
@@ -32,11 +35,13 @@ ECART_PRIX_MAX = 1.3
 
 _SQL = r"""
 CREATE TEMP TABLE _t ON COMMIT DROP AS
-SELECT o.product_id, m.code AS marchand, p.brand_code, upper(coalesce(o.raw_size, '')) AS taille,
+SELECT o.product_id, m.code AS marchand, p.brand_code,
+       upper(coalesce(nullif(s.size_code, ''), nullif(o.raw_size, ''), '')) AS taille,
        regexp_replace(lower(o.raw_title), %(taille_finale)s, '') AS titre
 FROM raw_offer o
 JOIN product p ON p.id = o.product_id
 JOIN merchant m ON m.id = o.merchant_id
+LEFT JOIN offer_signature s ON s.raw_offer_id = o.id
 WHERE o.is_live AND p.status <> 'merged'
   AND m.code = ANY(%(marchands)s);
 
