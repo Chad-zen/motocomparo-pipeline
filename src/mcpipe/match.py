@@ -1383,6 +1383,14 @@ _SIZE_OF_OFFER = f"""CASE
     WHEN p.category_id IN (6, 7, 10, 23)
          AND {_CANONICAL_SIZE} ~ '^(5[3-9]|6[0-5])CM$'
     THEN 'EU' || substring({_CANONICAL_SIZE} from '^[0-9]+')
+    -- UN JEAN A UNE SEULE ECHELLE (24/10/2026) : iXS Classic AR affichait 30, 32, 34 puis EU36, EU38. `size_code` prefixe de « EU »
+    -- tout nombre de 35 a 52 (les pointures), mais sur un pantalon dont d'autres offres declarent un tour de taille de 26 a
+    -- 34 pouces, 36 et 38 sont des tours de taille eux aussi : on retire le prefixe, la serie reste cohérente.
+    WHEN p.category_id = 7
+         AND {_CANONICAL_SIZE} ~ '^EU(3[5-9]|4[0-4])$'
+         AND EXISTS (SELECT 1 FROM raw_offer o2 JOIN offer_signature s2 ON s2.raw_offer_id = o2.id
+                     WHERE o2.product_id = o.product_id AND o2.is_live AND s2.size_code ~ '^(2[6-9]|3[0-4])$')
+    THEN substring({_CANONICAL_SIZE} from '[0-9]+')
     ELSE {_CANONICAL_SIZE}
 END"""
 
