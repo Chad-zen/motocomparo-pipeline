@@ -1370,11 +1370,19 @@ _SIZED_CATEGORIES = "(1,2,3,4,5,6,7,8,9,10,11,23,24,25)"
 # et 2XL. Le filtre de taille ne filtrait donc plus rien et le même marchand
 # revenait quatre fois. Signalé par la propriétaire le 17/09/2026 ; portée
 # mesurée avant correction : 1 079 offres sur 325 fiches, toutes comparables.
+# UN TOUR DE TETE N'EST PAS UNE TAILLE DE VETEMENT (24/10/2026). `textnorm.size_code` ne connait pas le rayon : un « 56 »
+# devient « 56CM » (tour de tete d'un casque) alors que « 46 » a « 52 » deviennent « EU46 » a « EU52 ». Sur un blouson
+# (Lindstrands Bjurs) la meme taille s'affichait donc EU46, EU48, EU50, EU52 puis 56CM, 58CM. Pour les blousons, pantalons,
+# combinaisons et vetements casual, un « 53CM » a « 65CM » est une taille europeenne : « EU53 » a « EU65 » (plus de 3 000 offres
+# vivantes). Les casques gardent leurs centimetres.
 _SIZE_OF_OFFER = f"""CASE
     WHEN p.category_id NOT IN {_SIZED_CATEGORIES}
          AND coalesce(s.size_source, '') <> 'feed'
          AND coalesce(ovr.donor_source, '') <> 'feed'
     THEN 'TU'
+    WHEN p.category_id IN (6, 7, 10, 23)
+         AND {_CANONICAL_SIZE} ~ '^(5[3-9]|6[0-5])CM$'
+    THEN 'EU' || substring({_CANONICAL_SIZE} from '^[0-9]+')
     ELSE {_CANONICAL_SIZE}
 END"""
 
