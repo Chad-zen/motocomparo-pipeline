@@ -1842,9 +1842,28 @@ def avec_tailles(conn: psycopg.Connection, items: list[dict[str, Any]],
     if not items or minimum <= 1:
         return items
     try:
+        # DES TAILLES DIFFERENTES, PAS DES ETIQUETTES (24/10/2026) : « L » et « L59CM », « 41EU » et « EU41 » sont la meme
+        # taille ecrite deux fois, et un blouson en lettres ET en EU a la meme taille dans deux echelles. On ramene chaque
+        # taille a sa forme canonique, on compte les distinctes DANS chaque echelle (lettres, pointures EU, autres) et on
+        # garde l'echelle la plus fournie. Les doubles tailles (SM, ML, LXL) ne comptent pas : ce ne sont pas des tailles de plus.
         lignes = _rows(conn, """
-            SELECT p.slug, count(*) AS n FROM taille_achetable t JOIN product p ON p.id = t.product_id
-            WHERE p.slug = ANY(%s) GROUP BY p.slug
+            WITH forme AS (
+                SELECT p.slug,
+                       CASE WHEN t.taille ~ '^(EU[0-9]{2}(,5)?|[0-9]{2}(,5)?EU)$' THEN 'eu'
+                            WHEN regexp_replace(t.taille, '[0-9]{2}CM$', '') ~ '^([2-6]?XS|XXS|S|M|L|XL|XXL|[2-6]XL|XXXL)$'
+                                 THEN 'lettre'
+                            WHEN regexp_replace(t.taille, '[0-9]{2}CM$', '') ~ '^(SM|ML|LXL)$' THEN NULL
+                            ELSE 'autre' END AS echelle,
+                       CASE WHEN t.taille ~ '^(EU[0-9]{2}(,5)?|[0-9]{2}(,5)?EU)$'
+                                 THEN 'EU' || regexp_replace(t.taille, '[^0-9,]', '', 'g')
+                            ELSE regexp_replace(t.taille, '[0-9]{2}CM$', '') END AS canon
+                FROM taille_achetable t JOIN product p ON p.id = t.product_id
+                WHERE p.slug = ANY(%s)
+            )
+            SELECT slug, max(c) AS n FROM (
+                SELECT slug, echelle, count(DISTINCT canon) AS c FROM forme WHERE echelle IS NOT NULL
+                GROUP BY slug, echelle) par_echelle
+            GROUP BY slug
         """, ([it["slug"] for it in items],))
         pret = conn.execute("SELECT count(*) > 0 AND max(calcule_le) > now() - %s::interval FROM taille_achetable",
                             (AGE_MAX_TABLE_TAILLES,)).fetchone()

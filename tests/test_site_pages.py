@@ -259,7 +259,7 @@ def test_l_accueil_ne_garde_que_les_fiches_a_cinq_tailles_achetables():
 
         def execute(self, sql, params=None):
             self.n += 1
-            if "count(*) AS n" in sql:
+            if "AS n" in sql:
                 return Curseur([{"slug": "a", "n": 6}, {"slug": "b", "n": 3}, {"slug": "c", "n": 5}])
             return Curseur([(True,)])
 
