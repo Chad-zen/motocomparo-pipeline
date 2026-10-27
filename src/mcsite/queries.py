@@ -868,6 +868,13 @@ def meme_gamme(
           "lim": limit, **_public(produit)})
 
 
+# UN CODE QUE PERSONNE N'A VERIFIE DEPUIS QUATRE JOURS N'EST PLUS UNE PROMESSE QU'ON PEUT TENIR (24/10/2026). Les codes lus sur
+# le site d'un marchand (`source = 'site'`) sont reverifies chaque matin ; si la page du marchand ne repond plus (La Becanerie
+# renvoie 403 a notre lecteur depuis le 20/10), son code gardait « verifie le 20/10 » pendant des semaines. Au-dela de quatre
+# jours sans verification, il quitte la page. Un code saisi a la main n'est pas concerne.
+_CODE_FRAIS = "(c.source <> 'site' OR c.vu_le >= now() - interval '4 days')"
+
+
 def codes_promo(conn: psycopg.Connection, marchands: list[str]) -> list[dict[str, Any]]:
     """Live promo codes, for the merchants present on this page only.
 
@@ -891,6 +898,7 @@ def codes_promo(conn: psycopg.Connection, marchands: list[str]) -> list[dict[str
           AND c.retire_le IS NULL
           AND c.debut_le <= current_date
           AND c.fin_le >= current_date
+          AND """ + _CODE_FRAIS + """
         ORDER BY m.code, c.fin_le
     """, (marchands,))
 
@@ -907,6 +915,7 @@ def codes_promo_actifs(conn: psycopg.Connection) -> list[dict[str, Any]]:
         FROM code_promo c
         JOIN merchant m ON m.id = c.merchant_id AND m.affiche
         WHERE c.retire_le IS NULL AND c.debut_le <= current_date AND c.fin_le >= current_date
+          AND """ + _CODE_FRAIS + """
         ORDER BY m.code, c.fin_le
     """)
 

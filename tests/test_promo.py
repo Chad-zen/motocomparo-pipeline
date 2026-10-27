@@ -187,3 +187,26 @@ def test_une_date_avec_annee_reste_lue_telle_quelle():
     """Motoblouz écrit vraiment « au Dimanche 14 Février 2027 » : on le croit."""
     assert window("valable du Mardi 23 Juin 2026 00h01 au Dimanche 14 Février 2027 23h59") \
         == (date(2026, 6, 23), date(2027, 2, 14))
+
+
+def test_le_libelle_prend_la_remise_la_plus_proche_du_code_pas_la_premiere_de_la_fenetre():
+    """Motoin (24/10/2026) : « -74 % » (un produit solde voisin) s'affichait pour HALLOWEEN25, qui donne 10 %."""
+    from mcpipe.promo import label
+
+    contexte = ("Veste Held -74 % 129,00 EUR ... 10% Rabatt* Auf Lagerware HALLOWEEN25 ... "
+                "Pantalon Dainese -50 % 89,00 EUR")
+    assert label(contexte, "HALLOWEEN25") == "-10 % avec le code HALLOWEEN25"
+
+
+def test_le_libelle_sans_chiffre_pres_du_code_n_en_invente_pas():
+    from mcpipe.promo import label
+
+    loin = "Gants -30 % " + "x " * 90 + "Code promo TOP20 " + "y " * 90 + "Casque -15 %"
+    assert label(loin, "TOP20") == "Code promo TOP20"
+
+
+def test_le_libelle_reconnait_une_remise_ecrite_avant_ou_apres_le_code():
+    from mcpipe.promo import label
+
+    assert label("-20 % avec le code ROULEZ20 sur tout le site", "ROULEZ20") == "-20 % avec le code ROULEZ20"
+    assert label("Le code SPEED15 vous offre 15 % de remise", "SPEED15") == "-15 % avec le code SPEED15"

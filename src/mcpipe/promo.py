@@ -399,20 +399,32 @@ def _safe(y: int, m: int, d: int) -> date | None:
 
 
 def label(context: str, code: str) -> str:
-    """« -20 % avec le code ROULEZ20 » — the discount if the page states one."""
-    value = ""
-    m = re.search(r"-\s?(\d{1,2})\s?%", context)
-    if m:
-        value = f"-{m[1]} %"
+    """« -20 % avec le code ROULEZ20 » — the discount the page states NEXT TO the code.
+
+    LE CHIFFRE LE PLUS PROCHE DU CODE, PAS LE PREMIER DE LA FENETRE (24/10/2026). La fenetre de lecture fait 900 caracteres :
+    sur la page d'accueil de Motoin, le premier « -74 % » etait l'etiquette d'un produit solde voisin, et le code
+    HALLOWEEN25 (10 % sur les articles en stock, « 10% Rabatt ») s'affichait « -74 % ». On cherche les chiffres de remise
+    dans les 80 caracteres qui precedent le code et les 120 qui le suivent, et on garde celui qui en est le plus proche ;
+    sans chiffre a cet endroit, « Code promo X » : un libelle sans chiffre vaut mieux qu'un chiffre qui n'est pas le sien.
+    """
+    i = context.find(code)
+    if i < 0:
+        i = 0               # le code n'est pas dans la fenetre : on lit l'ensemble, du debut
+        debut, fin = 0, len(context)
     else:
-        m = re.search(r"(\d{1,2})\s?%\s?(?:de\s+)?(?:remise|r[ée]duction)", context, re.I)
-        if m:
-            value = f"-{m[1]} %"
-        else:
-            m = re.search(r"(\d{1,3})\s?(?:€|EUR)\s+(?:offerts?|de\s+remise"
-                          r"|de\s+r[ée]duction)", context, re.I)
-            if m:
-                value = f"{m[1]} € de remise"
+        debut, fin = max(0, i - 80), i + len(code) + 120
+    zone = context[debut:fin]
+    candidats: list[tuple[int, str]] = []
+    motifs = (
+        (r"-\s?(\d{1,2})\s?%", "-{} %"),
+        (r"(\d{1,2})\s?%\s?(?:de\s+)?(?:remise|r[ée]duction|rabatt|off|sur\b)", "-{} %"),
+        (r"(\d{1,3})\s?(?:€|EUR)\s+(?:offerts?|de\s+remise|de\s+r[ée]duction)", "{} € de remise"),
+    )
+    for motif, modele in motifs:
+        for m in re.finditer(motif, zone, re.I):
+            distance = abs((debut + m.start()) - i)
+            candidats.append((distance, modele.format(m[1])))
+    value = min(candidats)[1] if candidats else ""
     return f"{value} avec le code {code}" if value else f"Code promo {code}"
 
 
