@@ -451,6 +451,18 @@ def conditions(context: str) -> str:
 
 # --- the scan itself ----------------------------------------------------------
 
+def probablement_de_l_an_dernier(code: str, end: date | None, today: date) -> bool:
+    """Un code qui porte l'annee PRECEDENTE dans son nom et dont la page ne donne aucune date de fin.
+
+    HALLOWEEN25 lu en octobre 2026 sur motoin.de : « 10% Rabatt Auf Lagerware HALLOWEEN25 », sans echeance. C'est le plus
+    souvent la banniere de l'an dernier restee en place, et un code qu'on ne peut pas dater n'est pas une promesse a
+    publier. Sous-publier est sans risque (un code saisi a la main reste possible dans l'administration) ; publier un
+    code mort envoie le visiteur au panier d'un marchand pour un message d'erreur. Un code avec une date de fin lue sur
+    la page n'est jamais ecarte ici.
+    """
+    return end is None and code.upper().endswith(f"{(today.year - 1) % 100:02d}")
+
+
 def scan(pages: dict[str, tuple[str, ...]] | None = None) -> list[StoreReport]:
     """Read every merchant page, write what was found, retire what vanished.
 
@@ -494,6 +506,9 @@ def scan(pages: dict[str, tuple[str, ...]] | None = None) -> list[StoreReport]:
                     start, end = window(hit.context, today, hit.at)
                     if end and end < today:
                         rep.ignored.append(f"{code} (expiré le {end:%d/%m/%Y})")
+                        continue
+                    if probablement_de_l_an_dernier(code, end, today):
+                        rep.ignored.append(f"{code} (nom de l'an dernier, aucune date de fin : probablement une bannière périmée)")
                         continue
                     row_id = _upsert(conn, ids[merchant], code, hit, start, end, today)
                     if row_id is None:

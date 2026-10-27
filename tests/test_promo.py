@@ -210,3 +210,16 @@ def test_le_libelle_reconnait_une_remise_ecrite_avant_ou_apres_le_code():
 
     assert label("-20 % avec le code ROULEZ20 sur tout le site", "ROULEZ20") == "-20 % avec le code ROULEZ20"
     assert label("Le code SPEED15 vous offre 15 % de remise", "SPEED15") == "-15 % avec le code SPEED15"
+
+
+def test_un_code_de_l_an_dernier_sans_date_de_fin_n_est_pas_publie():
+    """HALLOWEEN25 lu en octobre 2026 sur motoin.de, sans echeance (24/10/2026)."""
+    from datetime import date
+
+    from mcpipe.promo import probablement_de_l_an_dernier as vieux
+
+    aujourd_hui = date(2026, 10, 27)
+    assert vieux("HALLOWEEN25", None, aujourd_hui) is True
+    assert vieux("HALLOWEEN25", date(2026, 11, 9), aujourd_hui) is False     # une date de fin lue sur la page
+    assert vieux("FALL26", None, aujourd_hui) is False                         # l'annee en cours
+    assert vieux("TOP20", None, aujourd_hui) is False                          # un pourcentage, pas une annee
