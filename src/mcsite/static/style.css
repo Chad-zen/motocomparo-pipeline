@@ -5317,3 +5317,14 @@ body:has(.sommaire-feuille) .mc-chat { --mc-chat-bas: 76px; }
 .article__hero--v3 { background: radial-gradient(120% 140% at 25% 10%, #5b3a8e 0%, #2a1a4d 55%, #140c28 100%); }
 .article__hero--v4 { background: radial-gradient(120% 140% at 80% 15%, #b8741a 0%, #5a3510 55%, #2a180a 100%); }
 .article__hero--v5 { background: radial-gradient(120% 140% at 30% 10%, #3f5a73 0%, #1f2f3d 55%, #0f1820 100%); }
+
+/* Jauge de prix : deux champs a taper, pour « de 40 a 45 € » (24/10/2026). */
+.jauge__champs { display: flex; align-items: center; gap: 10px; margin: 10px 0 6px; flex-wrap: wrap; }
+.jauge__champs label { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; color: var(--doux); }
+.jauge__champs input[type="number"] {
+  width: 84px; padding: 8px 8px; border: 1px solid #c5ccda; border-radius: 8px; font: inherit; font-size: 15px;
+  color: var(--nuit); background: #fff; -moz-appearance: textfield; appearance: textfield;
+}
+.jauge__champs input[type="number"]::-webkit-outer-spin-button,
+.jauge__champs input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.jauge__champs input[type="number"]:focus-visible { outline: 2px solid var(--or); outline-offset: 1px; }

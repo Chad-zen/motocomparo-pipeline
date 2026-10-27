@@ -313,18 +313,22 @@
         {# arrondi au multiple de 5 SUPÉRIEUR : avec step=5, un max de 349 était ramené à 345 par le navigateur, et « Appliquer » sans toucher la poignée retirait les produits entre 345 et 349 € #}
         {% set maxi = ((facettes.prix_maxi / 5) | round(0, 'ceil') * 5) | int %}
         <div class="jauge__piste">
-          <input type="range" name="prix_min" min="0" max="{{ maxi }}" step="5"
+          <input type="range" name="prix_min" min="0" max="{{ maxi }}" step="1"
                  value="{{ (f.prix_min or 0) | round | int }}" aria-label="Prix minimum">
-          <input type="range" name="prix_max" min="0" max="{{ maxi }}" step="5"
+          <input type="range" name="prix_max" min="0" max="{{ maxi }}" step="1"
                  value="{{ (f.prix_max or maxi) | round | int }}" aria-label="Prix maximum">
         </div>
         {# Les bornes suivent les poignées. Affichées en dur, elles disaient
            « 0 € » et « 870 € » quoi qu'on déplace : on réglait à l'aveugle et
            il fallait valider pour savoir ce qu'on avait choisi. #}
-        <p class="jauge__bornes">
-          <span class="prix-insecable" data-jauge-bas>{{ (f.prix_min or 0) | round | int }}&nbsp;€</span>
-          <span class="prix-insecable" data-jauge-haut>{{ (f.prix_max or maxi) | round | int }}&nbsp;€</span>
-        </p>
+        {# Deux champs où l'on TAPE le prix (24/10/2026) : « de 40 à 45 € » n'est pas faisable avec deux poignées qui se
+           touchent. Ils suivent les curseurs et les commandent ; sans eux le curseur reste, comme avant. #}
+        <div class="jauge__champs">
+          <label>De <input type="number" inputmode="numeric" min="0" max="{{ maxi }}" step="1" data-jauge-bas
+                           value="{{ (f.prix_min or 0) | round | int }}" aria-label="Prix minimum en euros"> €</label>
+          <label>à <input type="number" inputmode="numeric" min="0" max="{{ maxi }}" step="1" data-jauge-haut
+                          value="{{ (f.prix_max or maxi) | round | int }}" aria-label="Prix maximum en euros"> €</label>
+        </div>
         <button type="submit" class="jauge__ok">Appliquer</button>
       </form>
     </details>
@@ -613,6 +617,11 @@
     const etiqBas = document.querySelector('[data-jauge-bas]');
     const etiqHaut = document.querySelector('[data-jauge-haut]');
     const maxi = parseFloat(haut.max) || 1;
+    // les deux champs de saisie : un prix tape est ramene entre 0 et le maximum, et sert aussi de curseur
+    const borne = (champ, defaut) => {
+      const v = parseFloat(champ.value);
+      return Math.min(maxi, Math.max(0, isNaN(v) ? defaut : v));
+    };
     // Espace insécable avant l'euro : la borne est réécrite à chaque
     // glissement, et rien ne doit pouvoir séparer le montant de sa devise.
     const euros = (v) => Math.round(v).toLocaleString('fr-FR') + ' €';
@@ -622,13 +631,19 @@
         if (source === bas) { b = a; haut.value = b; }
         else { a = b; bas.value = a; }
       }
-      etiqBas.textContent = euros(a);
-      etiqHaut.textContent = euros(b);
+      if (document.activeElement !== etiqBas) etiqBas.value = Math.round(a);
+      if (document.activeElement !== etiqHaut) etiqHaut.value = Math.round(b);
       piste.style.setProperty('--jauge-de', (a / maxi * 100) + '%');
       piste.style.setProperty('--jauge-a', (b / maxi * 100) + '%');
     }
     bas.addEventListener('input', () => rafraichir(bas));
     haut.addEventListener('input', () => rafraichir(haut));
+    // saisie au clavier : on pousse la valeur dans le curseur correspondant, sans la reecrire sous les doigts de la personne
+    etiqBas.addEventListener('input', () => { bas.value = borne(etiqBas, 0); rafraichir(bas); });
+    etiqHaut.addEventListener('input', () => { haut.value = borne(etiqHaut, maxi); rafraichir(haut); });
+    // a la sortie d'un champ, la valeur retenue (bornee, remise dans l'ordre) est reecrite
+    etiqBas.addEventListener('change', () => { etiqBas.value = Math.round(parseFloat(bas.value)); });
+    etiqHaut.addEventListener('change', () => { etiqHaut.value = Math.round(parseFloat(haut.value)); });
     rafraichir(bas);
   }
 
