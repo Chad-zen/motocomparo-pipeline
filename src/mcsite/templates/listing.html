@@ -324,10 +324,12 @@
         {# Deux champs où l'on TAPE le prix (24/10/2026) : « de 40 à 45 € » n'est pas faisable avec deux poignées qui se
            touchent. Ils suivent les curseurs et les commandent ; sans eux le curseur reste, comme avant. #}
         <div class="jauge__champs">
-          <label>De <input type="number" inputmode="numeric" min="0" max="{{ maxi }}" step="1" data-jauge-bas
-                           value="{{ (f.prix_min or 0) | round | int }}" aria-label="Prix minimum en euros"> €</label>
-          <label>à <input type="number" inputmode="numeric" min="0" max="{{ maxi }}" step="1" data-jauge-haut
-                          value="{{ (f.prix_max or maxi) | round | int }}" aria-label="Prix maximum en euros"> €</label>
+          <input type="number" inputmode="numeric" min="0" max="{{ maxi }}" step="1" data-jauge-bas
+                 value="{{ (f.prix_min or 0) | round | int }}" aria-label="Prix minimum en euros">
+          <span aria-hidden="true">à</span>
+          <input type="number" inputmode="numeric" min="0" max="{{ maxi }}" step="1" data-jauge-haut
+                 value="{{ (f.prix_max or maxi) | round | int }}" aria-label="Prix maximum en euros">
+          <span>€</span>
         </div>
         <button type="submit" class="jauge__ok">Appliquer</button>
       </form>
