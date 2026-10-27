@@ -1827,6 +1827,36 @@ def precalculer_tailles_achetables(conn: psycopg.Connection) -> int:
     return n
 
 
+TAILLES_MIN_ACCUEIL = 5
+
+
+def avec_tailles(conn: psycopg.Connection, items: list[dict[str, Any]],
+                 minimum: int = TAILLES_MIN_ACCUEIL) -> list[dict[str, Any]]:
+    """Ne garde que les fiches qui ont au moins `minimum` tailles ACHETABLES (24/10/2026, demande de la proprietaire).
+
+    Sur l'accueil, une carte dont il ne reste que deux ou trois tailles pousse a cliquer pour rien : « sinon ca fait
+    pas trop ». Les tailles sont celles de `taille_achetable` (offre vivante, en stock ou stock inconnu, avec un prix,
+    d'un marchand affiche), preparees chaque nuit. Si la table est absente, vide ou perimee, la liste repart TELLE QUELLE :
+    un accueil vide serait pire qu'un accueil sans ce filtre. L'ordre des fiches est conserve.
+    """
+    if not items or minimum <= 1:
+        return items
+    try:
+        lignes = _rows(conn, """
+            SELECT p.slug, count(*) AS n FROM taille_achetable t JOIN product p ON p.id = t.product_id
+            WHERE p.slug = ANY(%s) GROUP BY p.slug
+        """, ([it["slug"] for it in items],))
+        pret = conn.execute("SELECT count(*) > 0 AND max(calcule_le) > now() - %s::interval FROM taille_achetable",
+                            (AGE_MAX_TABLE_TAILLES,)).fetchone()
+    except psycopg.errors.UndefinedTable:
+        conn.rollback()
+        return items
+    if not pret or not (pret[0] if not isinstance(pret, dict) else list(pret.values())[0]):
+        return items
+    assez = {l["slug"] for l in lignes if l["n"] >= minimum}
+    return [it for it in items if it["slug"] in assez]
+
+
 def verifier_table_tailles(conn: psycopg.Connection) -> bool:
     """Choisit la clause de taille : la table si elle est remplie et recente, sinon le calcul a la demande."""
     global _OU

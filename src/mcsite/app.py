@@ -531,7 +531,7 @@ def _nouveautes_variees(conn) -> list[dict]:
             continue
         # UN seul appel par rayon : chacun coute 1,6 s (mesure le 17/10/2026).
         par_rayon.append(
-            queries.nouveautes(conn, _ids_equipement(rayon), 40, min_marchands=2))
+            queries.avec_tailles(conn, queries.nouveautes(conn, _ids_equipement(rayon), 40, min_marchands=2)))
     retenues, par_marque = [], {}
     rang = 0
     while len(retenues) < _NOUVEAUTES_TOTAL and any(rang < len(l) for l in par_rayon):
@@ -609,7 +609,9 @@ def _onglets_accueil() -> list:
         onglets = []
         for code, titre in _ONGLETS_ACCUEIL:
             rayon = queries.find_category(_rayons(), code)
-            items = (queries.ecarts(conn, 6, min_marchands=2, ids=_ids_equipement(rayon))
+            # au moins cinq tailles achetables (demande de la proprietaire, 24/10/2026) : on lit plus de fiches, on
+            # garde les six premieres qui passent
+            items = (queries.avec_tailles(conn, queries.ecarts(conn, 36, min_marchands=2, ids=_ids_equipement(rayon)))[:6]
                      if rayon else [])
             if items:
                 onglets.append({"code": code, "titre": titre, "produits": items})
@@ -630,9 +632,9 @@ def _budget_accueil() -> list:
 def _baisses_accueil() -> dict:
     def _baisses() -> list:
         with pool.connection() as conn, _longue_requete(conn):  # type: ignore[union-attr]
-            return queries.baisses(conn, 12, min_marchands=2)
+            return queries.avec_tailles(conn, queries.baisses(conn, 72, min_marchands=2))[:12]
 
-    return {"baisses": _section_accueil("accueil_baisses_v3", _baisses, [])}
+    return {"baisses": _section_accueil("accueil_baisses_v4", _baisses, [])}
 
 
 def _nouveautes_accueil() -> list:
@@ -640,11 +642,11 @@ def _nouveautes_accueil() -> list:
         with pool.connection() as conn, _longue_requete(conn):  # type: ignore[union-attr]
             return _nouveautes_variees(conn)
 
-    return _section_accueil("accueil_nouveautes_v1", _nouveautes, [])
+    return _section_accueil("accueil_nouveautes_v2", _nouveautes, [])
 
 
 def _page_accueil(request: Request, gabarit: str, **extra: Any):
-    bloc = {"onglets": _section_accueil("accueil_onglets_v1", _onglets_accueil, []),
+    bloc = {"onglets": _section_accueil("accueil_onglets_v2", _onglets_accueil, []),
             "budget": _section_accueil("accueil_budget_v1", _budget_accueil, []),
             "nouveautes": _nouveautes_accueil()}
     phares = {c: i for i, c in enumerate(_RAYONS_PHARES)}

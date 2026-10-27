@@ -237,3 +237,42 @@ def test_remise_carte_un_pvc_remplace_l_ecart_entre_marchands(monkeypatch):
     assert app._remise_carte({**it, "cheapest": Decimal("197")}) is None
     # sans PVC : l'ancien ecart entre marchands, inchange
     assert app._remise_carte({**it, "slug": "sans-pvc"}) == {"pct": 6, "niveau": "sobre"}
+
+
+def test_l_accueil_ne_garde_que_les_fiches_a_cinq_tailles_achetables():
+    """Demande de la proprietaire (24/10/2026) : des cartes dont il reste deux tailles ne servent a rien sur l'accueil."""
+    from mcsite import queries
+
+    class Curseur:
+        def __init__(self, lignes):
+            self._l = lignes
+
+        def fetchall(self):
+            return self._l
+
+        def fetchone(self):
+            return self._l[0] if self._l else None
+
+    class Connexion:
+        def __init__(self):
+            self.n = 0
+
+        def execute(self, sql, params=None):
+            self.n += 1
+            if "count(*) AS n" in sql:
+                return Curseur([{"slug": "a", "n": 6}, {"slug": "b", "n": 3}, {"slug": "c", "n": 5}])
+            return Curseur([(True,)])
+
+        def cursor(self, **kw):
+            raise AssertionError("inutile ici")
+
+    # `_rows` utilise un curseur dict : on passe par `execute` du faux, qui rend directement les lignes
+    original = queries._rows
+    queries._rows = lambda conn, sql, args=(): conn.execute(sql, args).fetchall()
+    try:
+        items = [{"slug": "a"}, {"slug": "b"}, {"slug": "c"}, {"slug": "d"}]
+        assert [i["slug"] for i in queries.avec_tailles(Connexion(), items)] == ["a", "c"]
+        assert queries.avec_tailles(Connexion(), []) == []
+        assert queries.avec_tailles(Connexion(), items, minimum=1) == items
+    finally:
+        queries._rows = original
