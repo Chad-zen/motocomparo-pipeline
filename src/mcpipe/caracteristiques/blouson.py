@@ -139,6 +139,19 @@ _CLASSE_COLLEE = re.compile(
     r"\b(?:pr)?EN[\s.]?17092(?:[\s]?[-–/][\s]?[2-6])?(?:\s*:?\s*20\d\d)?"
     r"[\s,:;()\-–]*\s*(AAA|AA|A|B|C)\b", re.I)
 
+# La classe annoncée par un mot de certification, sans le mot « classe » (29/10/2026) :
+#     « Homologué CE niveau AA »   « CE approuvé AA »   « Certification de sécurité AA »
+#     « Niveau d'homologation CE : AA »   « classée CE AA »   « Homologation CE : - AA »
+# Majuscules obligatoires (« à » et « a » sont des mots) ; A seul n'est lu qu'après un mot de certification,
+# AA et AAA peuvent être collés au mot suivant (« AASécurité » chez Motoblouz) ; B et C ne sont jamais lus ainsi,
+# trop proches d'une lettre de type (« Type B ») ou d'un sigle.
+_CLASSE_CERT = re.compile(
+    r"(?i:\b(?:homologu[ée]e?s?|homologation|certifi[ée]e?s?|certification|approuv[ée]e?s?|class[ée]e?s?|classement"
+    r"|classification|niveau(?:\s+d['’]homologation)?)\b)"
+    r"(?:\s+(?i:de\s+(?:s[ée]curit[ée]|protection)|CE|EPI|au\s+(?:plus\s+haut\s+)?niveau|niveau|de\s+niveau))*"
+    r"[\s:,;()\-–]*(?:(AAA|AA)(?=[A-ZÉ][a-zé])|(AAA|AA)(?![A-Za-z])|(A)(?=\s*(?:[.,;:)•-]|$)))"
+    r"|(?i:\bCE\s+approuv[ée])\s+(AAA|AA|A)\b")
+
 # --- matière de la coque ------------------------------------------------------
 #
 # LE DÉFAUT LE PLUS FRÉQUENT DU RAYON, et il est exactement celui que la visière
@@ -746,6 +759,12 @@ def _matiere_coque(texte: str) -> str | None:
     return None
 
 
+def _classe_certifiee(texte: str) -> str | None:
+    """La classe lue après un mot de certification ; deux lectures différentes dans le texte : aucune."""
+    lues = {next(g for g in m.groups() if g) for m in _CLASSE_CERT.finditer(texte)}
+    return lues.pop() if len(lues) == 1 else None
+
+
 def _classe(texte: str) -> tuple[bool | None, str | None]:
     """La norme EN 17092 et sa classe, lues DEUX FOIS puis confrontées.
 
@@ -763,7 +782,9 @@ def _classe(texte: str) -> tuple[bool | None, str | None]:
         # « Homologué CE, classe A ». Dans ce rayon, les classes AAA à C
         # n'appartiennent qu'à l'EN 17092 — mais on n'affirme pas la norme.
         m = _CLASSE_MOT.search(texte)
-        return (None, m.group(1).upper() if m else None)
+        if m:
+            return (None, m.group(1).upper())
+        return (None, _classe_certifiee(texte))
 
     par_partie = None
     m = _EN17092_PARTIE.search(texte)
@@ -774,6 +795,8 @@ def _classe(texte: str) -> tuple[bool | None, str | None]:
     m = _CLASSE_MOT.search(texte) or _CLASSE_COLLEE.search(texte)
     if m:
         par_mot = m.group(1).upper()
+    else:
+        par_mot = _classe_certifiee(texte)
 
     if par_partie and par_mot and par_partie != par_mot:
         return (True, None)       # deux affirmations, un désaccord : on renonce

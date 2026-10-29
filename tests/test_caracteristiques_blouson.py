@@ -731,3 +731,25 @@ def test_la_classe_A_ne_matche_pas_n_importe_quel_mot():
         "Certifiée CE amovible aux épaules, excellente absorption des chocs",
     ):
         assert lire("", phrase).classe_protection is None, phrase
+
+
+def test_la_classe_ecrite_apres_un_mot_de_certification_est_lue():
+    """29/10/2026 : « Homologué CE niveau AA », « CE approuvé AA », « Certification de sécurité AA » (~470 fiches ratées)."""
+    from mcpipe.caracteristiques.blouson import _classe
+
+    for texte, classe in [
+        ("Blouson homologué CE niveau AA.", "AA"),
+        ("Spécifications• CE approuvé AA• Doublure", "AA"),
+        ("Certification de sécurité AA garantissant un niveau", "AA"),
+        ("Niveau d'homologation CE : AA- Protection dorsale", "AA"),
+        ("Certifié CE au plus haut niveau AAA, elle est équipée", "AAA"),
+        ("Homologué CE niveau A.", "A"),
+    ]:
+        assert _classe(texte)[1] == classe, texte
+
+
+def test_une_lettre_isolee_n_est_pas_une_classe():
+    from mcpipe.caracteristiques.blouson import _classe
+
+    for texte in ("certification A la carte", "homologué à la norme", "Certifié ECE; Type B"):
+        assert _classe(texte) == (None, None), texte
