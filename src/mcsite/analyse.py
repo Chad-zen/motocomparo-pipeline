@@ -198,6 +198,9 @@ def _cran_coque(texte: str) -> int | None:
 
 
 _COQUE_MIXTE = re.compile(r"versions?\s+carbon|carbone\s+sur\s+les\s+versions|carbone\s+ou\s|\bou\s+(?:fibre|carbone)", re.I)
+# « CARBON » dans le nom du modele ou de la version (Sofia, 30/10/2026 : « si c'est ecrit carbon c'est carbon »).
+# Pas « carbone/gris/jaune » (un coloris) ni « Carbon Grey » (idem).
+TITRE_CARBON = re.compile(r"\bcarbon\b(?![ /-]*(?:gr[ae]y|gris|black|noir|red|rouge|blue|bleu|white|blanc)\b)", re.I)
 _COQUE_VERSIONS = re.compile(r"carbon\w*[^.]{0,40}selon\s+les\s+versions", re.I)
 _MOT_COQUE = re.compile(r"coque|hpfc|fibre|composite|carbon", re.I)
 
@@ -219,6 +222,16 @@ def contenu_selon_titre(contenu: dict[str, Any] | None, titre: str | None) -> di
     phrases qui la decrivent. Les sources des revendeurs se contredisent sur cette version (fibre de carbone pour l'un,
     melange de fibre de verre pour l'autre) : mieux vaut ne rien dire que dire faux (24/10/2026).
     """
+    if contenu and not coque_mixte(contenu) and TITRE_CARBON.search(titre or ""):
+        lignes = contenu.get("fiche_technique") or []
+        if any(re.match(r"\s*coque", l.get("nom", ""), re.I) and not re.match(r"\s*carbon", l.get("valeur", ""), re.I)
+               for l in lignes):
+            sortie = dict(contenu)
+            sortie["fiche_technique"] = [({**l, "valeur": "Carbone", "source": "titre du produit"}
+                                          if re.match(r"\s*coque", l.get("nom", ""), re.I) else l) for l in lignes]
+            sortie["indicateurs"] = indicateurs(sortie)
+            return sortie
+        return contenu
     if not contenu or not coque_mixte(contenu) or not re.search(r"carbon", titre or "", re.I):
         return contenu
     sortie = dict(contenu)

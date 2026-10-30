@@ -143,3 +143,11 @@ def test_les_cases_de_l_essentiel_sont_recalculees_avec_la_coque_carbone():
     carbon = analyse.contenu_selon_titre(contenu, "OF603 CARBON URUS")
     case = [i for i in carbon["indicateurs"] if i["cle"] == "coque"]
     assert case and "carbone" in str(case[0]).lower()
+
+
+def test_un_titre_carbon_donne_une_coque_carbone_meme_sur_un_modele_composite():
+    """Sofia, 30/10/2026 : « si c'est ecrit carbon c'est carbon » ; mais « carbone/gris » et « Carbon Grey » sont des coloris."""
+    contenu = {"fiche_technique": [{"nom": "Coque", "valeur": "Composite de fibres (verre, aramide)"}]}
+    assert analyse.contenu_selon_titre(contenu, "Casque Shark Spartan GT Pro Carbon Ritmo")["fiche_technique"][0]["valeur"] == "Carbone"
+    assert analyse.contenu_selon_titre(contenu, "Casque HJC RPHA12 Kos carbone/gris/jaune") is contenu
+    assert analyse.contenu_selon_titre(contenu, "Casque X Carbon Grey") is contenu

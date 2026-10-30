@@ -203,6 +203,29 @@ def charger(chemin: str, marque: str = "arai", marque_info: str | None = None) -
         conn.close()
 
 
+def titres_carbon() -> int:
+    """Tout casque dont le titre porte « carbon » (le mot, pas le coloris « carbone/gris ») a une coque carbone :
+    decision de Sofia, 30/10/2026. Valeur `manuel`, donc devant les flux qui disaient « composite »."""
+    conn = connect()
+    try:
+        with conn.cursor() as cur:
+            cur.execute(
+                r"""
+                INSERT INTO product_caracteristique (product_id, nom, valeur, source, confiance)
+                SELECT p.id, 'calotte', 'carbone', 'manuel', 'lue'
+                FROM product p JOIN product_stats s ON s.product_id = p.id
+                WHERE p.category_id IN (1, 2, 3, 4, 5) AND p.status <> 'merged'
+                  AND s.best_title ~* '\ycarbon\y(?![ /-]*(gr[ae]y|gris|black|noir|red|rouge|blue|bleu|white|blanc)\y)'
+                ON CONFLICT (product_id, nom, source) DO UPDATE SET valeur = EXCLUDED.valeur, calcule_le = now()
+                """
+            )
+            n = cur.rowcount
+        conn.commit()
+        return n
+    finally:
+        conn.close()
+
+
 def charger_dossier(dossier: str) -> list[tuple[str, str, int]]:
     """Charge `<dossier>/<marque>/fiches_enrichies.json` (et `marque_info.json` s'il existe) pour
     chaque marque. Rend (marque, modele, nombre de fiches touchees)."""
@@ -214,4 +237,5 @@ def charger_dossier(dossier: str) -> list[tuple[str, str, int]]:
         info = sous / "marque_info.json"
         for modele, n in charger(str(fichier), sous.name, str(info) if info.is_file() else None):
             rendu.append((sous.name, modele, n))
+    titres_carbon()
     return rendu
