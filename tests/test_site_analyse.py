@@ -102,8 +102,9 @@ def test_coque_deux_matieres_selon_la_version_est_indeterminee():
     assert analyse._cran_coque("Carbone (versions Carbon) ou fibre de verre (HPFC)") is None
 
 
-def test_un_modele_a_deux_matieres_ne_dit_rien_de_la_coque_d_une_version_carbon():
-    """LS2 OF603 « CARBON URUS » affichait « fibre de verre HPFC » : le texte vaut pour tous les coloris (24/10/2026)."""
+def test_un_modele_a_deux_matieres_dit_carbone_pour_une_version_carbon():
+    """LS2 OF603 « CARBON URUS » affichait « fibre de verre HPFC » : le texte vaut pour tous les coloris (24/10/2026).
+    Sofia (29/10/2026) : « si c'est ecrit carbon c'est carbon » : le titre tranche."""
     contenu = {
         "accroche": "Un jet LS2 en HPFC avec pare-soleil intégré. Deux entrées d'air sur le dessus.",
         "description": "Coque HPFC légère. Doublure lavable.",
@@ -113,7 +114,7 @@ def test_un_modele_a_deux_matieres_ne_dit_rien_de_la_coque_d_une_version_carbon(
     }
     assert analyse.coque_mixte(contenu) is True
     carbon = analyse.contenu_selon_titre(contenu, "Casque jet LS2 OF603 INFINITY II - CARBON URUS")
-    assert [l["nom"] for l in carbon["fiche_technique"]] == ["Norme"]
+    assert [(l["nom"], l["valeur"]) for l in carbon["fiche_technique"]] == [("Coque", "Carbone"), ("Norme", "ECE 22.06")]
     assert carbon["points_forts_courts"] == ["Pare-soleil intégré"]
     assert "HPFC" not in carbon["description"] and "HPFC" not in carbon["accroche"]
     assert carbon["accroche"] == "Deux entrées d'air sur le dessus."
@@ -125,19 +126,20 @@ def test_un_modele_a_deux_matieres_ne_dit_rien_de_la_coque_d_une_version_carbon(
     assert analyse.contenu_selon_titre(simple, "Casque CARBON") is simple
 
 
-def test_une_version_carbon_incertaine_perd_aussi_la_matiere_declaree_par_les_marchands():
-    contenu = {"fiche_technique": [{"nom": "Coque", "valeur": "Fibre de verre (HPFC), versions carbone"}]}
-    carbon = analyse.contenu_selon_titre(contenu, "Casque jet LS2 OF603 CARBON URUS")
-    carac = [{"nom": "calotte", "valeur": "fibre", "source": "flux", "confiance": "lue"},
-             {"nom": "ventilation", "valeur": "True", "source": "flux", "confiance": "lue"}]
-    sortie = analyse.aligner_caracteristiques(carac, carbon)
-    assert [c["nom"] for c in sortie] == ["ventilation"]
+def test_un_point_fort_selon_les_versions_rend_le_modele_mixte():
+    """HJC RPHA 91 : la ligne « Coque » est muette, le point fort dit « carbone, verre, lin selon les versions »."""
+    contenu = {"fiche_technique": [{"nom": "Coque", "valeur": "Composite de fibres (technologie PIM Evo)"}],
+               "points_forts": [{"texte": "Coque PIM Evo en fibres (carbone, verre, lin selon les versions)."}]}
+    assert analyse.coque_mixte(contenu) is True
+    carbon = analyse.contenu_selon_titre(contenu, "Casque modulable HJC RPHA91 CARBON - LAGOS")
+    assert carbon["fiche_technique"][0]["valeur"] == "Carbone"
 
 
-def test_les_cases_de_l_essentiel_sont_recalculees_sans_la_coque():
+def test_les_cases_de_l_essentiel_sont_recalculees_avec_la_coque_carbone():
     contenu = {"fiche_technique": [{"nom": "Coque", "valeur": "Fibre de verre (HPFC), versions carbone"},
                                    {"nom": "Norme", "valeur": "ECE 22.06"}]}
     contenu["indicateurs"] = analyse.indicateurs(contenu)
     assert any(i["cle"] == "coque" for i in contenu["indicateurs"])
     carbon = analyse.contenu_selon_titre(contenu, "OF603 CARBON URUS")
-    assert not any(i["cle"] == "coque" for i in carbon["indicateurs"])
+    case = [i for i in carbon["indicateurs"] if i["cle"] == "coque"]
+    assert case and "carbone" in str(case[0]).lower()

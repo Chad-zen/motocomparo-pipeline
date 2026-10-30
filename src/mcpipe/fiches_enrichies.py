@@ -159,13 +159,16 @@ def charger(chemin: str, marque: str = "arai", marque_info: str | None = None) -
                 code = _code_coque(fiche)
                 mixte = _coque_mixte(fiche)
                 if mixte:
-                    # un modele a deux matieres : les fiches dont le titre dit « carbon » n'ont pas de valeur verifiee
-                    # (et celle d'un passage precedent est retiree)
+                    # un modele a deux matieres : le titre tranche, « carbon » dans le titre = coque carbone (Sofia, 29/10/2026)
                     cur.execute(
                         """
-                        DELETE FROM product_caracteristique pc USING product p, product_stats s
-                        WHERE pc.product_id = p.id AND s.product_id = p.id AND pc.nom = 'calotte' AND pc.source = 'manuel'
-                          AND p.brand_code = %s AND s.best_title ~* %s AND s.best_title ~* 'carbon'
+                        INSERT INTO product_caracteristique (product_id, nom, valeur, source, confiance)
+                        SELECT p.id, 'calotte', 'carbone', 'manuel', 'lue'
+                        FROM product p JOIN product_stats s ON s.product_id = p.id
+                        WHERE p.brand_code = %s AND p.category_id IN (1, 2, 3, 4, 5) AND s.best_title ~* %s
+                          AND s.best_title ~* 'carbon'
+                        ON CONFLICT (product_id, nom, source) DO UPDATE
+                        SET valeur = EXCLUDED.valeur, calcule_le = now()
                         """,
                         (marque, motif),
                     )
@@ -177,8 +180,9 @@ def charger(chemin: str, marque: str = "arai", marque_info: str | None = None) -
                         DELETE FROM product_caracteristique pc USING product p, product_stats s
                         WHERE pc.product_id = p.id AND s.product_id = p.id AND pc.nom = 'calotte'
                           AND pc.source = 'manuel' AND p.brand_code = %s AND s.best_title ~* %s
+                          AND NOT (%s AND s.best_title ~* 'carbon')
                         """,
-                        (marque, motif),
+                        (marque, motif, mixte),
                     )
                 if code:
                     cur.execute(

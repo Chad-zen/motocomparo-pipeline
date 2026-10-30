@@ -198,6 +198,7 @@ def _cran_coque(texte: str) -> int | None:
 
 
 _COQUE_MIXTE = re.compile(r"versions?\s+carbon|carbone\s+sur\s+les\s+versions|carbone\s+ou\s|\bou\s+(?:fibre|carbone)", re.I)
+_COQUE_VERSIONS = re.compile(r"carbon\w*[^.]{0,40}selon\s+les\s+versions", re.I)
 _MOT_COQUE = re.compile(r"coque|hpfc|fibre|composite|carbon", re.I)
 
 
@@ -206,7 +207,9 @@ def coque_mixte(contenu: dict[str, Any] | None) -> bool:
     for l in (contenu or {}).get("fiche_technique") or []:
         if re.match(r"\s*coque", l.get("nom", ""), re.I) and _COQUE_MIXTE.search(l.get("valeur", "")):
             return True
-    return False
+    # « carbone, verre, lin selon les versions » dans un point fort (HJC RPHA 91) : la ligne « Coque » ne le dit pas
+    return any(_COQUE_VERSIONS.search(c) for c in (contenu or {}).get("points_forts_courts") or []) or any(
+        _COQUE_VERSIONS.search(str(p.get("texte", ""))) for p in (contenu or {}).get("points_forts") or [])
 
 
 def contenu_selon_titre(contenu: dict[str, Any] | None, titre: str | None) -> dict[str, Any] | None:
@@ -219,9 +222,10 @@ def contenu_selon_titre(contenu: dict[str, Any] | None, titre: str | None) -> di
     if not contenu or not coque_mixte(contenu) or not re.search(r"carbon", titre or "", re.I):
         return contenu
     sortie = dict(contenu)
-    sortie["coque_incertaine"] = True       # `aligner_caracteristiques` retire alors la matiere declaree par les marchands
-    sortie["fiche_technique"] = [l for l in contenu.get("fiche_technique") or []
-                                 if not re.match(r"\s*coque", l.get("nom", ""), re.I)]
+    # Decision de Sofia (29/10/2026) : « si c'est ecrit carbon c'est carbon ». Le titre tranche, le texte du modele non.
+    sortie["fiche_technique"] = [({**l, "valeur": "Carbone", "source": "titre du produit"}
+                                  if re.match(r"\s*coque", l.get("nom", ""), re.I) else l)
+                                 for l in contenu.get("fiche_technique") or []]
     sortie["points_forts_courts"] = [c for c in contenu.get("points_forts_courts") or [] if not _MOT_COQUE.search(c)]
     for champ in ("accroche", "description"):
         phrases = re.split(r"(?<=[.!?])\s+", contenu.get(champ) or "")
