@@ -120,10 +120,10 @@ def test_un_modele_a_deux_matieres_dit_carbone_pour_une_version_carbon():
     assert carbon["accroche"] == "Deux entrées d'air sur le dessus."
     # les coloris unis gardent le texte
     assert analyse.contenu_selon_titre(contenu, "Casque jet LS2 OF603 INFINITY II - SOLID") is contenu
-    # un modele a une seule matiere n'est jamais touche
+    # un modele a une seule matiere n'est pas « mixte » ; son titre sans « carbon » ne le touche pas
     simple = {"fiche_technique": [{"nom": "Coque", "valeur": "Thermoplastique (KPA)"}]}
     assert analyse.coque_mixte(simple) is False
-    assert analyse.contenu_selon_titre(simple, "Casque CARBON") is simple
+    assert analyse.contenu_selon_titre(simple, "Casque SOLID") is simple
 
 
 def test_un_point_fort_selon_les_versions_rend_le_modele_mixte():
