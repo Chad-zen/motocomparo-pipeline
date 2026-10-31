@@ -253,6 +253,8 @@ def find_codes(text: str, url: str = "") -> dict[str, Hit]:
         for m in pattern.finditer(text):
             code = m.group(1).strip()
             off = m.start(1)
+            if code != code.upper():     # un code promo s'ecrit en majuscules : « promotionnel » est un mot (30/10/2026)
+                continue
             sur = score >= 45       # la formule complete « avec le code XXX », en majuscules
             if not sur and (not _VALID.match(code) or code in _BLACKLIST):
                 continue

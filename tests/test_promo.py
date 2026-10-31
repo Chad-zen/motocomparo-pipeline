@@ -232,3 +232,8 @@ def test_un_code_de_trois_lettres_apres_avec_le_code_et_le_titre_de_l_offre_ecar
     hits = find_codes(texte)
     assert set(hits) == {"TVA"}
     assert label(hits["TVA"].context, "TVA") == "-16,67 % avec le code TVA"
+
+
+def test_un_mot_en_minuscules_apres_code_promo_n_est_pas_un_code():
+    """Le Motard Bleu (30/10/2026) : « Code promo promotionnel » publie comme un code."""
+    assert find_codes("Profitez de notre Code promo promotionnel du moment") == {}
