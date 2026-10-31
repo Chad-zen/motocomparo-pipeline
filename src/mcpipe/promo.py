@@ -133,6 +133,8 @@ _HEADERS = {
 # seul n'aurait rien changé, la capture elle-même échouait.
 _PATTERNS: tuple[tuple[re.Pattern[str], int], ...] = (
     (re.compile(r"\bCODE\s+([A-Z0-9]{4,20})\s*[-–—]?\s*ACTIF\b", re.I), 50),
+    # « Avec le code TVA » (Speedway, 30/10/2026) : trois lettres, en MAJUSCULES, apres la formule complete
+    (re.compile(r"(?i:\bavec\s+le\s+code)\s*:?\s*([A-Z]{3})(?![A-Za-z0-9])"), 45),
     (re.compile(r"\bAVEC\s+LE\s+CODE\s*(?:PROMO)?\s*:?\s*([A-Z0-9]{4,20})\b", re.I), 40),
     (re.compile(r"\bCODE\s+PROMO\s*:?\s*([A-Z0-9]{4,20})\b", re.I), 30),
     (re.compile(r"\bCODE\s*:\s*([A-Z0-9]{4,20})\b", re.I), 25),
@@ -246,15 +248,17 @@ def fetch_text(url: str, client: httpx.Client | None = None) -> tuple[str, str]:
 def find_codes(text: str, url: str = "") -> dict[str, Hit]:
     """Every plausible promo code in one page's text, best reading per code."""
     found: dict[str, Hit] = {}
+    positions: dict[str, int] = {}
     for pattern, score in _PATTERNS:
         for m in pattern.finditer(text):
             code = m.group(1).strip()
             off = m.start(1)
-            if not _VALID.match(code) or code in _BLACKLIST:
+            sur = score >= 45       # la formule complete « avec le code XXX », en majuscules
+            if not sur and (not _VALID.match(code) or code in _BLACKLIST):
                 continue
             # A short all-letter token is a word, not a code. With a digit in it
             # ("SPEED15"), four characters are enough.
-            if not any(c.isdigit() for c in code) and len(code) < 6:
+            if not sur and not any(c.isdigit() for c in code) and len(code) < 6:
                 continue
             if code.isdigit():
                 continue
@@ -290,6 +294,13 @@ def find_codes(text: str, url: str = "") -> dict[str, Hit]:
             if code not in found or found[code].score < score:
                 found[code] = Hit(code, score, context, near, url,
                                   at=off - max(0, off - 260))
+                positions[code] = off
+    # « Code Promo HALLOWEN ... Avec le code TVA » : le titre de l'offre n'est pas le code ; une lecture faible juste
+    # avant une lecture sure (400 caracteres) est le titre de la meme offre, on ne la garde pas.
+    for code in [c for c, h in found.items() if h.score <= 30]:
+        if any(h.score >= 45 and 0 < positions[c2] - positions[code] < 400
+               for c2, h in found.items() if c2 != code):
+            del found[code]
     return found
 
 
@@ -416,14 +427,14 @@ def label(context: str, code: str) -> str:
     zone = context[debut:fin]
     candidats: list[tuple[int, str]] = []
     motifs = (
-        (r"-\s?(\d{1,2})\s?%", "-{} %"),
-        (r"(\d{1,2})\s?%\s?(?:de\s+)?(?:remise|r[ée]duction|rabatt|off|sur\b)", "-{} %"),
+        (r"-\s?(\d{1,2}(?:[.,]\d{1,2})?)\s?%", "-{} %"),
+        (r"(\d{1,2}(?:[.,]\d{1,2})?)\s?%\s?(?:de\s+)?(?:remise|r[ée]duction|rabatt|off|sur\b)", "-{} %"),
         (r"(\d{1,3})\s?(?:€|EUR)\s+(?:offerts?|de\s+remise|de\s+r[ée]duction)", "{} € de remise"),
     )
     for motif, modele in motifs:
         for m in re.finditer(motif, zone, re.I):
             distance = abs((debut + m.start()) - i)
-            candidats.append((distance, modele.format(m[1])))
+            candidats.append((distance, modele.format(m[1].replace(".", ","))))
     value = min(candidats)[1] if candidats else ""
     return f"{value} avec le code {code}" if value else f"Code promo {code}"
 

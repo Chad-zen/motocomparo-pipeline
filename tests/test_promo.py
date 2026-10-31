@@ -223,3 +223,12 @@ def test_un_code_de_l_an_dernier_sans_date_de_fin_n_est_pas_publie():
     assert vieux("HALLOWEEN25", date(2026, 11, 9), aujourd_hui) is False     # une date de fin lue sur la page
     assert vieux("FALL26", None, aujourd_hui) is False                         # l'annee en cours
     assert vieux("TOP20", None, aujourd_hui) is False                          # un pourcentage, pas une annee
+
+
+def test_un_code_de_trois_lettres_apres_avec_le_code_et_le_titre_de_l_offre_ecarte():
+    """Speedway 30/10/2026 : « Code Promo HALLOWEN ... 16.67% de Remise ... Avec le code TVA » (HALLOWEN etait le titre, -67 % un chiffre coupe)."""
+    texte = ("Code Promo HALLOWEN Profitez de la TVA offerte soit 16.67% de Remise Supplémentaire sur des milliers d'équipements "
+             "Offre valable jusqu'au : 2026-11-01 23:59:00 Avec le code TVA J'en profite")
+    hits = find_codes(texte)
+    assert set(hits) == {"TVA"}
+    assert label(hits["TVA"].context, "TVA") == "-16,67 % avec le code TVA"
